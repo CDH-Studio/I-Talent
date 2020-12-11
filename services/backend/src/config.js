@@ -43,7 +43,7 @@ const test = {
   DATABASE_URL: "",
   KEYCLOAK_CLIENT_ID: "testId",
   KEYCLOAK_SECRET: "randomSecret",
-  KEYCLOAK_AUTH_SERVER_URL: "",
+  KEYCLOAK_AUTH_SERVER_URL: "https://myserver.com/auth",
   DOCS_KEYCLOAK_CLIENT_ID: "",
   DOCS_KEYCLOAK_AUTH_URL: "",
   DOCS_KEYCLOAK_TOKEN_URL: "",

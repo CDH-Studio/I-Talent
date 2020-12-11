@@ -11,6 +11,7 @@ definitions:
     enum:
       - UNRESOLVED
       - RESOLVED
+      - DUPLICATE
   LanguageEnum:
     type: string
     enum:

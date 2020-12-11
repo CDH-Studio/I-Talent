@@ -286,16 +286,18 @@ const ResultProfileCardView = ({
               </Col>
 
               <Col span={24}>
-                {profile.resultSkills.length > 0 ? (
+                {profile.totalSkillsCount > 0 ? (
                   <span>
-                    {profile.resultSkills.map(({ id, name }) => (
+                    {profile.skills.map(({ id, name }) => (
                       <Tag className="result-card-tag" key={id}>
                         {name}
                       </Tag>
                     ))}
-                    <Tag className="result-card-tag">
-                      +{profile.totalResultSkills - 4}
-                    </Tag>
+                    {profile.totalSkillsCount > 3 && (
+                      <Tag className="result-card-tag">
+                        +{profile.totalSkillsCount - 3}
+                      </Tag>
+                    )}
                   </span>
                 ) : (
                   <Tag className="result-card-tag">

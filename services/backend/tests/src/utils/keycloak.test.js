@@ -8,7 +8,7 @@ const hasResourceData = [
 ];
 
 describe("Utils keycloak tests", () => {
-  beforeEach(() => console.log.mockClear());
+  beforeEach(() => console.log.mockReset());
 
   describe.each(hasResourceData)("%s", (keycloakFunction, role) => {
     test("returns false if the access token only has some content (hasContent)", () => {

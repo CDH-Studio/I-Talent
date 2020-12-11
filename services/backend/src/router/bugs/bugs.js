@@ -19,7 +19,7 @@ bugsRoute
 
 bugsRoute.put(
   "/:id",
-  keycloak.protect(),
+  keycloak.protect("manage-options"),
   [updateBugValidator, UUIDValidator],
   validationMiddlware,
   bugs.updateBug
