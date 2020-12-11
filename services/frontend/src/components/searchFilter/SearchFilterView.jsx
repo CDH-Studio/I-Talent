@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   Form,
   Button,
@@ -31,6 +31,7 @@ const SearchFilterView = ({
 }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
+  const intl = useIntl();
 
   const onFinish = (values) => {
     handleSearch(values);
@@ -65,6 +66,18 @@ const SearchFilterView = ({
     null,
     <FormattedMessage id="advanced.search.form.ex.feeder" />,
   ];
+  const ariaLabels = [
+    intl.formatMessage({ id: "search.filter.person.name" }),
+    intl.formatMessage({
+      id: "search.filter.classification",
+    }),
+    intl.formatMessage({ id: "search.filter.location" }),
+    intl.formatMessage({ id: "search.filter.branch" }),
+    intl.formatMessage({ id: "search.filter.skills" }),
+    intl.formatMessage({ id: "search.filter.mentorship.skills" }),
+    intl.formatMessage({ id: "search.filter.any.mentors" }),
+    intl.formatMessage({ id: "search.filter.exfeeder" }),
+  ];
   return (
     <div className="search-searchSideBar">
       <Title level={2} className="search-searchHeader">
@@ -86,7 +99,11 @@ const SearchFilterView = ({
           name={searchTitles[0]}
           className="search-w100"
         >
-          <Input className="search-w100" />
+          <Input
+            className="search-w100"
+            aria-label={ariaLabels[0]}
+            role="textbox"
+          />
         </Form.Item>
 
         {/* classification */}
@@ -100,9 +117,33 @@ const SearchFilterView = ({
             mode="multiple"
             maxTagCount={3}
             filterOption={filterOption}
+            aria-label={ariaLabels[1]}
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-owns="classification_listbox"
+            role="combobox"
+            dropdownRender={(menu) => (
+              <div
+                id="classification_listbox"
+                role="listbox"
+                aria-multiselectable="true"
+              >
+                {menu}
+              </div>
+            )}
           >
             {classOptions.map((value) => {
-              return <Option key={value.id}>{value.name}</Option>;
+              return (
+                <Option
+                  role="option"
+                  aria-selected={false}
+                  key={value.id}
+                  value={value.name}
+                >
+                  {value.name}
+                </Option>
+              );
             })}
           </Select>
         </Form.Item>
@@ -118,15 +159,35 @@ const SearchFilterView = ({
             mode="multiple"
             maxTagCount={3}
             filterOption={filterOption}
+            aria-label={ariaLabels[2]}
+            aria-autocomplete="list"
+            aria-owns="location_listbox"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            role="combobox"
+            dropdownRender={(menu) => (
+              <div
+                id="location_listbox"
+                role="listbox"
+                aria-multiselectable="true"
+              >
+                {menu}
+              </div>
+            )}
           >
-            {locationOptions.map((value) => {
-              return (
-                <Option key={value.id}>
-                  {value.streetNumber} {value.streetName}, {value.city},{" "}
-                  {value.province}
-                </Option>
-              );
-            })}
+            {locationOptions.map(
+              ({ streetNumber, streetName, city, province, id }) => {
+                return (
+                  <Option
+                    role="option"
+                    key={id}
+                    value={`${streetNumber} ${streetName}, ${city}, ${province}`}
+                  >
+                    {streetNumber} {streetName}, {city}, {province}
+                  </Option>
+                );
+              }
+            )}
           </Select>
         </Form.Item>
 
@@ -141,9 +202,28 @@ const SearchFilterView = ({
             mode="multiple"
             maxTagCount={3}
             filterOption={filterOption}
+            aria-label={ariaLabels[3]}
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+            aria-owns="branch_listbox"
+            role="combobox"
+            dropdownRender={(menu) => (
+              <div
+                id="branch_listbox"
+                role="listbox"
+                aria-multiselectable="true"
+              >
+                {menu}
+              </div>
+            )}
           >
             {branchOptions.map((value) => {
-              return <Option key={value}>{value}</Option>;
+              return (
+                <Option role="option" key={value} value={value}>
+                  {value}
+                </Option>
+              );
             })}
           </Select>
         </Form.Item>
@@ -163,6 +243,9 @@ const SearchFilterView = ({
             showSearch
             mode="multiple"
             maxTagCount={3}
+            aria-label={ariaLabels[4]}
+            aria-multiselectable="true"
+            aria-autocomplete="none"
           />
         </Form.Item>
 
@@ -182,6 +265,9 @@ const SearchFilterView = ({
             mode="multiple"
             maxTagCount={3}
             disabled={anyMentorSkills}
+            aria-label={ariaLabels[5]}
+            aria-multiselectable="true"
+            aria-autocomplete="none"
           />
         </Form.Item>
         <Form.Item
@@ -190,7 +276,11 @@ const SearchFilterView = ({
           label={labelArr[6]}
           valuePropName="checked"
         >
-          <Checkbox onChange={handleAnyMentorSkillsChange}>
+          <Checkbox
+            role="checkbox"
+            aria-label={ariaLabels[6]}
+            onChange={handleAnyMentorSkillsChange}
+          >
             <FormattedMessage id="select.any.mentors" />
           </Checkbox>
         </Form.Item>
@@ -202,7 +292,7 @@ const SearchFilterView = ({
           label={labelArr[7]}
           valuePropName="checked"
         >
-          <Switch />
+          <Switch role="switch" aria-label={ariaLabels[7]} />
         </Form.Item>
         <Button
           className="search-w100"

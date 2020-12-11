@@ -235,6 +235,7 @@ optionsRouter.get(
   validationMiddlware,
   talentMatrixResults.getTalentMatrixResults
 );
+
 optionsRouter.get(
   "/tenures",
   keycloak.protect(),

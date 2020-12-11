@@ -3,6 +3,7 @@ const prisma = require("../../../database");
 
 async function getNames(request, response) {
   const { language, type } = request.query;
+
   const nameQuery = await prisma.opAttachmentLinkName.findMany({
     where: {
       type,

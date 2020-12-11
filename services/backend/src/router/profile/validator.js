@@ -44,40 +44,31 @@ const updateProfileUUIDBody = [
 
 const updateProfileValidator = [
   updateProfileStringBody.map((i) =>
-    body(i)
+    body(i, "must be a string")
       .optional()
       .custom((value) => typeof value === "string" || value === null)
-      .withMessage("must be a string")
   ),
   updateProfileNumberBody.map((i) =>
-    body(i)
-      .optional()
-      .trim()
-      .toInt()
-      .isNumeric()
-      .withMessage("must be a number")
+    body(i, "must be a number").optional().trim().toInt().isNumeric()
   ),
   updateProfilePhoneNumberBody.map((i) =>
-    body(i)
+    body(i, "must be a valid phone number")
       .optional()
       .trim()
       .custom((value) => !value || isMobilePhone(value, "en-CA"))
-      .withMessage("must be a valid phone number")
   ),
   updateProfileUUIDBody.map((i) =>
-    body(i)
+    body(i, "must be a UUID or null")
       .optional()
       .custom((value) => value === null || isUUID(value))
-      .withMessage("must be a UUID or null")
   ),
   updateProfileDateBody.map((i) =>
-    body(i)
+    body(i, "must be a date")
       .optional()
       .custom((j) => j === null || moment(j).isValid())
-      .withMessage("must be a date")
   ),
   updateProfileBooleanBody.map((i) =>
-    body(i)
+    body(i, "must be a boolean or null")
       .optional()
       .customSanitizer((j) => {
         switch (j) {
@@ -92,37 +83,33 @@ const updateProfileValidator = [
         }
       })
       .custom((j) => j === null || j === true || j === false)
-      .withMessage("must be a boolean or null")
+      .withMessage()
   ),
   updateProfileLanguageBody.map((i) =>
-    body(i)
+    body(i, "must be 'ENGLISH' or 'FRENCH'")
       .optional()
       .trim()
       .isIn(["ENGLISH", "FRENCH"])
-      .withMessage("must be 'ENGLISH' or 'FRENCH'")
   ),
   updateProfileOptionalLanguageBody.map((i) =>
-    body(i)
+    body(i, "must be 'ENGLISH' or 'FRENCH' or null")
       .optional()
       .isIn(["ENGLISH", "FRENCH", null])
-      .withMessage("must be 'ENGLISH' or 'FRENCH' or null")
   ),
   updateProfileStringArrayBody.map((i) =>
-    body(i)
+    body(i, "must be a string array")
       .optional()
       .isArray()
       .custom((array) => array.every((j) => typeof j === "string"))
-      .withMessage("must be a string array")
   ),
   updateProfileUUIDArrayBody.map((i) =>
-    body(i)
+    body(i, "must be a UUID array")
       .optional()
       .isArray()
       .custom((array) => array.every((j) => isUUID(j)))
-      .withMessage("must be a UUID array")
   ),
   updateProfileEmploymentBody.map((i) =>
-    body(i)
+    body(i, "must be an object containing ENGLISH or/and FRENCH as keys")
       .optional()
       .custom(
         (object) =>
@@ -131,9 +118,11 @@ const updateProfileValidator = [
             ["ENGLISH", "FRENCH"].includes(key)
           )
       )
-      .withMessage("must be an object containing ENGLISH or/and FRENCH as keys")
   ),
-  body("secondLangProfs")
+  body(
+    "secondLangProfs",
+    "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X' | 'NA', date?: DateTime }"
+  )
     .optional()
     .isArray()
     .custom((array) =>
@@ -143,11 +132,11 @@ const updateProfileValidator = [
           isIn(i.proficiency, ["ORAL", "WRITING", "READING"]) &&
           ("date" in i ? i.date === null || moment(i.date).isValid() : true)
       )
-    )
-    .withMessage(
-      "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X' | 'NA', date?: DateTime }"
     ),
-  body("qualifiedPools")
+  body(
+    "qualifiedPools",
+    "must be an array of containing { classificationId: UUID }"
+  )
     .optional()
     .isArray()
     .custom((array) =>
@@ -158,9 +147,11 @@ const updateProfileValidator = [
           typeof i.selectionProcessNumber === "string" &&
           typeof i.jobPosterLink === "string"
       )
-    )
-    .withMessage("must be an array of containing { classificationId: UUID }"),
-  body("educations")
+    ),
+  body(
+    "educations",
+    "must be an array of containing { diplomaId: UUID, schoolId: UUID, startDate?: DateTime, endDate?: DateTime, ongoingDate: Boolean }"
+  )
     .optional()
     .isArray()
     .custom((array) =>
@@ -176,11 +167,11 @@ const updateProfileValidator = [
             ? moment(i.endDate).isValid() || i.endDate === null
             : true)
       )
-    )
-    .withMessage(
-      "must be an array of containing { diplomaId: UUID, schoolId: UUID, startDate?: DateTime, endDate?: DateTime, ongoingDate: Boolean }"
     ),
-  body("experiences")
+  body(
+    "experiences",
+    "must be an array of containing { description?: string, jobTitle: string, organization: string, startDate?: DateTime, endDate?: DateTime, ongoingDate: Boolean }"
+  )
     .optional()
     .isArray()
     .custom((array) =>
@@ -193,15 +184,11 @@ const updateProfileValidator = [
           ("startDate" in i ? moment(i.startDate).isValid() : true) &&
           ("endDate" in i ? moment(i.endDate).isValid() : true)
       )
-    )
-    .withMessage(
-      "must be an array of containing { description?: string, jobTitle: string, organization: string, startDate?: DateTime, endDate?: DateTime, ongoingDate: Boolean }"
     ),
-  body("status")
+  body("status", "must be 'ACTIVE' or 'INACTIVE' or 'HIDDEN'")
     .optional()
     .trim()
-    .isIn(["ACTIVE", "INACTIVE", "HIDDEN"])
-    .withMessage("must be 'ACTIVE' or 'INACTIVE' or 'HIDDEN'"),
+    .isIn(["ACTIVE", "INACTIVE", "HIDDEN"]),
 ];
 
 module.exports = {
