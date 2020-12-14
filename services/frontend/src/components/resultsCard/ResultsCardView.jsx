@@ -5,6 +5,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import Header from "../header/Header";
 import prepareInfo from "../../functions/prepareInfo";
+import EmptyImage from "./online_team_meeting_.svg";
 import ResultsProfileCard from "./resultProfileCard/ResultProfileCard";
 import "./ResultsCardView.less";
 
@@ -13,6 +14,7 @@ const { Text } = Typography;
 const ResultsCardView = ({
   results,
   locale,
+  emptyQuery,
   loading,
   loggedInUserId,
   connections,
@@ -40,12 +42,26 @@ const ResultsCardView = ({
    * @param {Object} dataSource - The list of user results.
    */
   const renderResultCards = (dataSource) => {
+    if (emptyQuery) {
+      return (
+        <>
+          <Row align="middle" justify="center" style={{ marginTop: 40 }}>
+            <img src={EmptyImage} height={250} alt="Empty results page" />
+          </Row>
+          <Row align="middle" justify="center" style={{ marginTop: 20 }}>
+            <p style={{ textAlign: "center", maxWidth: 250 }}>
+              <FormattedMessage id="search.empty.query" />
+            </p>
+          </Row>
+        </>
+      );
+    }
+
     if (!loading && dataSource.length === 0) {
       return (
         <Empty description={<FormattedMessage id="search.no.results" />} />
       );
     }
-
     const preparedResults = prepareInfo(dataSource, locale);
 
     return preparedResults.map((person) => {
@@ -118,6 +134,7 @@ const ResultsCardView = ({
 ResultsCardView.propTypes = {
   results: PropTypes.arrayOf(ProfileInfoPropType),
   locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
+  emptyQuery: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   loggedInUserId: PropTypes.string.isRequired,
   connections: PropTypes.arrayOf(PropTypes.string).isRequired,
