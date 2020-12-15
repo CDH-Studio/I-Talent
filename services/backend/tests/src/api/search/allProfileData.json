@@ -1,0 +1,268 @@
+{
+  "allProfiles": [
+    {
+      "id": "25ba7914-1505-4806-97f9-e1c4b003ad92",
+      "visibleCards": {
+        "id": "b0b90ef0-644a-40da-89f7-8e8a486946fb",
+        "createdAt": "2020-12-14T17:25:19.962Z",
+        "updatedAt": "2020-12-14T17:25:19.966Z",
+        "info": "PUBLIC",
+        "talentManagement": "PUBLIC",
+        "officialLanguage": "PUBLIC",
+        "skills": "PUBLIC",
+        "competencies": "PUBLIC",
+        "developmentalGoals": "PUBLIC",
+        "qualifiedPools": "PRIVATE",
+        "description": "PRIVATE",
+        "education": "PUBLIC",
+        "experience": "PUBLIC",
+        "careerInterests": "PUBLIC",
+        "mentorshipSkills": "PUBLIC",
+        "exFeeder": "PUBLIC",
+        "employmentEquityGroup": "PRIVATE"
+      },
+      "connections": []
+    },
+    {
+      "id": "f5c68eee-956b-42c5-8f47-f8d7ae35438a",
+      "visibleCards": {
+        "id": "5257924a-a2e4-4d70-89ad-6c6912c0f8ec",
+        "createdAt": "2020-12-15T15:43:28.764Z",
+        "updatedAt": "2020-12-15T15:43:28.764Z",
+        "info": "PRIVATE",
+        "talentManagement": "PRIVATE",
+        "officialLanguage": "PRIVATE",
+        "skills": "PRIVATE",
+        "competencies": "PRIVATE",
+        "developmentalGoals": "PRIVATE",
+        "qualifiedPools": "PRIVATE",
+        "description": "PRIVATE",
+        "education": "PRIVATE",
+        "experience": "PRIVATE",
+        "careerInterests": "PRIVATE",
+        "mentorshipSkills": "PRIVATE",
+        "exFeeder": "PRIVATE",
+        "employmentEquityGroup": "PRIVATE"
+      },
+      "connections": []
+    }
+  ],
+  "allProfilesInfo": [
+    {
+      "id": "25ba7914-1505-4806-97f9-e1c4b003ad92",
+      "firstName": "John",
+      "lastName": "Doe",
+      "telephone": "713-123-4567",
+      "cellphone": "613-987-6543",
+      "manager": "Chahine El Chaar",
+      "teams": ["CDH Studio", "I-talent"],
+      "status": "ACTIVE",
+      "email": "john.doe@canada.ca",
+      "exFeeder": false,
+      "avatarColor": "#0bdaa3",
+      "tenure": {
+        "id": "045603ae-e05e-41c6-a91e-9f606c1a575f",
+        "translations": [{ "name": "Indeterminate" }]
+      },
+      "groupLevel": {
+        "id": "d78f0859-84af-4e46-884f-b15510e0b273",
+        "name": "AS 04"
+      },
+      "actingLevel": {
+        "id": "33cba2d3-5336-47e3-b650-3eed1999df45",
+        "name": "CS 03"
+      },
+      "employmentInfo": {
+        "translations": [
+          {
+            "branch": "Chief Information Office",
+            "jobTitle": "Data Scientist"
+          }
+        ]
+      },
+      "officeLocation": {
+        "id": "282952e2-787a-4ee9-8b0e-234776f21673",
+        "city": "Ottawa",
+        "streetNumber": 235,
+        "translations": [{ "province": "Ontario", "streetName": "Queen St" }]
+      },
+      "experiences": [
+        {
+          "startDate": "2010-12-14T17:25:16.082Z",
+          "endDate": "2014-12-14T17:25:16.082Z",
+          "projects": [
+            "Landscaping backyard",
+            "Calculator prediction mobile application",
+            "Government of Canada global information database"
+          ],
+          "translations": [
+            {
+              "description": "Livrer les project à temps et maintenir le contact avec les clients",
+              "jobTitle": "Gestionnaire de projet TI",
+              "organization": "Banque du Canada"
+            }
+          ]
+        }
+      ],
+      "educations": [],
+      "skills": [
+        {
+          "skill": {
+            "id": "477d4291-fcbf-4c7a-b377-7fc160fafeff",
+            "translations": [{ "name": "CGI" }]
+          }
+        },
+        {
+          "skill": {
+            "id": "7c72c804-0a69-4783-aa11-c39b37230b30",
+            "translations": [{ "name": "Linux" }]
+          }
+        }
+      ],
+      "competencies": [
+        {
+          "competency": {
+            "id": "d5cb2222-1278-4ff0-b175-d4320f258fd2",
+            "translations": [{ "name": "Delegation" }]
+          }
+        },
+        {
+          "competency": {
+            "id": "8b5377dc-d3a1-485d-a7c0-c10ee6ff742c",
+            "translations": [{ "name": "Compassion" }]
+          }
+        }
+      ],
+      "mentorshipSkills": [
+        {
+          "id": "5a3bf983-9e63-4936-be1c-63505a6c8677",
+          "createdAt": "2020-12-14T17:25:19.964Z",
+          "updatedAt": "2020-12-14T17:25:19.966Z",
+          "userId": "25ba7914-1505-4806-97f9-e1c4b003ad92",
+          "skillId": "15a71d76-5110-4f66-890b-41f0284223e0"
+        },
+        {
+          "id": "fdba1b3a-62aa-4da9-8a5e-911e61c08e61",
+          "createdAt": "2020-12-14T17:25:19.964Z",
+          "updatedAt": "2020-12-14T17:25:19.966Z",
+          "userId": "25ba7914-1505-4806-97f9-e1c4b003ad92",
+          "skillId": "446f3914-7041-4f1e-9c65-e9bc0557f30f"
+        }
+      ],
+      "organizations": [],
+      "isConnection": false
+    },
+
+    {
+      "id": "a041bceb-3873-4046-a475-a86dda954402",
+      "firstName": "Mary",
+      "lastName": "Doe",
+      "telephone": "343-123-4567",
+      "cellphone": "613-123-4567",
+      "manager": "Chahine El Chaar",
+      "teams": ["CDH Studio"],
+      "status": "ACTIVE",
+      "email": "mary.doe@canada.ca",
+      "exFeeder": true,
+      "avatarColor": "#ad4463",
+      "tenure": {
+        "id": "ab00fd55-70b5-4a74-9ef6-1b5c52d4acc0",
+        "translations": [{ "name": "Term" }]
+      },
+      "groupLevel": {
+        "id": "84cf48eb-38b4-4a33-9744-09a9da7923a3",
+        "name": "CS 05"
+      },
+      "actingLevel": null,
+      "employmentInfo": {
+        "translations": [
+          { "branch": "Human Resources Branch", "jobTitle": "Manager" }
+        ]
+      },
+      "officeLocation": {
+        "id": "764be692-6bec-421e-a411-485477206fc8",
+        "city": "Ottawa",
+        "streetNumber": 160,
+        "translations": [{ "province": "Ontario", "streetName": "Elgin St" }]
+      },
+      "experiences": [
+        {
+          "startDate": "2005-12-14T17:25:16.082Z",
+          "endDate": "2014-12-14T17:25:16.082Z",
+          "projects": ["Gardening strawberries", "AI powered translator"],
+          "translations": [
+            {
+              "description": "Overseeing the medical care of patients and the functions performed by medical staff",
+              "jobTitle": "Medical Officer",
+              "organization": "Healt Canada"
+            }
+          ]
+        },
+        {
+          "startDate": "2014-12-14T17:25:16.082Z",
+          "endDate": "2018-12-14T17:25:16.082Z",
+          "projects": [],
+          "translations": [
+            {
+              "description": "Cancelled payments and monitored unauthorized purchases",
+              "jobTitle": "Financial Analyst",
+              "organization": "Canada Revenue Agency"
+            }
+          ]
+        }
+      ],
+      "educations": [],
+      "mentorshipSkills": [
+        {
+          "id": "4836b87b-8e60-47f4-8ecd-22211876d987",
+          "createdAt": "2020-12-14T17:25:20.061Z",
+          "updatedAt": "2020-12-14T17:25:20.062Z",
+          "userId": "a041bceb-3873-4046-a475-a86dda954402",
+          "skillId": "4de5e096-55d5-4d75-98d4-414c217fe716"
+        },
+        {
+          "id": "25b3bfc3-aa99-436d-9adb-f49090bcd6a4",
+          "createdAt": "2020-12-14T17:25:20.061Z",
+          "updatedAt": "2020-12-14T17:25:20.062Z",
+          "userId": "a041bceb-3873-4046-a475-a86dda954402",
+          "skillId": "d58453b6-e45e-4150-a661-bb119d871a84"
+        }
+      ],
+      "organizations": [
+        {
+          "organizationTier": [
+            {
+              "tier": 0,
+              "translations": [
+                {
+                  "description": "Innovation, Science and Economic Development Canada"
+                }
+              ]
+            },
+            {
+              "tier": 1,
+              "translations": [
+                { "description": "DIGITAL TRANSFORMATION SERVICE SECTOR" }
+              ]
+            }
+          ]
+        }
+      ],
+      "isConnection": false
+    }
+  ],
+  "testParams": [
+    {
+      "testTitle": "Test searching for character: 'a'",
+      "testSearchTerm": "a",
+      "testResponseCode": 200,
+      "testResponseData": "[{\"id\":\"25ba7914-1505-4806-97f9-e1c4b003ad92\",\"avatarColor\":\"#0bdaa3\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Data Scientist\",\"branch\":\"Chief Information Office\",\"officeLocation\":{\"id\":\"282952e2-787a-4ee9-8b0e-234776f21673\",\"city\":\"Ottawa\",\"streetNumber\":235,\"province\":\"Ontario\",\"streetName\":\"Queen St\",\"fullName\":\"235 Queen St\"},\"skills\":[{\"name\":\"Compassion\"},{\"name\":\"Delegation\"}],\"totalSkillsCount\":2,\"groupLevel\":{\"id\":\"d78f0859-84af-4e46-884f-b15510e0b273\",\"name\":\"AS 04\"},\"nameInitials\":\"JD\",\"status\":\"ACTIVE\",\"matches\":[{\"indices\":[[12,12]],\"value\":\"Chief Information Office\",\"key\":\"branch.name\"},{\"indices\":[[31,31],[47,47],[51,51]],\"value\":\"Livrer les project à temps et maintenir le contact avec les clients\",\"key\":\"experiences.description\",\"refIndex\":0},{\"indices\":[[8,8]],\"value\":\"Gestionnaire de projet TI\",\"key\":\"experiences.jobTitle\",\"refIndex\":0},{\"indices\":[[15,15],[17,17],[19,19],[25,25],[34,34],[41,41],[43,43],[45,45]],\"value\":\"Government of Canada global information database\",\"key\":\"experiences.projects\",\"refIndex\":2},{\"indices\":[[1,1],[6,6],[29,29],[35,35]],\"value\":\"Calculator prediction mobile application\",\"key\":\"experiences.projects\",\"refIndex\":1},{\"indices\":[[1,1],[6,6],[13,13],[17,17]],\"value\":\"Landscaping backyard\",\"key\":\"experiences.projects\",\"refIndex\":0},{\"indices\":[[1,1],[11,11],[13,13],[15,15]],\"value\":\"Banque du Canada\",\"key\":\"experiences.organization\",\"refIndex\":0},{\"indices\":[[0,0]],\"value\":\"AS 04\",\"key\":\"groupLevel.name\"},{\"indices\":[[4,4]],\"value\":\"Compassion\",\"key\":\"competencies.name\",\"refIndex\":1},{\"indices\":[[5,5]],\"value\":\"Delegation\",\"key\":\"competencies.name\",\"refIndex\":0},{\"indices\":[[10,10],[12,12],[14,14],[17,17]],\"value\":\"john.doe@canada.ca\",\"key\":\"email\"},{\"indices\":[[1,1],[3,3]],\"value\":\"Data Scientist\",\"key\":\"jobTitle\"},{\"indices\":[[3,3],[5,5]],\"value\":\"Ottawa\",\"key\":\"officeLocation.city\"},{\"indices\":[[3,3]],\"value\":\"Ontario\",\"key\":\"officeLocation.province\"},{\"indices\":[[2,2],[13,14]],\"value\":\"Chahine El Chaar\",\"key\":\"manager\"},{\"indices\":[[4,4]],\"value\":\"Compassion\",\"key\":\"skills.name\",\"refIndex\":3},{\"indices\":[[5,5]],\"value\":\"Delegation\",\"key\":\"skills.name\",\"refIndex\":2},{\"indices\":[[3,3]],\"value\":\"I-talent\",\"key\":\"teams\",\"refIndex\":1},{\"indices\":[[10,10]],\"value\":\"Indeterminate\",\"key\":\"tenure\"}]}]"
+    },
+    {
+      "testTitle": "Test searching for branch acronym: 'CIO'",
+      "testSearchTerm": "CIO",
+      "testResponseCode": 200,
+      "testResponseData": "[{\"id\":\"25ba7914-1505-4806-97f9-e1c4b003ad92\",\"avatarColor\":\"#0bdaa3\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Data Scientist\",\"branch\":\"Chief Information Office\",\"officeLocation\":{\"id\":\"282952e2-787a-4ee9-8b0e-234776f21673\",\"city\":\"Ottawa\",\"streetNumber\":235,\"province\":\"Ontario\",\"streetName\":\"Queen St\",\"fullName\":\"235 Queen St\"},\"skills\":[{\"name\":\"Compassion\"},{\"name\":\"Delegation\"}],\"totalSkillsCount\":2,\"groupLevel\":{\"id\":\"d78f0859-84af-4e46-884f-b15510e0b273\",\"name\":\"AS 04\"},\"nameInitials\":\"JD\",\"status\":\"ACTIVE\",\"matches\":[{\"indices\":[[12,12]],\"value\":\"Chief Information Office\",\"key\":\"branch.name\"},{\"indices\":[[31,31],[47,47],[51,51]],\"value\":\"Livrer les project à temps et maintenir le contact avec les clients\",\"key\":\"experiences.description\",\"refIndex\":0},{\"indices\":[[8,8]],\"value\":\"Gestionnaire de projet TI\",\"key\":\"experiences.jobTitle\",\"refIndex\":0},{\"indices\":[[15,15],[17,17],[19,19],[25,25],[34,34],[41,41],[43,43],[45,45]],\"value\":\"Government of Canada global information database\",\"key\":\"experiences.projects\",\"refIndex\":2},{\"indices\":[[1,1],[6,6],[29,29],[35,35]],\"value\":\"Calculator prediction mobile application\",\"key\":\"experiences.projects\",\"refIndex\":1},{\"indices\":[[1,1],[6,6],[13,13],[17,17]],\"value\":\"Landscaping backyard\",\"key\":\"experiences.projects\",\"refIndex\":0},{\"indices\":[[1,1],[11,11],[13,13],[15,15]],\"value\":\"Banque du Canada\",\"key\":\"experiences.organization\",\"refIndex\":0},{\"indices\":[[0,0]],\"value\":\"AS 04\",\"key\":\"groupLevel.name\"},{\"indices\":[[4,4]],\"value\":\"Compassion\",\"key\":\"competencies.name\",\"refIndex\":1},{\"indices\":[[5,5]],\"value\":\"Delegation\",\"key\":\"competencies.name\",\"refIndex\":0},{\"indices\":[[10,10],[12,12],[14,14],[17,17]],\"value\":\"john.doe@canada.ca\",\"key\":\"email\"},{\"indices\":[[1,1],[3,3]],\"value\":\"Data Scientist\",\"key\":\"jobTitle\"},{\"indices\":[[3,3],[5,5]],\"value\":\"Ottawa\",\"key\":\"officeLocation.city\"},{\"indices\":[[3,3]],\"value\":\"Ontario\",\"key\":\"officeLocation.province\"},{\"indices\":[[2,2],[13,14]],\"value\":\"Chahine El Chaar\",\"key\":\"manager\"},{\"indices\":[[4,4]],\"value\":\"Compassion\",\"key\":\"skills.name\",\"refIndex\":3},{\"indices\":[[5,5]],\"value\":\"Delegation\",\"key\":\"skills.name\",\"refIndex\":2},{\"indices\":[[3,3]],\"value\":\"I-talent\",\"key\":\"teams\",\"refIndex\":1},{\"indices\":[[10,10]],\"value\":\"Indeterminate\",\"key\":\"tenure\"}]}]"
+    }
+  ]
+}

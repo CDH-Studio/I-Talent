@@ -2,16 +2,19 @@ const utils = require("./util");
 const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function fuzzySearch(request, response) {
+  // console.warn("here 1");
   const userId = getKeycloakUserId(request);
 
   const { language, searchValue } = request.query;
 
   const profiles = await utils.getAllProfiles(language, userId, request);
+  // console.warn("here 2");
 
   const results = await utils.fuzzySearch(profiles, searchValue);
 
   const responseData = utils.cleanResults(results);
-  console.log(responseData);
+
+  // console.warn("response data", responseData);
   response.status(200).json(responseData);
 }
 

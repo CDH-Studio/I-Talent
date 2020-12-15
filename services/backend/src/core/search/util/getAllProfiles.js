@@ -20,6 +20,10 @@ async function getAllUsers(language, userId, request) {
         },
   });
 
+  console.log(data);
+
+  // console.warn("all profiles", data);
+
   let visibleCards = await Promise.all(
     data.map(
       async ({
@@ -58,6 +62,7 @@ async function getAllUsers(language, userId, request) {
     )
   );
 
+  // console.warn("all profiles infos visibleCards", visibleCards);
   const users = await Promise.all(
     visibleCards.map(
       async ({
@@ -283,6 +288,92 @@ async function getAllUsers(language, userId, request) {
       }
     )
   );
+  console.warn("****all profiles users", users);
+  // console.warn("all profiles    users[0]", users[0]);
+  // console.warn("all profiles    users[0] id", users[0].id);
+  // console.warn("all profiles tenure", users[0].tenure);
+  // console.warn(
+  //   "all profiles tenure translations",
+  //   users[0].tenure.translations
+  // );
+  // console.warn(
+  //   "all profiles employmentInfo translations",
+  //   users[0].employmentInfo.translations
+  // );
+
+  // console.warn(
+  //   "all profiles employmentInfo",
+  //   users[0].employmentInfo.translations
+  // );
+
+  // console.warn(
+  //   "all profiles officeLocation",
+  //   users[0].officeLocation.translations
+  // );
+
+  // console.warn("all profiles experiences", users[0].experiences);
+  // console.warn(
+  //   "all profiles experiences translations",
+  //   users[0].experiences[0].translations
+  // );
+  // // console.warn(
+  // //   "all profiles experiences translations",
+  // //   users[0].experiences[1].translations
+  // // );
+
+  // console.warn("all profiles experiences skills[0]", users[0].skills[0]);
+  // console.warn(
+  //   "all profiles experiences skills[0] translations",
+  //   users[0].skills[0].skill.translations
+  // );
+
+  // console.warn("all profiles experiences skills[1]", users[0].skills[1]);
+  // console.warn(
+  //   "all profiles experiences skills[1] translations",
+  //   users[0].skills[1].skill.translations
+  // );
+
+  // console.warn(
+  //   "all profiles experiences competencies[0]",
+  //   users[0].competencies[0]
+  // );
+  // console.warn(
+  //   "all profiles experiences competencies[0] translations",
+  //   users[0].competencies[0].competency.translations
+  // );
+
+  // console.warn(
+  //   "all profiles experiences competencies[1]",
+  //   users[0].competencies[1]
+  // );
+  // console.warn(
+  //   "all profiles experiences competencies[1] translations",
+  //   users[0].competencies[1].competency.translations
+  // );
+
+  // console.warn(
+  //   "all profiles experiences mentorship[0]",
+  //   users[0].mentorshipSkills[0]
+  // );
+
+  // console.warn(
+  //   "all profiles experiences mentorship[1]",
+  //   users[0].mentorshipSkills[1]
+  // );
+
+  // console.warn("all profiles organization[0]", users[0].organizations[0]);
+  // console.warn(
+  //   "all profiles organization[0].organizationTier",
+  //   users[0].organizations[0].organizationTier
+  // );
+  // console.warn(
+  //   "all profiles organization[0].organizationTier[0].translations",
+  //   users[0].organizations[0].organizationTier[0].translations
+  // );
+  // console.warn(
+  //   "all profiles organization[0].organizationTier[1].translations",
+  //   users[0].organizations[0].organizationTier[1].translations
+  // );
 
   const cleanedUsers = users.map((user) => {
     let allSkills = [];
