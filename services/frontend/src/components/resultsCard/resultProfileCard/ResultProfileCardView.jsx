@@ -1,7 +1,7 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   Row,
   Col,
@@ -43,6 +43,11 @@ const ResultProfileCardView = ({
 }) => {
   const history = useHistory();
   const [searchMatchVisibility, setSearchMatchVisibility] = useState(false);
+  const intl = useIntl();
+
+  const ariaLabels = [
+    intl.formatMessage({ id: "search.fuzzy.results.button.label" }),
+  ];
 
   /**
    * Render User Avatar for each card
@@ -309,11 +314,20 @@ const ResultProfileCardView = ({
 
             {profile.matches && (
               <Button
+                role="button"
+                aria-label={ariaLabels[0]}
+                aria-pressed="false"
+                tabIndex={0}
                 shape="circle"
                 icon={<FileSearchOutlined />}
                 size="medium"
                 className="fuzzy-match-modal-btn"
-                onClick={showModal}
+                onClick={(e) => {
+                  showModal(e);
+                }}
+                onKeyPress={(e) => {
+                  showModal(e);
+                }}
               />
             )}
           </Card>
