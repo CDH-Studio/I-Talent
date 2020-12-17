@@ -22,7 +22,7 @@ async function getAllUsers(language, userId, request) {
 
   console.log(data);
 
-  // console.warn("all profiles", data);
+  console.warn("all profiles", data);
 
   let visibleCards = await Promise.all(
     data.map(
@@ -62,7 +62,7 @@ async function getAllUsers(language, userId, request) {
     )
   );
 
-  // console.warn("all profiles infos visibleCards", visibleCards);
+  console.warn("all profiles infos visibleCards", visibleCards);
   const users = await Promise.all(
     visibleCards.map(
       async ({
