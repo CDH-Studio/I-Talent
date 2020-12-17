@@ -388,6 +388,9 @@ const TalentFormView = ({
                 title: fullSkillsOptionsList[i].title,
                 value: fullSkillsOptionsList[i].value,
                 children: [],
+                selectable: false,
+                checkable: false,
+                disableCheckbox: true,
               };
               dataTree.push(parent);
             }
