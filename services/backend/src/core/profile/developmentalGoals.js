@@ -80,28 +80,28 @@ async function setDevelopmentalGoals(request, response) {
 
   const developmentalGoalsCreate = [];
 
-  (
-    await prisma.opSkill.findMany({
-      where: { id: { in: ids } },
-      select: { id: true },
-    })
-  ).map(({ id }) =>
+  const skillIds = await prisma.opSkill.findMany({
+    where: { id: { in: ids } },
+    select: { id: true },
+  });
+
+  skillIds.map(({ id }) =>
     developmentalGoalsCreate.push({ skill: { connect: { id } } })
   );
 
-  (
-    await prisma.opCompetency.findMany({
-      where: { id: { in: ids } },
-      select: { id: true },
-    })
-  ).map(({ id }) =>
+  const competencyIds = await prisma.opCompetency.findMany({
+    where: { id: { in: ids } },
+    select: { id: true },
+  });
+
+  competencyIds.map(({ id }) =>
     developmentalGoalsCreate.push({ competency: { connect: { id } } })
   );
 
   await prisma.$transaction([
     prisma.developmentalGoal.deleteMany({
       where: {
-        id: userId,
+        userId,
         skillId: {
           notIn: ids,
         },

@@ -60,7 +60,7 @@ async function setSkills(request, response) {
   await prisma.$transaction([
     prisma.skill.deleteMany({
       where: {
-        id: userId,
+        userId,
         skillId: {
           notIn: ids,
         },

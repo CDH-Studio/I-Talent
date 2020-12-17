@@ -45,7 +45,7 @@ async function setCompetencies(request, response) {
   await prisma.$transaction([
     prisma.competency.deleteMany({
       where: {
-        id: userId,
+        userId,
         competencyId: {
           notIn: ids,
         },

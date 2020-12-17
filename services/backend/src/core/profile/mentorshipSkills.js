@@ -60,7 +60,7 @@ async function setMentorshipSkills(request, response) {
   await prisma.$transaction([
     prisma.mentorshipSkill.deleteMany({
       where: {
-        id: userId,
+        userId,
         skillId: {
           notIn: ids,
         },
