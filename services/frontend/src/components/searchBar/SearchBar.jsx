@@ -49,6 +49,7 @@ const SearchBar = () => {
         children,
         selectable: false,
         checkable: false,
+        disableCheckbox: true,
       };
     });
 

@@ -309,6 +309,9 @@ const SearchBarView = ({
       onFinish={onFinish}
       className="search-outerForm"
       layout="vertical"
+      onKeyPress={(e) => {
+        if (e.key === "Enter") e.preventDefault();
+      }}
     >
       <div className="search-outerDiv">
         <div className="search-mainSearchDiv">
@@ -341,13 +344,13 @@ const SearchBarView = ({
                     </span>
                   </>
                 ) : (
-                    <>
-                      <DoubleRightOutlined rotate="90" />
-                      <span>
-                        <FormattedMessage id="button.advanced.search" />
-                      </span>
-                    </>
-                  )}
+                  <>
+                    <DoubleRightOutlined rotate="90" />
+                    <span>
+                      <FormattedMessage id="button.advanced.search" />
+                    </span>
+                  </>
+                )}
               </Button>
             </Col>
           </Row>
