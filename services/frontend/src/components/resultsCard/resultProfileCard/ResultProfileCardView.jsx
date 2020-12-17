@@ -47,6 +47,7 @@ const ResultProfileCardView = ({
 
   const ariaLabels = [
     intl.formatMessage({ id: "search.fuzzy.results.button.label" }),
+    intl.formatMessage({ id: "edit.profile" }),
   ];
 
   /**
@@ -140,6 +141,16 @@ const ResultProfileCardView = ({
       return (
         <Button
           tabIndex={0}
+          role="button"
+          aria-label={
+            isConnection
+              ? intl.formatMessage({
+                  id: "search.results.cards.remove.connection",
+                })
+              : intl.formatMessage({
+                  id: "search.results.cards.add.connection",
+                })
+          }
           type="link"
           block
           icon={
@@ -171,6 +182,8 @@ const ResultProfileCardView = ({
     return (
       <Button
         tabIndex={0}
+        role="button"
+        aria-label={ariaLabels[1]}
         type="link"
         block
         icon={<EditOutlined className="result-card-button-icon" />}
@@ -316,7 +329,6 @@ const ResultProfileCardView = ({
               <Button
                 role="button"
                 aria-label={ariaLabels[0]}
-                aria-pressed="false"
                 tabIndex={0}
                 shape="circle"
                 icon={<FileSearchOutlined />}
@@ -336,12 +348,13 @@ const ResultProfileCardView = ({
 
       {/* render fuzzy search match modal */}
       <Modal
+        role="dialog"
         title={<FormattedMessage id="search.fuzzy.results" />}
         width={700}
         visible={searchMatchVisibility}
         onCancel={handleCancel}
         footer={[
-          <Button type="primary" onClick={handleCancel}>
+          <Button role="button" type="primary" onClick={handleCancel}>
             Ok
           </Button>,
         ]}

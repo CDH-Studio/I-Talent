@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Row, Col, Card, Typography, Empty, Skeleton, Spin } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
@@ -21,6 +21,7 @@ const ResultsCardView = ({
   addConnection,
   removeConnection,
 }) => {
+  const intl = useIntl();
   /**
    * Render Result Count
    * @param {Boolean} isLoading - loading status.
@@ -34,7 +35,15 @@ const ResultsCardView = ({
         </Text>
       );
     }
-    return <Spin className="res-loading-spinner" />;
+    return (
+      <Spin
+        role="alert"
+        aria-busy="true"
+        aria-live="polite"
+        aria-label={intl.formatMessage({ id: "loading" })}
+        className="res-loading-spinner"
+      />
+    );
   };
 
   /**
@@ -59,7 +68,12 @@ const ResultsCardView = ({
 
     if (!loading && dataSource.length === 0) {
       return (
-        <Empty description={<FormattedMessage id="search.no.results" />} />
+        <Empty
+          role="alert"
+          aria-live="polite"
+          aria-label={intl.formatMessage({ id: "search.no.results" })}
+          description={<FormattedMessage id="search.no.results" />}
+        />
       );
     }
     const preparedResults = prepareInfo(dataSource, locale);
@@ -85,7 +99,7 @@ const ResultsCardView = ({
    */
   const getLoadingAnimation = () => {
     return (
-      <Row gutter={[16, 16]} type="flex" justify="left">
+      <Row aria-hidden="true" gutter={[16, 16]} type="flex" justify="left">
         <Col span={24} xxl={12}>
           <Card>
             <Skeleton active />
