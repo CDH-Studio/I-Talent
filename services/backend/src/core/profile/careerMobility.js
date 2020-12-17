@@ -2,40 +2,48 @@ const prisma = require("../../database");
 const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function setCareerMobility(request, response) {
-  const { id } = request.params;
-  const userId = getKeycloakUserId(request);
+  const { id, userId } = request.params;
 
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      careerMobility: {
-        connect: {
-          id,
+  /// ~~~~~~~~~~~ TODO: create middleware for these kinds of checks!
+  if (getKeycloakUserId(request) === userId) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        careerMobility: {
+          connect: {
+            id,
+          },
         },
       },
-    },
-  });
+    });
 
-  response.sendStatus(201);
+    response.sendStatus(201);
+  } else {
+    response.sendStatus(403);
+  }
 }
 
 async function removeCareerMobility(request, response) {
-  const userId = getKeycloakUserId(request);
+  const { userId } = request.params;
 
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      careerMobility: {
-        disconnect: true,
+  if (getKeycloakUserId(request) === userId) {
+    await prisma.user.update({
+      where: {
+        id: userId,
       },
-    },
-  });
+      data: {
+        careerMobility: {
+          disconnect: true,
+        },
+      },
+    });
 
-  response.sendStatus(204);
+    response.sendStatus(204);
+  } else {
+    response.sendStatus(403);
+  }
 }
 
 module.exports = {

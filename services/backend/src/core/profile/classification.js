@@ -2,40 +2,47 @@ const prisma = require("../../database");
 const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function setClassification(request, response) {
-  const { id } = request.params;
-  const userId = getKeycloakUserId(request);
+  const { id, userId } = request.params;
 
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      groupLevel: {
-        connect: {
-          id,
+  if (getKeycloakUserId(request) === userId) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        groupLevel: {
+          connect: {
+            id,
+          },
         },
       },
-    },
-  });
+    });
 
-  response.sendStatus(201);
+    response.sendStatus(201);
+  } else {
+    response.sendStatus(403);
+  }
 }
 
 async function removeClassification(request, response) {
-  const userId = getKeycloakUserId(request);
+  const { userId } = request.params;
 
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      groupLevel: {
-        disconnect: true,
+  if (getKeycloakUserId(request) === userId) {
+    await prisma.user.update({
+      where: {
+        id: userId,
       },
-    },
-  });
+      data: {
+        groupLevel: {
+          disconnect: true,
+        },
+      },
+    });
 
-  response.sendStatus(204);
+    response.sendStatus(204);
+  } else {
+    response.sendStatus(403);
+  }
 }
 
 module.exports = {
