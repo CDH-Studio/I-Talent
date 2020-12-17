@@ -1,7 +1,7 @@
-const prisma = require("../../../database");
-const { getKeycloakUserId } = require("../../../utils/keycloak");
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
-async function setSecurityClearance(request, response) {
+async function setLookingJob(request, response) {
   const { id } = request.params;
   const userId = getKeycloakUserId(request);
 
@@ -10,7 +10,7 @@ async function setSecurityClearance(request, response) {
       id: userId,
     },
     data: {
-      securityClearance: {
+      lookingJob: {
         connect: {
           id,
         },
@@ -21,7 +21,7 @@ async function setSecurityClearance(request, response) {
   response.sendStatus(201);
 }
 
-async function removeSecurityClearance(request, response) {
+async function removeLookingJob(request, response) {
   const userId = getKeycloakUserId(request);
 
   await prisma.user.update({
@@ -29,7 +29,7 @@ async function removeSecurityClearance(request, response) {
       id: userId,
     },
     data: {
-      securityClearance: {
+      lookingJob: {
         disconnect: true,
       },
     },
@@ -39,6 +39,6 @@ async function removeSecurityClearance(request, response) {
 }
 
 module.exports = {
-  setSecurityClearance,
-  removeSecurityClearance,
+  setLookingJob,
+  removeLookingJob,
 };

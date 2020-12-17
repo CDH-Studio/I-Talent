@@ -1,7 +1,7 @@
-const prisma = require("../../../database");
-const { getKeycloakUserId } = require("../../../utils/keycloak");
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
-async function setClassification(request, response) {
+async function setTenure(request, response) {
   const { id } = request.params;
   const userId = getKeycloakUserId(request);
 
@@ -10,7 +10,7 @@ async function setClassification(request, response) {
       id: userId,
     },
     data: {
-      groupLevel: {
+      tenure: {
         connect: {
           id,
         },
@@ -21,7 +21,7 @@ async function setClassification(request, response) {
   response.sendStatus(201);
 }
 
-async function removeClassification(request, response) {
+async function removeTenure(request, response) {
   const userId = getKeycloakUserId(request);
 
   await prisma.user.update({
@@ -29,7 +29,7 @@ async function removeClassification(request, response) {
       id: userId,
     },
     data: {
-      groupLevel: {
+      tenure: {
         disconnect: true,
       },
     },
@@ -39,6 +39,6 @@ async function removeClassification(request, response) {
 }
 
 module.exports = {
-  setClassification,
-  removeClassification,
+  setTenure,
+  removeTenure,
 };

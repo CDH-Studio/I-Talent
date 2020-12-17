@@ -1,7 +1,7 @@
-const prisma = require("../../../database");
-const { getKeycloakUserId } = require("../../../utils/keycloak");
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
-async function setLookingJob(request, response) {
+async function setOfficeLocation(request, response) {
   const { id } = request.params;
   const userId = getKeycloakUserId(request);
 
@@ -10,7 +10,7 @@ async function setLookingJob(request, response) {
       id: userId,
     },
     data: {
-      lookingJob: {
+      officeLocation: {
         connect: {
           id,
         },
@@ -21,7 +21,7 @@ async function setLookingJob(request, response) {
   response.sendStatus(201);
 }
 
-async function removeLookingJob(request, response) {
+async function removeOfficeLocation(request, response) {
   const userId = getKeycloakUserId(request);
 
   await prisma.user.update({
@@ -29,7 +29,7 @@ async function removeLookingJob(request, response) {
       id: userId,
     },
     data: {
-      lookingJob: {
+      officeLocation: {
         disconnect: true,
       },
     },
@@ -39,6 +39,6 @@ async function removeLookingJob(request, response) {
 }
 
 module.exports = {
-  setLookingJob,
-  removeLookingJob,
+  setOfficeLocation,
+  removeOfficeLocation,
 };

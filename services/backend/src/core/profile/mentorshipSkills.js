@@ -1,12 +1,12 @@
 const _ = require("lodash");
-const prisma = require("../../../database");
-const { getKeycloakUserId } = require("../../../utils/keycloak");
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
-async function getSkills(request, response) {
+async function getMentorshipSkills(request, response) {
   const { language } = request.query;
   const userId = getKeycloakUserId(request);
 
-  const query = await prisma.skill.findMany({
+  const query = await prisma.mentorshipSkill.findMany({
     where: {
       userId,
     },
@@ -40,7 +40,7 @@ async function getSkills(request, response) {
     },
   });
 
-  const skills = _.sortBy(
+  const mentorshipSkills = _.sortBy(
     query.map(({ skill: { id, translations, category } }) => ({
       id,
       name: translations[0].name,
@@ -50,15 +50,15 @@ async function getSkills(request, response) {
     "name"
   );
 
-  response.send(200).json(skills);
+  response.send(200).json(mentorshipSkills);
 }
 
-async function setSkills(request, response) {
+async function setMentorshipSkills(request, response) {
   const { ids } = request.body;
   const userId = getKeycloakUserId(request);
 
   await prisma.$transaction([
-    prisma.skill.deleteMany({
+    prisma.mentorshipSkill.deleteMany({
       where: {
         id: userId,
         skillId: {
@@ -71,7 +71,7 @@ async function setSkills(request, response) {
         id: userId,
       },
       data: {
-        skills: {
+        mentorshipSkills: {
           create: ids.map((id) => ({
             skill: {
               connect: id,
@@ -86,6 +86,6 @@ async function setSkills(request, response) {
 }
 
 module.exports = {
-  getSkills,
-  setSkills,
+  getMentorshipSkills,
+  setMentorshipSkills,
 };

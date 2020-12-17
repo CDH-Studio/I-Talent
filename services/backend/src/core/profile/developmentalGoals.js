@@ -1,6 +1,6 @@
 const _ = require("lodash");
-const prisma = require("../../../database");
-const { getKeycloakUserId } = require("../../../utils/keycloak");
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function getDevelopmentalGoals(request, response) {
   const { language } = request.query;

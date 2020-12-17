@@ -1,5 +1,5 @@
-const prisma = require("../../../database");
-const { getKeycloakUserId } = require("../../../utils/keycloak");
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function updateVisibilityCards(request, response) {
   const {

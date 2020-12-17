@@ -1,7 +1,7 @@
-const prisma = require("../../../database");
-const { getKeycloakUserId } = require("../../../utils/keycloak");
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
-async function setOfficeLocation(request, response) {
+async function setClassification(request, response) {
   const { id } = request.params;
   const userId = getKeycloakUserId(request);
 
@@ -10,7 +10,7 @@ async function setOfficeLocation(request, response) {
       id: userId,
     },
     data: {
-      officeLocation: {
+      groupLevel: {
         connect: {
           id,
         },
@@ -21,7 +21,7 @@ async function setOfficeLocation(request, response) {
   response.sendStatus(201);
 }
 
-async function removeOfficeLocation(request, response) {
+async function removeClassification(request, response) {
   const userId = getKeycloakUserId(request);
 
   await prisma.user.update({
@@ -29,7 +29,7 @@ async function removeOfficeLocation(request, response) {
       id: userId,
     },
     data: {
-      officeLocation: {
+      groupLevel: {
         disconnect: true,
       },
     },
@@ -39,6 +39,6 @@ async function removeOfficeLocation(request, response) {
 }
 
 module.exports = {
-  setOfficeLocation,
-  removeOfficeLocation,
+  setClassification,
+  removeClassification,
 };

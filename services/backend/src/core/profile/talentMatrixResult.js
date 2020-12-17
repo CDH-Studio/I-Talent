@@ -1,7 +1,7 @@
-const prisma = require("../../../database");
-const { getKeycloakUserId } = require("../../../utils/keycloak");
+const prisma = require("../../database");
+const { getKeycloakUserId } = require("../../utils/keycloak");
 
-async function setTenure(request, response) {
+async function setTalentMatrixResult(request, response) {
   const { id } = request.params;
   const userId = getKeycloakUserId(request);
 
@@ -10,7 +10,7 @@ async function setTenure(request, response) {
       id: userId,
     },
     data: {
-      tenure: {
+      talentMatrixResult: {
         connect: {
           id,
         },
@@ -21,7 +21,7 @@ async function setTenure(request, response) {
   response.sendStatus(201);
 }
 
-async function removeTenure(request, response) {
+async function removeTalentMatrixResult(request, response) {
   const userId = getKeycloakUserId(request);
 
   await prisma.user.update({
@@ -29,7 +29,7 @@ async function removeTenure(request, response) {
       id: userId,
     },
     data: {
-      tenure: {
+      talentMatrixResult: {
         disconnect: true,
       },
     },
@@ -39,6 +39,6 @@ async function removeTenure(request, response) {
 }
 
 module.exports = {
-  setTenure,
-  removeTenure,
+  setTalentMatrixResult,
+  removeTalentMatrixResult,
 };
