@@ -1,5 +1,5 @@
 const { sortBy } = require("lodash");
-const prisma = require("../../../database");
+const prisma = require("../../database");
 
 async function getNames(request, response) {
   const { language, type } = request.query;

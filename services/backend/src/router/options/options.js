@@ -17,7 +17,7 @@ const {
   talentMatrixResults,
   tenures,
   linkAttachmentNames,
-} = require("../../core/options/options");
+} = require("../../core/options");
 const {
   deleteManyValidator,
   deleteOneValidator,
