@@ -20,10 +20,6 @@ async function getAllUsers(language, userId, request) {
         },
   });
 
-  console.log(data);
-
-  console.warn("all profiles", data);
-
   let visibleCards = await Promise.all(
     data.map(
       async ({
@@ -306,10 +302,15 @@ async function getAllUsers(language, userId, request) {
   //   users[0].employmentInfo.translations
   // );
 
-  // console.warn(
-  //   "all profiles officeLocation",
-  //   users[0].officeLocation.translations
-  // );
+  console.warn(
+    "all profiles officeLocation",
+    users[0].officeLocation.translations
+  );
+
+  console.warn(
+    "all profiles officeLocation",
+    users[1].officeLocation.translations
+  );
 
   // console.warn("all profiles experiences", users[0].experiences);
   // console.warn(
