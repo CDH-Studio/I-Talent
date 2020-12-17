@@ -102,6 +102,7 @@ const SearchFilter = () => {
           children,
           selectable: false,
           checkable: false,
+          disableCheckbox: true,
         };
       });
       setSkillOptions(dataTree);
