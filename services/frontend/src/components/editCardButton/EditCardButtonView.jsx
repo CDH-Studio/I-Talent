@@ -1,4 +1,4 @@
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Tooltip, Button } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
@@ -7,8 +7,9 @@ import "./EditCardButtonView.less";
 const EditCardButtonView = ({ redirectToEdit }) => (
   <Tooltip placement="top" title={<FormattedMessage id="profile.edit" />}>
     <Button
+      role="button"
       className="editCardButton"
-      aria-label="edit card"
+      aria-label={useIntl().formatMessage({ id: "edit.card" })}
       type="default"
       shape="circle"
       icon={<EditOutlined />}

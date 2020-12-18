@@ -1,4 +1,4 @@
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   MailOutlined,
   PhoneOutlined,
@@ -49,6 +49,7 @@ const BasicInfoView = ({
   const { id } = useParams();
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
+  const intl = useIntl();
 
   /* Component Styles */
   const styles = {
@@ -155,6 +156,16 @@ const BasicInfoView = ({
               </Popover>
               <Button
                 tabIndex={0}
+                role="button"
+                aria-label={
+                  connectionStatus
+                    ? intl.formatMessage({
+                        id: "search.results.cards.add.connection",
+                      })
+                    : intl.formatMessage({
+                        id: "search.results.cards.remove.connection",
+                      })
+                }
                 type={connectionStatus ? "default" : "primary"}
                 shape="circle"
                 size="large"
@@ -285,6 +296,7 @@ const BasicInfoView = ({
       const button = buttonLinks[key];
       return (
         <Button
+          role="link"
           block
           type="link"
           target="_blank"
