@@ -6,26 +6,22 @@ const {
   validationMiddlware,
   sameUserMiddleware,
 } = require("../../utils/middlewares");
-const { idParamValidator, userIdParamValidator } = require("./utils/validator");
+const {
+  userIdParamValidator,
+  updateQualifiedPoolsValidator,
+} = require("./utils/validator");
 
 const qualifiedPoolsRouter = Router({ mergeParams: true });
 
-// qualifiedPoolsRouter.post(
-//   "/:id",
-//   keycloak.protect(),
-//   [idParamValidator, userIdParamValidator],
-//   validationMiddlware,
-//   sameUserMiddleware,
-//   qualifiedPools.setOfficeLocation
-// );
-
-// qualifiedPoolsRouter.delete(
-//   "/",
-//   keycloak.protect(),
-//   [userIdParamValidator],
-//   validationMiddlware,
-//   sameUserMiddleware,
-//   qualifiedPools.removeOfficeLocation
-// );
+qualifiedPoolsRouter
+  .route("/")
+  .all(keycloak.protect(), [userIdParamValidator])
+  .get(validationMiddlware, qualifiedPools.setQualifiedPools)
+  .put(
+    [updateQualifiedPoolsValidator],
+    validationMiddlware,
+    sameUserMiddleware,
+    qualifiedPools.getQualifiedPools
+  );
 
 module.exports = qualifiedPoolsRouter;

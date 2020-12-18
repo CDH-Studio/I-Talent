@@ -6,14 +6,20 @@ const {
   sameUserMiddleware,
   validationMiddlware,
 } = require("../../utils/middlewares");
-const { userIdParamValidator } = require("./utils/validator");
+const { userIdParamValidator, idsBodyValidator } = require("./utils/validator");
+const { langValidator } = require("../util/commonValidators");
 
 const competenciesRouter = Router({ mergeParams: true });
 
 competenciesRouter
   .route("/")
-  .all(keycloak.protect(), [userIdParamValidator], validationMiddlware)
-  .get(competencies.getCompetencies)
-  .put(sameUserMiddleware, competencies.setCompetencies);
+  .all(keycloak.protect(), [userIdParamValidator])
+  .get([langValidator], validationMiddlware, competencies.getCompetencies)
+  .put(
+    [idsBodyValidator],
+    validationMiddlware,
+    sameUserMiddleware,
+    competencies.setCompetencies
+  );
 
 module.exports = competenciesRouter;

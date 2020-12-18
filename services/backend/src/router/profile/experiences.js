@@ -6,15 +6,23 @@ const {
   sameUserMiddleware,
   validationMiddlware,
 } = require("../../utils/middlewares");
-const { userIdParamValidator } = require("./utils/validator");
+const {
+  userIdParamValidator,
+  updateExperienceValidator,
+} = require("./utils/validator");
 const { langValidator } = require("../util/commonValidators");
 
 const experiencesRouter = Router({ mergeParams: true });
 
-// experiencesRouter
-//   .route("/")
-//   .all(keycloak.protect(), [userIdParamValidator])
-//   .get([langValidator], validationMiddlware, experiences.getEducations)
-//   .put(validationMiddlware, sameUserMiddleware, experiences.setEducations);
+experiencesRouter
+  .route("/")
+  .all(keycloak.protect(), [userIdParamValidator, langValidator])
+  .get(validationMiddlware, experiences.getExperiences)
+  .put(
+    [updateExperienceValidator],
+    validationMiddlware,
+    sameUserMiddleware,
+    experiences.setExperiences
+  );
 
 module.exports = experiencesRouter;

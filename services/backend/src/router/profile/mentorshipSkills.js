@@ -6,7 +6,7 @@ const {
   sameUserMiddleware,
   validationMiddlware,
 } = require("../../utils/middlewares");
-const { userIdParamValidator } = require("./utils/validator");
+const { userIdParamValidator, idsBodyValidator } = require("./utils/validator");
 const { langValidator } = require("../util/commonValidators");
 
 const mentorshipSkillsRouter = Router({ mergeParams: true });
@@ -20,6 +20,7 @@ mentorshipSkillsRouter
     mentorshipSkills.getMentorshipSkills
   )
   .put(
+    [idsBodyValidator],
     validationMiddlware,
     sameUserMiddleware,
     mentorshipSkills.setMentorshipSkills

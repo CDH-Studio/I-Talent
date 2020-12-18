@@ -6,7 +6,7 @@ const {
   sameUserMiddleware,
   validationMiddlware,
 } = require("../../utils/middlewares");
-const { userIdParamValidator } = require("./utils/validator");
+const { userIdParamValidator, idsBodyValidator } = require("./utils/validator");
 const { langValidator } = require("../util/commonValidators");
 
 const relocationLocationsRouter = Router({ mergeParams: true });
@@ -20,6 +20,7 @@ relocationLocationsRouter
     relocationLocations.getRelocationLocations
   )
   .put(
+    [idsBodyValidator],
     validationMiddlware,
     sameUserMiddleware,
     relocationLocations.setRelocationLocations

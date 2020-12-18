@@ -162,8 +162,6 @@ async function updateProfile(request, response) {
       name,
       firstName,
       lastName,
-      avatarColor,
-      email,
       telephone,
       cellphone,
       manager,

@@ -125,7 +125,7 @@ async function getDevelopmentalGoals(request, response) {
   }
 }
 
-// TODO: add way to update dev goals attachments
+// TODO: add way to update dev goals attachments && add validation for attachments
 async function setDevelopmentalGoals(request, response) {
   const { userId } = request.params;
   const { ids, attachments } = request.body;

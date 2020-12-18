@@ -4,11 +4,13 @@ const { profile } = require("../../core/profile");
 const {
   userIdParamValidator,
   createProfileValidator,
+  updateProfileValidator,
 } = require("./utils/validator");
 const {
   validationMiddlware,
   sameUserMiddleware,
 } = require("../../utils/middlewares");
+const { langValidator } = require("../util/commonValidators");
 
 const actingLevelRouter = require("./actingLevel");
 const careerMobilityRouter = require("./careerMobility");
@@ -57,22 +59,16 @@ profileRouter
 
 profileRouter
   .route("/:userId")
-  .delete(
-    keycloak.protect(),
-    [userIdParamValidator],
-    validationMiddlware,
-    profile.deleteProfile
-  )
+  .all(keycloak.protect())
+  .delete([userIdParamValidator], validationMiddlware, profile.deleteProfile)
   .put(
-    keycloak.protect(),
-    [userIdParamValidator],
+    [userIdParamValidator, updateProfileValidator],
     validationMiddlware,
     sameUserMiddleware,
     profile.updateProfile
   )
   .get(
-    keycloak.protect(),
-    [userIdParamValidator],
+    [userIdParamValidator, langValidator],
     validationMiddlware,
     profile.getProfile
   );

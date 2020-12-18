@@ -34,29 +34,27 @@ const LangProficiencyForm = ({ formType }) => {
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    await axios
-      .get(`api/profile/${id}?language=${locale}`)
-      .then((result) => {
-        if (result.data && result.data.secondLangProfs) {
-          const readingObj = result.data.secondLangProfs.find(
-            (grading) => grading.proficiency === "READING"
-          );
-          const writingObj = result.data.secondLangProfs.find(
-            (grading) => grading.proficiency === "WRITING"
-          );
-          const oralObj = result.data.secondLangProfs.find(
-            (grading) => grading.proficiency === "ORAL"
-          );
+    const [result] = await Promise.all([axios.get(`api/profile/${id}?language=${locale}`)]);
 
-          setUnknownExpiredGrades({
-            reading: readingObj && readingObj.expired && !readingObj.date,
-            writing: writingObj && writingObj.expired && !writingObj.date,
-            oral: oralObj && oralObj.expired && !oralObj.date,
-          });
-        }
+    if (result.data && result.data.secondLangProfs) {
+      const readingObj = result.data.secondLangProfs.find(
+        (grading) => grading.proficiency === "READING"
+      );
+      const writingObj = result.data.secondLangProfs.find(
+        (grading) => grading.proficiency === "WRITING"
+      );
+      const oralObj = result.data.secondLangProfs.find(
+        (grading) => grading.proficiency === "ORAL"
+      );
 
-        setProfileInfo(result.data);
+      setUnknownExpiredGrades({
+        reading: readingObj && readingObj.expired && !readingObj.date,
+        writing: writingObj && writingObj.expired && !writingObj.date,
+        oral: oralObj && oralObj.expired && !oralObj.date,
       });
+    }
+
+    setProfileInfo(result.data);
   }, [axios, id, locale]);
 
   // useEffect to run once component is mounted

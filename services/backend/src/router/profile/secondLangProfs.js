@@ -6,14 +6,22 @@ const {
   sameUserMiddleware,
   validationMiddlware,
 } = require("../../utils/middlewares");
-const { userIdParamValidator } = require("./utils/validator");
+const {
+  userIdParamValidator,
+  updateSecondLangProfsValidator,
+} = require("./utils/validator");
 
 const secondLangProfsRouter = Router({ mergeParams: true });
 
 secondLangProfsRouter
   .route("/")
-  .all(keycloak.protect(), [userIdParamValidator], validationMiddlware)
-  .get(secondLangProfs.getSecondLangProfs)
-  .put(sameUserMiddleware, secondLangProfs.setSecondLangProfs);
+  .all(keycloak.protect(), [userIdParamValidator])
+  .get(validationMiddlware, secondLangProfs.getSecondLangProfs)
+  .put(
+    [updateSecondLangProfsValidator],
+    validationMiddlware,
+    sameUserMiddleware,
+    secondLangProfs.setSecondLangProfs
+  );
 
 module.exports = secondLangProfsRouter;

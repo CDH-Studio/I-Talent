@@ -46,7 +46,8 @@ async function getCompetencies(request, response) {
 }
 
 async function setCompetencies(request, response) {
-  const { ids, userId } = request.body;
+  const { userId } = request.params;
+  const { ids } = request.body;
 
   await prisma.$transaction([
     prisma.competency.deleteMany({

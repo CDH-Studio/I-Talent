@@ -11,9 +11,13 @@ const createUser = async (userInfo, axios) =>
   });
 
 const profileExist = async (userInfo, axios) => {
+  const { locale } = store.getState().settings;
+
   let response;
   try {
-    response = await axios.get(`api/profile/${userInfo.sub}`);
+    response = await axios.get(
+      `api/profile/${userInfo.sub}?language=${locale}`
+    );
 
     if (response.data === null) {
       response = await createUser(userInfo, axios);
