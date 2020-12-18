@@ -8,7 +8,8 @@ async function fuzzySearch(profiles, searchValue) {
     useExtendedSearch: true,
     keys: [
       "actingLevel.name",
-      "branch",
+      "branch.name",
+      "branch.acronym",
       "experiences.description",
       "experiences.jobTitle",
       "experiences.projects",
