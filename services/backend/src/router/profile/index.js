@@ -10,12 +10,13 @@ const {
   sameUserMiddleware,
 } = require("../../utils/middlewares");
 
+const actingLevelRouter = require("./actingLevel");
 const careerMobilityRouter = require("./careerMobility");
-const classificationRouter = require("./classification");
 const competenciesRouter = require("./competencies");
 const developmentalGoalsRouter = require("./developmentalGoals");
 const educationsRouter = require("./educations");
 const experiencesRouter = require("./experiences");
+const groupLevelRouter = require("./groupLevel");
 const lookingJobRouter = require("./lookingJob");
 const mentorshipSkillsRouter = require("./mentorshipSkills");
 const officeLocationRouter = require("./officeLocation");
@@ -30,12 +31,13 @@ const visibilityRouter = require("./visibility");
 
 const profileRouter = Router();
 
+profileRouter.use("/:userId/actingLevel", actingLevelRouter);
 profileRouter.use("/:userId/careerMobility", careerMobilityRouter);
-profileRouter.use("/:userId/classification", classificationRouter);
 profileRouter.use("/:userId/competencies", competenciesRouter);
 profileRouter.use("/:userId/developmentalGoals", developmentalGoalsRouter);
 profileRouter.use("/:userId/educations", educationsRouter);
 profileRouter.use("/:userId/experiences", experiencesRouter);
+profileRouter.use("/:userId/groupLevel", groupLevelRouter);
 profileRouter.use("/:userId/lookingJob", lookingJobRouter);
 profileRouter.use("/:userId/mentorshipSkills", mentorshipSkillsRouter);
 profileRouter.use("/:userId/officeLocation", officeLocationRouter);

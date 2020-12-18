@@ -88,30 +88,45 @@ const EmploymentDataFormView = ({
   };
 
   /* Save data */
-  const saveDataToDB = async (unalteredValues) => {
-    const values = {
-      ...unalteredValues,
+  const saveDataToDB = async (values) => {
+    const calls = [];
+
+    if (!values.securityClearanceId) {
+      calls.push(axios.delete(`api/profile/${userId}/securityClearance`));
+    } else {
+      calls.push(axios.post(`api/profile/${userId}/securityClearance/${values.securityClearanceId}`));
+    }
+
+    if (!values.tenureId) {
+      calls.push(axios.delete(`api/profile/${userId}/tenure`));
+    } else {
+      calls.push(axios.post(`api/profile/${userId}/tenure/${values.tenureId}`));
+    }
+
+    if (!values.groupLevelId) {
+      calls.push(axios.delete(`api/profile/${userId}/groupLevel`));
+    } else {
+      calls.push(axios.post(`api/profile/${userId}/groupLevel/${values.groupLevelId}`));
+    }
+
+    const bodyValues = {
+      description: values.description,
+      manager: values.manager,
+      actingStartDate: values.actingStartDate,
+      actingEndDate: values.actingEndDate,
     };
 
-    if (!unalteredValues.securityClearanceId) {
-      values.securityClearanceId = null;
+    if (!values.actingLevelId) {
+      calls.push(axios.delete(`api/profile/${userId}/actingLevel`));
+      bodyValues.actingStartDate = null;
+      bodyValues.actingEndDate = null;
+    } else {
+      calls.push(axios.post(`api/profile/${userId}/actingLevel/${values.actingLevelId}`));
     }
 
-    if (!unalteredValues.tenureId) {
-      values.tenureId = null;
-    }
+    calls.push(axios.put(`api/profile/${userId}?language=${locale}`, bodyValues));
 
-    if (!unalteredValues.groupLevelId) {
-      values.groupLevelId = null;
-    }
-
-    if (!unalteredValues.actingLevelId) {
-      values.actingLevelId = null;
-      values.actingStartDate = null;
-      values.actingEndDate = null;
-    }
-
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
+    await Promise.all(calls);
   };
 
   /* toggle temporary role form */

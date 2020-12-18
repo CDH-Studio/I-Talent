@@ -48,22 +48,6 @@ async function updateVisibilityCards(request, response) {
   response.sendStatus(201);
 }
 
-async function getVisibilityCards(request, response) {
-  const { userId } = request.params;
-
-  const { visibleCards } = await prisma.user.findOne({
-    where: {
-      id: userId,
-    },
-    select: {
-      visibleCards: true,
-    },
-  });
-
-  response.status(200).json(visibleCards);
-}
-
 module.exports = {
   updateVisibilityCards,
-  getVisibilityCards,
 };

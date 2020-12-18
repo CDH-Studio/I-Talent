@@ -1,9 +1,10 @@
+const actingLevel = require("./actingLevel");
 const careerMobility = require("./careerMobility");
-const classification = require("./classification");
 const competencies = require("./competencies");
 const developmentalGoals = require("./developmentalGoals");
 const educations = require("./educations");
 const experiences = require("./experiences");
+const groupLevel = require("./groupLevel");
 const lookingJob = require("./lookingJob");
 const mentorshipSkills = require("./mentorshipSkills");
 const officeLocation = require("./officeLocation");
@@ -18,8 +19,9 @@ const tenure = require("./tenure");
 const visibility = require("./visibility");
 
 module.exports = {
+  actingLevel,
   careerMobility,
-  classification,
+  groupLevel,
   competencies,
   developmentalGoals,
   educations,

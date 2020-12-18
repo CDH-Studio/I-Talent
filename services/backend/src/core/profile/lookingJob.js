@@ -22,16 +22,23 @@ async function setLookingJob(request, response) {
 async function removeLookingJob(request, response) {
   const { userId } = request.params;
 
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      lookingJob: {
-        disconnect: true,
-      },
-    },
+  const { lookingJob } = await prisma.user.findOne({
+    where: { id: userId },
+    select: { lookingJob: { select: { id: true } } },
   });
+
+  if (lookingJob) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        lookingJob: {
+          disconnect: true,
+        },
+      },
+    });
+  }
 
   response.sendStatus(204);
 }

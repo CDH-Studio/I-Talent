@@ -7,6 +7,7 @@ const {
 } = require("../../utils/keycloak");
 const prisma = require("../../database");
 const { hasMultipleVisibility } = require("./util/profileVisibility");
+const { normalizeDate } = require("./util/date");
 
 // async function updateProfile(request, response) {
 //   const { id } = request.params;
@@ -170,8 +171,8 @@ async function updateProfile(request, response) {
       firstLanguage,
       secondLanguage,
       preferredLanguage,
-      actingStartDate,
-      actingEndDate,
+      actingStartDate: normalizeDate(actingStartDate),
+      actingEndDate: normalizeDate(actingEndDate),
       linkedin,
       github,
       gcconnex,
@@ -241,6 +242,7 @@ async function getProfile(request, response) {
       status: true,
       employmentEquityGroups: employmentEquityGroupVisible,
       description: descriptionVisible,
+      visibleCards: true,
       groupLevel: infoVisible && {
         select: {
           id: true,

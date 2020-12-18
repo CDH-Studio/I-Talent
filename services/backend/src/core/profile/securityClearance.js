@@ -22,16 +22,23 @@ async function setSecurityClearance(request, response) {
 async function removeSecurityClearance(request, response) {
   const { userId } = request.params;
 
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      securityClearance: {
-        disconnect: true,
-      },
-    },
+  const { securityClearance } = await prisma.user.findOne({
+    where: { id: userId },
+    select: { securityClearance: { select: { id: true } } },
   });
+
+  if (securityClearance) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        securityClearance: {
+          disconnect: true,
+        },
+      },
+    });
+  }
 
   response.sendStatus(204);
 }

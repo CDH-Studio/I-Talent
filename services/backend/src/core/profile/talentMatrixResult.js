@@ -22,16 +22,23 @@ async function setTalentMatrixResult(request, response) {
 async function removeTalentMatrixResult(request, response) {
   const { userId } = request.params;
 
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      talentMatrixResult: {
-        disconnect: true,
-      },
-    },
+  const { talentMatrixResult } = await prisma.user.findOne({
+    where: { id: userId },
+    select: { securityClearance: { select: { id: true } } },
   });
+
+  if (talentMatrixResult) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        talentMatrixResult: {
+          disconnect: true,
+        },
+      },
+    });
+  }
 
   response.sendStatus(204);
 }

@@ -22,16 +22,23 @@ async function setTenure(request, response) {
 async function removeTenure(request, response) {
   const { userId } = request.params;
 
-  await prisma.user.update({
-    where: {
-      id: userId,
-    },
-    data: {
-      tenure: {
-        disconnect: true,
-      },
-    },
+  const { tenure } = await prisma.user.findOne({
+    where: { id: userId },
+    select: { securityClearance: { select: { id: true } } },
   });
+
+  if (tenure) {
+    await prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        tenure: {
+          disconnect: true,
+        },
+      },
+    });
+  }
 
   response.sendStatus(204);
 }

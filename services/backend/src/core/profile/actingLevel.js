@@ -1,6 +1,6 @@
 const prisma = require("../../database");
 
-async function setCareerMobility(request, response) {
+async function setActingLevel(request, response) {
   const { id, userId } = request.params;
 
   await prisma.user.update({
@@ -8,7 +8,7 @@ async function setCareerMobility(request, response) {
       id: userId,
     },
     data: {
-      careerMobility: {
+      actingLevel: {
         connect: {
           id,
         },
@@ -19,21 +19,21 @@ async function setCareerMobility(request, response) {
   response.sendStatus(201);
 }
 
-async function removeCareerMobility(request, response) {
+async function removeActingLevel(request, response) {
   const { userId } = request.params;
 
-  const { careerMobility } = await prisma.user.findOne({
+  const { actingLevel } = await prisma.user.findOne({
     where: { id: userId },
-    select: { careerMobility: { select: { id: true } } },
+    select: { actingLevel: { select: { id: true } } },
   });
 
-  if (careerMobility) {
+  if (actingLevel) {
     await prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        careerMobility: {
+        actingLevel: {
           disconnect: true,
         },
       },
@@ -44,6 +44,6 @@ async function removeCareerMobility(request, response) {
 }
 
 module.exports = {
-  setCareerMobility,
-  removeCareerMobility,
+  setActingLevel,
+  removeActingLevel,
 };

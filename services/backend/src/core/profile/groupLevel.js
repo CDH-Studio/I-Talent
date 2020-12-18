@@ -1,6 +1,6 @@
 const prisma = require("../../database");
 
-async function setCareerMobility(request, response) {
+async function setGroupLevel(request, response) {
   const { id, userId } = request.params;
 
   await prisma.user.update({
@@ -8,7 +8,7 @@ async function setCareerMobility(request, response) {
       id: userId,
     },
     data: {
-      careerMobility: {
+      groupLevel: {
         connect: {
           id,
         },
@@ -19,21 +19,21 @@ async function setCareerMobility(request, response) {
   response.sendStatus(201);
 }
 
-async function removeCareerMobility(request, response) {
+async function removeGroupLevel(request, response) {
   const { userId } = request.params;
 
-  const { careerMobility } = await prisma.user.findOne({
+  const { groupLevel } = await prisma.user.findOne({
     where: { id: userId },
-    select: { careerMobility: { select: { id: true } } },
+    select: { groupLevel: { select: { id: true } } },
   });
 
-  if (careerMobility) {
+  if (groupLevel) {
     await prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        careerMobility: {
+        groupLevel: {
           disconnect: true,
         },
       },
@@ -44,6 +44,6 @@ async function removeCareerMobility(request, response) {
 }
 
 module.exports = {
-  setCareerMobility,
-  removeCareerMobility,
+  setGroupLevel,
+  removeGroupLevel,
 };

@@ -1,31 +1,31 @@
 const { Router } = require("express");
 
 const { keycloak } = require("../../auth/keycloak");
-const { classification } = require("../../core/profile");
+const { actingLevel } = require("../../core/profile");
 const {
   validationMiddlware,
   sameUserMiddleware,
 } = require("../../utils/middlewares");
 const { idParamValidator, userIdParamValidator } = require("./utils/validator");
 
-const classificationRouter = Router({ mergeParams: true });
+const actingLevelRouter = Router({ mergeParams: true });
 
-classificationRouter.post(
+actingLevelRouter.post(
   "/:id",
   keycloak.protect(),
   [idParamValidator, userIdParamValidator],
   validationMiddlware,
   sameUserMiddleware,
-  classification.setClassification
+  actingLevel.setActingLevel
 );
 
-classificationRouter.delete(
+actingLevelRouter.delete(
   "/",
   keycloak.protect(),
   [userIdParamValidator],
   validationMiddlware,
   sameUserMiddleware,
-  classification.removeClassification
+  actingLevel.removeActingLevel
 );
 
-module.exports = classificationRouter;
+module.exports = actingLevelRouter;

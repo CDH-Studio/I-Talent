@@ -11,7 +11,6 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
   const axios = useAxios();
   const urlID = useParams().id;
   const userID = useSelector((state) => state.user.id);
-  const { locale } = useSelector((state) => state.settings);
 
   const [status, setStatus] = useState("PRIVATE");
 
@@ -34,7 +33,7 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
     // eslint-disable-next-line no-param-reassign
     visibleCards[cardName] = value;
     await axios
-      .put(`api/profile/${urlID || userID}?language=${locale}`, {
+      .put(`api/profile/${urlID || userID}/visibility`, {
         visibleCards,
       })
       .catch((error) => handleError(error, "message", history));

@@ -8,17 +8,9 @@ const {
 } = require("../../utils/middlewares");
 const { userIdParamValidator } = require("./utils/validator");
 
-const tenureRouter = Router({ mergeParams: true });
+const visibilityeRouter = Router({ mergeParams: true });
 
-tenureRouter.get(
-  "/",
-  keycloak.protect(),
-  [userIdParamValidator],
-  validationMiddlware,
-  visibility.getVisibilityCards
-);
-
-tenureRouter.delete(
+visibilityeRouter.put(
   "/",
   keycloak.protect(),
   [userIdParamValidator],
@@ -27,4 +19,4 @@ tenureRouter.delete(
   visibility.updateVisibilityCards
 );
 
-module.exports = tenureRouter;
+module.exports = visibilityeRouter;
