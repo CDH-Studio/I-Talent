@@ -368,7 +368,6 @@ const PrimaryInfoFormView = ({
     <>
       <Prompt
         role="alert"
-        aria-busy="true"
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
@@ -652,6 +651,7 @@ const PrimaryInfoFormView = ({
                   aria-autocomplete="list"
                   aria-expanded="false"
                   aria-haspopup="listbox"
+                  aria-owns="employeeEquityGroups_listbox"
                   showSearch
                   mode="multiple"
                   placeholder={<FormattedMessage id="setup.select" />}
