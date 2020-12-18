@@ -413,6 +413,7 @@
   "setup.talent.management": "Recent talent management results",
   "setup.talent.management.title": "Talent management",
   "setup.teams.placeholder": "press enter to add",
+  "setup.teams.label": "Type in your work units or project teams",
   "setup.welcome": "Welcome",
   "setup.welcome.action": "Please select GCdirectory profile to autofill your organization and contact information or you can start from scratch and sync with GCdirectory later",
   "setup.welcome.description": "We just need a few bits of information to set up your profile",

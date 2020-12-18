@@ -66,6 +66,7 @@ const WelcomeView = ({
 
     return (
       <Button
+        role="button"
         className="btn"
         onClick={type !== "loading" ? createProfile : null}
       >
@@ -195,7 +196,7 @@ const WelcomeView = ({
       </Row>
       {generateGedsProfileList()}
       <div className="skipButton">
-        <Button type="text" onClick={showSkipModal}>
+        <Button role="button" type="text" onClick={showSkipModal}>
           <FormattedMessage id="setup.welcome.skip" />
         </Button>
       </div>

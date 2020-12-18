@@ -333,6 +333,7 @@ const PrimaryInfoFormView = ({
    */
   const urlPopover = (url) => (
     <Popover
+      role="tooltip"
       trigger={["focus", "hover"]}
       content={
         <div style={{ textAlign: "center" }}>
@@ -366,6 +367,8 @@ const PrimaryInfoFormView = ({
   return (
     <>
       <Prompt
+        role="alert"
+        aria-busy="true"
         when={fieldsChanged}
         message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
       />
@@ -382,6 +385,7 @@ const PrimaryInfoFormView = ({
               <>
                 {formType === "edit" && (
                   <Button
+                    role="button"
                     onClick={() => {
                       setGedsModalVisible(true);
                     }}
@@ -394,6 +398,7 @@ const PrimaryInfoFormView = ({
                   </Button>
                 )}
                 <Popover
+                  role="tooltip"
                   trigger={["focus", "hover"]}
                   content={
                     <div className="prim-popoverStyle">
@@ -459,6 +464,7 @@ const PrimaryInfoFormView = ({
                     <FormattedMessage id="profile.career.header.name" />
                     <div className="prim-popoverStyleCareer">
                       <Popover
+                        role="tooltip"
                         trigger={["focus", "hover"]}
                         content={
                           <div className="prim-popoverStyle">
@@ -492,6 +498,11 @@ const PrimaryInfoFormView = ({
                 className="custom-bubble-select-style"
               >
                 <Select
+                  role="textbox"
+                  aria-autocomplete="none"
+                  aria-label={intl.formatMessage({
+                    id: "setup.teams.label",
+                  })}
                   mode="tags"
                   style={{ width: "100%" }}
                   notFoundContent={
@@ -510,14 +521,32 @@ const PrimaryInfoFormView = ({
                 rules={[Rules.required, Rules.maxChar50]}
               >
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-owns="location_listbox"
                   showSearch
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
+                  dropdownRender={(menu) => (
+                    <div
+                      id="location_listbox"
+                      role="listbox"
+                      aria-multiselectable="false"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {locationOptions.map((value) => {
                     return (
-                      <Option key={value.id}>
+                      <Option
+                        role="option"
+                        key={value.id}
+                        value={`${value.streetNumber} ${value.streetName}, ${value.city}, ${value.province}`}
+                      >
                         {value.streetNumber} {value.streetName}, {value.city},{" "}
                         {value.province}
                       </Option>
@@ -619,15 +648,30 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" span={24}>
               <Form.Item name="employmentEquityGroups">
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
                   showSearch
                   mode="multiple"
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
                   className="custom-bubble-select-style"
+                  dropdownRender={(menu) => (
+                    <div
+                      id="employeeEquityGroups_listbox"
+                      role="listbox"
+                      aria-multiselectable="true"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {employmentEquityOptions.map(({ key, text }) => (
-                    <Option key={key}>{text}</Option>
+                    <Option role="option" key={key} value={text}>
+                      {text}
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>

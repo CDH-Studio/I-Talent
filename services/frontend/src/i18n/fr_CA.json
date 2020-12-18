@@ -413,6 +413,7 @@
   "setup.talent.management": "Résultats récents de la gestion de talents",
   "setup.talent.management.title": "Gestion de talents",
   "setup.teams.placeholder": "appuyez sur la touche d'entrée pour ajouter",
+  "setup.teams.label": "Saisissez vos unités de travail ou vos équipes de projet",
   "setup.welcome": "Bienvenue",
   "setup.welcome.action": "Veuillez sélectionner un profil GCannuaire pour automatiquement remplir votre organisation et vos coordonnonées ou vous pouvez commencer de zéro et synchroniser avec GCannuaire plus tard",
   "setup.welcome.description": "Nous avons besoin de quelques informations pour configurer votre profil",
