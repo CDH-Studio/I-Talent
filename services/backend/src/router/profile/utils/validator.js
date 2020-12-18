@@ -1,4 +1,4 @@
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const { isUUID, isIn, isMobilePhone } = require("validator");
 const moment = require("moment");
 
@@ -191,6 +191,11 @@ const updateProfileValidator = [
     .isIn(["ACTIVE", "INACTIVE", "HIDDEN"]),
 ];
 
+const idParamValidator = param("id", "must be a UUID").trim().isUUID();
+const userIdParamValidator = param("userId", "must be a UUID").trim().isUUID();
+
 module.exports = {
   updateProfileValidator,
+  idParamValidator,
+  userIdParamValidator,
 };

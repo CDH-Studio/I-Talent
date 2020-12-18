@@ -18,7 +18,7 @@ userRouter
 
 userRouter
   .route("/")
-  .all(keycloak.protect())
+  // .all(keycloak.protect())
   .get(user.getCurrentUser)
   .post([createUserValidator], validationMiddlware, user.createUser);
 
