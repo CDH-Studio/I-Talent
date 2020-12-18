@@ -9,7 +9,7 @@ async function getMentorshipSkills(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (hasVisibility(userId, keycloakId, "education")) {
+  if (await hasVisibility(userId, keycloakId, "education")) {
     const query = await prisma.mentorshipSkill.findMany({
       where: {
         userId,

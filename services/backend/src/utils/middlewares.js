@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { getKeycloakUserId } = require("./keycloak");
+const { isKeycloakUser } = require("./keycloak");
 
 /**
  * Pretty prints the relevant information from an axios error or other error
@@ -45,7 +45,7 @@ const validationMiddlware = (request, _response, next) => {
 const sameUserMiddleware = (request, response, next) => {
   const { userId } = request.params;
 
-  if (getKeycloakUserId(request) !== userId) {
+  if (!isKeycloakUser(request, userId)) {
     response.sendStatus(403);
   } else {
     next();

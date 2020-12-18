@@ -9,8 +9,8 @@ async function getDevelopmentalGoals(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (hasVisibility(userId, keycloakId, "developmentalGoals")) {
-    const query = await prisma.developmentalGoal.findMany({
+  if (await hasVisibility(userId, keycloakId, "developmentalGoals")) {
+    const queryDevelopmentalGoals = await prisma.developmentalGoal.findMany({
       where: {
         userId,
       },
@@ -49,8 +49,33 @@ async function getDevelopmentalGoals(request, response) {
       },
     });
 
+    const queryAttachments = await prisma.user.findOne({
+      where: {
+        id: userId,
+      },
+      select: {
+        developmentalGoalsAttachments: {
+          select: {
+            id: true,
+            translations: {
+              select: {
+                url: true,
+                name: {
+                  select: {
+                    translations: true,
+                  },
+                },
+                nameId: true,
+                language: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
     const developmentalGoals = _.sortBy(
-      query.reduce((acc, { skill, competency }) => {
+      queryDevelopmentalGoals.reduce((acc, { skill, competency }) => {
         if (skill && skill.translations) {
           acc.push({
             id: skill.id,
@@ -70,18 +95,40 @@ async function getDevelopmentalGoals(request, response) {
       "name"
     );
 
+    const attachments = queryAttachments.map((link) => {
+      const translatedLink =
+        link.translations.find((i) => i.language === language) ||
+        link.translations[0];
+
+      const translatedName =
+        translatedLink.name.translations.find((i) => i.language === language) ||
+        translatedLink.name.translations[0];
+
+      return {
+        id: link.id,
+        url: translatedLink.url,
+        name: {
+          id: translatedLink.nameId,
+          name: translatedName.name,
+        },
+      };
+    });
+
     response.status(200).json({
-      data: developmentalGoals,
-      updatedAt: query ? query[0].updatedAt : null,
+      data: { developmentalGoals, attachments },
+      updatedAt: queryDevelopmentalGoals
+        ? queryDevelopmentalGoals[0].updatedAt
+        : null,
     });
   } else {
     response.sendStatus(403);
   }
 }
 
+// TODO: add way to update dev goals attachments
 async function setDevelopmentalGoals(request, response) {
   const { userId } = request.params;
-  const { ids } = request.body;
+  const { ids, attachments } = request.body;
 
   const developmentalGoalsCreate = [];
 

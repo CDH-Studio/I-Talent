@@ -10,7 +10,7 @@ async function getSecondLangProfs(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (hasVisibility(userId, keycloakId, "officialLanguage")) {
+  if (await hasVisibility(userId, keycloakId, "officialLanguage")) {
     const query = await prisma.secondLangProf.findMany({
       where: {
         userId,

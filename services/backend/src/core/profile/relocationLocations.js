@@ -9,7 +9,7 @@ async function getRelocationLocations(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (hasVisibility(userId, keycloakId, "careerInterests")) {
+  if (await hasVisibility(userId, keycloakId, "careerInterests")) {
     const query = await prisma.relocationLocation.findMany({
       where: {
         userId,

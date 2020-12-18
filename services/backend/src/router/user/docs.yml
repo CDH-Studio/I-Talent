@@ -48,21 +48,3 @@
     security:
       - Keycloak: []
     tags: [user]
-  delete:
-    summary: Deletes the specified user
-    produces:
-      - application/json
-    parameters:
-      - $ref: "#/definitions/IdQuery"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [user]

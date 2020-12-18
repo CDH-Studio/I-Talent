@@ -9,7 +9,7 @@ async function getEducations(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (hasVisibility(userId, keycloakId, "education")) {
+  if (await hasVisibility(userId, keycloakId, "education")) {
     const query = await prisma.education.findMany({
       where: {
         userId,
@@ -132,11 +132,6 @@ async function setEducations(request, response) {
 
   if (data.length > 0) {
     await prisma.$transaction([
-      prisma.education.deleteMany({
-        where: {
-          userId,
-        },
-      }),
       prisma.transAttachmentLink.deleteMany({
         where: {
           AttachmentLink: {
@@ -151,6 +146,11 @@ async function setEducations(request, response) {
           educationId: {
             in: data.map(({ id }) => id),
           },
+        },
+      }),
+      prisma.education.deleteMany({
+        where: {
+          userId,
         },
       }),
       prisma.user.update({

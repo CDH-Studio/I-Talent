@@ -91,31 +91,7 @@ async function createUser(request, response) {
   });
 }
 
-async function deleteUser(request, response) {
-  const { id } = request.params;
-
-  if (manageUsers(request) || isKeycloakUser(request, id)) {
-    await prisma.$transaction([
-      prisma.competency.deleteMany({ where: { userId: id } }),
-      prisma.mentorshipSkill.deleteMany({ where: { userId: id } }),
-      prisma.skill.deleteMany({ where: { userId: id } }),
-      prisma.developmentalGoal.deleteMany({ where: { userId: id } }),
-      prisma.secondLangProf.deleteMany({ where: { userId: id } }),
-      prisma.organization.deleteMany({ where: { userId: id } }),
-      prisma.education.deleteMany({ where: { userId: id } }),
-      prisma.qualifiedPool.deleteMany({ where: { userId: id } }),
-      prisma.experience.deleteMany({ where: { userId: id } }),
-      prisma.relocationLocation.deleteMany({ where: { userId: id } }),
-      prisma.user.delete({ where: { id } }),
-    ]);
-    response.sendStatus(204);
-  } else {
-    response.sendStatus(403);
-  }
-}
-
 module.exports = {
   getCurrentUser,
   createUser,
-  deleteUser,
 };

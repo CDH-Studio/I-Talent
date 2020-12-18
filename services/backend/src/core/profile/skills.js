@@ -9,7 +9,7 @@ async function getSkills(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (hasVisibility(userId, keycloakId, "skills")) {
+  if (await hasVisibility(userId, keycloakId, "skills")) {
     const query = await prisma.skill.findMany({
       where: {
         userId,
