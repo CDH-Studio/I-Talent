@@ -9,7 +9,7 @@ async function getMentorshipSkills(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (await hasVisibility(userId, keycloakId, "education")) {
+  if (await hasVisibility(userId, keycloakId, "education", request)) {
     const query = await prisma.mentorshipSkill.findMany({
       where: {
         userId,
@@ -42,6 +42,9 @@ async function getMentorshipSkills(request, response) {
           },
         },
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
 
     const mentorshipSkills = _.sortBy(
@@ -54,9 +57,12 @@ async function getMentorshipSkills(request, response) {
       "name"
     );
 
-    response.status(200).json(mentorshipSkills);
+    response.status(200).json({
+      data: mentorshipSkills,
+      updatedAt: query.length > 0 ? query[0].updatedAt : null,
+    });
   } else {
-    response.sendStatus(403);
+    response.status(200).json({ data: [], updatedAt: null });
   }
 }
 

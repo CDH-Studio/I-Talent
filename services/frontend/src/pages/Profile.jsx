@@ -26,22 +26,55 @@ const Profile = ({ history, match }) => {
   const fetchProfile = useCallback(async () => {
     setUserDoesNotExist(false);
     setUserIsHidden(false);
-    const apiCalls = [];
-
-    apiCalls.push(axios.get(`api/profile/${id}?language=${locale}`));
+    const apiCalls = [
+      axios.get(`api/profile/${id}?language=${locale}`), 
+      axios.get(`api/profile/${id}/competencies?language=${locale}`), 
+      axios.get(`api/profile/${id}/developmentalGoals?language=${locale}`), 
+      axios.get(`api/profile/${id}/educations?language=${locale}`), 
+      axios.get(`api/profile/${id}/experiences?language=${locale}`), 
+      axios.get(`api/profile/${id}/mentorshipSkills?language=${locale}`), 
+      axios.get(`api/profile/${id}/qualifiedPools`), 
+      axios.get(`api/profile/${id}/relocationLocations?language=${locale}`), 
+      axios.get(`api/profile/${id}/secondLangProfs`), 
+      axios.get(`api/profile/${id}/skills?language=${locale}`)
+    ];
 
     if (id !== userID) {
       apiCalls.push(axios.get(`api/connections/${id}`));
     }
 
     try {
-      const [profileData, connectionsData] = await Promise.all(apiCalls);
+      const [
+        profile, 
+        competencies, 
+        developmentalGoals, 
+        educations, 
+        experiences,
+        mentorshipSkills,
+        qualifiedPools,
+        relocationLocations,
+        secondLangProfs,
+        skills,
+        connections,
+      ] = await Promise.all(apiCalls);
 
-      if (profileData.data !== undefined) {
-        setName(`${profileData.data.firstName} ${profileData.data.lastName}`);
-        setData(profileData.data);
-        if (profileData.data && userID !== id) {
-          setConnectionData(connectionsData.data.status);
+      if (profile.data !== undefined) {
+        setName(`${profile.data.firstName} ${profile.data.lastName}`);
+        setData({
+          ...profile.data,
+          competencies: competencies.data,
+          developmentalGoals: developmentalGoals.data,
+          educations: educations.data,
+          experiences: experiences.data,
+          mentorshipSkills: mentorshipSkills.data,
+          qualifiedPools: qualifiedPools.data,
+          relocationLocations: relocationLocations.data,
+          secondLangProfs: secondLangProfs.data,
+          skills: skills.data,
+        });
+        
+        if (profile.data && userID !== id) {
+          setConnectionData(connections.data.status);
         }
       }
 

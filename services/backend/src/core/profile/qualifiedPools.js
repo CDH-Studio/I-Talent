@@ -7,7 +7,7 @@ async function getQualifiedPools(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (await hasVisibility(userId, keycloakId, "qualifiedPools")) {
+  if (await hasVisibility(userId, keycloakId, "qualifiedPools", request)) {
     const query = await prisma.qualifiedPool.findMany({
       where: {
         userId,
@@ -38,10 +38,10 @@ async function getQualifiedPools(request, response) {
 
     response.status(200).json({
       data: experiences,
-      updatedAt: query ? query[0].updatedAt : null,
+      updatedAt: query.length > 0 ? query[0].updatedAt : null,
     });
   } else {
-    response.sendStatus(403);
+    response.status(200).json({ data: [], updatedAt: null });
   }
 }
 

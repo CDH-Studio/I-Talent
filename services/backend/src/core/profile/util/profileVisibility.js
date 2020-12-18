@@ -2,7 +2,7 @@ const prisma = require("../../../database");
 const { viewPrivateProfile } = require("../../../utils/keycloak");
 
 function isVisible(user, visibleCardSection, isConnection, request) {
-  return (
+  return !!(
     (user.visibleCards[visibleCardSection] === "CONNECTIONS" && isConnection) ||
     user.visibleCards[visibleCardSection] !== "PRIVATE" ||
     viewPrivateProfile(request)

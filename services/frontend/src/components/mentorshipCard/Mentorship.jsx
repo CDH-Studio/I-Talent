@@ -53,7 +53,7 @@ const Mentorship = ({ data, editableCardBool }) => {
 
   const setUpMentorshipSkills = () => {
     const mentorshipSkills = [];
-    const categorizedSkillsList = formatData(data.mentorshipSkills);
+    const categorizedSkillsList = formatData(data.mentorshipSkills.data);
 
     // eslint-disable-next-line no-restricted-syntax
     for (const [index, val] of Object.values(categorizedSkillsList).entries()) {
@@ -71,11 +71,11 @@ const Mentorship = ({ data, editableCardBool }) => {
       data={data}
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.mentorshipSkills}
-      lastUpdated={data.mentorshipSkillsUpdatedAt}
+      lastUpdated={data.mentorshipSkills.updatedAt}
     >
       <MentorshipView
         mentoring={setUpMentorshipSkills()}
-        mentoringCategories={setUpCategories(data.mentorshipSkills)}
+        mentoringCategories={setUpCategories(data.mentorshipSkills.data)}
       />
     </ProfileCards>
   );

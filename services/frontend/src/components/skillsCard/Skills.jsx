@@ -72,11 +72,11 @@ const Skills = ({ data, editableCardBool }) => {
       data={data}
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.skills}
-      lastUpdated={data.skillsUpdatedAt}
+      lastUpdated={data.skills.updatedAt}
     >
       <SkillsView
-        skills={setUpSkills(data.skills)}
-        categoriesSkills={setUpCategories(data.skills)}
+        skills={setUpSkills(data.skills.data)}
+        categoriesSkills={setUpCategories(data.skills.data)}
       />
     </ProfileCards>
   );

@@ -9,7 +9,7 @@ async function getDevelopmentalGoals(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (await hasVisibility(userId, keycloakId, "developmentalGoals")) {
+  if (await hasVisibility(userId, keycloakId, "developmentalGoals", request)) {
     const queryDevelopmentalGoals = await prisma.developmentalGoal.findMany({
       where: {
         userId,
@@ -95,33 +95,37 @@ async function getDevelopmentalGoals(request, response) {
       "name"
     );
 
-    const attachments = queryAttachments.map((link) => {
-      const translatedLink =
-        link.translations.find((i) => i.language === language) ||
-        link.translations[0];
+    const attachments =
+      queryAttachments.length > 0 &&
+      queryAttachments.map((link) => {
+        const translatedLink =
+          link.translations.find((i) => i.language === language) ||
+          link.translations[0];
 
-      const translatedName =
-        translatedLink.name.translations.find((i) => i.language === language) ||
-        translatedLink.name.translations[0];
+        const translatedName =
+          translatedLink.name.translations.find(
+            (i) => i.language === language
+          ) || translatedLink.name.translations[0];
 
-      return {
-        id: link.id,
-        url: translatedLink.url,
-        name: {
-          id: translatedLink.nameId,
-          name: translatedName.name,
-        },
-      };
-    });
+        return {
+          id: link.id,
+          url: translatedLink.url,
+          name: {
+            id: translatedLink.nameId,
+            name: translatedName.name,
+          },
+        };
+      });
 
     response.status(200).json({
       data: { developmentalGoals, attachments },
-      updatedAt: queryDevelopmentalGoals
-        ? queryDevelopmentalGoals[0].updatedAt
-        : null,
+      updatedAt:
+        queryDevelopmentalGoals.length > 0
+          ? queryDevelopmentalGoals[0].updatedAt
+          : null,
     });
   } else {
-    response.sendStatus(403);
+    response.status(200).json({ data: [], updatedAt: null });
   }
 }
 

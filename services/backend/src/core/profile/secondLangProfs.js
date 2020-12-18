@@ -10,7 +10,7 @@ async function getSecondLangProfs(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (await hasVisibility(userId, keycloakId, "officialLanguage")) {
+  if (await hasVisibility(userId, keycloakId, "officialLanguage", request)) {
     const query = await prisma.secondLangProf.findMany({
       where: {
         userId,
@@ -24,7 +24,7 @@ async function getSecondLangProfs(request, response) {
       },
     });
 
-    const competencies = _.sortBy(
+    const secondLangProfs = _.sortBy(
       query.map(({ id, date, proficiency, level, unknownExpiredDate }) => {
         let expired = unknownExpiredDate;
 
@@ -47,9 +47,9 @@ async function getSecondLangProfs(request, response) {
       "name"
     );
 
-    response.status(200).json(competencies);
+    response.status(200).json(secondLangProfs);
   } else {
-    response.sendStatus(403);
+    response.status(200).json([]);
   }
 }
 

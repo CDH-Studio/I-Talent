@@ -9,7 +9,7 @@ async function getCompetencies(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (await hasVisibility(userId, keycloakId, "competencies")) {
+  if (await hasVisibility(userId, keycloakId, "competencies", request)) {
     const query = await prisma.competency.findMany({
       where: {
         userId,
@@ -29,6 +29,9 @@ async function getCompetencies(request, response) {
           },
         },
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
 
     const competencies = _.sortBy(
@@ -39,9 +42,13 @@ async function getCompetencies(request, response) {
       "name"
     );
 
-    response.status(200).json(competencies);
+    response.status(200).json({
+      data: competencies,
+      updatedAt: query.length > 0 ? query[0].updatedAt : null,
+    });
   } else {
-    response.sendStatus(403);
+    // TODO: Should send 403, but will need to modify the frontend more to handle the errors and everywhere else in these similar APIs
+    response.status(200).json({ data: [], updatedAt: null });
   }
 }
 

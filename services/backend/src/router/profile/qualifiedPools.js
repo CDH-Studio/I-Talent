@@ -20,13 +20,13 @@ qualifiedPoolsRouter
   .get(
     validationMiddlware,
     profileStatusMiddleware,
-    qualifiedPools.setQualifiedPools
+    qualifiedPools.getQualifiedPools
   )
   .put(
     [updateQualifiedPoolsValidator],
     validationMiddlware,
     sameUserMiddleware,
-    qualifiedPools.getQualifiedPools
+    qualifiedPools.setQualifiedPools
   );
 
 module.exports = qualifiedPoolsRouter;

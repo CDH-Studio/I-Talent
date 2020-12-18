@@ -9,7 +9,7 @@ async function getSkills(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (await hasVisibility(userId, keycloakId, "skills")) {
+  if (await hasVisibility(userId, keycloakId, "skills", request)) {
     const query = await prisma.skill.findMany({
       where: {
         userId,
@@ -42,6 +42,9 @@ async function getSkills(request, response) {
           },
         },
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
 
     const skills = _.sortBy(
@@ -54,9 +57,12 @@ async function getSkills(request, response) {
       "name"
     );
 
-    response.status(200).json(skills);
+    response.status(200).json({
+      data: skills,
+      updatedAt: query.length > 0 ? query[0].updatedAt : null,
+    });
   } else {
-    response.sendStatus(403);
+    response.status(200).json({ data: [], updatedAt: null });
   }
 }
 

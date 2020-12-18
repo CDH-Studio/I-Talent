@@ -9,7 +9,7 @@ async function getEducations(request, response) {
 
   const keycloakId = getKeycloakUserId(request);
 
-  if (await hasVisibility(userId, keycloakId, "education")) {
+  if (await hasVisibility(userId, keycloakId, "education", request)) {
     const query = await prisma.education.findMany({
       where: {
         userId,
@@ -117,11 +117,12 @@ async function getEducations(request, response) {
       };
     });
 
-    response
-      .status(200)
-      .json({ data: educations, updatedAt: query ? query[0].updatedAt : null });
+    response.status(200).json({
+      data: educations,
+      updatedAt: query.length > 0 ? query[0].updatedAt : null,
+    });
   } else {
-    response.sendStatus(403);
+    response.status(200).json({ data: [], updatedAt: null });
   }
 }
 
