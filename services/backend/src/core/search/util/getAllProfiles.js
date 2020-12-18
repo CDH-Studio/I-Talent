@@ -293,14 +293,7 @@ async function getAllUsers(language, userId, request) {
 
     if (info.employmentInfo) {
       const employment = info.employmentInfo.translations[0];
-      info.branch = {};
-      info.branch.name = employment ? employment.branch : undefined;
-      info.branch.acronym = employment
-        ? employment.branch
-            .split(" ")
-            .map((word) => word[0])
-            .join("")
-        : undefined;
+      info.branch = employment ? employment.branch : undefined;
       info.jobTitle = employment ? employment.jobTitle : undefined;
       delete info.employmentInfo;
     }
@@ -329,8 +322,6 @@ async function getAllUsers(language, userId, request) {
       });
     }
 
-    console.log("qualiform", info.qualifiedPools);
-
     if (info.qualifiedPools) {
       info.qualifiedPools = info.qualifiedPools.map((i) => {
         return {
@@ -342,15 +333,10 @@ async function getAllUsers(language, userId, request) {
       });
     }
 
-    console.log("educations", info.educations);
-
     if (info.educations) {
       info.educations = info.educations.map((i) => {
         const diploma = i.diploma.translations[0];
         const school = i.school.translations[0];
-
-        console.log("educations.diploma", i.diploma.translations[0]);
-        console.log("educations.school", i.diploma.translations[0]);
 
         return {
           startDate: i.startDate,
