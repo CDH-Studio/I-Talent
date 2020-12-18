@@ -1,9 +1,11 @@
 const prisma = require("../../../database");
+const { viewPrivateProfile } = require("../../../utils/keycloak");
 
-function isVisible(user, visibleCardSection, isConnection) {
+function isVisible(user, visibleCardSection, isConnection, request) {
   return (
-    user.visibleCards[visibleCardSection] === "CONNECTIONS" ||
-    (user.visibleCards[visibleCardSection] === "PRIVATE" && isConnection)
+    (user.visibleCards[visibleCardSection] === "CONNECTIONS" && isConnection) ||
+    user.visibleCards[visibleCardSection] !== "PRIVATE" ||
+    viewPrivateProfile(request)
   );
 }
 
@@ -14,8 +16,14 @@ function isVisible(user, visibleCardSection, isConnection) {
  * @param {string} userId
  * @param {string} keycloakId
  * @param {string[]} visibleCardSections
+ * @param {Object} request
  */
-async function hasMultipleVisibility(userId, keycloakId, visibleCardSections) {
+async function hasMultipleVisibility(
+  userId,
+  keycloakId,
+  visibleCardSections,
+  request
+) {
   if (userId === keycloakId) {
     return visibleCardSections.map(() => true);
   }
@@ -41,7 +49,9 @@ async function hasMultipleVisibility(userId, keycloakId, visibleCardSections) {
 
   const isConnection = user.connections.some((item) => item.id === keycloakId);
 
-  return visibleCardSections.map((i) => isVisible(user, i, isConnection));
+  return visibleCardSections.map((i) =>
+    isVisible(user, i, isConnection, request)
+  );
 }
 
 /**
@@ -51,8 +61,9 @@ async function hasMultipleVisibility(userId, keycloakId, visibleCardSections) {
  * @param {string} userId UUID of the requested profile
  * @param {string} keycloakId UUID of the user making the request
  * @param {string} visibleCardSection A key of the visibleCards
+ * @param {Object} request
  */
-async function hasVisibility(userId, keycloakId, visibleCardSection) {
+async function hasVisibility(userId, keycloakId, visibleCardSection, request) {
   if (userId === keycloakId) {
     return true;
   }
@@ -77,7 +88,7 @@ async function hasVisibility(userId, keycloakId, visibleCardSection) {
 
   const isConnection = user.connections.some((item) => item.id === keycloakId);
 
-  return isVisible(user, visibleCardSection, isConnection);
+  return isVisible(user, visibleCardSection, isConnection, request);
 }
 
 module.exports = {

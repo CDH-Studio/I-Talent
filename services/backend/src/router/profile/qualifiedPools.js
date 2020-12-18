@@ -5,6 +5,7 @@ const { qualifiedPools } = require("../../core/profile");
 const {
   validationMiddlware,
   sameUserMiddleware,
+  profileStatusMiddleware,
 } = require("../../utils/middlewares");
 const {
   userIdParamValidator,
@@ -16,7 +17,11 @@ const qualifiedPoolsRouter = Router({ mergeParams: true });
 qualifiedPoolsRouter
   .route("/")
   .all(keycloak.protect(), [userIdParamValidator])
-  .get(validationMiddlware, qualifiedPools.setQualifiedPools)
+  .get(
+    validationMiddlware,
+    profileStatusMiddleware,
+    qualifiedPools.setQualifiedPools
+  )
   .put(
     [updateQualifiedPoolsValidator],
     validationMiddlware,

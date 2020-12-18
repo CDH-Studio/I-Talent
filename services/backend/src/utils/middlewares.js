@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
-const { isKeycloakUser } = require("./keycloak");
+const prisma = require("../database");
+const { isKeycloakUser, viewPrivateProfile } = require("./keycloak");
 
 /**
  * Pretty prints the relevant information from an axios error or other error
@@ -52,8 +53,27 @@ const sameUserMiddleware = (request, response, next) => {
   }
 };
 
+/**
+ * Does not continue with the request if the user is not ACTIVE,
+ * but continues if an admin is making the request
+ */
+const profileStatusMiddleware = (request, response, next) => {
+  const { userId } = request.params;
+
+  prisma.user
+    .findOne({ where: { id: userId }, select: { status: true } })
+    .then(({ status }) => {
+      if (status !== "ACTIVE" && !viewPrivateProfile(request)) {
+        response.sendStatus(404);
+      } else {
+        next();
+      }
+    });
+};
+
 module.exports = {
   validationMiddlware,
   errorHandler,
   sameUserMiddleware,
+  profileStatusMiddleware,
 };

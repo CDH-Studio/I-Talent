@@ -5,6 +5,7 @@ const { keycloak } = require("../../auth/keycloak");
 const {
   sameUserMiddleware,
   validationMiddlware,
+  profileStatusMiddleware,
 } = require("../../utils/middlewares");
 const {
   userIdParamValidator,
@@ -16,7 +17,11 @@ const secondLangProfsRouter = Router({ mergeParams: true });
 secondLangProfsRouter
   .route("/")
   .all(keycloak.protect(), [userIdParamValidator])
-  .get(validationMiddlware, secondLangProfs.getSecondLangProfs)
+  .get(
+    validationMiddlware,
+    profileStatusMiddleware,
+    secondLangProfs.getSecondLangProfs
+  )
   .put(
     [updateSecondLangProfsValidator],
     validationMiddlware,

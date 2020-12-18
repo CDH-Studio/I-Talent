@@ -1,16 +1,4 @@
-const { Router } = require("express");
-const { keycloak } = require("../../auth/keycloak");
-const { profile } = require("../../core/profile");
-const {
-  userIdParamValidator,
-  createProfileValidator,
-  updateProfileValidator,
-} = require("./utils/validator");
-const {
-  validationMiddlware,
-  sameUserMiddleware,
-} = require("../../utils/middlewares");
-const { langValidator } = require("../util/commonValidators");
+const profileRouter = require("./profile");
 
 const actingLevelRouter = require("./actingLevel");
 const careerMobilityRouter = require("./careerMobility");
@@ -31,8 +19,6 @@ const talentMatrixResultRouter = require("./talentMatrixResult");
 const tenureRouter = require("./tenure");
 const visibilityRouter = require("./visibility");
 
-const profileRouter = Router();
-
 profileRouter.use("/:userId/actingLevel", actingLevelRouter);
 profileRouter.use("/:userId/careerMobility", careerMobilityRouter);
 profileRouter.use("/:userId/competencies", competenciesRouter);
@@ -51,26 +37,5 @@ profileRouter.use("/:userId/skills", skillsRouter);
 profileRouter.use("/:userId/talentMatrixResult", talentMatrixResultRouter);
 profileRouter.use("/:userId/tenure", tenureRouter);
 profileRouter.use("/:userId/visibility", visibilityRouter);
-
-profileRouter
-  .route("/")
-  .all(keycloak.protect())
-  .post([createProfileValidator], validationMiddlware, profile.createProfile);
-
-profileRouter
-  .route("/:userId")
-  .all(keycloak.protect())
-  .delete([userIdParamValidator], validationMiddlware, profile.deleteProfile)
-  .put(
-    [userIdParamValidator, updateProfileValidator],
-    validationMiddlware,
-    sameUserMiddleware,
-    profile.updateProfile
-  )
-  .get(
-    [userIdParamValidator, langValidator],
-    validationMiddlware,
-    profile.getProfile
-  );
 
 module.exports = profileRouter;

@@ -1,35 +1,41 @@
-// const { Router } = require("express");
-// const { keycloak } = require("../../auth/keycloak");
-// const profile = require("../../core/profile");
+const { Router } = require("express");
 
-// const { updateProfileValidator } = require("./validator");
+const { keycloak } = require("../../auth/keycloak");
+const { profile } = require("../../core/profile");
+const {
+  userIdParamValidator,
+  createProfileValidator,
+  updateProfileValidator,
+} = require("./utils/validator");
+const {
+  validationMiddlware,
+  sameUserMiddleware,
+  profileStatusMiddleware,
+} = require("../../utils/middlewares");
+const { langValidator } = require("../util/commonValidators");
 
-// const { langValidator, UUIDValidator } = require("../util/commonValidators");
-// const { validationMiddlware } = require("../../utils/middlewares");
+const profileRouter = Router();
 
-// const profileRouter = Router();
+profileRouter
+  .route("/")
+  .all(keycloak.protect())
+  .post([createProfileValidator], validationMiddlware, profile.createProfile);
 
-// profileRouter
-//   .route("/:userId")
-//   .all(keycloak.protect())
-//   .get(
-//     [UUIDValidator, langValidator],
-//     validationMiddlware,
-//     profile.getPublicProfileById
-//   )
-//   .put(
-//     [langValidator, UUIDValidator, updateProfileValidator],
-//     validationMiddlware,
-//     profile.updateProfile
-//   );
+profileRouter
+  .route("/:userId")
+  .all(keycloak.protect())
+  .delete([userIdParamValidator], validationMiddlware, profile.deleteProfile)
+  .put(
+    [userIdParamValidator, updateProfileValidator],
+    validationMiddlware,
+    sameUserMiddleware,
+    profile.updateProfile
+  )
+  .get(
+    [userIdParamValidator, langValidator],
+    validationMiddlware,
+    profileStatusMiddleware,
+    profile.getProfile
+  );
 
-// profileRouter
-//   .route("/private/:id")
-//   .get(
-//     keycloak.protect(),
-//     [UUIDValidator, langValidator],
-//     validationMiddlware,
-//     profile.getPrivateProfileById
-//   );
-
-// module.exports = profileRouter;
+module.exports = profileRouter;
