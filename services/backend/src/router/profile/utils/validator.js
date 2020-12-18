@@ -194,8 +194,16 @@ const updateProfileValidator = [
 const idParamValidator = param("id", "must be a UUID").trim().isUUID();
 const userIdParamValidator = param("userId", "must be a UUID").trim().isUUID();
 
+const createProfileValidator = [
+  body("name", "must provide name").isString(),
+  body("firstName", "must provide firstName").isString(),
+  body("lastName", "must provide lastName").isString(),
+  body("email", "must provide valid email").isEmail(),
+];
+
 module.exports = {
   updateProfileValidator,
   idParamValidator,
   userIdParamValidator,
+  createProfileValidator,
 };

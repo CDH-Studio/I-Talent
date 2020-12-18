@@ -29,7 +29,7 @@ const QualificationsForm = ({ formType }) => {
   const getBackendInfo = useCallback(async () => {
     try {
       return await Promise.all([
-        axios.get(`api/profile/private/${id}?language=${locale}`),
+        axios.get(`api/profile/${id}?language=${locale}`),
         axios.get(`api/option/diplomas?language=${locale}`),
         axios.get(`api/option/schools?language=${locale}`),
         axios.get(`api/option/attachmentNames?language=${locale}&type=Edu`),

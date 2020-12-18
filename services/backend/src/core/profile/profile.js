@@ -62,6 +62,46 @@ const { hasMultipleVisibility } = require("./util/profileVisibility");
 //   getPrivateProfileById,
 // };
 
+function generateAvatarColor() {
+  const colours = [
+    "#0bdaa3",
+    "#da680b",
+    "#7a0bda",
+    "#2a0bda",
+    "#c20bda",
+    "#da0b3f",
+    "#8e44ad",
+    "#98ad44",
+    "#ad4497",
+    "#ad5944",
+    "#ad4463",
+  ];
+  return colours[_.random(colours.length - 1)];
+}
+
+function getNameInitials(firstName, lastName) {
+  return `${firstName[0]}${lastName[0]}`;
+}
+
+async function createProfile(request, response) {
+  const { name, firstName, lastName, email } = request.body;
+  const id = getKeycloakUserId(request);
+
+  await prisma.user.create({
+    data: {
+      id,
+      name,
+      email,
+      firstName: _.upperFirst(firstName),
+      lastName: _.upperFirst(lastName),
+      avatarColor: generateAvatarColor(),
+      visibleCards: { create: {} },
+    },
+  });
+
+  response.sendStatus(200);
+}
+
 async function deleteProfile(request, response) {
   const { userId } = request.params;
 
@@ -85,7 +125,67 @@ async function deleteProfile(request, response) {
   }
 }
 
-async function updateProfile(request, response) {}
+async function updateProfile(request, response) {
+  const { userId } = request.params;
+  const {
+    name,
+    firstName,
+    lastName,
+    avatarColor,
+    email,
+    telephone,
+    cellphone,
+    manager,
+    teams,
+    firstLanguage,
+    secondLanguage,
+    preferredLanguage,
+    actingStartDate,
+    actingEndDate,
+    linkedin,
+    github,
+    gcconnex,
+    exFeeder,
+    interestedInRemote,
+    status,
+    employmentEquityGroups,
+    description,
+    signupStep,
+  } = request.body;
+
+  await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      name,
+      firstName,
+      lastName,
+      avatarColor,
+      email,
+      telephone,
+      cellphone,
+      manager,
+      teams,
+      firstLanguage,
+      secondLanguage,
+      preferredLanguage,
+      actingStartDate,
+      actingEndDate,
+      linkedin,
+      github,
+      gcconnex,
+      exFeeder,
+      interestedInRemote,
+      status,
+      employmentEquityGroups,
+      description,
+      signupStep,
+    },
+  });
+
+  response.sendStatus(204);
+}
 
 async function getProfile(request, response) {
   const { userId } = request.params;
@@ -117,6 +217,7 @@ async function getProfile(request, response) {
     },
     select: {
       id: true,
+      createdAt: true,
       updatedAt: true,
       name: true,
       firstName: true,
@@ -356,10 +457,13 @@ async function getProfile(request, response) {
     });
   }
 
+  profile.nameInitials = getNameInitials(profile.firstName, profile.lastName);
+
   response.status(200).json(profile);
 }
 
 module.exports = {
+  createProfile,
   getProfile,
   updateProfile,
   deleteProfile,

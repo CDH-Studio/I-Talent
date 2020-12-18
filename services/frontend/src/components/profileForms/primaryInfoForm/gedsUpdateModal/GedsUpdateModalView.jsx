@@ -114,7 +114,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
     try {
       // get saved user profile
       const profileResult = await axios.get(
-        `api/profile/private/${id}?language=${locale}`
+        `api/profile/${id}?language=${locale}`
       );
 
       // get profile form geds

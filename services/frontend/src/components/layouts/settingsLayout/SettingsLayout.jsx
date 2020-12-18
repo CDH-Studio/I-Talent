@@ -14,7 +14,7 @@ const SettingsLayout = () => {
 
   const deleteCurrentUser = async () => {
     try {
-      await axios.delete(`/api/user/${id}`);
+      await axios.delete(`/api/profile/${id}`);
       history.push("/logout");
     } catch (error) {
       handleError(error, "message", history);

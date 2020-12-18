@@ -220,6 +220,7 @@ const PrimaryInfoFormView = ({
 
     delete dbValues.jobTitle;
     await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
+    await axios.post(`api/profile/${userId}/officeLocation/${formValues.locationId}`);
     await login(keycloak, axios);
   };
 

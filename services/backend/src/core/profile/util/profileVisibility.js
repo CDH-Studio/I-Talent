@@ -17,7 +17,7 @@ function isVisible(user, visibleCardSection, isConnection) {
  */
 async function hasMultipleVisibility(userId, keycloakId, visibleCardSections) {
   if (userId === keycloakId) {
-    return true;
+    return visibleCardSections.map(() => true);
   }
 
   const user = await prisma.user.findOne({

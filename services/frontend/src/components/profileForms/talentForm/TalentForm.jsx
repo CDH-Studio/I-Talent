@@ -33,7 +33,7 @@ const TalentForm = ({ formType }) => {
    */
   const getProfileInfo = useCallback(async () => {
     const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
+      `api/profile/${id}?language=${locale}`
     );
     setProfileInfo(result.data);
   }, [axios, id, locale]);

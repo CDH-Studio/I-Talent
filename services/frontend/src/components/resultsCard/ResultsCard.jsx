@@ -44,7 +44,7 @@ const ResultsCard = () => {
    */
   const getConnections = useCallback(async () => {
     const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
+      `api/profile/${id}?language=${locale}`
     );
 
     setConnections(map(result.data.connections, property("id")));

@@ -27,12 +27,8 @@ const Profile = ({ history, match }) => {
     setUserDoesNotExist(false);
     setUserIsHidden(false);
     const apiCalls = [];
-    const profile =
-      id === userID
-        ? axios.get(`api/profile/private/${id}?language=${locale}`)
-        : axios.get(`api/profile/${id}?language=${locale}`);
 
-    apiCalls.push(profile);
+    apiCalls.push(axios.get(`api/profile/${id}?language=${locale}`));
 
     if (id !== userID) {
       apiCalls.push(axios.get(`api/connections/${id}`));

@@ -128,7 +128,7 @@ const UserTable = () => {
 
   // Handles the deletion of a user
   const handleSubmitDelete = async (id) => {
-    await axios.delete(`api/user/${id}`);
+    await axios.delete(`api/profile/${id}`);
 
     getUserInformation();
   };
