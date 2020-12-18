@@ -329,8 +329,6 @@ async function getAllUsers(language, userId, request) {
       });
     }
 
-    console.log("qualiform", info.qualifiedPools);
-
     if (info.qualifiedPools) {
       info.qualifiedPools = info.qualifiedPools.map((i) => {
         return {
@@ -342,15 +340,10 @@ async function getAllUsers(language, userId, request) {
       });
     }
 
-    console.log("educations", info.educations);
-
     if (info.educations) {
       info.educations = info.educations.map((i) => {
         const diploma = i.diploma.translations[0];
         const school = i.school.translations[0];
-
-        console.log("educations.diploma", i.diploma.translations[0]);
-        console.log("educations.school", i.diploma.translations[0]);
 
         return {
           startDate: i.startDate,
