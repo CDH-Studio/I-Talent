@@ -8,7 +8,6 @@ async function getCompetencies(request, response) {
   const { language } = request.query;
   const keycloakId = getKeycloakUserId(request);
 
-  // TODO: maybe create a middleware for these checks?
   if (hasVisibility(userId, keycloakId, "competencies")) {
     const query = await prisma.competency.findMany({
       where: {
@@ -39,7 +38,7 @@ async function getCompetencies(request, response) {
       "name"
     );
 
-    response.send(200).json(competencies);
+    response.status(200).json(competencies);
   } else {
     response.sendStatus(403);
   }
@@ -49,38 +48,34 @@ async function setCompetencies(request, response) {
   const { ids } = request.body;
   const userId = getKeycloakUserId(request);
 
-  if (getKeycloakUserId(request) === userId) {
-    await prisma.$transaction([
-      prisma.competency.deleteMany({
-        where: {
-          userId,
-          competencyId: {
-            notIn: ids,
-          },
+  await prisma.$transaction([
+    prisma.competency.deleteMany({
+      where: {
+        userId,
+        competencyId: {
+          notIn: ids,
         },
-      }),
-      prisma.user.update({
-        where: {
-          id: userId,
-        },
-        data: {
-          competencies: {
-            create: ids.map((id) => ({
-              skill: {
-                connect: {
-                  id,
-                },
+      },
+    }),
+    prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        competencies: {
+          create: ids.map((id) => ({
+            skill: {
+              connect: {
+                id,
               },
-            })),
-          },
+            },
+          })),
         },
-      }),
-    ]);
+      },
+    }),
+  ]);
 
-    response.sendStatus(204);
-  } else {
-    response.sendStatus(403);
-  }
+  response.sendStatus(204);
 }
 
 module.exports = {

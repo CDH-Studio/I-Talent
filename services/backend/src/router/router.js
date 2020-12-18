@@ -15,7 +15,7 @@ const router = Router();
 
 router.use("/admin/", adminRouter);
 router.use("/option/", optionsRouter);
-// router.use("/profile/", profileRouter);
+router.use("/profile/", profileRouter);
 router.use("/profGen/", profileGenRouter);
 router.use("/search/", searchRouter);
 router.use("/user/", userRouter);

@@ -46,7 +46,6 @@ const sameUserMiddleware = (request, response, next) => {
   const { userId } = request.params;
 
   if (getKeycloakUserId(request) !== userId) {
-    console.log(getKeycloakUserId(request));
     response.sendStatus(403);
   } else {
     next();

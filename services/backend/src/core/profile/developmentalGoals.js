@@ -66,7 +66,7 @@ async function getDevelopmentalGoals(request, response) {
     "name"
   );
 
-  response.send(200).json({
+  response.status(200).json({
     data: developmentalGoals,
     updatedAt: query ? query[0].updatedAt : null,
   });

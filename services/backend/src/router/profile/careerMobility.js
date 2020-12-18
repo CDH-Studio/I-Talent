@@ -10,19 +10,22 @@ const { idParamValidator, userIdParamValidator } = require("./utils/validator");
 
 const careerMobilityRouter = Router({ mergeParams: true });
 
-careerMobilityRouter
-  .route("/")
-  .all(keycloak.protect(), [idParamValidator])
-  .post(
-    [userIdParamValidator],
-    validationMiddlware,
-    sameUserMiddleware,
-    careerMobility.setCareerMobility
-  )
-  .delete(
-    validationMiddlware,
-    sameUserMiddleware,
-    careerMobility.removeCareerMobility
-  );
+careerMobilityRouter.post(
+  "/:id",
+  keycloak.protect(),
+  [idParamValidator, userIdParamValidator],
+  validationMiddlware,
+  sameUserMiddleware,
+  careerMobility.setCareerMobility
+);
+
+careerMobilityRouter.delete(
+  "/",
+  keycloak.protect(),
+  [userIdParamValidator],
+  validationMiddlware,
+  sameUserMiddleware,
+  careerMobility.removeCareerMobility
+);
 
 module.exports = careerMobilityRouter;
