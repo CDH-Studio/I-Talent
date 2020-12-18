@@ -293,7 +293,14 @@ async function getAllUsers(language, userId, request) {
 
     if (info.employmentInfo) {
       const employment = info.employmentInfo.translations[0];
-      info.branch = employment ? employment.branch : undefined;
+      info.branch = {};
+      info.branch.name = employment ? employment.branch : undefined;
+      info.branch.acronym = employment
+        ? employment.branch
+            .split(" ")
+            .map((word) => word[0])
+            .join("")
+        : undefined;
       info.jobTitle = employment ? employment.jobTitle : undefined;
       delete info.employmentInfo;
     }
