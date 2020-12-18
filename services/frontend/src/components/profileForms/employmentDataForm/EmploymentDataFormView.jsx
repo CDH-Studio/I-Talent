@@ -357,13 +357,31 @@ const EmploymentDataFormView = ({
               rules={[Rules.required]}
             >
               <Select
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+                aria-owns="acting_listbox"
                 showSearch
                 placeholder={<FormattedMessage id="setup.select" />}
                 allowClear
                 filterOption={filterOption}
+                dropdownRender={(menu) => (
+                  <div
+                    id="acting_listbox"
+                    role="listbox"
+                    aria-multiselectable="true"
+                  >
+                    {menu}
+                  </div>
+                )}
               >
                 {classificationOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
+                  return (
+                    <Option role="option" key={value.id} value={value.name}>
+                      {value.name}
+                    </Option>
+                  );
                 })}
               </Select>
             </Form.Item>
@@ -403,6 +421,8 @@ const EmploymentDataFormView = ({
             <div style={{ marginTop: !enableEndDate ? "-38px" : "-10px" }}>
               <Checkbox
                 tabIndex={0}
+                role="checkbox"
+                aria-checked="false"
                 onChange={toggleTempEndDate}
                 onKeyDown={enableEndDate}
                 defaultChecked={enableEndDate}
@@ -498,13 +518,31 @@ const EmploymentDataFormView = ({
                 label={<FormattedMessage id="profile.substantive" />}
               >
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-owns="substantive_listbox"
                   showSearch
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
+                  dropdownRender={(menu) => (
+                    <div
+                      id="substantive_listbox"
+                      role="listbox"
+                      aria-multiselectable="true"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {substantiveOptions.map((value) => {
-                    return <Option key={value.id}>{value.name}</Option>;
+                    return (
+                      <Option role="option" key={value.id} value={value.name}>
+                        {value.name}
+                      </Option>
+                    );
                   })}
                 </Select>
               </Form.Item>
@@ -516,13 +554,31 @@ const EmploymentDataFormView = ({
                 label={<FormattedMessage id="profile.classification" />}
               >
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-owns="classification_listbox"
                   showSearch
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
+                  dropdownRender={(menu) => (
+                    <div
+                      id="classification_listbox"
+                      role="listbox"
+                      aria-multiselectable="true"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {classificationOptions.map((value) => {
-                    return <Option key={value.id}>{value.name}</Option>;
+                    return (
+                      <Option role="option" key={value.id} value={value.name}>
+                        {value.name}
+                      </Option>
+                    );
                   })}
                 </Select>
               </Form.Item>
@@ -536,13 +592,35 @@ const EmploymentDataFormView = ({
                 label={<FormattedMessage id="profile.security" />}
               >
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-owns="security_listbox"
                   showSearch
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
+                  dropdownRender={(menu) => (
+                    <div
+                      id="security_listbox"
+                      role="listbox"
+                      aria-multiselectable="true"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {securityOptions.map((value) => {
-                    return <Option key={value.id}>{value.description}</Option>;
+                    return (
+                      <Option
+                        role="option"
+                        key={value.id}
+                        value={value.description}
+                      >
+                        {value.description}
+                      </Option>
+                    );
                   })}
                 </Select>
               </Form.Item>
@@ -557,7 +635,7 @@ const EmploymentDataFormView = ({
                 label={<FormattedMessage id="profile.manager" />}
                 rules={[Rules.maxChar50]}
               >
-                <Input />
+                <Input role="textbox" aria-autocomplete="none" />
               </Form.Item>
             </Col>
           </Row>
@@ -570,6 +648,7 @@ const EmploymentDataFormView = ({
                   <FormattedMessage id="profile.temporary.role" />
                 </Text>
                 <Popover
+                  role="tooltip"
                   trigger={["focus", "hover"]}
                   content={
                     <div>
@@ -585,6 +664,8 @@ const EmploymentDataFormView = ({
                   </div>
                 </Popover>
                 <Switch
+                  role="switch"
+                  aria-checked="false"
                   checked={displayActingRoleForm}
                   onChange={toggleTempRoleForm}
                 />
@@ -617,7 +698,13 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item name="description">
-                <Input.TextArea showCount maxLength={1000} />
+                <Input.TextArea
+                  showCount
+                  maxLength={1000}
+                  role="textbox"
+                  aria-autocomplete="none"
+                  aria-multiline="true"
+                />
               </Form.Item>
             </Col>
           </Row>
