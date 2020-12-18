@@ -6,6 +6,7 @@ const { hasVisibility } = require("./util/profileVisibility");
 async function getCompetencies(request, response) {
   const { userId } = request.params;
   const { language } = request.query;
+
   const keycloakId = getKeycloakUserId(request);
 
   if (hasVisibility(userId, keycloakId, "competencies")) {

@@ -2,47 +2,55 @@ const _ = require("lodash");
 const moment = require("moment");
 const prisma = require("../../database");
 const { normalizeDate } = require("./util/date");
+const { getKeycloakUserId } = require("../../utils/keycloak");
+const { hasVisibility } = require("./util/profileVisibility");
 
 async function getSecondLangProfs(request, response) {
   const { userId } = request.params;
 
-  const query = await prisma.secondLangProf.findMany({
-    where: {
-      userId,
-    },
-    select: {
-      id: true,
-      date: true,
-      proficiency: true,
-      level: true,
-      unknownExpiredDate: true,
-    },
-  });
+  const keycloakId = getKeycloakUserId(request);
 
-  const competencies = _.sortBy(
-    query.map(({ id, date, proficiency, level, unknownExpiredDate }) => {
-      let expired = unknownExpiredDate;
+  if (hasVisibility(userId, keycloakId, "officialLanguage")) {
+    const query = await prisma.secondLangProf.findMany({
+      where: {
+        userId,
+      },
+      select: {
+        id: true,
+        date: true,
+        proficiency: true,
+        level: true,
+        unknownExpiredDate: true,
+      },
+    });
 
-      if (!unknownExpiredDate && date) {
-        if (moment(date).isBefore()) {
-          expired = true;
-        } else {
-          expired = null;
+    const competencies = _.sortBy(
+      query.map(({ id, date, proficiency, level, unknownExpiredDate }) => {
+        let expired = unknownExpiredDate;
+
+        if (!unknownExpiredDate && date) {
+          if (moment(date).isBefore()) {
+            expired = true;
+          } else {
+            expired = null;
+          }
         }
-      }
 
-      return {
-        id,
-        date,
-        proficiency,
-        expired,
-        level,
-      };
-    }),
-    "name"
-  );
+        return {
+          id,
+          date,
+          proficiency,
+          expired,
+          level,
+        };
+      }),
+      "name"
+    );
 
-  response.status(200).json(competencies);
+    response.status(200).json(competencies);
+  } else {
+    response.sendStatus(403);
+  }
 }
 
 async function setSecondLangProfs(request, response) {
