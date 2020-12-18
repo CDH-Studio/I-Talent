@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Select, Modal, notification } from "antd";
+import { Select, Modal, notification, Typography } from "antd";
 import {
   EyeInvisibleOutlined,
   TeamOutlined,
@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import "./CardVisibilityToggleView.less";
 
 const { Option } = Select;
+const { Text } = Typography;
 
 const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
   const intl = useIntl();
@@ -65,6 +66,13 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
   return (
     <>
       <Select
+        role="listbox"
+        aria-label={intl.formatMessage({
+          id: "profile.visibility.card.toggle.label",
+        })}
+        aria-roledescription={intl.formatMessage({
+          id: "profile.visibility.card.toggle.description",
+        })}
         value={status}
         className="visibilitySelector"
         style={{ width: 120 }}
@@ -85,6 +93,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
       </Select>
 
       <Modal
+        role="dialog"
         title={<FormattedMessage id="profile.visibility.card.title" />}
         visible={modalVisibility}
         okText={<FormattedMessage id="profile.yes" />}
@@ -92,7 +101,9 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
         onOk={handleVisibilityPublicOk}
         onCancel={handleVisibilityPublicCancel}
       >
-        <FormattedMessage id={`profile.visibility.${type}.show.confirm`} />
+        <Text strong>
+          <FormattedMessage id={`profile.visibility.${type}.show.confirm`} />
+        </Text>
       </Modal>
     </>
   );

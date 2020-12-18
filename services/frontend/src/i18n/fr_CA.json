@@ -328,6 +328,8 @@
   "profile.visibility.card.public": "Public",
   "profile.visibility.card.show.confirm": "Êtes-vous certain de rendre cette carte visible sur votre profil public?",
   "profile.visibility.card.title": "Confirmation de visibilité publique",
+  "profile.visibility.card.toggle.label": "Visibilité de la carte",
+  "profile.visibility.card.toggle.description": "Voulez-vous que vos informations sur cette carte soient publiques, privées ou uniquement visibles des connexions?",
   "profile.visibility.card.visible": "Vous êtes autorisé à afficher cette carte",
   "profile.visibility.confirmation.message": "La visibilité a été mise à jour avec succès",
   "profile.visibility.confirmation.title": "Visibilité mise à jour",
