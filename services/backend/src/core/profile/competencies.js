@@ -45,8 +45,7 @@ async function getCompetencies(request, response) {
 }
 
 async function setCompetencies(request, response) {
-  const { ids } = request.body;
-  const userId = getKeycloakUserId(request);
+  const { ids, userId } = request.body;
 
   await prisma.$transaction([
     prisma.competency.deleteMany({

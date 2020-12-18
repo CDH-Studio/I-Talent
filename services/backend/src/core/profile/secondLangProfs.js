@@ -1,11 +1,10 @@
 const _ = require("lodash");
 const moment = require("moment");
 const prisma = require("../../database");
-const { getKeycloakUserId } = require("../../utils/keycloak");
 const { normalizeDate } = require("./util/date");
 
 async function getSecondLangProfs(request, response) {
-  const userId = getKeycloakUserId(request);
+  const { userId } = request.params;
 
   const query = await prisma.secondLangProf.findMany({
     where: {
@@ -43,12 +42,12 @@ async function getSecondLangProfs(request, response) {
     "name"
   );
 
-  response.send(200).json(competencies);
+  response.status(200).json(competencies);
 }
 
 async function setSecondLangProfs(request, response) {
+  const { userId } = request.params;
   const { data } = request.body;
-  const userId = getKeycloakUserId(request);
 
   await prisma.$transaction([
     prisma.secondLangProf.deleteMany({

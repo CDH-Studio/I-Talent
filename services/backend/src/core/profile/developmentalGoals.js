@@ -1,10 +1,9 @@
 const _ = require("lodash");
 const prisma = require("../../database");
-const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function getDevelopmentalGoals(request, response) {
+  const { userId } = request.params;
   const { language } = request.query;
-  const userId = getKeycloakUserId(request);
 
   const query = await prisma.developmentalGoal.findMany({
     where: {
@@ -73,10 +72,8 @@ async function getDevelopmentalGoals(request, response) {
 }
 
 async function setDevelopmentalGoals(request, response) {
+  const { userId } = request.params;
   const { ids } = request.body;
-  const userId = getKeycloakUserId(request);
-
-  // TODO: We should add a check to see if the ids are in the thing or see how prisma handles it - it should not error out
 
   const developmentalGoalsCreate = [];
 

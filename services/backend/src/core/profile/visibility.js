@@ -1,5 +1,4 @@
 const prisma = require("../../database");
-const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function updateVisibilityCards(request, response) {
   const {
@@ -18,7 +17,7 @@ async function updateVisibilityCards(request, response) {
     exFeeder,
     employmentEquityGroup,
   } = request.body;
-  const userId = getKeycloakUserId(request);
+  const { userId } = request.params;
 
   await prisma.user.update({
     where: {
@@ -50,18 +49,18 @@ async function updateVisibilityCards(request, response) {
 }
 
 async function getVisibilityCards(request, response) {
-  const userId = getKeycloakUserId(request);
+  const { userId } = request.params;
 
   const { visibleCards } = await prisma.user.findOne({
     where: {
       id: userId,
     },
     select: {
-      visibleCards: {},
+      visibleCards: true,
     },
   });
 
-  response.send(200).json(visibleCards);
+  response.status(200).json(visibleCards);
 }
 
 module.exports = {

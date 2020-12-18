@@ -1,10 +1,9 @@
 const prisma = require("../../database");
-const { getKeycloakUserId } = require("../../utils/keycloak");
 const { normalizeDate } = require("./util/date");
 
 async function getEducations(request, response) {
+  const { userId } = request.params;
   const { language } = request.query;
-  const userId = getKeycloakUserId(request);
 
   const query = await prisma.education.findMany({
     where: {
@@ -113,14 +112,14 @@ async function getEducations(request, response) {
   });
 
   response
-    .send(200)
+    .status(200)
     .json({ data: educations, updatedAt: query ? query[0].updatedAt : null });
 }
 
 async function setEducations(request, response) {
+  const { userId } = request.params;
   const { data } = request.body;
   const { language } = request.query;
-  const userId = getKeycloakUserId(request);
 
   if (data.length > 0) {
     await prisma.$transaction([

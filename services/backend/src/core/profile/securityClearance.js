@@ -1,9 +1,7 @@
 const prisma = require("../../database");
-const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function setSecurityClearance(request, response) {
-  const { id } = request.params;
-  const userId = getKeycloakUserId(request);
+  const { id, userId } = request.params;
 
   await prisma.user.update({
     where: {
@@ -22,7 +20,7 @@ async function setSecurityClearance(request, response) {
 }
 
 async function removeSecurityClearance(request, response) {
-  const userId = getKeycloakUserId(request);
+  const { userId } = request.params;
 
   await prisma.user.update({
     where: {

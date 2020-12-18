@@ -1,9 +1,7 @@
 const prisma = require("../../database");
-const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function setOfficeLocation(request, response) {
-  const { id } = request.params;
-  const userId = getKeycloakUserId(request);
+  const { id, userId } = request.params;
 
   await prisma.user.update({
     where: {
@@ -22,7 +20,7 @@ async function setOfficeLocation(request, response) {
 }
 
 async function removeOfficeLocation(request, response) {
-  const userId = getKeycloakUserId(request);
+  const { userId } = request.params;
 
   await prisma.user.update({
     where: {

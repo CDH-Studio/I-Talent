@@ -1,10 +1,9 @@
 const _ = require("lodash");
 const prisma = require("../../database");
-const { getKeycloakUserId } = require("../../utils/keycloak");
 
 async function getMentorshipSkills(request, response) {
+  const { userId } = request.params;
   const { language } = request.query;
-  const userId = getKeycloakUserId(request);
 
   const query = await prisma.mentorshipSkill.findMany({
     where: {
@@ -50,12 +49,12 @@ async function getMentorshipSkills(request, response) {
     "name"
   );
 
-  response.send(200).json(mentorshipSkills);
+  response.status(200).json(mentorshipSkills);
 }
 
 async function setMentorshipSkills(request, response) {
+  const { userId } = request.params;
   const { ids } = request.body;
-  const userId = getKeycloakUserId(request);
 
   await prisma.$transaction([
     prisma.mentorshipSkill.deleteMany({
