@@ -21,7 +21,7 @@ function cleanResults(profiles) {
       lastName,
       isConnection,
       jobTitle,
-      branch,
+      branch: branch && branch.name,
       officeLocation,
       skills: skills ? skills.slice(0, 3) : [],
       totalSkillsCount: skills ? skills.length : 0,
