@@ -422,7 +422,6 @@ const EmploymentDataFormView = ({
               <Checkbox
                 tabIndex={0}
                 role="checkbox"
-                aria-checked="false"
                 onChange={toggleTempEndDate}
                 onKeyDown={enableEndDate}
                 defaultChecked={enableEndDate}
@@ -665,7 +664,6 @@ const EmploymentDataFormView = ({
                 </Popover>
                 <Switch
                   role="switch"
-                  aria-checked="false"
                   checked={displayActingRoleForm}
                   onChange={toggleTempRoleForm}
                 />
