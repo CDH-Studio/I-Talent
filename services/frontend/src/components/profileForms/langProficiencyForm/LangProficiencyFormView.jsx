@@ -430,13 +430,31 @@ const LangProficiencyFormView = ({
                 rules={[Rules.required]}
               >
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-owns="reading_listbox"
                   showSearch
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
+                  dropdownRender={(menu) => (
+                    <div
+                      id="reading_listbox"
+                      role="listbox"
+                      aria-multiselectable="false"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {proficiencyOptions.map((value) => {
-                    return <Option key={value.key}>{value.text}</Option>;
+                    return (
+                      <Option role="option" key={value.key} value={value.text}>
+                        {value.text}
+                      </Option>
+                    );
                   })}
                 </Select>
               </Form.Item>
@@ -460,6 +478,7 @@ const LangProficiencyFormView = ({
                 valuePropName="checked"
               >
                 <Checkbox
+                  role="checkbox"
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryReadingDate}
                   disabled={formValues.readingProficiency === "NA"}
@@ -481,13 +500,31 @@ const LangProficiencyFormView = ({
                 rules={[Rules.required]}
               >
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-owns="writing_listbox"
                   showSearch
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
+                  dropdownRender={(menu) => (
+                    <div
+                      id="writing_listbox"
+                      role="listbox"
+                      aria-multiselectable="false"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {proficiencyOptions.map((value) => {
-                    return <Option key={value.key}>{value.text}</Option>;
+                    return (
+                      <Option role="option" key={value.key} value={value.text}>
+                        {value.text}
+                      </Option>
+                    );
                   })}
                 </Select>
               </Form.Item>
@@ -511,6 +548,7 @@ const LangProficiencyFormView = ({
                 valuePropName="checked"
               >
                 <Checkbox
+                  role="checkbox"
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryWritingDate}
                   disabled={formValues.writingProficiency === "NA"}
@@ -532,13 +570,31 @@ const LangProficiencyFormView = ({
                 rules={[Rules.required]}
               >
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-owns="oral_listbox"
                   showSearch
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
+                  dropdownRender={(menu) => (
+                    <div
+                      id="oral_listbox"
+                      role="listbox"
+                      aria-multiselectable="false"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {proficiencyOptions.map((value) => {
-                    return <Option key={value.key}>{value.text}</Option>;
+                    return (
+                      <Option role="option" key={value.key} value={value.text}>
+                        {value.text}
+                      </Option>
+                    );
                   })}
                 </Select>
               </Form.Item>
@@ -562,6 +618,7 @@ const LangProficiencyFormView = ({
                 valuePropName="checked"
               >
                 <Checkbox
+                  role="checkbox"
                   valuePropName="checked"
                   defaultChecked={formValues.secondaryOralDate}
                   disabled={formValues.oralProficiency === "NA"}
@@ -646,13 +703,31 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="profile.first.language" />}
               >
                 <Select
+                  role="combobox"
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="listbox"
+                  aria-owns="first_language_listbox"
                   showSearch
                   placeholder={<FormattedMessage id="setup.select" />}
                   allowClear
                   filterOption={filterOption}
+                  dropdownRender={(menu) => (
+                    <div
+                      id="first_language_listbox"
+                      role="listbox"
+                      aria-multiselectable="false"
+                    >
+                      {menu}
+                    </div>
+                  )}
                 >
                   {languageOptions.map((value) => {
-                    return <Option key={value.key}>{value.text}</Option>;
+                    return (
+                      <Option role="option" key={value.key} value={value.text}>
+                        {value.text}
+                      </Option>
+                    );
                   })}
                 </Select>
               </Form.Item>
@@ -666,6 +741,7 @@ const LangProficiencyFormView = ({
                   <FormattedMessage id="profile.graded.on.second.language" />
                 </Text>
                 <Popover
+                  role="tooltip"
                   trigger={["focus", "hover"]}
                   content={
                     <div>
@@ -681,6 +757,7 @@ const LangProficiencyFormView = ({
                   </div>
                 </Popover>
                 <Switch
+                  role="switch"
                   checked={displaySecondLangForm}
                   onChange={toggleSecLangForm}
                 />
