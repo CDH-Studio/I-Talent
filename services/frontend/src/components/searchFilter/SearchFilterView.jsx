@@ -92,6 +92,9 @@ const SearchFilterView = ({
         layout="vertical"
         onFinish={onFinish}
         className="search-form"
+        onKeyPress={(e) => {
+          if (e.key === "Enter") e.preventDefault();
+        }}
       >
         {/* name */}
         <Form.Item

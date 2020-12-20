@@ -80,6 +80,9 @@ const TalentForm = ({ formType }) => {
         title: category.name,
         value: category.id,
         children,
+        selectable: false,
+        checkable: false,
+        disableCheckbox: true,
       };
     });
 

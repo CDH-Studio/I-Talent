@@ -237,7 +237,7 @@ const SearchBarView = ({
                 maxTagCount={15}
               />
             </Form.Item>
-            {/* classification field */}
+            {/* Mentorship Skills field */}
             <Form.Item
               label={
                 <FormattedMessage id="advanced.search.form.mentorship.skills" />
@@ -309,6 +309,9 @@ const SearchBarView = ({
       onFinish={onFinish}
       className="search-outerForm"
       layout="vertical"
+      onKeyPress={(e) => {
+        if (e.key === "Enter") e.preventDefault();
+      }}
     >
       <div className="search-outerDiv">
         <div className="search-mainSearchDiv">
