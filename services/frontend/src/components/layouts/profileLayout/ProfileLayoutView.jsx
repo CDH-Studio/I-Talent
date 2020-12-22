@@ -10,6 +10,7 @@ import {
   Tooltip,
   Alert,
   Button,
+  PageHeader,
 } from "antd";
 import {
   TagsTwoTone,
@@ -19,7 +20,6 @@ import {
   InfoCircleOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
-  SolutionOutlined,
   PrinterOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
@@ -44,7 +44,6 @@ import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
@@ -423,17 +422,17 @@ const ProfileLayoutView = ({
       loading={loading}
     >
       {displayHiddenAlert()}
-      <Header
+      <PageHeader
         className="headerStyle"
         title={
-          <>
-            <SolutionOutlined />
-            <FormattedMessage
-              id={privateProfile ? "my.profile" : "other.profile"}
-            />
-          </>
+          <FormattedMessage
+            id={privateProfile ? "my.profile" : "other.profile"}
+          />
         }
-        subtitle={
+        onBack={() => {
+          window.history.back();
+        }}
+        subTitle={
           <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
             {data && dayjs(data.updatedAt).format("LL")}
           </Tooltip>

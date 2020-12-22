@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import { Row, Col, Card, Typography, Empty, Skeleton, Spin } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import {
+  Row,
+  Col,
+  Card,
+  Typography,
+  Empty,
+  Skeleton,
+  Spin,
+  PageHeader,
+} from "antd";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import Header from "../header/Header";
 import prepareInfo from "../../functions/prepareInfo";
 import EmptyImage from "./online_team_meeting_.svg";
 import ResultsProfileCard from "./resultProfileCard/ResultProfileCard";
@@ -107,14 +114,12 @@ const ResultsCardView = ({
 
   return (
     <>
-      <Header
-        title={
-          <>
-            <SearchOutlined />
-            <FormattedMessage id="results.title" />
-          </>
-        }
-        subtitle={getResultCount({ isLoading: loading, count: results.length })}
+      <PageHeader
+        onBack={() => {
+          window.history.back();
+        }}
+        title={<FormattedMessage id="results.title" />}
+        subTitle={getResultCount({ isLoading: loading, count: results.length })}
       />
       <div className="res-container">
         {loading && getLoadingAnimation()}
