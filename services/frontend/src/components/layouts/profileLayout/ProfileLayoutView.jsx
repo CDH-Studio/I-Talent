@@ -162,7 +162,7 @@ const ProfileLayoutView = ({
           <>
             <Title
               level={2}
-              className="sectionHeader"
+              className="sectionHeader hide-for-print"
               id="divider-privateGroup"
             >
               <TeamOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
@@ -183,7 +183,7 @@ const ProfileLayoutView = ({
                 </Popover>
               </div>
             </Title>
-            <Col span={24}>
+            <Col span={24} className="hide-for-print">
               <Connections data={data} />
             </Col>
           </>
