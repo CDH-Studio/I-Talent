@@ -20,6 +20,7 @@ import {
   EyeInvisibleOutlined,
   LockOutlined,
   SolutionOutlined,
+  PrinterOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -89,7 +90,7 @@ const ProfileLayoutView = ({
             changeConnection={changeConnection}
           />
         </Col>
-        <Col xs={24} xl={10}>
+        <Col xs={24} xl={10} className="page-break">
           <Row gutter={[0, 15]}>
             <Col span={24}>
               <EmployeeSummary data={data} editableCardBool={privateProfile} />
@@ -426,7 +427,6 @@ const ProfileLayoutView = ({
         className="headerStyle"
         title={
           <>
-            <Button onClick={() => window.print()}>Print</Button>
             <SolutionOutlined />
             <FormattedMessage
               id={privateProfile ? "my.profile" : "other.profile"}
@@ -437,6 +437,11 @@ const ProfileLayoutView = ({
           <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
             {data && dayjs(data.updatedAt).format("LL")}
           </Tooltip>
+        }
+        extra={
+          <Button type="primary" shape="circle" onClick={() => window.print()}>
+            <PrinterOutlined />
+          </Button>
         }
       />
       {data ? (
