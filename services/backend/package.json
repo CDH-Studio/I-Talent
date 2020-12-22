@@ -41,7 +41,7 @@
     "snyk": "^1.431.2",
     "swagger-jsdoc": "^5.0.1",
     "swagger-ui-express": "^4.1.5",
-    "validator": "^13.1.17"
+    "validator": "^13.5.1"
   },
   "devDependencies": {
     "@prisma/cli": "2.11.0",
