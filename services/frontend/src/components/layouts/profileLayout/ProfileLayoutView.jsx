@@ -9,6 +9,7 @@ import {
   Popover,
   Tooltip,
   Alert,
+  Button,
 } from "antd";
 import {
   TagsTwoTone,
@@ -79,7 +80,7 @@ const ProfileLayoutView = ({
 
   const displayAllProfileCards = () => {
     return (
-      <Row gutter={[15, 15]}>
+      <Row gutter={[15, 15]} className="print">
         {/* Summary */}
         <Col xs={24} xl={14}>
           <BasicInfo
@@ -425,6 +426,7 @@ const ProfileLayoutView = ({
         className="headerStyle"
         title={
           <>
+            <Button onClick={() => window.print()}>Print</Button>
             <SolutionOutlined />
             <FormattedMessage
               id={privateProfile ? "my.profile" : "other.profile"}

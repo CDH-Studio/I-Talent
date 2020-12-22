@@ -93,7 +93,14 @@ const BasicInfoView = ({
   const generateProfileHeader = () => {
     return (
       <Row type="flex" className="profileHeaderRow">
-        <Col xs={6} md={5} lg={4} xxl={3} align="center">
+        <Col
+          xs={6}
+          md={5}
+          lg={4}
+          xxl={3}
+          align="center"
+          className="hide-for-print"
+        >
           <Avatar
             size={80}
             style={(styles.userAvatar, { backgroundColor: avatar.color })}
@@ -125,11 +132,11 @@ const BasicInfoView = ({
           </Text>
         </Col>
         {urlID === userID ? (
-          <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
+          <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
             <EditCardButton editUrl="/profile/edit/primary-info" floatRight />
           </Col>
         ) : (
-          <Col xs={5} md={4} lg={3} xl={4} xxl={3}>
+          <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
             <Row type="flex" align="middle">
               <Popover
                 trigger={["focus", "hover"]}
@@ -291,6 +298,7 @@ const BasicInfoView = ({
           rel="noopener noreferrer"
           icon={button.icon}
           href={button.url}
+          className="hide-for-print"
         >
           <span>
             <FormattedMessage id={button.textId} />

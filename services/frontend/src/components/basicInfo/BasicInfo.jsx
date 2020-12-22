@@ -11,6 +11,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
   const getButtonLinks = () => {
     const { linkedin, github, gcconnex, email } = data;
+
     const buttonLinks = {
       email: {
         textId: "profile.email",

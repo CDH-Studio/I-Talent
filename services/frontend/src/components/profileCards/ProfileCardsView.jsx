@@ -60,6 +60,7 @@ const ProfileCardsView = ({
       // return visibility icon if cardVisibilityStatus is boolean true
       visibilityStatusSymbol = (
         <Tooltip
+          className="hide-for-print"
           placement="left"
           title={<FormattedMessage id="profile.visibility.card.visible" />}
         >
@@ -70,6 +71,7 @@ const ProfileCardsView = ({
       // return blocked visibility icon if cardVisibilityStatus is boolean false
       visibilityStatusSymbol = (
         <Tooltip
+          className="hide-for-print"
           placement="left"
           title={<FormattedMessage id="profile.visibility.card.blocked" />}
         >
@@ -128,7 +130,10 @@ const ProfileCardsView = ({
               titleId
             )}
             {lastUpdated && (
-              <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+              <Tooltip
+                title={<FormattedMessage id="profile.last.updated" />}
+                className="hide-for-print"
+              >
                 <Text
                   style={{
                     marginLeft: 10,
