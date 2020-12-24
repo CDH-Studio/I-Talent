@@ -87,6 +87,42 @@ describe(`GET ${path}`, () => {
         expect(res.statusCode).toBe(_testData.testParams[1].testResponseCode);
         expect(res.text).toBe(_testData.testParams[1].testResponseData);
       });
+
+      test("should return results for full name 'John Doe' - 200", async () => {
+        let _testData = JSON.parse(JSON.stringify(testData));
+
+        prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+        prisma.user.findOne
+          .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+          .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+        let searchTerm = _testData.testParams[2].testSearchTerm;
+
+        let res = await request(app)
+          .get(`${path}?searchValue=${searchTerm}&language=ENGLISH`)
+          .set("Authorization", getBearerToken());
+
+        expect(res.statusCode).toBe(_testData.testParams[2].testResponseCode);
+        expect(res.text).toBe(_testData.testParams[2].testResponseData);
+      });
+
+      test("should return results for advanced search OR function 'Mary | John' - 200", async () => {
+        let _testData = JSON.parse(JSON.stringify(testData));
+
+        prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+        prisma.user.findOne
+          .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+          .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+        let searchTerm = _testData.testParams[3].testSearchTerm;
+
+        let res = await request(app)
+          .get(`${path}?searchValue=${searchTerm}&language=ENGLISH`)
+          .set("Authorization", getBearerToken());
+
+        expect(res.statusCode).toBe(_testData.testParams[3].testResponseCode);
+        expect(res.text).toBe(_testData.testParams[3].testResponseData);
+      });
     });
   });
 });
