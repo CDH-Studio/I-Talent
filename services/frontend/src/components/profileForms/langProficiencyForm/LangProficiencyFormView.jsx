@@ -56,6 +56,7 @@ const LangProficiencyFormView = ({
   userId,
   unknownExpiredGrades,
   setUnknownExpiredGrades,
+  secondLang,
 }) => {
   const axios = useAxios();
   const [form] = Form.useForm();
@@ -77,20 +78,19 @@ const LangProficiencyFormView = ({
 
   /* Save data */
   const saveDataToDB = async (values) => {
-    const dbValues = {
-      secondLangProfs: [],
-    };
+    const secondLangProfs = [];
+    const profile = {};
 
     // If firstLanguage is undefined then clear value in DB
     if (values.firstLanguage) {
-      dbValues.firstLanguage = values.firstLanguage;
+      profile.firstLanguage = values.firstLanguage;
     } else {
-      dbValues.firstLanguage = null;
+      profile.firstLanguage = null;
     }
 
     if (displaySecondLangForm) {
       // set second language based on first language
-      dbValues.secondLanguage =
+      profile.secondLanguage =
         values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
 
       if (
@@ -116,7 +116,7 @@ const LangProficiencyFormView = ({
             }
           }
 
-          dbValues.secondLangProfs.push(oralValue);
+          secondLangProfs.push(oralValue);
         }
 
         if (values.writingProficiency) {
@@ -141,7 +141,7 @@ const LangProficiencyFormView = ({
             }
           }
 
-          dbValues.secondLangProfs.push(writingValue);
+          secondLangProfs.push(writingValue);
         }
 
         if (values.readingProficiency) {
@@ -166,12 +166,17 @@ const LangProficiencyFormView = ({
             }
           }
 
-          dbValues.secondLangProfs.push(readingValue);
+          secondLangProfs.push(readingValue);
         }
       }
     }
-
-    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
+    await Promise.all([
+      axios.put(
+        `api/profile/${userId}/secondLangProfs?language=${locale}`,
+        secondLangProfs
+      ),
+      axios.put(`api/profile/${userId}?language=${locale}`, profile),
+    ]);
   };
 
   /**
@@ -209,33 +214,31 @@ const LangProficiencyFormView = ({
         firstLanguage: profile.firstLanguage,
       };
 
-      if (profile.secondLangProfs) {
-        profile.secondLangProfs.forEach(
-          ({ date, level, expired, proficiency }) => {
-            switch (proficiency) {
-              case "ORAL":
-                data.oralProficiency = level;
-                data.secondaryOralDate = date ? dayjs(date) : undefined;
-                data.secondaryOralUnknownExpired = expired && !date;
-                break;
+      if (secondLang) {
+        secondLang.forEach(({ date, level, expired, proficiency }) => {
+          switch (proficiency) {
+            case "ORAL":
+              data.oralProficiency = level;
+              data.secondaryOralDate = date ? dayjs(date) : undefined;
+              data.secondaryOralUnknownExpired = expired && !date;
+              break;
 
-              case "WRITING":
-                data.writingProficiency = level;
-                data.secondaryWritingDate = date ? dayjs(date) : undefined;
-                data.secondaryWritingUnknownExpired = expired && !date;
-                break;
+            case "WRITING":
+              data.writingProficiency = level;
+              data.secondaryWritingDate = date ? dayjs(date) : undefined;
+              data.secondaryWritingUnknownExpired = expired && !date;
+              break;
 
-              case "READING":
-                data.readingProficiency = level;
-                data.secondaryReadingDate = date ? dayjs(date) : undefined;
-                data.secondaryReadingUnknownExpired = expired && !date;
-                break;
+            case "READING":
+              data.readingProficiency = level;
+              data.secondaryReadingDate = date ? dayjs(date) : undefined;
+              data.secondaryReadingUnknownExpired = expired && !date;
+              break;
 
-              default:
-                break;
-            }
+            default:
+              break;
           }
-        );
+        });
       }
 
       return data;
@@ -580,15 +583,13 @@ const LangProficiencyFormView = ({
   useEffect(() => {
     if (!loadedData && load) {
       /* check if user has a second language */
-      const hasSubformData = profileInfo
-        ? profileInfo.secondLangProfs.length !== 0
-        : false;
+      const hasSubformData = profileInfo ? secondLang.length !== 0 : false;
       setDisplaySecondLangForm(hasSubformData);
 
       // Makes the subform not reset on language change
       setLoadedData(true);
     }
-  }, [displaySecondLangForm, load, loadedData, profileInfo]);
+  }, [displaySecondLangForm, load, loadedData, profileInfo, secondLang]);
 
   /** **********************************
    ********* Render Component *********
@@ -719,6 +720,8 @@ LangProficiencyFormView.propTypes = {
     oral: PropTypes.bool,
   }).isRequired,
   setUnknownExpiredGrades: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  secondLang: PropTypes.any,
 };
 
 LangProficiencyFormView.defaultProps = {
@@ -726,6 +729,7 @@ LangProficiencyFormView.defaultProps = {
   proficiencyOptions: [],
   profileInfo: null,
   intl: null,
+  secondLang: [],
 };
 
 export default injectIntl(LangProficiencyFormView);

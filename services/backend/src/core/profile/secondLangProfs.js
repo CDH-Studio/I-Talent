@@ -55,8 +55,7 @@ async function getSecondLangProfs(request, response) {
 
 async function setSecondLangProfs(request, response) {
   const { userId } = request.params;
-  const { data } = request.body;
-
+  const data = request.body;
   await prisma.$transaction([
     prisma.secondLangProf.deleteMany({
       where: {
@@ -71,7 +70,7 @@ async function setSecondLangProfs(request, response) {
         id: userId,
       },
       data: {
-        competencies: {
+        secondLangProfs: {
           upsert: data.map(
             ({ proficiency, level, date, unknownExpiredDate }) => ({
               where: {

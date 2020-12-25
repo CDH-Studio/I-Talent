@@ -19,6 +19,7 @@ const LangProficiencyForm = ({ formType }) => {
 
   // const [expiredSecondaryGradings, setExpiredSecondaryGradings] = useState({});
   const [profileInfo, setProfileInfo] = useState(null);
+  const [secondLang, setSecondLang] = useState(null);
   const [load, setLoad] = useState(false);
   const [unknownExpiredGrades, setUnknownExpiredGrades] = useState({
     reading: false,
@@ -34,16 +35,19 @@ const LangProficiencyForm = ({ formType }) => {
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
-    const [result] = await Promise.all([axios.get(`api/profile/${id}?language=${locale}`)]);
+    const [profile, secondLangRequest] = await Promise.all([
+      axios.get(`api/profile/${id}?language=${locale}`),
+      axios.get(`api/profile/${id}/secondLangProfs?language=${locale}`),
+    ]);
 
-    if (result.data && result.data.secondLangProfs) {
-      const readingObj = result.data.secondLangProfs.find(
+    if (secondLangRequest.data) {
+      const readingObj = secondLangRequest.data.find(
         (grading) => grading.proficiency === "READING"
       );
-      const writingObj = result.data.secondLangProfs.find(
+      const writingObj = secondLangRequest.data.find(
         (grading) => grading.proficiency === "WRITING"
       );
-      const oralObj = result.data.secondLangProfs.find(
+      const oralObj = secondLangRequest.data.find(
         (grading) => grading.proficiency === "ORAL"
       );
 
@@ -53,8 +57,8 @@ const LangProficiencyForm = ({ formType }) => {
         oral: oralObj && oralObj.expired && !oralObj.date,
       });
     }
-
-    setProfileInfo(result.data);
+    setSecondLang(secondLangRequest.data);
+    setProfileInfo(profile.data);
   }, [axios, id, locale]);
 
   // useEffect to run once component is mounted
@@ -101,6 +105,7 @@ const LangProficiencyForm = ({ formType }) => {
   return (
     <LangProficiencyFormView
       languageOptions={languageOptions}
+      secondLang={secondLang}
       proficiencyOptions={proficiencyOptions}
       profileInfo={profileInfo}
       formType={formType}
