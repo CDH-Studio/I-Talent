@@ -5,10 +5,14 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const QualifiedPools = ({ data, editableCardBool }) => {
   const getQualifiedPoolsInfo = (dataSource) => {
-    if (!dataSource.qualifiedPools) {
+    if (
+      !dataSource ||
+      !dataSource.qualifiedPools ||
+      !dataSource.qualifiedPools.data
+    ) {
       return [];
     }
-    return dataSource.qualifiedPools.map(
+    return dataSource.qualifiedPools.data.map(
       ({
         classification,
         jobTitle,

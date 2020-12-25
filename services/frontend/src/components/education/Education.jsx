@@ -37,10 +37,10 @@ const Education = ({ data, editableCardBool }) => {
   };
 
   const getEducationInfo = (dataSource) => {
-    if (!dataSource || !dataSource.experiences) {
+    if (!dataSource || !dataSource.educations || !dataSource.educations.data) {
       return [];
     }
-    return dataSource.educations.map(
+    return dataSource.educations.data.map(
       ({
         startDate,
         endDate,
@@ -56,10 +56,10 @@ const Education = ({ data, editableCardBool }) => {
         description,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
-            id: a.id,
-            name: a.name.name,
-            url: a.url,
-          }))
+              id: a.id,
+              name: a.name.name,
+              url: a.url,
+            }))
           : [],
       })
     );
@@ -74,7 +74,7 @@ const Education = ({ data, editableCardBool }) => {
       data={data}
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.education}
-      lastUpdated={data.educationsUpdatedAt}
+      lastUpdated={data.educations.updatedAt}
     >
       <EducationView educationInfo={getEducationInfo(data)} />
     </ProfileCards>

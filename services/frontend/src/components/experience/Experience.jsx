@@ -39,11 +39,15 @@ const Experience = ({ data, editableCardBool }) => {
   };
 
   const getExperienceInfo = (dataSource) => {
-    if (!dataSource || !dataSource.experiences) {
+    if (
+      !dataSource ||
+      !dataSource.experiences ||
+      !dataSource.experiences.data
+    ) {
       return [];
     }
 
-    return dataSource.experiences.map(
+    return dataSource.experiences.data.map(
       ({
         startDate,
         endDate,
