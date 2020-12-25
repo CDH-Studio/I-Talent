@@ -291,6 +291,8 @@ async function getAllUsers(language, userId, request) {
       nameInitials: `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`,
     };
 
+    info.fullName = `${info.firstName} ${info.lastName}`;
+
     if (info.employmentInfo) {
       const employment = info.employmentInfo.translations[0];
       info.branch = {};
