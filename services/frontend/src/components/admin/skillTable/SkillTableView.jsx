@@ -498,12 +498,8 @@ const SkillTableView = ({
       {addSkillButton()}
       {editSkillButton()}
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="admin.skill.table" />
-          </>
-        }
+        title={<FormattedMessage id="admin.skill.table" />}
+        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}

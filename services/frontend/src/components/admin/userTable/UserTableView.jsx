@@ -375,7 +375,6 @@ const UserTableView = ({
       <Header
         title={
           <>
-            <DatabaseOutlined />
             <FormattedMessage id="admin.user.table" />
             {modifiedStatus && (
               <Text className="userTable-unsavedText">
@@ -384,6 +383,7 @@ const UserTableView = ({
             )}
           </>
         }
+        icon={<DatabaseOutlined />}
         extra={
           <Row align="middle">
             {applyButton()}

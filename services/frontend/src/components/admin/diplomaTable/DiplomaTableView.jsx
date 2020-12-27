@@ -409,12 +409,8 @@ const DiplomaTableView = ({
       {addDiplomaModal()}
       {editDiplomaModal()}
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="admin.diploma.table" />
-          </>
-        }
+        title={<FormattedMessage id="admin.diploma.table" />}
+        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
