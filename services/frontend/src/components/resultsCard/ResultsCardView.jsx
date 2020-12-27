@@ -1,22 +1,12 @@
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import {
-  Row,
-  Col,
-  Card,
-  Typography,
-  Empty,
-  Skeleton,
-  Spin,
-  PageHeader,
-} from "antd";
+import { Row, Col, Card, Empty, Skeleton, Spin } from "antd";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import Header from "../header/Header";
 import prepareInfo from "../../functions/prepareInfo";
 import EmptyImage from "./online_team_meeting_.svg";
 import ResultsProfileCard from "./resultProfileCard/ResultProfileCard";
 import "./ResultsCardView.less";
-
-const { Text } = Typography;
 
 const ResultsCardView = ({
   results,
@@ -36,9 +26,9 @@ const ResultsCardView = ({
   const getResultCount = ({ isLoading, count }) => {
     if (!isLoading) {
       return (
-        <Text type="secondary" className="res-result-count">
+        <>
           <FormattedMessage id="search.results.found" />: {count}
-        </Text>
+        </>
       );
     }
     return <Spin className="res-loading-spinner" />;
@@ -114,12 +104,12 @@ const ResultsCardView = ({
 
   return (
     <>
-      <PageHeader
+      <Header
+        title={<FormattedMessage id="results.title" />}
+        subtitle={getResultCount({ isLoading: loading, count: results.length })}
         onBack={() => {
           window.history.back();
         }}
-        title={<FormattedMessage id="results.title" />}
-        subTitle={getResultCount({ isLoading: loading, count: results.length })}
       />
       <div className="res-container">
         {loading && getLoadingAnimation()}

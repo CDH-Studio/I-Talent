@@ -9,7 +9,6 @@ import {
   Popover,
   Tooltip,
   Alert,
-  // PageHeader,
 } from "antd";
 import {
   TagsTwoTone,
@@ -422,7 +421,6 @@ const ProfileLayoutView = ({
     >
       {displayHiddenAlert()}
       <Header
-        // className="headerStyle"
         title={
           <FormattedMessage
             id={privateProfile ? "my.profile" : "other.profile"}
