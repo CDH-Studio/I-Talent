@@ -2,7 +2,6 @@ const request = require("supertest");
 const { getBearerToken, userId } = require("../../../mocks");
 
 const path = "/api/search/fuzzy";
-// const testData = "allProfileData.json";
 const testData = require("./allProfileData.json");
 
 describe(`GET ${path}`, () => {
