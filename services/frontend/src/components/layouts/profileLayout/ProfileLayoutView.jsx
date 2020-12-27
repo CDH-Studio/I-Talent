@@ -9,7 +9,7 @@ import {
   Popover,
   Tooltip,
   Alert,
-  PageHeader,
+  // PageHeader,
 } from "antd";
 import {
   TagsTwoTone,
@@ -28,6 +28,7 @@ import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
+import Header from "../../header/Header";
 import Skills from "../../skillsCard/Skills";
 import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import Mentorship from "../../mentorshipCard/Mentorship";
@@ -420,8 +421,8 @@ const ProfileLayoutView = ({
       loading={loading}
     >
       {displayHiddenAlert()}
-      <PageHeader
-        className="headerStyle"
+      <Header
+        // className="headerStyle"
         title={
           <FormattedMessage
             id={privateProfile ? "my.profile" : "other.profile"}
@@ -430,7 +431,7 @@ const ProfileLayoutView = ({
         onBack={() => {
           window.history.back();
         }}
-        subTitle={
+        subtitle={
           <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
             {data && dayjs(data.updatedAt).format("LL")}
           </Tooltip>
