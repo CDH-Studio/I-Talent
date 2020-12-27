@@ -36,54 +36,195 @@ describe(`GET ${path}`, () => {
       expect(console.log).toHaveBeenCalled();
     });
 
-    describe("when doing a normal query", () => {
-      afterEach(() => {
-        prisma.user.findMany.mockReset();
-        prisma.user.findOne.mockReset();
+    describe("when doing a normal queries", () => {
+      describe("Testing Name Filter", () => {
+        afterEach(() => {
+          prisma.user.findMany.mockReset();
+          prisma.user.findOne.mockReset();
+        });
+
+        test("no results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = "zzzzzzzzzz";
+
+          let res = await request(app)
+            .get(`${path}?name=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toBe("[]");
+        });
+
+        test("Results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = _testData.testParams.filterSearch[0].testSearchTerm;
+
+          let res = await request(app)
+            .get(`${path}?name=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(
+            _testData.testParams.filterSearch[0].testResponseCode
+          );
+          expect(res.text).toBe(
+            _testData.testParams.filterSearch[0].testResponseData
+          );
+        });
       });
 
-      test("should return results for using 'Name' filter - 200", async () => {
-        let _testData = JSON.parse(JSON.stringify(testData));
+      describe("Testing Classification Filter", () => {
+        afterEach(() => {
+          prisma.user.findMany.mockReset();
+          prisma.user.findOne.mockReset();
+        });
 
-        prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-        prisma.user.findOne
-          .mockResolvedValueOnce(_testData.allProfilesInfo[0])
-          .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+        test("No results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
 
-        let searchTerm = _testData.testParams.filterSearch[0].testSearchTerm;
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
-        let res = await request(app)
-          .get(`${path}?name=${searchTerm}&language=ENGLISH`)
-          .set("Authorization", getBearerToken());
+          let searchTerm = "zzzzzzzzzz";
 
-        expect(res.statusCode).toBe(
-          _testData.testParams.filterSearch[0].testResponseCode
-        );
-        expect(res.text).toBe(
-          _testData.testParams.filterSearch[0].testResponseData
-        );
+          let res = await request(app)
+            .get(`${path}?classifications[]=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toBe("[]");
+        });
+
+        test("Results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = _testData.testParams.filterSearch[1].testSearchTerm;
+
+          let res = await request(app)
+            .get(`${path}?classifications[]=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(
+            _testData.testParams.filterSearch[1].testResponseCode
+          );
+          expect(res.text).toBe(
+            _testData.testParams.filterSearch[1].testResponseData
+          );
+        });
       });
 
-      test("should return results for using 'Classification' filter - 200", async () => {
-        let _testData = JSON.parse(JSON.stringify(testData));
+      describe("Testing Location Filter", () => {
+        afterEach(() => {
+          prisma.user.findMany.mockReset();
+          prisma.user.findOne.mockReset();
+        });
 
-        prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-        prisma.user.findOne
-          .mockResolvedValueOnce(_testData.allProfilesInfo[0])
-          .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+        test("No results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
 
-        let searchTerm = _testData.testParams.filterSearch[0].testSearchTerm;
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
-        let res = await request(app)
-          .get(`${path}?name=${searchTerm}&language=ENGLISH`)
-          .set("Authorization", getBearerToken());
+          let searchTerm = "zzzzzzzzzz";
 
-        expect(res.statusCode).toBe(
-          _testData.testParams.filterSearch[0].testResponseCode
-        );
-        expect(res.text).toBe(
-          _testData.testParams.filterSearch[0].testResponseData
-        );
+          let res = await request(app)
+            .get(`${path}?locations[]=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toBe("[]");
+        });
+
+        test("Results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = _testData.testParams.filterSearch[2].testSearchTerm;
+
+          let res = await request(app)
+            .get(`${path}?locations[]=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(
+            _testData.testParams.filterSearch[2].testResponseCode
+          );
+          expect(res.text).toBe(
+            _testData.testParams.filterSearch[2].testResponseData
+          );
+        });
+      });
+
+      describe("Testing Skills Filter", () => {
+        afterEach(() => {
+          prisma.user.findMany.mockReset();
+          prisma.user.findOne.mockReset();
+        });
+
+        test("No results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = "zzzzzzzzzz";
+
+          let res = await request(app)
+            .get(`${path}?skills[]=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toBe("[]");
+        });
+
+        test("Results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = _testData.testParams.filterSearch[3].testSearchTerm;
+
+          let res = await request(app)
+            .get(
+              `${path}?skills[]=${searchTerm[0]}&skills[]=${searchTerm[1]}&language=ENGLISH`
+            )
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(
+            _testData.testParams.filterSearch[3].testResponseCode
+          );
+          expect(res.text).toBe(
+            _testData.testParams.filterSearch[3].testResponseData
+          );
+        });
       });
     });
   });
