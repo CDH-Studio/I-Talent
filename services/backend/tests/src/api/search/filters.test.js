@@ -455,7 +455,7 @@ describe(`GET ${path}`, () => {
           let searchTerm = _testData.testParams.filterSearch[11].testSearchTerm;
 
           let res = await request(app)
-            .get(`${path}?branches[]=${searchTerm[0]}&language=ENGLISH`)
+            .get(`${path}?branches[]=${searchTerm}&language=ENGLISH`)
             .set("Authorization", getBearerToken());
 
           expect(res.statusCode).toBe(
