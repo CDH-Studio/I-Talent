@@ -407,12 +407,8 @@ const CompetencyTableView = ({
       {addCompetencyModal()}
       {editCompetencyModal()}
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="admin.competency.table" />
-          </>
-        }
+        title={<FormattedMessage id="admin.competency.table" />}
+        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}

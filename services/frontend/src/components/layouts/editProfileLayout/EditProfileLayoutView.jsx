@@ -198,13 +198,10 @@ const EditProfileLayoutView = ({ formStep, history }) => {
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
       <Header
-        title={
-          <>
-            <EditOutlined />
-            <FormattedMessage id="edit.profile" />
-          </>
-        }
+        title={<FormattedMessage id="edit.profile" />}
+        icon={<EditOutlined />}
       />
+
       <Card className="edit-profile-card">{form}</Card>
     </AppLayout>
   );

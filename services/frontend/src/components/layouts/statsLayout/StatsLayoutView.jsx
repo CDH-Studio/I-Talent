@@ -7,13 +7,10 @@ import DashboardGraphs from "../../admin/dashboardGraphs/DashboardGraphs";
 const StatsLayoutView = () => (
   <AppLayout>
     <Header
-      title={
-        <>
-          <AreaChartOutlined />
-          <FormattedMessage id="stats.title" />
-        </>
-      }
+      title={<FormattedMessage id="stats.title" />}
+      icon={<AreaChartOutlined />}
     />
+
     <DashboardGraphs />
   </AppLayout>
 );

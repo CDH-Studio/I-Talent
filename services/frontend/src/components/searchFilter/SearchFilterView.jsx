@@ -78,6 +78,7 @@ const SearchFilterView = ({
     intl.formatMessage({ id: "search.filter.any.mentors" }),
     intl.formatMessage({ id: "search.filter.exfeeder" }),
   ];
+
   return (
     <div className="search-searchSideBar">
       <Title level={2} className="search-searchHeader">
@@ -138,12 +139,7 @@ const SearchFilterView = ({
           >
             {classOptions.map((value) => {
               return (
-                <Option
-                  role="option"
-                  aria-selected={false}
-                  key={value.id}
-                  value={value.name}
-                >
+                <Option role="option" aria-selected={false} key={value.id}>
                   {value.name}
                 </Option>
               );
@@ -181,11 +177,7 @@ const SearchFilterView = ({
             {locationOptions.map(
               ({ streetNumber, streetName, city, province, id }) => {
                 return (
-                  <Option
-                    role="option"
-                    key={id}
-                    value={`${streetNumber} ${streetName}, ${city}, ${province}`}
-                  >
+                  <Option role="option" key={id}>
                     {streetNumber} {streetName}, {city}, {province}
                   </Option>
                 );
@@ -223,7 +215,7 @@ const SearchFilterView = ({
           >
             {branchOptions.map((value) => {
               return (
-                <Option role="option" key={value} value={value}>
+                <Option role="option" key={value}>
                   {value}
                 </Option>
               );
