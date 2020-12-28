@@ -79,7 +79,6 @@ const SearchFilterView = ({
     intl.formatMessage({ id: "search.filter.exfeeder" }),
   ];
 
-  console.log("branchOptions", branchOptions);
   return (
     <div className="search-searchSideBar">
       <Title level={2} className="search-searchHeader">
