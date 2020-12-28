@@ -332,14 +332,12 @@ async function getAllUsers(language, userId, request) {
     }
 
     if (info.qualifiedPools) {
-      info.qualifiedPools = info.qualifiedPools.map((i) => {
-        return {
-          jobTitle: i.jobTitle,
-          selectionProcessNumber: i.selectionProcessNumber,
-          jobPosterLink: i.jobPosterLink,
-          classification: i.classification ? i.classification.name : undefined,
-        };
-      });
+      info.qualifiedPools = info.qualifiedPools.map((i) => ({
+        jobTitle: i.jobTitle,
+        selectionProcessNumber: i.selectionProcessNumber,
+        jobPosterLink: i.jobPosterLink,
+        classification: i.classification ? i.classification.name : undefined,
+      }));
     }
 
     if (info.educations) {
@@ -384,15 +382,13 @@ async function getAllUsers(language, userId, request) {
 
     if (info.organizations) {
       info.organizations = _.flattenDeep(
-        info.organizations.map((i) => {
-          return i.organizationTier.map((organization) => {
-            return {
-              description: organization.translations[0]
-                ? organization.translations[0].description
-                : undefined,
-            };
-          });
-        })
+        info.organizations.map((i) =>
+          i.organizationTier.map((organization) => ({
+            description: organization.translations[0]
+              ? organization.translations[0].description
+              : undefined,
+          }))
+        )
       );
     }
 

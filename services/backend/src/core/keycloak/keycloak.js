@@ -34,12 +34,10 @@ const getGroupIds = async (accessToken) => {
     timeout: 2000,
   });
 
-  const groupIds = groups.data[0].subGroups.map(({ id, name }) => {
-    return {
-      id,
-      name,
-    };
-  });
+  const groupIds = groups.data[0].subGroups.map(({ id, name }) => ({
+    id,
+    name,
+  }));
 
   return groupIds;
 };
