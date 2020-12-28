@@ -419,6 +419,53 @@ describe(`GET ${path}`, () => {
           );
         });
       });
+
+      describe("Testing Branch Filter", () => {
+        afterEach(() => {
+          prisma.user.findMany.mockReset();
+          prisma.user.findOne.mockReset();
+        });
+
+        test("No results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = "zzzzzzzzzz";
+
+          let res = await request(app)
+            .get(`${path}?branches[]=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toBe("[]");
+        });
+
+        test("Results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = _testData.testParams.filterSearch[11].testSearchTerm;
+
+          let res = await request(app)
+            .get(`${path}?branches[]=${searchTerm[0]}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(
+            _testData.testParams.filterSearch[11].testResponseCode
+          );
+          expect(res.text).toBe(
+            _testData.testParams.filterSearch[11].testResponseData
+          );
+        });
+      });
     });
   });
 });
