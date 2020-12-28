@@ -5,8 +5,9 @@ const { sortBy, difference, isEqual } = require("lodash");
 const en = require("./en_CA.json");
 const fr = require("./fr_CA.json");
 
-// Remove all blacklisted key from the check
 const blacklistedKeys = require("./blacklistKeys");
+
+// Remove all blacklisted key from the check
 blacklistedKeys.forEach(e => delete en[e]);
 blacklistedKeys.forEach(e => delete fr[e]);
 
