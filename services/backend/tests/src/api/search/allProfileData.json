@@ -348,6 +348,27 @@
         ],
         "testResponseCode": 200,
         "testResponseData": "[{\"id\":\"25ba7914-1505-4806-97f9-e1c4b003ad92\",\"avatarColor\":\"#0bdaa3\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Data Scientist\",\"branch\":\"Chief Information Office\",\"officeLocation\":{\"id\":\"282952e2-787a-4ee9-8b0e-234776f21673\",\"city\":\"Ottawa\",\"streetNumber\":235,\"province\":\"Ontario\",\"streetName\":\"Queen St\",\"fullName\":\"235 Queen St\"},\"skills\":[{\"id\":\"477d4291-fcbf-4c7a-b377-7fc160fafeff\",\"name\":\"CGI\"},{\"id\":\"7c72c804-0a69-4783-aa11-c39b37230b30\",\"name\":\"Linux\"},{\"id\":\"d5cb2222-1278-4ff0-b175-d4320f258fd2\",\"name\":\"Delegation\"}],\"totalSkillsCount\":4,\"groupLevel\":{\"id\":\"d78f0859-84af-4e46-884f-b15510e0b273\",\"name\":\"AS 04\"},\"nameInitials\":\"JD\",\"status\":\"ACTIVE\"}]"
+      },
+      {
+        "testTitle": "Filter Search Test: searching for Mentorship Skills",
+        "testSearchTerm": [
+          "4de5e096-55d5-4d75-98d4-414c217fe716",
+          "fdba1b3a-62aa-4da9-8a5e-911e61c08e61"
+        ],
+        "testResponseCode": 200,
+        "testResponseData": "[{\"id\":\"a041bceb-3873-4046-a475-a86dda954402\",\"avatarColor\":\"#ad4463\",\"firstName\":\"Mary\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Manager\",\"branch\":\"Human Resources Branch\",\"officeLocation\":{\"id\":\"764be692-6bec-421e-a411-485477206fc8\",\"city\":\"Ottawa\",\"streetNumber\":160,\"province\":\"Ontario\",\"streetName\":\"Elgin St\",\"fullName\":\"160 Elgin St\"},\"skills\":[],\"totalSkillsCount\":0,\"groupLevel\":{\"id\":\"84cf48eb-38b4-4a33-9744-09a9da7923a3\",\"name\":\"CS 05\"},\"nameInitials\":\"MD\",\"status\":\"ACTIVE\"}]"
+      },
+      {
+        "testTitle": "Filter Search Test: searching for Any Mentorship Skills",
+        "testSearchTerm": "true",
+        "testResponseCode": 200,
+        "testResponseData": "[{\"id\":\"25ba7914-1505-4806-97f9-e1c4b003ad92\",\"avatarColor\":\"#0bdaa3\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Data Scientist\",\"branch\":\"Chief Information Office\",\"officeLocation\":{\"id\":\"282952e2-787a-4ee9-8b0e-234776f21673\",\"city\":\"Ottawa\",\"streetNumber\":235,\"province\":\"Ontario\",\"streetName\":\"Queen St\",\"fullName\":\"235 Queen St\"},\"skills\":[{\"id\":\"477d4291-fcbf-4c7a-b377-7fc160fafeff\",\"name\":\"CGI\"},{\"id\":\"7c72c804-0a69-4783-aa11-c39b37230b30\",\"name\":\"Linux\"},{\"id\":\"d5cb2222-1278-4ff0-b175-d4320f258fd2\",\"name\":\"Delegation\"}],\"totalSkillsCount\":4,\"groupLevel\":{\"id\":\"d78f0859-84af-4e46-884f-b15510e0b273\",\"name\":\"AS 04\"},\"nameInitials\":\"JD\",\"status\":\"ACTIVE\"},{\"id\":\"a041bceb-3873-4046-a475-a86dda954402\",\"avatarColor\":\"#ad4463\",\"firstName\":\"Mary\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Manager\",\"branch\":\"Human Resources Branch\",\"officeLocation\":{\"id\":\"764be692-6bec-421e-a411-485477206fc8\",\"city\":\"Ottawa\",\"streetNumber\":160,\"province\":\"Ontario\",\"streetName\":\"Elgin St\",\"fullName\":\"160 Elgin St\"},\"skills\":[],\"totalSkillsCount\":0,\"groupLevel\":{\"id\":\"84cf48eb-38b4-4a33-9744-09a9da7923a3\",\"name\":\"CS 05\"},\"nameInitials\":\"MD\",\"status\":\"ACTIVE\"}]"
+      },
+      {
+        "testTitle": "Filter Search Test: searching for ExFeeder",
+        "testSearchTerm": "true",
+        "testResponseCode": 200,
+        "testResponseData": "[{\"id\":\"25ba7914-1505-4806-97f9-e1c4b003ad92\",\"avatarColor\":\"#0bdaa3\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Data Scientist\",\"branch\":\"Chief Information Office\",\"officeLocation\":{\"id\":\"282952e2-787a-4ee9-8b0e-234776f21673\",\"city\":\"Ottawa\",\"streetNumber\":235,\"province\":\"Ontario\",\"streetName\":\"Queen St\",\"fullName\":\"235 Queen St\"},\"skills\":[{\"id\":\"477d4291-fcbf-4c7a-b377-7fc160fafeff\",\"name\":\"CGI\"},{\"id\":\"7c72c804-0a69-4783-aa11-c39b37230b30\",\"name\":\"Linux\"},{\"id\":\"d5cb2222-1278-4ff0-b175-d4320f258fd2\",\"name\":\"Delegation\"}],\"totalSkillsCount\":4,\"groupLevel\":{\"id\":\"d78f0859-84af-4e46-884f-b15510e0b273\",\"name\":\"AS 04\"},\"nameInitials\":\"JD\",\"status\":\"ACTIVE\"},{\"id\":\"a041bceb-3873-4046-a475-a86dda954402\",\"avatarColor\":\"#ad4463\",\"firstName\":\"Mary\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Manager\",\"branch\":\"Human Resources Branch\",\"officeLocation\":{\"id\":\"764be692-6bec-421e-a411-485477206fc8\",\"city\":\"Ottawa\",\"streetNumber\":160,\"province\":\"Ontario\",\"streetName\":\"Elgin St\",\"fullName\":\"160 Elgin St\"},\"skills\":[],\"totalSkillsCount\":0,\"groupLevel\":{\"id\":\"84cf48eb-38b4-4a33-9744-09a9da7923a3\",\"name\":\"CS 05\"},\"nameInitials\":\"MD\",\"status\":\"ACTIVE\"}]"
       }
     ]
   }

@@ -226,6 +226,127 @@ describe(`GET ${path}`, () => {
           );
         });
       });
+
+      describe("Testing Mentorship Skills Filter", () => {
+        afterEach(() => {
+          prisma.user.findMany.mockReset();
+          prisma.user.findOne.mockReset();
+        });
+
+        test("No results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = "zzzzzzzzzz";
+
+          let res = await request(app)
+            .get(`${path}?skills[]=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toBe("[]");
+        });
+
+        test("Results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = _testData.testParams.filterSearch[4].testSearchTerm;
+
+          let res = await request(app)
+            .get(`${path}?mentorSkills[]=${searchTerm[0]}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(
+            _testData.testParams.filterSearch[4].testResponseCode
+          );
+          expect(res.text).toBe(
+            _testData.testParams.filterSearch[4].testResponseData
+          );
+        });
+      });
+
+      describe("Testing Any Mentorship Skills Filter", () => {
+        afterEach(() => {
+          prisma.user.findMany.mockReset();
+          prisma.user.findOne.mockReset();
+        });
+
+        test("Results found (Any Mentorship Skills = true) - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = _testData.testParams.filterSearch[5].testSearchTerm;
+
+          let res = await request(app)
+            .get(`${path}?anyMentorSkills=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(
+            _testData.testParams.filterSearch[5].testResponseCode
+          );
+          expect(res.text).toBe(
+            _testData.testParams.filterSearch[5].testResponseData
+          );
+        });
+
+        test("Results found (Any Mentorship Skills = false) - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let res = await request(app)
+            .get(`${path}?anyMentorSkills=false&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toBe([]);
+        });
+      });
+
+      describe("Testing ExFeeder Filter", () => {
+        afterEach(() => {
+          prisma.user.findMany.mockReset();
+          prisma.user.findOne.mockReset();
+        });
+
+        test("Results found - 200", async () => {
+          let _testData = JSON.parse(JSON.stringify(testData));
+
+          prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+          prisma.user.findOne
+            .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+            .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          let searchTerm = _testData.testParams.filterSearch[5].testSearchTerm;
+
+          let res = await request(app)
+            .get(`${path}?exFeeder=${searchTerm}&language=ENGLISH`)
+            .set("Authorization", getBearerToken());
+
+          expect(res.statusCode).toBe(
+            _testData.testParams.filterSearch[5].testResponseCode
+          );
+          expect(res.text).toBe(
+            _testData.testParams.filterSearch[5].testResponseData
+          );
+        });
+      });
     });
   });
 });
