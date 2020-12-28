@@ -5,6 +5,11 @@ const { sortBy, difference, isEqual } = require("lodash");
 const en = require("./en_CA.json");
 const fr = require("./fr_CA.json");
 
+// Remove all blacklisted key from the check
+const blacklistedKeys = require("./blacklistKeys");
+blacklistedKeys.forEach(e => delete en[e]);
+blacklistedKeys.forEach(e => delete fr[e]);
+
 /**
  * Check for duplicated values in en_CA.json and fr_CA.json
  */

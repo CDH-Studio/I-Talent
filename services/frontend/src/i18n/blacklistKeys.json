@@ -6,5 +6,15 @@
   "visibility.card.public",
   "visibility.card.connections",
   "visibility.card.private",
-  "visibility.card.show.confirm"
+  "visibility.card.show.confirm",
+  "admin",
+  "admin.roles.admin",
+  "connections",
+  "visibility.card.connections",
+  "bugs.location",
+  "work.location",
+  "input.placeholder.select",
+  "search",
+  "add",
+  "add.item"
 ]
