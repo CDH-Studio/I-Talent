@@ -8,16 +8,16 @@ const fr = require("./fr_CA.json");
 /**
  * Check for duplicated values in en_CA.json and fr_CA.json
  */
-let findDuplicates = arr => arr.filter((s => v => s.has(v) || !s.add(v))(new Set))
+const findDuplicates = (arr) =>
+  arr.filter(((s) => (v) => s.has(v) || !s.add(v))(new Set()));
 
 const enValues = sortBy(Object.values(en));
 const frValues = sortBy(Object.values(fr));
 
+const enDuplicateValues = findDuplicates(enValues);
+const frDuplicateValues = findDuplicates(frValues);
 
-enDuplicateValues = findDuplicates(enValues);
-frDuplicateValues = findDuplicates(frValues);
-
-if (enDuplicateValues.length == 0 && frDuplicateValues.length == 0) {
+if (enDuplicateValues.length === 0 && frDuplicateValues.length === 0) {
   console.error("There a no duplicate values in the en_CA and fr_CA files!");
   process.exit();
 } else {
@@ -26,16 +26,15 @@ if (enDuplicateValues.length == 0 && frDuplicateValues.length == 0) {
       `${enDuplicateValues.length} duplicate values are in en_CA:`,
       enDuplicateValues
     );
-  } 
+  }
   if (frDuplicateValues.length > 0) {
     console.error(
       `${frDuplicateValues.length} duplicate values are in fr_CA:`,
       frDuplicateValues
-      );
+    );
   }
   process.exit(1);
 }
-
 
 /**
  * Check for missing keys in en_CA.json and fr_CA.json
