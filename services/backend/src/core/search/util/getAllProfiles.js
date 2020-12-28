@@ -1,12 +1,8 @@
-const Fuse = require("fuse.js");
-
 const _ = require("lodash");
 const prisma = require("../../../database");
 const { viewPrivateProfile } = require("../../../utils/keycloak");
 
-const NUMBER_OF_SKILL_RESULT = 4;
-
-async function getAllUsers(searchValue, language, userId, request) {
+async function getAllUsers(language, userId, request) {
   let data = await prisma.user.findMany({
     select: {
       id: true,
@@ -295,9 +291,18 @@ async function getAllUsers(searchValue, language, userId, request) {
       nameInitials: `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`,
     };
 
+    info.fullName = `${info.firstName} ${info.lastName}`;
+
     if (info.employmentInfo) {
       const employment = info.employmentInfo.translations[0];
-      info.branch = employment ? employment.branch : undefined;
+      info.branch = {};
+      info.branch.name = employment ? employment.branch : undefined;
+      info.branch.acronym = employment
+        ? employment.branch
+            .split(" ")
+            .map((word) => word[0])
+            .join("")
+        : undefined;
       info.jobTitle = employment ? employment.jobTitle : undefined;
       delete info.employmentInfo;
     }
@@ -308,6 +313,7 @@ async function getAllUsers(searchValue, language, userId, request) {
       info.officeLocation.streetName = location
         ? location.streetName
         : undefined;
+      info.officeLocation.fullName = `${info.officeLocation.streetNumber} ${info.officeLocation.streetName}`;
       delete info.officeLocation.translations;
     }
 
@@ -396,21 +402,7 @@ async function getAllUsers(searchValue, language, userId, request) {
         : undefined;
     }
 
-    const fuse = new Fuse(allSkills, {
-      shouldSort: true,
-      threshold: 0.2,
-      keys: ["name"],
-    });
-
-    const resultSkills = fuse
-      .search(searchValue)
-      .slice(0, NUMBER_OF_SKILL_RESULT)
-      .map(({ item }) => item);
-
-    info.resultSkills = resultSkills;
-    info.totalResultSkills = fuse.search(searchValue).length;
-
-    return info;
+    return { ...info, skills: allSkills };
   });
 
   return cleanedUsers;

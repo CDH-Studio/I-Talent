@@ -77,12 +77,8 @@ const SettingsLayoutView = ({
   return (
     <AppLayout>
       <Header
-        title={
-          <>
-            <SettingOutlined />
-            <FormattedMessage id="settings" />
-          </>
-        }
+        title={<FormattedMessage id="settings" />}
+        icon={<SettingOutlined />}
       />
       <Card>
         <List

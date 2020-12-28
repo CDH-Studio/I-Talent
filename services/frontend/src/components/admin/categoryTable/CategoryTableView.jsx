@@ -75,45 +75,44 @@ const CategoryTableView = ({
       clearFilters,
       /* eslint-enable react/prop-types */
     }) => (
-        <div style={{ padding: 8 }}>
-          <Input
-            ref={(node) => {
-              searchInput = node;
-            }}
-            placeholder={`${intl.formatMessage({
-              id: "search.for",
-            })} ${title}`}
-            value={selectedKeys[0]}
-            onChange={(e) =>
-              setSelectedKeys(e.target.value ? [e.target.value] : [])
-            }
-            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            style={{ width: 188, marginBottom: 8, display: "block" }}
-          />
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90, marginRight: 8 }}
-          >
-            <FormattedMessage id="search" />
-          </Button>
-          <Button
-            onClick={() => handleReset(clearFilters)}
-            size="small"
-            style={{ width: 90 }}
-          >
-            <FormattedMessage id="reset" />
-          </Button>
-        </div>
-      ),
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={(node) => {
+            searchInput = node;
+          }}
+          placeholder={`${intl.formatMessage({
+            id: "admin.search",
+          })} ${title}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: "block" }}
+        />
+        <Button
+          type="primary"
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          icon={<SearchOutlined />}
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          <FormattedMessage id="admin.search.button" />
+        </Button>
+        <Button
+          onClick={() => handleReset(clearFilters)}
+          size="small"
+          style={{ width: 90 }}
+        >
+          <FormattedMessage id="admin.reset.button" />
+        </Button>
+      </div>
+    ),
     filterIcon: (filtered) => (
       <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
     ),
     onFilter: (value, record) =>
-      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-    ,
+      record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
     onFilterDropdownVisibleChange: (visible) => {
       if (visible) {
         setTimeout(() => searchInput.select());
@@ -413,12 +412,8 @@ const CategoryTableView = ({
       {addCategoryButton()}
       {editCategoryButton()}
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="skill.categories.table" />
-          </>
-        }
+        title={<FormattedMessage id="skill.categories.table" />}
+        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}

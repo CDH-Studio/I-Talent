@@ -1,11 +1,10 @@
 const { body } = require("express-validator");
 
 const createBugValidator = [
-  body("description").isString().withMessage("must provide description"),
-  body("location")
+  body("description", "must provide description").isString(),
+  body("location", "must provide location")
     .isString()
-    .isIn(["HOME", "PROFILE", "SEARCH", "FORMS"])
-    .withMessage("must provide location"),
+    .isIn(["HOME", "PROFILE", "SEARCH", "FORMS"]),
 ];
 
 const updateBugValidator = [

@@ -100,6 +100,9 @@ const SearchFilter = () => {
           title: category.name,
           value: category.id,
           children,
+          selectable: false,
+          checkable: false,
+          disableCheckbox: true,
         };
       });
       setSkillOptions(dataTree);
@@ -114,6 +117,20 @@ const SearchFilter = () => {
 
   // page with query
   const handleSearch = (values) => {
+    const searchFilter = values;
+
+    if (!searchFilter.anyMentorSkills) {
+      delete searchFilter.anyMentorSkills;
+    }
+
+    if (!searchFilter.exFeeder) {
+      delete searchFilter.exFeeder;
+    }
+
+    if (searchFilter.anyMentorSkills) {
+      delete searchFilter.mentorSkills;
+    }
+
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/results?${query}`;
     history.push(url);

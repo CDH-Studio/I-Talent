@@ -79,39 +79,39 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       confirm,
       clearFilters,
     }) => (
-        <div style={{ padding: 8 }}>
-          <Input
-            ref={(node) => {
-              searchInput = node;
-            }}
-            placeholder={`${intl.formatMessage({
-              id: "search.for",
-            })} ${title}`}
-            value={selectedKeys[0]}
-            onChange={(e) =>
-              setSelectedKeys(e.target.value ? [e.target.value] : [])
-            }
-            onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            style={{ width: 188, marginBottom: 8, display: "block" }}
-          />
-          <Button
-            type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90, marginRight: 8 }}
-          >
-            <FormattedMessage id="search" />
-          </Button>
-          <Button
-            onClick={() => handleReset(clearFilters)}
-            size="small"
-            style={{ width: 90 }}
-          >
-            <FormattedMessage id="reset" />
-          </Button>
-        </div>
-      );
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={(node) => {
+            searchInput = node;
+          }}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
+          value={selectedKeys[0]}
+          onChange={(e) =>
+            setSelectedKeys(e.target.value ? [e.target.value] : [])
+          }
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ width: 188, marginBottom: 8, display: "block" }}
+        />
+        <Button
+          type="primary"
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          icon={<SearchOutlined />}
+          size="small"
+          style={{ width: 90, marginRight: 8 }}
+        >
+          <FormattedMessage id="search" />
+        </Button>
+        <Button
+          onClick={() => handleReset(clearFilters)}
+          size="small"
+          style={{ width: 90 }}
+        >
+          <FormattedMessage id="reset" />
+        </Button>
+      </div>
+    );
 
     filterDropdown.propTypes = {
       clearFilters: PropTypes.func.isRequired,
@@ -550,12 +550,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       {addSchoolModal()}
       {editSchoolModal()}
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="schools.table" />
-          </>
-        }
+        title={<FormattedMessage id="schools.table" />}
+        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}

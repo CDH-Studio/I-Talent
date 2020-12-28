@@ -34,7 +34,7 @@ async function getSkills(request, response) {
   response.status(200).json(skills);
 }
 
-async function getSkillsAllLang(request, response) {
+async function getSkillsAllLang(_request, response) {
   const skillsQuery = await prisma.opSkill.findMany({
     select: {
       id: true,
@@ -86,7 +86,7 @@ async function createSkill(request, response) {
     },
   });
 
-  response.status(200).send("Successfully created a skill option");
+  response.sendStatus(201);
 }
 
 async function updateSkill(request, response) {
@@ -98,11 +98,9 @@ async function updateSkill(request, response) {
     },
     data: {
       category: {
-        connect: categoryId
-          ? {
-              id: categoryId,
-            }
-          : undefined,
+        connect: {
+          id: categoryId,
+        },
       },
       translations: {
         updateMany: [
@@ -127,7 +125,7 @@ async function updateSkill(request, response) {
     },
   });
 
-  response.status(200).send("Successfully updated the specified skill option");
+  response.sendStatus(204);
 }
 
 async function deleteSkill(request, response) {
@@ -161,7 +159,7 @@ async function deleteSkill(request, response) {
     }),
   ]);
 
-  response.status(200).send("Successfully deleted the specified skill option");
+  response.sendStatus(204);
 }
 
 async function deleteSkills(request, response) {
@@ -205,7 +203,7 @@ async function deleteSkills(request, response) {
     }),
   ]);
 
-  response.status(200).send("Successfully deleted the specified skill options");
+  response.sendStatus(204);
 }
 
 module.exports = {

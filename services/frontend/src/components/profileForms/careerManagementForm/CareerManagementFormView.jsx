@@ -205,6 +205,10 @@ const CareerManagementFormView = ({
     if (formsWithErrorsList.qualifiedPools) {
       messages.push(intl.formatMessage({ id: "qualified.pools" }));
     }
+
+    if (formsWithErrorsList.developmentalGoalsAttachments) {
+      messages.push(intl.formatMessage({ id: "profile.learning.development" }));
+    }
     return (
       <div>
         <strong>
@@ -359,6 +363,7 @@ const CareerManagementFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="learning.development" />,
+                errorBool: tabErrorsBool.developmentalGoalsAttachments,
               })}
               key="learning-development"
             >

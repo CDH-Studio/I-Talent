@@ -4,9 +4,12 @@ async function fuzzySearch(profiles, searchValue) {
   const options = {
     shouldSort: true,
     threshold: 0.5,
+    includeMatches: true,
+    useExtendedSearch: true,
     keys: [
       "actingLevel.name",
-      "branch",
+      "branch.name",
+      "branch.acronym",
       "experiences.description",
       "experiences.jobTitle",
       "experiences.projects",
@@ -20,12 +23,14 @@ async function fuzzySearch(profiles, searchValue) {
       "qualifiedPools.classification.name",
       "email",
       "firstName",
-      "jobTitle",
       "lastName",
+      "fullName",
+      "jobTitle",
       "officeLocation.city",
       "officeLocation.streetNumber",
       "officeLocation.province",
       "officeLocation.streetName",
+      "officeLocation.fullName",
       "manager",
       "cellphone",
       "organizations.description",
@@ -37,7 +42,14 @@ async function fuzzySearch(profiles, searchValue) {
   };
 
   const fuse = new Fuse(profiles, options);
-  const results = fuse.search(searchValue).map(({ item }) => item);
+  const results = fuse.search(searchValue).map(({ item, matches }) => ({
+    ...item,
+    matches: matches,
+    skills: matches
+      .filter((match) => match.key === "skills.name")
+      .map((match) => ({ name: match.value, id: match.id })),
+  }));
+
   return results;
 }
 

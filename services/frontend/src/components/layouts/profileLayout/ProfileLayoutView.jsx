@@ -18,7 +18,6 @@ import {
   InfoCircleOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
-  SolutionOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -28,6 +27,7 @@ import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
 import BasicInfo from "../../basicInfo/BasicInfo";
+import Header from "../../header/Header";
 import Skills from "../../skillsCard/Skills";
 import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import Mentorship from "../../mentorshipCard/Mentorship";
@@ -42,7 +42,6 @@ import Experience from "../../experience/Experience";
 import Education from "../../education/Education";
 import Connections from "../../connections/Connections";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import Header from "../../header/Header";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
@@ -422,15 +421,14 @@ const ProfileLayoutView = ({
     >
       {displayHiddenAlert()}
       <Header
-        className="headerStyle"
         title={
-          <>
-            <SolutionOutlined />
-            <FormattedMessage
-              id={privateProfile ? "my.profile" : "profile"}
-            />
-          </>
+          <FormattedMessage
+            id={privateProfile ? "my.profile" : "profile"}
+          />
         }
+        onBack={() => {
+          window.history.back();
+        }}
         subtitle={
           <Tooltip title={<FormattedMessage id="last.modified.date" />}>
             {data && dayjs(data.updatedAt).format("LL")}
@@ -440,11 +438,11 @@ const ProfileLayoutView = ({
       {data ? (
         displayAllProfileCards()
       ) : (
-        <ErrorProfilePage
-          titleId="profile.not.found"
-          subtitleId="profile.not.found.description"
-        />
-      )}
+          <ErrorProfilePage
+            titleId="profile.not.found"
+            subtitleId="profile.not.found.description"
+          />
+        )}
     </AppLayout>
   );
 };

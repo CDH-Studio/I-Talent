@@ -9,11 +9,11 @@ function cleanResults(profiles) {
       jobTitle,
       branch,
       officeLocation,
-      resultSkills,
-      totalResultSkills,
+      skills,
       groupLevel,
       nameInitials,
       status,
+      matches,
     }) => ({
       id,
       avatarColor,
@@ -21,13 +21,14 @@ function cleanResults(profiles) {
       lastName,
       isConnection,
       jobTitle,
-      branch,
+      branch: branch && branch.name,
       officeLocation,
-      resultSkills,
-      totalResultSkills,
+      skills: skills ? skills.slice(0, 3) : [],
+      totalSkillsCount: skills ? skills.length : 0,
       groupLevel,
       nameInitials,
       status,
+      matches,
     })
   );
 }

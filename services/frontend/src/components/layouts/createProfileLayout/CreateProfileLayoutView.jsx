@@ -182,12 +182,8 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       displaySearch={false}
     >
       <Header
-        title={
-          <>
-            <UserAddOutlined />
-            <FormattedMessage id="create.profile" />
-          </>
-        }
+        title={<FormattedMessage id="create.profile" />}
+        icon={<UserAddOutlined />}
       />
       <Card className="edit-profile-card">{form}</Card>
     </AppLayout>

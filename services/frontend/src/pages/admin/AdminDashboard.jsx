@@ -89,12 +89,8 @@ const AdminDashboard = ({ intl }) => {
   return (
     <AdminLayout displaySideBar type="dashboard">
       <Header
-        title={
-          <>
-            <AreaChartOutlined />
-            <FormattedMessage id="admin.dashboard.title" />
-          </>
-        }
+        title={<FormattedMessage id="admin.dashboard.title" />}
+        icon={<AreaChartOutlined />}
       />
       <StatCards />
       <DashboardGraphs />

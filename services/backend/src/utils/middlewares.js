@@ -15,7 +15,7 @@ const printError = (error) => {
   }
 };
 
-const errorHandler = (error, request, response, next) => {
+const errorHandler = (error, _request, response, next) => {
   printError(error);
 
   if (error.errors) {
@@ -29,7 +29,7 @@ const errorHandler = (error, request, response, next) => {
   next(error);
 };
 
-const validationMiddlware = (request, response, next) => {
+const validationMiddlware = (request, _response, next) => {
   validationResult(request).throw();
   next();
 };

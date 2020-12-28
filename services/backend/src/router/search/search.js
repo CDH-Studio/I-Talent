@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { fuzzyValidator } = require("./validator");
 const { keycloak } = require("../../auth/keycloak");
 const { filterSearch, fuzzySearch } = require("../../core/search/search");
 const { langValidator } = require("../util/commonValidators");
@@ -16,7 +17,7 @@ searchRouter.get(
 searchRouter.get(
   "/fuzzy",
   keycloak.protect(),
-  langValidator,
+  [langValidator, fuzzyValidator],
   validationMiddlware,
   fuzzySearch
 );

@@ -28,7 +28,7 @@ async function getCompetencies(request, response) {
   response.status(200).json(competencies);
 }
 
-async function getCompetenciesAllLang(request, response) {
+async function getCompetenciesAllLang(_request, response) {
   const competenciesQuery = await prisma.opCompetency.findMany({
     select: {
       id: true,
@@ -73,7 +73,7 @@ async function createCompetency(request, response) {
     },
   });
 
-  response.status(200).send("Successfully created a competency option");
+  response.sendStatus(201);
 }
 
 async function updateCompetency(request, response) {
@@ -107,9 +107,7 @@ async function updateCompetency(request, response) {
     },
   });
 
-  response
-    .status(200)
-    .send("Successfully updated the specified competency option");
+  response.sendStatus(204);
 }
 
 async function deleteCompetency(request, response) {
@@ -138,9 +136,7 @@ async function deleteCompetency(request, response) {
     }),
   ]);
 
-  response
-    .status(200)
-    .send("Successfully deleted the specified competency option");
+  response.sendStatus(204);
 }
 
 async function deleteCompetencies(request, response) {
@@ -177,9 +173,7 @@ async function deleteCompetencies(request, response) {
     }),
   ]);
 
-  response
-    .status(200)
-    .send("Successfully deleted the specified competency options");
+  response.sendStatus(204);
 }
 
 module.exports = {
