@@ -63,7 +63,7 @@ const ResultProfileCardView = ({
       badgeColor = "#087472";
       tooltipMessage = (
         <FormattedMessage
-          id=" connection.tooltip"
+          id="connection.tooltip"
           values={{ name: user.firstName }}
         />
       );
