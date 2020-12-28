@@ -44,8 +44,8 @@ const UserTable = () => {
         key: user.id,
         profileLink: `/profile/${user.id}`,
         fullName: `${user.firstName} ${user.lastName}`,
-        jobTitle: user.jobTitle || intl.formatMessage({ id: "admin.none" }),
-        tenure: user.tenure || intl.formatMessage({ id: "admin.none" }),
+        jobTitle: user.jobTitle || intl.formatMessage({ id: "none.specified" }),
+        tenure: user.tenure || intl.formatMessage({ id: "none.specified" }),
         formatCreatedAt: dayjs(user.createdAt).format("YYYY-MM-DD"),
         formatUpdatedAt: dayjs(user.updatedAt).format("YYYY-MM-DD"),
         status: user.status,
@@ -111,17 +111,17 @@ const UserTable = () => {
     switch (status) {
       case "INACTIVE":
         return intl.formatMessage({
-          id: "admin.inactive",
+          id: "inactive",
         });
 
       case "HIDDEN":
         return intl.formatMessage({
-          id: "admin.flagged",
+          id: "flagged",
         });
 
       default:
         return intl.formatMessage({
-          id: "admin.active",
+          id: "active",
         });
     }
   };
@@ -138,11 +138,11 @@ const UserTable = () => {
     const getDisplayType = (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `admin.user.plural`,
+          id: `users`,
         });
 
       return intl.formatMessage({
-        id: `admin.user.singular`,
+        id: `user`,
       });
     };
 
@@ -153,7 +153,7 @@ const UserTable = () => {
     <>
       <Prompt
         when={modifiedStatus}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <UserTableView
         searchText={searchText}

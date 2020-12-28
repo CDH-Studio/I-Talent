@@ -64,7 +64,7 @@ const Mentorship = ({ data, editableCardBool }) => {
   };
   return (
     <ProfileCards
-      titleId="profile.mentorship.skills"
+      titleId="mentorship.skills"
       cardName="mentorshipSkills"
       id="card-profile-mentorship-skills"
       editUrl="/profile/edit/talent?tab=mentorship"

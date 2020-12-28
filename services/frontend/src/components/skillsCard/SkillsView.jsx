@@ -41,7 +41,7 @@ const SkillsView = ({ categoriesSkills, skills }) => {
     return (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={<FormattedMessage id="profile.skills.empty" />}
+        description={<FormattedMessage id="skills.empty" />}
       />
     );
   };

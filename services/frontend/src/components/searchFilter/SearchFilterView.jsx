@@ -45,7 +45,7 @@ const SearchFilterView = ({
     }
   }, [form, urlSearchFieldValues]);
 
-  const searchLabel = <FormattedMessage id="button.search" />;
+  const searchLabel = <FormattedMessage id="search" />;
   const searchTitles = [
     "name",
     "classifications",
@@ -57,14 +57,14 @@ const SearchFilterView = ({
     "exFeeder",
   ];
   const labelArr = [
-    <FormattedMessage id="advanced.search.form.name" />,
-    <FormattedMessage id="advanced.search.form.classification" />,
-    <FormattedMessage id="advanced.search.form.location" />,
-    <FormattedMessage id="advanced.search.form.branch" />,
-    <FormattedMessage id="advanced.search.form.skills" />,
-    <FormattedMessage id="advanced.search.form.mentorship.skills" />,
+    <FormattedMessage id="name" />,
+    <FormattedMessage id="classification" />,
+    <FormattedMessage id="work.location" />,
+    <FormattedMessage id="branch" />,
+    <FormattedMessage id="skills" />,
+    <FormattedMessage id="mentorship.skills" />,
     null,
-    <FormattedMessage id="advanced.search.form.ex.feeder" />,
+    <FormattedMessage id="ex.feeder" />,
   ];
   const ariaLabels = [
     intl.formatMessage({ id: "search.filter.person.name" }),
@@ -83,7 +83,7 @@ const SearchFilterView = ({
     <div className="search-searchSideBar">
       <Title level={2} className="search-searchHeader">
         <SettingOutlined className="search-searchHeaderIcon" />
-        <FormattedMessage id="sidebar.search.title" />
+        <FormattedMessage id="search.filters" />
       </Title>
       <Text>
         <FormattedMessage id="sidebar.search.description" />

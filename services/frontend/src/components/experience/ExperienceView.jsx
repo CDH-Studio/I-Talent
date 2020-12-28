@@ -87,7 +87,7 @@ const ExperienceView = ({ experienceInfo }) => {
   return (
     <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<FormattedMessage id="profile.experience.empty" />}
+      description={<FormattedMessage id="experience.empty" />}
     />
   );
 };

@@ -5,7 +5,7 @@ import LearningDevelopmentView from "./LearningDevelopmentView";
 
 const LearningDevelopment = ({ data, editableCardBool }) => (
   <ProfileCards
-    titleId="profile.learning.development"
+    titleId="learning.development"
     cardName="developmentalGoals"
     id="card-profile-learning-development"
     editUrl="/profile/edit/career-management?tab=learning-development"

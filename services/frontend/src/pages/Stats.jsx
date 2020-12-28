@@ -47,7 +47,7 @@ const Stats = () => {
 
   useEffect(() => {
     document.title = `${intl.formatMessage({
-      id: "stats.title",
+      id: "statistics",
     })} | I-Talent`;
     getBackendInfo();
   }, [dispatch, getBackendInfo, intl]);

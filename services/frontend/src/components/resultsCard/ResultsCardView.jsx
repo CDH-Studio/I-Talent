@@ -51,7 +51,7 @@ const ResultsCardView = ({
 
     if (!loading && dataSource.length === 0) {
       return (
-        <Empty description={<FormattedMessage id="search.no.results" />} />
+        <Empty description={<FormattedMessage id="no.results.found" />} />
       );
     }
     const preparedResults = prepareInfo(dataSource, locale);

@@ -23,8 +23,8 @@ const UnexpectedError = () => {
   return (
     <ErrorResultView
       status="500"
-      title={<FormattedMessage id="error.redirect.title" />}
-      subTitle={<FormattedMessage id="error.redirect.subtitle" />}
+      title={<FormattedMessage id="unexpected.error" />}
+      subTitle={<FormattedMessage id="something.went.wrong" />}
       extra={(
         <Col>
           <Row justify="center" gutter={[10, 10]}>
@@ -49,7 +49,7 @@ const UnexpectedError = () => {
                 <ExclamationCircleOutlined />
                 <span>
                   <FormattedMessage
-                    id={showError ? "error.hide" : "error.show"}
+                    id={showError ? "hide.error.log" : "show.error.log"}
                   />
                 </span>
               </Button>

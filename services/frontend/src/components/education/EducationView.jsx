@@ -77,7 +77,7 @@ const EducationView = ({ educationInfo }) => {
   return (
     <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<FormattedMessage id="profile.education.empty" />}
+      description={<FormattedMessage id="education.empty" />}
     />
   );
 };

@@ -21,10 +21,10 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
   const openNotification = () => {
     notification.success({
       message: intl.formatMessage({
-        id: "profile.visibility.confirmation.title",
+        id: "visibility.confirmation.title",
       }),
       description: intl.formatMessage({
-        id: "profile.visibility.confirmation.message",
+        id: "visibility.confirmation.message",
       }),
       placement: "topRight",
     });
@@ -72,27 +72,27 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
       >
         <Option value="PUBLIC">
           <EyeOutlined className="visibilityOptionIcon" />
-          <FormattedMessage id="profile.visibility.card.public" />
+          <FormattedMessage id="visibility.card.public" />
         </Option>
         <Option value="CONNECTIONS">
           <TeamOutlined className="visibilityOptionIcon" />
-          <FormattedMessage id="profile.visibility.card.connections" />
+          <FormattedMessage id="visibility.card.connections" />
         </Option>
         <Option value="PRIVATE">
           <EyeInvisibleOutlined className="visibilityOptionIcon" />
-          <FormattedMessage id="profile.visibility.card.private" />
+          <FormattedMessage id="visibility.card.private" />
         </Option>
       </Select>
 
       <Modal
-        title={<FormattedMessage id="profile.visibility.card.title" />}
+        title={<FormattedMessage id="visibility.card.title" />}
         visible={modalVisibility}
-        okText={<FormattedMessage id="profile.yes" />}
-        cancelText={<FormattedMessage id="profile.no" />}
+        okText={<FormattedMessage id="yes" />}
+        cancelText={<FormattedMessage id="no" />}
         onOk={handleVisibilityPublicOk}
         onCancel={handleVisibilityPublicCancel}
       >
-        <FormattedMessage id={`profile.visibility.${type}.show.confirm`} />
+        <FormattedMessage id={`visibility.${type}.show.confirm`} />
       </Modal>
     </>
   );

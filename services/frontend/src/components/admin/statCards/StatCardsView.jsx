@@ -30,7 +30,7 @@ const StatCardsView = ({
       <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countUsers === "-"}>
           <Statistic
-            title={<FormattedMessage id="admin.dashboard.total.users" />}
+            title={<FormattedMessage id="dashboard.total.users" />}
             value={countUsers}
             valueStyle={{ color: "#3f8600" }}
             prefix={<TeamOutlined />}
@@ -40,7 +40,7 @@ const StatCardsView = ({
       <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countInactiveUsers === "-"}>
           <Statistic
-            title={<FormattedMessage id="admin.dashboard.inactive.users" />}
+            title={<FormattedMessage id="dashboard.inactive.users" />}
             value={countInactiveUsers}
             valueStyle={{ color: "#515052" }}
             prefix={<UserOutlined />}
@@ -50,7 +50,7 @@ const StatCardsView = ({
       <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countHiddenUsers === "-"}>
           <Statistic
-            title={<FormattedMessage id="admin.dashboard.flagged.profiles" />}
+            title={<FormattedMessage id="flagged.profiles" />}
             value={countHiddenUsers}
             valueStyle={{ color: "#cf1322" }}
             prefix={<EyeInvisibleFilled />}
@@ -60,7 +60,7 @@ const StatCardsView = ({
       <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countExFeederUsers === "-"}>
           <Statistic
-            title={<FormattedMessage id="admin.dashboard.ex.feeders" />}
+            title={<FormattedMessage id="total.ex.feeders" />}
             value={countExFeederUsers}
             valueStyle={{ color: "#82A7A6" }}
             prefix={<SolutionOutlined />}
@@ -71,7 +71,7 @@ const StatCardsView = ({
         <Card style={{ height: "100%" }} loading={newUsers === "-"}>
           <Statistic
             title={`${intl.formatMessage({
-              id: "admin.dashboard.monthly.added",
+              id: "dashboard.monthly.added",
             })} - ${dayjs().format("MMMM")}`}
             value={newUsers}
             valueStyle={{ color: "#CD8FD6" }}
@@ -83,7 +83,7 @@ const StatCardsView = ({
         <Card style={{ height: "100%" }} loading={growthRatePrevMonth === "-"}>
           <Statistic
             title={`${intl.formatMessage({
-              id: "admin.dashboard.growth.rate.percentage",
+              id: "growth.rate.percentage",
             })} - ${dayjs().format("MMMM")}`}
             value={growthRatePrevMonth}
             valueStyle={{ color: "#FF934F" }}
