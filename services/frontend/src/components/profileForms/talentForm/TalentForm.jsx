@@ -13,6 +13,9 @@ import handleError from "../../../functions/handleError";
  */
 const TalentForm = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
+  const [skills, setSkills] = useState([]);
+  const [competencies, setCompetencies] = useState([]);
+  const [mentorshipSkills, setMentorshipSkills] = useState([]);
   const [skillOptions, setSkillOptions] = useState([]);
   const [competencyOptions, setCompetencyOptions] = useState([]);
   const [load, setLoad] = useState(false);
@@ -32,12 +35,37 @@ const TalentForm = ({ formType }) => {
    * Get user profile
    */
   const getProfileInfo = useCallback(async () => {
-    const result = await axios.get(
-      `api/profile/${id}?language=${locale}`
-    );
+    const result = await axios.get(`api/profile/${id}?language=${locale}`);
     setProfileInfo(result.data);
   }, [axios, id, locale]);
+  /**
+   * Get user skills
+   */
+  const getSkills = useCallback(async () => {
+    const result = await axios.get(
+      `api/profile/${id}/skills?language=${locale}`
+    );
+    setSkills(result.data);
+  }, [axios, id, locale]);
+  /**
+   * Get user competencies
+   */
+  const getCompetencies = useCallback(async () => {
+    const result = await axios.get(
+      `api/profile/${id}/competencies?language=${locale}`
+    );
+    setCompetencies(result.data);
+  }, [axios, id, locale]);
 
+  /**
+   * Get user mentorshipSkills
+   */
+  const getMentorshipSkills = useCallback(async () => {
+    const result = await axios.get(
+      `api/profile/${id}/mentorshipSkills?language=${locale}`
+    );
+    setMentorshipSkills(result.data);
+  }, [axios, id, locale]);
   /**
    * Get all competency options
    *
@@ -95,7 +123,7 @@ const TalentForm = ({ formType }) => {
    * get saved competencies from profile
    */
   const getSavedCompetencies = () => {
-    setSavedCompetencies(profileInfo.competencies.map((i) => i.id));
+    setSavedCompetencies(competencies.map((i) => i.id));
   };
 
   /**
@@ -104,7 +132,7 @@ const TalentForm = ({ formType }) => {
    * generate an array of skill ids saved in profile
    */
   const getSavedSkills = () => {
-    setSavedSkills(profileInfo.skills.map((i) => i.id));
+    setSavedSkills(skills.map((i) => i.id));
   };
 
   /**
@@ -114,8 +142,8 @@ const TalentForm = ({ formType }) => {
    */
   const getSavedMentorshipSkill = () => {
     const selected = [];
-    for (let i = 0; i < profileInfo.mentorshipSkills.length; i += 1) {
-      selected.push(profileInfo.mentorshipSkills[i].id);
+    for (let i = 0; i < mentorshipSkills.length; i += 1) {
+      selected.push(mentorshipSkills[i].id);
     }
     setSavedMentorshipSkills(selected);
   };
@@ -148,7 +176,14 @@ const TalentForm = ({ formType }) => {
   // useEffect to run once component is mounted
   useEffect(() => {
     // get all required data component
-    Promise.all([getProfileInfo(), getSkillOptions(), getCompetencyOptions()])
+    Promise.all([
+      getProfileInfo(),
+      getSkills(),
+      getCompetencies(),
+      getMentorshipSkills(),
+      getSkillOptions(),
+      getCompetencyOptions(),
+    ])
       .then(() => {
         setLoad(true);
       })
@@ -156,7 +191,15 @@ const TalentForm = ({ formType }) => {
         setLoad(false);
         handleError(error, "redirect", history);
       });
-  }, [getCompetencyOptions, getProfileInfo, getSkillOptions, history]);
+  }, [
+    getCompetencies,
+    getCompetencyOptions,
+    getMentorshipSkills,
+    getProfileInfo,
+    getSkillOptions,
+    getSkills,
+    history,
+  ]);
 
   return (
     <TalentFormView

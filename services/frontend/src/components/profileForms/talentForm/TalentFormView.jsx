@@ -87,8 +87,17 @@ const TalentFormView = ({
       // clear mentorship skills before submission
       values.mentorshipSkills = [];
     }
-
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
+    await Promise.all([
+      axios.put(`api/profile/${userId}/skills?language=${locale}`, values),
+      axios.put(
+        `api/profile/${userId}/competencies?language=${locale}`,
+        values
+      ),
+      axios.put(
+        `api/profile/${userId}/mentorshipSkills?language=${locale}`,
+        values
+      ),
+    ]);
   };
 
   /**
