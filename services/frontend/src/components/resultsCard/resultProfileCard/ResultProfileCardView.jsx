@@ -63,7 +63,7 @@ const ResultProfileCardView = ({
       badgeColor = "#087472";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip"
+          id=" connection.tooltip"
           values={{ name: user.firstName }}
         />
       );
@@ -72,7 +72,7 @@ const ResultProfileCardView = ({
       badgeColor = "#989898";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip.inactive"
+          id="connection.tooltip.inactive"
           values={{ name: user.firstName }}
         />
       );
@@ -81,7 +81,7 @@ const ResultProfileCardView = ({
       badgeColor = "#000";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip.hidden"
+          id="connection.tooltip.hidden"
           values={{ name: user.firstName }}
         />
       );
@@ -146,8 +146,8 @@ const ResultProfileCardView = ({
             isConnection ? (
               <UserDeleteOutlined className="result-card-button-icon" />
             ) : (
-              <UserAddOutlined className="result-card-button-icon" />
-            )
+                <UserAddOutlined className="result-card-button-icon" />
+              )
           }
           onClick={(e) => {
             e.stopPropagation();
@@ -161,10 +161,10 @@ const ResultProfileCardView = ({
           className="result-card-button"
         >
           {isConnection ? (
-            <FormattedMessage id="search.results.cards.remove.connection" />
+            <FormattedMessage id="remove.connection" />
           ) : (
-            <FormattedMessage id="search.results.cards.add.connection" />
-          )}
+              <FormattedMessage id="add.connection" />
+            )}
         </Button>
       );
     }
@@ -196,10 +196,10 @@ const ResultProfileCardView = ({
         {user.branch ? (
           <Text>{user.branch}</Text>
         ) : (
-          <Text>
-            <FormattedMessage id="search.results.cards.branch.not.found" />
-          </Text>
-        )}
+            <Text>
+              <FormattedMessage id="branch.not.found" />
+            </Text>
+          )}
       </div>,
       <div>
         <EnvironmentOutlined className="result-card-footer-icon" />
@@ -209,10 +209,10 @@ const ResultProfileCardView = ({
             {profile.officeLocation.streetName}, {user.officeLocation.city}
           </Text>
         ) : (
-          <Text>
-            <FormattedMessage id="search.results.cards.location.not.found" />
-          </Text>
-        )}
+            <Text>
+              <FormattedMessage id="location.not.found" />
+            </Text>
+          )}
       </div>,
     ];
   };
@@ -305,10 +305,10 @@ const ResultProfileCardView = ({
                     )}
                   </span>
                 ) : (
-                  <Tag className="result-card-tag">
-                    <FormattedMessage id="search.results.cards.skills.not.found" />
-                  </Tag>
-                )}
+                    <Tag className="result-card-tag">
+                      <FormattedMessage id="skills.not.found" />
+                    </Tag>
+                  )}
               </Col>
             </Row>
 
