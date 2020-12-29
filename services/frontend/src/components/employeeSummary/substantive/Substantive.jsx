@@ -5,7 +5,7 @@ import SubstativeView from "./SubstantiveView";
 const Substantive = ({ data }) => {
   const formatData = () => {
     const classification = {
-      title: <FormattedMessage id="profile.classification" />,
+      title: <FormattedMessage id="classification" />,
       description: data.groupLevel ? data.groupLevel.name : "-",
     };
 

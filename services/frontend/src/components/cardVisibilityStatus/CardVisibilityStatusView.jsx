@@ -14,13 +14,13 @@ const CardVisibilityStatusView = ({ visibilityStatus }) => {
   switch (visibilityStatus) {
     case "PUBLIC":
       cardVisibilityMessage = (
-        <FormattedMessage id="profile.visibility.status.public" />
+        <FormattedMessage id="visibility.status.public" />
       );
       cardVisibilityIcon = <EyeOutlined style={{ color: "#A9A9A9" }} />;
       break;
     case "PRIVATE":
       cardVisibilityMessage = (
-        <FormattedMessage id="profile.visibility.status.private" />
+        <FormattedMessage id="visibility.status.private" />
       );
       cardVisibilityIcon = (
         <EyeInvisibleOutlined style={{ color: "#A9A9A9" }} />
@@ -28,7 +28,7 @@ const CardVisibilityStatusView = ({ visibilityStatus }) => {
       break;
     case "CONNECTIONS":
       cardVisibilityMessage = (
-        <FormattedMessage id="profile.visibility.status.connections" />
+        <FormattedMessage id="visibility.status.connections" />
       );
       cardVisibilityIcon = <TeamOutlined style={{ color: "#A9A9A9" }} />;
       break;

@@ -5,6 +5,46 @@ const { sortBy, difference, isEqual } = require("lodash");
 const en = require("./en_CA.json");
 const fr = require("./fr_CA.json");
 
+const blacklistedKeys = require("./blacklistKeys");
+
+// Remove all blacklisted key from the check
+blacklistedKeys.forEach(e => delete en[e]);
+blacklistedKeys.forEach(e => delete fr[e]);
+
+/**
+ * Check for duplicated values in en_CA.json and fr_CA.json
+ */
+const findDuplicates = (arr) =>
+  arr.filter(((s) => (v) => s.has(v) || !s.add(v))(new Set()));
+
+const enValues = sortBy(Object.values(en));
+const frValues = sortBy(Object.values(fr));
+
+const enDuplicateValues = findDuplicates(enValues);
+const frDuplicateValues = findDuplicates(frValues);
+
+if (enDuplicateValues.length === 0 && frDuplicateValues.length === 0) {
+  console.error("There a no duplicate values in the en_CA and fr_CA files!");
+  process.exit();
+} else {
+  if (enDuplicateValues.length > 0) {
+    console.error(
+      `${enDuplicateValues.length} duplicate values are in en_CA:`,
+      enDuplicateValues
+    );
+  }
+  if (frDuplicateValues.length > 0) {
+    console.error(
+      `${frDuplicateValues.length} duplicate values are in fr_CA:`,
+      frDuplicateValues
+    );
+  }
+  process.exit(1);
+}
+
+/**
+ * Check for missing keys in en_CA.json and fr_CA.json
+ */
 const enKeys = sortBy(Object.keys(en));
 const frKeys = sortBy(Object.keys(fr));
 

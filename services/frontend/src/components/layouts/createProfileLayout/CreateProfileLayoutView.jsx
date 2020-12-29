@@ -128,39 +128,39 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
         >
-          {createProfileStep("setup.welcome", [])}
-          {createProfileStep("setup.primary.information", [
-            "setup.step.2.description",
-            "profile.employment.equity.groups",
+          {createProfileStep("welcome", [])}
+          {createProfileStep("primary.contact.information", [
+            "general.profile.info",
+            "employment.equity.groups",
           ])}
           {createProfileStep(
-            "profile.employee.status",
-            ["setup.step.3.description", "profile.description"],
+            "employment.status",
+            ["current.position", "about.me"],
             highestStep < 3
           )}
           {createProfileStep(
-            "setup.language.proficiency",
-            ["setup.first.language", "setup.second.language"],
+            "official.languages",
+            ["first.official.language", "second.official.language.results"],
             highestStep < 3
           )}
           {createProfileStep(
-            "setup.talent",
-            ["setup.skills", "profile.mentorship.skills", "setup.competencies"],
+            "skills.and.competencies",
+            ["skills", "mentorship.skills", "competencies"],
             highestStep < 3
           )}
           {createProfileStep(
-            "profile.employee.qualifications",
-            ["setup.education", "setup.experience"],
+            "employee.qualifications",
+            ["education", "experience"],
             highestStep < 3
           )}
           {createProfileStep(
-            "profile.employee.growth.interests",
+            "employee.growth.interests",
             [
-              "profile.developmental.goals",
-              "profile.qualified.pools",
-              "profile.career.interests",
-              "profile.talent.management",
-              "profile.ex.feeder.title",
+              "developmental.goals",
+              "qualified.pools",
+              "career.interests",
+              "talent.management",
+              "ex.feeder",
             ],
             highestStep < 3
           )}

@@ -30,7 +30,7 @@ const LandingLayoutView = ({ backgroundImage }) => {
     <AppLayout displaySideBar={false} displaySearch={false}>
       <Row className="landing-container" justify="center">
         <h1 className="hidden">
-          <FormattedMessage id="landing.login.and.enter" />
+          <FormattedMessage id="sign.in" />
         </h1>
         <Row
           align="middle"
@@ -43,10 +43,10 @@ const LandingLayoutView = ({ backgroundImage }) => {
           </Col>
           <Col xs={24} sm={24} md={10} xl={8}>
             <Title level={1} className="landing-title">
-              <FormattedMessage id="landing.welcome" />
+              <FormattedMessage id="welcome" />
             </Title>
             <Text className="landing-text">
-              <FormattedMessage id="landing.description" />
+              <FormattedMessage id="italent.web.app.description" />
             </Text>
             <Text className="landing-text" strong>
               <FormattedMessage id="landing.call.to.action" />
@@ -62,7 +62,7 @@ const LandingLayoutView = ({ backgroundImage }) => {
             >
               <span>
                 <strong>
-                  <FormattedMessage id="landing.login.button" />
+                  <FormattedMessage id="sign.in" />
                 </strong>
               </span>
             </Button>

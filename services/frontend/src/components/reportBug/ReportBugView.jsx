@@ -14,11 +14,11 @@ const { Paragraph } = Typography;
 const Rules = {
   required: {
     required: true,
-    message: <FormattedMessage id="profile.rules.required" />,
+    message: <FormattedMessage id="rules.required" />,
   },
   maxChar500: {
     max: 500,
-    message: <FormattedMessage id="profile.rules.max" values={{ max: 500 }} />,
+    message: <FormattedMessage id="rules.max" values={{ max: 500 }} />,
   },
 };
 
@@ -32,15 +32,15 @@ const ReportBugView = ({ saveDataToDB }) => {
 
   const radioOptions = [
     {
-      label: intl.formatMessage({ id: "bugs.location.home" }),
+      label: intl.formatMessage({ id: "home" }),
       value: "HOME",
     },
     {
-      label: intl.formatMessage({ id: "bugs.location.profile" }),
+      label: intl.formatMessage({ id: "profile" }),
       value: "PROFILE",
     },
     {
-      label: intl.formatMessage({ id: "bugs.location.search" }),
+      label: intl.formatMessage({ id: "search" }),
       value: "SEARCH",
     },
     {
@@ -68,20 +68,20 @@ const ReportBugView = ({ saveDataToDB }) => {
       case "success":
         notification.success({
           message: intl.formatMessage({
-            id: "profile.edit.save.success",
+            id: "edit.save.success",
           }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
           message: intl.formatMessage({
-            id: "profile.edit.save.problem",
+            id: "edit.save.problem",
           }),
         });
         break;
@@ -115,7 +115,7 @@ const ReportBugView = ({ saveDataToDB }) => {
         >
           <BugOutlined />
           <span>
-            <FormattedMessage id="bugs.action" />
+            <FormattedMessage id="report.a.bug" />
           </span>
         </Button>
       )}
@@ -132,7 +132,7 @@ const ReportBugView = ({ saveDataToDB }) => {
           </>
         }
         onOk={createBugReport}
-        title={<FormattedMessage id="bugs.action" />}
+        title={<FormattedMessage id="report.a.bug" />}
       >
         <Paragraph>
           <FormattedMessage id="bugs.modal.description" />
@@ -155,7 +155,7 @@ const ReportBugView = ({ saveDataToDB }) => {
           </Form.Item>
           <Form.Item
             name="description"
-            label={<FormattedMessage id="bugs.description" />}
+            label={<FormattedMessage id="description" />}
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />
