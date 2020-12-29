@@ -25,7 +25,7 @@ const QualifiedPools = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="profile.qualified.pools"
+      titleId="qualified.pools"
       cardName="qualifiedPools"
       id="card-profile-qualified-pools"
       editUrl="/profile/edit/career-management?tab=qualified-pools"

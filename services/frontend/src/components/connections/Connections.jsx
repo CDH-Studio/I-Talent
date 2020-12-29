@@ -4,7 +4,7 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const connections = ({ data }) => (
   <ProfileCards
-    titleId="profile.connections"
+    titleId="connections"
     cardName="privateGroup"
     id="card-profile-connections"
     data={data}

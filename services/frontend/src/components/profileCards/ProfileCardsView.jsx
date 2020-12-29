@@ -61,7 +61,7 @@ const ProfileCardsView = ({
       visibilityStatusSymbol = (
         <Tooltip
           placement="left"
-          title={<FormattedMessage id="profile.visibility.card.visible" />}
+          title={<FormattedMessage id="visibility.card.visible" />}
         >
           <EyeOutlined style={{ color: "#A9A9A9" }} />
         </Tooltip>
@@ -71,7 +71,7 @@ const ProfileCardsView = ({
       visibilityStatusSymbol = (
         <Tooltip
           placement="left"
-          title={<FormattedMessage id="profile.visibility.card.blocked" />}
+          title={<FormattedMessage id="visibility.card.blocked" />}
         >
           <EyeInvisibleOutlined style={{ color: "#007471" }} />
         </Tooltip>
@@ -125,10 +125,10 @@ const ProfileCardsView = ({
             {typeof titleId === "string" ? (
               <FormattedMessage id={titleId} />
             ) : (
-              titleId
-            )}
+                titleId
+              )}
             {lastUpdated && (
-              <Tooltip title={<FormattedMessage id="profile.last.updated" />}>
+              <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text
                   style={{
                     marginLeft: 10,

@@ -5,7 +5,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const CareerInterests = ({ data, editableCardBool }) => (
   <ProfileCards
-    titleId="profile.career.interests"
+    titleId="career.interests"
     cardName="careerInterests"
     id="card-profile-career-interests"
     editUrl="/profile/edit/career-management?tab=career-interests"

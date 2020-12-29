@@ -17,7 +17,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
 
   const dataSource = [
     {
-      title: <FormattedMessage id="profile.developmental.goals" />,
+      title: <FormattedMessage id="developmental.goals" />,
       render: (
         <>
           {devGoals.length > 0 ? (
@@ -32,7 +32,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}
               description={
-                <FormattedMessage id="profile.developmental.goals.empty" />
+                <FormattedMessage id="developmental.goals.empty" />
               }
             />
           )}

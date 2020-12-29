@@ -121,11 +121,11 @@ const SchoolTable = ({ intl }) => {
     const getDisplayType = (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `admin.school.plural`,
+          id: `schools`,
         });
 
       return intl.formatMessage({
-        id: `admin.school.singular`,
+        id: `school`,
       });
     };
 

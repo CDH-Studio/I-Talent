@@ -19,8 +19,8 @@ const SettingsLayoutView = ({
 
   const listData = [
     {
-      title: <FormattedMessage id="settings.visibility.title" />,
-      description: <FormattedMessage id="settings.visibility.description" />,
+      title: <FormattedMessage id="profile.visibility" />,
+      description: <FormattedMessage id="profile.visibility.description" />,
       extra: (
         <Tooltip
           title={() => {
@@ -46,8 +46,8 @@ const SettingsLayoutView = ({
       ),
     },
     {
-      title: <FormattedMessage id="settings.delete.title" />,
-      description: <FormattedMessage id="settings.delete.description" />,
+      title: <FormattedMessage id="permanently.delete.account" />,
+      description: <FormattedMessage id="delete.account.description" />,
       extra: (
         <Button
           danger
@@ -58,16 +58,16 @@ const SettingsLayoutView = ({
               content: intl.formatMessage({
                 id: "settings.delete.modal.content",
               }),
-              okText: intl.formatMessage({ id: "profile.yes" }),
+              okText: intl.formatMessage({ id: "yes" }),
               okType: "danger",
-              cancelText: intl.formatMessage({ id: "profile.no" }),
+              cancelText: intl.formatMessage({ id: "no" }),
               autoFocusButton: null,
               onOk: deleteCurrentUser,
             });
           }}
         >
           <span>
-            <FormattedMessage id="settings.delete.button" />
+            <FormattedMessage id="delete.account" />
           </span>
         </Button>
       ),
@@ -77,7 +77,7 @@ const SettingsLayoutView = ({
   return (
     <AppLayout>
       <Header
-        title={<FormattedMessage id="settings.title" />}
+        title={<FormattedMessage id="settings" />}
         icon={<SettingOutlined />}
       />
       <Card>

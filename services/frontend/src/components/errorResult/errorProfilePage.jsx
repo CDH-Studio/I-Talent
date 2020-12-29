@@ -34,13 +34,13 @@ const ErrorProfilePage = ({ titleId, subtitleId }) => {
           <Button onClick={handleClick} type="primary">
             <HomeOutlined />
             <span>
-              <FormattedMessage id="error.button" />
+              <FormattedMessage id="back.to.home" />
             </span>
           </Button>
           <Button onClick={() => setProfile(true)}>
             <UserOutlined />
             <span>
-              <FormattedMessage id="setup.done.view.profile" />
+              <FormattedMessage id="view.profile" />
             </span>
           </Button>
         </>
