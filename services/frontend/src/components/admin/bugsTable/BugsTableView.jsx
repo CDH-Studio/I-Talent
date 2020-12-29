@@ -24,7 +24,9 @@ const tableColumns = (handleEdit) => [
   {
     title: <FormattedMessage id="name" />,
     key: "user",
-    render: (record) => <Link to={`/profile/${record.userId}`}>{record.userName}</Link>,
+    render: (record) => (
+      <Link to={`/profile/${record.userId}`}>{record.userName}</Link>
+    ),
   },
   {
     title: <FormattedMessage id="created.at" />,
@@ -129,8 +131,8 @@ const tableColumns = (handleEdit) => [
           #{value}
         </a>
       ) : (
-          "-"
-        ),
+        "-"
+      ),
   },
   {
     title: <FormattedMessage id="edit" />,

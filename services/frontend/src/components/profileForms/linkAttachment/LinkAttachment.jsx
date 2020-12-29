@@ -6,12 +6,12 @@ import {
 } from "../../../utils/customPropTypes";
 
 const LinkAttachment = ({ fieldElement, removeElement, nameOptions }) => (
-    <LinkAttachmentView
-      fieldElement={fieldElement}
-      removeElement={removeElement}
-      nameOptions={nameOptions}
-    />
-  );
+  <LinkAttachmentView
+    fieldElement={fieldElement}
+    removeElement={removeElement}
+    nameOptions={nameOptions}
+  />
+);
 
 LinkAttachment.propTypes = {
   fieldElement: FieldPropType.isRequired,

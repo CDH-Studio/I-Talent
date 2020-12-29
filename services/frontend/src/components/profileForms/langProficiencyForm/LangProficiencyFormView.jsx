@@ -280,17 +280,13 @@ const LangProficiencyFormView = ({
    * Print out list of validation errors in a list for notification
    */
   const getAllValidationErrorMessages = () => (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "edit.save.error.intro" })}
-        </strong>
-        <ul>
-          <li key="1">
-            {intl.formatMessage({ id: "official.languages" })}
-          </li>
-        </ul>
-      </div>
-    );
+    <div>
+      <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
+      <ul>
+        <li key="1">{intl.formatMessage({ id: "official.languages" })}</li>
+      </ul>
+    </div>
+  );
 
   /*
    * Save
@@ -422,18 +418,20 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="readingProficiency"
-                label={
-                  <FormattedMessage id="secondary.reading.proficiency" />
-                }
+                label={<FormattedMessage id="secondary.reading.proficiency" />}
                 rules={[Rules.required]}
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                 >
-                  {proficiencyOptions.map((value) => <Option key={value.key}>{value.text}</Option>)}
+                  {proficiencyOptions.map((value) => (
+                    <Option key={value.key}>{value.text}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -471,18 +469,20 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="writingProficiency"
-                label={
-                  <FormattedMessage id="secondary.writing.proficiency" />
-                }
+                label={<FormattedMessage id="secondary.writing.proficiency" />}
                 rules={[Rules.required]}
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                 >
-                  {proficiencyOptions.map((value) => <Option key={value.key}>{value.text}</Option>)}
+                  {proficiencyOptions.map((value) => (
+                    <Option key={value.key}>{value.text}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -520,18 +520,20 @@ const LangProficiencyFormView = ({
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="oralProficiency"
-                label={
-                  <FormattedMessage id="secondary.oral.proficiency" />
-                }
+                label={<FormattedMessage id="secondary.oral.proficiency" />}
                 rules={[Rules.required]}
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                 >
-                  {proficiencyOptions.map((value) => <Option key={value.key}>{value.text}</Option>)}
+                  {proficiencyOptions.map((value) => (
+                    <Option key={value.key}>{value.text}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -639,11 +641,15 @@ const LangProficiencyFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                 >
-                  {languageOptions.map((value) => <Option key={value.key}>{value.text}</Option>)}
+                  {languageOptions.map((value) => (
+                    <Option key={value.key}>{value.text}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>

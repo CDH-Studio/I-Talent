@@ -4,35 +4,35 @@ import { FormattedMessage } from "react-intl";
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   const generateFirstLanguage = (dataSource) => (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta title={item.title} description={item.description} />
-          </List.Item>
-        )}
-      />
-    );
+    <List
+      itemLayout="horizontal"
+      dataSource={dataSource}
+      renderItem={(item) => (
+        <List.Item>
+          <List.Item.Meta title={item.title} description={item.description} />
+        </List.Item>
+      )}
+    />
+  );
 
   const generateSecondLanguageData = () => (
-      <List
-        grid={{ column: 3 }}
-        dataSource={secondLanguageInfo}
-        renderItem={(i) => (
-          <List.Item>
-            <List.Item.Meta
-              title={<FormattedMessage id={i.titleId} />}
-              description={
-                <>
-                  {i.level} {i.expiryInfo}
-                </>
-              }
-            />
-          </List.Item>
-        )}
-      />
-    );
+    <List
+      grid={{ column: 3 }}
+      dataSource={secondLanguageInfo}
+      renderItem={(i) => (
+        <List.Item>
+          <List.Item.Meta
+            title={<FormattedMessage id={i.titleId} />}
+            description={
+              <>
+                {i.level} {i.expiryInfo}
+              </>
+            }
+          />
+        </List.Item>
+      )}
+    />
+  );
 
   return (
     <>

@@ -2,11 +2,11 @@ import PropTypes from "prop-types";
 import FuzzyMatchItemView from "./FuzzyMatchItemView";
 
 const FuzzyMatchItem = ({ matchItemName, matchItemString }) => (
-    <FuzzyMatchItemView
-      matchItemName={matchItemName}
-      matchItemString={matchItemString}
-    />
-  );
+  <FuzzyMatchItemView
+    matchItemName={matchItemName}
+    matchItemString={matchItemString}
+  />
+);
 
 FuzzyMatchItem.propTypes = {
   matchItemName: PropTypes.string.isRequired,

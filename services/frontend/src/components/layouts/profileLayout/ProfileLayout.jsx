@@ -11,15 +11,15 @@ const ProfileLayout = ({
   loading,
   savedFormContent,
 }) => (
-    <ProfileLayoutView
-      data={data}
-      connectionStatus={connectionStatus}
-      privateProfile={privateProfile}
-      changeConnection={changeConnection}
-      loading={loading}
-      savedFormContent={savedFormContent}
-    />
-  );
+  <ProfileLayoutView
+    data={data}
+    connectionStatus={connectionStatus}
+    privateProfile={privateProfile}
+    changeConnection={changeConnection}
+    loading={loading}
+    savedFormContent={savedFormContent}
+  />
+);
 
 ProfileLayout.propTypes = {
   data: ProfileInfoPropType,

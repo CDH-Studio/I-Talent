@@ -77,9 +77,7 @@ const PrimaryInfoFormView = ({
     },
     maxChar100: {
       max: 100,
-      message: (
-        <FormattedMessage id="rules.max" values={{ max: 100 }} />
-      ),
+      message: <FormattedMessage id="rules.max" values={{ max: 100 }} />,
     },
     telephoneFormat: [
       {
@@ -195,17 +193,15 @@ const PrimaryInfoFormView = ({
    * Generate error description to display in notification
    */
   const getErrorMessages = () => (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "edit.save.error.intro" })}
-        </strong>
-        <ul>
-          <li key="1">
-            {intl.formatMessage({ id: "primary.contact.information" })}
-          </li>
-        </ul>
-      </div>
-    );
+    <div>
+      <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
+      <ul>
+        <li key="1">
+          {intl.formatMessage({ id: "primary.contact.information" })}
+        </li>
+      </ul>
+    </div>
+  );
 
   /**
    * Save Data to DB by sending to backend API
@@ -492,9 +488,7 @@ const PrimaryInfoFormView = ({
                 <Select
                   mode="tags"
                   style={{ width: "100%" }}
-                  notFoundContent={
-                    <FormattedMessage id="press.enter.to.add" />
-                  }
+                  notFoundContent={<FormattedMessage id="press.enter.to.add" />}
                 />
               </Form.Item>
             </Col>
@@ -509,16 +503,18 @@ const PrimaryInfoFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                 >
                   {locationOptions.map((value) => (
-                      <Option key={value.id}>
-                        {value.streetNumber} {value.streetName}, {value.city},{" "}
-                        {value.province}
-                      </Option>
-                    ))}
+                    <Option key={value.id}>
+                      {value.streetNumber} {value.streetName}, {value.city},{" "}
+                      {value.province}
+                    </Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -617,7 +613,9 @@ const PrimaryInfoFormView = ({
                 <Select
                   showSearch
                   mode="multiple"
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                   className="custom-bubble-select-style"

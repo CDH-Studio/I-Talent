@@ -34,18 +34,18 @@ const ProfileCardsView = ({
     cardInfoName,
     editFormUrl,
   }) => (
-      <Row>
-        <Col>
-          <CardVisibilityToggle
-            visibleCards={visibilityOfAllCards}
-            cardName={cardInfoName}
-          />
-        </Col>
-        <Col style={{ marginLeft: 20 }}>
-          <EditCardButton editUrl={editFormUrl} />
-        </Col>
-      </Row>
-    );
+    <Row>
+      <Col>
+        <CardVisibilityToggle
+          visibleCards={visibilityOfAllCards}
+          cardName={cardInfoName}
+        />
+      </Col>
+      <Col style={{ marginLeft: 20 }}>
+        <EditCardButton editUrl={editFormUrl} />
+      </Col>
+    </Row>
+  );
 
   /**
    * Generate Visibility Status indicator for public profile (view only mode)
@@ -84,7 +84,9 @@ const ProfileCardsView = ({
    * Generate Visibility Status indicator for profile being viewed by admin
    * @param {('PRIVATE'|'CONNECTIONS'|'PUBLIC')} cardVisibilityStatus - visibility status of card.
    */
-  const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />;
+  const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => (
+    <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />
+  );
 
   /**
    * Generate right menu in card header
@@ -121,8 +123,8 @@ const ProfileCardsView = ({
             {typeof titleId === "string" ? (
               <FormattedMessage id={titleId} />
             ) : (
-                titleId
-              )}
+              titleId
+            )}
             {lastUpdated && (
               <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text

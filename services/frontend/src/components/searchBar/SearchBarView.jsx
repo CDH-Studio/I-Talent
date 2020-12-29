@@ -57,17 +57,17 @@ const SearchBarView = ({
 
   // Generate the basic input field for basic search
   const getBasicField = () => (
-      <Form.Item
-        label={
-          <span className="searchLabel">
-            <FormattedMessage id="basic.search" />
-          </span>
-        }
-        name="searchValue"
-      >
-        <Input placeholder={searchLabel} size="large" />
-      </Form.Item>
-    );
+    <Form.Item
+      label={
+        <span className="searchLabel">
+          <FormattedMessage id="basic.search" />
+        </span>
+      }
+      name="searchValue"
+    >
+      <Input placeholder={searchLabel} size="large" />
+    </Form.Item>
+  );
 
   // Generate the regular search fields
   const getBasicSearchForm = (displayForm) => {
@@ -134,18 +134,13 @@ const SearchBarView = ({
           {/* form column one */}
           <Col span={12}>
             {/* name field */}
-            <Form.Item
-              label={<FormattedMessage id="name" />}
-              name="name"
-            >
+            <Form.Item label={<FormattedMessage id="name" />} name="name">
               <Input style={{ width: "100%" }} placeholder={searchLabel} />
             </Form.Item>
 
             {/* classification field */}
             <Form.Item
-              label={
-                <FormattedMessage id="classification" />
-              }
+              label={<FormattedMessage id="classification" />}
               name="classifications"
             >
               <Select
@@ -155,7 +150,9 @@ const SearchBarView = ({
                 placeholder={searchLabel}
                 filterOption={filterOption}
               >
-                {classOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
+                {classOptions.map((value) => (
+                  <Option key={value.id}>{value.name}</Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>
@@ -175,18 +172,15 @@ const SearchBarView = ({
                 filterOption={filterOption}
               >
                 {locationOptions.map((value) => (
-                    <Option key={value.id}>
-                      {value.streetNumber} {value.streetName}, {value.city},{" "}
-                      {value.province}
-                    </Option>
-                  ))}
+                  <Option key={value.id}>
+                    {value.streetNumber} {value.streetName}, {value.city},{" "}
+                    {value.province}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
             {/* branch field */}
-            <Form.Item
-              label={<FormattedMessage id="branch" />}
-              name="branches"
-            >
+            <Form.Item label={<FormattedMessage id="branch" />} name="branches">
               <Select
                 style={{ width: "100%" }}
                 mode="multiple"
@@ -194,7 +188,9 @@ const SearchBarView = ({
                 maxTagCount={3}
                 filterOption={filterOption}
               >
-                {branchOptions.map((value) => <Option key={value}>{value}</Option>)}
+                {branchOptions.map((value) => (
+                  <Option key={value}>{value}</Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>
@@ -214,10 +210,7 @@ const SearchBarView = ({
           {/* form column one */}
           <Col span={24}>
             {/* Skills field */}
-            <Form.Item
-              label={<FormattedMessage id="skills" />}
-              name="skills"
-            >
+            <Form.Item label={<FormattedMessage id="skills" />} name="skills">
               <TreeSelect
                 className="custom-bubble-select-style"
                 treeData={skillOptions}
@@ -231,9 +224,7 @@ const SearchBarView = ({
             </Form.Item>
             {/* Mentorship Skills field */}
             <Form.Item
-              label={
-                <FormattedMessage id="mentorship.skills" />
-              }
+              label={<FormattedMessage id="mentorship.skills" />}
               name="mentorSkills"
             >
               <TreeSelect
@@ -336,13 +327,13 @@ const SearchBarView = ({
                     </span>
                   </>
                 ) : (
-                    <>
-                      <DoubleRightOutlined rotate="90" />
-                      <span>
-                        <FormattedMessage id="advanced.search" />
-                      </span>
-                    </>
-                  )}
+                  <>
+                    <DoubleRightOutlined rotate="90" />
+                    <span>
+                      <FormattedMessage id="advanced.search" />
+                    </span>
+                  </>
+                )}
               </Button>
             </Col>
           </Row>

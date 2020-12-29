@@ -138,10 +138,10 @@ const SearchFilterView = ({
             )}
           >
             {classOptions.map((value) => (
-                <Option role="option" aria-selected={false} key={value.id}>
-                  {value.name}
-                </Option>
-              ))}
+              <Option role="option" aria-selected={false} key={value.id}>
+                {value.name}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
 
@@ -174,10 +174,10 @@ const SearchFilterView = ({
           >
             {locationOptions.map(
               ({ streetNumber, streetName, city, province, id }) => (
-                  <Option role="option" key={id}>
-                    {streetNumber} {streetName}, {city}, {province}
-                  </Option>
-                )
+                <Option role="option" key={id}>
+                  {streetNumber} {streetName}, {city}, {province}
+                </Option>
+              )
             )}
           </Select>
         </Form.Item>
@@ -210,10 +210,10 @@ const SearchFilterView = ({
             )}
           >
             {branchOptions.map((value) => (
-                <Option role="option" key={value}>
-                  {value}
-                </Option>
-              ))}
+              <Option role="option" key={value}>
+                {value}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
 

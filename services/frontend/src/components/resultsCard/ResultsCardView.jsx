@@ -50,9 +50,7 @@ const ResultsCardView = ({
     }
 
     if (!loading && dataSource.length === 0) {
-      return (
-        <Empty description={<FormattedMessage id="no.results.found" />} />
-      );
+      return <Empty description={<FormattedMessage id="no.results.found" />} />;
     }
     const preparedResults = prepareInfo(dataSource, locale);
 
@@ -76,24 +74,24 @@ const ResultsCardView = ({
    *
    */
   const getLoadingAnimation = () => (
-      <Row gutter={[16, 16]} type="flex" justify="left">
-        <Col span={24} xxl={12}>
-          <Card>
-            <Skeleton active />
-          </Card>
-        </Col>
-        <Col span={24} xxl={12} style={{ opacity: "50%" }}>
-          <Card>
-            <Skeleton active />
-          </Card>
-        </Col>
-        <Col span={24} xxl={12} style={{ opacity: "30%" }}>
-          <Card>
-            <Skeleton active />
-          </Card>
-        </Col>
-      </Row>
-    );
+    <Row gutter={[16, 16]} type="flex" justify="left">
+      <Col span={24} xxl={12}>
+        <Card>
+          <Skeleton active />
+        </Card>
+      </Col>
+      <Col span={24} xxl={12} style={{ opacity: "50%" }}>
+        <Card>
+          <Skeleton active />
+        </Card>
+      </Col>
+      <Col span={24} xxl={12} style={{ opacity: "30%" }}>
+        <Card>
+          <Skeleton active />
+        </Card>
+      </Col>
+    </Row>
+  );
 
   return (
     <>

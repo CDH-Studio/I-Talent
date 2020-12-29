@@ -6,5 +6,5 @@ export default [
   "competencies",
   "diplomas",
   "schools",
-  "bugs"
+  "bugs",
 ];

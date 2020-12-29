@@ -7,10 +7,10 @@ import availableTypes from "./adminLayoutTypes";
  *  Controller for the Admin Layout.
  */
 const AdminLayout = ({ displaySideBar, type, children }) => (
-    <AdminLayoutView displaySideBar={displaySideBar} type={type}>
-      {children}
-    </AdminLayoutView>
-  );
+  <AdminLayoutView displaySideBar={displaySideBar} type={type}>
+    {children}
+  </AdminLayoutView>
+);
 
 AdminLayout.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,

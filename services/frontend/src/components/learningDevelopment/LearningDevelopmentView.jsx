@@ -4,7 +4,8 @@ import { PropTypes } from "prop-types";
 import { LinkOutlined } from "@ant-design/icons";
 
 const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
-  const getUrl = (item) => item.map((i) => (
+  const getUrl = (item) =>
+    item.map((i) => (
       <a target="_blank" rel="noopener noreferrer" href={i.url}>
         <Tag color="#727272" key={i.id} style={{ cursor: "pointer" }}>
           <LinkOutlined />
@@ -29,9 +30,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
           ) : (
             <Empty
               image={Empty.PRESENTED_IMAGE_SIMPLE}
-              description={
-                <FormattedMessage id="developmental.goals.empty" />
-              }
+              description={<FormattedMessage id="developmental.goals.empty" />}
             />
           )}
         </>

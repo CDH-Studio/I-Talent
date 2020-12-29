@@ -127,8 +127,8 @@ const CompetencyTableView = ({
           textToHighlight={text.toString()}
         />
       ) : (
-          text
-        ),
+        text
+      ),
   });
 
   /* Renders the success message on top of page */
@@ -151,30 +151,30 @@ const CompetencyTableView = ({
 
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => (
-      <Popconfirm
-        placement="left"
-        title={<FormattedMessage id="delete.competency" />}
-        okText={<FormattedMessage id="delete" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onConfirm={() => {
-          handleSubmitDelete()
-            .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message", history));
-        }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        disabled={selectedRowKeys.length === 0}
-        overlayStyle={{ maxWidth: 350 }}
-      >
-        <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined />
-          <span>
-            <FormattedMessage id="delete" />
-          </span>
-        </Button>
-      </Popconfirm>
-    );
+    <Popconfirm
+      placement="left"
+      title={<FormattedMessage id="delete.competency" />}
+      okText={<FormattedMessage id="delete" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onConfirm={() => {
+        handleSubmitDelete()
+          .then(popUpSuccesss)
+          .catch((error) => handleError(error, "message", history));
+      }}
+      onCancel={() => {
+        popUpCancel();
+      }}
+      disabled={selectedRowKeys.length === 0}
+      overlayStyle={{ maxWidth: 350 }}
+    >
+      <Button disabled={selectedRowKeys.length === 0} danger>
+        <DeleteOutlined />
+        <span>
+          <FormattedMessage id="delete" />
+        </span>
+      </Button>
+    </Popconfirm>
+  );
 
   /* handles closure of add or edit competency modal */
   // occurs if "Ok" option is hit
@@ -216,127 +216,127 @@ const CompetencyTableView = ({
 
   /* Renders "Add Competency" modal */
   const addCompetencyModal = () => (
-      <Modal
-        visible={addVisible}
-        title={<FormattedMessage id="add.competency" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={async () => {
-          addForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitAdd(values);
-              addForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          addForm.resetFields();
-          handleCancel();
-        }}
-      >
-        <Form form={addForm} name="addCompetency" layout="vertical">
-          <Form.Item
-            name="addCompetencyEn"
-            label={<FormattedMessage id="language.english" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.description" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.competency.descriptionEn",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addCompetencyFr"
-            label={<FormattedMessage id="language.french" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.description" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.competency.descriptionFr",
-              })}
-              allowClear
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
+    <Modal
+      visible={addVisible}
+      title={<FormattedMessage id="add.competency" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={async () => {
+        addForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitAdd(values);
+            addForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form form={addForm} name="addCompetency" layout="vertical">
+        <Form.Item
+          name="addCompetencyEn"
+          label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.competency.descriptionEn",
+            })}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+          name="addCompetencyFr"
+          label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.competency.descriptionFr",
+            })}
+            allowClear
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Renders "Edit Competency" modal */
   const editCompetencyModal = () => (
-      <Modal
-        visible={editVisible}
-        title={<FormattedMessage id="edit.competency" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={async () => {
-          editForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitEdit(values, record.id);
-              editForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          editForm.resetFields();
-          handleCancel();
+    <Modal
+      visible={editVisible}
+      title={<FormattedMessage id="edit.competency" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={async () => {
+        editForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitEdit(values, record.id);
+            editForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form
+        form={editForm}
+        name="editCompetency"
+        layout="vertical"
+        fields={fields}
+        onFieldsChange={() => {
+          setFields([{}]);
         }}
       >
-        <Form
-          form={editForm}
-          name="editCompetency"
-          layout="vertical"
-          fields={fields}
-          onFieldsChange={() => {
-            setFields([{}]);
-          }}
+        <Form.Item
+          name="editCompetencyEn"
+          label={<FormattedMessage id="language.english" />}
         >
-          <Form.Item
-            name="editCompetencyEn"
-            label={<FormattedMessage id="language.english" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.competency.descriptionEn",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editCompetencyFr"
-            label={<FormattedMessage id="language.french" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.competency.descriptionFr",
-              })}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.competency.descriptionEn",
+            })}
+          />
+        </Form.Item>
+        <Form.Item
+          name="editCompetencyFr"
+          label={<FormattedMessage id="language.french" />}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.competency.descriptionFr",
+            })}
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Sets up the columns for the competency table */
   // Table columns data structure: array of objects

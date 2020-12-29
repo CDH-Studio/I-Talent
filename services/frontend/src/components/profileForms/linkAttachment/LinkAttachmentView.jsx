@@ -29,54 +29,56 @@ const LinkAttachmentView = ({
   nameOptions,
   intl,
 }) => (
-    <Row span={24} gutter={12}>
-      <Col className="gutter-row" span={5}>
-        <Form.Item
-          rules={[Rules.required]}
-          className="formItem"
-          name={[fieldElement.name, "nameId"]}
-          fieldKey={[fieldElement.fieldKey, "nameId"]}
+  <Row span={24} gutter={12}>
+    <Col className="gutter-row" span={5}>
+      <Form.Item
+        rules={[Rules.required]}
+        className="formItem"
+        name={[fieldElement.name, "nameId"]}
+        fieldKey={[fieldElement.fieldKey, "nameId"]}
+      >
+        <Select
+          optionFilterProp="children"
+          placeholder={<FormattedMessage id="admin.select" />}
         >
-          <Select
-            optionFilterProp="children"
-            placeholder={<FormattedMessage id="admin.select" />}
-          >
-            {nameOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
-          </Select>
-        </Form.Item>
-      </Col>
-      <Col className="gutter-row" span={18}>
-        <Form.Item
-          name={[fieldElement.name, "url"]}
-          fieldKey={[fieldElement.fieldKey, "url"]}
-          className="formItem"
-          rules={[Rules.required, Rules.url]}
-        >
-          <Input
-            placeholder={intl.formatMessage({
-              id: "attachment.placeholder",
-            })}
+          {nameOptions.map((value) => (
+            <Option key={value.id}>{value.name}</Option>
+          ))}
+        </Select>
+      </Form.Item>
+    </Col>
+    <Col className="gutter-row" span={18}>
+      <Form.Item
+        name={[fieldElement.name, "url"]}
+        fieldKey={[fieldElement.fieldKey, "url"]}
+        className="formItem"
+        rules={[Rules.required, Rules.url]}
+      >
+        <Input
+          placeholder={intl.formatMessage({
+            id: "attachment.placeholder",
+          })}
+        />
+      </Form.Item>
+    </Col>
+    <Col className="gutter-row" span={1}>
+      <Form.Item>
+        <Tooltip placement="top" title={<FormattedMessage id="admin.delete" />}>
+          <Button
+            type="link"
+            shape="circle"
+            icon={<DeleteOutlined className="deleted" />}
+            onClick={() => {
+              removeElement(fieldElement.name);
+            }}
+            size="small"
+            className="deleteButton"
           />
-        </Form.Item>
-      </Col>
-      <Col className="gutter-row" span={1}>
-        <Form.Item>
-          <Tooltip placement="top" title={<FormattedMessage id="admin.delete" />}>
-            <Button
-              type="link"
-              shape="circle"
-              icon={<DeleteOutlined className="deleted" />}
-              onClick={() => {
-                removeElement(fieldElement.name);
-              }}
-              size="small"
-              className="deleteButton"
-            />
-          </Tooltip>
-        </Form.Item>
-      </Col>
-    </Row>
-  );
+        </Tooltip>
+      </Form.Item>
+    </Col>
+  </Row>
+);
 
 LinkAttachmentView.propTypes = {
   intl: IntlPropType,

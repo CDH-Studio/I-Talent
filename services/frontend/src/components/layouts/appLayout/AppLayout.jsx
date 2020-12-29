@@ -9,16 +9,16 @@ const AppLayout = ({
   displayLogo,
   displaySearch,
 }) => (
-    <AppLayoutView
-      displaySideBar={displaySideBar}
-      sideBarContent={sideBarContent}
-      loading={loading}
-      displayLogo={displayLogo}
-      displaySearch={displaySearch}
-    >
-      {children}
-    </AppLayoutView>
-  );
+  <AppLayoutView
+    displaySideBar={displaySideBar}
+    sideBarContent={sideBarContent}
+    loading={loading}
+    displayLogo={displayLogo}
+    displaySearch={displaySearch}
+  >
+    {children}
+  </AppLayoutView>
+);
 
 AppLayout.propTypes = {
   children: PropTypes.node,

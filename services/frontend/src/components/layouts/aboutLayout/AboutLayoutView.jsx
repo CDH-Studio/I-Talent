@@ -28,21 +28,21 @@ const AboutLayoutView = ({ type }) => {
   }
 
   const tabPaneSetting = (key, nameId) => (
-      <TabPane tab={<FormattedMessage id={nameId} />} key={key}>
-        <Title className="titles">
-          <FormattedMessage id={nameId} />
-        </Title>
-        <Result
-          icon={<SettingTwoTone twoToneColor="#1C807B" />}
-          title={<FormattedMessage id="more.content.soon" />}
-          extra={
-            <Button onClick={handleClick} type="primary">
-              <FormattedMessage id="back.to.home" />
-            </Button>
-          }
-        />
-      </TabPane>
-    );
+    <TabPane tab={<FormattedMessage id={nameId} />} key={key}>
+      <Title className="titles">
+        <FormattedMessage id={nameId} />
+      </Title>
+      <Result
+        icon={<SettingTwoTone twoToneColor="#1C807B" />}
+        title={<FormattedMessage id="more.content.soon" />}
+        extra={
+          <Button onClick={handleClick} type="primary">
+            <FormattedMessage id="back.to.home" />
+          </Button>
+        }
+      />
+    </TabPane>
+  );
 
   return (
     <AppLayout displaySideBar={false}>

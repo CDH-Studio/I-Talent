@@ -211,9 +211,7 @@ const CareerManagementFormView = ({
     }
     return (
       <div>
-        <strong>
-          {intl.formatMessage({ id: "edit.save.error.intro" })}
-        </strong>
+        <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
         <ul>
           {messages.map((value) => (
             <li key={value}>{value}</li>
@@ -396,7 +394,9 @@ const CareerManagementFormView = ({
                       treeData={developmentalGoalOptions}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="input.placeholder.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -407,28 +407,28 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.List name="developmentalGoalsAttachments">
                     {(fields, { add, remove }) => (
-                        <div>
-                          {fields.map((field) => (
-                            <LinkAttachment
-                              key={field.fieldKey}
-                              fieldElement={field}
-                              removeElement={remove}
-                              nameOptions={attachmentOptions}
-                            />
-                          ))}
-                          <Form.Item>
-                            <Button
-                              type="dashed"
-                              onClick={() => add()}
-                              disabled={fields.length === 6}
-                              style={{ width: "100%" }}
-                            >
-                              <PlusOutlined />
-                              <FormattedMessage id="add.attachment" />
-                            </Button>
-                          </Form.Item>
-                        </div>
-                      )}
+                      <div>
+                        {fields.map((field) => (
+                          <LinkAttachment
+                            key={field.fieldKey}
+                            fieldElement={field}
+                            removeElement={remove}
+                            nameOptions={attachmentOptions}
+                          />
+                        ))}
+                        <Form.Item>
+                          <Button
+                            type="dashed"
+                            onClick={() => add()}
+                            disabled={fields.length === 6}
+                            style={{ width: "100%" }}
+                          >
+                            <PlusOutlined />
+                            <FormattedMessage id="add.attachment" />
+                          </Button>
+                        </Form.Item>
+                      </div>
+                    )}
                   </Form.List>
                 </Col>
               </Row>
@@ -470,30 +470,30 @@ const CareerManagementFormView = ({
                 >
                   <Form.List name="qualifiedPools">
                     {(fields, { add, remove }) => (
-                        <>
-                          {fields.map((field) => (
-                            <QualifiedPoolsForm
-                              key={field.fieldKey}
-                              fieldElement={field}
-                              removeElement={remove}
-                              savedQualifiedPools={savedQualifiedPools}
-                              classificationOptions={classificationOptions}
-                            />
-                          ))}
-                          <Form.Item>
-                            {/* add qualified pools field button */}
-                            <Button
-                              type="dashed"
-                              disabled={fields.length === 3}
-                              onClick={() => add()}
-                              style={{ width: "100%" }}
-                            >
-                              <PlusOutlined />
-                              <FormattedMessage id="add.item" />
-                            </Button>
-                          </Form.Item>
-                        </>
-                      )}
+                      <>
+                        {fields.map((field) => (
+                          <QualifiedPoolsForm
+                            key={field.fieldKey}
+                            fieldElement={field}
+                            removeElement={remove}
+                            savedQualifiedPools={savedQualifiedPools}
+                            classificationOptions={classificationOptions}
+                          />
+                        ))}
+                        <Form.Item>
+                          {/* add qualified pools field button */}
+                          <Button
+                            type="dashed"
+                            disabled={fields.length === 3}
+                            onClick={() => add()}
+                            style={{ width: "100%" }}
+                          >
+                            <PlusOutlined />
+                            <FormattedMessage id="add.item" />
+                          </Button>
+                        </Form.Item>
+                      </>
+                    )}
                   </Form.List>
                 </Col>
               </Row>
@@ -528,13 +528,13 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     name="interestedInRemote"
-                    label={
-                      <FormattedMessage id="edit.interested.in.remote" />
-                    }
+                    label={<FormattedMessage id="edit.interested.in.remote" />}
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="input.placeholder.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       allowClear
                       filterOption={filterOption}
                     >
@@ -561,14 +561,16 @@ const CareerManagementFormView = ({
                     <Select
                       mode="multiple"
                       style={{ width: "100%" }}
-                      placeholder={<FormattedMessage id="input.placeholder.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       filterOption={filterOption}
                     >
                       {relocationOptions.map((value) => (
-                          <Option
-                            key={value.id}
-                          >{`${value.city}, ${value.province}`}</Option>
-                        ))}
+                        <Option
+                          key={value.id}
+                        >{`${value.city}, ${value.province}`}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -579,19 +581,19 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     name="lookingForANewJobId"
-                    label={
-                      <FormattedMessage id="edit.looking.for.new.job" />
-                    }
+                    label={<FormattedMessage id="edit.looking.for.new.job" />}
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="input.placeholder.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       allowClear
                       filterOption={filterOption}
                     >
                       {lookingForNewJobOptions.map((value) => (
-                          <Option key={value.id}>{value.description}</Option>
-                        ))}
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -608,7 +610,9 @@ const CareerManagementFormView = ({
               key="talent-management"
             >
               <FormSubTitle
-                title={<FormattedMessage id="skills.and.competencies.management" />}
+                title={
+                  <FormattedMessage id="skills.and.competencies.management" />
+                }
                 popoverMessage={
                   <>
                     <FormattedMessage id="talent.management.tooltip" />
@@ -621,14 +625,14 @@ const CareerManagementFormView = ({
                         <FormattedMessage id="talent.management.link" />
                       </a>
                     ) : (
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                        >
-                          <FormattedMessage id="talent.management.link" />
-                        </a>
-                      )}
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                      >
+                        <FormattedMessage id="talent.management.link" />
+                      </a>
+                    )}
                   </>
                 }
                 extra={
@@ -649,13 +653,15 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="input.placeholder.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       allowClear
                       filterOption={filterOption}
                     >
                       {careerMobilityOptions.map((value) => (
-                          <Option key={value.id}>{value.description}</Option>
-                        ))}
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -666,19 +672,19 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     name="talentMatrixResultId"
-                    label={
-                      <FormattedMessage id="talent.matrix.result" />
-                    }
+                    label={<FormattedMessage id="talent.matrix.result" />}
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="input.placeholder.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       allowClear
                       filterOption={filterOption}
                     >
                       {talentMatrixResultOptions.map((value) => (
-                          <Option key={value.id}>{value.description}</Option>
-                        ))}
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>

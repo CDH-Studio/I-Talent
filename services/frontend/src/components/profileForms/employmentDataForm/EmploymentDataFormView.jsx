@@ -81,9 +81,7 @@ const EmploymentDataFormView = ({
     },
     maxChar1000: {
       max: 1000,
-      message: (
-        <FormattedMessage id="rules.max" values={{ max: 1000 }} />
-      ),
+      message: <FormattedMessage id="rules.max" values={{ max: 1000 }} />,
     },
   };
 
@@ -222,15 +220,13 @@ const EmploymentDataFormView = ({
    * Print out list of validation errors in a list for notification
    */
   const getAllValidationErrorMessages = () => (
-      <div>
-        <strong>
-          {intl.formatMessage({ id: "edit.save.error.intro" })}
-        </strong>
-        <ul>
-          <li key="1">{intl.formatMessage({ id: "employment.data" })}</li>
-        </ul>
-      </div>
-    );
+    <div>
+      <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
+      <ul>
+        <li key="1">{intl.formatMessage({ id: "employment.data" })}</li>
+      </ul>
+    </div>
+  );
 
   /*
    * Save
@@ -360,7 +356,9 @@ const EmploymentDataFormView = ({
                 allowClear
                 filterOption={filterOption}
               >
-                {classificationOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
+                {classificationOptions.map((value) => (
+                  <Option key={value.id}>{value.name}</Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>
@@ -495,11 +493,15 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                 >
-                  {substantiveOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
+                  {substantiveOptions.map((value) => (
+                    <Option key={value.id}>{value.name}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -511,11 +513,15 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                 >
-                  {classificationOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
+                  {classificationOptions.map((value) => (
+                    <Option key={value.id}>{value.name}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -529,11 +535,15 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   allowClear
                   filterOption={filterOption}
                 >
-                  {securityOptions.map((value) => <Option key={value.id}>{value.description}</Option>)}
+                  {securityOptions.map((value) => (
+                    <Option key={value.id}>{value.description}</Option>
+                  ))}
                 </Select>
               </Form.Item>
             </Col>
