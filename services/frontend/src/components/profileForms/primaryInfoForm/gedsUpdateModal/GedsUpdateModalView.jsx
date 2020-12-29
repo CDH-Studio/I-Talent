@@ -15,7 +15,7 @@ import useAxios from "../../../../utils/useAxios";
 const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   {
     key: "1",
-    rowName: <FormattedMessage id="profile.first.name" />,
+    rowName: <FormattedMessage id="first.name" />,
     savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
     savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
     gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
@@ -24,7 +24,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "2",
-    rowName: <FormattedMessage id="profile.last.name" />,
+    rowName: <FormattedMessage id="last.name" />,
     savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
     savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
     gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
@@ -42,7 +42,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "4",
-    rowName: <FormattedMessage id="profile.location" />,
+    rowName: <FormattedMessage id="work.location" />,
     savedLabel: savedProfile.officeLocation
       ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
       : "-",
@@ -55,7 +55,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "5",
-    rowName: <FormattedMessage id="profile.career.header.name" />,
+    rowName: <FormattedMessage id="job.title" />,
     savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
     savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
     gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
@@ -64,7 +64,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "6",
-    rowName: <FormattedMessage id="profile.branch" />,
+    rowName: <FormattedMessage id="branch" />,
     savedLabel: savedProfile.branch ? gedsProfile.branch[locale] : "-",
     savedValue: savedProfile.branch ? gedsProfile.branch[locale] : "-",
     gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
@@ -210,14 +210,14 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       ellipsis: true,
     },
     {
-      title: <FormattedMessage id="profile.geds.update.saved" />,
+      title: <FormattedMessage id="geds.update.saved" />,
       dataIndex: "savedLabel",
       key: "saved",
       width: "30%",
       ellipsis: true,
     },
     {
-      title: <FormattedMessage id="profile.geds.update.geds" />,
+      title: <FormattedMessage id="geds.update.geds" />,
       dataIndex: "gedsLabel",
       key: "geds",
       width: "30%",
@@ -242,9 +242,9 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
         >
           <span>
             {isEqual(record.savedValue, record.gedsValue) ? (
-              <FormattedMessage id="profile.geds.update.synced" />
+              <FormattedMessage id="geds.update.synced" />
             ) : (
-                <FormattedMessage id="profile.geds.update.sync" />
+                <FormattedMessage id="geds.update.sync" />
               )}
           </span>
         </Button>
@@ -273,21 +273,21 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 
   return (
     <Modal
-      title={<FormattedMessage id="profile.geds.sync.button" />}
+      title={<FormattedMessage id="geds.sync.button" />}
       visible={visibility}
       width={900}
       onOk={onDone}
       onCancel={onDone}
       footer={[
         <Button key="submit" type="primary" onClick={onDone}>
-          <FormattedMessage id="profile.geds.update.finish" />
+          <FormattedMessage id="geds.update.finish" />
         </Button>,
       ]}
     >
       {errorCaught ? (
         <Result
           status="warning"
-          title={<FormattedMessage id="profile.geds.update.error.message" />}
+          title={<FormattedMessage id="geds.update.error.message" />}
         />
       ) : (
           <Table

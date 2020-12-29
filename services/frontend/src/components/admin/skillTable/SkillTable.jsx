@@ -123,11 +123,11 @@ const SkillTable = ({ intl }) => {
     const getDisplayType = (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `admin.skill.plural`,
+          id: `skills`,
         });
 
       return intl.formatMessage({
-        id: `admin.skill.singular`,
+        id: `skill`,
       });
     };
     document.title = `${getDisplayType(true)} - Admin | I-Talent`;
