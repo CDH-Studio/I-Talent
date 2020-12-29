@@ -38,7 +38,7 @@ const AboutLayoutView = ({ type }) => {
           title={<FormattedMessage id="more.content.soon" />}
           extra={
             <Button onClick={handleClick} type="primary">
-              <FormattedMessage id="error.button" />
+              <FormattedMessage id="back.to.home" />
             </Button>
           }
         />

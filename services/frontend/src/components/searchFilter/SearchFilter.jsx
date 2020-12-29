@@ -59,7 +59,9 @@ const SearchFilter = () => {
     );
 
     setUrlSearchFieldValues(formattedQuerySearchData);
-    setAnyMentorSkills(formattedQuerySearchData.anyMentorSkills);
+    if (formattedQuerySearchData.anyMentorSkills) {
+      setAnyMentorSkills(formattedQuerySearchData.anyMentorSkills);
+    }
   }, [history.location.search]);
 
   const handleAnyMentorSkillsChange = (e) => {

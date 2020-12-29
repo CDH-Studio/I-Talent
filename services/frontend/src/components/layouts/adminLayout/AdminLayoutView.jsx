@@ -43,35 +43,35 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
     <Menu onClick={navigationPages} selectedKeys={getPageKey()}>
       <Menu.Item key="dashboard" tabIndex={0}>
         <DashboardOutlined />
-        <FormattedMessage id="admin.dashboard" />
+        <FormattedMessage id="dashboard" />
       </Menu.Item>
       <Menu.Item key="users" tabIndex={0}>
         <SolutionOutlined />
-        <FormattedMessage id="admin.user.plural" />
+        <FormattedMessage id="users" />
       </Menu.Item>
       <Menu.Item key="categories" tabIndex={0}>
         <AppstoreAddOutlined />
-        <FormattedMessage id="admin.category.plural" />
+        <FormattedMessage id="skill.categories" />
       </Menu.Item>
       <Menu.Item key="skills" tabIndex={0}>
         <ToolOutlined />
-        <FormattedMessage id="admin.skill.plural" />
+        <FormattedMessage id="skills" />
       </Menu.Item>
       <Menu.Item key="competencies" tabIndex={0}>
         <FlagOutlined />
-        <FormattedMessage id="admin.competency.plural" />
+        <FormattedMessage id="competencies" />
       </Menu.Item>
       <Menu.Item key="diplomas" tabIndex={0}>
         <TrophyOutlined />
-        <FormattedMessage id="admin.diploma.plural" />
+        <FormattedMessage id="diplomas" />
       </Menu.Item>
       <Menu.Item key="schools" tabIndex={0}>
         <BankFilled />
-        <FormattedMessage id="admin.school.plural" />
+        <FormattedMessage id="schools" />
       </Menu.Item>
       <Menu.Item key="bugs" tabIndex={0}>
         <BugOutlined />
-        <FormattedMessage id="admin.bugs" />
+        <FormattedMessage id="user.reported.bugs" />
       </Menu.Item>
     </Menu>
   );

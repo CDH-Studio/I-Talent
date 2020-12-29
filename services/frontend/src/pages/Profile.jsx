@@ -76,7 +76,7 @@ const Profile = ({ history, match }) => {
     if (userDoesNotExist) {
       setName(intl.formatMessage({ id: "not.found" }));
     } else if (userIsHidden) {
-      setName(intl.formatMessage({ id: "profile.hidden" }));
+      setName(intl.formatMessage({ id: "hidden.profile" }));
     } else if (loading) {
       setName(intl.formatMessage({ id: "loading" }));
     }
@@ -112,8 +112,8 @@ const Profile = ({ history, match }) => {
   if (userIsHidden) {
     return (
       <ErrorProfilePage
-        titleId="profile.hidden"
-        subtitleId="profile.hidden.description"
+        titleId="hidden.profile"
+        subtitleId="hidden.profile.description"
       />
     );
   }

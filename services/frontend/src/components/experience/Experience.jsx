@@ -61,10 +61,10 @@ const Experience = ({ data, editableCardBool }) => {
         organization,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
-              id: a.id,
-              name: a.name.name,
-              url: a.url,
-            }))
+            id: a.id,
+            name: a.name.name,
+            url: a.url,
+          }))
           : [],
         projects,
       })
@@ -73,7 +73,7 @@ const Experience = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="profile.experience"
+      titleId="experience"
       cardName="experience"
       id="card-profile-experience"
       editUrl="/profile/edit/qualifications?tab=experience"

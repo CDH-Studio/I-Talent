@@ -9,7 +9,7 @@ const Acting = ({ data }) => {
 
     if (data.actingLevel) {
       const acting = {
-        title: <FormattedMessage id="profile.acting" />,
+        title: <FormattedMessage id="acting" />,
         description: data.actingLevel.name,
       };
 
@@ -23,7 +23,7 @@ const Acting = ({ data }) => {
             : "");
 
         const actingDate = {
-          title: <FormattedMessage id="profile.acting.date" />,
+          title: <FormattedMessage id="acting.date" />,
           description: desc,
         };
 

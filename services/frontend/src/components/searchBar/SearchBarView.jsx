@@ -42,7 +42,7 @@ const SearchBarView = ({
   const [form] = Form.useForm();
 
   const searchLabel = intl.formatMessage({
-    id: "button.search",
+    id: "search",
   });
 
   // Toggle expandable advanced search form
@@ -61,7 +61,7 @@ const SearchBarView = ({
       <Form.Item
         label={
           <span className="searchLabel">
-            <FormattedMessage id="button.basic.search" />
+            <FormattedMessage id="basic.search" />
           </span>
         }
         name="searchValue"
@@ -97,7 +97,7 @@ const SearchBarView = ({
             form.resetFields();
           }}
         >
-          <FormattedMessage id="button.clear" />
+          <FormattedMessage id="clear.changes" />
         </Button>
       </div>
     );
@@ -116,7 +116,7 @@ const SearchBarView = ({
               <SettingOutlined
                 style={{ marginRight: "4px", color: "#3CBAB3" }}
               />
-              <FormattedMessage id="advanced.search.button.text" />
+              <FormattedMessage id="advanced.search" />
             </Title>
             <FormattedMessage id="advanced.search.description" />
           </Col>
@@ -125,7 +125,7 @@ const SearchBarView = ({
         <Row style={{ padding: "15px 5% 0px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
-              <FormattedMessage id="search.advanced.general.title" />
+              <FormattedMessage id="general.info" />
             </Title>
           </Col>
         </Row>
@@ -137,7 +137,7 @@ const SearchBarView = ({
           <Col span={12}>
             {/* name field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.name" />}
+              label={<FormattedMessage id="name" />}
               name="name"
             >
               <Input style={{ width: "100%" }} placeholder={searchLabel} />
@@ -146,7 +146,7 @@ const SearchBarView = ({
             {/* classification field */}
             <Form.Item
               label={
-                <FormattedMessage id="advanced.search.form.classification" />
+                <FormattedMessage id="classification" />
               }
               name="classifications"
             >
@@ -168,7 +168,7 @@ const SearchBarView = ({
           <Col span={12}>
             {/* Location field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.location" />}
+              label={<FormattedMessage id="work.location" />}
               name="locations"
             >
               <Select
@@ -190,7 +190,7 @@ const SearchBarView = ({
             </Form.Item>
             {/* branch field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.branch" />}
+              label={<FormattedMessage id="branch" />}
               name="branches"
             >
               <Select
@@ -211,7 +211,7 @@ const SearchBarView = ({
         <Row style={{ padding: "5px 5% 5px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
-              <FormattedMessage id="search.advanced.skill.title" />
+              <FormattedMessage id="skills.and.talent" />
             </Title>
           </Col>
         </Row>
@@ -223,7 +223,7 @@ const SearchBarView = ({
           <Col span={24}>
             {/* Skills field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.skills" />}
+              label={<FormattedMessage id="skills" />}
               name="skills"
             >
               <TreeSelect
@@ -231,7 +231,7 @@ const SearchBarView = ({
                 treeData={skillOptions}
                 treeCheckable
                 showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="setup.select" />}
+                placeholder={<FormattedMessage id="input.placeholder.select" />}
                 treeNodeFilterProp="title"
                 showSearch
                 maxTagCount={15}
@@ -240,7 +240,7 @@ const SearchBarView = ({
             {/* Mentorship Skills field */}
             <Form.Item
               label={
-                <FormattedMessage id="advanced.search.form.mentorship.skills" />
+                <FormattedMessage id="mentorship.skills" />
               }
               name="mentorSkills"
             >
@@ -249,7 +249,7 @@ const SearchBarView = ({
                 treeData={skillOptions}
                 treeCheckable
                 showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="setup.select" />}
+                placeholder={<FormattedMessage id="input.placeholder.select" />}
                 treeNodeFilterProp="title"
                 showSearch
                 maxTagCount={15}
@@ -263,7 +263,7 @@ const SearchBarView = ({
             </Form.Item>
             {/* exFeeder field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
+              label={<FormattedMessage id="ex.feeder" />}
               name="exFeeder"
               valuePropName="checked"
             >
@@ -295,7 +295,7 @@ const SearchBarView = ({
               form.resetFields();
             }}
           >
-            <FormattedMessage id="button.clear" />
+            <FormattedMessage id="clear.changes" />
           </Button>
         </div>
         <Divider />
@@ -340,17 +340,17 @@ const SearchBarView = ({
                   <>
                     <DoubleRightOutlined rotate="270" />
                     <span>
-                      <FormattedMessage id="button.basic.search" />
+                      <FormattedMessage id="basic.search" />
                     </span>
                   </>
                 ) : (
-                  <>
-                    <DoubleRightOutlined rotate="90" />
-                    <span>
-                      <FormattedMessage id="button.advanced.search" />
-                    </span>
-                  </>
-                )}
+                    <>
+                      <DoubleRightOutlined rotate="90" />
+                      <span>
+                        <FormattedMessage id="advanced.search" />
+                      </span>
+                    </>
+                  )}
               </Button>
             </Col>
           </Row>

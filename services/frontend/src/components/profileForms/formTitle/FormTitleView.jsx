@@ -29,7 +29,7 @@ const FormTitleView = ({
         {title}
         {fieldsChanged && (
           <Text className="profileForm-unsavedText">
-            (<FormattedMessage id="profile.form.unsaved" />)
+            (<FormattedMessage id="form.unsaved" />)
           </Text>
         )}
       </Title>

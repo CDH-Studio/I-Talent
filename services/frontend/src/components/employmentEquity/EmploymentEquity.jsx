@@ -36,7 +36,7 @@ const EmploymentEquity = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="profile.employment.equity.groups"
+      titleId="employment.equity.groups"
       cardName="employmentEquityGroup"
       id="card-profile-employment-equity"
       editUrl="/profile/edit/primary-info"
