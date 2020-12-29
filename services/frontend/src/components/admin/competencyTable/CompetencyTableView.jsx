@@ -150,8 +150,7 @@ const CompetencyTableView = ({
   };
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
+  const deleteConfirm = () => (
       <Popconfirm
         placement="left"
         title={<FormattedMessage id="delete.competency" />}
@@ -176,7 +175,6 @@ const CompetencyTableView = ({
         </Button>
       </Popconfirm>
     );
-  };
 
   /* handles closure of add or edit competency modal */
   // occurs if "Ok" option is hit
@@ -217,8 +215,7 @@ const CompetencyTableView = ({
   };
 
   /* Renders "Add Competency" modal */
-  const addCompetencyModal = () => {
-    return (
+  const addCompetencyModal = () => (
       <Modal
         visible={addVisible}
         title={<FormattedMessage id="add.competency" />}
@@ -281,11 +278,9 @@ const CompetencyTableView = ({
         </Form>
       </Modal>
     );
-  };
 
   /* Renders "Edit Competency" modal */
-  const editCompetencyModal = () => {
-    return (
+  const editCompetencyModal = () => (
       <Modal
         visible={editVisible}
         title={<FormattedMessage id="edit.competency" />}
@@ -342,7 +337,6 @@ const CompetencyTableView = ({
         </Form>
       </Modal>
     );
-  };
 
   /* Sets up the columns for the competency table */
   // Table columns data structure: array of objects
@@ -352,9 +346,7 @@ const CompetencyTableView = ({
       title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => {
-        return a.en.localeCompare(b.en);
-      },
+      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
@@ -367,9 +359,7 @@ const CompetencyTableView = ({
       title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => {
-        return a.fr.localeCompare(b.fr);
-      },
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",

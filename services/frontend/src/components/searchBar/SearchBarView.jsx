@@ -56,8 +56,7 @@ const SearchBarView = ({
   };
 
   // Generate the basic input field for basic search
-  const getBasicField = () => {
-    return (
+  const getBasicField = () => (
       <Form.Item
         label={
           <span className="searchLabel">
@@ -69,7 +68,6 @@ const SearchBarView = ({
         <Input placeholder={searchLabel} size="large" />
       </Form.Item>
     );
-  };
 
   // Generate the regular search fields
   const getBasicSearchForm = (displayForm) => {
@@ -157,9 +155,7 @@ const SearchBarView = ({
                 placeholder={searchLabel}
                 filterOption={filterOption}
               >
-                {classOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
+                {classOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
               </Select>
             </Form.Item>
           </Col>
@@ -178,14 +174,12 @@ const SearchBarView = ({
                 maxTagCount={3}
                 filterOption={filterOption}
               >
-                {locationOptions.map((value) => {
-                  return (
+                {locationOptions.map((value) => (
                     <Option key={value.id}>
                       {value.streetNumber} {value.streetName}, {value.city},{" "}
                       {value.province}
                     </Option>
-                  );
-                })}
+                  ))}
               </Select>
             </Form.Item>
             {/* branch field */}
@@ -200,9 +194,7 @@ const SearchBarView = ({
                 maxTagCount={3}
                 filterOption={filterOption}
               >
-                {branchOptions.map((value) => {
-                  return <Option key={value}>{value}</Option>;
-                })}
+                {branchOptions.map((value) => <Option key={value}>{value}</Option>)}
               </Select>
             </Form.Item>
           </Col>

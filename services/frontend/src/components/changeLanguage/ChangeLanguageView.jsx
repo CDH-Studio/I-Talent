@@ -3,8 +3,7 @@ import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage } from "react-intl";
 
-const ChangeLanguageView = ({ handleLanguageChange }) => {
-  return (
+const ChangeLanguageView = ({ handleLanguageChange }) => (
     <Button
       ghost="true"
       type="default"
@@ -25,7 +24,6 @@ const ChangeLanguageView = ({ handleLanguageChange }) => {
       </span>
     </Button>
   );
-};
 
 ChangeLanguageView.propTypes = {
   handleLanguageChange: PropTypes.func.isRequired,

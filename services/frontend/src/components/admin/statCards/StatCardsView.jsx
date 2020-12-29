@@ -24,8 +24,7 @@ const StatCardsView = ({
   newUsers,
   growthRatePrevMonth,
   intl,
-}) => {
-  return (
+}) => (
     <Row gutter={[8, 8]} type="flex">
       <Col xs={12} sm={8} xl={4}>
         <Card style={{ height: "100%" }} loading={countUsers === "-"}>
@@ -94,7 +93,6 @@ const StatCardsView = ({
       </Col>
     </Row>
   );
-};
 
 StatCardsView.propTypes = {
   countUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),

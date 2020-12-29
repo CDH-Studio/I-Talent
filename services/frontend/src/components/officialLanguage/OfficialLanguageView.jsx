@@ -3,8 +3,7 @@ import { Row, Col, List } from "antd";
 import { FormattedMessage } from "react-intl";
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
-  const generateFirstLanguage = (dataSource) => {
-    return (
+  const generateFirstLanguage = (dataSource) => (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
@@ -15,10 +14,8 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
         )}
       />
     );
-  };
 
-  const generateSecondLanguageData = () => {
-    return (
+  const generateSecondLanguageData = () => (
       <List
         grid={{ column: 3 }}
         dataSource={secondLanguageInfo}
@@ -36,7 +33,6 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
         )}
       />
     );
-  };
 
   return (
     <>

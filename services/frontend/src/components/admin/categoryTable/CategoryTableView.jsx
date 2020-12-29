@@ -195,8 +195,7 @@ const CategoryTableView = ({
   };
 
   /* Renders "Add Category" modal */
-  const addCategoryButton = () => {
-    return (
+  const addCategoryButton = () => (
       <Modal
         visible={addVisible}
         title={<FormattedMessage id="add.category" />}
@@ -259,11 +258,9 @@ const CategoryTableView = ({
         </Form>
       </Modal>
     );
-  };
 
   /* Renders "Edit Category" modal */
-  const editCategoryButton = () => {
-    return (
+  const editCategoryButton = () => (
       <Modal
         visible={editVisible}
         title={<FormattedMessage id="edit.category" />}
@@ -320,11 +317,9 @@ const CategoryTableView = ({
         </Form>
       </Modal>
     );
-  };
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
+  const deleteConfirm = () => (
       <Popconfirm
         placement="left"
         title={<FormattedMessage id="delete.category" />}
@@ -347,7 +342,6 @@ const CategoryTableView = ({
         </Button>
       </Popconfirm>
     );
-  };
 
   /* Sets up the columns for the category table */
   // Table columns data structure: array of objects
@@ -357,9 +351,7 @@ const CategoryTableView = ({
       title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => {
-        return a.en.localeCompare(b.en);
-      },
+      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
@@ -372,9 +364,7 @@ const CategoryTableView = ({
       title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => {
-        return a.fr.localeCompare(b.fr);
-      },
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",

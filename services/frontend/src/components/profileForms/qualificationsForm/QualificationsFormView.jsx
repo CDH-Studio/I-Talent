@@ -357,8 +357,7 @@ const QualificationsFormView = ({
                   xl={24}
                 >
                   <Form.List name="educations">
-                    {(fields, { add, remove }) => {
-                      return (
+                    {(fields, { add, remove }) => (
                         <>
                           {fields.map((field) => (
                             <EducationForm
@@ -384,8 +383,7 @@ const QualificationsFormView = ({
                             </Button>
                           </Form.Item>
                         </>
-                      );
-                    }}
+                      )}
                   </Form.List>
                 </Col>
               </Row>
@@ -417,8 +415,7 @@ const QualificationsFormView = ({
                   xl={24}
                 >
                   <Form.List name="experiences">
-                    {(fields, { add, remove }) => {
-                      return (
+                    {(fields, { add, remove }) => (
                         <div>
                           {/* generate education form for each education item */}
                           {fields.map((field) => (
@@ -446,8 +443,7 @@ const QualificationsFormView = ({
                             </Button>
                           </Form.Item>
                         </div>
-                      );
-                    }}
+                      )}
                   </Form.List>
                 </Col>
               </Row>

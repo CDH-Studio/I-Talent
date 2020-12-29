@@ -10,8 +10,7 @@ const ProfileLayout = ({
   changeConnection,
   loading,
   savedFormContent,
-}) => {
-  return (
+}) => (
     <ProfileLayoutView
       data={data}
       connectionStatus={connectionStatus}
@@ -21,7 +20,6 @@ const ProfileLayout = ({
       savedFormContent={savedFormContent}
     />
   );
-};
 
 ProfileLayout.propTypes = {
   data: ProfileInfoPropType,

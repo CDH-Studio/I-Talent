@@ -84,13 +84,11 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * @param {*} descriptions
    */
   const createDescription = (descriptions) => {
-    const modifiedDescriptions = descriptions.map((description) => {
-      return (
+    const modifiedDescriptions = descriptions.map((description) => (
         <li>
           <FormattedMessage id={description} />
         </li>
-      );
-    });
+      ));
     return modifiedDescriptions ? (
       <ul className="stepList">{modifiedDescriptions}</ul>
     ) : undefined;
@@ -101,8 +99,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * @param {*} descriptions
    * @param {*} disabled
    */
-  const createProfileStep = (titleId, descriptions, disabled) => {
-    return (
+  const createProfileStep = (titleId, descriptions, disabled) => (
       <Step
         tabIndex={0}
         title={<FormattedMessage id={titleId} />}
@@ -110,7 +107,6 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
         disabled={disabled}
       />
     );
-  };
 
   /*
    * Get Side Bar Content

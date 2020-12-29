@@ -181,8 +181,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   };
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
+  const deleteConfirm = () => (
       <Popconfirm
         placement="left"
         title={<FormattedMessage id="delete.school" />}
@@ -207,7 +206,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         </Button>
       </Popconfirm>
     );
-  };
 
   /* handles closure of add or edit school modal */
   // occurs if "Ok" option is hit
@@ -248,8 +246,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   };
 
   /* Renders "Add School" modal */
-  const addSchoolModal = () => {
-    return (
+  const addSchoolModal = () => (
       <Modal
         visible={addVisible}
         title={<FormattedMessage id="add.school" />}
@@ -358,11 +355,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         </Form>
       </Modal>
     );
-  };
 
   /* Renders "Edit School" modal */
-  const editSchoolModal = () => {
-    return (
+  const editSchoolModal = () => (
       <Modal
         visible={editVisible}
         title={<FormattedMessage id="edit.school" />}
@@ -441,7 +436,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         </Form>
       </Modal>
     );
-  };
 
   /* Sets up the columns for the school table */
   // Table columns data structure: array of objects
@@ -495,9 +489,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       title: <FormattedMessage id="province.state" />,
       dataIndex: "abbrProvince",
       key: "schoolState",
-      sorter: (a, b) => {
-        return a.abbrProvince.localeCompare(b.abbrProvince);
-      },
+      sorter: (a, b) => a.abbrProvince.localeCompare(b.abbrProvince),
       ...getColumnSearchProps(
         "abbrProvince",
         intl.formatMessage({
@@ -509,9 +501,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       title: <FormattedMessage id="country" />,
       dataIndex: "abbrCountry",
       key: "schoolCountry",
-      sorter: (a, b) => {
-        return a.abbrCountry.localeCompare(b.abbrCountry);
-      },
+      sorter: (a, b) => a.abbrCountry.localeCompare(b.abbrCountry),
       ...getColumnSearchProps(
         "abbrCountry",
         intl.formatMessage({

@@ -33,8 +33,7 @@ const ProfileCardsView = ({
     visibilityOfAllCards,
     cardInfoName,
     editFormUrl,
-  }) => {
-    return (
+  }) => (
       <Row>
         <Col>
           <CardVisibilityToggle
@@ -47,7 +46,6 @@ const ProfileCardsView = ({
         </Col>
       </Row>
     );
-  };
 
   /**
    * Generate Visibility Status indicator for public profile (view only mode)
@@ -86,9 +84,7 @@ const ProfileCardsView = ({
    * Generate Visibility Status indicator for profile being viewed by admin
    * @param {('PRIVATE'|'CONNECTIONS'|'PUBLIC')} cardVisibilityStatus - visibility status of card.
    */
-  const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => {
-    return <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />;
-  };
+  const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />;
 
   /**
    * Generate right menu in card header

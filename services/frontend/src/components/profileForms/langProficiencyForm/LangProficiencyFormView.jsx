@@ -279,8 +279,7 @@ const LangProficiencyFormView = ({
    *
    * Print out list of validation errors in a list for notification
    */
-  const getAllValidationErrorMessages = () => {
-    return (
+  const getAllValidationErrorMessages = () => (
       <div>
         <strong>
           {intl.formatMessage({ id: "edit.save.error.intro" })}
@@ -292,7 +291,6 @@ const LangProficiencyFormView = ({
         </ul>
       </div>
     );
-  };
 
   /*
    * Save
@@ -435,9 +433,7 @@ const LangProficiencyFormView = ({
                   allowClear
                   filterOption={filterOption}
                 >
-                  {proficiencyOptions.map((value) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
+                  {proficiencyOptions.map((value) => <Option key={value.key}>{value.text}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -486,9 +482,7 @@ const LangProficiencyFormView = ({
                   allowClear
                   filterOption={filterOption}
                 >
-                  {proficiencyOptions.map((value) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
+                  {proficiencyOptions.map((value) => <Option key={value.key}>{value.text}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -537,9 +531,7 @@ const LangProficiencyFormView = ({
                   allowClear
                   filterOption={filterOption}
                 >
-                  {proficiencyOptions.map((value) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
+                  {proficiencyOptions.map((value) => <Option key={value.key}>{value.text}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -651,9 +643,7 @@ const LangProficiencyFormView = ({
                   allowClear
                   filterOption={filterOption}
                 >
-                  {languageOptions.map((value) => {
-                    return <Option key={value.key}>{value.text}</Option>;
-                  })}
+                  {languageOptions.map((value) => <Option key={value.key}>{value.text}</Option>)}
                 </Select>
               </Form.Item>
             </Col>

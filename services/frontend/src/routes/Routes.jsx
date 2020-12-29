@@ -6,8 +6,7 @@ import Secured from "./Secured";
 import ScrollToTop from "./ScrollToTop";
 import PrivacyModal from "../components/privacyModal/PrivacyModal";
 
-const Routes = () => {
-  return (
+const Routes = () => (
     <>
       <ScrollToTop />
       <Switch>
@@ -32,6 +31,5 @@ const Routes = () => {
       <PrivacyModal />
     </>
   );
-};
 
 export default Routes;

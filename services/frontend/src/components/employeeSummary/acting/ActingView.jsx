@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
 
-const ActingView = ({ values }) => {
-  return (
+const ActingView = ({ values }) => (
     <Row>
       <Col span={24}>
         <List
@@ -20,7 +19,6 @@ const ActingView = ({ values }) => {
       </Col>
     </Row>
   );
-};
 
 ActingView.propTypes = {
   values: PropTypes.arrayOf(

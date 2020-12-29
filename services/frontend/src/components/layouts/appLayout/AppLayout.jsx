@@ -8,8 +8,7 @@ const AppLayout = ({
   loading,
   displayLogo,
   displaySearch,
-}) => {
-  return (
+}) => (
     <AppLayoutView
       displaySideBar={displaySideBar}
       sideBarContent={sideBarContent}
@@ -20,7 +19,6 @@ const AppLayout = ({
       {children}
     </AppLayoutView>
   );
-};
 
 AppLayout.propTypes = {
   children: PropTypes.node,

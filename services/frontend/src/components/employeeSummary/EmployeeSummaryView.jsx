@@ -3,8 +3,7 @@ import Substantive from "./substantive/Substantive";
 import Acting from "./acting/Acting";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const EmployeeSummaryView = ({ data }) => {
-  return (
+const EmployeeSummaryView = ({ data }) => (
     <div>
       <Row>
         <Col span={data.actingLevel ? 12 : 24}>
@@ -18,7 +17,6 @@ const EmployeeSummaryView = ({ data }) => {
       </Row>
     </div>
   );
-};
 
 EmployeeSummaryView.propTypes = {
   data: ProfileInfoPropType,

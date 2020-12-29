@@ -2,8 +2,7 @@ import PropTypes from "prop-types";
 import { Row, Col, List } from "antd";
 import { injectIntl } from "react-intl";
 
-const SubstantiveView = ({ values }) => {
-  return (
+const SubstantiveView = ({ values }) => (
     <Row>
       <Col span={24}>
         <List
@@ -21,7 +20,6 @@ const SubstantiveView = ({ values }) => {
       </Col>
     </Row>
   );
-};
 
 SubstantiveView.propTypes = {
   values: PropTypes.arrayOf(

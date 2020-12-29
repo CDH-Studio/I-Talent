@@ -27,8 +27,7 @@ const AboutLayoutView = ({ type }) => {
     return <Redirect to="/" />;
   }
 
-  const tabPaneSetting = (key, nameId) => {
-    return (
+  const tabPaneSetting = (key, nameId) => (
       <TabPane tab={<FormattedMessage id={nameId} />} key={key}>
         <Title className="titles">
           <FormattedMessage id={nameId} />
@@ -44,7 +43,6 @@ const AboutLayoutView = ({ type }) => {
         />
       </TabPane>
     );
-  };
 
   return (
     <AppLayout displaySideBar={false}>

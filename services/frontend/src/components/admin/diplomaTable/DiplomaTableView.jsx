@@ -152,8 +152,7 @@ const DiplomaTableView = ({
   };
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
+  const deleteConfirm = () => (
       <Popconfirm
         placement="left"
         title={<FormattedMessage id="delete.diploma" />}
@@ -178,7 +177,6 @@ const DiplomaTableView = ({
         </Button>
       </Popconfirm>
     );
-  };
 
   /* handles closure of add or edit diploma modal */
   // occurs if "Ok" option is hit
@@ -219,8 +217,7 @@ const DiplomaTableView = ({
   };
 
   /* Renders "Add Diploma" modal */
-  const addDiplomaModal = () => {
-    return (
+  const addDiplomaModal = () => (
       <Modal
         visible={addVisible}
         title={<FormattedMessage id="add.diploma" />}
@@ -283,11 +280,9 @@ const DiplomaTableView = ({
         </Form>
       </Modal>
     );
-  };
 
   /* Renders "Edit Diploma" modal */
-  const editDiplomaModal = () => {
-    return (
+  const editDiplomaModal = () => (
       <Modal
         visible={editVisible}
         title={<FormattedMessage id="edit.diploma" />}
@@ -344,7 +339,6 @@ const DiplomaTableView = ({
         </Form>
       </Modal>
     );
-  };
 
   /* Sets up the columns for the diploma table */
   // Table columns data structure: array of objects
@@ -354,9 +348,7 @@ const DiplomaTableView = ({
       title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => {
-        return a.en.localeCompare(b.en);
-      },
+      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
@@ -369,9 +361,7 @@ const DiplomaTableView = ({
       title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => {
-        return a.fr.localeCompare(b.fr);
-      },
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",

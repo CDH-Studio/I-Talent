@@ -194,8 +194,7 @@ const PrimaryInfoFormView = ({
   /**
    * Generate error description to display in notification
    */
-  const getErrorMessages = () => {
-    return (
+  const getErrorMessages = () => (
       <div>
         <strong>
           {intl.formatMessage({ id: "edit.save.error.intro" })}
@@ -207,7 +206,6 @@ const PrimaryInfoFormView = ({
         </ul>
       </div>
     );
-  };
 
   /**
    * Save Data to DB by sending to backend API
@@ -515,14 +513,12 @@ const PrimaryInfoFormView = ({
                   allowClear
                   filterOption={filterOption}
                 >
-                  {locationOptions.map((value) => {
-                    return (
+                  {locationOptions.map((value) => (
                       <Option key={value.id}>
                         {value.streetNumber} {value.streetName}, {value.city},{" "}
                         {value.province}
                       </Option>
-                    );
-                  })}
+                    ))}
                 </Select>
               </Form.Item>
             </Col>

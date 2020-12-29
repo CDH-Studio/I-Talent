@@ -274,8 +274,7 @@ const EducationFormView = ({
             name={[fieldElement.name, "attachmentLinks"]}
             fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
           >
-            {(fields, { add, remove }) => {
-              return (
+            {(fields, { add, remove }) => (
                 <div>
                   {fields.map((field) => (
                     <LinkAttachment
@@ -297,8 +296,7 @@ const EducationFormView = ({
                     </Button>
                   </Form.Item>
                 </div>
-              );
-            }}
+              )}
           </Form.List>
         </Col>
       </Row>

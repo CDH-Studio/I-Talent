@@ -68,8 +68,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    *
    * Generate the sidebar steps for create profile
    */
-  const getSideBarContent = (step) => {
-    return (
+  const getSideBarContent = (step) => (
       <Menu onClick={redirectToForm} selectedKeys={step}>
         <Menu.Item tabIndex={0} key="primary-info" className="menu-item">
           <div className="menu-item-header">
@@ -188,7 +187,6 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         </Menu.Item>
       </Menu>
     );
-  };
 
   // Get Sidebar Content
   const sideBarContent = getSideBarContent(formStep);

@@ -10,8 +10,7 @@ const QualifiedPoolsForm = ({
   removeElement,
   savedQualifiedPools,
   classificationOptions,
-}) => {
-  return (
+}) => (
     <QualifiedPoolsFormView
       fieldElement={fieldElement}
       removeElement={removeElement}
@@ -19,7 +18,6 @@ const QualifiedPoolsForm = ({
       classificationOptions={classificationOptions}
     />
   );
-};
 
 QualifiedPoolsForm.propTypes = {
   fieldElement: FieldPropType.isRequired,

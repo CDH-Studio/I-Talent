@@ -19,8 +19,7 @@ const ExperienceForm = ({
   removeElement,
   checkIfFormValuesChanged,
   attachmentNames,
-}) => {
-  return (
+}) => (
     <ExperienceFormView
       form={form}
       fieldElement={fieldElement}
@@ -29,7 +28,6 @@ const ExperienceForm = ({
       attachmentNames={attachmentNames}
     />
   );
-};
 
 ExperienceForm.propTypes = {
   form: FormInstancePropType.isRequired,

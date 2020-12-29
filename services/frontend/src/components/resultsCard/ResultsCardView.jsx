@@ -75,8 +75,7 @@ const ResultsCardView = ({
    * Get loading animations when loading results
    *
    */
-  const getLoadingAnimation = () => {
-    return (
+  const getLoadingAnimation = () => (
       <Row gutter={[16, 16]} type="flex" justify="left">
         <Col span={24} xxl={12}>
           <Card>
@@ -95,7 +94,6 @@ const ResultsCardView = ({
         </Col>
       </Row>
     );
-  };
 
   return (
     <>

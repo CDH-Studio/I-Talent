@@ -90,8 +90,7 @@ const BasicInfoView = ({
    * Generates basic info card header
    * This includes: avatar, name, position
    */
-  const generateProfileHeader = () => {
-    return (
+  const generateProfileHeader = () => (
       <Row type="flex" className="profileHeaderRow">
         <Col xs={6} md={5} lg={4} xxl={3} align="center">
           <Avatar
@@ -173,7 +172,6 @@ const BasicInfoView = ({
           )}
       </Row>
     );
-  };
 
   /*
    * Generate Info List
@@ -181,8 +179,7 @@ const BasicInfoView = ({
    * Generates list of basic info with mall icons
    * This includes: address, email, etc.
    */
-  const generateInfoList = (dataSource) => {
-    return (
+  const generateInfoList = (dataSource) => (
       <List
         itemLayout="horizontal"
         dataSource={dataSource}
@@ -199,7 +196,6 @@ const BasicInfoView = ({
         )}
       />
     );
-  };
 
   /*
    * Get Contact Info

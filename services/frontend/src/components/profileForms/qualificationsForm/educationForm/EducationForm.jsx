@@ -14,8 +14,7 @@ const EducationForm = ({
   diplomaOptions,
   schoolOptions,
   attachmentNames,
-}) => {
-  return (
+}) => (
     <EducationFormView
       form={form}
       fieldElement={fieldElement}
@@ -25,7 +24,6 @@ const EducationForm = ({
       attachmentNames={attachmentNames}
     />
   );
-};
 
 EducationForm.propTypes = {
   form: FormInstancePropType.isRequired,

@@ -406,8 +406,7 @@ const CareerManagementFormView = ({
 
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.List name="developmentalGoalsAttachments">
-                    {(fields, { add, remove }) => {
-                      return (
+                    {(fields, { add, remove }) => (
                         <div>
                           {fields.map((field) => (
                             <LinkAttachment
@@ -429,8 +428,7 @@ const CareerManagementFormView = ({
                             </Button>
                           </Form.Item>
                         </div>
-                      );
-                    }}
+                      )}
                   </Form.List>
                 </Col>
               </Row>
@@ -471,8 +469,7 @@ const CareerManagementFormView = ({
                   xl={24}
                 >
                   <Form.List name="qualifiedPools">
-                    {(fields, { add, remove }) => {
-                      return (
+                    {(fields, { add, remove }) => (
                         <>
                           {fields.map((field) => (
                             <QualifiedPoolsForm
@@ -496,8 +493,7 @@ const CareerManagementFormView = ({
                             </Button>
                           </Form.Item>
                         </>
-                      );
-                    }}
+                      )}
                   </Form.List>
                 </Col>
               </Row>
@@ -568,13 +564,11 @@ const CareerManagementFormView = ({
                       placeholder={<FormattedMessage id="input.placeholder.select" />}
                       filterOption={filterOption}
                     >
-                      {relocationOptions.map((value) => {
-                        return (
+                      {relocationOptions.map((value) => (
                           <Option
                             key={value.id}
                           >{`${value.city}, ${value.province}`}</Option>
-                        );
-                      })}
+                        ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -595,11 +589,9 @@ const CareerManagementFormView = ({
                       allowClear
                       filterOption={filterOption}
                     >
-                      {lookingForNewJobOptions.map((value) => {
-                        return (
+                      {lookingForNewJobOptions.map((value) => (
                           <Option key={value.id}>{value.description}</Option>
-                        );
-                      })}
+                        ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -661,11 +653,9 @@ const CareerManagementFormView = ({
                       allowClear
                       filterOption={filterOption}
                     >
-                      {careerMobilityOptions.map((value) => {
-                        return (
+                      {careerMobilityOptions.map((value) => (
                           <Option key={value.id}>{value.description}</Option>
-                        );
-                      })}
+                        ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -686,11 +676,9 @@ const CareerManagementFormView = ({
                       allowClear
                       filterOption={filterOption}
                     >
-                      {talentMatrixResultOptions.map((value) => {
-                        return (
+                      {talentMatrixResultOptions.map((value) => (
                           <Option key={value.id}>{value.description}</Option>
-                        );
-                      })}
+                        ))}
                     </Select>
                   </Form.Item>
                 </Col>

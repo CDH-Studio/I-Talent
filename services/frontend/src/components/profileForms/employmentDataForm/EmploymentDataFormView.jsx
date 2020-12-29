@@ -221,8 +221,7 @@ const EmploymentDataFormView = ({
    *
    * Print out list of validation errors in a list for notification
    */
-  const getAllValidationErrorMessages = () => {
-    return (
+  const getAllValidationErrorMessages = () => (
       <div>
         <strong>
           {intl.formatMessage({ id: "edit.save.error.intro" })}
@@ -232,7 +231,6 @@ const EmploymentDataFormView = ({
         </ul>
       </div>
     );
-  };
 
   /*
    * Save
@@ -362,9 +360,7 @@ const EmploymentDataFormView = ({
                 allowClear
                 filterOption={filterOption}
               >
-                {classificationOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
+                {classificationOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
               </Select>
             </Form.Item>
           </Col>
@@ -503,9 +499,7 @@ const EmploymentDataFormView = ({
                   allowClear
                   filterOption={filterOption}
                 >
-                  {substantiveOptions.map((value) => {
-                    return <Option key={value.id}>{value.name}</Option>;
-                  })}
+                  {substantiveOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -521,9 +515,7 @@ const EmploymentDataFormView = ({
                   allowClear
                   filterOption={filterOption}
                 >
-                  {classificationOptions.map((value) => {
-                    return <Option key={value.id}>{value.name}</Option>;
-                  })}
+                  {classificationOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
                 </Select>
               </Form.Item>
             </Col>
@@ -541,9 +533,7 @@ const EmploymentDataFormView = ({
                   allowClear
                   filterOption={filterOption}
                 >
-                  {securityOptions.map((value) => {
-                    return <Option key={value.id}>{value.description}</Option>;
-                  })}
+                  {securityOptions.map((value) => <Option key={value.id}>{value.description}</Option>)}
                 </Select>
               </Form.Item>
             </Col>

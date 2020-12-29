@@ -9,8 +9,7 @@ const ResultProfileCard = ({
   loggedInUserId,
   addConnection,
   removeConnection,
-}) => {
-  return (
+}) => (
     <ResultProfileCardView
       profile={profile}
       key={key}
@@ -20,7 +19,6 @@ const ResultProfileCard = ({
       removeConnection={removeConnection}
     />
   );
-};
 
 ResultProfileCard.propTypes = {
   profile: ProfileInfoPropType.isRequired,

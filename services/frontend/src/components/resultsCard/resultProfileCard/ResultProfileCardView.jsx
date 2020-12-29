@@ -189,8 +189,7 @@ const ResultProfileCardView = ({
    * Render User Avatar for each card
    * @param {Object} user - The profile being rendered on card.
    */
-  const getCardFooter = ({ user }) => {
-    return [
+  const getCardFooter = ({ user }) => [
       <div>
         <BranchesOutlined className="result-card-footer-icon" />
         {user.branch ? (
@@ -215,19 +214,16 @@ const ResultProfileCardView = ({
           )}
       </div>,
     ];
-  };
 
   /**
    * Render card title
    * @param {Object} user - The profile being rendered on card.
    */
-  const getCardTitle = ({ user }) => {
-    return (
+  const getCardTitle = ({ user }) => (
       <Text>
         {user.firstName} {user.lastName}
       </Text>
     );
-  };
 
   /**
    * handle how to process when enter key is hit when focusing on a results card

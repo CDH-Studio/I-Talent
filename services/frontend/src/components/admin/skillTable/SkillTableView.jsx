@@ -209,8 +209,7 @@ const SkillTableView = ({
   };
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
+  const deleteConfirm = () => (
       <Popconfirm
         placement="left"
         title={<FormattedMessage id="delete.skill" />}
@@ -235,11 +234,9 @@ const SkillTableView = ({
         </Button>
       </Popconfirm>
     );
-  };
 
   /* Renders "Edit Skill" modal */
-  const editSkillButton = () => {
-    return (
+  const editSkillButton = () => (
       <Modal
         visible={editVisible}
         title={<FormattedMessage id="edit.skill" />}
@@ -306,19 +303,16 @@ const SkillTableView = ({
               })}`}
               filterOption={filterOption}
             >
-              {categories.data.map((category) => {
-                return (
+              {categories.data.map((category) => (
                   <Option value={category.id} key={category.id}>
                     {category[locale === "ENGLISH" ? "en" : "fr"]}
                   </Option>
-                );
-              })}
+                ))}
             </Select>
           </Form.Item>
         </Form>
       </Modal>
     );
-  };
 
   /* Sets up the columns for the skill table */
   // Table columns data structure: array of objects
@@ -328,9 +322,7 @@ const SkillTableView = ({
       title: <FormattedMessage id="category" />,
       dataIndex: "category",
       key: "category",
-      sorter: (a, b) => {
-        return a.category.localeCompare(b.category);
-      },
+      sorter: (a, b) => a.category.localeCompare(b.category),
       ...getColumnSearchProps(
         "category",
         intl.formatMessage({
@@ -342,9 +334,7 @@ const SkillTableView = ({
       title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => {
-        return a.en.localeCompare(b.en);
-      },
+      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
@@ -357,9 +347,7 @@ const SkillTableView = ({
       title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => {
-        return a.fr.localeCompare(b.fr);
-      },
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",
@@ -397,8 +385,7 @@ const SkillTableView = ({
   ];
 
   /* Renders "Add Skill" modal */
-  const addSkillButton = () => {
-    return (
+  const addSkillButton = () => (
       <Modal
         visible={addVisible}
         title={<FormattedMessage id="add.skill" />}
@@ -479,19 +466,16 @@ const SkillTableView = ({
               })}`}
               filterOption={filterOption}
             >
-              {categories.data.map((category) => {
-                return (
+              {categories.data.map((category) => (
                   <Option value={category.id} key={category.id}>
                     {category[locale === "ENGLISH" ? "en" : "fr"]}
                   </Option>
-                );
-              })}
+                ))}
             </Select>
           </Form.Item>
         </Form>
       </Modal>
     );
-  };
 
   return (
     <>

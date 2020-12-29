@@ -5,8 +5,7 @@ import { FormattedMessage } from "react-intl";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 import "./PrivacyModalView.less";
 
-const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => {
-  return (
+const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => (
     <Modal
       title={
         <>
@@ -150,7 +149,6 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => {
       </div>
     </Modal>
   );
-};
 
 PrivacyModalView.propTypes = {
   showModal: PropTypes.bool.isRequired,

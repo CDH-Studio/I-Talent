@@ -93,9 +93,7 @@ const QualifiedPoolsFormView = ({
               allowClear
               filterOption={filterOption}
             >
-              {classificationOptions.map((value) => {
-                return <Option key={value.id}>{value.name}</Option>;
-              })}
+              {classificationOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
             </Select>
           </Form.Item>
         </Col>

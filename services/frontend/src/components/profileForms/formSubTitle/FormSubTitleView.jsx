@@ -6,8 +6,7 @@ import "./FormSubTitleView.less";
 
 const { Title } = Typography;
 
-const FormSubTitleView = ({ title, popoverMessage, extra }) => {
-  return (
+const FormSubTitleView = ({ title, popoverMessage, extra }) => (
     <Row justify="space-between" className="profileForm-section" align="middle">
       <Title level={3} className="profileForm-subtitle">
         <Row>
@@ -24,7 +23,6 @@ const FormSubTitleView = ({ title, popoverMessage, extra }) => {
       {extra && <div className="profileForm-extra">{extra}</div>}
     </Row>
   );
-};
 
 FormSubTitleView.propTypes = {
   title: PropTypes.node.isRequired,

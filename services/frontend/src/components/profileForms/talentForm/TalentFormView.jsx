@@ -122,13 +122,11 @@ const TalentFormView = ({
    * Get the initial values for the form
    */
   const getInitialValues = () => {
-    const hasRequiredProps = () => {
-      return (
+    const hasRequiredProps = () => (
         savedCompetencies !== undefined &&
         savedSkills !== undefined &&
         savedMentorshipSkills !== undefined
       );
-    };
     if (hasRequiredProps()) {
       return {
         competencies: savedCompetencies,
@@ -213,9 +211,7 @@ const TalentFormView = ({
           {intl.formatMessage({ id: "edit.save.error.intro" })}
         </strong>
         <ul>
-          {messages.map((value) => {
-            return <li key={value}>{value}</li>;
-          })}
+          {messages.map((value) => <li key={value}>{value}</li>)}
         </ul>
       </div>
     );
@@ -681,9 +677,7 @@ const TalentFormView = ({
                       style={{ width: "100%" }}
                       filterOption={filterOption}
                     >
-                      {competencyOptions.map((value) => {
-                        return <Option key={value.id}>{value.name}</Option>;
-                      })}
+                      {competencyOptions.map((value) => <Option key={value.id}>{value.name}</Option>)}
                     </Select>
                   </Form.Item>
                 </Col>

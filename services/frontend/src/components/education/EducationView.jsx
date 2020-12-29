@@ -36,8 +36,7 @@ const EducationView = ({ educationInfo }) => {
     </>
   );
 
-  const generateEducationInfoList = (dataSource) => {
-    return (
+  const generateEducationInfoList = (dataSource) => (
       <Row>
         <Col xs={24} lg={24}>
           <List
@@ -63,7 +62,6 @@ const EducationView = ({ educationInfo }) => {
         </Col>
       </Row>
     );
-  };
 
   if (educationInfo.length > 0) {
     return (

@@ -76,8 +76,7 @@ const ProfileLayoutView = ({
     dispatch(setSavedFormContent(undefined));
   }, [savedFormContent, dispatch, intl]);
 
-  const displayAllProfileCards = () => {
-    return (
+  const displayAllProfileCards = () => (
       <Row gutter={[15, 15]}>
         {/* Summary */}
         <Col xs={24} xl={14}>
@@ -187,9 +186,7 @@ const ProfileLayoutView = ({
         )}
       </Row>
     );
-  };
-  const generateProfileSidebarContent = () => {
-    return (
+  const generateProfileSidebarContent = () => (
       <Row justify="center">
         <Col flex={1} offset={1} className="app-sideBarRow">
           <Anchor offsetTop={80}>
@@ -373,7 +370,6 @@ const ProfileLayoutView = ({
         </Col>
       </Row>
     );
-  };
 
   const displayHiddenAlert = () => {
     const canViewHiddenProfiles = keycloak.hasResourceRole(

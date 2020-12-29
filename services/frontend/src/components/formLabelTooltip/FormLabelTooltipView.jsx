@@ -3,8 +3,7 @@ import { Tooltip } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
 import "./FormLabelTooltipView.less";
 
-const FormLabelTooltipView = ({ labelText, tooltipText }) => {
-  return (
+const FormLabelTooltipView = ({ labelText, tooltipText }) => (
     <div style={{ display: "inline", marginRight: "10px" }}>
       {labelText}
       <Tooltip title={tooltipText}>
@@ -12,7 +11,6 @@ const FormLabelTooltipView = ({ labelText, tooltipText }) => {
       </Tooltip>
     </div>
   );
-};
 
 FormLabelTooltipView.propTypes = {
   labelText: PropTypes.node.isRequired,
