@@ -238,7 +238,7 @@ const ExperienceFormView = ({
           <Form.Item
             name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
-            label={<FormattedMessage id="profile.qualification.description" />}
+            label={<FormattedMessage id="description" />}
           >
             <Input.TextArea showCount maxLength={1500} />
           </Form.Item>
