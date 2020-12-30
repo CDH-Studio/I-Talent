@@ -181,33 +181,31 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   };
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
-      <Popconfirm
-        placement="left"
-        title={<FormattedMessage id="delete.school" />}
-        okText={<FormattedMessage id="delete" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onConfirm={() => {
-          handleSubmitDelete()
-            .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message", history));
-        }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        disabled={selectedRowKeys.length === 0}
-        overlayStyle={{ maxWidth: 350 }}
-      >
-        <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined />
-          <span>
-            <FormattedMessage id="delete" />
-          </span>
-        </Button>
-      </Popconfirm>
-    );
-  };
+  const deleteConfirm = () => (
+    <Popconfirm
+      placement="left"
+      title={<FormattedMessage id="delete.school" />}
+      okText={<FormattedMessage id="delete" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onConfirm={() => {
+        handleSubmitDelete()
+          .then(popUpSuccesss)
+          .catch((error) => handleError(error, "message", history));
+      }}
+      onCancel={() => {
+        popUpCancel();
+      }}
+      disabled={selectedRowKeys.length === 0}
+      overlayStyle={{ maxWidth: 350 }}
+    >
+      <Button disabled={selectedRowKeys.length === 0} danger>
+        <DeleteOutlined />
+        <span>
+          <FormattedMessage id="delete" />
+        </span>
+      </Button>
+    </Popconfirm>
+  );
 
   /* handles closure of add or edit school modal */
   // occurs if "Ok" option is hit
@@ -248,200 +246,196 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   };
 
   /* Renders "Add School" modal */
-  const addSchoolModal = () => {
-    return (
-      <Modal
-        visible={addVisible}
-        title={<FormattedMessage id="add.school" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={() => {
-          addForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitAdd(values);
-              addForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          addForm.resetFields();
-          handleCancel();
-        }}
-      >
-        <Form form={addForm} name="addSchool" layout="vertical">
-          <Form.Item
-            name="addSchoolEn"
-            label={<FormattedMessage id="language.english" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.name" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.school.name",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addSchoolFr"
-            label={<FormattedMessage id="language.french" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.name" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.school.name",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addSchoolProvince"
-            label={<FormattedMessage id="province.state.limit" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.location" />,
-              },
-              {
-                min: 2,
-                max: 2,
-                message: <FormattedMessage id="validate.length.2" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.school.state",
-              })}
-              maxLength={2}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addSchoolCountry"
-            label={<FormattedMessage id="country.limit" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.country" />,
-              },
-              {
-                min: 3,
-                max: 3,
-                message: <FormattedMessage id="validate.length.3" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.school.country",
-              })}
-              maxLength={3}
-              allowClear
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
+  const addSchoolModal = () => (
+    <Modal
+      visible={addVisible}
+      title={<FormattedMessage id="add.school" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={() => {
+        addForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitAdd(values);
+            addForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form form={addForm} name="addSchool" layout="vertical">
+        <Form.Item
+          name="addSchoolEn"
+          label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.name" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.school.name",
+            })}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+          name="addSchoolFr"
+          label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.name" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.school.name",
+            })}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+          name="addSchoolProvince"
+          label={<FormattedMessage id="province.state.limit" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.location" />,
+            },
+            {
+              min: 2,
+              max: 2,
+              message: <FormattedMessage id="validate.length.2" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.school.state",
+            })}
+            maxLength={2}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+          name="addSchoolCountry"
+          label={<FormattedMessage id="country.limit" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.country" />,
+            },
+            {
+              min: 3,
+              max: 3,
+              message: <FormattedMessage id="validate.length.3" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.school.country",
+            })}
+            maxLength={3}
+            allowClear
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Renders "Edit School" modal */
-  const editSchoolModal = () => {
-    return (
-      <Modal
-        visible={editVisible}
-        title={<FormattedMessage id="edit.school" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={() => {
-          editForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitEdit(values, record.id);
-              editForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          editForm.resetFields();
-          handleCancel();
+  const editSchoolModal = () => (
+    <Modal
+      visible={editVisible}
+      title={<FormattedMessage id="edit.school" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={() => {
+        editForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitEdit(values, record.id);
+            editForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form
+        form={editForm}
+        name="editSchool"
+        layout="vertical"
+        fields={fields}
+        onFieldsChange={() => {
+          setFields([{}]);
         }}
       >
-        <Form
-          form={editForm}
-          name="editSchool"
-          layout="vertical"
-          fields={fields}
-          onFieldsChange={() => {
-            setFields([{}]);
-          }}
+        <Form.Item
+          name="editSchoolEn"
+          label={<FormattedMessage id="language.english" />}
         >
-          <Form.Item
-            name="editSchoolEn"
-            label={<FormattedMessage id="language.english" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.school.name",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editSchoolFr"
-            label={<FormattedMessage id="language.french" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.school.name",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editSchoolProvince"
-            label={<FormattedMessage id="province.state.limit" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.school.state",
-              })}
-              maxLength={2}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editSchoolCountry"
-            label={<FormattedMessage id="country.limit" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.school.state",
-              })}
-              maxLength={3}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.school.name",
+            })}
+          />
+        </Form.Item>
+        <Form.Item
+          name="editSchoolFr"
+          label={<FormattedMessage id="language.french" />}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.school.name",
+            })}
+          />
+        </Form.Item>
+        <Form.Item
+          name="editSchoolProvince"
+          label={<FormattedMessage id="province.state.limit" />}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.school.state",
+            })}
+            maxLength={2}
+          />
+        </Form.Item>
+        <Form.Item
+          name="editSchoolCountry"
+          label={<FormattedMessage id="country.limit" />}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.school.state",
+            })}
+            maxLength={3}
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Sets up the columns for the school table */
   // Table columns data structure: array of objects
@@ -495,9 +489,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       title: <FormattedMessage id="province.state" />,
       dataIndex: "abbrProvince",
       key: "schoolState",
-      sorter: (a, b) => {
-        return a.abbrProvince.localeCompare(b.abbrProvince);
-      },
+      sorter: (a, b) => a.abbrProvince.localeCompare(b.abbrProvince),
       ...getColumnSearchProps(
         "abbrProvince",
         intl.formatMessage({
@@ -509,9 +501,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       title: <FormattedMessage id="country" />,
       dataIndex: "abbrCountry",
       key: "schoolCountry",
-      sorter: (a, b) => {
-        return a.abbrCountry.localeCompare(b.abbrCountry);
-      },
+      sorter: (a, b) => a.abbrCountry.localeCompare(b.abbrCountry),
       ...getColumnSearchProps(
         "abbrCountry",
         intl.formatMessage({

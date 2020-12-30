@@ -19,17 +19,15 @@ const ExperienceForm = ({
   removeElement,
   checkIfFormValuesChanged,
   attachmentNames,
-}) => {
-  return (
-    <ExperienceFormView
-      form={form}
-      fieldElement={fieldElement}
-      removeElement={removeElement}
-      checkIfFormValuesChanged={checkIfFormValuesChanged}
-      attachmentNames={attachmentNames}
-    />
-  );
-};
+}) => (
+  <ExperienceFormView
+    form={form}
+    fieldElement={fieldElement}
+    removeElement={removeElement}
+    checkIfFormValuesChanged={checkIfFormValuesChanged}
+    attachmentNames={attachmentNames}
+  />
+);
 
 ExperienceForm.propTypes = {
   form: FormInstancePropType.isRequired,

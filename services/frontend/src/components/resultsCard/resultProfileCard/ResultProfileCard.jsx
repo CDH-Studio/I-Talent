@@ -9,18 +9,16 @@ const ResultProfileCard = ({
   loggedInUserId,
   addConnection,
   removeConnection,
-}) => {
-  return (
-    <ResultProfileCardView
-      profile={profile}
-      key={key}
-      isConnection={isConnection}
-      loggedInUserId={loggedInUserId}
-      addConnection={addConnection}
-      removeConnection={removeConnection}
-    />
-  );
-};
+}) => (
+  <ResultProfileCardView
+    profile={profile}
+    key={key}
+    isConnection={isConnection}
+    loggedInUserId={loggedInUserId}
+    addConnection={addConnection}
+    removeConnection={removeConnection}
+  />
+);
 
 ResultProfileCard.propTypes = {
   profile: ProfileInfoPropType.isRequired,

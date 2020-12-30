@@ -41,15 +41,17 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
         } else {
           nextData.level = info.level;
           if (info.date) {
-            nextData.expiryInfo = ` (${info.expired
-              ? intl.formatMessage({ id: "expired" })
-              : intl.formatMessage({ id: "expires.date" })
-              } ${dayjs(info.date).format("ll")})`;
+            nextData.expiryInfo = ` (${
+              info.expired
+                ? intl.formatMessage({ id: "expired" })
+                : intl.formatMessage({ id: "expires.date" })
+            } ${dayjs(info.date).format("ll")})`;
           } else if (info.expired !== false) {
-            nextData.expiryInfo = `(${info.expired
-              ? intl.formatMessage({ id: "expired" })
-              : intl.formatMessage({ id: "unexpired" })
-              })`;
+            nextData.expiryInfo = `(${
+              info.expired
+                ? intl.formatMessage({ id: "expired" })
+                : intl.formatMessage({ id: "unexpired" })
+            })`;
           }
         }
       } else {

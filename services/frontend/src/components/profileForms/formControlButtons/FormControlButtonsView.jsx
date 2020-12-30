@@ -29,13 +29,13 @@ const FormControlButtonsView = ({
         </span>
       </>
     ) : (
-        <>
-          <SaveOutlined />
-          <span>
-            <FormattedMessage id="save" />
-          </span>
-        </>
-      );
+      <>
+        <SaveOutlined />
+        <span>
+          <FormattedMessage id="save" />
+        </span>
+      </>
+    );
 
   const lastButtonOnClick = () => {
     if (create) {
@@ -58,23 +58,23 @@ const FormControlButtonsView = ({
           {onSaveAndNext ? (
             <FormattedMessage id="save.and.next" />
           ) : (
-              <FormattedMessage id="save.and.finish" />
-            )}
+            <FormattedMessage id="save.and.finish" />
+          )}
         </span>
         <RightOutlined />
       </>
     ) : (
-        <>
-          <CheckOutlined />
-          <span>
-            {fieldsChanged ? (
-              <FormattedMessage id="save.and.finish" />
-            ) : (
-                <FormattedMessage id="button.finish" />
-              )}
-          </span>
-        </>
-      );
+      <>
+        <CheckOutlined />
+        <span>
+          {fieldsChanged ? (
+            <FormattedMessage id="save.and.finish" />
+          ) : (
+            <FormattedMessage id="button.finish" />
+          )}
+        </span>
+      </>
+    );
 
   return (
     <Row gutter={[24, 14]} className="fcb-container">

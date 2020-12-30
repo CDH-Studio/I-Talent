@@ -122,13 +122,10 @@ const TalentFormView = ({
    * Get the initial values for the form
    */
   const getInitialValues = () => {
-    const hasRequiredProps = () => {
-      return (
-        savedCompetencies !== undefined &&
-        savedSkills !== undefined &&
-        savedMentorshipSkills !== undefined
-      );
-    };
+    const hasRequiredProps = () =>
+      savedCompetencies !== undefined &&
+      savedSkills !== undefined &&
+      savedMentorshipSkills !== undefined;
     if (hasRequiredProps()) {
       return {
         competencies: savedCompetencies,
@@ -209,13 +206,11 @@ const TalentFormView = ({
     }
     return (
       <div>
-        <strong>
-          {intl.formatMessage({ id: "edit.save.error.intro" })}
-        </strong>
+        <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
         <ul>
-          {messages.map((value) => {
-            return <li key={value}>{value}</li>;
-          })}
+          {messages.map((value) => (
+            <li key={value}>{value}</li>
+          ))}
         </ul>
       </div>
     );
@@ -481,7 +476,9 @@ const TalentFormView = ({
                   treeData={selectedSkills}
                   treeCheckable
                   showCheckedStrategy={SHOW_CHILD}
-                  placeholder={<FormattedMessage id="input.placeholder.select" />}
+                  placeholder={
+                    <FormattedMessage id="input.placeholder.select" />
+                  }
                   treeNodeFilterProp="title"
                   showSearch
                   maxTagCount={15}
@@ -595,7 +592,9 @@ const TalentFormView = ({
                       onChange={onChangeSkills}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="input.placeholder.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -677,13 +676,15 @@ const TalentFormView = ({
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
-                      placeholder={<FormattedMessage id="input.placeholder.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       style={{ width: "100%" }}
                       filterOption={filterOption}
                     >
-                      {competencyOptions.map((value) => {
-                        return <Option key={value.id}>{value.name}</Option>;
-                      })}
+                      {competencyOptions.map((value) => (
+                        <Option key={value.id}>{value.name}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
