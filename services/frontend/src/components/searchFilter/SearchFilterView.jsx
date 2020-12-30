@@ -137,13 +137,11 @@ const SearchFilterView = ({
               </div>
             )}
           >
-            {classOptions.map((value) => {
-              return (
-                <Option role="option" aria-selected={false} key={value.id}>
-                  {value.name}
-                </Option>
-              );
-            })}
+            {classOptions.map((value) => (
+              <Option role="option" aria-selected={false} key={value.id}>
+                {value.name}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
 
@@ -175,13 +173,11 @@ const SearchFilterView = ({
             )}
           >
             {locationOptions.map(
-              ({ streetNumber, streetName, city, province, id }) => {
-                return (
-                  <Option role="option" key={id}>
-                    {streetNumber} {streetName}, {city}, {province}
-                  </Option>
-                );
-              }
+              ({ streetNumber, streetName, city, province, id }) => (
+                <Option role="option" key={id}>
+                  {streetNumber} {streetName}, {city}, {province}
+                </Option>
+              )
             )}
           </Select>
         </Form.Item>
@@ -213,13 +209,11 @@ const SearchFilterView = ({
               </div>
             )}
           >
-            {branchOptions.map((value) => {
-              return (
-                <Option role="option" key={value}>
-                  {value}
-                </Option>
-              );
-            })}
+            {branchOptions.map((value) => (
+              <Option role="option" key={value}>
+                {value}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
 

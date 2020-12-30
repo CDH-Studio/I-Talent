@@ -59,5 +59,4 @@ ErrorProfilePage.defaultProps = {
   subtitleId: "",
 };
 
-
 export default ErrorProfilePage;

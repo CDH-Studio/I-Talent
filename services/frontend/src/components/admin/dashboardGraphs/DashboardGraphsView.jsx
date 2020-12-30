@@ -51,11 +51,11 @@ const DashboardGraphsView = ({
     labels: [intl.formatMessage({ id: `admin.dashboard.popular.${type}` })],
     datasets: data
       ? data.map((element, index) => ({
-        data: [element.count],
-        backgroundColor: chartColors[index],
-        label: element.name,
-        barPercentage: 0.8,
-      }))
+          data: [element.count],
+          backgroundColor: chartColors[index],
+          label: element.name,
+          barPercentage: 0.8,
+        }))
       : [],
   });
 
@@ -94,9 +94,7 @@ const DashboardGraphsView = ({
         </Col>
         <Col xs={24} sm={24} md={12} xl={8}>
           <Card
-            title={
-              <FormattedMessage id="dashboard.popular.competencies" />
-            }
+            title={<FormattedMessage id="dashboard.popular.competencies" />}
             loading={topFiveCompetencies.length === 0}
             bodyStyle={{ height: graphHeight }}
           >
@@ -128,9 +126,7 @@ const DashboardGraphsView = ({
         {monthlyGrowth && (
           <Col span={24} md={12} xl={24}>
             <Card
-              title={
-                <FormattedMessage id="growth.rate.by.month" />
-              }
+              title={<FormattedMessage id="growth.rate.by.month" />}
               loading={monthlyGrowth.length === 0}
               bodyStyle={{ height: graphHeight }}
             >

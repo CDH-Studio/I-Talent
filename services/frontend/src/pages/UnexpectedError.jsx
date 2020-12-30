@@ -25,7 +25,7 @@ const UnexpectedError = () => {
       status="500"
       title={<FormattedMessage id="unexpected.error" />}
       subTitle={<FormattedMessage id="something.went.wrong" />}
-      extra={(
+      extra={
         <Col>
           <Row justify="center" gutter={[10, 10]}>
             <Col>
@@ -56,23 +56,25 @@ const UnexpectedError = () => {
             </Col>
           </Row>
           <Row justify="center">
-            {showError && <List
-              dataSource={errors}
-              style={styles.list}
-              renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    title={item.title}
-                    description={item.description.map((val) => (
-                      <p style={styles.errorDescription}>{val}</p>
-                    ))}
-                  />
-                </List.Item>
-              )}
-            />}
+            {showError && (
+              <List
+                dataSource={errors}
+                style={styles.list}
+                renderItem={(item) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={item.title}
+                      description={item.description.map((val) => (
+                        <p style={styles.errorDescription}>{val}</p>
+                      ))}
+                    />
+                  </List.Item>
+                )}
+              />
+            )}
           </Row>
         </Col>
-      )}
+      }
     />
   );
 };

@@ -59,10 +59,7 @@ const QualifiedPoolsFormView = ({
                 <FormattedMessage id="qualified.pools" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
-              <Tooltip
-                placement="top"
-                title={<FormattedMessage id="delete" />}
-              >
+              <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
                 <Button
                   type="link"
                   shape="circle"
@@ -93,9 +90,9 @@ const QualifiedPoolsFormView = ({
               allowClear
               filterOption={filterOption}
             >
-              {classificationOptions.map((value) => {
-                return <Option key={value.id}>{value.name}</Option>;
-              })}
+              {classificationOptions.map((value) => (
+                <Option key={value.id}>{value.name}</Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
@@ -118,9 +115,7 @@ const QualifiedPoolsFormView = ({
         <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
           <Form.Item
             name={[fieldElement.name, "jobPosterLink"]}
-            label={
-              <FormattedMessage id="qualified.pools.job.poster.link" />
-            }
+            label={<FormattedMessage id="qualified.pools.job.poster.link" />}
             rules={[Rules.required, Rules.url]}
             fieldKey={[fieldElement.fieldKey, "jobPosterLink"]}
             value={

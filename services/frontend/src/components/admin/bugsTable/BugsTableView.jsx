@@ -24,9 +24,9 @@ const tableColumns = (handleEdit) => [
   {
     title: <FormattedMessage id="name" />,
     key: "user",
-    render: (record) => {
-      return <Link to={`/profile/${record.userId}`}>{record.userName}</Link>;
-    },
+    render: (record) => (
+      <Link to={`/profile/${record.userId}`}>{record.userName}</Link>
+    ),
   },
   {
     title: <FormattedMessage id="created.at" />,
@@ -34,17 +34,13 @@ const tableColumns = (handleEdit) => [
     key: "createdAt",
     sortDirections: ["descend"],
     defaultSortOrder: "ascend",
-    sorter: (a, b) => {
-      return dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix();
-    },
+    sorter: (a, b) => dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix(),
   },
   {
     title: <FormattedMessage id="last.updated" />,
     dataIndex: "updatedAt",
     key: "updatedAt",
-    sorter: (a, b) => {
-      return dayjs(a.updatedAt).unix() - dayjs(b.updatedAt).unix();
-    },
+    sorter: (a, b) => dayjs(a.updatedAt).unix() - dayjs(b.updatedAt).unix(),
   },
   {
     title: <FormattedMessage id="application.version" />,
@@ -135,8 +131,8 @@ const tableColumns = (handleEdit) => [
           #{value}
         </a>
       ) : (
-          "-"
-        ),
+        "-"
+      ),
   },
   {
     title: <FormattedMessage id="edit" />,
