@@ -377,5 +377,8 @@
   "work.cellphone": "Cellulaire du travail",
   "work.location": "Lieu de travail",
   "working.address": "Adresse du travail",
-  "yes": "Oui"
+  "yes": "Oui",
+  "branch.not.found": "Branche inconnue",
+  "location.not.found": "Emplacement inconnu",
+  "skills.not.found": "Aucunes habiltés correspondantes trouvées"
 }

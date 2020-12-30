@@ -1,5 +1,6 @@
 {
   "about.me": "About me",
+  "acting": "Acting",
   "acting.date": "Acting date",
   "acting.has.end.date": "I know the end date",
   "acting.period.end.date": "Acting end date",
@@ -377,5 +378,8 @@
   "work.cellphone": "Work cellphone",
   "work.location": "Location",
   "working.address": "Work address",
-  "yes": "Yes"
+  "yes": "Yes",
+  "branch.not.found": "Unknown Branch",
+  "location.not.found": "Unknown Location",
+  "skills.not.found": "No matching skills found"
 }
