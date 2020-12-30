@@ -6,9 +6,7 @@ import AboutLayoutView from "./AboutLayoutView";
  *
  *  this is the controller for LandingLayoutView
  */
-const AboutLayout = ({ type }) => {
-  return <AboutLayoutView type={type} />;
-};
+const AboutLayout = ({ type }) => <AboutLayoutView type={type} />;
 
 AboutLayout.propTypes = {
   type: PropTypes.oneOf(["about", "help", "privacy", "terms"]).isRequired,

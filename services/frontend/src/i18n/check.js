@@ -8,8 +8,8 @@ const fr = require("./fr_CA.json");
 const blacklistedKeys = require("./blacklistKeys");
 
 // Remove all blacklisted key from the check
-blacklistedKeys.forEach(e => delete en[e]);
-blacklistedKeys.forEach(e => delete fr[e]);
+blacklistedKeys.forEach((e) => delete en[e]);
+blacklistedKeys.forEach((e) => delete fr[e]);
 
 /**
  * Check for duplicated values in en_CA.json and fr_CA.json

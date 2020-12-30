@@ -15,8 +15,6 @@ const stateSlice = createSlice({
   },
 });
 
-export const {
-  setSavedFormContent
-} = stateSlice.actions;
+export const { setSavedFormContent } = stateSlice.actions;
 
 export default stateSlice.reducer;

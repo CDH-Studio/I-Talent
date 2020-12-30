@@ -146,8 +146,8 @@ const ResultProfileCardView = ({
             isConnection ? (
               <UserDeleteOutlined className="result-card-button-icon" />
             ) : (
-                <UserAddOutlined className="result-card-button-icon" />
-              )
+              <UserAddOutlined className="result-card-button-icon" />
+            )
           }
           onClick={(e) => {
             e.stopPropagation();
@@ -163,8 +163,8 @@ const ResultProfileCardView = ({
           {isConnection ? (
             <FormattedMessage id="remove.connection" />
           ) : (
-              <FormattedMessage id="add.connection" />
-            )}
+            <FormattedMessage id="add.connection" />
+          )}
         </Button>
       );
     }
@@ -189,45 +189,41 @@ const ResultProfileCardView = ({
    * Render User Avatar for each card
    * @param {Object} user - The profile being rendered on card.
    */
-  const getCardFooter = ({ user }) => {
-    return [
-      <div>
-        <BranchesOutlined className="result-card-footer-icon" />
-        {user.branch ? (
-          <Text>{user.branch}</Text>
-        ) : (
-            <Text>
-              <FormattedMessage id="branch.not.found" />
-            </Text>
-          )}
-      </div>,
-      <div>
-        <EnvironmentOutlined className="result-card-footer-icon" />
-        {user.branch ? (
-          <Text>
-            {profile.officeLocation.streetNumber}{" "}
-            {profile.officeLocation.streetName}, {user.officeLocation.city}
-          </Text>
-        ) : (
-            <Text>
-              <FormattedMessage id="location.not.found" />
-            </Text>
-          )}
-      </div>,
-    ];
-  };
+  const getCardFooter = ({ user }) => [
+    <div>
+      <BranchesOutlined className="result-card-footer-icon" />
+      {user.branch ? (
+        <Text>{user.branch}</Text>
+      ) : (
+        <Text>
+          <FormattedMessage id="branch.not.found" />
+        </Text>
+      )}
+    </div>,
+    <div>
+      <EnvironmentOutlined className="result-card-footer-icon" />
+      {user.branch ? (
+        <Text>
+          {profile.officeLocation.streetNumber}{" "}
+          {profile.officeLocation.streetName}, {user.officeLocation.city}
+        </Text>
+      ) : (
+        <Text>
+          <FormattedMessage id="location.not.found" />
+        </Text>
+      )}
+    </div>,
+  ];
 
   /**
    * Render card title
    * @param {Object} user - The profile being rendered on card.
    */
-  const getCardTitle = ({ user }) => {
-    return (
-      <Text>
-        {user.firstName} {user.lastName}
-      </Text>
-    );
-  };
+  const getCardTitle = ({ user }) => (
+    <Text>
+      {user.firstName} {user.lastName}
+    </Text>
+  );
 
   /**
    * handle how to process when enter key is hit when focusing on a results card
@@ -305,10 +301,10 @@ const ResultProfileCardView = ({
                     )}
                   </span>
                 ) : (
-                    <Tag className="result-card-tag">
-                      <FormattedMessage id="skills.not.found" />
-                    </Tag>
-                  )}
+                  <Tag className="result-card-tag">
+                    <FormattedMessage id="skills.not.found" />
+                  </Tag>
+                )}
               </Col>
             </Row>
 

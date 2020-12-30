@@ -124,8 +124,8 @@ const UserTableView = ({
             textToHighlight={text.toString()}
           />
         ) : (
-            text
-          );
+          text
+        );
 
       if (linkKey && record[linkKey]) {
         return <Link to={record[linkKey]}>{view}</Link>;
@@ -136,28 +136,26 @@ const UserTableView = ({
   });
 
   /* Renders the dropdown for profile status options */
-  const renderStatusDropdown = (id, status) => {
-    return (
-      <div>
-        <Select
-          defaultValue={profileStatusValue(status)}
-          style={{ width: 120 }}
-          onChange={(value) => {
-            const user = data.find(({ key }) => key === id);
-            const valueToBeSaved = value === user.status ? undefined : value;
-            handleDropdownChange(valueToBeSaved, id);
-          }}
-        >
-          <Option key="active" value="ACTIVE">
-            <FormattedMessage id="active" />
-          </Option>
-          <Option key="inactive" value="INACTIVE">
-            <FormattedMessage id="inactive" />
-          </Option>
-        </Select>
-      </div>
-    );
-  };
+  const renderStatusDropdown = (id, status) => (
+    <div>
+      <Select
+        defaultValue={profileStatusValue(status)}
+        style={{ width: 120 }}
+        onChange={(value) => {
+          const user = data.find(({ key }) => key === id);
+          const valueToBeSaved = value === user.status ? undefined : value;
+          handleDropdownChange(valueToBeSaved, id);
+        }}
+      >
+        <Option key="active" value="ACTIVE">
+          <FormattedMessage id="active" />
+        </Option>
+        <Option key="inactive" value="INACTIVE">
+          <FormattedMessage id="inactive" />
+        </Option>
+      </Select>
+    </div>
+  );
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
@@ -178,44 +176,40 @@ const UserTableView = ({
   };
 
   /* Renders the apply button and confirmation prompt */
-  const applyButton = () => {
-    return (
-      <Popconfirm
-        placement="left"
-        title={<FormattedMessage id="update.confirm" />}
-        okText={<FormattedMessage id="update" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onConfirm={() => {
-          handleApply()
-            .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message", history));
-        }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        disabled={!modifiedStatus}
-      >
-        <Button type="primary" disabled={!modifiedStatus}>
-          <CheckCircleOutlined />
-          <span>
-            <FormattedMessage id="apply" />
-          </span>
-        </Button>
-      </Popconfirm>
-    );
-  };
-
-  /* Renders the keycloak button */
-  const keycloakButton = () => {
-    return (
-      <Button href={config.manageKeycloakAddress} style={{ marginLeft: 10 }}>
-        <TeamOutlined />
+  const applyButton = () => (
+    <Popconfirm
+      placement="left"
+      title={<FormattedMessage id="update.confirm" />}
+      okText={<FormattedMessage id="update" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onConfirm={() => {
+        handleApply()
+          .then(popUpSuccesss)
+          .catch((error) => handleError(error, "message", history));
+      }}
+      onCancel={() => {
+        popUpCancel();
+      }}
+      disabled={!modifiedStatus}
+    >
+      <Button type="primary" disabled={!modifiedStatus}>
+        <CheckCircleOutlined />
         <span>
-          <FormattedMessage id="manage.keycloak.roles" />
+          <FormattedMessage id="apply" />
         </span>
       </Button>
-    );
-  };
+    </Popconfirm>
+  );
+
+  /* Renders the keycloak button */
+  const keycloakButton = () => (
+    <Button href={config.manageKeycloakAddress} style={{ marginLeft: 10 }}>
+      <TeamOutlined />
+      <span>
+        <FormattedMessage id="manage.keycloak.roles" />
+      </span>
+    </Button>
+  );
 
   /* Sets up the columns for the user table */
   // Table columns data structure: array of objects
@@ -226,9 +220,7 @@ const UserTableView = ({
       title: <FormattedMessage id="name" />,
       dataIndex: "fullName",
       key: "name",
-      sorter: (a, b) => {
-        return a.fullName.localeCompare(b.fullName);
-      },
+      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
       sortDirections: ["descend"],
       ...getColumnSearchProps(
         "fullName",
@@ -242,9 +234,7 @@ const UserTableView = ({
       title: <FormattedMessage id="job.title" />,
       dataIndex: "jobTitle",
       key: "jobTitle",
-      sorter: (a, b) => {
-        return a.jobTitle.localeCompare(b.jobTitle);
-      },
+      sorter: (a, b) => a.jobTitle.localeCompare(b.jobTitle),
       ...getColumnSearchProps(
         "jobTitle",
         intl.formatMessage({
@@ -256,11 +246,8 @@ const UserTableView = ({
       title: <FormattedMessage id="registered" />,
       dataIndex: "formatCreatedAt",
       key: "registered",
-      sorter: (a, b) => {
-        return (
-          dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix()
-        );
-      },
+      sorter: (a, b) =>
+        dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix(),
       ...getColumnSearchProps(
         "formatCreatedAt",
         intl.formatMessage({
@@ -272,11 +259,8 @@ const UserTableView = ({
       title: <FormattedMessage id="last.updated" />,
       dataIndex: "formatUpdatedAt",
       key: "updated",
-      sorter: (a, b) => {
-        return (
-          dayjs(a.formatUpdatedAt).unix() - dayjs(b.formatUpdatedAt).unix()
-        );
-      },
+      sorter: (a, b) =>
+        dayjs(a.formatUpdatedAt).unix() - dayjs(b.formatUpdatedAt).unix(),
       ...getColumnSearchProps(
         "formatUpdatedAt",
         intl.formatMessage({
@@ -340,9 +324,7 @@ const UserTableView = ({
         },
       ],
       onFilter: (value, record) => record.status === value,
-      render: (record) => {
-        return renderStatusDropdown(record.key, record.status);
-      },
+      render: (record) => renderStatusDropdown(record.key, record.status),
     },
     {
       title: <FormattedMessage id="delete" />,

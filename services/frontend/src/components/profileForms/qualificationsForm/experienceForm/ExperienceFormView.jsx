@@ -53,9 +53,7 @@ const ExperienceFormView = ({
     },
     maxChar1500: {
       max: 1500,
-      message: (
-        <FormattedMessage id="rules.max" values={{ max: 1500 }} />
-      ),
+      message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
     },
   };
 
@@ -104,10 +102,7 @@ const ExperienceFormView = ({
                 <FormattedMessage id="experience" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
-              <Tooltip
-                placement="top"
-                title={<FormattedMessage id="delete" />}
-              >
+              <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
                 <Button
                   type="link"
                   shape="circle"
@@ -181,7 +176,7 @@ const ExperienceFormView = ({
 
               return (
                 fieldPrevValues.ongoingDate !==
-                fieldCurrentValues.ongoingDate ||
+                  fieldCurrentValues.ongoingDate ||
                 (fieldPrevValues.endDate &&
                   fieldPrevValues.endDate.isSame(fieldCurrentValues.endDate))
               );
@@ -202,9 +197,7 @@ const ExperienceFormView = ({
                   <Form.Item
                     name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
-                    label={
-                      <FormattedMessage id="item.end.date" />
-                    }
+                    label={<FormattedMessage id="item.end.date" />}
                     rules={!disableEndDate ? [Rules.required] : undefined}
                   >
                     {!disableEndDate && (
@@ -273,34 +266,32 @@ const ExperienceFormView = ({
             name={[fieldElement.name, "attachmentLinks"]}
             fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
           >
-            {(fields, { add, remove }) => {
-              return (
-                <div>
-                  {fields.map((field) => (
-                    <LinkAttachment
-                      key={field.fieldKey}
-                      form={form}
-                      fieldElement={field}
-                      removeElement={remove}
-                      nameOptions={attachmentNames}
-                    />
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="default"
-                      onClick={() => {
-                        add();
-                      }}
-                      disabled={fields.length === 5}
-                      style={{ width: "100%" }}
-                    >
-                      <PlusOutlined />
-                      <FormattedMessage id="add.attachment" />
-                    </Button>
-                  </Form.Item>
-                </div>
-              );
-            }}
+            {(fields, { add, remove }) => (
+              <div>
+                {fields.map((field) => (
+                  <LinkAttachment
+                    key={field.fieldKey}
+                    form={form}
+                    fieldElement={field}
+                    removeElement={remove}
+                    nameOptions={attachmentNames}
+                  />
+                ))}
+                <Form.Item>
+                  <Button
+                    type="default"
+                    onClick={() => {
+                      add();
+                    }}
+                    disabled={fields.length === 5}
+                    style={{ width: "100%" }}
+                  >
+                    <PlusOutlined />
+                    <FormattedMessage id="add.attachment" />
+                  </Button>
+                </Form.Item>
+              </div>
+            )}
           </Form.List>
         </Col>
       </Row>

@@ -14,18 +14,16 @@ const EducationForm = ({
   diplomaOptions,
   schoolOptions,
   attachmentNames,
-}) => {
-  return (
-    <EducationFormView
-      form={form}
-      fieldElement={fieldElement}
-      removeElement={removeElement}
-      diplomaOptions={diplomaOptions}
-      schoolOptions={schoolOptions}
-      attachmentNames={attachmentNames}
-    />
-  );
-};
+}) => (
+  <EducationFormView
+    form={form}
+    fieldElement={fieldElement}
+    removeElement={removeElement}
+    diplomaOptions={diplomaOptions}
+    schoolOptions={schoolOptions}
+    attachmentNames={attachmentNames}
+  />
+);
 
 EducationForm.propTypes = {
   form: FormInstancePropType.isRequired,

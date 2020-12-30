@@ -56,10 +56,10 @@ const Education = ({ data, editableCardBool }) => {
         description,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
-            id: a.id,
-            name: a.name.name,
-            url: a.url,
-          }))
+              id: a.id,
+              name: a.name.name,
+              url: a.url,
+            }))
           : [],
       })
     );

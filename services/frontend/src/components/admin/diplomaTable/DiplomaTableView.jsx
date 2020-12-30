@@ -129,8 +129,8 @@ const DiplomaTableView = ({
           textToHighlight={text.toString()}
         />
       ) : (
-          text
-        ),
+        text
+      ),
   });
 
   /* Renders the success message on top of page */
@@ -152,33 +152,31 @@ const DiplomaTableView = ({
   };
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
-      <Popconfirm
-        placement="left"
-        title={<FormattedMessage id="delete.diploma" />}
-        okText={<FormattedMessage id="delete" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onConfirm={() => {
-          handleSubmitDelete()
-            .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message", history));
-        }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        disabled={selectedRowKeys.length === 0}
-        overlayStyle={{ maxWidth: 350 }}
-      >
-        <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined />
-          <span>
-            <FormattedMessage id="delete" />
-          </span>
-        </Button>
-      </Popconfirm>
-    );
-  };
+  const deleteConfirm = () => (
+    <Popconfirm
+      placement="left"
+      title={<FormattedMessage id="delete.diploma" />}
+      okText={<FormattedMessage id="delete" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onConfirm={() => {
+        handleSubmitDelete()
+          .then(popUpSuccesss)
+          .catch((error) => handleError(error, "message", history));
+      }}
+      onCancel={() => {
+        popUpCancel();
+      }}
+      disabled={selectedRowKeys.length === 0}
+      overlayStyle={{ maxWidth: 350 }}
+    >
+      <Button disabled={selectedRowKeys.length === 0} danger>
+        <DeleteOutlined />
+        <span>
+          <FormattedMessage id="delete" />
+        </span>
+      </Button>
+    </Popconfirm>
+  );
 
   /* handles closure of add or edit diploma modal */
   // occurs if "Ok" option is hit
@@ -219,132 +217,128 @@ const DiplomaTableView = ({
   };
 
   /* Renders "Add Diploma" modal */
-  const addDiplomaModal = () => {
-    return (
-      <Modal
-        visible={addVisible}
-        title={<FormattedMessage id="add.diploma" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={() => {
-          addForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitAdd(values);
-              addForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          addForm.resetFields();
-          handleCancel();
-        }}
-      >
-        <Form form={addForm} name="addDiploma" layout="vertical">
-          <Form.Item
-            name="addDiplomaEn"
-            label={<FormattedMessage id="language.english" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.description" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.diploma.descriptionEn",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addDiplomaFr"
-            label={<FormattedMessage id="language.french" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.description" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.diploma.descriptionFr",
-              })}
-              allowClear
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
+  const addDiplomaModal = () => (
+    <Modal
+      visible={addVisible}
+      title={<FormattedMessage id="add.diploma" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={() => {
+        addForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitAdd(values);
+            addForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form form={addForm} name="addDiploma" layout="vertical">
+        <Form.Item
+          name="addDiplomaEn"
+          label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.diploma.descriptionEn",
+            })}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+          name="addDiplomaFr"
+          label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.diploma.descriptionFr",
+            })}
+            allowClear
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Renders "Edit Diploma" modal */
-  const editDiplomaModal = () => {
-    return (
-      <Modal
-        visible={editVisible}
-        title={<FormattedMessage id="edit.diploma" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={() => {
-          editForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitEdit(values, record.id);
-              editForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          editForm.resetFields();
-          handleCancel();
+  const editDiplomaModal = () => (
+    <Modal
+      visible={editVisible}
+      title={<FormattedMessage id="edit.diploma" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={() => {
+        editForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitEdit(values, record.id);
+            editForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form
+        form={editForm}
+        name="editDiploma"
+        layout="vertical"
+        fields={fields}
+        onFieldsChange={() => {
+          setFields([{}]);
         }}
       >
-        <Form
-          form={editForm}
-          name="editDiploma"
-          layout="vertical"
-          fields={fields}
-          onFieldsChange={() => {
-            setFields([{}]);
-          }}
+        <Form.Item
+          name="editDiplomaEn"
+          label={<FormattedMessage id="language.english" />}
         >
-          <Form.Item
-            name="editDiplomaEn"
-            label={<FormattedMessage id="language.english" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.diploma.descriptionEn",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editDiplomaFr"
-            label={<FormattedMessage id="language.french" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.diploma.descriptionFr",
-              })}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.diploma.descriptionEn",
+            })}
+          />
+        </Form.Item>
+        <Form.Item
+          name="editDiplomaFr"
+          label={<FormattedMessage id="language.french" />}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.diploma.descriptionFr",
+            })}
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Sets up the columns for the diploma table */
   // Table columns data structure: array of objects
@@ -354,9 +348,7 @@ const DiplomaTableView = ({
       title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => {
-        return a.en.localeCompare(b.en);
-      },
+      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
@@ -369,9 +361,7 @@ const DiplomaTableView = ({
       title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => {
-        return a.fr.localeCompare(b.fr);
-      },
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",
