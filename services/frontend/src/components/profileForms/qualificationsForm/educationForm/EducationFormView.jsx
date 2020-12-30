@@ -263,13 +263,14 @@ const EducationFormView = ({
           <Form.Item
             name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
-            label={<FormattedMessage id="profile.qualification.description" />}
+            label={<FormattedMessage id="description" />}
           >
             <Input.TextArea showCount maxLength={1500} />
           </Form.Item>
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+          <FormattedMessage id="attachment.links" />
           <Form.List
             name={[fieldElement.name, "attachmentLinks"]}
             fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
