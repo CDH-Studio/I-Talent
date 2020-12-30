@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const prisma = require("../../../database");
+const prisma = require("../../database");
 
 async function getClassifications(_request, response) {
   const classificationsQuery = await prisma.opClassification.findMany({

@@ -1,35 +1,36 @@
 const { Router } = require("express");
+
 const { keycloak } = require("../../auth/keycloak");
-const profile = require("../../core/profile/profile");
 
-const { updateProfileValidator } = require("./validator");
+const { profile } = require("../../core/profile/profile");
 
-const { langValidator, UUIDValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { userIdParamValidator, updateProfileValidator } = require("./validator");
+
+const {
+  validationMiddleware,
+  sameUserMiddleware,
+  profileStatusMiddleware,
+} = require("../../utils/middleware");
+
+const { langValidator } = require("../util/commonValidators");
 
 const profileRouter = Router();
 
 profileRouter
-  .route("/:id")
+  .route("/:userId")
   .all(keycloak.protect())
-  .get(
-    [UUIDValidator, langValidator],
-    validationMiddlware,
-    profile.getPublicProfileById
-  )
+  .delete([userIdParamValidator], validationMiddleware, profile.deleteProfile)
   .put(
-    [langValidator, UUIDValidator, updateProfileValidator],
-    validationMiddlware,
+    [userIdParamValidator, updateProfileValidator],
+    validationMiddleware,
+    sameUserMiddleware,
     profile.updateProfile
-  );
-
-profileRouter
-  .route("/private/:id")
+  )
   .get(
-    keycloak.protect(),
-    [UUIDValidator, langValidator],
-    validationMiddlware,
-    profile.getPrivateProfileById
+    [userIdParamValidator, langValidator],
+    validationMiddleware,
+    profileStatusMiddleware,
+    profile.getProfile
   );
 
 module.exports = profileRouter;

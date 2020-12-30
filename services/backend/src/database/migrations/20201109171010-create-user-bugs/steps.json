@@ -4,21 +4,12 @@
     {
       "tag": "CreateEnum",
       "enum": "BugsStatus",
-      "values": [
-        "DUPLICATE",
-        "UNRESOLVED",
-        "RESOLVED"
-      ]
+      "values": ["DUPLICATE", "UNRESOLVED", "RESOLVED"]
     },
     {
       "tag": "CreateEnum",
       "enum": "BugsLocation",
-      "values": [
-        "HOME",
-        "PROFILE",
-        "SEARCH",
-        "FORMS"
-      ]
+      "values": ["HOME", "PROFILE", "SEARCH", "FORMS"]
     },
     {
       "tag": "CreateModel",

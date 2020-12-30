@@ -6,7 +6,7 @@ const {
   topFive,
 } = require("../../core/statistics");
 const { langValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddleware } = require("../../utils/middleware");
 
 const statsRouter = Router();
 
@@ -51,7 +51,7 @@ statsRouter.get(
   "/topFiveCompetencies",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   topFive.getTopFiveCompetencies
 );
 
@@ -59,7 +59,7 @@ statsRouter.get(
   "/topFiveSkills",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   topFive.getTopFiveSkills
 );
 
@@ -67,7 +67,7 @@ statsRouter.get(
   "/topFiveDevelopmentalGoals",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   topFive.getTopFiveDevelopmentalGoals
 );
 

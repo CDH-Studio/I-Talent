@@ -715,5 +715,3 @@ migration 20201019154547-init..20201109171010-create-user-bugs
    userId                        String?
  }
 ```
-
-

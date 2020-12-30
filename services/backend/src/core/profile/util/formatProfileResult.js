@@ -136,18 +136,16 @@ function formatProfileResult(profile, language) {
   }
 
   if (profile.qualifiedPools) {
-    const qualifiedPools = profile.qualifiedPools.map((qualifiedPool) => {
-      return {
-        id: qualifiedPool.id,
-        jobTitle: qualifiedPool.jobTitle,
-        selectionProcessNumber: qualifiedPool.selectionProcessNumber,
-        jobPosterLink: qualifiedPool.jobPosterLink,
-        classification: {
-          id: qualifiedPool.classification.id,
-          name: qualifiedPool.classification.name,
-        },
-      };
-    });
+    const qualifiedPools = profile.qualifiedPools.map((qualifiedPool) => ({
+      id: qualifiedPool.id,
+      jobTitle: qualifiedPool.jobTitle,
+      selectionProcessNumber: qualifiedPool.selectionProcessNumber,
+      jobPosterLink: qualifiedPool.jobPosterLink,
+      classification: {
+        id: qualifiedPool.classification.id,
+        name: qualifiedPool.classification.name,
+      },
+    }));
 
     filteredProfile.qualifiedPools = _.orderBy(
       qualifiedPools,

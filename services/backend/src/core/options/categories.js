@@ -1,71 +1,71 @@
 const _ = require("lodash");
-const prisma = require("../../../database");
+const prisma = require("../../database");
 
-async function getDiplomas(request, response) {
+async function getCategories(request, response) {
   const { language } = request.query;
 
-  const diplomasQuery = await prisma.opTransDiploma.findMany({
+  const categoriesQuery = await prisma.opTransCategory.findMany({
     where: {
       language,
     },
     select: {
-      opDiplomaId: true,
-      description: true,
+      opCategoryId: true,
+      name: true,
     },
     orderBy: {
-      description: "asc",
+      name: "asc",
     },
   });
 
-  const diplomas = _.sortBy(
-    diplomasQuery.map((i) => ({
-      id: i.opDiplomaId,
-      description: i.description,
+  const categories = _.sortBy(
+    categoriesQuery.map((i) => ({
+      id: i.opCategoryId,
+      name: i.name,
     })),
-    "description"
+    "name"
   );
 
-  response.status(200).json(diplomas);
+  response.status(200).json(categories);
 }
 
-async function getDiplomasAllLang(request, response) {
-  const diplomasQuery = await prisma.opDiploma.findMany({
+async function getCategoriesAllLang(_request, response) {
+  const categoriesQuery = await prisma.opCategory.findMany({
     select: {
       id: true,
       translations: {
         select: {
           language: true,
-          description: true,
+          name: true,
         },
       },
     },
   });
 
-  const diplomas = _.orderBy(
-    diplomasQuery.map((i) => ({
+  const categories = _.orderBy(
+    categoriesQuery.map((i) => ({
       id: i.id,
-      en: i.translations.find((j) => j.language === "ENGLISH").description,
-      fr: i.translations.find((j) => j.language === "FRENCH").description,
+      en: i.translations.find((j) => j.language === "ENGLISH").name,
+      fr: i.translations.find((j) => j.language === "FRENCH").name,
     })),
     ["en", "fr"]
   );
 
-  response.status(200).json(diplomas);
+  response.status(200).json(categories);
 }
 
-async function createDiploma(request, response) {
+async function createCategory(request, response) {
   const { en, fr } = request.body;
 
-  await prisma.opDiploma.create({
+  await prisma.opCategory.create({
     data: {
       translations: {
         create: [
           {
-            description: en,
+            name: en,
             language: "ENGLISH",
           },
           {
-            description: fr,
+            name: fr,
             language: "FRENCH",
           },
         ],
@@ -76,10 +76,10 @@ async function createDiploma(request, response) {
   response.sendStatus(201);
 }
 
-async function updateDiploma(request, response) {
+async function updateCategory(request, response) {
   const { id, en, fr } = request.body;
 
-  await prisma.opDiploma.update({
+  await prisma.opCategory.update({
     where: {
       id,
     },
@@ -91,7 +91,7 @@ async function updateDiploma(request, response) {
               language: "ENGLISH",
             },
             data: {
-              description: en,
+              name: en,
             },
           },
           {
@@ -99,7 +99,7 @@ async function updateDiploma(request, response) {
               language: "FRENCH",
             },
             data: {
-              description: fr,
+              name: fr,
             },
           },
         ],
@@ -110,16 +110,16 @@ async function updateDiploma(request, response) {
   response.sendStatus(204);
 }
 
-async function deleteDiploma(request, response) {
+async function deleteCategory(request, response) {
   const { id } = request.body;
 
   await prisma.$transaction([
-    prisma.opTransDiploma.deleteMany({
+    prisma.opTransCategory.deleteMany({
       where: {
-        opDiplomaId: id,
+        opCategoryId: id,
       },
     }),
-    prisma.opDiploma.delete({
+    prisma.opCategory.delete({
       where: {
         id,
       },
@@ -129,18 +129,18 @@ async function deleteDiploma(request, response) {
   response.sendStatus(204);
 }
 
-async function deleteDiplomas(request, response) {
+async function deleteCategories(request, response) {
   const { ids } = request.body;
 
   await prisma.$transaction([
-    prisma.opTransDiploma.deleteMany({
+    prisma.opTransCategory.deleteMany({
       where: {
-        opDiplomaId: {
+        opCategoryId: {
           in: ids,
         },
       },
     }),
-    prisma.opDiploma.deleteMany({
+    prisma.opCategory.deleteMany({
       where: {
         id: {
           in: ids,
@@ -153,10 +153,10 @@ async function deleteDiplomas(request, response) {
 }
 
 module.exports = {
-  getDiplomas,
-  getDiplomasAllLang,
-  createDiploma,
-  updateDiploma,
-  deleteDiploma,
-  deleteDiplomas,
+  getCategories,
+  getCategoriesAllLang,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  deleteCategories,
 };

@@ -3,7 +3,7 @@ const { keycloak } = require("../../auth/keycloak");
 const user = require("../../core/user/user");
 const { createUserValidator } = require("./validator");
 const { UUIDValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddleware } = require("../../utils/middleware");
 
 const userRouter = Router();
 
@@ -12,7 +12,7 @@ userRouter
   .delete(
     keycloak.protect(),
     [UUIDValidator],
-    validationMiddlware,
+    validationMiddleware,
     user.deleteUser
   );
 
@@ -20,6 +20,6 @@ userRouter
   .route("/")
   .all(keycloak.protect())
   .get(user.getCurrentUser)
-  .post([createUserValidator], validationMiddlware, user.createUser);
+  .post([createUserValidator], validationMiddleware, user.createUser);
 
 module.exports = userRouter;

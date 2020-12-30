@@ -3,7 +3,7 @@ const { keycloak } = require("../../auth/keycloak");
 const bugs = require("../../core/bugs/bugs");
 const { createBugValidator, updateBugValidator } = require("./validator");
 const { UUIDValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddleware } = require("../../utils/middleware");
 
 const bugsRoute = Router();
 
@@ -12,7 +12,7 @@ bugsRoute
   .post(
     keycloak.protect(),
     createBugValidator,
-    validationMiddlware,
+    validationMiddleware,
     bugs.createBug
   )
   .get(keycloak.protect("view-admin-console"), bugs.getBugs);
@@ -21,7 +21,7 @@ bugsRoute.put(
   "/:id",
   keycloak.protect("manage-options"),
   [updateBugValidator, UUIDValidator],
-  validationMiddlware,
+  validationMiddleware,
   bugs.updateBug
 );
 

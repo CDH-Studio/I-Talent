@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const prisma = require("../../../database");
+const prisma = require("../../database");
 
 async function getSecurityClearances(request, response) {
   const { language } = request.query;

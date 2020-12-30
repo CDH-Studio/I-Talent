@@ -1244,5 +1244,3 @@ migration ..20201019154547-init
 +  userId                        String?
 +}
 ```
-
-

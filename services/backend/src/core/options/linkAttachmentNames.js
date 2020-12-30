@@ -1,5 +1,5 @@
 const { sortBy } = require("lodash");
-const prisma = require("../../../database");
+const prisma = require("../../database");
 
 async function getNames(request, response) {
   const { language, type } = request.query;
@@ -22,12 +22,10 @@ async function getNames(request, response) {
   });
 
   const name = sortBy(
-    nameQuery.map((i) => {
-      return {
-        id: i.id,
-        name: i.translations[0].name,
-      };
-    }),
+    nameQuery.map((i) => ({
+      id: i.id,
+      name: i.translations[0].name,
+    })),
     "name"
   );
 
