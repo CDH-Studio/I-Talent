@@ -131,8 +131,8 @@ const tableColumns = (handleEdit) => [
           #{value}
         </a>
       ) : (
-        "-"
-      ),
+          "-"
+        ),
   },
   {
     title: <FormattedMessage id="edit" />,
@@ -268,7 +268,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
         title={
           <>
             <DatabaseOutlined />
-            <FormattedMessage id="admin.bugs" />
+            <FormattedMessage id="user.reported.bugs" />
           </>
         }
       />
