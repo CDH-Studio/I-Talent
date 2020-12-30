@@ -2,7 +2,6 @@ const request = require("supertest");
 const { getBearerToken, userId } = require("../../../mocks");
 
 const path = "/api/search/fuzzy";
-// const testData = "allProfileData.json";
 const testData = require("./allProfileData.json");
 
 describe(`GET ${path}`, () => {
@@ -60,14 +59,18 @@ describe(`GET ${path}`, () => {
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
-        let searchTerm = _testData.testParams[0].testSearchTerm;
+        let searchTerm = _testData.testParams.fuzzySearch[0].testSearchTerm;
 
         let res = await request(app)
           .get(`${path}?searchValue=${searchTerm}&language=ENGLISH`)
           .set("Authorization", getBearerToken());
 
-        expect(res.statusCode).toBe(_testData.testParams[0].testResponseCode);
-        expect(res.text).toBe(_testData.testParams[0].testResponseData);
+        expect(res.statusCode).toBe(
+          _testData.testParams.fuzzySearch[0].testResponseCode
+        );
+        expect(res.text).toBe(
+          _testData.testParams.fuzzySearch[0].testResponseData
+        );
       });
 
       test("should return results for branch acronym 'HRB' - 200", async () => {
@@ -78,14 +81,18 @@ describe(`GET ${path}`, () => {
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
-        let searchTerm = _testData.testParams[1].testSearchTerm;
+        let searchTerm = _testData.testParams.fuzzySearch[1].testSearchTerm;
 
         let res = await request(app)
           .get(`${path}?searchValue=${searchTerm}&language=ENGLISH`)
           .set("Authorization", getBearerToken());
 
-        expect(res.statusCode).toBe(_testData.testParams[1].testResponseCode);
-        expect(res.text).toBe(_testData.testParams[1].testResponseData);
+        expect(res.statusCode).toBe(
+          _testData.testParams.fuzzySearch[1].testResponseCode
+        );
+        expect(res.text).toBe(
+          _testData.testParams.fuzzySearch[1].testResponseData
+        );
       });
 
       test("should return results for full name 'John Doe' - 200", async () => {
@@ -96,14 +103,18 @@ describe(`GET ${path}`, () => {
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
-        let searchTerm = _testData.testParams[2].testSearchTerm;
+        let searchTerm = _testData.testParams.fuzzySearch[2].testSearchTerm;
 
         let res = await request(app)
           .get(`${path}?searchValue=${searchTerm}&language=ENGLISH`)
           .set("Authorization", getBearerToken());
 
-        expect(res.statusCode).toBe(_testData.testParams[2].testResponseCode);
-        expect(res.text).toBe(_testData.testParams[2].testResponseData);
+        expect(res.statusCode).toBe(
+          _testData.testParams.fuzzySearch[2].testResponseCode
+        );
+        expect(res.text).toBe(
+          _testData.testParams.fuzzySearch[2].testResponseData
+        );
       });
 
       test("should return results for advanced search OR function 'Mary | John' - 200", async () => {
@@ -114,14 +125,18 @@ describe(`GET ${path}`, () => {
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
-        let searchTerm = _testData.testParams[3].testSearchTerm;
+        let searchTerm = _testData.testParams.fuzzySearch[3].testSearchTerm;
 
         let res = await request(app)
           .get(`${path}?searchValue=${searchTerm}&language=ENGLISH`)
           .set("Authorization", getBearerToken());
 
-        expect(res.statusCode).toBe(_testData.testParams[3].testResponseCode);
-        expect(res.text).toBe(_testData.testParams[3].testResponseData);
+        expect(res.statusCode).toBe(
+          _testData.testParams.fuzzySearch[3].testResponseCode
+        );
+        expect(res.text).toBe(
+          _testData.testParams.fuzzySearch[3].testResponseData
+        );
       });
     });
   });
