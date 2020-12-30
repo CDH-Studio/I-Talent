@@ -82,8 +82,8 @@ const WelcomeView = ({
           {secondTitle ? (
             truncateString(secondTitle, 28)
           ) : (
-              <div style={{ opacity: 0 }}>empty</div>
-            )}
+            <div style={{ opacity: 0 }}>empty</div>
+          )}
         </div>
 
         {/* third title */}
@@ -91,8 +91,8 @@ const WelcomeView = ({
           {thirdTitle ? (
             truncateString(thirdTitle, 28)
           ) : (
-              <div style={{ opacity: 0 }}>empty</div>
-            )}
+            <div style={{ opacity: 0 }}>empty</div>
+          )}
         </div>
       </Button>
     );

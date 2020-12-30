@@ -127,8 +127,8 @@ const CategoryTableView = ({
           textToHighlight={text.toString()}
         />
       ) : (
-          text
-        ),
+        text
+      ),
   });
 
   /* Renders the success message on top of page */
@@ -195,159 +195,151 @@ const CategoryTableView = ({
   };
 
   /* Renders "Add Category" modal */
-  const addCategoryButton = () => {
-    return (
-      <Modal
-        visible={addVisible}
-        title={<FormattedMessage id="add.category" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={() => {
-          addForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitAdd(values);
-              addForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          addForm.resetFields();
-          handleCancel();
-        }}
-      >
-        <Form form={addForm} name="addCategory" layout="vertical">
-          <Form.Item
-            name="addCategoryEn"
-            label={<FormattedMessage id="language.english" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.description" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.category.descriptionEn",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addCategoryFr"
-            label={<FormattedMessage id="language.french" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.description" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.category.descriptionFr",
-              })}
-              allowClear
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
+  const addCategoryButton = () => (
+    <Modal
+      visible={addVisible}
+      title={<FormattedMessage id="add.category" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={() => {
+        addForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitAdd(values);
+            addForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form form={addForm} name="addCategory" layout="vertical">
+        <Form.Item
+          name="addCategoryEn"
+          label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.category.descriptionEn",
+            })}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+          name="addCategoryFr"
+          label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.category.descriptionFr",
+            })}
+            allowClear
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Renders "Edit Category" modal */
-  const editCategoryButton = () => {
-    return (
-      <Modal
-        visible={editVisible}
-        title={<FormattedMessage id="edit.category" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={() => {
-          editForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitEdit(values, record.id);
-              editForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          editForm.resetFields();
-          handleCancel();
+  const editCategoryButton = () => (
+    <Modal
+      visible={editVisible}
+      title={<FormattedMessage id="edit.category" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={() => {
+        editForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitEdit(values, record.id);
+            editForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form
+        form={editForm}
+        name="editCategory"
+        layout="vertical"
+        fields={fields}
+        onFieldsChange={() => {
+          setFields([{}]);
         }}
       >
-        <Form
-          form={editForm}
-          name="editCategory"
-          layout="vertical"
-          fields={fields}
-          onFieldsChange={() => {
-            setFields([{}]);
-          }}
+        <Form.Item
+          name="editCategoryEn"
+          label={<FormattedMessage id="language.english" />}
         >
-          <Form.Item
-            name="editCategoryEn"
-            label={<FormattedMessage id="language.english" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.category.descriptionEn",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editCategoryFr"
-            label={<FormattedMessage id="language.french" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.category.descriptionFr",
-              })}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.category.descriptionEn",
+            })}
+          />
+        </Form.Item>
+        <Form.Item
+          name="editCategoryFr"
+          label={<FormattedMessage id="language.french" />}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.category.descriptionFr",
+            })}
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
-      <Popconfirm
-        placement="left"
-        title={<FormattedMessage id="delete.category" />}
-        okText={<FormattedMessage id="delete" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onConfirm={() => {
-          checkDelete().catch((error) =>
-            handleError(error, "message", history)
-          );
-        }}
-        onCancel={popUpCancel}
-        disabled={selectedRowKeys.length === 0}
-        overlayStyle={{ maxWidth: 350 }}
-      >
-        <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined />
-          <span>
-            <FormattedMessage id="delete" />
-          </span>
-        </Button>
-      </Popconfirm>
-    );
-  };
+  const deleteConfirm = () => (
+    <Popconfirm
+      placement="left"
+      title={<FormattedMessage id="delete.category" />}
+      okText={<FormattedMessage id="delete" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onConfirm={() => {
+        checkDelete().catch((error) => handleError(error, "message", history));
+      }}
+      onCancel={popUpCancel}
+      disabled={selectedRowKeys.length === 0}
+      overlayStyle={{ maxWidth: 350 }}
+    >
+      <Button disabled={selectedRowKeys.length === 0} danger>
+        <DeleteOutlined />
+        <span>
+          <FormattedMessage id="delete" />
+        </span>
+      </Button>
+    </Popconfirm>
+  );
 
   /* Sets up the columns for the category table */
   // Table columns data structure: array of objects
@@ -357,9 +349,7 @@ const CategoryTableView = ({
       title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => {
-        return a.en.localeCompare(b.en);
-      },
+      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
@@ -372,9 +362,7 @@ const CategoryTableView = ({
       title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => {
-        return a.fr.localeCompare(b.fr);
-      },
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",

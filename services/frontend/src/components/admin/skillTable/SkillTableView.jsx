@@ -148,8 +148,8 @@ const SkillTableView = ({
           textToHighlight={text.toString()}
         />
       ) : (
-          text
-        ),
+        text
+      ),
   });
 
   /* Renders the success message on top of page */
@@ -209,116 +209,110 @@ const SkillTableView = ({
   };
 
   /* Renders the delete button and confirmation prompt */
-  const deleteConfirm = () => {
-    return (
-      <Popconfirm
-        placement="left"
-        title={<FormattedMessage id="delete.skill" />}
-        okText={<FormattedMessage id="delete" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onConfirm={() => {
-          handleSubmitDelete()
-            .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message", history));
-        }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        disabled={selectedRowKeys.length === 0}
-        overlayStyle={{ maxWidth: 350 }}
-      >
-        <Button disabled={selectedRowKeys.length === 0} danger>
-          <DeleteOutlined />
-          <span>
-            <FormattedMessage id="delete" />
-          </span>
-        </Button>
-      </Popconfirm>
-    );
-  };
+  const deleteConfirm = () => (
+    <Popconfirm
+      placement="left"
+      title={<FormattedMessage id="delete.skill" />}
+      okText={<FormattedMessage id="delete" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onConfirm={() => {
+        handleSubmitDelete()
+          .then(popUpSuccesss)
+          .catch((error) => handleError(error, "message", history));
+      }}
+      onCancel={() => {
+        popUpCancel();
+      }}
+      disabled={selectedRowKeys.length === 0}
+      overlayStyle={{ maxWidth: 350 }}
+    >
+      <Button disabled={selectedRowKeys.length === 0} danger>
+        <DeleteOutlined />
+        <span>
+          <FormattedMessage id="delete" />
+        </span>
+      </Button>
+    </Popconfirm>
+  );
 
   /* Renders "Edit Skill" modal */
-  const editSkillButton = () => {
-    return (
-      <Modal
-        visible={editVisible}
-        title={<FormattedMessage id="edit.skill" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={() => {
-          editForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitEdit(values, record.id);
-              editForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          editForm.resetFields();
-          handleCancel();
+  const editSkillButton = () => (
+    <Modal
+      visible={editVisible}
+      title={<FormattedMessage id="edit.skill" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={() => {
+        editForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitEdit(values, record.id);
+            editForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form
+        form={editForm}
+        name="editSkill"
+        layout="vertical"
+        fields={fields}
+        onFieldsChange={() => {
+          setFields([{}]);
         }}
       >
-        <Form
-          form={editForm}
-          name="editSkill"
-          layout="vertical"
-          fields={fields}
-          onFieldsChange={() => {
-            setFields([{}]);
-          }}
+        <Form.Item
+          name="editSkillEn"
+          label={<FormattedMessage id="language.english" />}
         >
-          <Form.Item
-            name="editSkillEn"
-            label={<FormattedMessage id="language.english" />}
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.skill.descriptionEn",
+            })}
+          />
+        </Form.Item>
+        <Form.Item
+          name="editSkillFr"
+          label={<FormattedMessage id="language.french" />}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.skill.descriptionFr",
+            })}
+          />
+        </Form.Item>
+        <Form.Item
+          name="editSkillCategoryId"
+          label={<FormattedMessage id="category" />}
+        >
+          <Select
+            showSearch
+            placeholder={`${intl.formatMessage({
+              id: "select",
+            })} ${intl.formatMessage({
+              id: "category",
+            })}`}
+            filterOption={filterOption}
           >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.skill.descriptionEn",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editSkillFr"
-            label={<FormattedMessage id="language.french" />}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.skill.descriptionFr",
-              })}
-            />
-          </Form.Item>
-          <Form.Item
-            name="editSkillCategoryId"
-            label={<FormattedMessage id="category" />}
-          >
-            <Select
-              showSearch
-              placeholder={`${intl.formatMessage({
-                id: "select",
-              })} ${intl.formatMessage({
-                id: "category",
-              })}`}
-              filterOption={filterOption}
-            >
-              {categories.data.map((category) => {
-                return (
-                  <Option value={category.id} key={category.id}>
-                    {category[locale === "ENGLISH" ? "en" : "fr"]}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
+            {categories.data.map((category) => (
+              <Option value={category.id} key={category.id}>
+                {category[locale === "ENGLISH" ? "en" : "fr"]}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   /* Sets up the columns for the skill table */
   // Table columns data structure: array of objects
@@ -328,9 +322,7 @@ const SkillTableView = ({
       title: <FormattedMessage id="category" />,
       dataIndex: "category",
       key: "category",
-      sorter: (a, b) => {
-        return a.category.localeCompare(b.category);
-      },
+      sorter: (a, b) => a.category.localeCompare(b.category),
       ...getColumnSearchProps(
         "category",
         intl.formatMessage({
@@ -342,9 +334,7 @@ const SkillTableView = ({
       title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => {
-        return a.en.localeCompare(b.en);
-      },
+      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "en",
@@ -357,9 +347,7 @@ const SkillTableView = ({
       title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => {
-        return a.fr.localeCompare(b.fr);
-      },
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       ...getColumnSearchProps(
         "fr",
@@ -397,101 +385,97 @@ const SkillTableView = ({
   ];
 
   /* Renders "Add Skill" modal */
-  const addSkillButton = () => {
-    return (
-      <Modal
-        visible={addVisible}
-        title={<FormattedMessage id="add.skill" />}
-        okText={<FormattedMessage id="apply" />}
-        cancelText={<FormattedMessage id="cancel" />}
-        onOk={() => {
-          addForm
-            .validateFields()
-            .then(async (values) => {
-              await handleSubmitAdd(values);
-              addForm.resetFields();
-              handleOk();
-            })
-            .catch((error) => {
-              if (error.isAxiosError) {
-                handleError(error, "message", history);
-              }
-            });
-        }}
-        onCancel={() => {
-          addForm.resetFields();
-          handleCancel();
-        }}
-      >
-        <Form form={addForm} name="addSkill" layout="vertical">
-          <Form.Item
-            name="addSkillEn"
-            label={<FormattedMessage id="language.english" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.country" />,
-              },
-            ]}
+  const addSkillButton = () => (
+    <Modal
+      visible={addVisible}
+      title={<FormattedMessage id="add.skill" />}
+      okText={<FormattedMessage id="apply" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onOk={() => {
+        addForm
+          .validateFields()
+          .then(async (values) => {
+            await handleSubmitAdd(values);
+            addForm.resetFields();
+            handleOk();
+          })
+          .catch((error) => {
+            if (error.isAxiosError) {
+              handleError(error, "message", history);
+            }
+          });
+      }}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
+    >
+      <Form form={addForm} name="addSkill" layout="vertical">
+        <Form.Item
+          name="addSkillEn"
+          label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.country" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.skill.descriptionEn",
+            })}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+          name="addSkillFr"
+          label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.country" />,
+            },
+          ]}
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "add.skill.descriptionFr",
+            })}
+            allowClear
+          />
+        </Form.Item>
+        <Form.Item
+          name="addSkillCategory"
+          label={<FormattedMessage id="category" />}
+          rules={[
+            {
+              required: true,
+              message: intl.formatMessage({
+                id: "validate.country",
+              }),
+            },
+          ]}
+        >
+          <Select
+            showSearch
+            placeholder={`${intl.formatMessage({
+              id: "select",
+            })} ${intl.formatMessage({
+              id: "category",
+            })}`}
+            filterOption={filterOption}
           >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.skill.descriptionEn",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addSkillFr"
-            label={<FormattedMessage id="language.french" />}
-            rules={[
-              {
-                required: true,
-                message: <FormattedMessage id="validate.country" />,
-              },
-            ]}
-          >
-            <Input
-              placeholder={intl.formatMessage({
-                id: "add.skill.descriptionFr",
-              })}
-              allowClear
-            />
-          </Form.Item>
-          <Form.Item
-            name="addSkillCategory"
-            label={<FormattedMessage id="category" />}
-            rules={[
-              {
-                required: true,
-                message: intl.formatMessage({
-                  id: "validate.country",
-                }),
-              },
-            ]}
-          >
-            <Select
-              showSearch
-              placeholder={`${intl.formatMessage({
-                id: "select",
-              })} ${intl.formatMessage({
-                id: "category",
-              })}`}
-              filterOption={filterOption}
-            >
-              {categories.data.map((category) => {
-                return (
-                  <Option value={category.id} key={category.id}>
-                    {category[locale === "ENGLISH" ? "en" : "fr"]}
-                  </Option>
-                );
-              })}
-            </Select>
-          </Form.Item>
-        </Form>
-      </Modal>
-    );
-  };
+            {categories.data.map((category) => (
+              <Option value={category.id} key={category.id}>
+                {category[locale === "ENGLISH" ? "en" : "fr"]}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Form>
+    </Modal>
+  );
 
   return (
     <>
