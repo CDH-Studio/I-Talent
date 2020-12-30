@@ -5,7 +5,7 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const EmployeeSummary = ({ data, editableCardBool }) => (
   <ProfileCards
-    titleId="profile.employee.status"
+    titleId="employment.status"
     cardName="info"
     id="card-profile-employee-summary"
     editUrl="/profile/edit/employment"

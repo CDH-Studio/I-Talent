@@ -28,11 +28,11 @@ const AdminDashboard = ({ intl }) => {
     (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `admin.dashboard.plural`,
+          id: `dashboard`,
         });
 
       return intl.formatMessage({
-        id: `admin.dashboard.singular`,
+        id: `dashboard`,
       });
     },
     [intl]
@@ -89,12 +89,8 @@ const AdminDashboard = ({ intl }) => {
   return (
     <AdminLayout displaySideBar type="dashboard">
       <Header
-        title={
-          <>
-            <AreaChartOutlined />
-            <FormattedMessage id="admin.dashboard.title" />
-          </>
-        }
+        title={<FormattedMessage id="admin.dashboard.title" />}
+        icon={<AreaChartOutlined />}
       />
       <StatCards />
       <DashboardGraphs />

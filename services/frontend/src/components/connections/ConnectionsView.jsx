@@ -27,7 +27,7 @@ const ConnectionsView = ({ connections }) => {
   return (
     <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<FormattedMessage id="profile.private.group.empty" />}
+      description={<FormattedMessage id="private.group.empty" />}
     />
   );
 };

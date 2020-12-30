@@ -20,7 +20,7 @@ const EmploymentEquityView = ({ groups }) => {
   return (
     <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<FormattedMessage id="profile.employment.equity.empty" />}
+      description={<FormattedMessage id="employment.equity.empty" />}
       className="empty"
     />
   );

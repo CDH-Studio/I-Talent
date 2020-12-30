@@ -102,7 +102,7 @@ const SkillTableView = ({
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
-            id: "admin.search",
+            id: "search.for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -118,14 +118,14 @@ const SkillTableView = ({
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedMessage id="admin.search.button" />
+          <FormattedMessage id="search" />
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedMessage id="admin.reset.button" />
+          <FormattedMessage id="reset" />
         </Button>
       </div>
     ),
@@ -148,15 +148,15 @@ const SkillTableView = ({
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      ),
+          text
+        ),
   });
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     notification.success({
       message: intl.formatMessage({
-        id: "admin.success",
+        id: "successful",
       }),
     });
   };
@@ -165,7 +165,7 @@ const SkillTableView = ({
   const popUpCancel = () => {
     notification.info({
       message: intl.formatMessage({
-        id: "admin.cancelled",
+        id: "cancelled",
       }),
     });
   };
@@ -213,9 +213,9 @@ const SkillTableView = ({
     return (
       <Popconfirm
         placement="left"
-        title={<FormattedMessage id="admin.delete.skill" />}
-        okText={<FormattedMessage id="admin.delete" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="delete.skill" />}
+        okText={<FormattedMessage id="delete" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
@@ -230,7 +230,7 @@ const SkillTableView = ({
         <Button disabled={selectedRowKeys.length === 0} danger>
           <DeleteOutlined />
           <span>
-            <FormattedMessage id="admin.delete" />
+            <FormattedMessage id="delete" />
           </span>
         </Button>
       </Popconfirm>
@@ -242,9 +242,9 @@ const SkillTableView = ({
     return (
       <Modal
         visible={editVisible}
-        title={<FormattedMessage id="admin.edit.skill" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="edit.skill" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={() => {
           editForm
             .validateFields()
@@ -279,7 +279,7 @@ const SkillTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.skill.descriptionEn",
+                id: "add.skill.descriptionEn",
               })}
             />
           </Form.Item>
@@ -289,20 +289,20 @@ const SkillTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.skill.descriptionFr",
+                id: "add.skill.descriptionFr",
               })}
             />
           </Form.Item>
           <Form.Item
             name="editSkillCategoryId"
-            label={<FormattedMessage id="admin.category" />}
+            label={<FormattedMessage id="category" />}
           >
             <Select
               showSearch
               placeholder={`${intl.formatMessage({
-                id: "admin.select",
+                id: "select",
               })} ${intl.formatMessage({
-                id: "admin.category",
+                id: "category",
               })}`}
               filterOption={filterOption}
             >
@@ -325,7 +325,7 @@ const SkillTableView = ({
   // Consult: Ant Design table components for further clarification
   const skillTableColumns = () => [
     {
-      title: <FormattedMessage id="admin.category" />,
+      title: <FormattedMessage id="category" />,
       dataIndex: "category",
       key: "category",
       sorter: (a, b) => {
@@ -334,7 +334,7 @@ const SkillTableView = ({
       ...getColumnSearchProps(
         "category",
         intl.formatMessage({
-          id: "admin.category",
+          id: "category",
         })
       ),
     },
@@ -369,7 +369,7 @@ const SkillTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="admin.edit" />,
+      title: <FormattedMessage id="edit" />,
       key: "edit",
       fixed: "right",
       width: 70,
@@ -401,9 +401,9 @@ const SkillTableView = ({
     return (
       <Modal
         visible={addVisible}
-        title={<FormattedMessage id="admin.add.skill" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="add.skill" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={() => {
           addForm
             .validateFields()
@@ -430,13 +430,13 @@ const SkillTableView = ({
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.description" />,
+                message: <FormattedMessage id="validate.country" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.skill.descriptionEn",
+                id: "add.skill.descriptionEn",
               })}
               allowClear
             />
@@ -447,25 +447,25 @@ const SkillTableView = ({
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.description" />,
+                message: <FormattedMessage id="validate.country" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.skill.descriptionFr",
+                id: "add.skill.descriptionFr",
               })}
               allowClear
             />
           </Form.Item>
           <Form.Item
             name="addSkillCategory"
-            label={<FormattedMessage id="admin.category" />}
+            label={<FormattedMessage id="category" />}
             rules={[
               {
                 required: true,
                 message: intl.formatMessage({
-                  id: "admin.validate.description",
+                  id: "validate.country",
                 }),
               },
             ]}
@@ -473,9 +473,9 @@ const SkillTableView = ({
             <Select
               showSearch
               placeholder={`${intl.formatMessage({
-                id: "admin.select",
+                id: "select",
               })} ${intl.formatMessage({
-                id: "admin.category",
+                id: "category",
               })}`}
               filterOption={filterOption}
             >
@@ -498,19 +498,15 @@ const SkillTableView = ({
       {addSkillButton()}
       {editSkillButton()}
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="admin.skill.table" />
-          </>
-        }
+        title={<FormattedMessage id="skills.table" />}
+        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
             <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined />
               <span>
-                <FormattedMessage id="admin.add" />
+                <FormattedMessage id="add" />
               </span>
             </Button>
           </>

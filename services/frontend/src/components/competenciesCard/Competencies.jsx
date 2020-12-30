@@ -5,7 +5,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const Competencies = ({ data, editableCardBool }) => (
   <ProfileCards
-    titleId="profile.competencies"
+    titleId="competencies"
     cardName="competencies"
     id="card-profile-competency"
     editUrl="/profile/edit/talent?tab=competencies"

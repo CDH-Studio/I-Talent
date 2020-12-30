@@ -67,7 +67,7 @@ const Education = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="profile.education"
+      titleId="education"
       cardName="education"
       id="card-profile-education"
       editUrl="/profile/edit/qualifications?tab=education"

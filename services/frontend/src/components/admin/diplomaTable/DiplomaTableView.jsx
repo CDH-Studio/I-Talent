@@ -80,7 +80,7 @@ const DiplomaTableView = ({
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
-            id: "admin.search",
+            id: "search.for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -96,14 +96,14 @@ const DiplomaTableView = ({
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedMessage id="admin.search.button" />
+          <FormattedMessage id="search" />
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedMessage id="admin.reset.button" />
+          <FormattedMessage id="reset" />
         </Button>
       </div>
     ),
@@ -129,15 +129,15 @@ const DiplomaTableView = ({
           textToHighlight={text.toString()}
         />
       ) : (
-        text
-      ),
+          text
+        ),
   });
 
   /* Renders the success message on top of page */
   const popUpSuccesss = () => {
     notification.success({
       message: intl.formatMessage({
-        id: "admin.success",
+        id: "successful",
       }),
     });
   };
@@ -146,7 +146,7 @@ const DiplomaTableView = ({
   const popUpCancel = () => {
     notification.info({
       message: intl.formatMessage({
-        id: "admin.cancelled",
+        id: "cancelled",
       }),
     });
   };
@@ -156,9 +156,9 @@ const DiplomaTableView = ({
     return (
       <Popconfirm
         placement="left"
-        title={<FormattedMessage id="admin.delete.diploma" />}
-        okText={<FormattedMessage id="admin.delete" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="delete.diploma" />}
+        okText={<FormattedMessage id="delete" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onConfirm={() => {
           handleSubmitDelete()
             .then(popUpSuccesss)
@@ -173,7 +173,7 @@ const DiplomaTableView = ({
         <Button disabled={selectedRowKeys.length === 0} danger>
           <DeleteOutlined />
           <span>
-            <FormattedMessage id="admin.delete" />
+            <FormattedMessage id="delete" />
           </span>
         </Button>
       </Popconfirm>
@@ -223,9 +223,9 @@ const DiplomaTableView = ({
     return (
       <Modal
         visible={addVisible}
-        title={<FormattedMessage id="admin.add.diploma" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="add.diploma" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={() => {
           addForm
             .validateFields()
@@ -252,13 +252,13 @@ const DiplomaTableView = ({
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.description" />,
+                message: <FormattedMessage id="validate.description" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.diploma.descriptionEn",
+                id: "add.diploma.descriptionEn",
               })}
               allowClear
             />
@@ -269,13 +269,13 @@ const DiplomaTableView = ({
             rules={[
               {
                 required: true,
-                message: <FormattedMessage id="admin.validate.description" />,
+                message: <FormattedMessage id="validate.description" />,
               },
             ]}
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.diploma.descriptionFr",
+                id: "add.diploma.descriptionFr",
               })}
               allowClear
             />
@@ -290,9 +290,9 @@ const DiplomaTableView = ({
     return (
       <Modal
         visible={editVisible}
-        title={<FormattedMessage id="admin.edit.diploma" />}
-        okText={<FormattedMessage id="admin.apply" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
+        title={<FormattedMessage id="edit.diploma" />}
+        okText={<FormattedMessage id="apply" />}
+        cancelText={<FormattedMessage id="cancel" />}
         onOk={() => {
           editForm
             .validateFields()
@@ -327,7 +327,7 @@ const DiplomaTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.diploma.descriptionEn",
+                id: "add.diploma.descriptionEn",
               })}
             />
           </Form.Item>
@@ -337,7 +337,7 @@ const DiplomaTableView = ({
           >
             <Input
               placeholder={intl.formatMessage({
-                id: "admin.add.diploma.descriptionFr",
+                id: "add.diploma.descriptionFr",
               })}
             />
           </Form.Item>
@@ -381,7 +381,7 @@ const DiplomaTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="admin.edit" />,
+      title: <FormattedMessage id="edit" />,
       key: "edit",
       fixed: "right",
       width: 70,
@@ -409,19 +409,15 @@ const DiplomaTableView = ({
       {addDiplomaModal()}
       {editDiplomaModal()}
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="admin.diploma.table" />
-          </>
-        }
+        title={<FormattedMessage id="diplomas.table" />}
+        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
             <Button type="primary" onClick={handleAddModal}>
               <PlusCircleOutlined />
               <span>
-                <FormattedMessage id="admin.add" />
+                <FormattedMessage id="add" />
               </span>
             </Button>
           </>

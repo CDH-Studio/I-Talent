@@ -25,7 +25,7 @@ const ErrorNumber = ({ error }) => {
         <Button onClick={handleClick} type="primary">
           <HomeOutlined />
           <span>
-            <FormattedMessage id="error.button" />
+            <FormattedMessage id="back.to.home" />
           </span>
         </Button>
       }

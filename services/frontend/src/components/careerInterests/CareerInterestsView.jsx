@@ -12,25 +12,25 @@ const CareerInterestsView = ({
 
     let description = "-";
     if (interestedInRemote) {
-      description = <FormattedMessage id="profile.yes" />;
+      description = <FormattedMessage id="yes" />;
     } else if (interestedInRemote === false) {
-      description = <FormattedMessage id="profile.no" />;
+      description = <FormattedMessage id="no" />;
     }
 
     items.push(
       {
-        title: <FormattedMessage id="profile.interested.in.remote" />,
+        title: <FormattedMessage id="interested.in.remote" />,
         description,
       },
       {
-        title: <FormattedMessage id="profile.looking.for.new.job" />,
+        title: <FormattedMessage id="looking.for.new.job" />,
         description: (lookingJob && lookingJob.description) || "-",
       }
     );
 
     if (relocationLocations && relocationLocations.length > 0) {
       items.push({
-        title: <FormattedMessage id="profile.willing.to.relocate.to" />,
+        title: <FormattedMessage id="willing.to.relocate.to" />,
         render: (
           <div style={{ marginTop: 7 }}>
             {relocationLocations.map(({ id, city, province }) => (

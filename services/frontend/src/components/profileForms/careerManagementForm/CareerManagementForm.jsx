@@ -156,7 +156,7 @@ const CareerManagementForm = ({ formType }) => {
       // To handle the competencies category
       categoriesResult.data.push({
         id: undefined,
-        name: intl.formatMessage({ id: "setup.competencies" }),
+        name: intl.formatMessage({ id: "competencies" }),
       });
 
       // Loop through all skill categories

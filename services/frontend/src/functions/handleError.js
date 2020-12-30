@@ -10,7 +10,7 @@ import config from "../utils/runtimeConfig";
 
 const { enableErrorRedirect } = config;
 
-const intlMessageKey = "error.save";
+const intlMessageKey = "error.data.not.saved";
 
 const errorMessages = {
   ENGLISH: enIntlMessages[intlMessageKey] || intlMessageKey,

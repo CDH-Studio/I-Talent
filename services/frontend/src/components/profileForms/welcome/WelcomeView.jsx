@@ -82,8 +82,8 @@ const WelcomeView = ({
           {secondTitle ? (
             truncateString(secondTitle, 28)
           ) : (
-            <div style={{ opacity: 0 }}>empty</div>
-          )}
+              <div style={{ opacity: 0 }}>empty</div>
+            )}
         </div>
 
         {/* third title */}
@@ -91,8 +91,8 @@ const WelcomeView = ({
           {thirdTitle ? (
             truncateString(thirdTitle, 28)
           ) : (
-            <div style={{ opacity: 0 }}>empty</div>
-          )}
+              <div style={{ opacity: 0 }}>empty</div>
+            )}
         </div>
       </Button>
     );
@@ -127,18 +127,18 @@ const WelcomeView = ({
           {/* loading button */}
           {generateProfileBtn({
             icon: <LoadingOutlined />,
-            firstTitle: intl.formatMessage({ id: "setup.welcome.geds.title" }),
+            firstTitle: intl.formatMessage({ id: "fetching.profiles" }),
             secondTitle: intl.formatMessage({
-              id: "setup.welcome.geds.description",
+              id: "from.gcdirectory",
             }),
             type: "loading",
           })}
           {/* new user button */}
           {generateProfileBtn({
             icon: <UserAddOutlined />,
-            firstTitle: intl.formatMessage({ id: "setup.welcome.new.title" }),
+            firstTitle: intl.formatMessage({ id: "new.user" }),
             secondTitle: intl.formatMessage({
-              id: "setup.welcome.new.description",
+              id: "start.fresh",
             }),
           })}
         </div>
@@ -158,9 +158,9 @@ const WelcomeView = ({
         {/* new user button */}
         {generateProfileBtn({
           icon: <UserAddOutlined />,
-          firstTitle: intl.formatMessage({ id: "setup.welcome.new.title" }),
+          firstTitle: intl.formatMessage({ id: "new.user" }),
           secondTitle: intl.formatMessage({
-            id: "setup.welcome.new.description",
+            id: "start.fresh",
           }),
         })}
       </div>
@@ -173,8 +173,8 @@ const WelcomeView = ({
       content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
       icon: <ExclamationCircleOutlined />,
       onOk: skipProfileCreation,
-      okText: intl.formatMessage({ id: "profile.yes" }),
-      cancelText: intl.formatMessage({ id: "profile.no" }),
+      okText: intl.formatMessage({ id: "yes" }),
+      cancelText: intl.formatMessage({ id: "no" }),
     });
   };
 
