@@ -17,7 +17,7 @@ const {
   talentMatrixResults,
   tenures,
   linkAttachmentNames,
-} = require("../../core/options/options");
+} = require("../../core/options");
 const {
   deleteManyValidator,
   deleteOneValidator,
@@ -31,7 +31,7 @@ const {
 } = require("./validator");
 
 const { langValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddleware } = require("../../utils/middleware");
 
 const { keycloak } = require("../../auth/keycloak");
 
@@ -41,7 +41,7 @@ optionsRouter.get(
   "/branches",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   branches.getBranches
 );
 
@@ -49,7 +49,7 @@ optionsRouter.get(
   "/careerMobilities",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   careerMobilities.getCareerMobilities
 );
 
@@ -58,21 +58,21 @@ optionsRouter
   .get(
     keycloak.protect(),
     langValidator,
-    validationMiddlware,
+    validationMiddleware,
     categories.getCategories
   )
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
-    validationMiddlware,
+    validationMiddleware,
     categories.deleteCategories
   );
 optionsRouter
   .route("/category")
   .all(keycloak.protect("manage-options"))
-  .post(createValidator, validationMiddlware, categories.createCategory)
-  .put(updateValidator, validationMiddlware, categories.updateCategory)
-  .delete(deleteOneValidator, validationMiddlware, categories.deleteCategory);
+  .post(createValidator, validationMiddleware, categories.createCategory)
+  .put(updateValidator, validationMiddleware, categories.updateCategory)
+  .delete(deleteOneValidator, validationMiddleware, categories.deleteCategory);
 optionsRouter.get(
   "/categoriesAllLang",
   keycloak.protect("view-admin-console"),
@@ -90,23 +90,23 @@ optionsRouter
   .get(
     keycloak.protect(),
     langValidator,
-    validationMiddlware,
+    validationMiddleware,
     competencies.getCompetencies
   )
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
-    validationMiddlware,
+    validationMiddleware,
     competencies.deleteCompetencies
   );
 optionsRouter
   .route("/competency")
   .all(keycloak.protect("manage-options"))
-  .post(createValidator, validationMiddlware, competencies.createCompetency)
-  .put(updateValidator, validationMiddlware, competencies.updateCompetency)
+  .post(createValidator, validationMiddleware, competencies.createCompetency)
+  .put(updateValidator, validationMiddleware, competencies.updateCompetency)
   .delete(
     deleteOneValidator,
-    validationMiddlware,
+    validationMiddleware,
     competencies.deleteCompetency
   );
 optionsRouter.get(
@@ -119,7 +119,7 @@ optionsRouter.get(
   "/developmentalGoals",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   developmentalGoals.getDevelopmentalGoals
 );
 
@@ -128,21 +128,21 @@ optionsRouter
   .get(
     keycloak.protect(),
     langValidator,
-    validationMiddlware,
+    validationMiddleware,
     diplomas.getDiplomas
   )
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
-    validationMiddlware,
+    validationMiddleware,
     diplomas.deleteDiplomas
   );
 optionsRouter
   .route("/diploma")
   .all(keycloak.protect("manage-options"))
-  .post(createValidator, validationMiddlware, diplomas.createDiploma)
-  .put(updateValidator, validationMiddlware, diplomas.updateDiploma)
-  .delete(deleteOneValidator, validationMiddlware, diplomas.deleteDiploma);
+  .post(createValidator, validationMiddleware, diplomas.createDiploma)
+  .put(updateValidator, validationMiddleware, diplomas.updateDiploma)
+  .delete(deleteOneValidator, validationMiddleware, diplomas.deleteDiploma);
 optionsRouter.get(
   "/diplomasAllLang",
   keycloak.protect("view-admin-console"),
@@ -153,7 +153,7 @@ optionsRouter.get(
   "/locations",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   locations.getLocations
 );
 
@@ -161,7 +161,7 @@ optionsRouter.get(
   "/cityLocations",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   cityLocations.getCityLocations
 );
 
@@ -169,7 +169,7 @@ optionsRouter.get(
   "/lookingJobs",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   lookingJobs.getLookingJobs
 );
 
@@ -178,21 +178,21 @@ optionsRouter
   .get(
     keycloak.protect(),
     langValidator,
-    validationMiddlware,
+    validationMiddleware,
     schools.getSchools
   )
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
-    validationMiddlware,
+    validationMiddleware,
     schools.deleteSchools
   );
 optionsRouter
   .route("/school")
   .all(keycloak.protect("manage-options"))
-  .post(createSchoolValidator, validationMiddlware, schools.createSchool)
-  .put(updateSchoolValidator, validationMiddlware, schools.updateSchool)
-  .delete(deleteOneValidator, validationMiddlware, schools.deleteSchool);
+  .post(createSchoolValidator, validationMiddleware, schools.createSchool)
+  .put(updateSchoolValidator, validationMiddleware, schools.updateSchool)
+  .delete(deleteOneValidator, validationMiddleware, schools.deleteSchool);
 optionsRouter.get(
   "/schoolsAllLang",
   keycloak.protect("view-admin-console"),
@@ -203,25 +203,30 @@ optionsRouter.get(
   "/securityClearances",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   securityClearances.getSecurityClearances
 );
 
 optionsRouter
   .route("/skills")
-  .get(keycloak.protect(), langValidator, validationMiddlware, skills.getSkills)
+  .get(
+    keycloak.protect(),
+    langValidator,
+    validationMiddleware,
+    skills.getSkills
+  )
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
-    validationMiddlware,
+    validationMiddleware,
     skills.deleteSkills
   );
 optionsRouter
   .route("/skill")
   .all(keycloak.protect("manage-options"))
-  .post(createSkillValidator, validationMiddlware, skills.createSkill)
-  .put(updateSkillValidator, validationMiddlware, skills.updateSkill)
-  .delete(deleteOneValidator, validationMiddlware, skills.deleteSkill);
+  .post(createSkillValidator, validationMiddleware, skills.createSkill)
+  .put(updateSkillValidator, validationMiddleware, skills.updateSkill)
+  .delete(deleteOneValidator, validationMiddleware, skills.deleteSkill);
 optionsRouter.get(
   "/skillsAllLang",
   keycloak.protect("view-admin-console"),
@@ -232,7 +237,7 @@ optionsRouter.get(
   "/talentMatrixResults",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   talentMatrixResults.getTalentMatrixResults
 );
 
@@ -240,7 +245,7 @@ optionsRouter.get(
   "/tenures",
   keycloak.protect(),
   langValidator,
-  validationMiddlware,
+  validationMiddleware,
   tenures.getTenures
 );
 
@@ -248,7 +253,7 @@ optionsRouter.get(
   "/attachmentNames",
   keycloak.protect(),
   [langValidator, attachmentNameValidator],
-  validationMiddlware,
+  validationMiddleware,
   linkAttachmentNames.getNames
 );
 

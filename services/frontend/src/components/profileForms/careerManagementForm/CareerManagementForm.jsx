@@ -134,7 +134,7 @@ const CareerManagementForm = ({ formType }) => {
         getMatrixResultOptions,
         getClassificationOptions,
       ] = await Promise.all([
-        axios.get(`api/profile/private/${id}?language=${locale}`),
+        axios.get(`api/profile/${id}?language=${locale}`),
         axios.get(`api/option/categories?language=${locale}`),
         axios.get(`api/option/developmentalGoals?language=${locale}`),
         axios.get(`api/option/cityLocations?language=${locale}`),

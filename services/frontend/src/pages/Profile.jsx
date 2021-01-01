@@ -29,7 +29,7 @@ const Profile = ({ history, match }) => {
     const apiCalls = [];
     const profile =
       id === userID
-        ? axios.get(`api/profile/private/${id}?language=${locale}`)
+        ? axios.get(`api/profile/${id}?language=${locale}`)
         : axios.get(`api/profile/${id}?language=${locale}`);
 
     apiCalls.push(profile);

@@ -37,7 +37,7 @@ const EmploymentDataForm = ({ formType }) => {
         axios.get(`api/option/tenures?language=${locale}`),
         axios.get(`api/option/classifications?language=${locale}`),
         axios.get(`api/option/securityClearances?language=${locale}`),
-        axios.get(`api/profile/private/${id}?language=${locale}`),
+        axios.get(`api/profile/${id}?language=${locale}`),
       ]);
       setSubstantiveOptions(tenures.data);
       setClassificationOptions(classifications.data);

@@ -29,9 +29,7 @@ const PrimaryInfoForm = ({ formType }) => {
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
     if (id) {
-      const result = await axios.get(
-        `api/profile/private/${id}?language=${locale}`
-      );
+      const result = await axios.get(`api/profile/${id}?language=${locale}`);
       setProfileInfo(result.data);
     }
   }, [axios, id, locale]);

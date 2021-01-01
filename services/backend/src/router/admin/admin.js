@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
-const admin = require("../../core/admin/users");
+const { getUsers, updateUserStatuses } = require("../../core/admin/users");
 const { updateUserStatusValidator } = require("./validator");
 const { langValidator } = require("../util/commonValidators");
 const { validationMiddleware } = require("../../utils/middleware");
@@ -12,7 +12,7 @@ adminRouter.get(
   keycloak.protect("view-admin-console"),
   langValidator,
   validationMiddleware,
-  admin.getUsers
+  getUsers
 );
 
 adminRouter.put(
@@ -20,7 +20,7 @@ adminRouter.put(
   keycloak.protect("manage-users"),
   updateUserStatusValidator,
   validationMiddleware,
-  admin.updateUserStatuses
+  updateUserStatuses
 );
 
 module.exports = adminRouter;

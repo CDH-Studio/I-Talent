@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const { keycloak } = require("../../auth/keycloak");
-const user = require("../../core/user/user");
+const {
+  getCurrentUser,
+  createUser,
+  deleteUser,
+} = require("../../core/user/user");
 const { createUserValidator } = require("./validator");
 const { UUIDValidator } = require("../util/commonValidators");
 const { validationMiddleware } = require("../../utils/middleware");
@@ -13,13 +17,13 @@ userRouter
     keycloak.protect(),
     [UUIDValidator],
     validationMiddleware,
-    user.deleteUser
+    deleteUser
   );
 
 userRouter
   .route("/")
   .all(keycloak.protect())
-  .get(user.getCurrentUser)
-  .post([createUserValidator], validationMiddleware, user.createUser);
+  .get(getCurrentUser)
+  .post([createUserValidator], validationMiddleware, createUser);
 
 module.exports = userRouter;
