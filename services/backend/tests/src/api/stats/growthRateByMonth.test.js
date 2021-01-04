@@ -63,16 +63,9 @@ describe(`GET ${path}`, () => {
           },
         ],
         {
-          currentMonthNewUserCount: 0,
+          currentMonthNewUserCount: 1,
           growthRate: {
             [moment().get("Y")]: {
-              ...Array.from({ length: moment().month() }).reduce(
-                (acc, _i, index) => {
-                  acc[index + 1] = 0;
-                  return acc;
-                },
-                {}
-              ),
               0: 1,
             },
             [moment().get("Y") - 1]: {
@@ -80,7 +73,7 @@ describe(`GET ${path}`, () => {
               10: 1,
             },
           },
-          growthRateFromPreviousMonth: 0,
+          growthRateFromPreviousMonth: 100,
         },
       ],
     ];
