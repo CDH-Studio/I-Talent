@@ -84,8 +84,8 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * @param {*} descriptions
    */
   const createDescription = (descriptions) => {
-    const modifiedDescriptions = descriptions.map((description) => (
-      <li>
+    const modifiedDescriptions = descriptions.map((description, index) => (
+      <li key={index}>
         <FormattedMessage id={description} />
       </li>
     ));

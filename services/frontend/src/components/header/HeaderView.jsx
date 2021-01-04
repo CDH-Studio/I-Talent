@@ -5,9 +5,8 @@ import { useIntl } from "react-intl";
 
 import "./HeaderView.less";
 
-const HeaderView = ({ title, icon, subtitle, extra, onBack }) => {
+const HeaderView = ({ title, icon, subtitle, extra, backBtn }) => {
   const intl = useIntl();
-
   return (
     <PageHeader
       className="pageHeader"
@@ -30,7 +29,12 @@ const HeaderView = ({ title, icon, subtitle, extra, onBack }) => {
           />
         </Tooltip>
       }
-      onBack={onBack}
+      onBack={
+        backBtn &&
+        (() => {
+          window.history.back();
+        })
+      }
     />
   );
 };
@@ -40,7 +44,7 @@ HeaderView.propTypes = {
   subtitle: PropTypes.node.isRequired,
   extra: PropTypes.node.isRequired,
   icon: PropTypes.node.isRequired,
-  onBack: PropTypes.func.isRequired,
+  backBtn: PropTypes.bool.isRequired,
 };
 
 export default HeaderView;
