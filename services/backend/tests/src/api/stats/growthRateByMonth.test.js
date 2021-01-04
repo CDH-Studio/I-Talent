@@ -1,6 +1,7 @@
 const request = require("supertest");
 const moment = require("moment");
 const faker = require("faker");
+const MockDate = require("mockdate");
 const { getBearerToken } = require("../../../mocks");
 
 const path = "/api/stats/growthRateByMonth";
@@ -31,21 +32,50 @@ describe(`GET ${path}`, () => {
   describe("when authenticated", () => {
     const data = [
       [
-        "when there's data for a single year",
+        "when there's data in a single year",
         [
           {
             id: faker.random.uuid(),
-            createdAt: moment().toISOString(),
+            createdAt: moment("2020-04-10").toISOString(),
           },
           {
             id: faker.random.uuid(),
-            createdAt: moment().toISOString(),
+            createdAt: moment("2020-05-4").toISOString(),
+          },
+          {
+            id: faker.random.uuid(),
+            createdAt: moment("2020-05-10").toISOString(),
           },
         ],
+        "2020-05-20",
         {
           currentMonthNewUserCount: 2,
           growthRate: {
-            [moment().get("Y")]: { [moment().get("M")]: 2 },
+            2020: {
+              3: 1,
+              4: 2,
+            },
+          },
+          growthRateFromPreviousMonth: 100,
+        },
+      ],
+      [
+        "when there's data for the first month of a single year",
+        [
+          {
+            id: faker.random.uuid(),
+            createdAt: moment("2021-01-4").toISOString(),
+          },
+          {
+            id: faker.random.uuid(),
+            createdAt: moment("2021-01-10").toISOString(),
+          },
+        ],
+        "2021-01-04",
+        {
+          currentMonthNewUserCount: 2,
+          growthRate: {
+            2021: { 0: 2 },
           },
           growthRateFromPreviousMonth: 200,
         },
@@ -55,41 +85,36 @@ describe(`GET ${path}`, () => {
         [
           {
             id: faker.random.uuid(),
-            createdAt: moment().subtract(1, "year").month(10),
+            createdAt: moment("2020-11-05").toISOString(),
           },
           {
             id: faker.random.uuid(),
-            createdAt: moment().month(0),
+            createdAt: moment("2021-01-20").toISOString(),
           },
         ],
+        "2021-01-04",
         {
-          currentMonthNewUserCount: 0,
+          currentMonthNewUserCount: 1,
           growthRate: {
-            [moment().get("Y")]: {
-              ...Array.from({ length: moment().month() }).reduce(
-                (acc, _i, index) => {
-                  acc[index + 1] = 0;
-                  return acc;
-                },
-                {}
-              ),
+            2021: {
               0: 1,
             },
-            [moment().get("Y") - 1]: {
+            2020: {
               11: 0,
               10: 1,
             },
           },
-          growthRateFromPreviousMonth: 0,
+          growthRateFromPreviousMonth: 100,
         },
       ],
     ];
 
-    describe.each(data)("%s", (_testLabel, prismaData, result) => {
+    describe.each(data)("%s", (_testLabel, prismaData, currentDate, result) => {
       let res;
 
       beforeAll(async () => {
         prisma.user.findMany.mockResolvedValue(prismaData);
+        MockDate.set(currentDate);
 
         res = await request(app)
           .get(path)
