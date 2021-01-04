@@ -82,11 +82,11 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
       ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
           .title
       : "-",
-    gedsLabel: savedProfile.organizations
+    gedsLabel: gedsProfile.organizations[0]
       ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
           .title[locale]
       : "-",
-    gedsValue: savedProfile.organizations
+    gedsValue: gedsProfile.organizations[0]
       ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
           .title[locale]
       : "-",

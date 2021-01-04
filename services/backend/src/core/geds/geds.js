@@ -93,14 +93,16 @@ async function getGedsSetup(request, response) {
       ENGLISH: dataGEDS.title.en,
       FRENCH: dataGEDS.title.fr,
     },
-    organizations: organizations.map((org) => ({
-      title: {
-        ENGLISH: org.description.en,
-        FRENCH: org.description.fr,
-      },
-      id: org.id,
-      tier: org.tier,
-    })),
+    organizations: [
+      organizations.map((org) => ({
+        title: {
+          ENGLISH: org.description.en,
+          FRENCH: org.description.fr,
+        },
+        id: org.id,
+        tier: org.tier,
+      })),
+    ],
   };
 
   response.status(200).send(profile);
