@@ -79,10 +79,9 @@ async function growthRateByMonth(request, response) {
 
   let previousMonthAdditions = 0;
 
-  if (currentMonth === 0) {
-    // eslint-disable-next-line prefer-destructuring
-    previousMonthAdditions = growthRate[currentYear - 1][11];
-  } else {
+  if (currentMonth === 0 && Object.keys(growthRate).length > 1) {
+    previousMonthAdditions = growthRate[currentYear - 1]["11"];
+  } else if (Object.keys(growthRate[currentYear]).length > 1) {
     previousMonthAdditions = growthRate[currentYear][currentMonth - 1];
   }
 

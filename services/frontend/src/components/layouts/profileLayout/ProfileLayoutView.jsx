@@ -414,14 +414,12 @@ const ProfileLayoutView = ({
         title={
           <FormattedMessage id={privateProfile ? "my.profile" : "profile"} />
         }
-        onBack={() => {
-          window.history.back();
-        }}
         subtitle={
           <Tooltip title={<FormattedMessage id="last.modified.date" />}>
             {data && dayjs(data.updatedAt).format("LL")}
           </Tooltip>
         }
+        backBtn
       />
       {data ? (
         displayAllProfileCards()

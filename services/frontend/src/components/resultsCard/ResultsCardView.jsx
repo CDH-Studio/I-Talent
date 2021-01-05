@@ -98,9 +98,7 @@ const ResultsCardView = ({
       <Header
         title={<FormattedMessage id="results.title" />}
         subtitle={getResultCount({ isLoading: loading, count: results.length })}
-        onBack={() => {
-          window.history.back();
-        }}
+        backBtn
       />
       <div className="res-container">
         {loading && getLoadingAnimation()}
