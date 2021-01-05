@@ -603,16 +603,12 @@ const CareerManagementFormView = ({
             {/* ===== Talent Management Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: (
-                  <FormattedMessage id="talent.management" />
-                ),
+                message: <FormattedMessage id="talent.management" />,
               })}
               key="talent-management"
             >
               <FormSubTitle
-                title={
-                  <FormattedMessage id="talent.management" />
-                }
+                title={<FormattedMessage id="talent.management" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="talent.management.tooltip" />
@@ -625,14 +621,14 @@ const CareerManagementFormView = ({
                         <FormattedMessage id="talent.management.link" />
                       </a>
                     ) : (
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                        >
-                          <FormattedMessage id="talent.management.link" />
-                        </a>
-                      )}
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                      >
+                        <FormattedMessage id="talent.management.link" />
+                      </a>
+                    )}
                   </>
                 }
                 extra={
