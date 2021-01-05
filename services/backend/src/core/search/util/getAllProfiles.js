@@ -381,12 +381,12 @@ async function getAllUsers(language, userId, request) {
     }
 
     if (info.organizations) {
-      info.organizations = _.flattenDeep(
-        info.organizations.organizationTier.map((organization) => ({
+      info.organizations = info.organizations.organizationTier.map(
+        (organization) => ({
           description: organization.translations[0]
             ? organization.translations[0].description
             : undefined,
-        }))
+        })
       );
     }
 
