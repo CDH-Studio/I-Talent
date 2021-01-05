@@ -1,17 +1,14 @@
 const { isKeycloakUser, viewPrivateProfile } = require("../../utils/keycloak");
-
 const getFullProfile = require("./util/getProfile");
 const formatProfileResult = require("./util/formatProfileResult");
 const filterProfileVisibility = require("./util/filterProfileVisibility");
 const updateProfileInfo = require("./util/updateProfile");
 
 async function updateProfile(request, response) {
-  const { id } = request.params;
+  const { userId } = request.params;
   const { language } = request.query;
-
-  if (isKeycloakUser(request, id)) {
-    await updateProfileInfo(request, id, language);
-
+  if (isKeycloakUser(request, userId)) {
+    await updateProfileInfo(request, userId, language);
     response.sendStatus(204);
   } else {
     response.sendStatus(403);
