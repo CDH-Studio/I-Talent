@@ -9,6 +9,10 @@ WORKDIR /italent-frontend
 # Copy app dependencies
 COPY package.json yarn.lock ./
 
+# Set Yarn Proxy
+RUN yarn config set proxy http://cdhwg01.prod.prv:80
+RUN yarn config set https-proxy http://cdhwg01.prod.prv:80
+
 # Runs install script
 RUN yarn install
 
