@@ -15,17 +15,6 @@ const { errorHandler } = require("./utils/middleware");
 
 const app = express();
 
-// app.set("trust proxy", true);
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, Authorization, X-Requested-With, Content-Type, Accept"
-//   );
-//   res.header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS");
-//   next();
-// });
-
 if (config.ENV !== "test") {
   app.use(morgan(config.MORGAN_CONFIG));
 }
@@ -42,11 +31,12 @@ app.use(
   helmet(),
   sessionInstance,
   timeout("5s"),
+  keycloak.middleware({ logout: "/" }),
+  errorHandler,
   bodyParser.urlencoded({ extended: true }),
   bodyParser.json()
 );
 app.use("/api", router);
-app.use(keycloak.middleware({ logout: "/" }), errorHandler);
 
 if (config.ENV !== "test") {
   app.listen(config.PORT, () => console.log(`Backend port is ${config.PORT}.`));

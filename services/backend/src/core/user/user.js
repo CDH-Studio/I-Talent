@@ -23,13 +23,8 @@ function generateAvatarColor() {
   return colours[_.random(colours.length - 1)];
 }
 
-function getNameInitials(firstName, lastName) {
-  return `${firstName[0]}${lastName[0]}`;
-}
-
 async function getCurrentUser(request, response) {
   const id = getKeycloakUserId(request);
-
   const user = await prisma.user.findOne({
     where: { id },
     select: {
@@ -50,7 +45,7 @@ async function getCurrentUser(request, response) {
   if (user) {
     response.status(200).json({
       ...user,
-      nameInitials: getNameInitials(user.firstName, user.lastName),
+      nameInitials: `${user.firstName[0]}${user.lastName[0]}`,
     });
   } else {
     response.sendStatus(404);
@@ -87,7 +82,7 @@ async function createUser(request, response) {
 
   response.status(200).json({
     ...user,
-    nameInitials: getNameInitials(user.firstName, user.lastName),
+    nameInitials: `${user.firstName[0]}${user.lastName[0]}`,
   });
 }
 
