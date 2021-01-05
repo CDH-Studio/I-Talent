@@ -1,5 +1,6 @@
 import { Tree, Typography } from "antd";
 import { BranchesOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import "./OrgTreeView.less";
@@ -50,7 +51,9 @@ const OrgTreeView = ({ data }) => {
   return (
     <div className="noBranchMessage">
       <InfoCircleOutlined />
-      <Text>No organization tree found</Text>
+      <Text>
+        <FormattedMessage id="profile.org.tree.not.found" />
+      </Text>
     </div>
   );
 };
