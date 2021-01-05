@@ -202,7 +202,7 @@ const ResultProfileCardView = ({
     </div>,
     <div>
       <EnvironmentOutlined className="result-card-footer-icon" />
-      {profile.officeLocatio ? (
+      {profile.officeLocation ? (
         <Text>
           {profile.officeLocation.streetNumber}{" "}
           {profile.officeLocation.streetName}, {user.officeLocation.city}
