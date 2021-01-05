@@ -31,7 +31,7 @@ if (config.ENV !== "test") {
 }
 
 if (config.ENV === "development") {
-  app.get("/oauth2-redirect.html", function (req, res) {
+  app.get("/oauth2-redirect.html", (req, res) => {
     res.sendFile(`${__dirname}/docs/oauth2-redirect.html`);
   });
   app.use("/api-docs", swaggerUi.serve, swaggerOptions);

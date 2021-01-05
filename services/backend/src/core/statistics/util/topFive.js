@@ -5,12 +5,10 @@ async function getTopFiveSkillsHelper(skills, language) {
   const skillsCount = _(skills)
     .groupBy("skillId")
     .values()
-    .map((i) => {
-      return {
-        skillId: i[0].skillId,
-        count: i.length,
-      };
-    });
+    .map((i) => ({
+      skillId: i[0].skillId,
+      count: i.length,
+    }));
 
   const topFiveSkillIdsCount = skillsCount.orderBy("count", "desc").slice(0, 5);
   const topFiveSkillIds = topFiveSkillIdsCount.map("skillId").value();
@@ -28,12 +26,10 @@ async function getTopFiveSkillsHelper(skills, language) {
     },
   });
 
-  const topFiveSkillsCount = topFiveSkills.map((i) => {
-    return {
-      name: i.name,
-      count: topFiveSkillIdsCount.find((j) => j.skillId === i.opSkillId).count,
-    };
-  });
+  const topFiveSkillsCount = topFiveSkills.map((i) => ({
+    name: i.name,
+    count: topFiveSkillIdsCount.find((j) => j.skillId === i.opSkillId).count,
+  }));
 
   return topFiveSkillsCount;
 }
@@ -42,12 +38,10 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
   const competenciesCount = _(competencies)
     .groupBy("competencyId")
     .values()
-    .map((i) => {
-      return {
-        competencyId: i[0].competencyId,
-        count: i.length,
-      };
-    });
+    .map((i) => ({
+      competencyId: i[0].competencyId,
+      count: i.length,
+    }));
 
   const topFiveCompetencyIdsCount = competenciesCount
     .orderBy("count", "desc")
@@ -70,14 +64,12 @@ async function getTopFiveCompetenciesHelper(competencies, language) {
     },
   });
 
-  const topFiveCompetenciesCount = topFiveCompetencies.map((i) => {
-    return {
-      name: i.name,
-      count: topFiveCompetencyIdsCount.find(
-        (j) => j.competencyId === i.opCompetencyId
-      ).count,
-    };
-  });
+  const topFiveCompetenciesCount = topFiveCompetencies.map((i) => ({
+    name: i.name,
+    count: topFiveCompetencyIdsCount.find(
+      (j) => j.competencyId === i.opCompetencyId
+    ).count,
+  }));
 
   return topFiveCompetenciesCount;
 }

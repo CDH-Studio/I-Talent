@@ -8,9 +8,7 @@ async function mentorSkillSearch(profiles, skillarray) {
       data = [...profile.mentorshipSkills];
     }
 
-    const hasSkill = data.some((skill) => {
-      return skillarray.includes(skill.skillId);
-    });
+    const hasSkill = data.some((skill) => skillarray.includes(skill.skillId));
 
     if (hasSkill) {
       skillProf.push(profile);
