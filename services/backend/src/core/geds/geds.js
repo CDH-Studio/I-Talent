@@ -37,9 +37,9 @@ async function getGedsSetup(request, response) {
     prisma.user.findOne({ where: { id }, select: { email: true } }),
   ]);
 
-  const dataGEDS = dataGEDSArray.find((element) => {
-    return element.contactInformation.email === dataDBEmail;
-  });
+  const dataGEDS = dataGEDSArray.find(
+    (element) => element.contactInformation.email === dataDBEmail
+  );
 
   const organizations = [];
   let organizationCounter = 0;

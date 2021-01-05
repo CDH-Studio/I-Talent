@@ -250,38 +250,36 @@ async function getEducationIds(educations) {
 
   if (educations) {
     const promises = educations.map(
-      async ({ diploma, school, startDate, endDate }) => {
-        return {
-          startDate,
-          endDate,
-          diplomaId: await prisma.opTransDiploma
-            .findMany({
-              where: {
-                description: diploma,
-                language: "ENGLISH",
-              },
-            })
-            .then((i) => {
-              if (i[0]) {
-                return i[0].opDiplomaId;
-              }
-              return undefined;
-            }),
-          schoolId: await prisma.opTransSchool
-            .findMany({
-              where: {
-                name: school,
-                language: "ENGLISH",
-              },
-            })
-            .then((i) => {
-              if (i[0]) {
-                return i[0].opSchoolId;
-              }
-              return undefined;
-            }),
-        };
-      }
+      async ({ diploma, school, startDate, endDate }) => ({
+        startDate,
+        endDate,
+        diplomaId: await prisma.opTransDiploma
+          .findMany({
+            where: {
+              description: diploma,
+              language: "ENGLISH",
+            },
+          })
+          .then((i) => {
+            if (i[0]) {
+              return i[0].opDiplomaId;
+            }
+            return undefined;
+          }),
+        schoolId: await prisma.opTransSchool
+          .findMany({
+            where: {
+              name: school,
+              language: "ENGLISH",
+            },
+          })
+          .then((i) => {
+            if (i[0]) {
+              return i[0].opSchoolId;
+            }
+            return undefined;
+          }),
+      })
     );
 
     educationIds = await Promise.all(promises);
@@ -455,66 +453,56 @@ async function seedUsers() {
           employmentInfo: {
             create: {
               translations: {
-                create: Object.keys(employmentInfo).map((i) => {
-                  return {
-                    jobTitle: employmentInfo[i].jobTitle,
-                    branch: employmentInfo[i].branch,
-                    language: i === "en" ? "ENGLISH" : "FRENCH",
-                  };
-                }),
+                create: Object.keys(employmentInfo).map((i) => ({
+                  jobTitle: employmentInfo[i].jobTitle,
+                  branch: employmentInfo[i].branch,
+                  language: i === "en" ? "ENGLISH" : "FRENCH",
+                })),
               },
             },
           },
           experiences: {
             create: experiences.map(
-              ({ endDate, startDate, translations, projects }) => {
-                return {
-                  endDate,
-                  startDate,
-                  projects: projects
-                    ? {
-                        set: projects,
-                      }
-                    : undefined,
-                  translations: {
-                    create: Object.keys(translations).map((i) => {
-                      return {
-                        description: translations[i].description,
-                        jobTitle: translations[i].jobTitle,
-                        organization: translations[i].organization,
-                        language: i === "en" ? "ENGLISH" : "FRENCH",
-                      };
-                    }),
-                  },
-                };
-              }
+              ({ endDate, startDate, translations, projects }) => ({
+                endDate,
+                startDate,
+                projects: projects
+                  ? {
+                      set: projects,
+                    }
+                  : undefined,
+                translations: {
+                  create: Object.keys(translations).map((i) => ({
+                    description: translations[i].description,
+                    jobTitle: translations[i].jobTitle,
+                    organization: translations[i].organization,
+                    language: i === "en" ? "ENGLISH" : "FRENCH",
+                  })),
+                },
+              })
             ),
           },
           organizations: organizations
             ? {
-                create: organizations.map((organization) => {
-                  return {
-                    organizationTier: {
-                      create: organization.map(({ tier, en, fr }) => {
-                        return {
-                          tier,
-                          translations: {
-                            create: [
-                              {
-                                description: en,
-                                language: "ENGLISH",
-                              },
-                              {
-                                description: fr,
-                                language: "FRENCH",
-                              },
-                            ],
+                create: organizations.map((organization) => ({
+                  organizationTier: {
+                    create: organization.map(({ tier, en, fr }) => ({
+                      tier,
+                      translations: {
+                        create: [
+                          {
+                            description: en,
+                            language: "ENGLISH",
                           },
-                        };
-                      }),
-                    },
-                  };
-                }),
+                          {
+                            description: fr,
+                            language: "FRENCH",
+                          },
+                        ],
+                      },
+                    })),
+                  },
+                })),
               }
             : undefined,
           careerMobility: careerMobilityId
@@ -553,98 +541,82 @@ async function seedUsers() {
               }
             : undefined,
           secondLangProfs: {
-            create: proficiencies.map(({ date, level, proficiency }) => {
-              return {
-                date,
-                level,
-                proficiency,
-              };
-            }),
+            create: proficiencies.map(({ date, level, proficiency }) => ({
+              date,
+              level,
+              proficiency,
+            })),
           },
           competencies: {
-            create: compentenciesIds.map((id) => {
-              return {
+            create: compentenciesIds.map((id) => ({
+              competency: {
+                connect: {
+                  id,
+                },
+              },
+            })),
+          },
+          skills: {
+            create: skillsIds.map((id) => ({
+              skill: {
+                connect: {
+                  id,
+                },
+              },
+            })),
+          },
+          mentorshipSkills: {
+            create: mentorshipSkillsIds.map((id) => ({
+              skill: {
+                connect: {
+                  id,
+                },
+              },
+            })),
+          },
+          developmentalGoals: {
+            create: [
+              ...developmentalGoalsCompetenciesIds.map((id) => ({
                 competency: {
                   connect: {
                     id,
                   },
                 },
-              };
-            }),
-          },
-          skills: {
-            create: skillsIds.map((id) => {
-              return {
+              })),
+              ...developmentalGoalsSkillsIds.map((id) => ({
                 skill: {
                   connect: {
                     id,
                   },
                 },
-              };
-            }),
-          },
-          mentorshipSkills: {
-            create: mentorshipSkillsIds.map((id) => {
-              return {
-                skill: {
-                  connect: {
-                    id,
-                  },
-                },
-              };
-            }),
-          },
-          developmentalGoals: {
-            create: [
-              ...developmentalGoalsCompetenciesIds.map((id) => {
-                return {
-                  competency: {
-                    connect: {
-                      id,
-                    },
-                  },
-                };
-              }),
-              ...developmentalGoalsSkillsIds.map((id) => {
-                return {
-                  skill: {
-                    connect: {
-                      id,
-                    },
-                  },
-                };
-              }),
+              })),
             ],
           },
           relocationLocations: {
-            create: relocationLocationIds.map((id) => {
-              return {
-                location: {
-                  connect: {
-                    id,
-                  },
+            create: relocationLocationIds.map((id) => ({
+              location: {
+                connect: {
+                  id,
                 },
-              };
-            }),
+              },
+            })),
           },
           educations: {
             create: educationIds.map(
-              ({ diplomaId, schoolId, startDate, endDate }) => {
-                return {
-                  startDate,
-                  endDate,
-                  diploma: {
-                    connect: {
-                      id: diplomaId,
-                    },
+              ({ diplomaId, schoolId, startDate, endDate }) => ({
+                startDate,
+                endDate,
+                diploma: {
+                  connect: {
+                    id: diplomaId,
                   },
-                  school: {
-                    connect: {
-                      id: schoolId,
-                    },
+                },
+                school: {
+                  connect: {
+                    id: schoolId,
                   },
-                };
-              }
+                },
+              })
             ),
           },
         },
