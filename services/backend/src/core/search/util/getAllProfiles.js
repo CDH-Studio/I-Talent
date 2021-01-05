@@ -382,13 +382,11 @@ async function getAllUsers(language, userId, request) {
 
     if (info.organizations) {
       info.organizations = _.flattenDeep(
-        info.organizations.map((i) =>
-          i.organizationTier.map((organization) => ({
-            description: organization.translations[0]
-              ? organization.translations[0].description
-              : undefined,
-          }))
-        )
+        info.organizations.organizationTier.map((organization) => ({
+          description: organization.translations[0]
+            ? organization.translations[0].description
+            : undefined,
+        }))
       );
     }
 

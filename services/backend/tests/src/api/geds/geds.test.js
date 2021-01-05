@@ -147,21 +147,23 @@ describe(`GET ${path}`, () => {
             FRENCH: "titre",
           },
           organizations: [
-            {
-              title: { ENGLISH: "org3EN", FRENCH: "org3FR" },
-              id: "id org3",
-              tier: 2,
-            },
-            {
-              title: { ENGLISH: "org2EN", FRENCH: "org2FR" },
-              id: "id org2",
-              tier: 1,
-            },
-            {
-              title: { ENGLISH: "org1EN", FRENCH: "org1FR" },
-              id: "id org1",
-              tier: 0,
-            },
+            [
+              {
+                title: { ENGLISH: "org3EN", FRENCH: "org3FR" },
+                id: "id org3",
+                tier: 2,
+              },
+              {
+                title: { ENGLISH: "org2EN", FRENCH: "org2FR" },
+                id: "id org2",
+                tier: 1,
+              },
+              {
+                title: { ENGLISH: "org1EN", FRENCH: "org1FR" },
+                id: "id org1",
+                tier: 0,
+              },
+            ],
           ],
         });
       });

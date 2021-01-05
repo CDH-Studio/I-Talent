@@ -7,7 +7,7 @@ const { validationMiddlware } = require("../../utils/middlewares");
 const profileGenRouter = Router();
 
 profileGenRouter.get(
-  "/:id",
+  "/",
   keycloak.protect(),
   [profileGenValidator],
   validationMiddlware,
