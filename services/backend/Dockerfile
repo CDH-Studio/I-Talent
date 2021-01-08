@@ -7,7 +7,7 @@ RUN mkdir /italent-backend
 WORKDIR /italent-backend
 
 # Copy app dependencies
-COPY package.json yarn.lock ./
+COPY package*.json ./
 
 # Create database client folder
 RUN mkdir -p ./src/database/client
@@ -17,15 +17,7 @@ RUN chgrp -R 0 /italent-backend && \
   chmod -R g=u /italent-backend
 
 # Runs install script and builds the app
-RUN yarn install --production
-
-RUN mkdir -p /.cache/yarn
-RUN chgrp -R 0 /.cache/yarn && \ 
-  chmod -R g=u /.cache/yarn
-
-RUN mkdir -p /.yarn
-RUN chgrp -R 0 /.yarn && \ 
-  chmod -R g=u /.yarn
+RUN npm install --production
 
 RUN chgrp -R 0 /italent-backend/node_modules && \ 
   chmod -R g=u /italent-backend/node_modules
@@ -36,4 +28,4 @@ COPY . .
 EXPOSE 3000
 
 # Runs start script
-CMD yarn docker:prod
+CMD npm docker:prod

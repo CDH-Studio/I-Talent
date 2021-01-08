@@ -7,13 +7,13 @@ RUN mkdir /italent-backend
 WORKDIR /italent-backend
 
 # Copy app dependencies
-COPY package.json yarn.lock ./
+COPY package*.json ./
 
 # Runs install script
-RUN yarn install
+RUN npm install
 
 # Copy app
 COPY . .
 
 # Runs start script
-CMD yarn docker:dev
+CMD npm docker:dev
