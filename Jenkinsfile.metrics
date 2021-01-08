@@ -25,18 +25,17 @@ pipeline {
                     script {
                         sh script: """
                             unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                            nvm install 14.15.1
-                            nvm alias default 14.15.1
-                            npm i yarn -g
+                            nvm install 14.15.3
+                            nvm alias default 14.15.3
                         """, label: 'Setting up proper node.js version'
                         sh script: """
                             unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                            yarn install --production=false
+                            npm install --only=dev
                         """, label: 'Installing backend packages'
                         sh script: """
                             unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                            yarn generate
-                            yarn test
+                            npm generate
+                            npm test
                         """, label: 'Testing backend'
                         metrics.sonarScan("ITalent-backend", "./src")
                     }

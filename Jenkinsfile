@@ -24,14 +24,13 @@ pipeline {
             steps {
                 sh script: """
                     unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    nvm install 14.15.1
-                    nvm alias default 14.15.1
-                    npm i yarn -g
+                    nvm install 14.15.3
+                    nvm alias default 14.15.3
                 """, label: 'Setting up proper node.js version'
                 sh script: """
                     unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    (cd $FRONTEND_DIR && yarn install --production=false)
-                    (cd $BACKEND_DIR && yarn install --production=false)
+                    (cd $FRONTEND_DIR && npm install --only=dev)
+                    (cd $BACKEND_DIR && npm install --only=dev)
                 """, label: 'Installing packages'
             }
         }
@@ -52,7 +51,7 @@ pipeline {
                         dir("${FRONTEND_DIR}") {
                             sh script: """
                                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn lint
+                                npm lint
                             """, label: 'Linting frontend'
                         }
                     }
@@ -63,7 +62,7 @@ pipeline {
                         dir("${BACKEND_DIR}") {
                             sh script: """
                                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn lint
+                                npm lint
                             """, label: 'Linting backend'
                         }
                     }
@@ -76,8 +75,8 @@ pipeline {
                 dir("${BACKEND_DIR}") {
                     sh script: """
                         unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                        yarn generate
-                        yarn test
+                        npm generate
+                        npm test
                     """, label: 'Testing backend'
                     archiveArtifacts artifacts: 'tests/coverage/'
                 }
