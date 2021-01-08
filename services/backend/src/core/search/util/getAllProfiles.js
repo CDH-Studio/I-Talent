@@ -398,6 +398,10 @@ async function getAllUsers(language, userId, request) {
         : undefined;
     }
 
+    if (info.exFeeder) {
+      info.exFeederText = "ExFeeder Ex-Feeder";
+    }
+
     return { ...info, skills: allSkills };
   });
 
