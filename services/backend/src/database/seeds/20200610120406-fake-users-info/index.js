@@ -484,9 +484,9 @@ async function seedUsers() {
           },
           organizations: organizations
             ? {
-                create: organizations.map((organization) => ({
+                create: {
                   organizationTier: {
-                    create: organization.map(({ tier, en, fr }) => ({
+                    create: organizations.map(({ tier, en, fr }) => ({
                       tier,
                       translations: {
                         create: [
@@ -502,7 +502,7 @@ async function seedUsers() {
                       },
                     })),
                   },
-                })),
+                },
               }
             : undefined,
           careerMobility: careerMobilityId

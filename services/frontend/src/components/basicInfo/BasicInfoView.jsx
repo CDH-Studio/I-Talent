@@ -232,7 +232,7 @@ const BasicInfoView = ({
       description: data.branch ? (
         <Dropdown
           overlay={
-            <Menu>
+            <Menu className="orgDropdown">
               <OrgTree data={data} />
             </Menu>
           }

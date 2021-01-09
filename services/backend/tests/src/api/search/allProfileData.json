@@ -147,7 +147,7 @@
           "classification": { "name": "AS 02" }
         }
       ],
-      "organizations": [],
+      "organizations": null,
       "isConnection": false
     },
 
@@ -255,26 +255,24 @@
           "skillId": "d58453b6-e45e-4150-a661-bb119d871a84"
         }
       ],
-      "organizations": [
-        {
-          "organizationTier": [
-            {
-              "tier": 0,
-              "translations": [
-                {
-                  "description": "Innovation, Science and Economic Development Canada"
-                }
-              ]
-            },
-            {
-              "tier": 1,
-              "translations": [
-                { "description": "DIGITAL TRANSFORMATION SERVICE SECTOR" }
-              ]
-            }
-          ]
-        }
-      ],
+      "organizations": {
+        "organizationTier": [
+          {
+            "tier": 0,
+            "translations": [
+              {
+                "description": "Innovation, Science and Economic Development Canada"
+              }
+            ]
+          },
+          {
+            "tier": 1,
+            "translations": [
+              { "description": "DIGITAL TRANSFORMATION SERVICE SECTOR" }
+            ]
+          }
+        ]
+      },
       "isConnection": false
     }
   ],
