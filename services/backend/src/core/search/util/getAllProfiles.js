@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const prisma = require("../../../database");
 const { viewPrivateProfile } = require("../../../utils/keycloak");
 

@@ -124,11 +124,8 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
         },
       });
 
-      console.log("profileResult", profileResult);
-      console.log("gedsResult", gedsResult);
-
       setNewGedsValues(gedsResult.data);
-      console.log(gedsResult.data);
+
       setTableData(
         generateTableData({
           savedProfile: profileResult.data,
@@ -195,7 +192,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       default:
         throw new Error("sync request category not recognized");
     }
-    console.log("updatedProfile", updatedProfile);
+
     await saveDataToDB(updatedProfile);
     await getGedsAndProfileInfo();
     setTableLoading(false);
