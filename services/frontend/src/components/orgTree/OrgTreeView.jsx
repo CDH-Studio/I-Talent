@@ -1,18 +1,20 @@
-import { Tree } from "antd";
+import { Tree, Typography } from "antd";
+import { BranchesOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
-
 import { useSelector } from "react-redux";
+import "./OrgTreeView.less";
+
+const { Text } = Typography;
 
 const OrgTreeView = ({ data }) => {
   const { locale } = useSelector((state) => state.settings);
 
-  const treeData = [];
-
   const titleString = (title) => {
     if (typeof title === "object") {
-      return title[locale];
+      return title[locale].toUpperCase();
     }
-    return title;
+    return title.toUpperCase();
   };
 
   const genTreeBranch = (orgData) => {
@@ -23,6 +25,7 @@ const OrgTreeView = ({ data }) => {
       const object = {
         title: titleString(val.title),
         key: val.id,
+        icon: <BranchesOutlined />,
       };
       if (retVal.length !== 0) {
         object.children = [retVal];
@@ -32,17 +35,26 @@ const OrgTreeView = ({ data }) => {
     return retVal;
   };
 
-  data.organizations.forEach((org) => {
-    treeData.push(genTreeBranch(org));
-  });
+  if (data.organizations) {
+    const treeData = [genTreeBranch(data.organizations)];
+    return (
+      <Tree
+        showIcon
+        defaultExpandAll
+        defaultExpandParent
+        treeData={treeData}
+        selectable={false}
+      />
+    );
+  }
 
   return (
-    <Tree
-      defaultExpandAll
-      defaultExpandParent
-      treeData={treeData}
-      selectable={false}
-    />
+    <div className="noBranchMessage">
+      <InfoCircleOutlined />
+      <Text>
+        <FormattedMessage id="profile.org.tree.not.found" />
+      </Text>
+    </div>
   );
 };
 

@@ -232,61 +232,33 @@ module.exports = [
       exFeeder: "PUBLIC",
     },
     organizations: [
-      [
-        {
-          en: "Innovation, Science and Economic Development Canada",
-          fr: "Innovation, Sciences et Développement économique Canada",
-          tier: 0,
-        },
-        {
-          en: "DIGITAL TRANSFORMATION SERVICE SECTOR",
-          fr: "SECTEUR DES SERVICES DE TRANSFORMATION NUMERIQUE",
-          tier: 1,
-        },
-        {
-          en: "Chief Information Office",
-          fr: "Bureau de l'information en chef",
-          tier: 2,
-        },
-        {
-          en: "Digital Services Division",
-          fr: "Division des services numériques",
-          tier: 3,
-        },
-        {
-          en: "Business Line Solutions Directorate",
-          fr: "Direction des solutions métiers",
-          tier: 4,
-        },
-      ],
-      [
-        {
-          en: "Innovation, Science and Economic Development Canada",
-          fr: "Innovation, Sciences et Développement économique Canada",
-          tier: 0,
-        },
-        {
-          en: "DIGITAL TRANSFORMATION SERVICE SECTOR",
-          fr: "SECTEUR DES SERVICES DE TRANSFORMATION NUMERIQUE",
-          tier: 1,
-        },
-        {
-          en: "Chief Information Office",
-          fr: "Bureau de l'information en chef",
-          tier: 2,
-        },
-        {
-          en: "Digital Services Division",
-          fr: "Division des services numériques",
-          tier: 3,
-        },
-        {
-          en: "Director General's Office",
-          fr: "Bureau du directeur général",
-          tier: 4,
-        },
-      ],
+      {
+        en: "Innovation, Science and Economic Development Canada",
+        fr: "Innovation, Sciences et Développement économique Canada",
+        tier: 0,
+      },
+      {
+        en: "DIGITAL TRANSFORMATION SERVICE SECTOR",
+        fr: "SECTEUR DES SERVICES DE TRANSFORMATION NUMERIQUE",
+        tier: 1,
+      },
+      {
+        en: "Chief Information Office",
+        fr: "Bureau de l'information en chef",
+        tier: 2,
+      },
+      {
+        en: "Digital Services Division",
+        fr: "Division des services numériques",
+        tier: 3,
+      },
+      {
+        en: "Business Line Solutions Directorate",
+        fr: "Direction des solutions métiers",
+        tier: 4,
+      },
     ],
+
     proficiencies: [
       {
         proficiency: "ORAL",

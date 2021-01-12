@@ -247,6 +247,7 @@
   "profile.not.found": "This profile does not exist",
   "profile.not.found.description": "Please verify your your current URL",
   "profile.org.tree": "Organization",
+  "profile.org.tree.not.found": "No organization tree found",
   "profile.privateGroup": "Private group",
   "profile.security": "Security",
   "profile.select.date": "Select date",
