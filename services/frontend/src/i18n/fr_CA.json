@@ -247,6 +247,7 @@
   "profile.not.found": "Ce profil n'existe pas",
   "profile.not.found.description": "S'il vous plait vérifier le lien",
   "profile.org.tree": "Organisation",
+  "profile.org.tree.not.found": "Aucune arborescence d'organisation trouvée",
   "profile.privateGroup": "Groupe privé",
   "profile.security": "Sécurité",
   "profile.select.date": "Sélectionner une date",
