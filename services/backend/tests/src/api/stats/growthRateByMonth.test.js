@@ -40,7 +40,7 @@ describe(`GET ${path}`, () => {
           },
           {
             id: faker.random.uuid(),
-            createdAt: moment("2020-05-4").toISOString(),
+            createdAt: moment("2020-05-04").toISOString(),
           },
           {
             id: faker.random.uuid(),
@@ -64,7 +64,7 @@ describe(`GET ${path}`, () => {
         [
           {
             id: faker.random.uuid(),
-            createdAt: moment("2021-01-4").toISOString(),
+            createdAt: moment("2021-01-04").toISOString(),
           },
           {
             id: faker.random.uuid(),
