@@ -1,31 +1,37 @@
 /* eslint-disable global-require */
-const faker = require("faker");
-const KeycloakMock = require("keycloak-mock");
-const config = require("../../src/config");
+import { random, internet } from "faker";
+import {
+  createMockInstance,
+  activateMock,
+  getMockInstance,
+} from "keycloak-mock";
+import {
+  KEYCLOAK_AUTH_SERVER_URL,
+  KEYCLOAK_CLIENT_ID,
+  KEYCLOAK_SECRET,
+} from "../../src/config";
 
-const userId = faker.random.uuid();
+const userId = random.uuid();
 
 const keycloakMock = async () => {
-  const keycloak = await KeycloakMock.createMockInstance({
-    authServerURL: config.KEYCLOAK_AUTH_SERVER_URL,
+  const keycloak = await createMockInstance({
+    authServerURL: KEYCLOAK_AUTH_SERVER_URL,
     realm: "individual",
-    clientID: config.KEYCLOAK_CLIENT_ID,
-    clientSecret: config.KEYCLOAK_SECRET,
+    clientID: KEYCLOAK_CLIENT_ID,
+    clientSecret: KEYCLOAK_SECRET,
   });
 
-  KeycloakMock.activateMock(keycloak);
+  activateMock(keycloak);
 
   keycloak.database.createUser({
     id: userId,
-    email: faker.internet.email(),
-    username: faker.internet.userName(),
+    email: internet.email(),
+    username: internet.userName(),
   });
 };
 
 const getBearerToken = (roles) => {
-  const keycloak = KeycloakMock.getMockInstance(
-    config.KEYCLOAK_AUTH_SERVER_URL
-  );
+  const keycloak = getMockInstance(KEYCLOAK_AUTH_SERVER_URL);
 
   const bearerToken = keycloak.createBearerToken(userId, 3600, { roles });
 
@@ -44,7 +50,7 @@ const redisMock = () => {
   jest.mock("redis", () => require("redis-mock"));
 };
 
-module.exports = {
+export default {
   keycloakMock,
   prismaMock,
   redisMock,
