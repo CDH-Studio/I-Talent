@@ -4591,9 +4591,9 @@ keycloak-connect@^12.0.1:
   optionalDependencies:
     chromedriver latest
 
-keycloak-mock@MohamedRadwan/keycloak-mock#master:
+keycloak-mock@MohamedRadwan/keycloak-mock#1.0:
   version "1.0.10"
-  resolved "https://codeload.github.com/MohamedRadwan/keycloak-mock/tar.gz/f0d0fa67add55320b13392dc212d9e12fb68ef41"
+  resolved "https://codeload.github.com/MohamedRadwan/keycloak-mock/tar.gz/5e9546bb2e5669f010313ec16e1f8a6f8c7e4491"
   dependencies:
     "@types/lodash" "^4.14.149"
     jsonwebtoken "^8.5.1"
