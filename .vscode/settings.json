@@ -4,7 +4,7 @@
   "editor.formatOnSave": true,
   "prettier.trailingComma": "es5",
   "files.insertFinalNewline": true,
-  "eslint.packageManager": "npm",
+  "eslint.packageManager": "yarn",
   "javascript.validate.enable": false,
   "css.validate": false,
   "scss.validate": false,

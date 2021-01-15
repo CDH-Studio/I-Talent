@@ -10,7 +10,7 @@
     "test": "craco test",
     "i18n:check": "node ./src/i18n/check",
     "i18n:cleanup": "node ./src/i18n/cleanup",
-    "analyze": "ANALYZE_BUILD=true npm build",
+    "analyze": "ANALYZE_BUILD=true yarn build",
     "lint": "./node_modules/.bin/eslint --cache --format codeframe --ext jsx,js src",
     "prettify": "prettier --write ."
   },

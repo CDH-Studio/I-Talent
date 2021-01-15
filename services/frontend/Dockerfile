@@ -7,7 +7,7 @@ RUN mkdir /italent-frontend
 WORKDIR /italent-frontend
 
 # Copy app dependencies
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
 # Create build folder
 RUN mkdir ./build
@@ -18,17 +18,24 @@ RUN mkdir -p /italent-frontend/build && \
 RUN chgrp -R 0 /italent-frontend && \ 
   chmod -R g=u /italent-frontend
 
+RUN mkdir -p /.cache/yarn
+RUN chgrp -R 0 /.cache/yarn && \ 
+  chmod -R g=u /.cache/yarn
+
+RUN mkdir -p /.yarn
+RUN chgrp -R 0 /.yarn && \ 
+  chmod -R g=u /.yarn
 
 # Runs install script
-RUN npm install --production
+RUN yarn install --production
 
 # Copy app
 COPY . .
 
 # Builds the app
-RUN npm build
+RUN yarn build
 
 EXPOSE 3000
 
 # Runs start script
-CMD npm start
+CMD yarn start
