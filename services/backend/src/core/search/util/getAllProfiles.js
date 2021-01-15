@@ -396,7 +396,7 @@ async function getAllUsers(language, userId, request) {
     }
 
     if (info.exFeeder) {
-      info.exFeederText = "ExFeeder Ex-Feeder";
+      info.exFeederText = "Ex-Feeder - Relève des EX ";
     }
 
     return { ...info, skills: allSkills };
