@@ -30,8 +30,8 @@ pipeline {
                 """, label: 'Setting up proper node.js version'
                 sh script: """
                     unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    (cd $FRONTEND_DIR && yarn install --only=dev)
-                    (cd $BACKEND_DIR && yarn install --only=dev)
+                    (cd $FRONTEND_DIR && yarn install --production=false)
+                    (cd $BACKEND_DIR && yarn install --production=false)
                 """, label: 'Installing packages'
             }
         }
