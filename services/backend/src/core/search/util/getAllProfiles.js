@@ -395,6 +395,10 @@ async function getAllUsers(language, userId, request) {
         : undefined;
     }
 
+    if (info.exFeeder) {
+      info.exFeederText = "Ex-Feeder - Relève des EX ";
+    }
+
     return { ...info, skills: allSkills };
   });
 

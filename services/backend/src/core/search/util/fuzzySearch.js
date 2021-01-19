@@ -38,6 +38,7 @@ async function fuzzySearch(profiles, searchValue) {
       "teams",
       "telephone",
       "tenure",
+      "exFeederText",
     ],
   };
 

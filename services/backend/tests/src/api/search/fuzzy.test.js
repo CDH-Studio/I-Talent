@@ -138,6 +138,28 @@ describe(`GET ${path}`, () => {
           _testData.testParams.fuzzySearch[3].testResponseData
         );
       });
+
+      test("should return results for searching 'exfeeder' - 200", async () => {
+        let _testData = JSON.parse(JSON.stringify(testData));
+
+        prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
+        prisma.user.findOne
+          .mockResolvedValueOnce(_testData.allProfilesInfo[0])
+          .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+        let searchTerm = _testData.testParams.fuzzySearch[3].testSearchTerm;
+
+        let res = await request(app)
+          .get(`${path}?searchValue=${searchTerm}&language=ENGLISH`)
+          .set("Authorization", getBearerToken());
+
+        expect(res.statusCode).toBe(
+          _testData.testParams.fuzzySearch[3].testResponseCode
+        );
+        expect(res.text).toBe(
+          _testData.testParams.fuzzySearch[3].testResponseData
+        );
+      });
     });
   });
 });
