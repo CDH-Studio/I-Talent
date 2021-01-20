@@ -55,6 +55,8 @@ const FuzzyMatchItemView = ({ matchItemName, matchItemString }) => {
         return <FormattedMessage id="job.title" />;
       case "fullName":
         return <FormattedMessage id="name" />;
+      case "exFeederText":
+        return <FormattedMessage id="ex.feeder" />;
       default:
         return <FormattedMessage id={itemName} />;
     }
