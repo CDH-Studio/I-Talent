@@ -4,59 +4,32 @@
     {
       "tag": "CreateEnum",
       "enum": "Language",
-      "values": [
-        "FRENCH",
-        "ENGLISH"
-      ]
+      "values": ["FRENCH", "ENGLISH"]
     },
     {
       "tag": "CreateEnum",
       "enum": "UserStatus",
-      "values": [
-        "ACTIVE",
-        "INACTIVE",
-        "HIDDEN"
-      ]
+      "values": ["ACTIVE", "INACTIVE", "HIDDEN"]
     },
     {
       "tag": "CreateEnum",
       "enum": "Proficiency",
-      "values": [
-        "READING",
-        "WRITING",
-        "ORAL"
-      ]
+      "values": ["READING", "WRITING", "ORAL"]
     },
     {
       "tag": "CreateEnum",
       "enum": "ProficiencyLevel",
-      "values": [
-        "A",
-        "B",
-        "C",
-        "E",
-        "X",
-        "NA"
-      ]
+      "values": ["A", "B", "C", "E", "X", "NA"]
     },
     {
       "tag": "CreateEnum",
       "enum": "CardVisibilityStatus",
-      "values": [
-        "PRIVATE",
-        "PUBLIC",
-        "CONNECTIONS"
-      ]
+      "values": ["PRIVATE", "PUBLIC", "CONNECTIONS"]
     },
     {
       "tag": "CreateEnum",
       "enum": "EmploymentEquityGroup",
-      "values": [
-        "WOMEN",
-        "INDIGENOUS",
-        "DISABILITY",
-        "MINORITY"
-      ]
+      "values": ["WOMEN", "INDIGENOUS", "DISABILITY", "MINORITY"]
     },
     {
       "tag": "CreateSource",
@@ -7787,6 +7760,13 @@
       "tag": "CreateField",
       "model": "User",
       "field": "cellphone",
+      "type": "String",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateField",
+      "model": "User",
+      "field": "pri",
       "type": "String",
       "arity": "Optional"
     },

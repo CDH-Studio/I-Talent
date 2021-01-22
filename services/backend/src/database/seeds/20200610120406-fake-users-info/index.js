@@ -325,6 +325,7 @@ async function seedUsers() {
     async ({
       name,
       email,
+      pri,
       cellphone,
       firstLanguage,
       firstName,
@@ -393,6 +394,7 @@ async function seedUsers() {
         data: {
           name,
           email,
+          pri,
           cellphone,
           firstLanguage,
           firstName,
