@@ -88,7 +88,7 @@ const ProfileLayoutView = ({
           changeConnection={changeConnection}
         />
       </Col>
-      <Col xs={24} xl={10} className="page-break">
+      <Col xs={24} xl={10}>
         <Row gutter={[0, 15]}>
           <Col span={24}>
             <EmployeeSummary data={data} editableCardBool={privateProfile} />
@@ -100,6 +100,7 @@ const ProfileLayoutView = ({
           </Col>
         </Row>
       </Col>
+
       <Col span={24}>
         <DescriptionCard data={data} editableCardBool={privateProfile} />
       </Col>
@@ -108,7 +109,11 @@ const ProfileLayoutView = ({
       </Col>
 
       {/** ********** Skills and competencies *********** */}
-      <Title level={2} className="sectionHeader" id="divider-skills-and-comp">
+      <Title
+        level={2}
+        className="sectionHeader hide-for-print"
+        id="divider-skills-and-comp"
+      >
         <TagsTwoTone twoToneColor="#3CBAB3" className="sectionIcon" />
         <FormattedMessage id="skills.and.competencies" />
       </Title>
@@ -123,7 +128,11 @@ const ProfileLayoutView = ({
       </Col>
 
       {/** ********** Qualifications *********** */}
-      <Title level={2} className="sectionHeader" id="divider-qualifications">
+      <Title
+        level={2}
+        className="sectionHeader hide-for-print"
+        id="divider-qualifications"
+      >
         <TrophyOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
         <FormattedMessage id="employee.qualifications" />
       </Title>
@@ -135,7 +144,11 @@ const ProfileLayoutView = ({
       </Col>
 
       {/** ********** Personal Growth *********** */}
-      <Title level={2} className="sectionHeader" id="divider-employee-growth">
+      <Title
+        level={2}
+        className="sectionHeader hide-for-print"
+        id="divider-employee-growth"
+      >
         <RiseOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
         <FormattedMessage id="employee.growth.interests" />
       </Title>

@@ -35,13 +35,13 @@ const ProfileCardsView = ({
     editFormUrl,
   }) => (
     <Row>
-      <Col>
+      <Col className="hide-for-print">
         <CardVisibilityToggle
           visibleCards={visibilityOfAllCards}
           cardName={cardInfoName}
         />
       </Col>
-      <Col style={{ marginLeft: 20 }}>
+      <Col style={{ marginLeft: 20 }} className="hide-for-print">
         <EditCardButton editUrl={editFormUrl} />
       </Col>
     </Row>
@@ -58,7 +58,6 @@ const ProfileCardsView = ({
       // return visibility icon if cardVisibilityStatus is boolean true
       visibilityStatusSymbol = (
         <Tooltip
-          className="hide-for-print"
           placement="left"
           title={<FormattedMessage id="visibility.card.visible" />}
         >
@@ -69,7 +68,6 @@ const ProfileCardsView = ({
       // return blocked visibility icon if cardVisibilityStatus is boolean false
       visibilityStatusSymbol = (
         <Tooltip
-          className="hide-for-print"
           placement="left"
           title={<FormattedMessage id="visibility.card.blocked" />}
         >
@@ -119,7 +117,6 @@ const ProfileCardsView = ({
   return (
     <div>
       <Card
-        className={children === null ? "no-content-card" : null}
         title={
           <>
             {typeof titleId === "string" ? (
@@ -128,10 +125,7 @@ const ProfileCardsView = ({
               titleId
             )}
             {lastUpdated && (
-              <Tooltip
-                title={<FormattedMessage id="last.modified.date" />}
-                className="hide-for-print"
-              >
+              <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text
                   style={{
                     marginLeft: 10,
