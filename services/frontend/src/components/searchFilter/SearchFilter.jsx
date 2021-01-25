@@ -59,7 +59,9 @@ const SearchFilter = () => {
     );
 
     setUrlSearchFieldValues(formattedQuerySearchData);
-    setAnyMentorSkills(formattedQuerySearchData.anyMentorSkills);
+    if (formattedQuerySearchData.anyMentorSkills) {
+      setAnyMentorSkills(formattedQuerySearchData.anyMentorSkills);
+    }
   }, [history.location.search]);
 
   const handleAnyMentorSkillsChange = (e) => {
@@ -117,6 +119,20 @@ const SearchFilter = () => {
 
   // page with query
   const handleSearch = (values) => {
+    const searchFilter = values;
+
+    if (!searchFilter.anyMentorSkills) {
+      delete searchFilter.anyMentorSkills;
+    }
+
+    if (!searchFilter.exFeeder) {
+      delete searchFilter.exFeeder;
+    }
+
+    if (searchFilter.anyMentorSkills) {
+      delete searchFilter.mentorSkills;
+    }
+
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/results?${query}`;
     history.push(url);

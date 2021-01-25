@@ -84,13 +84,11 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * @param {*} descriptions
    */
   const createDescription = (descriptions) => {
-    const modifiedDescriptions = descriptions.map((description) => {
-      return (
-        <li>
-          <FormattedMessage id={description} />
-        </li>
-      );
-    });
+    const modifiedDescriptions = descriptions.map((description, index) => (
+      <li key={index}>
+        <FormattedMessage id={description} />
+      </li>
+    ));
     return modifiedDescriptions ? (
       <ul className="stepList">{modifiedDescriptions}</ul>
     ) : undefined;
@@ -101,16 +99,14 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * @param {*} descriptions
    * @param {*} disabled
    */
-  const createProfileStep = (titleId, descriptions, disabled) => {
-    return (
-      <Step
-        tabIndex={0}
-        title={<FormattedMessage id={titleId} />}
-        description={createDescription(descriptions)}
-        disabled={disabled}
-      />
-    );
-  };
+  const createProfileStep = (titleId, descriptions, disabled) => (
+    <Step
+      tabIndex={0}
+      title={<FormattedMessage id={titleId} />}
+      description={createDescription(descriptions)}
+      disabled={disabled}
+    />
+  );
 
   /*
    * Get Side Bar Content
@@ -128,39 +124,39 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
         >
-          {createProfileStep("setup.welcome", [])}
-          {createProfileStep("setup.primary.information", [
-            "setup.step.2.description",
-            "profile.employment.equity.groups",
+          {createProfileStep("welcome", [])}
+          {createProfileStep("primary.contact.information", [
+            "general.profile.info",
+            "employment.equity.groups",
           ])}
           {createProfileStep(
-            "profile.employee.status",
-            ["setup.step.3.description", "profile.description"],
+            "employment.status",
+            ["current.position", "about.me"],
             highestStep < 3
           )}
           {createProfileStep(
-            "setup.language.proficiency",
-            ["setup.first.language", "setup.second.language"],
+            "official.languages",
+            ["first.official.language", "second.official.language.results"],
             highestStep < 3
           )}
           {createProfileStep(
-            "setup.talent",
-            ["setup.skills", "profile.mentorship.skills", "setup.competencies"],
+            "skills.and.competencies",
+            ["skills", "mentorship.skills", "competencies"],
             highestStep < 3
           )}
           {createProfileStep(
-            "profile.employee.qualifications",
-            ["setup.education", "setup.experience"],
+            "employee.qualifications",
+            ["education", "experience"],
             highestStep < 3
           )}
           {createProfileStep(
-            "profile.employee.growth.interests",
+            "employee.growth.interests",
             [
-              "profile.developmental.goals",
-              "profile.qualified.pools",
-              "profile.career.interests",
-              "profile.talent.management",
-              "profile.ex.feeder.title",
+              "developmental.goals",
+              "qualified.pools",
+              "career.interests",
+              "talent.management",
+              "ex.feeder",
             ],
             highestStep < 3
           )}
@@ -182,12 +178,8 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
       displaySearch={false}
     >
       <Header
-        title={
-          <>
-            <UserAddOutlined />
-            <FormattedMessage id="create.profile" />
-          </>
-        }
+        title={<FormattedMessage id="create.profile" />}
+        icon={<UserAddOutlined />}
       />
       <Card className="edit-profile-card">{form}</Card>
     </AppLayout>

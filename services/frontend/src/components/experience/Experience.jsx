@@ -73,7 +73,7 @@ const Experience = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="profile.experience"
+      titleId="experience"
       cardName="experience"
       id="card-profile-experience"
       editUrl="/profile/edit/qualifications?tab=experience"

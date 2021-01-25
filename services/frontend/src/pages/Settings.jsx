@@ -7,7 +7,7 @@ const Settings = () => {
 
   useEffect(() => {
     document.title = `${intl.formatMessage({
-      id: "settings.title",
+      id: "settings",
     })} | I-Talent`;
   }, [intl]);
 

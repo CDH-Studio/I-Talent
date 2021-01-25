@@ -35,7 +35,7 @@ const DoneSetupView = ({ userId }) => {
           marginTop: "15px",
         }}
       >
-        <FormattedMessage id="setup.done.title" />
+        <FormattedMessage id="setup.all.done" />
       </Title>
       <Paragraph className="done-subHeading">
         <FormattedMessage id="setup.done.description" />
@@ -50,7 +50,7 @@ const DoneSetupView = ({ userId }) => {
         onClick={() => history.push(`/`)}
       >
         <span>
-          <FormattedMessage id="setup.done.search" />
+          <FormattedMessage id="search.profiles" />
         </span>
       </Button>
       <Button
@@ -60,7 +60,7 @@ const DoneSetupView = ({ userId }) => {
         onClick={() => history.push(`/profile/${userId}`)}
       >
         <span>
-          <FormattedMessage id="setup.done.view.profile" />
+          <FormattedMessage id="view.profile" />
         </span>
       </Button>
     </div>

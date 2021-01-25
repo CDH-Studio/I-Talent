@@ -25,14 +25,14 @@ const FormControlButtonsView = ({
       <>
         <CheckOutlined />
         <span>
-          <FormattedMessage id="setup.save.and.finish" />
+          <FormattedMessage id="save.and.finish" />
         </span>
       </>
     ) : (
       <>
         <SaveOutlined />
         <span>
-          <FormattedMessage id="setup.save" />
+          <FormattedMessage id="save" />
         </span>
       </>
     );
@@ -56,9 +56,9 @@ const FormControlButtonsView = ({
       <>
         <span>
           {onSaveAndNext ? (
-            <FormattedMessage id="setup.save.and.next" />
+            <FormattedMessage id="save.and.next" />
           ) : (
-            <FormattedMessage id="setup.save.and.finish" />
+            <FormattedMessage id="save.and.finish" />
           )}
         </span>
         <RightOutlined />
@@ -68,7 +68,7 @@ const FormControlButtonsView = ({
         <CheckOutlined />
         <span>
           {fieldsChanged ? (
-            <FormattedMessage id="setup.save.and.finish" />
+            <FormattedMessage id="save.and.finish" />
           ) : (
             <FormattedMessage id="button.finish" />
           )}
@@ -98,7 +98,7 @@ const FormControlButtonsView = ({
         >
           <ClearOutlined />
           <span>
-            <FormattedMessage id="button.clear" />
+            <FormattedMessage id="clear.changes" />
           </span>
         </Button>
       </Col>

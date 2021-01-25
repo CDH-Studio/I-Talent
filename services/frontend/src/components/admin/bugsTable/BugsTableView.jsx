@@ -22,32 +22,28 @@ import handleError from "../../../functions/handleError";
 
 const tableColumns = (handleEdit) => [
   {
-    title: <FormattedMessage id="admin.name" />,
+    title: <FormattedMessage id="name" />,
     key: "user",
-    render: (record) => {
-      return <Link to={`/profile/${record.userId}`}>{record.userName}</Link>;
-    },
+    render: (record) => (
+      <Link to={`/profile/${record.userId}`}>{record.userName}</Link>
+    ),
   },
   {
-    title: <FormattedMessage id="admin.created.at" />,
+    title: <FormattedMessage id="created.at" />,
     dataIndex: "createdAt",
     key: "createdAt",
     sortDirections: ["descend"],
     defaultSortOrder: "ascend",
-    sorter: (a, b) => {
-      return dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix();
-    },
+    sorter: (a, b) => dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix(),
   },
   {
-    title: <FormattedMessage id="admin.last.updated" />,
+    title: <FormattedMessage id="last.updated" />,
     dataIndex: "updatedAt",
     key: "updatedAt",
-    sorter: (a, b) => {
-      return dayjs(a.updatedAt).unix() - dayjs(b.updatedAt).unix();
-    },
+    sorter: (a, b) => dayjs(a.updatedAt).unix() - dayjs(b.updatedAt).unix(),
   },
   {
-    title: <FormattedMessage id="admin.bugs.app.version" />,
+    title: <FormattedMessage id="application.version" />,
     dataIndex: "appVersion",
     key: "appVersion",
     render: (value) => value || "-",
@@ -56,15 +52,15 @@ const tableColumns = (handleEdit) => [
     title: <FormattedMessage id="bugs.location" />,
     filters: [
       {
-        text: <FormattedMessage id="bugs.location.home" />,
+        text: <FormattedMessage id="home" />,
         value: "HOME",
       },
       {
-        text: <FormattedMessage id="bugs.location.search" />,
+        text: <FormattedMessage id="search" />,
         value: "SEARCH",
       },
       {
-        text: <FormattedMessage id="bugs.location.profile" />,
+        text: <FormattedMessage id="profile" />,
         value: "PROFILE",
       },
       {
@@ -76,13 +72,13 @@ const tableColumns = (handleEdit) => [
     render: (record) => (
       <>
         <Tag visible={record.location === "HOME"} color="magenta">
-          <FormattedMessage id="bugs.location.home" />
+          <FormattedMessage id="home" />
         </Tag>
         <Tag visible={record.location === "SEARCH"} color="geekblue">
-          <FormattedMessage id="bugs.location.search" />
+          <FormattedMessage id="search" />
         </Tag>
         <Tag visible={record.location === "PROFILE"} color="green">
-          <FormattedMessage id="bugs.location.profile" />
+          <FormattedMessage id="profile" />
         </Tag>
         <Tag visible={record.location === "FORMS"} color="orange">
           <FormattedMessage id="bugs.location.forms" />
@@ -122,7 +118,7 @@ const tableColumns = (handleEdit) => [
     ),
   },
   {
-    title: <FormattedMessage id="admin.bugs.github" />,
+    title: <FormattedMessage id="github.issue.link" />,
     dataIndex: "githubIssue",
     key: "githubIssue",
     render: (value) =>
@@ -135,11 +131,11 @@ const tableColumns = (handleEdit) => [
           #{value}
         </a>
       ) : (
-        "-"
-      ),
+          "-"
+        ),
   },
   {
-    title: <FormattedMessage id="admin.edit" />,
+    title: <FormattedMessage id="edit" />,
     key: "edit",
     fixed: "right",
     width: 70,
@@ -157,11 +153,11 @@ const tableColumns = (handleEdit) => [
 const Rules = {
   required: {
     required: true,
-    message: <FormattedMessage id="profile.rules.required" />,
+    message: <FormattedMessage id="rules.required" />,
   },
   maxChar500: {
     max: 500,
-    message: <FormattedMessage id="profile.rules.max" values={{ max: 500 }} />,
+    message: <FormattedMessage id="rules.max" values={{ max: 500 }} />,
   },
 };
 
@@ -190,15 +186,15 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
 
   const locationOptions = [
     {
-      label: intl.formatMessage({ id: "bugs.location.home" }),
+      label: intl.formatMessage({ id: "home" }),
       value: "HOME",
     },
     {
-      label: intl.formatMessage({ id: "bugs.location.profile" }),
+      label: intl.formatMessage({ id: "profile" }),
       value: "PROFILE",
     },
     {
-      label: intl.formatMessage({ id: "bugs.location.search" }),
+      label: intl.formatMessage({ id: "search" }),
       value: "SEARCH",
     },
     {
@@ -218,20 +214,20 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
       case "success":
         notification.success({
           message: intl.formatMessage({
-            id: "profile.edit.save.success",
+            id: "edit.save.success",
           }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
           message: intl.formatMessage({
-            id: "profile.edit.save.problem",
+            id: "edit.save.problem",
           }),
         });
         break;
@@ -272,7 +268,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
         title={
           <>
             <DatabaseOutlined />
-            <FormattedMessage id="admin.bugs" />
+            <FormattedMessage id="user.reported.bugs" />
           </>
         }
       />
@@ -289,7 +285,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
           expandedRowRender: (record) => (
             <p style={{ margin: 0 }}>
               <strong>
-                <FormattedMessage id="admin.bugs.description" />
+                <FormattedMessage id="description" />
               </strong>
               {record.description}
             </p>
@@ -301,7 +297,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
         okText={<FormattedMessage id="admin.apply" />}
         onCancel={() => setVisible(false)}
         onOk={updateBugReport}
-        title={<FormattedMessage id="admin.bugs.edit" />}
+        title={<FormattedMessage id="edit.bugs" />}
       >
         <Form form={form} layout="vertical">
           <Form.Item
@@ -328,13 +324,13 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
           </Form.Item>
           <Form.Item
             name="githubIssue"
-            label={<FormattedMessage id="bugs.github" />}
+            label={<FormattedMessage id="github.issue.number" />}
           >
             <Input type="number" />
           </Form.Item>
           <Form.Item
             name="description"
-            label={<FormattedMessage id="bugs.description" />}
+            label={<FormattedMessage id="description" />}
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />

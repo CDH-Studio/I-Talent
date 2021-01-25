@@ -42,7 +42,7 @@ const SearchBarView = ({
   const [form] = Form.useForm();
 
   const searchLabel = intl.formatMessage({
-    id: "button.search",
+    id: "search",
   });
 
   // Toggle expandable advanced search form
@@ -56,20 +56,18 @@ const SearchBarView = ({
   };
 
   // Generate the basic input field for basic search
-  const getBasicField = () => {
-    return (
-      <Form.Item
-        label={
-          <span className="searchLabel">
-            <FormattedMessage id="button.basic.search" />
-          </span>
-        }
-        name="searchValue"
-      >
-        <Input placeholder={searchLabel} size="large" />
-      </Form.Item>
-    );
-  };
+  const getBasicField = () => (
+    <Form.Item
+      label={
+        <span className="searchLabel">
+          <FormattedMessage id="basic.search" />
+        </span>
+      }
+      name="searchValue"
+    >
+      <Input placeholder={searchLabel} size="large" />
+    </Form.Item>
+  );
 
   // Generate the regular search fields
   const getBasicSearchForm = (displayForm) => {
@@ -97,7 +95,7 @@ const SearchBarView = ({
             form.resetFields();
           }}
         >
-          <FormattedMessage id="button.clear" />
+          <FormattedMessage id="clear.changes" />
         </Button>
       </div>
     );
@@ -116,7 +114,7 @@ const SearchBarView = ({
               <SettingOutlined
                 style={{ marginRight: "4px", color: "#3CBAB3" }}
               />
-              <FormattedMessage id="advanced.search.button.text" />
+              <FormattedMessage id="advanced.search" />
             </Title>
             <FormattedMessage id="advanced.search.description" />
           </Col>
@@ -125,7 +123,7 @@ const SearchBarView = ({
         <Row style={{ padding: "15px 5% 0px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
-              <FormattedMessage id="search.advanced.general.title" />
+              <FormattedMessage id="general.info" />
             </Title>
           </Col>
         </Row>
@@ -136,18 +134,13 @@ const SearchBarView = ({
           {/* form column one */}
           <Col span={12}>
             {/* name field */}
-            <Form.Item
-              label={<FormattedMessage id="advanced.search.form.name" />}
-              name="name"
-            >
+            <Form.Item label={<FormattedMessage id="name" />} name="name">
               <Input style={{ width: "100%" }} placeholder={searchLabel} />
             </Form.Item>
 
             {/* classification field */}
             <Form.Item
-              label={
-                <FormattedMessage id="advanced.search.form.classification" />
-              }
+              label={<FormattedMessage id="classification" />}
               name="classifications"
             >
               <Select
@@ -157,9 +150,9 @@ const SearchBarView = ({
                 placeholder={searchLabel}
                 filterOption={filterOption}
               >
-                {classOptions.map((value) => {
-                  return <Option key={value.id}>{value.name}</Option>;
-                })}
+                {classOptions.map((value) => (
+                  <Option key={value.id}>{value.name}</Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>
@@ -168,7 +161,7 @@ const SearchBarView = ({
           <Col span={12}>
             {/* Location field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.location" />}
+              label={<FormattedMessage id="work.location" />}
               name="locations"
             >
               <Select
@@ -178,21 +171,16 @@ const SearchBarView = ({
                 maxTagCount={3}
                 filterOption={filterOption}
               >
-                {locationOptions.map((value) => {
-                  return (
-                    <Option key={value.id}>
-                      {value.streetNumber} {value.streetName}, {value.city},{" "}
-                      {value.province}
-                    </Option>
-                  );
-                })}
+                {locationOptions.map((value) => (
+                  <Option key={value.id}>
+                    {value.streetNumber} {value.streetName}, {value.city},{" "}
+                    {value.province}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
             {/* branch field */}
-            <Form.Item
-              label={<FormattedMessage id="advanced.search.form.branch" />}
-              name="branches"
-            >
+            <Form.Item label={<FormattedMessage id="branch" />} name="branches">
               <Select
                 style={{ width: "100%" }}
                 mode="multiple"
@@ -200,9 +188,9 @@ const SearchBarView = ({
                 maxTagCount={3}
                 filterOption={filterOption}
               >
-                {branchOptions.map((value) => {
-                  return <Option key={value}>{value}</Option>;
-                })}
+                {branchOptions.map((value) => (
+                  <Option key={value}>{value}</Option>
+                ))}
               </Select>
             </Form.Item>
           </Col>
@@ -211,7 +199,7 @@ const SearchBarView = ({
         <Row style={{ padding: "5px 5% 5px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
-              <FormattedMessage id="search.advanced.skill.title" />
+              <FormattedMessage id="skills.and.talent" />
             </Title>
           </Col>
         </Row>
@@ -222,16 +210,13 @@ const SearchBarView = ({
           {/* form column one */}
           <Col span={24}>
             {/* Skills field */}
-            <Form.Item
-              label={<FormattedMessage id="advanced.search.form.skills" />}
-              name="skills"
-            >
+            <Form.Item label={<FormattedMessage id="skills" />} name="skills">
               <TreeSelect
                 className="custom-bubble-select-style"
                 treeData={skillOptions}
                 treeCheckable
                 showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="setup.select" />}
+                placeholder={<FormattedMessage id="input.placeholder.select" />}
                 treeNodeFilterProp="title"
                 showSearch
                 maxTagCount={15}
@@ -239,9 +224,7 @@ const SearchBarView = ({
             </Form.Item>
             {/* Mentorship Skills field */}
             <Form.Item
-              label={
-                <FormattedMessage id="advanced.search.form.mentorship.skills" />
-              }
+              label={<FormattedMessage id="mentorship.skills" />}
               name="mentorSkills"
             >
               <TreeSelect
@@ -249,7 +232,7 @@ const SearchBarView = ({
                 treeData={skillOptions}
                 treeCheckable
                 showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="setup.select" />}
+                placeholder={<FormattedMessage id="input.placeholder.select" />}
                 treeNodeFilterProp="title"
                 showSearch
                 maxTagCount={15}
@@ -263,7 +246,7 @@ const SearchBarView = ({
             </Form.Item>
             {/* exFeeder field */}
             <Form.Item
-              label={<FormattedMessage id="advanced.search.form.ex.feeder" />}
+              label={<FormattedMessage id="ex.feeder" />}
               name="exFeeder"
               valuePropName="checked"
             >
@@ -295,7 +278,7 @@ const SearchBarView = ({
               form.resetFields();
             }}
           >
-            <FormattedMessage id="button.clear" />
+            <FormattedMessage id="clear.changes" />
           </Button>
         </div>
         <Divider />
@@ -340,14 +323,14 @@ const SearchBarView = ({
                   <>
                     <DoubleRightOutlined rotate="270" />
                     <span>
-                      <FormattedMessage id="button.basic.search" />
+                      <FormattedMessage id="basic.search" />
                     </span>
                   </>
                 ) : (
                   <>
                     <DoubleRightOutlined rotate="90" />
                     <span>
-                      <FormattedMessage id="button.advanced.search" />
+                      <FormattedMessage id="advanced.search" />
                     </span>
                   </>
                 )}

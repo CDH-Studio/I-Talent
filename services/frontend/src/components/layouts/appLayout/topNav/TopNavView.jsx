@@ -88,7 +88,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       <Menu.Item className="dropDownItem">
         <Link to="/settings">
           <SettingOutlined className="menuIcon" />
-          <FormattedMessage id="settings.title" />
+          <FormattedMessage id="settings" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
@@ -149,7 +149,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         enterButton
         onSearch={search}
         placeholder={intl.formatMessage({
-          id: "button.search",
+          id: "search",
         })}
       />
     );
@@ -182,7 +182,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
     return (
       <Button type="primary" href="/" onClick={() => keycloak.login()}>
-        <FormattedMessage id="landing.login.button" />
+        <FormattedMessage id="sign.in" />
       </Button>
     );
   };

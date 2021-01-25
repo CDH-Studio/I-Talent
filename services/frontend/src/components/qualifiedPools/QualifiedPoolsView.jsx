@@ -12,7 +12,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
     return (
       <Empty
         image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={<FormattedMessage id="profile.qualified.empty" />}
+        description={<FormattedMessage id="qualified.empty" />}
       />
     );
   }
@@ -30,7 +30,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
             <Descriptions.Item
               label={
                 <Text strong>
-                  <FormattedMessage id="profile.classification" />
+                  <FormattedMessage id="classification" />
                 </Text>
               }
             >
@@ -39,7 +39,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
             <Descriptions.Item
               label={
                 <Text strong>
-                  <FormattedMessage id="profile.qualified.pools.job.title" />
+                  <FormattedMessage id="job.title" />
                 </Text>
               }
             >

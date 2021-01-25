@@ -144,12 +144,10 @@ async function seedStaticInfo() {
           abbrProvince,
           abbrCountry,
           translations: {
-            create: Object.keys(translations).map((i) => {
-              return {
-                name: translations[i].name,
-                language: i === "en" ? "ENGLISH" : "FRENCH",
-              };
-            }),
+            create: Object.keys(translations).map((i) => ({
+              name: translations[i].name,
+              language: i === "en" ? "ENGLISH" : "FRENCH",
+            })),
           },
         },
       });
@@ -171,22 +169,20 @@ async function seedStaticInfo() {
             ],
           },
           opSkills: {
-            create: skills.map((skill) => {
-              return {
-                translations: {
-                  create: [
-                    {
-                      name: skill.en,
-                      language: "ENGLISH",
-                    },
-                    {
-                      name: skill.fr,
-                      language: "FRENCH",
-                    },
-                  ],
-                },
-              };
-            }),
+            create: skills.map((skill) => ({
+              translations: {
+                create: [
+                  {
+                    name: skill.en,
+                    language: "ENGLISH",
+                  },
+                  {
+                    name: skill.fr,
+                    language: "FRENCH",
+                  },
+                ],
+              },
+            })),
           },
         },
       });

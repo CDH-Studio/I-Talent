@@ -15,7 +15,7 @@ import useAxios from "../../../../utils/useAxios";
 const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   {
     key: "1",
-    rowName: <FormattedMessage id="profile.first.name" />,
+    rowName: <FormattedMessage id="first.name" />,
     savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
     savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
     gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
@@ -24,7 +24,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "2",
-    rowName: <FormattedMessage id="profile.last.name" />,
+    rowName: <FormattedMessage id="last.name" />,
     savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
     savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
     gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
@@ -42,7 +42,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "4",
-    rowName: <FormattedMessage id="profile.location" />,
+    rowName: <FormattedMessage id="work.location" />,
     savedLabel: savedProfile.officeLocation
       ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
       : "-",
@@ -55,7 +55,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "5",
-    rowName: <FormattedMessage id="profile.career.header.name" />,
+    rowName: <FormattedMessage id="job.title" />,
     savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
     savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
     gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
@@ -64,7 +64,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   },
   {
     key: "6",
-    rowName: <FormattedMessage id="profile.branch" />,
+    rowName: <FormattedMessage id="branch" />,
     savedLabel: savedProfile.branch ? gedsProfile.branch[locale] : "-",
     savedValue: savedProfile.branch ? gedsProfile.branch[locale] : "-",
     gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
@@ -74,21 +74,21 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   {
     key: "7",
     rowName: <FormattedMessage id="profile.org.tree" />,
-    savedLabel: savedProfile.organizations[0]
-      ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
-        .title
+    savedLabel: savedProfile.organizations
+      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
       : "-",
-    savedValue: savedProfile.organizations[0]
-      ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
-        .title
+    savedValue: savedProfile.organizations
+      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
       : "-",
-    gedsLabel: savedProfile.organizations
-      ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
-        .title[locale]
+    gedsLabel: gedsProfile.organizations
+      ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
+          locale
+        ]
       : "-",
-    gedsValue: savedProfile.organizations
-      ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
-        .title[locale]
+    gedsValue: gedsProfile.organizations
+      ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
+          locale
+        ]
       : "-",
     paramName: "organization",
   },
@@ -118,7 +118,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       );
 
       // get profile form geds
-      const gedsResult = await axios.get(`api/profGen/${id}`, {
+      const gedsResult = await axios.get(`api/profGen`, {
         params: {
           email,
         },
@@ -171,17 +171,17 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       case "jobTitle":
         updatedProfile.jobTitle = newGedsValues.jobTitle
           ? {
-            ENGLISH: newGedsValues.jobTitle.ENGLISH,
-            FRENCH: newGedsValues.jobTitle.FRENCH,
-          }
+              ENGLISH: newGedsValues.jobTitle.ENGLISH,
+              FRENCH: newGedsValues.jobTitle.FRENCH,
+            }
           : null;
         break;
       case "branch":
         updatedProfile.branch = newGedsValues.branch
           ? {
-            ENGLISH: newGedsValues.branch.ENGLISH,
-            FRENCH: newGedsValues.branch.FRENCH,
-          }
+              ENGLISH: newGedsValues.branch.ENGLISH,
+              FRENCH: newGedsValues.branch.FRENCH,
+            }
           : null;
         break;
       case "organization":
@@ -192,6 +192,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       default:
         throw new Error("sync request category not recognized");
     }
+
     await saveDataToDB(updatedProfile);
     await getGedsAndProfileInfo();
     setTableLoading(false);
@@ -210,14 +211,14 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       ellipsis: true,
     },
     {
-      title: <FormattedMessage id="profile.geds.update.saved" />,
+      title: <FormattedMessage id="geds.update.saved" />,
       dataIndex: "savedLabel",
       key: "saved",
       width: "30%",
       ellipsis: true,
     },
     {
-      title: <FormattedMessage id="profile.geds.update.geds" />,
+      title: <FormattedMessage id="geds.update.geds" />,
       dataIndex: "gedsLabel",
       key: "geds",
       width: "30%",
@@ -235,17 +236,17 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             isEqual(record.savedValue, record.gedsValue) ? (
               <CheckOutlined />
             ) : (
-                <SyncOutlined />
-              )
+              <SyncOutlined />
+            )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
         >
           <span>
             {isEqual(record.savedValue, record.gedsValue) ? (
-              <FormattedMessage id="profile.geds.update.synced" />
+              <FormattedMessage id="geds.update.synced" />
             ) : (
-                <FormattedMessage id="profile.geds.update.sync" />
-              )}
+              <FormattedMessage id="geds.update.sync" />
+            )}
           </span>
         </Button>
       ),
@@ -273,31 +274,31 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 
   return (
     <Modal
-      title={<FormattedMessage id="profile.geds.sync.button" />}
+      title={<FormattedMessage id="geds.sync.button" />}
       visible={visibility}
       width={900}
       onOk={onDone}
       onCancel={onDone}
       footer={[
         <Button key="submit" type="primary" onClick={onDone}>
-          <FormattedMessage id="profile.geds.update.finish" />
+          <FormattedMessage id="geds.update.finish" />
         </Button>,
       ]}
     >
       {errorCaught ? (
         <Result
           status="warning"
-          title={<FormattedMessage id="profile.geds.update.error.message" />}
+          title={<FormattedMessage id="geds.update.error.message" />}
         />
       ) : (
-          <Table
-            columns={columns}
-            dataSource={tableData}
-            pagination={false}
-            size="small"
-            loading={!tableData || tableLoading}
-          />
-        )}
+        <Table
+          columns={columns}
+          dataSource={tableData}
+          pagination={false}
+          size="small"
+          loading={!tableData || tableLoading}
+        />
+      )}
     </Modal>
   );
 };

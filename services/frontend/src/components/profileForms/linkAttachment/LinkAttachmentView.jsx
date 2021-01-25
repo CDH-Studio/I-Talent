@@ -41,9 +41,9 @@ const LinkAttachmentView = ({
           optionFilterProp="children"
           placeholder={<FormattedMessage id="admin.select" />}
         >
-          {nameOptions.map((value) => {
-            return <Option key={value.id}>{value.name}</Option>;
-          })}
+          {nameOptions.map((value) => (
+            <Option key={value.id}>{value.name}</Option>
+          ))}
         </Select>
       </Form.Item>
     </Col>

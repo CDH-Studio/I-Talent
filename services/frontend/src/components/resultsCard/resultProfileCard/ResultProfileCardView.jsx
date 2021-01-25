@@ -63,7 +63,7 @@ const ResultProfileCardView = ({
       badgeColor = "#087472";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip"
+          id="connection.tooltip"
           values={{ name: user.firstName }}
         />
       );
@@ -72,7 +72,7 @@ const ResultProfileCardView = ({
       badgeColor = "#989898";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip.inactive"
+          id="connection.tooltip.inactive"
           values={{ name: user.firstName }}
         />
       );
@@ -81,7 +81,7 @@ const ResultProfileCardView = ({
       badgeColor = "#000";
       tooltipMessage = (
         <FormattedMessage
-          id="search.results.cards.connection.tooltip.hidden"
+          id="connection.tooltip.hidden"
           values={{ name: user.firstName }}
         />
       );
@@ -161,9 +161,9 @@ const ResultProfileCardView = ({
           className="result-card-button"
         >
           {isConnection ? (
-            <FormattedMessage id="search.results.cards.remove.connection" />
+            <FormattedMessage id="remove.connection" />
           ) : (
-            <FormattedMessage id="search.results.cards.add.connection" />
+            <FormattedMessage id="add.connection" />
           )}
         </Button>
       );
@@ -189,45 +189,41 @@ const ResultProfileCardView = ({
    * Render User Avatar for each card
    * @param {Object} user - The profile being rendered on card.
    */
-  const getCardFooter = ({ user }) => {
-    return [
-      <div>
-        <BranchesOutlined className="result-card-footer-icon" />
-        {user.branch ? (
-          <Text>{user.branch}</Text>
-        ) : (
-          <Text>
-            <FormattedMessage id="search.results.cards.branch.not.found" />
-          </Text>
-        )}
-      </div>,
-      <div>
-        <EnvironmentOutlined className="result-card-footer-icon" />
-        {user.branch ? (
-          <Text>
-            {profile.officeLocation.streetNumber}{" "}
-            {profile.officeLocation.streetName}, {user.officeLocation.city}
-          </Text>
-        ) : (
-          <Text>
-            <FormattedMessage id="search.results.cards.location.not.found" />
-          </Text>
-        )}
-      </div>,
-    ];
-  };
+  const getCardFooter = ({ user }) => [
+    <div>
+      <BranchesOutlined className="result-card-footer-icon" />
+      {user.branch ? (
+        <Text>{user.branch}</Text>
+      ) : (
+        <Text>
+          <FormattedMessage id="branch.not.found" />
+        </Text>
+      )}
+    </div>,
+    <div>
+      <EnvironmentOutlined className="result-card-footer-icon" />
+      {profile.officeLocation ? (
+        <Text>
+          {profile.officeLocation.streetNumber}{" "}
+          {profile.officeLocation.streetName}, {user.officeLocation.city}
+        </Text>
+      ) : (
+        <Text>
+          <FormattedMessage id="location.not.found" />
+        </Text>
+      )}
+    </div>,
+  ];
 
   /**
    * Render card title
    * @param {Object} user - The profile being rendered on card.
    */
-  const getCardTitle = ({ user }) => {
-    return (
-      <Text>
-        {user.firstName} {user.lastName}
-      </Text>
-    );
-  };
+  const getCardTitle = ({ user }) => (
+    <Text>
+      {user.firstName} {user.lastName}
+    </Text>
+  );
 
   /**
    * handle how to process when enter key is hit when focusing on a results card
@@ -306,7 +302,7 @@ const ResultProfileCardView = ({
                   </span>
                 ) : (
                   <Tag className="result-card-tag">
-                    <FormattedMessage id="search.results.cards.skills.not.found" />
+                    <FormattedMessage id="skills.not.found" />
                   </Tag>
                 )}
               </Col>

@@ -45,7 +45,7 @@ const SearchFilterView = ({
     }
   }, [form, urlSearchFieldValues]);
 
-  const searchLabel = <FormattedMessage id="button.search" />;
+  const searchLabel = <FormattedMessage id="search" />;
   const searchTitles = [
     "name",
     "classifications",
@@ -57,14 +57,14 @@ const SearchFilterView = ({
     "exFeeder",
   ];
   const labelArr = [
-    <FormattedMessage id="advanced.search.form.name" />,
-    <FormattedMessage id="advanced.search.form.classification" />,
-    <FormattedMessage id="advanced.search.form.location" />,
-    <FormattedMessage id="advanced.search.form.branch" />,
-    <FormattedMessage id="advanced.search.form.skills" />,
-    <FormattedMessage id="advanced.search.form.mentorship.skills" />,
+    <FormattedMessage id="name" />,
+    <FormattedMessage id="classification" />,
+    <FormattedMessage id="work.location" />,
+    <FormattedMessage id="branch" />,
+    <FormattedMessage id="skills" />,
+    <FormattedMessage id="mentorship.skills" />,
     null,
-    <FormattedMessage id="advanced.search.form.ex.feeder" />,
+    <FormattedMessage id="ex.feeder" />,
   ];
   const ariaLabels = [
     intl.formatMessage({ id: "search.filter.person.name" }),
@@ -78,11 +78,12 @@ const SearchFilterView = ({
     intl.formatMessage({ id: "search.filter.any.mentors" }),
     intl.formatMessage({ id: "search.filter.exfeeder" }),
   ];
+
   return (
     <div className="search-searchSideBar">
       <Title level={2} className="search-searchHeader">
         <SettingOutlined className="search-searchHeaderIcon" />
-        <FormattedMessage id="sidebar.search.title" />
+        <FormattedMessage id="search.filters" />
       </Title>
       <Text>
         <FormattedMessage id="sidebar.search.description" />
@@ -136,18 +137,11 @@ const SearchFilterView = ({
               </div>
             )}
           >
-            {classOptions.map((value) => {
-              return (
-                <Option
-                  role="option"
-                  aria-selected={false}
-                  key={value.id}
-                  value={value.name}
-                >
-                  {value.name}
-                </Option>
-              );
-            })}
+            {classOptions.map((value) => (
+              <Option role="option" aria-selected={false} key={value.id}>
+                {value.name}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
 
@@ -179,17 +173,11 @@ const SearchFilterView = ({
             )}
           >
             {locationOptions.map(
-              ({ streetNumber, streetName, city, province, id }) => {
-                return (
-                  <Option
-                    role="option"
-                    key={id}
-                    value={`${streetNumber} ${streetName}, ${city}, ${province}`}
-                  >
-                    {streetNumber} {streetName}, {city}, {province}
-                  </Option>
-                );
-              }
+              ({ streetNumber, streetName, city, province, id }) => (
+                <Option role="option" key={id}>
+                  {streetNumber} {streetName}, {city}, {province}
+                </Option>
+              )
             )}
           </Select>
         </Form.Item>
@@ -221,13 +209,11 @@ const SearchFilterView = ({
               </div>
             )}
           >
-            {branchOptions.map((value) => {
-              return (
-                <Option role="option" key={value} value={value}>
-                  {value}
-                </Option>
-              );
-            })}
+            {branchOptions.map((value) => (
+              <Option role="option" key={value}>
+                {value}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
 

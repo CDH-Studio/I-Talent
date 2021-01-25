@@ -5,15 +5,13 @@ import {
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
 
-const LinkAttachment = ({ fieldElement, removeElement, nameOptions }) => {
-  return (
-    <LinkAttachmentView
-      fieldElement={fieldElement}
-      removeElement={removeElement}
-      nameOptions={nameOptions}
-    />
-  );
-};
+const LinkAttachment = ({ fieldElement, removeElement, nameOptions }) => (
+  <LinkAttachmentView
+    fieldElement={fieldElement}
+    removeElement={removeElement}
+    nameOptions={nameOptions}
+  />
+);
 
 LinkAttachment.propTypes = {
   fieldElement: FieldPropType.isRequired,

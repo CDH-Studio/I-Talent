@@ -36,34 +36,32 @@ const EducationView = ({ educationInfo }) => {
     </>
   );
 
-  const generateEducationInfoList = (dataSource) => {
-    return (
-      <Row>
-        <Col xs={24} lg={24}>
-          <List
-            itemLayout="vertical"
-            dataSource={dataSource}
-            renderItem={(item) => (
-              <List.Item className="experience-item-list" extra={item.duration}>
-                <List.Item.Meta
-                  avatar={
-                    <Avatar
-                      className="avatar"
-                      size="large"
-                      icon={<BankOutlined />}
-                      shape="square"
-                    />
-                  }
-                  title={`${item.diploma} - (${item.school})`}
-                  description={generateEducationItemDescription(item)}
-                />
-              </List.Item>
-            )}
-          />
-        </Col>
-      </Row>
-    );
-  };
+  const generateEducationInfoList = (dataSource) => (
+    <Row>
+      <Col xs={24} lg={24}>
+        <List
+          itemLayout="vertical"
+          dataSource={dataSource}
+          renderItem={(item) => (
+            <List.Item className="experience-item-list" extra={item.duration}>
+              <List.Item.Meta
+                avatar={
+                  <Avatar
+                    className="avatar"
+                    size="large"
+                    icon={<BankOutlined />}
+                    shape="square"
+                  />
+                }
+                title={`${item.diploma} - (${item.school})`}
+                description={generateEducationItemDescription(item)}
+              />
+            </List.Item>
+          )}
+        />
+      </Col>
+    </Row>
+  );
 
   if (educationInfo.length > 0) {
     return (
@@ -77,7 +75,7 @@ const EducationView = ({ educationInfo }) => {
   return (
     <Empty
       image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<FormattedMessage id="profile.education.empty" />}
+      description={<FormattedMessage id="education.empty" />}
     />
   );
 };

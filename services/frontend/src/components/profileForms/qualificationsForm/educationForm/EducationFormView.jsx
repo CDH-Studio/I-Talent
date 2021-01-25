@@ -51,13 +51,11 @@ const EducationFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
     maxChar1500: {
       max: 1500,
-      message: (
-        <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
-      ),
+      message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
     },
   };
 
@@ -103,13 +101,10 @@ const EducationFormView = ({
             <Row align="middle" justify="space-between">
               <Col>
                 <FormOutlined className="formItemIcon" />
-                <FormattedMessage id="setup.education" />
+                <FormattedMessage id="education" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
-              <Tooltip
-                placement="top"
-                title={<FormattedMessage id="admin.delete" />}
-              >
+              <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
                 <Button
                   type="link"
                   shape="circle"
@@ -131,12 +126,12 @@ const EducationFormView = ({
           <Form.Item
             name={[fieldElement.name, "diplomaId"]}
             fieldKey={[fieldElement.fieldKey, "diplomaId"]}
-            label={<FormattedMessage id="profile.diploma" />}
+            label={<FormattedMessage id="diploma" />}
             rules={[Rules.required]}
           >
             <Select
               showSearch
-              placeholder={<FormattedMessage id="setup.select" />}
+              placeholder={<FormattedMessage id="input.placeholder.select" />}
               allowClear
               filterOption={filterOption}
             >
@@ -152,12 +147,12 @@ const EducationFormView = ({
           <Form.Item
             name={[fieldElement.name, "schoolId"]}
             fieldKey={[fieldElement.fieldKey, "schoolId"]}
-            label={<FormattedMessage id="profile.school" />}
+            label={<FormattedMessage id="school" />}
             rules={[Rules.required]}
           >
             <Select
               showSearch
-              placeholder={<FormattedMessage id="setup.select" />}
+              placeholder={<FormattedMessage id="input.placeholder.select" />}
               allowClear
               filterOption={filterOption}
             >
@@ -173,14 +168,14 @@ const EducationFormView = ({
           <Form.Item
             name={[fieldElement.name, "startDate"]}
             fieldKey={[fieldElement.fieldKey, "startDate"]}
-            label={<FormattedMessage id="profile.history.item.start.date" />}
+            label={<FormattedMessage id="item.start.date" />}
           >
             <DatePicker
               picker="month"
               disabledDate={disabledDatesAfterEnd}
               className="datePicker"
               placeholder={intl.formatMessage({
-                id: "profile.qualifications.select.month",
+                id: "select.month",
               })}
             />
           </Form.Item>
@@ -221,9 +216,7 @@ const EducationFormView = ({
                   <Form.Item
                     name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
-                    label={
-                      <FormattedMessage id="profile.history.item.end.date" />
-                    }
+                    label={<FormattedMessage id="item.end.date" />}
                   >
                     {!disableEndDate && (
                       <DatePicker
@@ -232,7 +225,7 @@ const EducationFormView = ({
                         disabled={disableEndDate}
                         className="datePicker"
                         placeholder={intl.formatMessage({
-                          id: "profile.qualifications.select.month",
+                          id: "select.month",
                         })}
                       />
                     )}
@@ -250,7 +243,7 @@ const EducationFormView = ({
                     valuePropName="checked"
                   >
                     <Checkbox>
-                      <FormattedMessage id="profile.is.ongoing" />
+                      <FormattedMessage id="item.is.ongoing" />
                     </Checkbox>
                   </Form.Item>
                 </>
@@ -263,42 +256,41 @@ const EducationFormView = ({
           <Form.Item
             name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
-            label={<FormattedMessage id="profile.qualification.description" />}
+            label={<FormattedMessage id="description" />}
           >
             <Input.TextArea showCount maxLength={1500} />
           </Form.Item>
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+          <FormattedMessage id="attachment.links" />
           <Form.List
             name={[fieldElement.name, "attachmentLinks"]}
             fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
           >
-            {(fields, { add, remove }) => {
-              return (
-                <div>
-                  {fields.map((field) => (
-                    <LinkAttachment
-                      key={field.fieldKey}
-                      fieldElement={field}
-                      removeElement={remove}
-                      nameOptions={attachmentNames}
-                    />
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="default"
-                      onClick={() => add()}
-                      disabled={fields.length === 3}
-                      style={{ width: "100%" }}
-                    >
-                      <PlusOutlined />
-                      <FormattedMessage id="setup.add.attachment" />
-                    </Button>
-                  </Form.Item>
-                </div>
-              );
-            }}
+            {(fields, { add, remove }) => (
+              <div>
+                {fields.map((field) => (
+                  <LinkAttachment
+                    key={field.fieldKey}
+                    fieldElement={field}
+                    removeElement={remove}
+                    nameOptions={attachmentNames}
+                  />
+                ))}
+                <Form.Item>
+                  <Button
+                    type="default"
+                    onClick={() => add()}
+                    disabled={fields.length === 3}
+                    style={{ width: "100%" }}
+                  >
+                    <PlusOutlined />
+                    <FormattedMessage id="add.attachment" />
+                  </Button>
+                </Form.Item>
+              </div>
+            )}
           </Form.List>
         </Col>
       </Row>

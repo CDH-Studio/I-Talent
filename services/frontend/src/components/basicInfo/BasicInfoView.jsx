@@ -65,7 +65,7 @@ const BasicInfoView = ({
   const generateTeamInfo = () => {
     const teams = {
       icon: <TeamOutlined />,
-      title: <FormattedMessage id="profile.teams" />,
+      title: <FormattedMessage id="employee.work.unit" />,
       description:
         data.teams && data.teams.length ? (
           <List>
@@ -90,97 +90,93 @@ const BasicInfoView = ({
    * Generates basic info card header
    * This includes: avatar, name, position
    */
-  const generateProfileHeader = () => {
-    return (
-      <Row type="flex" className="profileHeaderRow">
-        <Col
-          xs={6}
-          md={5}
-          lg={4}
-          xxl={3}
-          align="center"
-          className="hide-for-print"
+  const generateProfileHeader = () => (
+    <Row type="flex" className="profileHeaderRow">
+      <Col
+        xs={6}
+        md={5}
+        lg={4}
+        xxl={3}
+        align="center"
+        className="hide-for-print"
+      >
+        <Avatar
+          size={80}
+          style={(styles.userAvatar, { backgroundColor: avatar.color })}
         >
-          <Avatar
-            size={80}
-            style={(styles.userAvatar, { backgroundColor: avatar.color })}
-          >
-            <Text style={{ fontSize: "35px", color: "white" }}>
-              {avatar.acr}
-            </Text>
-          </Avatar>
-        </Col>
-        <Col
-          xs={13}
-          md={15}
-          lg={17}
-          xl={16}
-          xxl={18}
-          style={{ padding: "11px 10px" }}
+          <Text style={{ fontSize: "35px", color: "white" }}>{avatar.acr}</Text>
+        </Avatar>
+      </Col>
+      <Col
+        xs={13}
+        md={15}
+        lg={17}
+        xl={16}
+        xxl={18}
+        style={{ padding: "11px 10px" }}
+      >
+        <Text
+          strong
+          style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
         >
-          <Text
-            strong
-            style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
-          >
-            {name}
-          </Text>
-          <Text
-            type="secondary"
-            style={{ display: "block", fontSize: "16px", lineHeight: "28px" }}
-          >
-            {jobTitle}
-          </Text>
+          {name}
+        </Text>
+        <Text
+          type="secondary"
+          style={{ display: "block", fontSize: "16px", lineHeight: "28px" }}
+        >
+          {jobTitle}
+        </Text>
+      </Col>
+      {urlID === userID ? (
+        <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
+          <EditCardButton editUrl="/profile/edit/primary-info" floatRight />
         </Col>
-        {urlID === userID ? (
-          <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
-            <EditCardButton editUrl="/profile/edit/primary-info" floatRight />
-          </Col>
-        ) : (
-          <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
-            <Row type="flex" align="middle">
-              <Popover
-                trigger={["focus", "hover"]}
-                content={
-                  connectionStatus ? (
-                    <div className="popContent">
-                      <FormattedMessage id="profile.connections.tooltip.remove.connection" />
-                      <a href="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </a>
-                    </div>
-                  ) : (
-                    <div className="popContent">
-                      <FormattedMessage id="profile.connections.tooltip.add.connection" />
-                      <a href="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </a>
-                    </div>
-                  )
-                }
-              >
-                <InfoCircleOutlined tabIndex={0} />
-              </Popover>
-              <Button
-                tabIndex={0}
-                type={connectionStatus ? "default" : "primary"}
-                shape="circle"
-                size="large"
-                icon={
-                  connectionStatus ? (
-                    <UserDeleteOutlined style={styles.buttonIcon} />
-                  ) : (
-                    <UserAddOutlined style={styles.buttonIcon} />
-                  )
-                }
-                onClick={changeConnection}
-                style={{ marginLeft: 10 }}
-              />
-            </Row>
-          </Col>
-        )}
-      </Row>
-    );
-  };
+      ) : (
+        <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
+          <Row type="flex" align="middle">
+            <Popover
+              trigger={["focus", "hover"]}
+              content={
+                connectionStatus ? (
+                  <div className="popContent">
+                    <FormattedMessage id="connections.tooltip.remove.connection" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                ) : (
+                  <div className="popContent">
+                    <FormattedMessage id="connections.tooltip.add.connection" />
+                    <a href="/about/help">
+                      <FormattedMessage id="footer.contact.link" />
+                    </a>
+                  </div>
+                )
+              }
+            >
+              <InfoCircleOutlined tabIndex={0} />
+            </Popover>
+            <Button
+              tabIndex={0}
+              type={connectionStatus ? "default" : "primary"}
+              shape="circle"
+              size="large"
+              icon={
+                connectionStatus ? (
+                  <UserDeleteOutlined style={styles.buttonIcon} />
+                ) : (
+                  <UserAddOutlined style={styles.buttonIcon} />
+                )
+              }
+              onClick={changeConnection}
+              style={{ marginLeft: 10 }}
+            />
+          </Row>
+        </Col>
+      )}
+    </Row>
+  );
 
   /*
    * Generate Info List
@@ -188,25 +184,21 @@ const BasicInfoView = ({
    * Generates list of basic info with mall icons
    * This includes: address, email, etc.
    */
-  const generateInfoList = (dataSource) => {
-    return (
-      <List
-        itemLayout="horizontal"
-        dataSource={dataSource}
-        renderItem={(item) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={
-                <Avatar style={styles.avatar} size={48} icon={item.icon} />
-              }
-              title={item.title}
-              description={item.description}
-            />
-          </List.Item>
-        )}
-      />
-    );
-  };
+  const generateInfoList = (dataSource) => (
+    <List
+      itemLayout="horizontal"
+      dataSource={dataSource}
+      renderItem={(item) => (
+        <List.Item>
+          <List.Item.Meta
+            avatar={<Avatar style={styles.avatar} size={48} icon={item.icon} />}
+            title={item.title}
+            description={item.description}
+          />
+        </List.Item>
+      )}
+    />
+  );
 
   /*
    * Get Contact Info
@@ -216,7 +208,7 @@ const BasicInfoView = ({
   const getContactInfo = () => {
     const email = {
       icon: <MailOutlined />,
-      title: <FormattedMessage id="profile.email" />,
+      title: <FormattedMessage id="email" />,
       description: data.email ? data.email : "-",
     };
 
@@ -228,7 +220,7 @@ const BasicInfoView = ({
 
     const cel = {
       icon: <MobileOutlined />,
-      title: <FormattedMessage id="profile.cellphone" />,
+      title: <FormattedMessage id="work.cellphone" />,
       description: data.cellphone ? data.cellphone : "-",
     };
 
@@ -247,7 +239,7 @@ const BasicInfoView = ({
       description: data.branch ? (
         <Dropdown
           overlay={
-            <Menu>
+            <Menu className="orgDropdown">
               <OrgTree data={data} />
             </Menu>
           }
@@ -259,14 +251,14 @@ const BasicInfoView = ({
           </Button>
         </Dropdown>
       ) : (
-        <FormattedMessage id="profile.not.specified" />
+        <FormattedMessage id="not.specified" />
       ),
     };
 
     const location = data.officeLocation;
     const address = {
       icon: <EnvironmentOutlined />,
-      title: <FormattedMessage id="profile.address" />,
+      title: <FormattedMessage id="working.address" />,
       description: location
         ? `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
         : "-",
@@ -274,7 +266,7 @@ const BasicInfoView = ({
 
     const manager = {
       icon: <UserOutlined />,
-      title: <FormattedMessage id="profile.manager" />,
+      title: <FormattedMessage id="employee.manager" />,
       description: data.manager ? data.manager : "-",
     };
 

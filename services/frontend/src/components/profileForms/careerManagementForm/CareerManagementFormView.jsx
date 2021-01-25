@@ -118,18 +118,18 @@ const CareerManagementFormView = ({
     switch (type) {
       case "success":
         notification.success({
-          message: intl.formatMessage({ id: "profile.edit.save.success" }),
+          message: intl.formatMessage({ id: "edit.save.success" }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
-          message: intl.formatMessage({ id: "profile.edit.save.problem" }),
+          message: intl.formatMessage({ id: "edit.save.problem" }),
         });
         break;
     }
@@ -203,7 +203,7 @@ const CareerManagementFormView = ({
   const getAllValidationErrorMessages = (formsWithErrorsList) => {
     const messages = [];
     if (formsWithErrorsList.qualifiedPools) {
-      messages.push(intl.formatMessage({ id: "profile.qualified.pools" }));
+      messages.push(intl.formatMessage({ id: "qualified.pools" }));
     }
 
     if (formsWithErrorsList.developmentalGoalsAttachments) {
@@ -211,9 +211,7 @@ const CareerManagementFormView = ({
     }
     return (
       <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
+        <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
         <ul>
           {messages.map((value) => (
             <li key={value}>{value}</li>
@@ -303,7 +301,7 @@ const CareerManagementFormView = ({
   const onReset = () => {
     form.resetFields();
     notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
+      message: intl.formatMessage({ id: "form.clear" }),
     });
     checkIfFormValuesChanged();
   };
@@ -338,12 +336,12 @@ const CareerManagementFormView = ({
     <>
       <Prompt
         when={fieldsChanged}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <div className="pgf-content">
         {/* get form title */}
         <FormTitle
-          title={<FormattedMessage id="profile.employee.growth.interests" />}
+          title={<FormattedMessage id="employee.growth.interests" />}
           formType={formType}
           stepNumber={7}
           fieldsChanged={fieldsChanged}
@@ -362,13 +360,13 @@ const CareerManagementFormView = ({
             {/* ===== Developmental Goals Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="profile.learning.development" />,
+                message: <FormattedMessage id="learning.development" />,
                 errorBool: tabErrorsBool.developmentalGoalsAttachments,
               })}
               key="learning-development"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.developmental.goals" />}
+                title={<FormattedMessage id="developmental.goals" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="tooltip.extra.info.help" />
@@ -396,7 +394,9 @@ const CareerManagementFormView = ({
                       treeData={developmentalGoalOptions}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -406,31 +406,29 @@ const CareerManagementFormView = ({
 
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.List name="developmentalGoalsAttachments">
-                    {(fields, { add, remove }) => {
-                      return (
-                        <div>
-                          {fields.map((field) => (
-                            <LinkAttachment
-                              key={field.fieldKey}
-                              fieldElement={field}
-                              removeElement={remove}
-                              nameOptions={attachmentOptions}
-                            />
-                          ))}
-                          <Form.Item>
-                            <Button
-                              type="dashed"
-                              onClick={() => add()}
-                              disabled={fields.length === 6}
-                              style={{ width: "100%" }}
-                            >
-                              <PlusOutlined />
-                              <FormattedMessage id="setup.add.attachment" />
-                            </Button>
-                          </Form.Item>
-                        </div>
-                      );
-                    }}
+                    {(fields, { add, remove }) => (
+                      <div>
+                        {fields.map((field) => (
+                          <LinkAttachment
+                            key={field.fieldKey}
+                            fieldElement={field}
+                            removeElement={remove}
+                            nameOptions={attachmentOptions}
+                          />
+                        ))}
+                        <Form.Item>
+                          <Button
+                            type="dashed"
+                            onClick={() => add()}
+                            disabled={fields.length === 6}
+                            style={{ width: "100%" }}
+                          >
+                            <PlusOutlined />
+                            <FormattedMessage id="add.attachment" />
+                          </Button>
+                        </Form.Item>
+                      </div>
+                    )}
                   </Form.List>
                 </Col>
               </Row>
@@ -439,13 +437,13 @@ const CareerManagementFormView = ({
             {/* ===== Qualified Pools Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="profile.qualified.pools" />,
+                message: <FormattedMessage id="qualified.pools" />,
                 errorBool: tabErrorsBool.qualifiedPools,
               })}
               key="qualified-pools"
             >
               <FormSubTitle
-                title={<FormattedMessage id="profile.qualified.pools" />}
+                title={<FormattedMessage id="qualified.pools" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="tooltip.extra.info.help" />
@@ -471,33 +469,31 @@ const CareerManagementFormView = ({
                   xl={24}
                 >
                   <Form.List name="qualifiedPools">
-                    {(fields, { add, remove }) => {
-                      return (
-                        <>
-                          {fields.map((field) => (
-                            <QualifiedPoolsForm
-                              key={field.fieldKey}
-                              fieldElement={field}
-                              removeElement={remove}
-                              savedQualifiedPools={savedQualifiedPools}
-                              classificationOptions={classificationOptions}
-                            />
-                          ))}
-                          <Form.Item>
-                            {/* add qualified pools field button */}
-                            <Button
-                              type="dashed"
-                              disabled={fields.length === 3}
-                              onClick={() => add()}
-                              style={{ width: "100%" }}
-                            >
-                              <PlusOutlined />
-                              <FormattedMessage id="setup.add.item" />
-                            </Button>
-                          </Form.Item>
-                        </>
-                      );
-                    }}
+                    {(fields, { add, remove }) => (
+                      <>
+                        {fields.map((field) => (
+                          <QualifiedPoolsForm
+                            key={field.fieldKey}
+                            fieldElement={field}
+                            removeElement={remove}
+                            savedQualifiedPools={savedQualifiedPools}
+                            classificationOptions={classificationOptions}
+                          />
+                        ))}
+                        <Form.Item>
+                          {/* add qualified pools field button */}
+                          <Button
+                            type="dashed"
+                            disabled={fields.length === 3}
+                            onClick={() => add()}
+                            style={{ width: "100%" }}
+                          >
+                            <PlusOutlined />
+                            <FormattedMessage id="add.item" />
+                          </Button>
+                        </Form.Item>
+                      </>
+                    )}
                   </Form.List>
                 </Col>
               </Row>
@@ -506,12 +502,12 @@ const CareerManagementFormView = ({
             {/* ===== Job Mobility Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="setup.career.interests" />,
+                message: <FormattedMessage id="career.interests" />,
               })}
               key="career-interests"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.career.interests" />}
+                title={<FormattedMessage id="career.interests" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="tooltip.extra.info.help" />
@@ -532,13 +528,13 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     name="interestedInRemote"
-                    label={
-                      <FormattedMessage id="profile.edit.interested.in.remote" />
-                    }
+                    label={<FormattedMessage id="edit.interested.in.remote" />}
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       allowClear
                       filterOption={filterOption}
                     >
@@ -559,22 +555,22 @@ const CareerManagementFormView = ({
                     className="custom-bubble-select-style"
                     name="relocationLocations"
                     label={
-                      <FormattedMessage id="profile.edit.willing.to.relocate.to" />
+                      <FormattedMessage id="edit.willing.to.relocate.to" />
                     }
                   >
                     <Select
                       mode="multiple"
                       style={{ width: "100%" }}
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       filterOption={filterOption}
                     >
-                      {relocationOptions.map((value) => {
-                        return (
-                          <Option
-                            key={value.id}
-                          >{`${value.city}, ${value.province}`}</Option>
-                        );
-                      })}
+                      {relocationOptions.map((value) => (
+                        <Option
+                          key={value.id}
+                        >{`${value.city}, ${value.province}`}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -585,21 +581,19 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     name="lookingForANewJobId"
-                    label={
-                      <FormattedMessage id="profile.edit.looking.for.new.job" />
-                    }
+                    label={<FormattedMessage id="edit.looking.for.new.job" />}
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       allowClear
                       filterOption={filterOption}
                     >
-                      {lookingForNewJobOptions.map((value) => {
-                        return (
-                          <Option key={value.id}>{value.description}</Option>
-                        );
-                      })}
+                      {lookingForNewJobOptions.map((value) => (
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -610,33 +604,35 @@ const CareerManagementFormView = ({
             <TabPane
               tab={getTabTitle({
                 message: (
-                  <FormattedMessage id="setup.talent.management.title" />
+                  <FormattedMessage id="talent.management" />
                 ),
               })}
               key="talent-management"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.talent.management" />}
+                title={
+                  <FormattedMessage id="talent.management" />
+                }
                 popoverMessage={
                   <>
-                    <FormattedMessage id="profile.talent.management.tooltip" />
+                    <FormattedMessage id="talent.management.tooltip" />
                     {locale === "ENGLISH" ? (
                       <a
                         target="_blank"
                         rel="noopener noreferrer"
                         href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
                       >
-                        <FormattedMessage id="profile.talent.management.link" />
+                        <FormattedMessage id="talent.management.link" />
                       </a>
                     ) : (
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                      >
-                        <FormattedMessage id="profile.talent.management.link" />
-                      </a>
-                    )}
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                        >
+                          <FormattedMessage id="talent.management.link" />
+                        </a>
+                      )}
                   </>
                 }
                 extra={
@@ -653,19 +649,19 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     name="careerMobilityId"
-                    label={<FormattedMessage id="profile.career.mobility" />}
+                    label={<FormattedMessage id="career.mobility" />}
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       allowClear
                       filterOption={filterOption}
                     >
-                      {careerMobilityOptions.map((value) => {
-                        return (
-                          <Option key={value.id}>{value.description}</Option>
-                        );
-                      })}
+                      {careerMobilityOptions.map((value) => (
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -676,21 +672,19 @@ const CareerManagementFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <Form.Item
                     name="talentMatrixResultId"
-                    label={
-                      <FormattedMessage id="profile.talent.matrix.result" />
-                    }
+                    label={<FormattedMessage id="talent.matrix.result" />}
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="setup.select" />}
+                      placeholder={
+                        <FormattedMessage id="input.placeholder.select" />
+                      }
                       allowClear
                       filterOption={filterOption}
                     >
-                      {talentMatrixResultOptions.map((value) => {
-                        return (
-                          <Option key={value.id}>{value.description}</Option>
-                        );
-                      })}
+                      {talentMatrixResultOptions.map((value) => (
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
                     </Select>
                   </Form.Item>
                 </Col>
@@ -700,13 +694,13 @@ const CareerManagementFormView = ({
             {/* ===== Talent Management Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="profile.ex.feeder.title" />,
+                message: <FormattedMessage id="ex.feeder" />,
               })}
               key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
               <FormSubTitle
-                title={<FormattedMessage id="profile.ex.feeder.title" />}
+                title={<FormattedMessage id="ex.feeder" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="tooltip.extra.info.help" />

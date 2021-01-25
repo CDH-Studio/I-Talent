@@ -22,12 +22,10 @@ async function getNames(request, response) {
   });
 
   const name = sortBy(
-    nameQuery.map((i) => {
-      return {
-        id: i.id,
-        name: i.translations[0].name,
-      };
-    }),
+    nameQuery.map((i) => ({
+      id: i.id,
+      name: i.translations[0].name,
+    })),
     "name"
   );
 

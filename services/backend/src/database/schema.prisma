@@ -640,7 +640,7 @@ model User {
   qualifiedPools                QualifiedPool[]
   competencies                  Competency[]
   secondLangProfs               SecondLangProf[]
-  organizations                 Organization[]
+  organizations                 Organization?
   educations                    Education[]
   experiences                   Experience[]
   relocationLocations           RelocationLocation[]

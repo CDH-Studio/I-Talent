@@ -64,20 +64,20 @@ const QualificationsFormView = ({
       case "success":
         notification.success({
           message: intl.formatMessage({
-            id: "profile.edit.save.success",
+            id: "edit.save.success",
           }),
         });
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "profile.edit.save.error" }),
+          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
         });
         break;
       default:
         notification.warning({
           message: intl.formatMessage({
-            id: "profile.edit.save.problem",
+            id: "edit.save.problem",
           }),
         });
         break;
@@ -157,16 +157,14 @@ const QualificationsFormView = ({
   const getAllValidationErrorMessages = (formsWithErrorsList) => {
     const messages = [];
     if (formsWithErrorsList.experiences) {
-      messages.push(intl.formatMessage({ id: "profile.experience" }));
+      messages.push(intl.formatMessage({ id: "experience" }));
     }
     if (formsWithErrorsList.educations) {
-      messages.push(intl.formatMessage({ id: "profile.education" }));
+      messages.push(intl.formatMessage({ id: "education" }));
     }
     return (
       <div>
-        <strong>
-          {intl.formatMessage({ id: "profile.edit.save.error.intro" })}
-        </strong>
+        <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
         <ul>
           {messages.map((value) => (
             <li key={value}>{value}</li>
@@ -275,7 +273,7 @@ const QualificationsFormView = ({
   const onReset = () => {
     form.resetFields();
     notification.info({
-      message: intl.formatMessage({ id: "profile.form.clear" }),
+      message: intl.formatMessage({ id: "form.clear" }),
     });
     checkIfFormValuesChanged();
     setTabErrorsBool({});
@@ -309,12 +307,12 @@ const QualificationsFormView = ({
     <>
       <Prompt
         when={fieldsChanged}
-        message={intl.formatMessage({ id: "profile.form.unsaved.alert" })}
+        message={intl.formatMessage({ id: "form.unsaved.alert" })}
       />
       <div className="qual-content">
         {/* get form title */}
         <FormTitle
-          title={<FormattedMessage id="profile.employee.qualifications" />}
+          title={<FormattedMessage id="employee.qualifications" />}
           formType={formType}
           stepNumber={6}
           fieldsChanged={fieldsChanged}
@@ -333,13 +331,13 @@ const QualificationsFormView = ({
           <Tabs type="card" defaultActiveKey={currentTab}>
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="setup.education" />,
+                message: <FormattedMessage id="education" />,
                 errorBool: tabErrorsBool.educations,
               })}
               key="education"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.education" />}
+                title={<FormattedMessage id="education" />}
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}
@@ -357,48 +355,46 @@ const QualificationsFormView = ({
                   xl={24}
                 >
                   <Form.List name="educations">
-                    {(fields, { add, remove }) => {
-                      return (
-                        <>
-                          {fields.map((field) => (
-                            <EducationForm
-                              key={field.fieldKey}
-                              form={form}
-                              fieldElement={field}
-                              removeElement={remove}
-                              diplomaOptions={options.diplomas}
-                              schoolOptions={options.schools}
-                              attachmentNames={options.attachmentNamesEdu}
-                            />
-                          ))}
-                          <Form.Item>
-                            {/* add education field button */}
-                            <Button
-                              type="dashed"
-                              disabled={fields.length === 3}
-                              onClick={() => add()}
-                              style={{ width: "100%" }}
-                            >
-                              <PlusOutlined />
-                              <FormattedMessage id="setup.add.item" />
-                            </Button>
-                          </Form.Item>
-                        </>
-                      );
-                    }}
+                    {(fields, { add, remove }) => (
+                      <>
+                        {fields.map((field) => (
+                          <EducationForm
+                            key={field.fieldKey}
+                            form={form}
+                            fieldElement={field}
+                            removeElement={remove}
+                            diplomaOptions={options.diplomas}
+                            schoolOptions={options.schools}
+                            attachmentNames={options.attachmentNamesEdu}
+                          />
+                        ))}
+                        <Form.Item>
+                          {/* add education field button */}
+                          <Button
+                            type="dashed"
+                            disabled={fields.length === 3}
+                            onClick={() => add()}
+                            style={{ width: "100%" }}
+                          >
+                            <PlusOutlined />
+                            <FormattedMessage id="add.item" />
+                          </Button>
+                        </Form.Item>
+                      </>
+                    )}
                   </Form.List>
                 </Col>
               </Row>
             </TabPane>
             <TabPane
               tab={getTabTitle({
-                message: <FormattedMessage id="setup.experience" />,
+                message: <FormattedMessage id="experience" />,
                 errorBool: tabErrorsBool.experiences,
               })}
               key="experience"
             >
               <FormSubTitle
-                title={<FormattedMessage id="setup.experience" />}
+                title={<FormattedMessage id="experience" />}
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}
@@ -417,37 +413,33 @@ const QualificationsFormView = ({
                   xl={24}
                 >
                   <Form.List name="experiences">
-                    {(fields, { add, remove }) => {
-                      return (
-                        <div>
-                          {/* generate education form for each education item */}
-                          {fields.map((field) => (
-                            <ExperienceForm
-                              key={field.fieldKey}
-                              form={form}
-                              fieldElement={field}
-                              removeElement={remove}
-                              attachmentNames={options.attachmentNamesExp}
-                              checkIfFormValuesChanged={
-                                checkIfFormValuesChanged
-                              }
-                            />
-                          ))}
-                          <Form.Item>
-                            {/* add education field button */}
-                            <Button
-                              type="dashed"
-                              disabled={fields.length === 3}
-                              onClick={() => add()}
-                              style={{ width: "100%" }}
-                            >
-                              <PlusOutlined />
-                              <FormattedMessage id="setup.add.item" />
-                            </Button>
-                          </Form.Item>
-                        </div>
-                      );
-                    }}
+                    {(fields, { add, remove }) => (
+                      <div>
+                        {/* generate education form for each education item */}
+                        {fields.map((field) => (
+                          <ExperienceForm
+                            key={field.fieldKey}
+                            form={form}
+                            fieldElement={field}
+                            removeElement={remove}
+                            attachmentNames={options.attachmentNamesExp}
+                            checkIfFormValuesChanged={checkIfFormValuesChanged}
+                          />
+                        ))}
+                        <Form.Item>
+                          {/* add education field button */}
+                          <Button
+                            type="dashed"
+                            disabled={fields.length === 3}
+                            onClick={() => add()}
+                            style={{ width: "100%" }}
+                          >
+                            <PlusOutlined />
+                            <FormattedMessage id="add.item" />
+                          </Button>
+                        </Form.Item>
+                      </div>
+                    )}
                   </Form.List>
                 </Col>
               </Row>

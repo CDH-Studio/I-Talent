@@ -40,11 +40,11 @@ const QualifiedPoolsFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
     url: {
       type: "url",
-      message: <FormattedMessage id="profile.rules.url" />,
+      message: <FormattedMessage id="rules.url" />,
     },
   };
 
@@ -56,13 +56,10 @@ const QualifiedPoolsFormView = ({
             <Row align="middle" justify="space-between">
               <Col>
                 <FormOutlined className="formItemIcon" />
-                <FormattedMessage id="profile.qualified.pools" />
+                <FormattedMessage id="qualified.pools" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
-              <Tooltip
-                placement="top"
-                title={<FormattedMessage id="admin.delete" />}
-              >
+              <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
                 <Button
                   type="link"
                   shape="circle"
@@ -84,18 +81,18 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "classificationId"]}
             fieldKey={[fieldElement.fieldKey, "classificationId"]}
-            label={<FormattedMessage id="profile.classification" />}
+            label={<FormattedMessage id="classification" />}
             rules={[Rules.required]}
           >
             <Select
               showSearch
-              placeholder={<FormattedMessage id="setup.select" />}
+              placeholder={<FormattedMessage id="input.placeholder.select" />}
               allowClear
               filterOption={filterOption}
             >
-              {classificationOptions.map((value) => {
-                return <Option key={value.id}>{value.name}</Option>;
-              })}
+              {classificationOptions.map((value) => (
+                <Option key={value.id}>{value.name}</Option>
+              ))}
             </Select>
           </Form.Item>
         </Col>
@@ -104,7 +101,7 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobTitle"]}
             fieldKey={[fieldElement.fieldKey, "jobTitle"]}
-            label={<FormattedMessage id="profile.qualified.pools.job.title" />}
+            label={<FormattedMessage id="job.title" />}
             rules={[Rules.required]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
@@ -118,9 +115,7 @@ const QualifiedPoolsFormView = ({
         <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
           <Form.Item
             name={[fieldElement.name, "jobPosterLink"]}
-            label={
-              <FormattedMessage id="profile.qualified.pools.job.poster.link" />
-            }
+            label={<FormattedMessage id="qualified.pools.job.poster.link" />}
             rules={[Rules.required, Rules.url]}
             fieldKey={[fieldElement.fieldKey, "jobPosterLink"]}
             value={
@@ -136,7 +131,7 @@ const QualifiedPoolsFormView = ({
             name={[fieldElement.name, "selectionProcessNumber"]}
             fieldKey={[fieldElement.fieldKey, "selectionProcessNumber"]}
             label={
-              <FormattedMessage id="profile.qualified.pools.selection.process.number" />
+              <FormattedMessage id="qualified.pools.selection.process.number" />
             }
             rules={[Rules.required]}
             value={

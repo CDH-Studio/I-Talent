@@ -33,21 +33,19 @@ const ProfileCardsView = ({
     visibilityOfAllCards,
     cardInfoName,
     editFormUrl,
-  }) => {
-    return (
-      <Row>
-        <Col>
-          <CardVisibilityToggle
-            visibleCards={visibilityOfAllCards}
-            cardName={cardInfoName}
-          />
-        </Col>
-        <Col style={{ marginLeft: 20 }}>
-          <EditCardButton editUrl={editFormUrl} />
-        </Col>
-      </Row>
-    );
-  };
+  }) => (
+    <Row>
+      <Col>
+        <CardVisibilityToggle
+          visibleCards={visibilityOfAllCards}
+          cardName={cardInfoName}
+        />
+      </Col>
+      <Col style={{ marginLeft: 20 }}>
+        <EditCardButton editUrl={editFormUrl} />
+      </Col>
+    </Row>
+  );
 
   /**
    * Generate Visibility Status indicator for public profile (view only mode)
@@ -62,7 +60,7 @@ const ProfileCardsView = ({
         <Tooltip
           className="hide-for-print"
           placement="left"
-          title={<FormattedMessage id="profile.visibility.card.visible" />}
+          title={<FormattedMessage id="visibility.card.visible" />}
         >
           <EyeOutlined style={{ color: "#A9A9A9" }} />
         </Tooltip>
@@ -73,7 +71,7 @@ const ProfileCardsView = ({
         <Tooltip
           className="hide-for-print"
           placement="left"
-          title={<FormattedMessage id="profile.visibility.card.blocked" />}
+          title={<FormattedMessage id="visibility.card.blocked" />}
         >
           <EyeInvisibleOutlined style={{ color: "#007471" }} />
         </Tooltip>
@@ -88,9 +86,9 @@ const ProfileCardsView = ({
    * Generate Visibility Status indicator for profile being viewed by admin
    * @param {('PRIVATE'|'CONNECTIONS'|'PUBLIC')} cardVisibilityStatus - visibility status of card.
    */
-  const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => {
-    return <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />;
-  };
+  const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => (
+    <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />
+  );
 
   /**
    * Generate right menu in card header
@@ -131,7 +129,7 @@ const ProfileCardsView = ({
             )}
             {lastUpdated && (
               <Tooltip
-                title={<FormattedMessage id="profile.last.updated" />}
+                title={<FormattedMessage id="last.modified.date" />}
                 className="hide-for-print"
               >
                 <Text

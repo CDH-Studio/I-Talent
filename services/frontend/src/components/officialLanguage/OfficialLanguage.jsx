@@ -19,7 +19,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
     }
 
     const firstLanguage = {
-      title: <FormattedMessage id="profile.first.language" />,
+      title: <FormattedMessage id="first.official.language" />,
       description,
     };
     return [firstLanguage];
@@ -33,7 +33,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
       const info = dataSource.secondLangProfs
         ? dataSource.secondLangProfs.find((i) => i.proficiency === profType)
         : undefined;
-      nextData.titleId = `profile.secondary.${profType.toLowerCase()}.proficiency`;
+      nextData.titleId = `secondary.${profType.toLowerCase()}.proficiency`;
 
       if (info) {
         if (info.level === "NA") {
@@ -43,14 +43,14 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
           if (info.date) {
             nextData.expiryInfo = ` (${
               info.expired
-                ? intl.formatMessage({ id: "profile.expired.date" })
-                : intl.formatMessage({ id: "profile.expires.date" })
+                ? intl.formatMessage({ id: "expired" })
+                : intl.formatMessage({ id: "expires.date" })
             } ${dayjs(info.date).format("ll")})`;
           } else if (info.expired !== false) {
             nextData.expiryInfo = `(${
               info.expired
-                ? intl.formatMessage({ id: "profile.expired" })
-                : intl.formatMessage({ id: "profile.unexpired" })
+                ? intl.formatMessage({ id: "expired" })
+                : intl.formatMessage({ id: "unexpired" })
             })`;
           }
         }
@@ -66,7 +66,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="profile.official.languages"
+      titleId="official.languages"
       cardName="officialLanguage"
       id="card-profile-official-language"
       editUrl="/profile/edit/language-proficiency"

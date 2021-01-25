@@ -39,7 +39,7 @@ const DashboardGraphsView = ({
           scaleLabel: {
             display: true,
             labelString: intl.formatMessage({
-              id: "admin.dashboard.number.of.occurrences",
+              id: "dashboard.number.of.occurrences",
             }),
           },
         },
@@ -63,7 +63,7 @@ const DashboardGraphsView = ({
     datasets: [
       {
         label: intl.formatMessage({
-          id: "admin.dashboard.number.of.occurrences",
+          id: "dashboard.number.of.occurrences",
         }),
         data: monthlyGrowth
           ? monthlyGrowth.map((element) => element.count)
@@ -81,7 +81,7 @@ const DashboardGraphsView = ({
       <Row gutter={[8, 8]}>
         <Col xs={24} sm={24} md={12} xl={8}>
           <Card
-            title={<FormattedMessage id="admin.dashboard.popular.skills" />}
+            title={<FormattedMessage id="dashboard.popular.skills" />}
             loading={topFiveSkills.length === 0}
             bodyStyle={{ height: graphHeight }}
           >
@@ -94,9 +94,7 @@ const DashboardGraphsView = ({
         </Col>
         <Col xs={24} sm={24} md={12} xl={8}>
           <Card
-            title={
-              <FormattedMessage id="admin.dashboard.popular.competencies" />
-            }
+            title={<FormattedMessage id="dashboard.popular.competencies" />}
             loading={topFiveCompetencies.length === 0}
             bodyStyle={{ height: graphHeight }}
           >
@@ -110,7 +108,7 @@ const DashboardGraphsView = ({
         <Col xs={24} sm={24} md={12} xl={8}>
           <Card
             title={
-              <FormattedMessage id="admin.dashboard.popular.development.goals" />
+              <FormattedMessage id="dashboard.popular.development.goals" />
             }
             loading={topFiveDevelopmentalGoals.length === 0}
             bodyStyle={{ height: graphHeight }}
@@ -128,9 +126,7 @@ const DashboardGraphsView = ({
         {monthlyGrowth && (
           <Col span={24} md={12} xl={24}>
             <Card
-              title={
-                <FormattedMessage id="admin.dashboard.growth.rate.by.month" />
-              }
+              title={<FormattedMessage id="growth.rate.by.month" />}
               loading={monthlyGrowth.length === 0}
               bodyStyle={{ height: graphHeight }}
             >

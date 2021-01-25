@@ -5,7 +5,7 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const TalentManagement = ({ data, editableCardBool }) => (
   <ProfileCards
-    titleId="profile.talent.management"
+    titleId="talent.management"
     cardName="talentManagement"
     id="card-profile-talent-management"
     editUrl="/profile/edit/career-management?tab=talent-management"

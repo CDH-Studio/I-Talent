@@ -23,8 +23,9 @@ async function fuzzySearch(profiles, searchValue) {
       "qualifiedPools.classification.name",
       "email",
       "firstName",
-      "jobTitle",
       "lastName",
+      "fullName",
+      "jobTitle",
       "officeLocation.city",
       "officeLocation.streetNumber",
       "officeLocation.province",
@@ -37,6 +38,7 @@ async function fuzzySearch(profiles, searchValue) {
       "teams",
       "telephone",
       "tenure",
+      "exFeederText",
     ],
   };
 

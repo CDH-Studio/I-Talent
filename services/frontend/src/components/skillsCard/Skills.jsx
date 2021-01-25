@@ -65,7 +65,7 @@ const Skills = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="profile.skills"
+      titleId="skills"
       cardName="skills"
       id="card-profile-skills"
       editUrl="/profile/edit/talent?tab=skills"

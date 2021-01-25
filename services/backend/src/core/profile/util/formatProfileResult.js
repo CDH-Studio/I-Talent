@@ -136,18 +136,16 @@ function formatProfileResult(profile, language) {
   }
 
   if (profile.qualifiedPools) {
-    const qualifiedPools = profile.qualifiedPools.map((qualifiedPool) => {
-      return {
-        id: qualifiedPool.id,
-        jobTitle: qualifiedPool.jobTitle,
-        selectionProcessNumber: qualifiedPool.selectionProcessNumber,
-        jobPosterLink: qualifiedPool.jobPosterLink,
-        classification: {
-          id: qualifiedPool.classification.id,
-          name: qualifiedPool.classification.name,
-        },
-      };
-    });
+    const qualifiedPools = profile.qualifiedPools.map((qualifiedPool) => ({
+      id: qualifiedPool.id,
+      jobTitle: qualifiedPool.jobTitle,
+      selectionProcessNumber: qualifiedPool.selectionProcessNumber,
+      jobPosterLink: qualifiedPool.jobPosterLink,
+      classification: {
+        id: qualifiedPool.classification.id,
+        name: qualifiedPool.classification.name,
+      },
+    }));
 
     filteredProfile.qualifiedPools = _.orderBy(
       qualifiedPools,
@@ -375,14 +373,17 @@ function formatProfileResult(profile, language) {
   }
 
   if (profile.organizations) {
-    filteredProfile.organizations = profile.organizations.map((org) => {
-      _.sortBy(org, "tier");
-      return org.organizationTier.map((tier) => ({
-        tier: tier.tier,
-        id: tier.id,
-        title: tier.translations[0].description,
-      }));
-    });
+    let sortedOrganization = _.orderBy(
+      profile.organizations.organizationTier,
+      "tier",
+      "desc"
+    );
+
+    filteredProfile.organizations = sortedOrganization.map((tier) => ({
+      tier: tier.tier,
+      id: tier.id,
+      title: tier.translations[0].description,
+    }));
   }
 
   return filteredProfile;

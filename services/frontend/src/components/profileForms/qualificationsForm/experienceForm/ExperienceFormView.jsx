@@ -45,17 +45,15 @@ const ExperienceFormView = ({
   const Rules = {
     required: {
       required: true,
-      message: <FormattedMessage id="profile.rules.required" />,
+      message: <FormattedMessage id="rules.required" />,
     },
     maxChar60: {
       max: 60,
-      message: <FormattedMessage id="profile.rules.max" values={{ max: 60 }} />,
+      message: <FormattedMessage id="rules.max" values={{ max: 60 }} />,
     },
     maxChar1500: {
       max: 1500,
-      message: (
-        <FormattedMessage id="profile.rules.max" values={{ max: 1500 }} />
-      ),
+      message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
     },
   };
 
@@ -101,13 +99,10 @@ const ExperienceFormView = ({
             <Row justify="space-between" align="middle">
               <Col>
                 <FormOutlined className="formItemIcon" />
-                <FormattedMessage id="setup.experience" />
+                <FormattedMessage id="experience" />
                 {`: ${fieldElement.name + 1}`}
               </Col>
-              <Tooltip
-                placement="top"
-                title={<FormattedMessage id="admin.delete" />}
-              >
+              <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
                 <Button
                   type="link"
                   shape="circle"
@@ -129,7 +124,7 @@ const ExperienceFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobTitle"]}
             fieldKey={[fieldElement.fieldKey, "jobTitle"]}
-            label={<FormattedMessage id="admin.job.title" />}
+            label={<FormattedMessage id="job.title" />}
             rules={[Rules.required, Rules.maxChar60]}
           >
             <Input />
@@ -141,7 +136,7 @@ const ExperienceFormView = ({
           <Form.Item
             name={[fieldElement.name, "organization"]}
             fieldKey={[fieldElement.fieldKey, "organization"]}
-            label={<FormattedMessage id="profile.career.subheader.name" />}
+            label={<FormattedMessage id="company.or.gov.branch.name" />}
             rules={[Rules.required, Rules.maxChar60]}
           >
             <Input />
@@ -153,7 +148,7 @@ const ExperienceFormView = ({
           <Form.Item
             name={[fieldElement.name, "startDate"]}
             fieldKey={[fieldElement.fieldKey, "startDate"]}
-            label={<FormattedMessage id="profile.history.item.start.date" />}
+            label={<FormattedMessage id="item.start.date" />}
             rules={[Rules.required]}
           >
             <DatePicker
@@ -161,7 +156,7 @@ const ExperienceFormView = ({
               disabledDate={disabledDatesAfterEnd}
               className="datePicker"
               placeholder={intl.formatMessage({
-                id: "profile.qualifications.select.month",
+                id: "select.month",
               })}
             />
           </Form.Item>
@@ -202,9 +197,7 @@ const ExperienceFormView = ({
                   <Form.Item
                     name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
-                    label={
-                      <FormattedMessage id="profile.history.item.end.date" />
-                    }
+                    label={<FormattedMessage id="item.end.date" />}
                     rules={!disableEndDate ? [Rules.required] : undefined}
                   >
                     {!disableEndDate && (
@@ -214,7 +207,7 @@ const ExperienceFormView = ({
                         disabled={disableEndDate}
                         className="datePicker"
                         placeholder={intl.formatMessage({
-                          id: "profile.qualifications.select.month",
+                          id: "select.month",
                         })}
                       />
                     )}
@@ -232,7 +225,7 @@ const ExperienceFormView = ({
                     valuePropName="checked"
                   >
                     <Checkbox>
-                      <FormattedMessage id="profile.is.ongoing" />
+                      <FormattedMessage id="item.is.ongoing" />
                     </Checkbox>
                   </Form.Item>
                 </>
@@ -245,7 +238,7 @@ const ExperienceFormView = ({
           <Form.Item
             name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
-            label={<FormattedMessage id="profile.qualification.description" />}
+            label={<FormattedMessage id="description" />}
           >
             <Input.TextArea showCount maxLength={1500} />
           </Form.Item>
@@ -256,51 +249,49 @@ const ExperienceFormView = ({
             mode="tags"
             name={[fieldElement.name, "projects"]}
             fieldKey={[fieldElement.fieldKey, "projects"]}
-            label={<FormattedMessage id="setup.projects" />}
+            label={<FormattedMessage id="projects" />}
             className="custom-bubble-select-style"
           >
             <Select
               mode="tags"
               style={{ width: "100%" }}
-              placeholder={<FormattedMessage id="setup.projects.placeholder" />}
+              placeholder={<FormattedMessage id="press.enter.to.add" />}
             />
           </Form.Item>
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-          <FormattedMessage id="setup.attachment" />
+          <FormattedMessage id="attachment.links" />
           <Form.List
             name={[fieldElement.name, "attachmentLinks"]}
             fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
           >
-            {(fields, { add, remove }) => {
-              return (
-                <div>
-                  {fields.map((field) => (
-                    <LinkAttachment
-                      key={field.fieldKey}
-                      form={form}
-                      fieldElement={field}
-                      removeElement={remove}
-                      nameOptions={attachmentNames}
-                    />
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="default"
-                      onClick={() => {
-                        add();
-                      }}
-                      disabled={fields.length === 5}
-                      style={{ width: "100%" }}
-                    >
-                      <PlusOutlined />
-                      <FormattedMessage id="setup.add.attachment" />
-                    </Button>
-                  </Form.Item>
-                </div>
-              );
-            }}
+            {(fields, { add, remove }) => (
+              <div>
+                {fields.map((field) => (
+                  <LinkAttachment
+                    key={field.fieldKey}
+                    form={form}
+                    fieldElement={field}
+                    removeElement={remove}
+                    nameOptions={attachmentNames}
+                  />
+                ))}
+                <Form.Item>
+                  <Button
+                    type="default"
+                    onClick={() => {
+                      add();
+                    }}
+                    disabled={fields.length === 5}
+                    style={{ width: "100%" }}
+                  >
+                    <PlusOutlined />
+                    <FormattedMessage id="add.attachment" />
+                  </Button>
+                </Form.Item>
+              </div>
+            )}
           </Form.List>
         </Col>
       </Row>

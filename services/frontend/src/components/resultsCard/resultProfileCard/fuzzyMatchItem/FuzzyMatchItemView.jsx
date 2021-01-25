@@ -26,35 +26,39 @@ const FuzzyMatchItemView = ({ matchItemName, matchItemString }) => {
     const cleanString = cleanItemNameString({ itemName });
     switch (cleanString) {
       case "firstName":
-        return <FormattedMessage id="profile.first.name" />;
+        return <FormattedMessage id="first.name" />;
       case "lastName":
-        return <FormattedMessage id="profile.last.name" />;
+        return <FormattedMessage id="last.name" />;
       case "email":
-        return <FormattedMessage id="profile.email" />;
+        return <FormattedMessage id="email" />;
       case "officeLocation":
-        return <FormattedMessage id="profile.location" />;
+        return <FormattedMessage id="working.address" />;
       case "manager":
-        return <FormattedMessage id="profile.manager" />;
+        return <FormattedMessage id="employee.manager" />;
       case "branch":
-        return <FormattedMessage id="profile.branch" />;
+        return <FormattedMessage id="branch" />;
       case "organizations":
         return <FormattedMessage id="profile.org.tree" />;
       case "experiences":
-        return <FormattedMessage id="profile.experience" />;
+        return <FormattedMessage id="experience" />;
       case "competencies":
-        return <FormattedMessage id="profile.competencies" />;
+        return <FormattedMessage id="competencies" />;
       case "skills":
-        return <FormattedMessage id="profile.skills" />;
+        return <FormattedMessage id="skills" />;
       case "teams":
-        return <FormattedMessage id="profile.teams" />;
+        return <FormattedMessage id="team" />;
       case "groupLevel":
-        return <FormattedMessage id="profile.classification" />;
+        return <FormattedMessage id="classification" />;
       case "tenure":
         return <FormattedMessage id="profile.substantive" />;
       case "jobTitle":
-        return <FormattedMessage id="profile.career.header.name" />;
+        return <FormattedMessage id="job.title" />;
+      case "fullName":
+        return <FormattedMessage id="name" />;
+      case "exFeederText":
+        return <FormattedMessage id="ex.feeder" />;
       default:
-        return itemName;
+        return <FormattedMessage id={itemName} />;
     }
   };
 

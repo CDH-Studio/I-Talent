@@ -1,22 +1,12 @@
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import {
-  Row,
-  Col,
-  Card,
-  Typography,
-  Empty,
-  Skeleton,
-  Spin,
-  PageHeader,
-} from "antd";
+import { Row, Col, Card, Empty, Skeleton, Spin, Result } from "antd";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import Header from "../header/Header";
 import prepareInfo from "../../functions/prepareInfo";
 import EmptyImage from "./online_team_meeting_.svg";
 import ResultsProfileCard from "./resultProfileCard/ResultProfileCard";
 import "./ResultsCardView.less";
-
-const { Text } = Typography;
 
 const ResultsCardView = ({
   results,
@@ -36,9 +26,9 @@ const ResultsCardView = ({
   const getResultCount = ({ isLoading, count }) => {
     if (!isLoading) {
       return (
-        <Text type="secondary" className="res-result-count">
+        <>
           <FormattedMessage id="search.results.found" />: {count}
-        </Text>
+        </>
       );
     }
     return <Spin className="res-loading-spinner" />;
@@ -51,23 +41,16 @@ const ResultsCardView = ({
   const renderResultCards = (dataSource) => {
     if (emptyQuery) {
       return (
-        <>
-          <Row align="middle" justify="center" style={{ marginTop: 40 }}>
-            <img src={EmptyImage} height={250} alt="Empty results page" />
-          </Row>
-          <Row align="middle" justify="center" style={{ marginTop: 20 }}>
-            <p style={{ textAlign: "center", maxWidth: 250 }}>
-              <FormattedMessage id="search.empty.query" />
-            </p>
-          </Row>
-        </>
+        <Result
+          icon={<img src={EmptyImage} height={200} alt="Empty results page" />}
+          title={<FormattedMessage id="search.empty.query.title" />}
+          subTitle={<FormattedMessage id="search.empty.query.subtitle" />}
+        />
       );
     }
 
     if (!loading && dataSource.length === 0) {
-      return (
-        <Empty description={<FormattedMessage id="search.no.results" />} />
-      );
+      return <Empty description={<FormattedMessage id="no.results.found" />} />;
     }
     const preparedResults = prepareInfo(dataSource, locale);
 
@@ -90,36 +73,32 @@ const ResultsCardView = ({
    * Get loading animations when loading results
    *
    */
-  const getLoadingAnimation = () => {
-    return (
-      <Row gutter={[16, 16]} type="flex" justify="left">
-        <Col span={24} xxl={12}>
-          <Card>
-            <Skeleton active />
-          </Card>
-        </Col>
-        <Col span={24} xxl={12} style={{ opacity: "50%" }}>
-          <Card>
-            <Skeleton active />
-          </Card>
-        </Col>
-        <Col span={24} xxl={12} style={{ opacity: "30%" }}>
-          <Card>
-            <Skeleton active />
-          </Card>
-        </Col>
-      </Row>
-    );
-  };
+  const getLoadingAnimation = () => (
+    <Row gutter={[16, 16]} type="flex" justify="left">
+      <Col span={24} xxl={12}>
+        <Card>
+          <Skeleton active />
+        </Card>
+      </Col>
+      <Col span={24} xxl={12} style={{ opacity: "50%" }}>
+        <Card>
+          <Skeleton active />
+        </Card>
+      </Col>
+      <Col span={24} xxl={12} style={{ opacity: "30%" }}>
+        <Card>
+          <Skeleton active />
+        </Card>
+      </Col>
+    </Row>
+  );
 
   return (
     <>
-      <PageHeader
-        onBack={() => {
-          window.history.back();
-        }}
+      <Header
         title={<FormattedMessage id="results.title" />}
-        subTitle={getResultCount({ isLoading: loading, count: results.length })}
+        subtitle={getResultCount({ isLoading: loading, count: results.length })}
+        backBtn
       />
       <div className="res-container">
         {loading && getLoadingAnimation()}

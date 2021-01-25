@@ -34,12 +34,11 @@ const schoolValidator = [
 ];
 const createSchoolValidator = [
   body()
-    .custom(({ en, fr }) => {
-      return (
+    .custom(
+      ({ en, fr }) =>
         (en ? typeof en === "string" : true) &&
         (fr ? typeof fr === "string" : true)
-      );
-    })
+    )
     .withMessage(
       "Must specify school name, either in english and/or in french"
     ),

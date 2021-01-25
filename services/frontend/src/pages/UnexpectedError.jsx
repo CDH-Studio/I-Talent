@@ -23,9 +23,9 @@ const UnexpectedError = () => {
   return (
     <ErrorResultView
       status="500"
-      title={<FormattedMessage id="error.redirect.title" />}
-      subTitle={<FormattedMessage id="error.redirect.subtitle" />}
-      extra={(
+      title={<FormattedMessage id="unexpected.error" />}
+      subTitle={<FormattedMessage id="something.went.wrong" />}
+      extra={
         <Col>
           <Row justify="center" gutter={[10, 10]}>
             <Col>
@@ -49,30 +49,32 @@ const UnexpectedError = () => {
                 <ExclamationCircleOutlined />
                 <span>
                   <FormattedMessage
-                    id={showError ? "error.hide" : "error.show"}
+                    id={showError ? "hide.error.log" : "show.error.log"}
                   />
                 </span>
               </Button>
             </Col>
           </Row>
           <Row justify="center">
-            {showError && <List
-              dataSource={errors}
-              style={styles.list}
-              renderItem={(item) => (
-                <List.Item>
-                  <List.Item.Meta
-                    title={item.title}
-                    description={item.description.map((val) => (
-                      <p style={styles.errorDescription}>{val}</p>
-                    ))}
-                  />
-                </List.Item>
-              )}
-            />}
+            {showError && (
+              <List
+                dataSource={errors}
+                style={styles.list}
+                renderItem={(item) => (
+                  <List.Item>
+                    <List.Item.Meta
+                      title={item.title}
+                      description={item.description.map((val) => (
+                        <p style={styles.errorDescription}>{val}</p>
+                      ))}
+                    />
+                  </List.Item>
+                )}
+              />
+            )}
           </Row>
         </Col>
-      )}
+      }
     />
   );
 };

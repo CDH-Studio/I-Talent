@@ -77,7 +77,7 @@ const UserTableView = ({
             searchInput = node;
           }}
           placeholder={`${intl.formatMessage({
-            id: "admin.search",
+            id: "search.for",
           })} ${title}`}
           value={selectedKeys[0]}
           onChange={(e) =>
@@ -93,14 +93,14 @@ const UserTableView = ({
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedMessage id="admin.search.button" />
+          <FormattedMessage id="search" />
         </Button>
         <Button
           onClick={() => handleReset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedMessage id="admin.reset.button" />
+          <FormattedMessage id="reset" />
         </Button>
       </div>
     ),
@@ -136,34 +136,32 @@ const UserTableView = ({
   });
 
   /* Renders the dropdown for profile status options */
-  const renderStatusDropdown = (id, status) => {
-    return (
-      <div>
-        <Select
-          defaultValue={profileStatusValue(status)}
-          style={{ width: 120 }}
-          onChange={(value) => {
-            const user = data.find(({ key }) => key === id);
-            const valueToBeSaved = value === user.status ? undefined : value;
-            handleDropdownChange(valueToBeSaved, id);
-          }}
-        >
-          <Option key="active" value="ACTIVE">
-            <FormattedMessage id="admin.active" />
-          </Option>
-          <Option key="inactive" value="INACTIVE">
-            <FormattedMessage id="admin.inactive" />
-          </Option>
-        </Select>
-      </div>
-    );
-  };
+  const renderStatusDropdown = (id, status) => (
+    <div>
+      <Select
+        defaultValue={profileStatusValue(status)}
+        style={{ width: 120 }}
+        onChange={(value) => {
+          const user = data.find(({ key }) => key === id);
+          const valueToBeSaved = value === user.status ? undefined : value;
+          handleDropdownChange(valueToBeSaved, id);
+        }}
+      >
+        <Option key="active" value="ACTIVE">
+          <FormattedMessage id="active" />
+        </Option>
+        <Option key="inactive" value="INACTIVE">
+          <FormattedMessage id="inactive" />
+        </Option>
+      </Select>
+    </div>
+  );
 
   /* Renders the cancel message on top of page */
   const popUpCancel = () => {
     notification.info({
       message: intl.formatMessage({
-        id: "admin.cancelled",
+        id: "cancelled",
       }),
     });
   };
@@ -172,50 +170,46 @@ const UserTableView = ({
   const popUpSuccesss = () => {
     notification.success({
       message: intl.formatMessage({
-        id: "admin.success",
+        id: "successful",
       }),
     });
   };
 
   /* Renders the apply button and confirmation prompt */
-  const applyButton = () => {
-    return (
-      <Popconfirm
-        placement="left"
-        title={<FormattedMessage id="admin.update.confirm" />}
-        okText={<FormattedMessage id="admin.update" />}
-        cancelText={<FormattedMessage id="admin.cancel" />}
-        onConfirm={() => {
-          handleApply()
-            .then(popUpSuccesss)
-            .catch((error) => handleError(error, "message", history));
-        }}
-        onCancel={() => {
-          popUpCancel();
-        }}
-        disabled={!modifiedStatus}
-      >
-        <Button type="primary" disabled={!modifiedStatus}>
-          <CheckCircleOutlined />
-          <span>
-            <FormattedMessage id="admin.apply" />
-          </span>
-        </Button>
-      </Popconfirm>
-    );
-  };
-
-  /* Renders the keycloak button */
-  const keycloakButton = () => {
-    return (
-      <Button href={config.manageKeycloakAddress} style={{ marginLeft: 10 }}>
-        <TeamOutlined />
+  const applyButton = () => (
+    <Popconfirm
+      placement="left"
+      title={<FormattedMessage id="update.confirm" />}
+      okText={<FormattedMessage id="update" />}
+      cancelText={<FormattedMessage id="cancel" />}
+      onConfirm={() => {
+        handleApply()
+          .then(popUpSuccesss)
+          .catch((error) => handleError(error, "message", history));
+      }}
+      onCancel={() => {
+        popUpCancel();
+      }}
+      disabled={!modifiedStatus}
+    >
+      <Button type="primary" disabled={!modifiedStatus}>
+        <CheckCircleOutlined />
         <span>
-          <FormattedMessage id="admin.manage.keycloak" />
+          <FormattedMessage id="apply" />
         </span>
       </Button>
-    );
-  };
+    </Popconfirm>
+  );
+
+  /* Renders the keycloak button */
+  const keycloakButton = () => (
+    <Button href={config.manageKeycloakAddress} style={{ marginLeft: 10 }}>
+      <TeamOutlined />
+      <span>
+        <FormattedMessage id="manage.keycloak.roles" />
+      </span>
+    </Button>
+  );
 
   /* Sets up the columns for the user table */
   // Table columns data structure: array of objects
@@ -223,69 +217,59 @@ const UserTableView = ({
   // Consult: Ant Design table components for further clarification
   const userTableColumns = () => [
     {
-      title: <FormattedMessage id="admin.name" />,
+      title: <FormattedMessage id="name" />,
       dataIndex: "fullName",
       key: "name",
-      sorter: (a, b) => {
-        return a.fullName.localeCompare(b.fullName);
-      },
+      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
       sortDirections: ["descend"],
       ...getColumnSearchProps(
         "fullName",
         intl.formatMessage({
-          id: "admin.name",
+          id: "name",
         }),
         "profileLink"
       ),
     },
     {
-      title: <FormattedMessage id="admin.job.title" />,
+      title: <FormattedMessage id="job.title" />,
       dataIndex: "jobTitle",
       key: "jobTitle",
-      sorter: (a, b) => {
-        return a.jobTitle.localeCompare(b.jobTitle);
-      },
+      sorter: (a, b) => a.jobTitle.localeCompare(b.jobTitle),
       ...getColumnSearchProps(
         "jobTitle",
         intl.formatMessage({
-          id: "admin.job.title",
+          id: "job.title",
         })
       ),
     },
     {
-      title: <FormattedMessage id="admin.registered" />,
+      title: <FormattedMessage id="registered" />,
       dataIndex: "formatCreatedAt",
       key: "registered",
-      sorter: (a, b) => {
-        return (
-          dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix()
-        );
-      },
+      sorter: (a, b) =>
+        dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix(),
       ...getColumnSearchProps(
         "formatCreatedAt",
         intl.formatMessage({
-          id: "admin.registered",
+          id: "registered",
         })
       ),
     },
     {
-      title: <FormattedMessage id="admin.last.updated" />,
+      title: <FormattedMessage id="last.updated" />,
       dataIndex: "formatUpdatedAt",
       key: "updated",
-      sorter: (a, b) => {
-        return (
-          dayjs(a.formatUpdatedAt).unix() - dayjs(b.formatUpdatedAt).unix()
-        );
-      },
+      sorter: (a, b) =>
+        dayjs(a.formatUpdatedAt).unix() - dayjs(b.formatUpdatedAt).unix(),
       ...getColumnSearchProps(
         "formatUpdatedAt",
         intl.formatMessage({
-          id: "admin.last.updated",
+          id: "last.updated",
         })
       ),
     },
     {
-      title: <FormattedMessage id="admin.tenure" />,
+      title: <FormattedMessage id="tenure" />,
       dataIndex: "tenure",
       key: "tenure",
       filters: uniq(data.map((i) => i.tenure)).map((i) => ({
@@ -322,38 +306,36 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="admin.profileStatus" />,
+      title: <FormattedMessage id="profile.status" />,
       fixed: "right",
       width: 150,
       filters: [
         {
-          text: <FormattedMessage id="admin.active" />,
+          text: <FormattedMessage id="active" />,
           value: "ACTIVE",
         },
         {
-          text: <FormattedMessage id="admin.inactive" />,
+          text: <FormattedMessage id="inactive" />,
           value: "INACTIVE",
         },
         {
-          text: <FormattedMessage id="admin.flagged" />,
+          text: <FormattedMessage id="flagged" />,
           value: "HIDDEN",
         },
       ],
       onFilter: (value, record) => record.status === value,
-      render: (record) => {
-        return renderStatusDropdown(record.key, record.status);
-      },
+      render: (record) => renderStatusDropdown(record.key, record.status),
     },
     {
-      title: <FormattedMessage id="admin.delete" />,
+      title: <FormattedMessage id="delete" />,
       fixed: "right",
       width: 80,
       render: (record) => (
         <Popconfirm
           placement="left"
-          title={<FormattedMessage id="admin.delete.user" />}
-          okText={<FormattedMessage id="admin.delete" />}
-          cancelText={<FormattedMessage id="admin.cancel" />}
+          title={<FormattedMessage id="delete.user" />}
+          okText={<FormattedMessage id="delete" />}
+          cancelText={<FormattedMessage id="cancel" />}
           onConfirm={() => {
             handleSubmitDelete(record.key)
               .then(popUpSuccesss)
@@ -375,15 +357,15 @@ const UserTableView = ({
       <Header
         title={
           <>
-            <DatabaseOutlined />
-            <FormattedMessage id="admin.user.table" />
+            <FormattedMessage id="users.table" />
             {modifiedStatus && (
               <Text className="userTable-unsavedText">
-                <FormattedMessage id="profile.form.unsaved" />
+                <FormattedMessage id="form.unsaved" />
               </Text>
             )}
           </>
         }
+        icon={<DatabaseOutlined />}
         extra={
           <Row align="middle">
             {applyButton()}

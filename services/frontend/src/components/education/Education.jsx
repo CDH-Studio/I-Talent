@@ -56,10 +56,10 @@ const Education = ({ data, editableCardBool }) => {
         description,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
-            id: a.id,
-            name: a.name.name,
-            url: a.url,
-          }))
+              id: a.id,
+              name: a.name.name,
+              url: a.url,
+            }))
           : [],
       })
     );
@@ -67,7 +67,7 @@ const Education = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="profile.education"
+      titleId="education"
       cardName="education"
       id="card-profile-education"
       editUrl="/profile/edit/qualifications?tab=education"

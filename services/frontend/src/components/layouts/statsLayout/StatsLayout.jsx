@@ -1,7 +1,5 @@
 import StatsLayoutView from "./StatsLayoutView";
 
-const StatsLayout = () => {
-  return <StatsLayoutView />;
-};
+const StatsLayout = () => <StatsLayoutView />;
 
 export default StatsLayout;
