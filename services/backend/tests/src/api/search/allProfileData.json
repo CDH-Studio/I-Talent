@@ -147,7 +147,7 @@
           "classification": { "name": "AS 02" }
         }
       ],
-      "organizations": [],
+      "organizations": null,
       "isConnection": false
     },
 
@@ -255,26 +255,24 @@
           "skillId": "d58453b6-e45e-4150-a661-bb119d871a84"
         }
       ],
-      "organizations": [
-        {
-          "organizationTier": [
-            {
-              "tier": 0,
-              "translations": [
-                {
-                  "description": "Innovation, Science and Economic Development Canada"
-                }
-              ]
-            },
-            {
-              "tier": 1,
-              "translations": [
-                { "description": "DIGITAL TRANSFORMATION SERVICE SECTOR" }
-              ]
-            }
-          ]
-        }
-      ],
+      "organizations": {
+        "organizationTier": [
+          {
+            "tier": 0,
+            "translations": [
+              {
+                "description": "Innovation, Science and Economic Development Canada"
+              }
+            ]
+          },
+          {
+            "tier": 1,
+            "translations": [
+              { "description": "DIGITAL TRANSFORMATION SERVICE SECTOR" }
+            ]
+          }
+        ]
+      },
       "isConnection": false
     }
   ],
@@ -303,6 +301,12 @@
         "testSearchTerm": "Mary | John",
         "testResponseCode": 200,
         "testResponseData": "[{\"id\":\"a041bceb-3873-4046-a475-a86dda954402\",\"avatarColor\":\"#ad4463\",\"firstName\":\"Mary\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Manager\",\"branch\":\"Human Resources Branch\",\"officeLocation\":{\"id\":\"764be692-6bec-421e-a411-485477206fc8\",\"city\":\"Ottawa\",\"streetNumber\":160,\"province\":\"Ontario\",\"streetName\":\"Elgin St\",\"fullName\":\"160 Elgin St\"},\"skills\":[],\"totalSkillsCount\":0,\"groupLevel\":{\"id\":\"84cf48eb-38b4-4a33-9744-09a9da7923a3\",\"name\":\"CS 05\"},\"nameInitials\":\"MD\",\"status\":\"ACTIVE\",\"matches\":[{\"indices\":[[1,2],[12,13],[17,18]],\"value\":\"Gardening strawberries\",\"key\":\"experiences.projects\",\"refIndex\":0},{\"indices\":[[0,3]],\"value\":\"mary.doe@canada.ca\",\"key\":\"email\"},{\"indices\":[[0,3]],\"value\":\"Mary\",\"key\":\"firstName\"},{\"indices\":[[0,3]],\"value\":\"Mary Doe\",\"key\":\"fullName\"},{\"indices\":[[0,1],[3,3],[6,6]],\"value\":\"Manager\",\"key\":\"jobTitle\"},{\"indices\":[[0,1],[6,6]],\"value\":\"Ontario\",\"key\":\"officeLocation.province\"}]},{\"id\":\"25ba7914-1505-4806-97f9-e1c4b003ad92\",\"avatarColor\":\"#0bdaa3\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Data Scientist\",\"branch\":\"Chief Information Office\",\"officeLocation\":{\"id\":\"282952e2-787a-4ee9-8b0e-234776f21673\",\"city\":\"Ottawa\",\"streetNumber\":235,\"province\":\"Ontario\",\"streetName\":\"Queen St\",\"fullName\":\"235 Queen St\"},\"skills\":[],\"totalSkillsCount\":0,\"groupLevel\":{\"id\":\"d78f0859-84af-4e46-884f-b15510e0b273\",\"name\":\"AS 04\"},\"nameInitials\":\"JD\",\"status\":\"ACTIVE\",\"matches\":[{\"indices\":[[0,3]],\"value\":\"john.doe@canada.ca\",\"key\":\"email\"},{\"indices\":[[0,3]],\"value\":\"John\",\"key\":\"firstName\"},{\"indices\":[[0,3]],\"value\":\"John Doe\",\"key\":\"fullName\"},{\"indices\":[[0,1],[6,6]],\"value\":\"Ontario\",\"key\":\"officeLocation.province\"}]}]"
+      },
+      {
+        "testTitle": "Fuzzy Search Test: searching for term 'exfeeder",
+        "testSearchTerm": "exfeeder",
+        "testResponseCode": 200,
+        "testResponseData": "[{\"id\":\"25ba7914-1505-4806-97f9-e1c4b003ad92\",\"avatarColor\":\"#0bdaa3\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"isConnection\":false,\"jobTitle\":\"Data Scientist\",\"branch\":\"Chief Information Office\",\"officeLocation\":{\"id\":\"282952e2-787a-4ee9-8b0e-234776f21673\",\"city\":\"Ottawa\",\"streetNumber\":235,\"province\":\"Ontario\",\"streetName\":\"Queen St\",\"fullName\":\"235 Queen St\"},\"skills\":[],\"totalSkillsCount\":0,\"groupLevel\":{\"id\":\"d78f0859-84af-4e46-884f-b15510e0b273\",\"name\":\"AS 04\"},\"nameInitials\":\"JD\",\"status\":\"ACTIVE\",\"matches\":[{\"indices\":[[0,3],[1,1],[5,7]],\"value\":\"john.doe@canada.ca\",\"key\":\"email\"},{\"indices\":[[0,3],[1,1],[5,7]],\"value\":\"John Doe\",\"key\":\"fullName\"}]}]"
       }
     ],
     "filterSearch": [

@@ -43,7 +43,7 @@ const Welcome = () => {
      */
     const getGedsProfiles = async () => {
       // Get info from GEDS
-      const result = await axios.get(`api/profGen/${id}`, {
+      const result = await axios.get(`api/profGen`, {
         params: {
           email,
         },
