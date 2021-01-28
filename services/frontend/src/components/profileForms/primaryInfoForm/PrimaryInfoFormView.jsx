@@ -104,6 +104,10 @@ const PrimaryInfoFormView = ({
       pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+(-|\s)[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
       message: <FormattedMessage id="rules.name" />,
     },
+    priFormat: {
+      pattern: /(?=^[0-9]{8}$)(?=^(?!.*(\w)\1{1,}).+$)/,
+      message: <FormattedMessage id="rules.valid.pri" />,
+    },
   };
 
   /**
@@ -160,6 +164,7 @@ const PrimaryInfoFormView = ({
         telephone: profile.telephone,
         jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
+        pri: profile.pri,
         email: profile.email,
         locationId: profile.officeLocation
           ? profile.officeLocation.id
@@ -481,15 +486,11 @@ const PrimaryInfoFormView = ({
             </Col>
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
-                name="teams"
-                label={<FormattedMessage id="employee.work.unit" />}
-                className="custom-bubble-select-style"
+                name="pri"
+                label={<FormattedMessage id="pri" />}
+                rules={[Rules.required, Rules.priFormat]}
               >
-                <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  notFoundContent={<FormattedMessage id="press.enter.to.add" />}
-                />
+                <Input />
               </Form.Item>
             </Col>
           </Row>
@@ -538,6 +539,22 @@ const PrimaryInfoFormView = ({
             </Col>
           </Row>
           {/* Form Row Four */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item
+                name="teams"
+                label={<FormattedMessage id="employee.work.unit" />}
+                className="custom-bubble-select-style"
+              >
+                <Select
+                  mode="tags"
+                  style={{ width: "100%" }}
+                  notFoundContent={<FormattedMessage id="press.enter.to.add" />}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          {/* Form Row Five */}
           <Row
             gutter={24}
             style={{
