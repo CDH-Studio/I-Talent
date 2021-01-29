@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { Tag, Empty, Row, Col } from "antd";
+import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 
 const SkillsView = ({ categoriesSkills, skills }) => {
@@ -9,16 +10,23 @@ const SkillsView = ({ categoriesSkills, skills }) => {
         {categoriesSkills.map(
           (categorySkill) =>
             categorySkill != null && (
-              <Row align="middle">
-                <Col>
-                  <FormattedMessage id={categorySkill.val} />:
-                </Col>
-                <Col>
-                  {skills[categorySkill.index].val.map((skill) => (
-                    <Tag color="#00605e">{skill}</Tag>
-                  ))}
-                </Col>
-              </Row>
+              <>
+                <Row align="middle">
+                  <Col>
+                    <TagTwoTone twoToneColor="#3CBAB3" />
+                  </Col>
+                  <Col>
+                    <FormattedMessage id={categorySkill.val} />:
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    {skills[categorySkill.index].val.map((skill) => (
+                      <Tag color="#00605e">{skill}</Tag>
+                    ))}
+                  </Col>
+                </Row>
+              </>
             )
         )}
       </>

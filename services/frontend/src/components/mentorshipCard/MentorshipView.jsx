@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { Tag, Empty, Row, Col } from "antd";
+import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 
 const MentorshipView = ({ mentoringCategories, mentoring }) => {
@@ -9,16 +10,23 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
         {mentoringCategories.map(
           (mentoringCategory) =>
             mentoringCategory != null && (
-              <Row align="middle">
-                <Col>
-                  <FormattedMessage id={mentoringCategory.val} />:
-                </Col>
-                <Col>
-                  {mentoring[mentoringCategory.index].val.map((mentor) => (
-                    <Tag color="#00605e">{mentor}</Tag>
-                  ))}
-                </Col>
-              </Row>
+              <>
+                <Row align="middle">
+                  <Col>
+                    <TagTwoTone twoToneColor="#3CBAB3" />
+                  </Col>
+                  <Col>
+                    <FormattedMessage id={mentoringCategory.val} />:
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    {mentoring[mentoringCategory.index].val.map((mentor) => (
+                      <Tag color="#00605e">{mentor}</Tag>
+                    ))}
+                  </Col>
+                </Row>
+              </>
             )
         )}
       </>
