@@ -1,2 +1,4 @@
 client
 migrations
+coverage
+node_modules

@@ -14,7 +14,7 @@ I-Talent is an internal web-application that would enable employees to share inf
 
 # Getting started
 
-You'll need to create three files to define the envirnment variables, one at the root of the project and two in the `env` folder. To get those variables, ask the current developers. 
+You'll need to create three files to define the envirnment variables, one at the root of the project and two in the `env` folder. To get those variables, ask the current developers.
 
 [Docker](https://www.docker.com/) and [Visual Studio Code](https://code.visualstudio.com/) are technically optional tools for development, but are highly recommended! A list of useful Visual Studio Code extensions are listed [here](https://github.com/CDH-Studio/I-Talent/wiki/Tech-stack#useful-visual-studio-code-extensions).
 
@@ -45,12 +45,13 @@ Visit the [Wiki](https://github.com/CDH-Studio/UpSkill/wiki) has more informatio
 
 Our full stack developers
 
-| **Active developers** | **Previous developers** |
-| --- | --- |
-| [Ali Nouri](https://www.linkedin.com/in/a-nouri/) | [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/) |
-| [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/) |  [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/) |
-| [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/) | [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/) |
-| [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/) | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)
+| **Active developers**                                             | **Previous developers**                                           |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| [Ali Nouri](https://www.linkedin.com/in/a-nouri/)                 | [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/) |
+| [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)   | [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)   |
+| [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)          | [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)     |
+| [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/) | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)            |
+
 | [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/)
 
 # Contributing

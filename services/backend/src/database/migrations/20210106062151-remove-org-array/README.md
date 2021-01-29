@@ -40,5 +40,3 @@ migration 20201112060647-add-qualified-pools-table..20210106062151-remove-org-ar
    relocationLocations           RelocationLocation[]
    employmentEquityGroups        EmploymentEquityGroup[]
 ```
-
-
