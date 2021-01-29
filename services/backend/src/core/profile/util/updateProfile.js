@@ -698,9 +698,9 @@ async function updateProfile(request, userId, language) {
 
       organizations: organizations
         ? {
-            create: organizations.map((org) => ({
+            create: {
               organizationTier: {
-                create: org.map((orgTier) => ({
+                create: organizations.map((orgTier) => ({
                   tier: orgTier.tier,
                   translations: {
                     create: [
@@ -716,7 +716,7 @@ async function updateProfile(request, userId, language) {
                   },
                 })),
               },
-            })),
+            },
           }
         : undefined,
 

@@ -2986,10 +2986,10 @@ express-session@^1.17.1:
     safe-buffer "5.2.0"
     uid-safe "~2.1.5"
 
-express-validator@^6.9.0:
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-6.9.0.tgz#0cc5e5814a900f5ae63c55dd5627434cb6fb02ca"
-  integrity sha512-jScWCo5PwzfmgXhD7bXKWoMSMHttrsN1FpCxuuPby5umeIN1cSKaSV2vQkGinmjdWTRDKRPcU2BlWSXZxNmWYg==
+express-validator@^6.9.1:
+  version "6.9.2"
+  resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-6.9.2.tgz#4de977aa0bb32948240900fd7387f4948399ac64"
+  integrity sha512-Yqlsw2/uBobtBVkP+gnds8OMmVAEb3uTI4uXC93l0Ym5JGHgr8Vd4ws7oSo7GGYpWn5YCq4UePMEppKchURXrw==
   dependencies:
     lodash "^4.17.20"
     validator "^13.5.2"
@@ -3357,10 +3357,10 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-fuse.js@^6.4.3:
-  version "6.4.3"
-  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-6.4.3.tgz#aadd6ac34aab5b1d6e6c60462fcb4d1c3f53bb01"
-  integrity sha512-JNgngolukIrqwayWnvy6NLH63hmwKPhm63o0uyBg51jPD0j09IvAzlV1rTXfAsgxpghI7khAo6Mv+EmvjDWXig==
+fuse.js@^6.4.4:
+  version "6.4.6"
+  resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-6.4.6.tgz#62f216c110e5aa22486aff20be7896d19a059b79"
+  integrity sha512-/gYxR/0VpXmWSfZOIPS3rWwU8SHgsRTwWuXhyb2O6s7aRuVtHtxCkR33bNYu3wyLyNx/Wpv0vU7FZy8Vj53VNw==
 
 gensync@^1.0.0-beta.1:
   version "1.0.0-beta.1"
@@ -7396,10 +7396,10 @@ supports-hyperlinks@^2.0.0:
     has-flag "^4.0.0"
     supports-color "^7.0.0"
 
-swagger-jsdoc@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.0.0.tgz#dee2e0b12950ea63fc842d9a6048d47ff8780334"
-  integrity sha512-gI2GoziKS3alcnWI86LTpXeFobiRsfuMoPLUzbpivPRPeAybAN8yLPmjRFaEXXF67SCnH4a/68CnkGNBh/C7vQ==
+swagger-jsdoc@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/swagger-jsdoc/-/swagger-jsdoc-6.0.1.tgz#7b5df9b7d4f28e844d879f437dd045efa4d037fd"
+  integrity sha512-Rpyq3aMR3wlLie9syaLRwF7WmWHNvSXRBzqn4P45rdJ1tXGIxFBeKRQG/Y/1YmBh3BmK6ds29CMavzDLWqRlpw==
   dependencies:
     commander "6.2.0"
     doctrine "3.0.0"

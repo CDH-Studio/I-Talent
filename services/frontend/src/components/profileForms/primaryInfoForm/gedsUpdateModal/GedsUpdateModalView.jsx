@@ -74,21 +74,21 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   {
     key: "7",
     rowName: <FormattedMessage id="profile.org.tree" />,
-    savedLabel: savedProfile.organizations[0]
-      ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
-          .title
+    savedLabel: savedProfile.organizations
+      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
       : "-",
-    savedValue: savedProfile.organizations[0]
-      ? savedProfile.organizations[0][savedProfile.organizations[0].length - 1]
-          .title
+    savedValue: savedProfile.organizations
+      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
       : "-",
-    gedsLabel: savedProfile.organizations
-      ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
-          .title[locale]
+    gedsLabel: gedsProfile.organizations
+      ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
+          locale
+        ]
       : "-",
-    gedsValue: savedProfile.organizations
-      ? gedsProfile.organizations[0][gedsProfile.organizations[0].length - 1]
-          .title[locale]
+    gedsValue: gedsProfile.organizations
+      ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
+          locale
+        ]
       : "-",
     paramName: "organization",
   },
@@ -118,7 +118,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       );
 
       // get profile form geds
-      const gedsResult = await axios.get(`api/profGen/${id}`, {
+      const gedsResult = await axios.get(`api/profGen`, {
         params: {
           email,
         },
@@ -192,6 +192,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       default:
         throw new Error("sync request category not recognized");
     }
+
     await saveDataToDB(updatedProfile);
     await getGedsAndProfileInfo();
     setTableLoading(false);
