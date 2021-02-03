@@ -15,8 +15,8 @@ async function getAllUsers(language, userId, request) {
     where: viewPrivateProfile(request)
       ? undefined
       : {
-        status: "ACTIVE",
-      },
+          status: "ACTIVE",
+        },
   });
 
   let visibleCards = await Promise.all(
