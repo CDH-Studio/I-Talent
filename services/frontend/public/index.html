@@ -1,46 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="theme-color" content="#087472" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta charset="utf-8" />
-    <style>
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="theme-color" content="#087472" />
+  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+  <meta charset="utf-8" />
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
       }
-      body {
-        background-color: #f0f2f5 !important;
-        margin: 0;
+
+      to {
+        opacity: 1;
       }
-      .loading-logo {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        height: 100vh;
-        animation: fadeIn 750ms;
-      }
-    </style>
-    <title>I-Talent</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Search tool to find people based on experience and skills"
-    />
-    <script src="%PUBLIC_URL%/env.js"></script>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root">
-      <div class="loading-logo">
-        <img height="70px" src="/favicon.ico" />
-      </div>
+    }
+
+    body {
+      background-color: #f0f2f5 !important;
+      margin: 0;
+    }
+
+    .loading-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      height: 100vh;
+      animation: fadeIn 750ms;
+    }
+  </style>
+  <title>I-Talent</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Search tool to find people based on experience and skills" />
+  <script src="%PUBLIC_URL%/env.js"></script>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root">
+    <div class="loading-logo">
+      <img height="70px" src="/favicon.ico" />
     </div>
-  </body>
+  </div>
+
+  <script type="text/javascript">
+    /*<![CDATA[*/
+    (function () {
+      var sz = document.createElement('script'); sz.type = 'text/javascript'; sz.async = true;
+      sz.src = '//siteimproveanalytics.com/js/siteanalyze_8489.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(sz, s);
+    })();
+      /*]]>*/
+  </script>
+</body>
+
 </html>
