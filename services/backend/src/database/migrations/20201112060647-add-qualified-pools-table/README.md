@@ -497,6 +497,7 @@ CREATE TABLE "public"."User" (
 "email" text   ,
 "telephone" text   ,
 "cellphone" text   ,
+"pri" text   ,
 "manager" text   ,
 "description" text   ,
 "firstLanguage" "Language"  ,
@@ -1181,5 +1182,3 @@ migration 20201109171010-create-user-bugs..20201112060647-add-qualified-pools-ta
    organizations                 Organization[]
    educations                    Education[]
 ```
-
-
