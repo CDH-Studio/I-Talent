@@ -33,10 +33,6 @@ function filterProfileVisibility(request, profileResult, userId) {
     employmentEquityGroup: true,
   };
 
-  if (result.pri) {
-    delete result.pri;
-  }
-
   /**
    * Check visibility of card based on user accessing it
    * @param {String} key - id of the card.
