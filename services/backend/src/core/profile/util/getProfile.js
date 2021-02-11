@@ -19,7 +19,6 @@ async function getFullProfile(id, language) {
       email: true,
       telephone: true,
       cellphone: true,
-      pri: true,
       manager: true,
       teams: true,
       firstLanguage: true,

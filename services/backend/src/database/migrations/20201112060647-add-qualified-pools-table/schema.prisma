@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "***"
+  url = "***"
 }
 
 model DbSeed {
@@ -609,7 +609,6 @@ model User {
   email                         String?
   telephone                     String?
   cellphone                     String?
-  pri                           String?
   manager                       String?
   description                   String?
   firstLanguage                 Language?

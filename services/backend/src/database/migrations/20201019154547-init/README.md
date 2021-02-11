@@ -467,7 +467,6 @@ CREATE TABLE "public"."User" (
 "email" text   ,
 "telephone" text   ,
 "cellphone" text   ,
-"pri" text   ,
 "manager" text   ,
 "description" text   ,
 "firstLanguage" "Language"  ,
@@ -1245,3 +1244,5 @@ migration ..20201019154547-init
 +  userId                        String?
 +}
 ```
+
+
