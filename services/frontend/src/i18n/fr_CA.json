@@ -207,6 +207,8 @@
   "lang.code": "en",
   "lang.db.code": "ENGLISH",
   "language.english": "Anglais",
+  "pri": "CIDP",
+
   "language.french": "Français",
   "last.modified.date": "Date de dernière modification",
   "last.name": "Nom de famille",
@@ -214,6 +216,8 @@
   "learning.development": "Apprentissage et dévelopment",
   "linkedin": "LinkedIn",
   "linkedin.username": "Identifiant LinkedIn ",
+  "rules.valid.pri": "Doit être un CIDP valide",
+
   "loading": "Chargement",
   "location.not.found": "Emplacement inconnu",
   "looking.for.new.job": "À la recherche d'un nouvel emploi",
