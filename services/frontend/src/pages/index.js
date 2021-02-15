@@ -6,7 +6,6 @@ import ProfileEdit from "./ProfileEdit";
 import ProfileCreate from "./ProfileCreate";
 import Logout from "./Logout";
 import UnexpectedError from "./UnexpectedError";
-import About from "./About";
 import Stats from "./Stats";
 import Settings from "./Settings";
 
@@ -19,7 +18,6 @@ export {
   ProfileEdit,
   ProfileCreate,
   UnexpectedError,
-  About,
   Stats,
   Settings,
 };
