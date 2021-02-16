@@ -406,8 +406,6 @@ definitions:
         type: string
       cellphone:
         type: string
-      pri:
-        type: string
       team:
         type: string
       manager:

@@ -608,7 +608,6 @@ model User {
   email                         String?
   telephone                     String?
   cellphone                     String?
-  pri                           String?
   manager                       String?
   description                   String?
   firstLanguage                 Language?
