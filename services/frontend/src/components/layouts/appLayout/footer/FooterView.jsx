@@ -24,7 +24,6 @@ const footerObject = (value, messageId, lang) => (
 const FooterView = () => {
   const { locale } = useSelector((state) => state.settings);
   const { keycloak } = useKeycloak();
-  console.log(drupalSite);
   return (
     <Footer className="footer">
       <div className="aroundLinksSmall">
