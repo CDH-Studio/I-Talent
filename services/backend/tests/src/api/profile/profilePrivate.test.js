@@ -61,7 +61,7 @@ describe(`GET ${path}/:id`, () => {
         .set("Authorization", getBearerToken());
 
       expect(res.status).toBe(200);
-      expect(console.log).toHaveBeenCalled();
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     test("should throw validation error without language query param - 422", async () => {

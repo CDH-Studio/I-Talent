@@ -57,10 +57,8 @@ describe(`GET ${path}/:id`, () => {
         .get(`${path}/${faker.random.uuid()}?language=ENGLISH`)
         .set("Authorization", getBearerToken());
 
-      console.log(res);
-
       expect(res.statusCode).toBe(200);
-      expect(console.log).toHaveBeenCalled();
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     test("should throw validation error without language query param - 422", async () => {
