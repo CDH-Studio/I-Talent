@@ -62,7 +62,7 @@ const updateProfileValidator = [
     body(i, "must be valid PRI")
       .optional()
       .trim()
-      .custom((j) => j === null || (!isNaN(j) && j.length === 8))
+      .custom((j) => j === null || (!Number.isNaN(j) && j.length === 8))
   ),
   updateProfileUUIDBody.map((i) =>
     body(i, "must be a UUID or null")
