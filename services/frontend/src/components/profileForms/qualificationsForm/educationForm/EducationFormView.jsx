@@ -8,6 +8,7 @@ import {
   Checkbox,
   Tooltip,
   Input,
+  DatePicker,
 } from "antd";
 import {
   FormOutlined,
@@ -20,10 +21,9 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import { makeStyles, ThemeProvider } from "@material-ui/styles";
+import { makeStyles } from "@material-ui/styles";
 import { createMuiTheme } from "@material-ui/core";
 import DayJSUtils from "@date-io/dayjs";
-import { useState } from "react";
 
 import {
   FieldPropType,
@@ -135,12 +135,12 @@ const EducationFormView = ({
    *  Selected Date in Start Date Calendar
    */
 
-  const [selectedStartDate, handleStartDateChange] = useState(
-    form.getFieldValue(["educations", fieldElement.fieldKey, "startDate"])
-  );
-  const [selectedEndDate, handleEndDateChange] = useState(
-    form.getFieldValue(["educations", fieldElement.fieldKey, "endDate"])
-  );
+  // const [selectedStartDate, handleStartDateChange] = useState(
+  //   form.getFieldValue(["educations", fieldElement.fieldKey, "startDateMat"])
+  // );
+  // const [selectedEndDate, handleEndDateChange] = useState(
+  //   form.getFieldValue(["educations", fieldElement.fieldKey, "endDate"])
+  // );
 
   const classes = useStyles();
 
@@ -153,6 +153,51 @@ const EducationFormView = ({
       },
     },
   });
+
+  console.log(
+    "Form Start Date Value",
+    form.getFieldValue(["educations", fieldElement.fieldKey, "startDate"])
+  );
+  console.log(
+    "Form End Date Value",
+    form.getFieldValue(["educations", fieldElement.fieldKey, "endDate"])
+  );
+
+  const DatePickerField = () => (
+    <MuiPickersUtilsProvider utils={DayJSUtils} theme={materialTheme}>
+      <KeyboardDatePicker
+        autoOk="true"
+        variant="inline"
+        inputVariant="outlined"
+        openTo="month"
+        views={["year", "month"]}
+        emptyLabel="Start Month"
+        format="YYYY-MM"
+        value={form.getFieldValue([
+          "educations",
+          fieldElement.fieldKey,
+          "startDate",
+        ])}
+        onChange={(date) => {
+          console.log(date);
+          form.setFields([
+            {
+              name: ["educations", fieldElement.fieldKey, "startDate"],
+              value: date,
+            },
+          ]);
+          console.log(
+            "Done in onchange",
+            form.getFieldValue([
+              "educations",
+              fieldElement.fieldKey,
+              "startDate",
+            ])
+          );
+        }}
+      />
+    </MuiPickersUtilsProvider>
+  );
 
   return (
     <div className="education-formItem">
@@ -225,44 +270,21 @@ const EducationFormView = ({
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-          {/* Start Date Material UI */}
+          {/* Start Date */}
           <Form.Item
             name={[fieldElement.name, "startDate"]}
             fieldKey={[fieldElement.fieldKey, "startDate"]}
             label={<FormattedMessage id="item.start.date" />}
             className={classes.root}
           >
-            <ThemeProvider theme={materialTheme}>
-              <MuiPickersUtilsProvider utils={DayJSUtils}>
-                <KeyboardDatePicker
-                  className="datePicker"
-                  variant="inline"
-                  inputVariant="filled"
-                  openTo="month"
-                  views={["year", "month"]}
-                  emptyLabel={intl.formatMessage({
-                    id: "select.month",
-                  })}
-                  value={selectedStartDate}
-                  onChange={(date) => {
-                    handleStartDateChange(date);
-                    form.setFieldsValue(
-                      ["educations", fieldElement.fieldKey, "startDate"],
-                      date
-                    );
-                  }}
-                  format="YYYY-MM"
-                  maxDate={
-                    form.getFieldValue([
-                      "educations",
-                      fieldElement.fieldKey,
-                      "endDate",
-                    ]) || undefined
-                  }
-                  autoOk="true"
-                />
-              </MuiPickersUtilsProvider>
-            </ThemeProvider>
+            {/* <DatePicker
+              picker="month"
+              className="datePicker"
+              placeholder={intl.formatMessage({
+                id: "select.month",
+              })}
+            /> */}
+            <DatePickerField />
           </Form.Item>
         </Col>
 
@@ -302,35 +324,16 @@ const EducationFormView = ({
                     name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
                     label={<FormattedMessage id="item.end.date" />}
-                    className={classes.root}
                   >
                     {!disableEndDate && (
-                      <ThemeProvider theme={materialTheme}>
-                        <MuiPickersUtilsProvider utils={DayJSUtils}>
-                          <KeyboardDatePicker
-                            className="datePicker"
-                            variant="inline"
-                            inputVariant="filled"
-                            openTo="month"
-                            views={["year", "month"]}
-                            emptyLabel={intl.formatMessage({
-                              id: "select.month",
-                            })}
-                            value={selectedEndDate}
-                            onChange={(date) => handleEndDateChange(date)}
-                            format="YYYY-MM"
-                            disabled={disableEndDate}
-                            minDate={
-                              form.getFieldValue([
-                                "educations",
-                                fieldElement.fieldKey,
-                                "startDate",
-                              ]) || undefined
-                            }
-                            autoOk="true"
-                          />
-                        </MuiPickersUtilsProvider>
-                      </ThemeProvider>
+                      <DatePicker
+                        picker="month"
+                        disabled={disableEndDate}
+                        className="datePicker"
+                        placeholder={intl.formatMessage({
+                          id: "select.month",
+                        })}
+                      />
                     )}
                   </Form.Item>
 
