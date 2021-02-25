@@ -1,12 +1,15 @@
 <img src="services/frontend/src/assets/I-talent-logo-light.png" alt="I-Talent Logo" width="270" />
 
-[![DEV Deployment](https://img.shields.io/badge/Access%20Application-DEV-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](http://italent-development.apps.dev.ocp-dev.ised-isde.canada.ca/)
-[![UAT Deployment](https://img.shields.io/badge/Access%20Application-UAT-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](http://italent-uat.apps.dev.ocp-dev.ised-isde.canada.ca/)
-[![SonarQube Frontend](https://img.shields.io/badge/SonarQube-Frontend-blue?logo=sonarqube&logoColor=white&style=for-the-badge)](https://sonarqube-ised-ci.apps.dev.ocp-dev.ised-isde.canada.ca/dashboard?id=ITalent-frontend)
-[![SonarQube Backend](https://img.shields.io/badge/SonarQube-Backend-blue?logo=sonarqube&logoColor=white&style=for-the-badge)](https://sonarqube-ised-ci.apps.dev.ocp-dev.ised-isde.canada.ca/dashboard?id=ITalent-backend)
-[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white&style=for-the-badge)](https://cicd.ised-isde.canada.ca/job/DSD/job/I-Talent/job/I-Talent/)
-[![DEV OpenShift](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.dev.ocp-dev.ised-isde.canada.ca/topology/ns/italent-development/graph)
-[![UAT OpenShift](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.dev.ocp-dev.ised-isde.canada.ca/topology/ns/mytalent/graph)
+[![DEV Deployment](https://img.shields.io/badge/Access%20Application-DEV-gray?logo=react&logoColor=white&style=plastic&labelColor=green)](http://italent-development.apps.dev.ocp-dev.ised-isde.canada.ca/)
+[![UAT Deployment](https://img.shields.io/badge/Access%20Application-UAT-gray?logo=react&logoColor=white&style=plastic&labelColor=green)](http://italent-uat.apps.dev.ocp-dev.ised-isde.canada.ca/)
+[![SonarQube Frontend](https://img.shields.io/badge/SonarQube-Frontend-blue?logo=sonarqube&logoColor=white&style=plastic)](https://sonarqube.ised-isde.canada.ca/dashboard?id=ITalent-frontend)
+[![SonarQube Backend](https://img.shields.io/badge/SonarQube-Backend-blue?logo=sonarqube&logoColor=white&style=plastic)](https://sonarqube.ised-isde.canada.ca/dashboard?id=ITalent-backend)
+[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white&style=plastic)](https://cicd.ised-isde.canada.ca/job/DSD/job/I-Talent/job/I-Talent/)
+[![DEV OpenShift](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=plastic&labelColor=red)](https://console-openshift-console.apps.dev.ocp-dev.ised-isde.canada.ca/topology/ns/italent-development/graph)
+[![UAT OpenShift](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=plastic&labelColor=red)](https://console-openshift-console.apps.dev.ocp-dev.ised-isde.canada.ca/topology/ns/mytalent/graph)
+[![Drupal DEV](https://img.shields.io/badge/Drupal-DEV-gray?logo=drupal&labelColor=blue&style=plastic)](https://italent-dev-cms-studioup-dev.apps.dev.ocp-dev.ised-isde.canada.ca/en)
+[![Drupal UAT](https://img.shields.io/badge/Drupal-UAT-gray?logo=drupal&labelColor=blue&style=plastic)](https://italent-uat-cms-studioup-dev.apps.dev.ocp-dev.ised-isde.canada.ca/en)
+
 
 An improved directory and employee search tool.
 
