@@ -38,7 +38,7 @@
     "moment": "2.29.1",
     "morgan": "^1.10.0",
     "redis": "^3.0.2",
-    "snyk": "^1.437.4",
+    "snyk": "^1.447.0",
     "swagger-jsdoc": "^6.0.2",
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.5.2"
