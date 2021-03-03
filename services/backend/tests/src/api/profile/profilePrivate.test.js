@@ -1,7 +1,6 @@
 const request = require("supertest");
 const faker = require("faker");
 const { getBearerToken, userId, isKeycloakUserSpy } = require("../../../mocks");
-// const keycloakUtils = require("../../../../src/utils/keycloak");
 
 const path = "/api/profile/private";
 
