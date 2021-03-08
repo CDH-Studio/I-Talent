@@ -22,7 +22,7 @@ const DatePickerField = ({
   const [selectedDate, changeDate] = useState(defaultDate);
 
   const triggerChange = (changedValue) => {
-    onChange?.(changedValue);
+      onChange && onChange.({... changedValue});
   };
   // eslint-disable-next-line no-unused-vars
   const onDateChange = (startDateVal) => {

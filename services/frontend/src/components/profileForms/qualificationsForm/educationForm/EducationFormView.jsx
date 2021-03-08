@@ -88,8 +88,6 @@ const EducationFormView = ({
     form.getFieldValue(["educations", fieldElement.fieldKey, "endDate"])
   );
 
-  console.log(form.getFieldValue());
-
   return (
     <div className="education-formItem">
       <Row gutter={24} className="gutter-row titleRow">
