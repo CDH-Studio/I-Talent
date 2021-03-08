@@ -18,7 +18,6 @@ const QualificationsForm = ({ formType }) => {
   const [currentTab, setCurrentTab] = useState(null);
   const [initialValues, setInitialValues] = useState(null);
   const [options, setOptions] = useState(null);
-  console.log(initialValues);
 
   const { id } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);

@@ -5,10 +5,9 @@ import {
   Form,
   Select,
   Button,
-  Checkbox,
   Tooltip,
   Input,
-  DatePicker,
+  Checkbox,
 } from "antd";
 import {
   FormOutlined,
@@ -17,13 +16,8 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
-import { makeStyles } from "@material-ui/styles";
-import { createMuiTheme } from "@material-ui/core";
-import DayJSUtils from "@date-io/dayjs";
+import dayjs from "dayjs";
+import { useState } from "react";
 
 import {
   FieldPropType,
@@ -35,41 +29,10 @@ import {
 import filterOption from "../../../../functions/filterSelectInput";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 import "./EducationFormView.less";
+import DatePickerField from "../../../formItems/DatePickerField";
 
 const { Option } = Select;
 const { Title } = Typography;
-const useStyles = makeStyles(() => ({
-  root: {
-    "& .MuiFormControl-root": {
-      "border-radius": "5px",
-    },
-    "& .MuiFormControl-root:hover": {
-      border: "6px",
-    },
-    "& .MuiInputBase-root": { "border-radius": "inherit" },
-    "& .MuiFilledInput-input": {
-      backgroundColor: "white",
-      "padding-top": "10px",
-    },
-    "& .MuiFilledInput-inputAdornedEnd": {
-      "border-radius": "5px 0 0 5px",
-    },
-    "& .MuiIconButton-root": {
-      padding: "6px",
-    },
-    "& .MuiFilledInput-underline:before": {
-      border: "none",
-    },
-    "& .MuiFilledInput-underline:after": {
-      border: "none",
-    },
-  },
-  underline: {
-    "&:before": {
-      borderBottom: "10px solid green",
-    },
-  },
-}));
 
 /**
  *  EducationFormView(props)
@@ -98,106 +61,34 @@ const EducationFormView = ({
   };
 
   /*
-   * Disabled Dates Before Start
+   * Disabled End Dates
    *
-   * Generates a list of invalid dates before the start date
-   * This is used for the end date field
-   */
-  // const disabledDatesBeforeStart = (current) => {
-  //   const fieldPath = ["educations", fieldElement.fieldKey, "startDate"];
-  //   if (form.getFieldValue(fieldPath)) {
-  //     return (
-  //       current &&
-  //       current < dayjs(form.getFieldValue(fieldPath).startOf("month"))
-  //     );
-  //   }
-  //   return undefined;
-  // };
-
-  /*
-   * Disabled Dates After End
+   * The minimum date that can be chosen for the end date field, all dates
+   * before this date are disabled
    *
-   * Generates a list of invalid dates after the end date
-   * This is used for the start date field
+   * Change Disabled End
+   *
+   * The function to update this value
    */
-  // const disabledDatesAfterEnd = (current) => {
-  //   const fieldPath = ["educations", fieldElement.fieldKey, "endDate"];
-  //   if (form.getFieldValue(fieldPath)) {
-  //     return (
-  //       current &&
-  //       current > dayjs(form.getFieldValue(fieldPath).startOf("month"))
-  //     );
-  //   }
-  //   return undefined;
-  // };
-
-  /*
-   *  Selected Date in Start Date Calendar
-   */
-
-  // const [selectedStartDate, handleStartDateChange] = useState(
-  //   form.getFieldValue(["educations", fieldElement.fieldKey, "startDateMat"])
-  // );
-  // const [selectedEndDate, handleEndDateChange] = useState(
-  //   form.getFieldValue(["educations", fieldElement.fieldKey, "endDate"])
-  // );
-
-  const classes = useStyles();
-
-  const materialTheme = createMuiTheme({
-    palette: {
-      primary: {
-        main: "#087472",
-        light: "#087472",
-        dark: "#087472",
-      },
-    },
-  });
-
-  console.log(
-    "Form Start Date Value",
+  const [disabledEndDates, changeDisabledEnd] = useState(
     form.getFieldValue(["educations", fieldElement.fieldKey, "startDate"])
   );
-  console.log(
-    "Form End Date Value",
+
+  /*
+   * Disabled Start Dates
+   *
+   * The maximum date that can be chosen for the start date field, all dates
+   * after this date are disabled
+   *
+   * Change Disabled Start
+   *
+   * The function to update this value
+   */
+  const [disabledStartDates, changeDisabledStart] = useState(
     form.getFieldValue(["educations", fieldElement.fieldKey, "endDate"])
   );
 
-  const DatePickerField = () => (
-    <MuiPickersUtilsProvider utils={DayJSUtils} theme={materialTheme}>
-      <KeyboardDatePicker
-        autoOk="true"
-        variant="inline"
-        inputVariant="outlined"
-        openTo="month"
-        views={["year", "month"]}
-        emptyLabel="Start Month"
-        format="YYYY-MM"
-        value={form.getFieldValue([
-          "educations",
-          fieldElement.fieldKey,
-          "startDate",
-        ])}
-        onChange={(date) => {
-          console.log(date);
-          form.setFields([
-            {
-              name: ["educations", fieldElement.fieldKey, "startDate"],
-              value: date,
-            },
-          ]);
-          console.log(
-            "Done in onchange",
-            form.getFieldValue([
-              "educations",
-              fieldElement.fieldKey,
-              "startDate",
-            ])
-          );
-        }}
-      />
-    </MuiPickersUtilsProvider>
-  );
+  console.log(form.getFieldValue());
 
   return (
     <div className="education-formItem">
@@ -275,16 +166,38 @@ const EducationFormView = ({
             name={[fieldElement.name, "startDate"]}
             fieldKey={[fieldElement.fieldKey, "startDate"]}
             label={<FormattedMessage id="item.start.date" />}
-            className={classes.root}
+            shouldUpdate={(prevValues, curValues) => {
+              if (prevValues !== curValues) {
+                changeDisabledEnd(
+                  form.getFieldValue([
+                    "educations",
+                    fieldElement.fieldKey,
+                    "startDate",
+                  ])
+                );
+                changeDisabledStart(
+                  form.getFieldValue([
+                    "educations",
+                    fieldElement.fieldKey,
+                    "endDate",
+                  ])
+                );
+              }
+            }}
           >
-            {/* <DatePicker
-              picker="month"
-              className="datePicker"
-              placeholder={intl.formatMessage({
+            <DatePickerField
+              viewOptions={["year", "month"]}
+              placeholderText={intl.formatMessage({
                 id: "select.month",
               })}
-            /> */}
-            <DatePickerField />
+              formatDate="YYYY-MM"
+              defaultDate={form.getFieldValue([
+                "educations",
+                fieldElement.fieldKey,
+                "startDate",
+              ])}
+              disableWhen={{ maxDate: disabledStartDates }}
+            />
           </Form.Item>
         </Col>
 
@@ -295,16 +208,16 @@ const EducationFormView = ({
               const fieldPrevValues = prevValues.educations[fieldElement.name];
               const fieldCurrentValues =
                 currentValues.educations[fieldElement.name];
-
               if (!fieldPrevValues || !fieldCurrentValues) {
                 return false;
               }
-
               return (
                 fieldPrevValues.ongoingDate !==
                   fieldCurrentValues.ongoingDate ||
                 (fieldPrevValues.endDate &&
-                  fieldPrevValues.endDate.isSame(fieldCurrentValues.endDate))
+                  dayjs(fieldPrevValues.endDate).isSame(
+                    dayjs(fieldCurrentValues.endDate)
+                  ))
               );
             }}
           >
@@ -312,11 +225,9 @@ const EducationFormView = ({
               const educationItem = getFieldValue("educations")[
                 fieldElement.name
               ];
-
               const disableEndDate = educationItem
                 ? educationItem.ongoingDate
                 : false;
-
               return (
                 <>
                   {/* End Date */}
@@ -324,19 +235,41 @@ const EducationFormView = ({
                     name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
                     label={<FormattedMessage id="item.end.date" />}
+                    shouldUpdate={(prevValues, curValues) => {
+                      if (prevValues !== curValues) {
+                        changeDisabledEnd(
+                          form.getFieldValue([
+                            "educations",
+                            fieldElement.fieldKey,
+                            "startDate",
+                          ])
+                        );
+                        changeDisabledStart(
+                          form.getFieldValue([
+                            "educations",
+                            fieldElement.fieldKey,
+                            "endDate",
+                          ])
+                        );
+                      }
+                    }}
                   >
                     {!disableEndDate && (
-                      <DatePicker
-                        picker="month"
-                        disabled={disableEndDate}
-                        className="datePicker"
-                        placeholder={intl.formatMessage({
+                      <DatePickerField
+                        viewOptions={["year", "month"]}
+                        placeholderText={intl.formatMessage({
                           id: "select.month",
                         })}
+                        formatDate="YYYY-MM"
+                        defaultDate={form.getFieldValue([
+                          "educations",
+                          fieldElement.fieldKey,
+                          "endDate",
+                        ])}
+                        disableWhen={{ minDate: disabledEndDates }}
                       />
                     )}
                   </Form.Item>
-
                   {/* Checkbox if event is on-going */}
                   <Form.Item
                     style={{
@@ -402,6 +335,15 @@ const EducationFormView = ({
       </Row>
     </div>
   );
+};
+
+DatePickerField.propTypes = {
+  onChange: PropTypes.func,
+  placeholderText: PropTypes.string.isRequired,
+  defaultDate: PropTypes.instanceOf(Object),
+  viewOptions: PropTypes.arrayOf(String),
+  disableWhen: PropTypes.instanceOf(Object),
+  formatDate: PropTypes.string.isRequired,
 };
 
 EducationFormView.propTypes = {
