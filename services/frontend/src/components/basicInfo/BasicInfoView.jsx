@@ -34,7 +34,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
 import "./BasicInfoView.less";
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
 const BasicInfoView = ({
   data,
@@ -186,13 +186,20 @@ const BasicInfoView = ({
           <List.Item.Meta
             avatar={<Avatar style={styles.avatar} size={48} icon={item.icon} />}
             title={item.title}
-            description={item.description}
+            description={
+              <Paragraph
+                ellipsis={{
+                  rows: 1,
+                }}
+              >
+                {item.description}
+              </Paragraph>
+            }
           />
         </List.Item>
       )}
     />
   );
-
   /*
    * Get Contact Info
    *
