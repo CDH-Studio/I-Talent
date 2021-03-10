@@ -693,6 +693,7 @@ const LangProficiencyFormView = ({
             onReset={onReset}
             onFinish={onFinish}
             fieldsChanged={fieldsChanged}
+            visibleCards={profileInfo.visibleCards}
           />
         </Form>
       </div>

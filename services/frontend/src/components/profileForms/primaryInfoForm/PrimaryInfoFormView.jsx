@@ -287,6 +287,7 @@ const PrimaryInfoFormView = ({
    * save changes (display any errors) and go to user profile upon success
    */
   const onSaveAndFinish = async () => {
+    alert("ok");
     form
       .validateFields()
       .then(async (values) => {
@@ -650,6 +651,7 @@ const PrimaryInfoFormView = ({
             onReset={onReset}
             onFinish={onFinish}
             fieldsChanged={fieldsChanged}
+            visibleCards={profileInfo.visibleCards}
           />
         </Form>
       </div>
