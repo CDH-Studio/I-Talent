@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Row,
   Col,
@@ -63,10 +63,18 @@ const TalentFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(1);
   const [tabErrorsBool, setTabErrorsBool] = useState([]);
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
+
+  /* Values for tabs */
+  const tabs = useMemo(
+    () => ({ 1: "skills", 2: "mentorship", 3: "competencies" }),
+    []
+  );
+  const MAXTAB = 3;
 
   /* Component Rules for form fields */
   const Rules = {
@@ -135,6 +143,16 @@ const TalentFormView = ({
     }
     return {};
   };
+
+  /*
+   * Get Tab Key
+   *
+   * Get tab number from name
+   */
+  const getTabValue = useCallback(
+    (value) => Object.keys(tabs).find((key) => tabs[key] === value) || 1,
+    [tabs]
+  );
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
@@ -267,7 +285,11 @@ const TalentFormView = ({
       .then(async (values) => {
         await saveDataToDB(values);
         setFieldsChanged(false);
-        history.push("/profile/create/step/6");
+        if (selectedTab < MAXTAB) {
+          setSelectedTab(parseInt(selectedTab, 10) + 1);
+        } else {
+          history.push("/profile/create/step/6");
+        }
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -450,6 +472,15 @@ const TalentFormView = ({
   };
 
   /*
+   * On Tab Change
+   *
+   * on change of tab of the form
+   */
+  const onTabChange = (activeTab) => {
+    setSelectedTab(getTabValue(activeTab));
+  };
+
+  /*
    * Get mentorship form
    *
    * Get mentorship role form based on if the form switch is toggled
@@ -521,6 +552,10 @@ const TalentFormView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayMentorshipForm]);
 
+  useEffect(() => {
+    setSelectedTab(getTabValue(currentTab));
+  }, [currentTab, getTabValue]);
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -556,7 +591,11 @@ const TalentFormView = ({
           onValuesChange={updateIfFormValuesChanged}
           onFieldsChange={onFieldsChange}
         >
-          <Tabs type="card" defaultActiveKey={currentTab}>
+          <Tabs
+            type="card"
+            activeKey={tabs[selectedTab]}
+            onChange={onTabChange}
+          >
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="skills" />,

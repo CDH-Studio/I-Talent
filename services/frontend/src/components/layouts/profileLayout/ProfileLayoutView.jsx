@@ -9,6 +9,7 @@ import {
   Popover,
   Tooltip,
   Alert,
+  Button,
 } from "antd";
 import {
   TagsTwoTone,
@@ -18,6 +19,7 @@ import {
   InfoCircleOutlined,
   EyeInvisibleOutlined,
   LockOutlined,
+  PrinterOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -77,7 +79,7 @@ const ProfileLayoutView = ({
   }, [savedFormContent, dispatch, intl]);
 
   const displayAllProfileCards = () => (
-    <Row gutter={[15, 15]}>
+    <Row gutter={[15, 15]} className="print">
       {/* Summary */}
       <Col xs={24} xl={14}>
         <BasicInfo
@@ -98,6 +100,7 @@ const ProfileLayoutView = ({
           </Col>
         </Row>
       </Col>
+
       <Col span={24}>
         <DescriptionCard data={data} editableCardBool={privateProfile} />
       </Col>
@@ -106,7 +109,11 @@ const ProfileLayoutView = ({
       </Col>
 
       {/** ********** Skills and competencies *********** */}
-      <Title level={2} className="sectionHeader" id="divider-skills-and-comp">
+      <Title
+        level={2}
+        className="sectionHeader hide-for-print"
+        id="divider-skills-and-comp"
+      >
         <TagsTwoTone twoToneColor="#3CBAB3" className="sectionIcon" />
         <FormattedMessage id="skills.and.competencies" />
       </Title>
@@ -121,7 +128,11 @@ const ProfileLayoutView = ({
       </Col>
 
       {/** ********** Qualifications *********** */}
-      <Title level={2} className="sectionHeader" id="divider-qualifications">
+      <Title
+        level={2}
+        className="sectionHeader hide-for-print"
+        id="divider-qualifications"
+      >
         <TrophyOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
         <FormattedMessage id="employee.qualifications" />
       </Title>
@@ -133,7 +144,11 @@ const ProfileLayoutView = ({
       </Col>
 
       {/** ********** Personal Growth *********** */}
-      <Title level={2} className="sectionHeader" id="divider-employee-growth">
+      <Title
+        level={2}
+        className="sectionHeader hide-for-print"
+        id="divider-employee-growth"
+      >
         <RiseOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
         <FormattedMessage id="employee.growth.interests" />
       </Title>
@@ -156,7 +171,11 @@ const ProfileLayoutView = ({
       {/** ********** Connections *********** */}
       {privateProfile && (
         <>
-          <Title level={2} className="sectionHeader" id="divider-privateGroup">
+          <Title
+            level={2}
+            className="sectionHeader hide-for-print"
+            id="divider-privateGroup"
+          >
             <TeamOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
             <FormattedMessage id="profile.privateGroup" />
             <div className="privateGroupInfo">
@@ -175,7 +194,7 @@ const ProfileLayoutView = ({
               </Popover>
             </div>
           </Title>
-          <Col span={24}>
+          <Col span={24} className="hide-for-print">
             <Connections data={data} />
           </Col>
         </>
@@ -418,6 +437,11 @@ const ProfileLayoutView = ({
           <Tooltip title={<FormattedMessage id="last.modified.date" />}>
             {data && dayjs(data.updatedAt).format("LL")}
           </Tooltip>
+        }
+        extra={
+          <Button type="primary" shape="circle" onClick={() => window.print()}>
+            <PrinterOutlined />
+          </Button>
         }
         backBtn
       />

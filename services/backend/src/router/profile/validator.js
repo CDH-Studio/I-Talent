@@ -3,6 +3,7 @@ const { isUUID, isIn, isMobilePhone } = require("validator");
 const moment = require("moment");
 
 const updateProfilePhoneNumberBody = ["telephone", "cellphone"];
+const updateProfilePRI = ["pri"];
 const updateProfileNumberBody = ["signupStep"];
 const updateProfileStringArrayBody = ["projects", "employmentEquityGroups"];
 const updateProfileDateBody = ["actingStartDate", "actingEndDate"];
@@ -56,6 +57,12 @@ const updateProfileValidator = [
       .optional()
       .trim()
       .custom((value) => !value || isMobilePhone(value, "en-CA"))
+  ),
+  updateProfilePRI.map((i) =>
+    body(i, "must be valid PRI")
+      .optional()
+      .trim()
+      .custom((j) => j === null || (!Number.isNaN(j) && j.length === 8))
   ),
   updateProfileUUIDBody.map((i) =>
     body(i, "must be a UUID or null")
