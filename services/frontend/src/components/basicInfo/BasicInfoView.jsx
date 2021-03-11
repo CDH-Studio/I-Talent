@@ -33,8 +33,9 @@ import OrgTree from "../orgTree/OrgTree";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
 import "./BasicInfoView.less";
+import EmailLabel from "../customEmail/EmailLabel";
 
-const { Text, Paragraph } = Typography;
+const { Text } = Typography;
 
 const BasicInfoView = ({
   data,
@@ -186,15 +187,7 @@ const BasicInfoView = ({
           <List.Item.Meta
             avatar={<Avatar style={styles.avatar} size={48} icon={item.icon} />}
             title={item.title}
-            description={
-              <Paragraph
-                ellipsis={{
-                  rows: 1,
-                }}
-              >
-                {item.description}
-              </Paragraph>
-            }
+            description={item.description}
           />
         </List.Item>
       )}
@@ -209,7 +202,11 @@ const BasicInfoView = ({
     const email = {
       icon: <MailOutlined />,
       title: <FormattedMessage id="email" />,
-      description: data.email ? data.email : "-",
+      description: data.email ? (
+        <EmailLabel email="ianwilkinsonsdddddddffffffffffffffffffffffffffffffffffffffffffffffffffff@canada.ca" />
+      ) : (
+        "-"
+      ),
     };
 
     const tel = {
