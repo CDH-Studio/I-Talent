@@ -65,3 +65,26 @@ span.searchInput input {
   padding-left: 5px;
   padding-right: 5px;
 }
+
+@media print {
+  .ant-layout-header,
+  .ant-layout-sider,
+  .ant-layout-footer,
+  .hide-for-print {
+    display: none;
+    margin: 0;
+    padding: 0;
+    float: none;
+  }
+
+  @page {
+    margin: 10px;
+  }
+
+  .print {
+    visibility: visible;
+    position: absolute;
+    top: 0.5px;
+    left: 0.5px;
+  }
+}
