@@ -35,13 +35,13 @@ const ProfileCardsView = ({
     editFormUrl,
   }) => (
     <Row>
-      <Col>
+      <Col className="hide-for-print">
         <CardVisibilityToggle
           visibleCards={visibilityOfAllCards}
           cardName={cardInfoName}
         />
       </Col>
-      <Col style={{ marginLeft: 20 }}>
+      <Col style={{ marginLeft: 20 }} className="hide-for-print">
         <EditCardButton editUrl={editFormUrl} />
       </Col>
     </Row>
@@ -117,7 +117,6 @@ const ProfileCardsView = ({
   return (
     <div>
       <Card
-        className={children === null ? "no-content-card" : null}
         title={
           <>
             {typeof titleId === "string" ? (
