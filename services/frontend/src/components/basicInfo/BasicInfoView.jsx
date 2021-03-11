@@ -202,11 +202,7 @@ const BasicInfoView = ({
     const email = {
       icon: <MailOutlined />,
       title: <FormattedMessage id="email" />,
-      description: data.email ? (
-        <EmailLabel email="ianwilkinsonsdddddddffffffffffffffffffffffffffffffffffffffffffffffffffff@canada.ca" />
-      ) : (
-        "-"
-      ),
+      description: data.email ? <EmailLabel email={data.email} /> : "-",
     };
 
     const tel = {
