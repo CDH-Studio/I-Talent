@@ -1,52 +1,43 @@
-/* eslint-disable no-shadow */
 import PropTypes from "prop-types";
-import { Tag, Collapse, Empty } from "antd";
+import { Tag, Empty, Row, Col } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 
-const { Panel } = Collapse;
-
 const SkillsView = ({ categoriesSkills, skills }) => {
-  /*
-   * Generate Skills Collapse
-   *
-   * Generate a collapsible menu organized by skill category
-   * If no skills are found for the profile then display friendly message
-   */
-  const generateSkillsCollapse = (categoriesSkills, skills) => {
-    if (skills.length > 0) {
-      return (
-        <Collapse tabIndex={0}>
-          {categoriesSkills.map(
-            (categorySkill, index) =>
-              categorySkill != null && (
-                <Panel
-                  header={categorySkill.val}
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index + 1}
-                  extra={<TagTwoTone twoToneColor="#3CBAB3" />}
-                >
-                  {skills[categorySkill.index].val.map((skill, indexTag) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <Tag color="#00605e" key={indexTag}>
-                      {skill}
-                    </Tag>
-                  ))}
-                </Panel>
-              )
-          )}
-        </Collapse>
-      );
-    }
+  if (skills.length > 0)
     return (
-      <Empty
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-        description={<FormattedMessage id="skills.empty" />}
-      />
+      <>
+        {categoriesSkills.map(
+          (categorySkill) =>
+            categorySkill != null && (
+              <>
+                <Row align="middle">
+                  <Col>
+                    <TagTwoTone twoToneColor="#3CBAB3" />
+                  </Col>
+                  <Col>
+                    <FormattedMessage id={categorySkill.val} />:
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    {skills[categorySkill.index].val.map((skill) => (
+                      <Tag color="#00605e">{skill}</Tag>
+                    ))}
+                  </Col>
+                </Row>
+              </>
+            )
+        )}
+      </>
     );
-  };
 
-  return generateSkillsCollapse(categoriesSkills, skills);
+  return (
+    <Empty
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
+      description={<FormattedMessage id="skills.empty" />}
+    />
+  );
 };
 
 SkillsView.propTypes = {
