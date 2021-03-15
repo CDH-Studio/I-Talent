@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Select, Modal, notification } from "antd";
+import { Select, notification } from "antd";
 import {
   EyeInvisibleOutlined,
   TeamOutlined,
@@ -8,6 +8,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import "./CardVisibilityToggleView.less";
+import AlertDialog from "../modal/AlertDialog";
 
 const { Option } = Select;
 
@@ -84,16 +85,15 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
         </Option>
       </Select>
 
-      <Modal
+      <AlertDialog
         title={<FormattedMessage id="visibility.card.title" />}
-        visible={modalVisibility}
-        okText={<FormattedMessage id="yes" />}
-        cancelText={<FormattedMessage id="no" />}
+        body={<FormattedMessage id={`visibility.${type}.show.confirm`} />}
+        isOpen={modalVisibility}
         onOk={handleVisibilityPublicOk}
         onCancel={handleVisibilityPublicCancel}
-      >
-        <FormattedMessage id={`visibility.${type}.show.confirm`} />
-      </Modal>
+        okText={<FormattedMessage id="yes" />}
+        cancelText={<FormattedMessage id="no" />}
+      />
     </>
   );
 };
