@@ -525,7 +525,7 @@ const LangProficiencyFormView = ({
                     id: "profile.select.date",
                   })}
                   formatDate="YYYY-MM-DD"
-                  defaultDate={form.getFieldValue("secondaryReadingDate")}
+                  defaultDate={formValues.secondaryReadingDate}
                   disableInput={
                     unknownExpiredGrades.reading ||
                     formValues.readingProficiency === "NA"
@@ -585,7 +585,7 @@ const LangProficiencyFormView = ({
                     formValues.writingProficiency === "NA"
                   }
                   formatDate="YYYY-MM-DD"
-                  defaultDate={form.getFieldValue("secondaryWritingDate")}
+                  defaultDate={formValues.secondaryWritingDate}
                 />
               </Form.Item>
               <Form.Item
@@ -641,7 +641,7 @@ const LangProficiencyFormView = ({
                     formValues.oralProficiency === "NA"
                   }
                   formatDate="YYYY-MM-DD"
-                  defaultDate={form.getFieldValue("secondaryOralDate")}
+                  defaultDate={formValues.secondaryOralDate}
                 />
               </Form.Item>
               <Form.Item
