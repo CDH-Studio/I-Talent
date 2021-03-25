@@ -273,8 +273,9 @@ const LangProficiencyFormView = ({
           return true;
       } else if (dbValues.readingProficiency) return true;
       if (formValues.secondaryReadingDate) {
+        console.log("DIFF", formValues.secondaryReadingDate);
         if (
-          formValues.secondaryReadingDate.diff(
+          dayjs(formValues.secondaryReadingDate).diff(
             dbValues.secondaryReadingDate,
             "days"
           ) !== 0
@@ -297,7 +298,7 @@ const LangProficiencyFormView = ({
 
       if (formValues.secondaryWritingDate) {
         if (
-          formValues.secondaryWritingDate.diff(
+          dayjs(formValues.secondaryWritingDate).diff(
             dbValues.secondaryWritingDate,
             "days"
           ) !== 0
@@ -320,7 +321,7 @@ const LangProficiencyFormView = ({
 
       if (formValues.secondaryOralDate) {
         if (
-          formValues.secondaryOralDate.diff(
+          dayjs(formValues.secondaryOralDate).diff(
             dbValues.secondaryOralDate,
             "days"
           ) !== 0
