@@ -261,8 +261,6 @@ const LangProficiencyFormView = ({
       identity
     );
 
-    console.log(formValues, dbValues);
-
     if (formValues) {
       if (formValues.firstLanguage) {
         if (formValues.firstLanguage !== dbValues.firstLanguage) return true;
@@ -273,7 +271,6 @@ const LangProficiencyFormView = ({
           return true;
       } else if (dbValues.readingProficiency) return true;
       if (formValues.secondaryReadingDate) {
-        console.log("DIFF", formValues.secondaryReadingDate);
         if (
           dayjs(formValues.secondaryReadingDate).diff(
             dbValues.secondaryReadingDate,
@@ -477,8 +474,6 @@ const LangProficiencyFormView = ({
     const oppositeInitialToggle =
       !!data.oralProficiency !== displaySecondLangForm;
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
-    console.log("YEAH: ", checkIfFormValuesChanged());
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displaySecondLangForm]);
 
