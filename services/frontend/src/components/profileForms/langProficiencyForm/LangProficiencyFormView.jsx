@@ -8,7 +8,6 @@ import {
   Form,
   Select,
   Switch,
-  DatePicker,
   Popover,
   Checkbox,
   notification,
@@ -36,6 +35,7 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import "./LangProficiencyFormView.less";
+import DatePickerField from "../../formItems/DatePickerField";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -441,12 +441,17 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
-                <DatePicker
-                  disabled={
+                <DatePickerField
+                  viewOptions={["year", "month", "date"]}
+                  placeholderText={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                  formatDate="YYYY-MM-DD"
+                  defaultDate={formValues.secondaryReadingDate}
+                  disableInput={
                     unknownExpiredGrades.reading ||
                     formValues.readingProficiency === "NA"
                   }
-                  className="datePicker"
                 />
               </Form.Item>
               <Form.Item
@@ -492,12 +497,17 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
-                <DatePicker
-                  disabled={
+                <DatePickerField
+                  viewOptions={["year", "month", "date"]}
+                  placeholderText={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                  disableInput={
                     unknownExpiredGrades.writing ||
                     formValues.writingProficiency === "NA"
                   }
-                  className="datePicker"
+                  formatDate="YYYY-MM-DD"
+                  defaultDate={formValues.secondaryWritingDate}
                 />
               </Form.Item>
               <Form.Item
@@ -543,12 +553,17 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
-                <DatePicker
-                  disabled={
+                <DatePickerField
+                  viewOptions={["year", "month", "date"]}
+                  placeholderText={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                  disableInput={
                     unknownExpiredGrades.oral ||
                     formValues.oralProficiency === "NA"
                   }
-                  className="datePicker"
+                  formatDate="YYYY-MM-DD"
+                  defaultDate={formValues.secondaryOralDate}
                 />
               </Form.Item>
               <Form.Item

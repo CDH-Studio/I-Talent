@@ -5,7 +5,6 @@ import {
   Form,
   Button,
   Checkbox,
-  DatePicker,
   Input,
   Tooltip,
   Select,
@@ -17,16 +16,17 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
-import dayjs from "dayjs";
+import { useState } from "react";
+
 import {
   FieldPropType,
   FormInstancePropType,
   IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
-
 import "./ExperienceFormView.less";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
+import DatePickerField from "../../../formItems/DatePickerField";
 
 const { Title } = Typography;
 /**
@@ -58,38 +58,32 @@ const ExperienceFormView = ({
   };
 
   /*
-   * Disabled Dates Before Start
+   * Disabled End Dates
    *
-   * Generates a list of invalid dates before the start date
-   * This is used for the end date field
+   * The minimum date that can be chosen for the end date field, all dates
+   * before this date are disabled
+   *
+   * Change Disabled End
+   *
+   * The function to update this value
    */
-  const disabledDatesBeforeStart = (current) => {
-    const fieldPath = ["experiences", fieldElement.fieldKey, "startDate"];
-    if (form.getFieldValue(fieldPath)) {
-      return (
-        current &&
-        current < dayjs(form.getFieldValue(fieldPath).startOf("month"))
-      );
-    }
-    return undefined;
-  };
+  const [disabledEndDates, changeDisabledEnd] = useState(
+    form.getFieldValue(["experiences", fieldElement.fieldKey, "startDate"])
+  );
 
   /*
-   * Disabled Dates After End
+   * Disabled Start Dates
    *
-   * Generates a list of invalid dates after the end date
-   * This is used for the start date field
+   * The maximum date that can be chosen for the start date field, all dates
+   * after this date are disabled
+   *
+   * Change Disabled Start
+   *
+   * The function to update this value
    */
-  const disabledDatesAfterEnd = (current) => {
-    const fieldPath = ["experiences", fieldElement.fieldKey, "endDate"];
-    if (form.getFieldValue(fieldPath)) {
-      return (
-        current &&
-        current > dayjs(form.getFieldValue(fieldPath).startOf("month"))
-      );
-    }
-    return undefined;
-  };
+  const [disabledStartDates, changeDisabledStart] = useState(
+    form.getFieldValue(["experiences", fieldElement.fieldKey, "endDate"])
+  );
 
   return (
     <div className="experience-formItem">
@@ -150,14 +144,37 @@ const ExperienceFormView = ({
             fieldKey={[fieldElement.fieldKey, "startDate"]}
             label={<FormattedMessage id="item.start.date" />}
             rules={[Rules.required]}
+            shouldUpdate={(prevValues, curValues) => {
+              if (prevValues !== curValues) {
+                changeDisabledEnd(
+                  form.getFieldValue([
+                    "experiences",
+                    fieldElement.fieldKey,
+                    "startDate",
+                  ])
+                );
+                changeDisabledStart(
+                  form.getFieldValue([
+                    "experiences",
+                    fieldElement.fieldKey,
+                    "endDate",
+                  ])
+                );
+              }
+            }}
           >
-            <DatePicker
-              picker="month"
-              disabledDate={disabledDatesAfterEnd}
-              className="datePicker"
-              placeholder={intl.formatMessage({
+            <DatePickerField
+              viewOptions={["year", "month"]}
+              placeholderText={intl.formatMessage({
                 id: "select.month",
               })}
+              formatDate="YYYY-MM"
+              defaultDate={form.getFieldValue([
+                "experiences",
+                fieldElement.fieldKey,
+                "startDate",
+              ])}
+              disableWhen={{ maxDate: disabledStartDates }}
             />
           </Form.Item>
         </Col>
@@ -199,16 +216,38 @@ const ExperienceFormView = ({
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
                     label={<FormattedMessage id="item.end.date" />}
                     rules={!disableEndDate ? [Rules.required] : undefined}
+                    shouldUpdate={(prevValues, curValues) => {
+                      if (prevValues !== curValues) {
+                        changeDisabledEnd(
+                          form.getFieldValue([
+                            "experiences",
+                            fieldElement.fieldKey,
+                            "startDate",
+                          ])
+                        );
+                        changeDisabledStart(
+                          form.getFieldValue([
+                            "experiences",
+                            fieldElement.fieldKey,
+                            "endDate",
+                          ])
+                        );
+                      }
+                    }}
                   >
                     {!disableEndDate && (
-                      <DatePicker
-                        picker="month"
-                        disabledDate={disabledDatesBeforeStart}
-                        disabled={disableEndDate}
-                        className="datePicker"
-                        placeholder={intl.formatMessage({
+                      <DatePickerField
+                        viewOptions={["year", "month"]}
+                        placeholderText={intl.formatMessage({
                           id: "select.month",
                         })}
+                        formatDate="YYYY-MM"
+                        defaultDate={form.getFieldValue([
+                          "experiences",
+                          fieldElement.fieldKey,
+                          "endDate",
+                        ])}
+                        disableWhen={{ minDate: disabledEndDates }}
                       />
                     )}
                   </Form.Item>
