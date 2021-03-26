@@ -261,6 +261,7 @@ const LangProficiencyFormView = ({
       identity
     );
 
+    // Check each field of the form to see if there are changed values
     if (formValues) {
       if (formValues.firstLanguage) {
         if (formValues.firstLanguage !== dbValues.firstLanguage) return true;
@@ -270,15 +271,6 @@ const LangProficiencyFormView = ({
         if (formValues.readingProficiency !== dbValues.readingProficiency)
           return true;
       } else if (dbValues.readingProficiency) return true;
-      if (formValues.secondaryReadingDate) {
-        if (
-          dayjs(formValues.secondaryReadingDate).diff(
-            dbValues.secondaryReadingDate,
-            "days"
-          ) !== 0
-        )
-          return true;
-      } else if (dbValues.secondaryReadingDate) return true;
 
       if (formValues.secondaryReadingUnknownExpired) {
         if (
@@ -292,16 +284,6 @@ const LangProficiencyFormView = ({
         if (formValues.writingProficiency !== dbValues.writingProficiency)
           return true;
       } else if (dbValues.writingProficiency) return true;
-
-      if (formValues.secondaryWritingDate) {
-        if (
-          dayjs(formValues.secondaryWritingDate).diff(
-            dbValues.secondaryWritingDate,
-            "days"
-          ) !== 0
-        )
-          return true;
-      } else if (dbValues.secondaryWritingDate) return true;
 
       if (formValues.secondaryWritingUnknownExpired) {
         if (
@@ -333,6 +315,37 @@ const LangProficiencyFormView = ({
         )
           return true;
       } else if (dbValues.secondaryOralUnknownExpired) return true;
+
+      // Check for differences in dates
+      if (formValues.secondaryReadingDate) {
+        if (
+          dayjs(formValues.secondaryReadingDate).diff(
+            dbValues.secondaryReadingDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryReadingDate) return true;
+
+      if (formValues.secondaryWritingDate) {
+        if (
+          dayjs(formValues.secondaryWritingDate).diff(
+            dbValues.secondaryWritingDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryWritingDate) return true;
+
+      if (formValues.secondaryOralDate) {
+        if (
+          dayjs(formValues.secondaryOralDate).diff(
+            dbValues.secondaryOralDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryOralDate) return true;
     }
     return false;
   };
