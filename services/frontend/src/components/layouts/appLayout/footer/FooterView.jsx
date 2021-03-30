@@ -40,7 +40,7 @@ const FooterView = () => {
         )}
         <Text className="dashes">|</Text>
         {footerObject(
-          "terms",
+          "terms-and-conditions-use",
           "footer.terms.and.conditions.link",
           locale === "ENGLISH" ? "en" : "fr"
         )}
