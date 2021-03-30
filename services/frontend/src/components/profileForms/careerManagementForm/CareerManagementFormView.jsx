@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Row,
   Col,
@@ -75,11 +75,26 @@ const CareerManagementFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(1);
   const [tabErrorsBool, setTabErrorsBool] = useState({});
   const axios = useAxios();
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
+
+  /* Values for tabs */
+  const tabs = useMemo(
+    () => ({
+      1: "learning-development",
+      2: "qualified-pools",
+      3: "career-interests",
+      4: "talent-management",
+      5: "ex-feeder",
+    }),
+    []
+  );
+  const MAXTAB = 5;
+
   /*
    * save data to DB
    *
@@ -221,6 +236,16 @@ const CareerManagementFormView = ({
     );
   };
 
+  /*
+   * Get Tab Key
+   *
+   * Get tab number from name
+   */
+  const getTabValue = useCallback(
+    (value) => Object.keys(tabs).find((key) => tabs[key] === value) || 1,
+    [tabs]
+  );
+
   const onFieldsChange = () => {
     findErrorTabs();
   };
@@ -247,6 +272,30 @@ const CareerManagementFormView = ({
           openNotificationWithIcon({
             type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+          });
+        }
+      });
+  };
+
+  const onSaveAndNext = async () => {
+    form
+      .validateFields()
+      .then(async () => {
+        const values = form.getFieldValue();
+        await saveDataToDB(values);
+        setFieldsChanged(false);
+        if (selectedTab < MAXTAB) {
+          setSelectedTab(parseInt(selectedTab, 10) + 1);
+        } else {
+          history.push("/profile/create/step/7");
+        }
+      })
+      .catch((error) => {
+        if (error.isAxiosError) {
+          handleError(error, "message", history);
+        } else {
+          openNotificationWithIcon({
+            type: "error",
           });
         }
       });
@@ -306,6 +355,15 @@ const CareerManagementFormView = ({
     checkIfFormValuesChanged();
   };
 
+  /*
+   * On Tab Change
+   *
+   * on change of tab of the form
+   */
+  const onTabChange = (activeTab) => {
+    setSelectedTab(getTabValue(activeTab));
+  };
+
   /**
    * Get Tab Title
    * @param {Object} tabTitleInfo - tab title info.
@@ -318,6 +376,10 @@ const CareerManagementFormView = ({
     }
     return message;
   };
+
+  useEffect(() => {
+    setSelectedTab(getTabValue(currentTab));
+  }, [currentTab, getTabValue]);
 
   /** **********************************
    ********* Render Component *********
@@ -356,7 +418,11 @@ const CareerManagementFormView = ({
           onValuesChange={checkIfFormValuesChanged}
           onFieldsChange={onFieldsChange}
         >
-          <Tabs type="card" defaultActiveKey={currentTab}>
+          <Tabs
+            type="card"
+            activeKey={tabs[selectedTab]}
+            onChange={onTabChange}
+          >
             {/* ===== Developmental Goals Tab ===== */}
             <TabPane
               tab={getTabTitle({
@@ -603,16 +669,12 @@ const CareerManagementFormView = ({
             {/* ===== Talent Management Tab ===== */}
             <TabPane
               tab={getTabTitle({
-                message: (
-                  <FormattedMessage id="talent.management" />
-                ),
+                message: <FormattedMessage id="talent.management" />,
               })}
               key="talent-management"
             >
               <FormSubTitle
-                title={
-                  <FormattedMessage id="talent.management" />
-                }
+                title={<FormattedMessage id="talent.management" />}
                 popoverMessage={
                   <>
                     <FormattedMessage id="talent.management.tooltip" />
@@ -625,14 +687,14 @@ const CareerManagementFormView = ({
                         <FormattedMessage id="talent.management.link" />
                       </a>
                     ) : (
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
-                        >
-                          <FormattedMessage id="talent.management.link" />
-                        </a>
-                      )}
+                      <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                      >
+                        <FormattedMessage id="talent.management.link" />
+                      </a>
+                    )}
                   </>
                 }
                 extra={
@@ -732,6 +794,7 @@ const CareerManagementFormView = ({
             formType={formType}
             onSave={onSave}
             onSaveAndFinish={onSaveAndFinish}
+            onSaveAndNext={selectedTab < MAXTAB ? onSaveAndNext : null}
             onReset={onReset}
             onFinish={onFinish}
             fieldsChanged={fieldsChanged}

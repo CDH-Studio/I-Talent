@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Row,
   Col,
@@ -50,8 +50,13 @@ const QualificationsFormView = ({
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(1);
   const [tabErrorsBool, setTabErrorsBool] = useState({});
   const dispatch = useDispatch();
+
+  /* Values for tabs */
+  const tabs = useMemo(() => ({ 1: "education", 2: "experience" }), []);
+  const MAXTAB = 2;
 
   /**
    * Open Notification
@@ -91,6 +96,8 @@ const QualificationsFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
+    // eslint-disable-next-line no-console
+    console.log(formValues);
     const dbValues = pickBy(savedValues || initialValues, identity);
 
     // This needs to be done since the remove from the Form.List does not delete the
@@ -174,6 +181,16 @@ const QualificationsFormView = ({
     );
   };
 
+  /*
+   * Get Tab Key
+   *
+   * Get tab number from name
+   */
+  const getTabValue = useCallback(
+    (value) => Object.keys(tabs).find((key) => tabs[key] === value) || 1,
+    [tabs]
+  );
+
   const onFieldsChange = () => {
     findErrorTabs();
   };
@@ -216,7 +233,11 @@ const QualificationsFormView = ({
         const values = form.getFieldValue();
         await saveDataToDB(values);
         setFieldsChanged(false);
-        history.push("/profile/create/step/7");
+        if (selectedTab < MAXTAB) {
+          setSelectedTab(parseInt(selectedTab, 10) + 1);
+        } else {
+          history.push("/profile/create/step/7");
+        }
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -279,6 +300,15 @@ const QualificationsFormView = ({
     setTabErrorsBool({});
   };
 
+  /*
+   * On Tab Change
+   *
+   * on change of tab of the form
+   */
+  const onTabChange = (activeTab) => {
+    setSelectedTab(getTabValue(activeTab));
+  };
+
   /**
    * Get Tab Title
    * @param {Object} tabTitleInfo - tab title info.
@@ -291,6 +321,10 @@ const QualificationsFormView = ({
     }
     return message;
   };
+
+  useEffect(() => {
+    setSelectedTab(getTabValue(currentTab));
+  }, [currentTab, getTabValue]);
 
   /** **********************************
    ********* Render Component *********
@@ -328,7 +362,11 @@ const QualificationsFormView = ({
           onValuesChange={checkIfFormValuesChanged}
           onFieldsChange={onFieldsChange}
         >
-          <Tabs type="card" defaultActiveKey={currentTab}>
+          <Tabs
+            type="card"
+            activeKey={tabs[selectedTab]}
+            onChange={onTabChange}
+          >
             <TabPane
               tab={getTabTitle({
                 message: <FormattedMessage id="education" />,

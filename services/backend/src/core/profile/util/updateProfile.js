@@ -41,6 +41,7 @@ async function updateProfile(request, userId, language) {
     teams,
     telephone,
     cellphone,
+    pri,
     linkedin,
     github,
     gcconnex,
@@ -58,9 +59,7 @@ async function updateProfile(request, userId, language) {
     branch,
     jobTitle,
     description,
-
     employmentEquityGroups,
-
     skills,
     mentorshipSkills,
     competencies,
@@ -367,6 +366,7 @@ async function updateProfile(request, userId, language) {
         : undefined,
       telephone,
       cellphone,
+      pri,
       linkedin,
       github,
       gcconnex,
