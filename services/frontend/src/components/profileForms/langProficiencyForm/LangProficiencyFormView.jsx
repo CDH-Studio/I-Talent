@@ -15,7 +15,7 @@ import {
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-import { isEqual, identity, pickBy } from "lodash";
+import { identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -261,7 +261,93 @@ const LangProficiencyFormView = ({
       identity
     );
 
-    return !isEqual(formValues, dbValues);
+    // Check each field of the form to see if there are changed values
+    if (formValues) {
+      if (formValues.firstLanguage) {
+        if (formValues.firstLanguage !== dbValues.firstLanguage) return true;
+      } else if (dbValues.firstLanguage) return true;
+
+      if (formValues.readingProficiency) {
+        if (formValues.readingProficiency !== dbValues.readingProficiency)
+          return true;
+      } else if (dbValues.readingProficiency) return true;
+
+      if (formValues.secondaryReadingUnknownExpired) {
+        if (
+          formValues.secondaryReadingUnknownExpired !==
+          dbValues.secondaryReadingUnknownExpired
+        )
+          return true;
+      } else if (dbValues.secondaryReadingUnknownExpired) return true;
+
+      if (formValues.writingProficiency) {
+        if (formValues.writingProficiency !== dbValues.writingProficiency)
+          return true;
+      } else if (dbValues.writingProficiency) return true;
+
+      if (formValues.secondaryWritingUnknownExpired) {
+        if (
+          formValues.secondaryWritingUnknownExpired !==
+          dbValues.secondaryWritingUnknownExpired
+        )
+          return true;
+      } else if (dbValues.secondaryWritingUnknownExpired) return true;
+
+      if (formValues.oralProficiency) {
+        if (formValues.oralProficiency !== dbValues.oralProficiency)
+          return true;
+      } else if (dbValues.oralProficiency) return true;
+
+      if (formValues.secondaryOralDate) {
+        if (
+          dayjs(formValues.secondaryOralDate).diff(
+            dbValues.secondaryOralDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryOralDate) return true;
+
+      if (formValues.secondaryOralUnknownExpired) {
+        if (
+          formValues.secondaryOralUnknownExpired !==
+          dbValues.secondaryOralUnknownExpired
+        )
+          return true;
+      } else if (dbValues.secondaryOralUnknownExpired) return true;
+
+      // Check for differences in dates
+      if (formValues.secondaryReadingDate) {
+        if (
+          dayjs(formValues.secondaryReadingDate).diff(
+            dbValues.secondaryReadingDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryReadingDate) return true;
+
+      if (formValues.secondaryWritingDate) {
+        if (
+          dayjs(formValues.secondaryWritingDate).diff(
+            dbValues.secondaryWritingDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryWritingDate) return true;
+
+      if (formValues.secondaryOralDate) {
+        if (
+          dayjs(formValues.secondaryOralDate).diff(
+            dbValues.secondaryOralDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryOralDate) return true;
+    }
+    return false;
   };
 
   const updateIfFormValuesChanged = () => {
