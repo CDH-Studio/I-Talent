@@ -217,6 +217,7 @@
   "loading": "Chargement",
   "location.not.found": "Emplacement inconnu",
   "looking.for.new.job": "À la recherche d'un nouvel emploi",
+  "looking.for.mentor": "Êtes-vous à la recherche d'un mentor?",
   "manage.keycloak.roles": "Gérer les rôles de keycloak",
   "mentorship.availability": "Je suis disponible pour être mentor",
   "mentorship.empty": "aucune habileté de mentorat fournie",

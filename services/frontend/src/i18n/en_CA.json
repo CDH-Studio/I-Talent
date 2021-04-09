@@ -217,6 +217,7 @@
   "loading": "Loading",
   "location.not.found": "Unknown Location",
   "looking.for.new.job": "Looking for a new job",
+  "looking.for.mentor": "Are you looking for a Mentor?",
   "manage.keycloak.roles": "Manage keycloak roles",
   "mentorship.availability": "I am available to be a mentor",
   "mentorship.empty": "no mentorship skills provided",
