@@ -39,7 +39,7 @@ const ExperienceView = ({ experienceInfo }) => {
       {item.projects && item.projects.length > 0 && (
         <Row align="middle">
           <Col>
-            <FormattedMessage id="setup.projects" />:
+            <FormattedMessage id="projects" />:
           </Col>
           <Col>{getProjects(item)}</Col>
         </Row>
@@ -48,7 +48,7 @@ const ExperienceView = ({ experienceInfo }) => {
       {item.attachmentLinks && item.attachmentLinks.length > 0 && (
         <Row align="middle">
           <Col>
-            <FormattedMessage id="setup.attachment" />:
+            <FormattedMessage id="attachment.links" />:
           </Col>
           <Col>{getUrl(item)}</Col>
         </Row>
