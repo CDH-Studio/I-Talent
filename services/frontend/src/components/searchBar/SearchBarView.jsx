@@ -196,6 +196,7 @@ const SearchBarView = ({
           </Col>
         </Row>
 
+        {/* Skills section */}           
         <Row style={{ padding: "5px 5% 5px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={3} style={{ fontSize: "1em" }}>
@@ -222,6 +223,32 @@ const SearchBarView = ({
                 maxTagCount={15}
               />
             </Form.Item>
+            {/* exFeeder field */}
+            <Form.Item
+              label={<FormattedMessage id="ex.feeder" />}
+              name="exFeeder"
+              valuePropName="checked"
+              style={{ marginBottom: "5px" }}
+            >
+              <Switch />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* Mentorship section */}      
+        <Row style={{ padding: "0px 5% 5px 5%" }}>
+          <Col span={24} style={{ padding: "0px 0" }}>
+            <Title level={3} style={{ fontSize: "1em" }}>
+              <FormattedMessage id="looking.for.mentor" />
+            </Title>
+          </Col>
+        </Row>
+        <Row
+          gutter={[48, 24]}
+          style={{ padding: "0px 5%", marginBottom: "15px" }}
+        >
+          {/* form column one */}
+          <Col span={24}>
             {/* Mentorship Skills field */}
             <Form.Item
               label={<FormattedMessage id="mentorship.skills" />}
@@ -244,17 +271,8 @@ const SearchBarView = ({
                 <FormattedMessage id="select.any.mentors" />
               </Checkbox>
             </Form.Item>
-            {/* exFeeder field */}
-            <Form.Item
-              label={<FormattedMessage id="ex.feeder" />}
-              name="exFeeder"
-              valuePropName="checked"
-            >
-              <Switch />
-            </Form.Item>
           </Col>
         </Row>
-
         <div
           style={{
             width: "100%",
