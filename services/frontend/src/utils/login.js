@@ -39,6 +39,8 @@ const profileExist = async (userInfo, axios) => {
       id,
       avatarColor,
       initials,
+      firstName: `${firstName}`,
+      lastName: `${lastName}`,
       name: `${firstName} ${lastName}`,
       email,
       status,
