@@ -140,7 +140,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
               }}
               hidden={status === "HIDDEN" || status === "INACTIVE"}
             />
-            <Text style={{ maxWidth: "60%", lineHeight: "35px" }} ellipsis>
+            <Text id="nav-dropDownButton-name" ellipsis>
               {shortenName(firstName, lastName)}
             </Text>
             <DownOutlined className="dropDownArrow" />
@@ -173,8 +173,8 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         className="searchInput"
         style={{
           width: "30%",
-          minWidth: windowWidth > 900 ? 400 : undefined,
-          flex: windowWidth > 900 ? undefined : 1,
+          minWidth: windowWidth > 920 ? 400 : undefined,
+          flex: windowWidth > 920 ? undefined : 1,
           margin: "0 20px",
         }}
         value={searchValue}
