@@ -138,6 +138,8 @@
   "employment.equity.group.woman": "Woman",
   "employment.equity.groups": "Self-identification",
   "employment.status": "Employment status",
+  "error.403.subtitle": "You do not have the correct permissions to view the following page",
+  "error.404.subtitle": "This page does not currently exist",
   "error.data.not.saved": "Data not saved due to network error",
   "error.retry": "Retry",
   "ex.feeder": "EX-feeder",
