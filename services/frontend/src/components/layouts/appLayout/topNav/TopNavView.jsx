@@ -13,7 +13,7 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
-import { Layout, Dropdown, Menu, Button, Input, Row } from "antd";
+import { Layout, Dropdown, Menu, Button, Input, Row, Typography } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -26,33 +26,41 @@ import { IntlPropType } from "../../../../utils/customPropTypes";
 import "./TopNavView.less";
 
 const { Header } = Layout;
+const { Text } = Typography;
 
 const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   const history = useHistory();
   const [searchValue, setSearchValue] = useState("");
   const { keycloak } = useKeycloak();
 
-  const { id, name, status } = useSelector((state) => state.user);
+  const { id, firstName, lastName, name, status } = useSelector(
+    (state) => state.user
+  );
 
   const [showMenu, setShowMenu] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const updateWidth = () => setWindowWidth(window.innerWidth);
 
-  useEffect(() => {
-    window.addEventListener("resize", updateWidth);
+  /*
+   * Generate Menu Options for Profile Dropdown
+   *
+   */
+  const shortenName = (fullFirstName, fulLastName) =>
+    `${fullFirstName} ${fulLastName.charAt(0)}.`;
 
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
-
-  // menu options for profile dropdown
-  /* eslint-disable react/jsx-no-duplicate-props */
+  /*
+   * Generate Menu Options for Profile Dropdown
+   *
+   */
   const menu = (isDropdown, optionalStartMenuItems) => (
     <Menu
       // Ant-design issue: recognizes either depending on machine
       // "-1" is used for off-screen content that appears on a specific event
+      /* eslint-disable react/jsx-no-duplicate-props */
       tabIndex={-1}
       tabindex="-1"
+      /* eslint-enable react/jsx-no-duplicate-props */
       className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}
     >
       {optionalStartMenuItems}
@@ -102,6 +110,12 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
   );
   /* eslint-enable react/jsx-no-duplicate-props */
 
+  /*
+   * Generate Dropdown Button With Avatar
+   *
+   * Generates basic info card header
+   * This includes: avatar, name, position
+   */
   const getAvatarDropdown = (userName) => {
     if (userName) {
       return (
@@ -114,12 +128,18 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         >
           <Button type="link" className="nav-dropDownButton ant-dropdown-link">
             <CustomAvatar
-              style={{ marginRight: 8 }}
+              style={{
+                marginRight: 8,
+                height: "35px",
+                width: "35px",
+                lineHeight: "35px",
+              }}
               hidden={status === "HIDDEN" || status === "INACTIVE"}
             />
-            <div className="navProfileName">
-              {userName} <DownOutlined className="dropDownArrow" />
-            </div>
+            <Text id="nav-dropDownButton-name" ellipsis>
+              {shortenName(firstName, lastName)}
+            </Text>
+            <DownOutlined className="dropDownArrow" />
           </Button>
         </Dropdown>
       );
@@ -127,12 +147,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     return undefined;
   };
 
+  /*
+   * Implement Search bar Functionality
+   *
+   * Send fuzzy search term to API endpoint
+   */
   const search = () => {
     if (searchValue && searchValue.length > 0) {
       history.push(`/results?searchValue=${searchValue}`);
     }
   };
 
+  /*
+   * Render the Search Bar
+   *
+   */
   const getSearchInput = () =>
     displaySearch &&
     windowWidth > 800 && (
@@ -140,8 +169,8 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         className="searchInput"
         style={{
           width: "30%",
-          minWidth: windowWidth > 900 ? 400 : undefined,
-          flex: windowWidth > 900 ? undefined : 1,
+          minWidth: windowWidth > 920 ? 400 : undefined,
+          flex: windowWidth > 920 ? undefined : 1,
           margin: "0 20px",
         }}
         value={searchValue}
@@ -154,6 +183,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       />
     );
 
+  /*
+   * Generate the Hamburger Menu for Mobile
+   *
+   */
   const hamburgerMenu = () =>
     showMenu &&
     menu(
@@ -169,8 +202,16 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       </>
     );
 
+  /*
+   * Toggle to Open and Close Hamburger Menu
+   *
+   */
   const toggleHamburgerMenu = () => setShowMenu((prev) => !prev);
 
+  /*
+   * Generate the Hamburger Menu Btn for Mobile
+   *
+   */
   const hamburgerButton = (userName) => {
     if (userName) {
       return (
@@ -189,9 +230,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   useEffect(() => {
     const querySearchData = queryString.parse(history.location.search);
-
     setSearchValue(querySearchData.searchValue);
   }, [history.location.search]);
+
+  useEffect(() => {
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
   if (loading) {
     return (
@@ -201,7 +246,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     );
   }
 
-  if (windowWidth > 400) {
+  if (windowWidth > 450) {
     return (
       <Header className="header">
         <Row
@@ -246,6 +291,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     </>
   );
 };
+
 TopNavView.propTypes = {
   isAdmin: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
