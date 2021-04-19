@@ -50,28 +50,6 @@ const BasicInfoView = ({
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
 
-  const generateTeamInfo = () => {
-    const teams = {
-      icon: <TeamOutlined />,
-      title: <FormattedMessage id="employee.work.unit" />,
-      description:
-        data.teams && data.teams.length ? (
-          <List>
-            {Object.values(data.teams).map((item, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Tag color="#727272" key={index}>
-                {item}
-              </Tag>
-            ))}
-          </List>
-        ) : (
-          "-"
-        ),
-    };
-
-    return [teams];
-  };
-
   /*
    * Generate Profile Header
    *
@@ -268,6 +246,32 @@ const BasicInfoView = ({
     };
 
     return [branch, address, manager];
+  };
+
+  /*
+   * Generate Team Info
+   *
+   */
+  const generateTeamInfo = () => {
+    const teams = {
+      icon: <TeamOutlined />,
+      title: <FormattedMessage id="employee.work.unit" />,
+      description:
+        data.teams && data.teams.length ? (
+          <List>
+            {Object.values(data.teams).map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Tag color="#727272" key={index}>
+                {item}
+              </Tag>
+            ))}
+          </List>
+        ) : (
+          "-"
+        ),
+    };
+
+    return [teams];
   };
 
   /*
