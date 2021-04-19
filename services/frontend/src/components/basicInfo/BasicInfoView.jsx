@@ -212,6 +212,7 @@ const BasicInfoView = ({
       description: data.email ? (
         <Text
           id="profile-email"
+          copyable
           ellipsis={{
             tooltip: data.email,
           }}
