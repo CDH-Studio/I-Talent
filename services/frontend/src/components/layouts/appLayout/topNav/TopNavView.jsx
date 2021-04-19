@@ -126,11 +126,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           getPopupContainer={(triggerNode) => triggerNode.parentNode}
           showAction={["focus"]}
         >
-          <Button
-            type="link"
-            className="nav-dropDownButton ant-dropdown-link"
-            style={{ maxWidth: "180px", minWidth: "100px" }}
-          >
+          <Button type="link" className="nav-dropDownButton ant-dropdown-link">
             <CustomAvatar
               style={{
                 marginRight: 8,
