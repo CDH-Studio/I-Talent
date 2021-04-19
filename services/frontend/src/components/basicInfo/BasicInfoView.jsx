@@ -50,18 +50,6 @@ const BasicInfoView = ({
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
 
-  /* Component Styles */
-  const styles = {
-    avatar: {
-      backgroundColor: "transparent",
-      color: "#007471",
-      marginRight: "-10px",
-    },
-    userAvatar: {
-      verticalAlign: "middle",
-    },
-  };
-
   const generateTeamInfo = () => {
     const teams = {
       icon: <TeamOutlined />,
@@ -101,39 +89,29 @@ const BasicInfoView = ({
         className="hide-for-print"
       >
         <Avatar
+          className="profileHeaderRow-avatar"
           size={80}
-          style={(styles.userAvatar, { backgroundColor: avatar.color })}
+          style={{ backgroundColor: avatar.color }}
         >
-          <Text style={{ fontSize: "35px", color: "white", fontWeight: 500 }}>
-            {avatar.acr}
-          </Text>
+          <Text strong>{avatar.acr}</Text>
         </Avatar>
       </Col>
       <Col
-        xs={19}
+        xs={18}
         md={15}
         lg={17}
         xl={16}
         xxl={18}
-        style={{ padding: "11px 10px" }}
+        style={{ padding: "11px 0px" }}
       >
         <Text
+          className="profileHeaderRow-name"
           strong
-          style={{
-            display: "block",
-            fontSize: "30px",
-            lineHeight: "38px",
-            width: "95%",
-          }}
           ellipsis={{ tooltip: name }}
         >
           {name}
         </Text>
-        <Text
-          style={{ display: "block", fontSize: "16px", lineHeight: "28px" }}
-        >
-          {jobTitle}
-        </Text>
+        <Text className="profileHeaderRow-job-tile">{jobTitle}</Text>
       </Col>
       {urlID === userID ? (
         <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
@@ -170,11 +148,7 @@ const BasicInfoView = ({
               shape="circle"
               size="large"
               icon={
-                connectionStatus ? (
-                  <UserDeleteOutlined style={styles.buttonIcon} />
-                ) : (
-                  <UserAddOutlined style={styles.buttonIcon} />
-                )
+                connectionStatus ? <UserDeleteOutlined /> : <UserAddOutlined />
               }
               onClick={changeConnection}
               style={{ marginLeft: 10 }}
@@ -198,7 +172,9 @@ const BasicInfoView = ({
       renderItem={(item) => (
         <List.Item>
           <List.Item.Meta
-            avatar={<Avatar style={styles.avatar} size={48} icon={item.icon} />}
+            avatar={
+              <Avatar className="info-avatar" size={48} icon={item.icon} />
+            }
             title={item.title}
             description={item.description}
           />
