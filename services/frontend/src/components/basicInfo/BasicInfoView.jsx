@@ -209,7 +209,18 @@ const BasicInfoView = ({
     const email = {
       icon: <MailOutlined />,
       title: <FormattedMessage id="email" />,
-      description: data.email ? data.email : "-",
+      description: data.email ? (
+        <Text
+          id="profile-email"
+          ellipsis={{
+            tooltip: data.email,
+          }}
+        >
+          {data.email}
+        </Text>
+      ) : (
+        "-"
+      ),
     };
 
     const tel = {
