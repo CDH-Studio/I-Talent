@@ -138,6 +138,8 @@
   "employment.equity.group.woman": "Femme",
   "employment.equity.groups": "Déclaration volontaire",
   "employment.status": "Situation d'emploi",
+  "error.403.subtitle": "Vous ne disposez pas des autorisations appropriées pour afficher la page suivante",
+  "error.404.subtitle": "Cette page n'existe pas actuellement",
   "error.data.not.saved": "Données non enregistrées en raison d'une erreur réseau",
   "error.retry": "Réessayez",
   "ex.feeder": "Relève des EX",
