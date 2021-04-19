@@ -93,7 +93,7 @@ const BasicInfoView = ({
   const generateProfileHeader = () => (
     <Row type="flex" className="profileHeaderRow">
       <Col
-        xs={6}
+        xs={0}
         md={5}
         lg={4}
         xxl={3}
@@ -104,11 +104,13 @@ const BasicInfoView = ({
           size={80}
           style={(styles.userAvatar, { backgroundColor: avatar.color })}
         >
-          <Text style={{ fontSize: "35px", color: "white" }}>{avatar.acr}</Text>
+          <Text style={{ fontSize: "35px", color: "white", fontWeight: 500 }}>
+            {avatar.acr}
+          </Text>
         </Avatar>
       </Col>
       <Col
-        xs={13}
+        xs={19}
         md={15}
         lg={17}
         xl={16}
@@ -117,12 +119,17 @@ const BasicInfoView = ({
       >
         <Text
           strong
-          style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
+          style={{
+            display: "block",
+            fontSize: "30px",
+            lineHeight: "38px",
+            width: "95%",
+          }}
+          ellipsis={{ tooltip: name }}
         >
           {name}
         </Text>
         <Text
-          type="secondary"
           style={{ display: "block", fontSize: "16px", lineHeight: "28px" }}
         >
           {jobTitle}
