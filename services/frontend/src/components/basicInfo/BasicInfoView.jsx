@@ -211,9 +211,7 @@ const BasicInfoView = ({
       title: <FormattedMessage id="email" />,
       description: data.email ? (
         <Text
-          style={{
-            width: "70%",
-          }}
+          id="profile-email"
           ellipsis={{
             tooltip: data.email,
           }}
