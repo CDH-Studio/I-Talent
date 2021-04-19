@@ -181,7 +181,7 @@ const BasicInfoView = ({
   /*
    * Generate Info List
    *
-   * Generates list of basic info with mall icons
+   * Generates list of basic info with small icons
    * This includes: address, email, etc.
    */
   const generateInfoList = (dataSource) => (
@@ -204,6 +204,7 @@ const BasicInfoView = ({
    * Get Contact Info
    *
    * Generates data for contact info list
+   * Email, Work Phone, and Work Cell
    */
   const getContactInfo = () => {
     const email = {
@@ -240,11 +241,12 @@ const BasicInfoView = ({
   };
 
   /*
-   * Get Location Info
+   * Get Work Info
    *
-   * Generates data for user's location
+   * Generates data for user's work info
+   * Branch, Work Address, and Manager
    */
-  const getLocationInfo = () => {
+  const getWorkInfo = () => {
     const branch = {
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.org.tree" />,
@@ -322,7 +324,7 @@ const BasicInfoView = ({
           {generateInfoList(getContactInfo())}
         </Col>
         <Col xs={24} lg={12}>
-          {generateInfoList(getLocationInfo())}
+          {generateInfoList(getWorkInfo())}
         </Col>
       </Row>
       <Row className="rowTopSplitter">
