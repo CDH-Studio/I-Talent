@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#087472" />
+    <meta charset="utf-8" />
+    <title>I-Talent</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Search tool to find people based on experience and skills" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" />
+
+    <script>
+
+        // auto redirect to MS Edge on load
+        if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+            redirectBrowser();
+        }
+
+        // handle language change
+        function toggleLanguage() {
+            var englishSection = document.getElementById("english-info");
+            var frenchSection = document.getElementById("french-info");
+            var langButton = document.getElementById("lang-btn");
+            if (englishSection.style.display === "none") {
+                englishSection.style.display = "block";
+                frenchSection.style.display = "none";
+                langButton.innerHTML = "Français"
+
+            } else {
+                englishSection.style.display = "none";
+                frenchSection.style.display = "block";
+                langButton.innerHTML = "English";
+            }
+        }
+
+        // handle the redirect to MS Edge
+        function redirectBrowser() {
+            window.location = 'microsoft-edge:' + window.location.hostname
+        }
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-5 mb-3">
+                <button type="button" class="btn btn-primary float-right" onclick="toggleLanguage()" id="lang-btn">
+                    Français
+                </button>
+            </div>
+            <div class="col-12 px-4">
+                <div id="english-info" style="display: block">
+                    <h1 class="py-2 display-4"><i class="fab fa-internet-explorer mr-3 text-muted"></i>IE Not Supported
+                    </h1>
+                    <p class="h4">I-Talent requires a more modern browser to provide a fast and secure experience.</p>
+                    <p>The website should automatically open in Microsoft Edge. If it fails to open, you can use the
+                        button below.</p>
+                    <button onclick="redirectBrowser('edge')" class="btn btn-outline-primary"><i
+                            class="fab fa-edge mr-2 "></i>Open in Microsoft Edge</button>
+                </div>
+                <div id="french-info" style="display: none">
+                    <h1 class="py-2 display-4"><i class="fab fa-internet-explorer mr-3 text-muted"></i>IE n'est pas pris
+                        en charge
+                    </h1>
+                    <p class="h4">I-Talent nécessite un navigateur plus moderne pour offrir une expérience rapide et
+                        sécurisée.</p>
+                    <p>Le site Web devrait s'ouvrir automatiquement dans Microsoft Edge. S'il ne s'ouvre pas, vous
+                        pouvez utiliser le bouton ci-dessous.</p>
+                    <button onclick="redirectBrowser()" class="btn btn-outline-primary"><i
+                            class="fab fa-edge mr-2 "></i>Ouvrir avec Microsoft Edge</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
