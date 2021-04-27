@@ -37,11 +37,11 @@
     "lodash": "^4.17.21",
     "moment": "2.29.1",
     "morgan": "^1.10.0",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "snyk": "^1.518.0",
     "swagger-jsdoc": "^6.0.8",
     "swagger-ui-express": "^4.1.6",
-    "validator": "^13.5.2"
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "@prisma/cli": "2.11.0",
