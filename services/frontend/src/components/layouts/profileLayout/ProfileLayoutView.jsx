@@ -93,8 +93,6 @@ const ProfileLayoutView = ({
           <Col span={24}>
             <EmployeeSummary data={data} editableCardBool={privateProfile} />
           </Col>
-        </Row>
-        <Row>
           <Col span={24}>
             <EmploymentEquity data={data} editableCardBool={privateProfile} />
           </Col>

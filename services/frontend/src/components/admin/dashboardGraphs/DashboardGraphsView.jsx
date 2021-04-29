@@ -78,7 +78,7 @@ const DashboardGraphsView = ({
 
   return (
     <>
-      <Row gutter={[8, 8]}>
+      <Row gutter={[15, 15]}>
         <Col xs={24} sm={24} md={12} xl={8}>
           <Card
             title={<FormattedMessage id="dashboard.popular.skills" />}
