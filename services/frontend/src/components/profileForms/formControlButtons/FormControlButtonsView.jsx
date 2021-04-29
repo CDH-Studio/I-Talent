@@ -20,6 +20,14 @@ const FormControlButtonsView = ({
   onFinish,
   fieldsChanged,
 }) => {
+  const firstButtonOnClick = () => {
+    if (create) {
+      onSaveAndFinish();
+    } else {
+      onSave();
+    }
+  };
+
   const firstButtonContent = () =>
     create ? (
       <>
@@ -82,7 +90,7 @@ const FormControlButtonsView = ({
         {(edit || onSaveAndNext) && (
           <Button
             className="fcb-finishAndSaveBtn"
-            onClick={create ? onSaveAndFinish : onSave}
+            onClick={firstButtonOnClick}
             htmlType="button"
             disabled={edit && !fieldsChanged}
           >
