@@ -1,6 +1,6 @@
 const request = require("supertest");
 const faker = require("faker");
-const { getBearerToken } = require("../../../mocks");
+const { getBearerToken, userId, isKeycloakUserSpy } = require("../../../mocks");
 
 const path = "/api/profile/private";
 
@@ -18,8 +18,49 @@ describe(`GET ${path}/:id`, () => {
   });
 
   describe("when authenticated", () => {
-    describe("when doing a normal query", () => {
-      test.todo("should process request - 200");
+    test("when doing a normal query", async () => {
+      const prismaData = {
+        id: userId,
+        name: "John Doe",
+        email: "email@example.com",
+        status: "ACTIVE",
+        avatarColor: "#0bdaa3",
+        firstName: "John",
+        lastName: "Doe",
+        createdAt: "2020-11-03T21:18:38.793Z",
+        updatedAt: "2020-12-03T21:18:38.793Z",
+        signupStep: 8,
+        preferredLanguage: "ENGLISH",
+        nameInitials: "JD",
+        connections: [],
+        visibleCards: {
+          info: "PUBLIC",
+          talentManagement: "PRIVATE",
+          officialLanguage: "PRIVATE",
+          description: "PRIVATE",
+          skills: "PRIVATE",
+          competencies: "PRIVATE",
+          developmentalGoals: "PUBLIC",
+          qualifiedPools: "PRIVATE",
+          education: "PUBLIC",
+          experience: "PUBLIC",
+          careerInterests: "PUBLIC",
+          mentorshipSkills: "PUBLIC",
+          exFeeder: "PUBLIC",
+          employmentEquityGroup: "PRIVATE",
+        },
+      };
+
+      prisma.user.findOne.mockResolvedValue(prismaData);
+
+      isKeycloakUserSpy.mockImplementationOnce(() => true);
+
+      const res = await request(app)
+        .get(`${path}/${faker.random.uuid()}?language=ENGLISH`)
+        .set("Authorization", getBearerToken());
+
+      expect(res.status).toBe(200);
+      expect(console.log).not.toHaveBeenCalled();
     });
 
     test("should throw validation error without language query param - 422", async () => {

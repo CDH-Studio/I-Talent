@@ -533,7 +533,7 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 name="cellphone"
                 label={<FormattedMessage id="work.cellphone" />}
-                rules={[Rules.telephoneFormat]}
+                rules={Rules.telephoneFormat}
               >
                 <Input />
               </Form.Item>

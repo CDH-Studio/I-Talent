@@ -2,8 +2,11 @@
 const faker = require("faker");
 const KeycloakMock = require("keycloak-mock");
 const config = require("../../src/config");
+const keycloakUtils = require("../../src/utils/keycloak");
 
 const userId = faker.random.uuid();
+
+const isKeycloakUserSpy = jest.spyOn(keycloakUtils, "isKeycloakUser");
 
 const keycloakMock = async () => {
   const keycloak = await KeycloakMock.createMockInstance({
@@ -46,6 +49,7 @@ const redisMock = () => {
 
 module.exports = {
   keycloakMock,
+  isKeycloakUserSpy,
   prismaMock,
   redisMock,
   axiosMock,

@@ -33,18 +33,12 @@
       height: 100vh;
       animation: fadeIn 750ms;
     }
-
-    .ie-notice {
-      display: none;
-    }
   </style>
   <script src="%PUBLIC_URL%/env.js"></script>
   <script>
+    // detect IE and redirect to error page
     if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
-      // open app in IE
-      window.location = 'microsoft-edge:' + window.location;
-      // open app in IE
-      window.location = 'https://go.microsoft.com/fwlink/?linkid=2135547';
+      window.location = "/ie-error.html";
     }
   </script>
 </head>

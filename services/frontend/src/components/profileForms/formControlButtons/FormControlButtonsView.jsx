@@ -28,6 +28,14 @@ const FormControlButtonsView = ({
   const [finish, setFinish] = useState(false);
   const [modalFunc, setModalFunc] = useState(null);
 
+  const firstButtonOnClick = () => {
+    if (create) {
+      onSaveAndFinish();
+    } else {
+      onSave();
+    }
+  };
+
   const firstButtonContent = () =>
     create ? (
       <>
@@ -109,7 +117,8 @@ const FormControlButtonsView = ({
             </Button>
           )}
           <Button
-            className="fcb-clearBtn"
+            className="fcb-finishAndSaveBtn"
+            onClick={firstButtonOnClick}
             htmlType="button"
             onClick={onReset}
             danger

@@ -25,7 +25,7 @@ const StatCardsView = ({
   growthRatePrevMonth,
   intl,
 }) => (
-  <Row gutter={[8, 8]} type="flex">
+  <Row gutter={[15, 15]} type="flex">
     <Col xs={12} sm={8} xl={4}>
       <Card style={{ height: "100%" }} loading={countUsers === "-"}>
         <Statistic
