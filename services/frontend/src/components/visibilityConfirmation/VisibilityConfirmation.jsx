@@ -6,16 +6,14 @@ const VisibilityConfirmation = ({
   visible,
   onOk,
   onCloseModal,
-}) => {
-  return (
-    <VisibilityConfirmationView
-      visibleCards={visibleCards}
-      onOk={onOk}
-      visible={visible}
-      onCloseModal={onCloseModal}
-    />
-  );
-};
+}) => (
+  <VisibilityConfirmationView
+    visibleCards={visibleCards}
+    onOk={onOk}
+    visible={visible}
+    onCloseModal={onCloseModal}
+  />
+);
 
 VisibilityConfirmation.propTypes = {
   visibleCards: PropTypes.objectOf(
