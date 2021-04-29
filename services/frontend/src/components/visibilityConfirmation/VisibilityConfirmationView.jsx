@@ -2,9 +2,12 @@ import PropTypes from "prop-types";
 import { Descriptions, Modal, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
 
-const VisibilityConfirmationView = ({ visibleCards, visible, onOk }) => {
-  console.log("VISIBLE CARD", visibleCards);
-
+const VisibilityConfirmationView = ({
+  visibleCards,
+  visible,
+  onOk,
+  onCloseModal,
+}) => {
   const getCardStatusElement = (cardStatus) => {
     switch (cardStatus) {
       case "PRIVATE":
@@ -42,6 +45,7 @@ const VisibilityConfirmationView = ({ visibleCards, visible, onOk }) => {
       title={<FormattedMessage id="visibility.card.title" />}
       visible={visible}
       onOk={onOk}
+      onCancel={onCloseModal}
       width="70%"
     >
       <Descriptions column={2} bordered>
@@ -102,6 +106,7 @@ VisibilityConfirmationView.propTypes = {
   ).isRequired,
   visible: PropTypes.bool.isRequired,
   onOk: PropTypes.func.isRequired,
+  onCloseModal: PropTypes.func.isRequired,
 };
 
 export default VisibilityConfirmationView;

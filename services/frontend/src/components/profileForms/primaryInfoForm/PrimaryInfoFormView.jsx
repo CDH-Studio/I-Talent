@@ -287,7 +287,6 @@ const PrimaryInfoFormView = ({
    * save changes (display any errors) and go to user profile upon success
    */
   const onSaveAndFinish = async () => {
-    alert("ok");
     form
       .validateFields()
       .then(async (values) => {

@@ -30,7 +30,8 @@ const FormControlButtonsView = ({
 
   const firstButtonOnClick = () => {
     if (create) {
-      onSaveAndFinish();
+      setFinish(true);
+      setModalFunc(() => () => onSaveAndFinish());
     } else {
       onSave();
     }
@@ -58,12 +59,10 @@ const FormControlButtonsView = ({
       if (onSaveAndNext) {
         onSaveAndNext();
       } else {
-        alert(1);
         setFinish(true);
         setModalFunc(() => () => onSaveAndFinish());
       }
     } else if (fieldsChanged) {
-      alert(2);
       setFinish(true);
       setModalFunc(() => () => onSaveAndFinish());
     } else {
@@ -97,19 +96,22 @@ const FormControlButtonsView = ({
       </>
     );
 
+  const onCloseModal = () => setFinish(false);
+
   return (
     <>
       <VisibilityConfirmation
         visibleCards={visibleCards}
         visible={finish}
         onOk={modalFunc}
+        onCloseModal={onCloseModal}
       />
       <Row gutter={[24, 14]} className="fcb-container">
         <Col xs={24} md={24} lg={18} xl={18}>
           {(edit || onSaveAndNext) && (
             <Button
               className="fcb-finishAndSaveBtn"
-              onClick={create ? onSaveAndFinish : onSave}
+              onClick={firstButtonOnClick}
               htmlType="button"
               disabled={edit && !fieldsChanged}
             >
@@ -118,7 +120,6 @@ const FormControlButtonsView = ({
           )}
           <Button
             className="fcb-finishAndSaveBtn"
-            onClick={firstButtonOnClick}
             htmlType="button"
             onClick={onReset}
             danger
