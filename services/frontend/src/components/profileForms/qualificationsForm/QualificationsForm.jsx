@@ -29,11 +29,11 @@ const QualificationsForm = ({ formType }) => {
   const getBackendInfo = useCallback(async () => {
     try {
       return await Promise.all([
-        axios.get(`api/profile/private/${id}?language=${locale}`),
-        axios.get(`api/option/diplomas?language=${locale}`),
-        axios.get(`api/option/schools?language=${locale}`),
-        axios.get(`api/option/attachmentNames?language=${locale}&type=Edu`),
-        axios.get(`api/option/attachmentNames?language=${locale}&type=Exp`),
+        axios.get(`profile/private/${id}?language=${locale}`),
+        axios.get(`option/diplomas?language=${locale}`),
+        axios.get(`option/schools?language=${locale}`),
+        axios.get(`option/attachmentNames?language=${locale}&type=Edu`),
+        axios.get(`option/attachmentNames?language=${locale}&type=Exp`),
       ]);
     } catch (error) {
       setLoad(false);
@@ -43,7 +43,7 @@ const QualificationsForm = ({ formType }) => {
 
   const saveDataToDB = async (unalteredValues) => {
     const values = { ...unalteredValues };
-    await axios.put(`api/profile/${id}?language=${locale}`, values);
+    await axios.put(`profile/${id}?language=${locale}`, values);
   };
 
   useEffect(() => {

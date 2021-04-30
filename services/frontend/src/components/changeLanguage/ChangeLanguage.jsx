@@ -19,7 +19,7 @@ const ChangeLanguage = ({ intl }) => {
     dispatch(setLocale(languageCode));
     if (userID) {
       await axios
-        .put(`api/profile/${userID}?language=${languageCode}`, {
+        .put(`profile/${userID}?language=${languageCode}`, {
           preferredLanguage: languageCode,
         })
         .catch((error) => handleError(error, "message", history));

@@ -34,7 +34,7 @@ const CardVisibilityToggle = ({ visibleCards, cardName, type }) => {
     // eslint-disable-next-line no-param-reassign
     visibleCards[cardName] = value;
     await axios
-      .put(`api/profile/${urlID || userID}?language=${locale}`, {
+      .put(`profile/${urlID || userID}?language=${locale}`, {
         visibleCards,
       })
       .catch((error) => handleError(error, "message", history));

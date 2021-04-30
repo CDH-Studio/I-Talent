@@ -14,7 +14,7 @@ const SettingsLayout = () => {
 
   const deleteCurrentUser = async () => {
     try {
-      await axios.delete(`/api/user/${id}`);
+      await axios.delete(`user/${id}`);
       history.push("/logout");
     } catch (error) {
       handleError(error, "message", history);
@@ -24,7 +24,7 @@ const SettingsLayout = () => {
   const setProfileVisibility = async (visibility) => {
     try {
       const updatedState = visibility ? "ACTIVE" : "HIDDEN";
-      await axios.put(`/api/profile/${id}?language=${locale}`, {
+      await axios.put(`profile/${id}?language=${locale}`, {
         status: updatedState,
       });
 

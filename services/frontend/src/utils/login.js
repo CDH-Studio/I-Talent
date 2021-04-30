@@ -3,7 +3,7 @@ import { setLocale } from "../redux/slices/settingsSlice";
 import store from "../redux";
 
 const createUser = async (userInfo, axios) =>
-  axios.post("api/user", {
+  axios.post("user", {
     email: userInfo.email,
     name: userInfo.name,
     lastName: userInfo.family_name,
@@ -13,7 +13,7 @@ const createUser = async (userInfo, axios) =>
 const profileExist = async (userInfo, axios) => {
   let response;
   try {
-    response = await axios.get("api/user");
+    response = await axios.get("user");
 
     if (response.data === null) {
       response = await createUser(userInfo, axios);

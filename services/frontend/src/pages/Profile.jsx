@@ -29,13 +29,13 @@ const Profile = ({ history, match }) => {
     const apiCalls = [];
     const profile =
       id === userID
-        ? axios.get(`api/profile/private/${id}?language=${locale}`)
-        : axios.get(`api/profile/${id}?language=${locale}`);
+        ? axios.get(`profile/private/${id}?language=${locale}`)
+        : axios.get(`profile/${id}?language=${locale}`);
 
     apiCalls.push(profile);
 
     if (id !== userID) {
-      apiCalls.push(axios.get(`api/connections/${id}`));
+      apiCalls.push(axios.get(`connections/${id}`));
     }
 
     try {
@@ -89,12 +89,12 @@ const Profile = ({ history, match }) => {
   const changeConnection = async () => {
     if (connectionData) {
       await axios
-        .delete(`api/connections/${id}`)
+        .delete(`connections/${id}`)
         .catch((error) => handleError(error, "message", history));
       setConnectionData(false);
     } else {
       await axios
-        .post(`api/connections/${id}`)
+        .post(`connections/${id}`)
         .catch((error) => handleError(error, "message", history));
       setConnectionData(true);
     }

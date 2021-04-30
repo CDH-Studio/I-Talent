@@ -121,7 +121,7 @@ const CareerManagementFormView = ({
       values.lookingForANewJobId = null;
     }
 
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
+    await axios.put(`profile/${userId}?language=${locale}`, values);
   };
   /**
    * Open Notification

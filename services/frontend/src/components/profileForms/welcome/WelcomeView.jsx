@@ -57,7 +57,7 @@ const WelcomeView = ({
       if (value) {
         // create profile
         await axios
-          .put(`${backendAddress}api/profile/${userId}?language=ENGLISH`, value)
+          .put(`${backendAddress}profile/${userId}?language=ENGLISH`, value)
           .then(() => history.push("/profile/create/step/2"))
           .catch((error) => handleError(error, "message", history));
       }

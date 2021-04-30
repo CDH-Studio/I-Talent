@@ -20,7 +20,7 @@ const ProfileCreate = ({ match }) => {
     if (signupStep > highestStep) {
       dispatch(setUserSignupStep(signupStep));
 
-      axios.put(`api/profile/${id}?language=${locale}`, {
+      axios.put(`profile/${id}?language=${locale}`, {
         signupStep,
       });
     }

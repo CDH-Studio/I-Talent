@@ -30,7 +30,7 @@ const SchoolTable = ({ intl }) => {
     try {
       dispatch(setAdminSchoolsLoading(true));
 
-      const results = await axios.get(`api/option/schoolsAllLang`);
+      const results = await axios.get(`option/schoolsAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((competency) => ({
@@ -65,7 +65,7 @@ const SchoolTable = ({ intl }) => {
 
   // Handles addition of a school
   const handleSubmitAdd = async (values) => {
-    await axios.post(`api/option/school`, {
+    await axios.post(`option/school`, {
       en: values.addSchoolEn,
       fr: values.addSchoolFr,
       abbrCountry: values.addSchoolCountry.toUpperCase(),
@@ -77,7 +77,7 @@ const SchoolTable = ({ intl }) => {
 
   // Handles the update/edit of a school
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`api/option/school`, {
+    await axios.put(`option/school`, {
       id,
       en: values.editSchoolEn,
       fr: values.editSchoolFr,
@@ -90,7 +90,7 @@ const SchoolTable = ({ intl }) => {
 
   // Handles the deletion of a school
   const handleSubmitDelete = async () => {
-    await axios.delete(`api/option/schools`, {
+    await axios.delete(`option/schools`, {
       data: {
         ids: selectedRowKeys,
       },

@@ -35,7 +35,7 @@ const LangProficiencyForm = ({ formType }) => {
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
     await axios
-      .get(`api/profile/private/${id}?language=${locale}`)
+      .get(`profile/private/${id}?language=${locale}`)
       .then((result) => {
         if (result.data && result.data.secondLangProfs) {
           const readingObj = result.data.secondLangProfs.find(

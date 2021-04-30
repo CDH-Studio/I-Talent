@@ -5,7 +5,7 @@ const ReportBug = () => {
   const axios = useAxios();
 
   const saveDataToDB = async (values) => {
-    await axios.post("api/bugs", values);
+    await axios.post("bugs", values);
   };
 
   return <ReportBugView saveDataToDB={saveDataToDB} />;

@@ -34,10 +34,10 @@ const EmploymentDataForm = ({ formType }) => {
   const getBackendInfo = useCallback(async () => {
     try {
       const [tenures, classifications, clearance, profile] = await Promise.all([
-        axios.get(`api/option/tenures?language=${locale}`),
-        axios.get(`api/option/classifications?language=${locale}`),
-        axios.get(`api/option/securityClearances?language=${locale}`),
-        axios.get(`api/profile/private/${id}?language=${locale}`),
+        axios.get(`option/tenures?language=${locale}`),
+        axios.get(`option/classifications?language=${locale}`),
+        axios.get(`option/securityClearances?language=${locale}`),
+        axios.get(`profile/private/${id}?language=${locale}`),
       ]);
       setSubstantiveOptions(tenures.data);
       setClassificationOptions(classifications.data);

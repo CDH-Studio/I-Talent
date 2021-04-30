@@ -134,15 +134,15 @@ const CareerManagementForm = ({ formType }) => {
         getMatrixResultOptions,
         getClassificationOptions,
       ] = await Promise.all([
-        axios.get(`api/profile/private/${id}?language=${locale}`),
-        axios.get(`api/option/categories?language=${locale}`),
-        axios.get(`api/option/developmentalGoals?language=${locale}`),
-        axios.get(`api/option/cityLocations?language=${locale}`),
-        axios.get(`api/option/attachmentNames?language=${locale}&type=Dev`),
-        axios.get(`api/option/lookingJobs?language=${locale}`),
-        axios.get(`api/option/careerMobilities?language=${locale}`),
-        axios.get(`api/option/talentMatrixResults?language=${locale}`),
-        axios.get(`api/option/classifications?language=${locale}`),
+        axios.get(`profile/private/${id}?language=${locale}`),
+        axios.get(`option/categories?language=${locale}`),
+        axios.get(`option/developmentalGoals?language=${locale}`),
+        axios.get(`option/cityLocations?language=${locale}`),
+        axios.get(`option/attachmentNames?language=${locale}&type=Dev`),
+        axios.get(`option/lookingJobs?language=${locale}`),
+        axios.get(`option/careerMobilities?language=${locale}`),
+        axios.get(`option/talentMatrixResults?language=${locale}`),
+        axios.get(`option/classifications?language=${locale}`),
       ]);
 
       setProfileInfo(profile.data);

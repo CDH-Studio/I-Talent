@@ -29,7 +29,7 @@ const CategoryTable = ({ intl }) => {
     try {
       dispatch(setAdminCategoriesLoading(true));
 
-      const results = await axios.get(`api/option/categoriesAllLang`);
+      const results = await axios.get(`option/categoriesAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((category) => ({
@@ -49,7 +49,7 @@ const CategoryTable = ({ intl }) => {
 
   // Handles the deletion of a category
   const handleSubmitDelete = async () => {
-    const result = await axios.delete(`api/option/categories`, {
+    const result = await axios.delete(`option/categories`, {
       data: {
         ids: selectedRowKeys,
       },
@@ -62,7 +62,7 @@ const CategoryTable = ({ intl }) => {
 
   // Handles addition of a category
   const handleSubmitAdd = async (values) => {
-    await axios.post(`api/option/category`, {
+    await axios.post(`option/category`, {
       en: values.addCategoryEn,
       fr: values.addCategoryFr,
     });
@@ -72,7 +72,7 @@ const CategoryTable = ({ intl }) => {
 
   // Handles the update/edit of a category
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`api/option/category`, {
+    await axios.put(`option/category`, {
       id,
       en: values.editCategoryEn,
       fr: values.editCategoryFr,

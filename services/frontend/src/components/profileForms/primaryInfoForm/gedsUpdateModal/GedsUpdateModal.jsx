@@ -16,7 +16,7 @@ const GedsUpdateModal = ({ visibility }) => {
     const dbValues = {
       ...formValues,
     };
-    await axios.put(`api/profile/${id}?language=${locale}`, dbValues);
+    await axios.put(`profile/${id}?language=${locale}`, dbValues);
   };
 
   return (

@@ -30,7 +30,7 @@ const DiplomaTable = ({ intl }) => {
     try {
       dispatch(setAdminDiplomasLoading(true));
 
-      const results = await axios.get(`api/option/diplomasAllLang`);
+      const results = await axios.get(`option/diplomasAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((competency) => ({
@@ -65,7 +65,7 @@ const DiplomaTable = ({ intl }) => {
 
   // Handles addition of a diploma
   const handleSubmitAdd = async (values) => {
-    await axios.post(`api/option/diploma`, {
+    await axios.post(`option/diploma`, {
       en: values.addDiplomaEn,
       fr: values.addDiplomaFr,
     });
@@ -75,7 +75,7 @@ const DiplomaTable = ({ intl }) => {
 
   // Handles the update/edit of a diploma
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`api/option/diploma`, {
+    await axios.put(`option/diploma`, {
       id,
       en: values.editDiplomaEn,
       fr: values.editDiplomaFr,
@@ -86,7 +86,7 @@ const DiplomaTable = ({ intl }) => {
 
   // Handles the deletion of a diploma
   const handleSubmitDelete = async () => {
-    await axios.delete(`api/option/diplomas`, {
+    await axios.delete(`option/diplomas`, {
       data: {
         ids: selectedRowKeys,
       },

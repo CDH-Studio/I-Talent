@@ -77,11 +77,11 @@ const SearchFilter = () => {
         categoriesResult,
         skillsResults,
       ] = await Promise.all([
-        axios.get(`api/option/branches?language=${locale}`),
-        axios.get(`api/option/locations?language=${locale}`),
-        axios.get(`api/option/classifications`),
-        axios.get(`api/option/categories?language=${locale}`),
-        axios.get(`api/option/skills?language=${locale}`),
+        axios.get(`option/branches?language=${locale}`),
+        axios.get(`option/locations?language=${locale}`),
+        axios.get(`option/classifications`),
+        axios.get(`option/categories?language=${locale}`),
+        axios.get(`option/skills?language=${locale}`),
       ]);
       setBranchOptions(branch.data);
       setLocationOptions(location.data);

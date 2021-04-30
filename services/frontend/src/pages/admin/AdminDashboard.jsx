@@ -52,15 +52,15 @@ const AdminDashboard = ({ intl }) => {
         topFiveDevelopmentalGoals,
         topFiveSkills,
       ] = await Promise.all([
-        axios.get(`api/stats/count/users`),
-        axios.get(`api/stats/count/hiddenUsers`),
-        axios.get(`api/stats/count/inactiveUsers`),
-        axios.get(`api/stats/count/exFeederUsers`),
-        axios.get(`api/stats/growthRateByMonth`),
-        axios.get(`api/stats/growthRateByWeek`),
-        axios.get(`api/stats/topFiveCompetencies?language=${locale}`),
-        axios.get(`api/stats/topFiveDevelopmentalGoals?language=${locale}`),
-        axios.get(`api/stats/topFiveSkills?language=${locale}`),
+        axios.get(`stats/count/users`),
+        axios.get(`stats/count/hiddenUsers`),
+        axios.get(`stats/count/inactiveUsers`),
+        axios.get(`stats/count/exFeederUsers`),
+        axios.get(`stats/growthRateByMonth`),
+        axios.get(`stats/growthRateByWeek`),
+        axios.get(`stats/topFiveCompetencies?language=${locale}`),
+        axios.get(`stats/topFiveDevelopmentalGoals?language=${locale}`),
+        axios.get(`stats/topFiveSkills?language=${locale}`),
       ]);
       dispatch(
         setInitialAdminData({

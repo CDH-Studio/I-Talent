@@ -171,7 +171,7 @@ const LangProficiencyFormView = ({
       }
     }
 
-    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
+    await axios.put(`profile/${userId}?language=${locale}`, dbValues);
   };
 
   /**

@@ -31,8 +31,8 @@ const SkillTable = ({ intl }) => {
       dispatch(setAdminSkillsLoading(true));
       dispatch(setAdminCategoriesLoading(true));
       const [skill, categories] = await Promise.all([
-        axios.get(`api/option/skillsAllLang`),
-        axios.get(`api/option/categoriesAllLang`),
+        axios.get(`option/skillsAllLang`),
+        axios.get(`option/categoriesAllLang`),
       ]);
 
       dispatch(
@@ -71,7 +71,7 @@ const SkillTable = ({ intl }) => {
 
   // Handles addition of a skill
   const handleSubmitAdd = async (values) => {
-    await axios.post(`api/option/skill`, {
+    await axios.post(`option/skill`, {
       en: values.addSkillEn,
       fr: values.addSkillFr,
       categoryId: values.addSkillCategory,
@@ -81,7 +81,7 @@ const SkillTable = ({ intl }) => {
 
   // Handles the update/edit of a skill
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`api/option/skill`, {
+    await axios.put(`option/skill`, {
       id,
       en: values.editSkillEn,
       fr: values.editSkillFr,
@@ -92,7 +92,7 @@ const SkillTable = ({ intl }) => {
 
   // Handles the deletion of a skill
   const handleSubmitDelete = async () => {
-    await axios.delete(`api/option/skills`, {
+    await axios.delete(`option/skills`, {
       data: {
         ids: selectedRowKeys,
       },

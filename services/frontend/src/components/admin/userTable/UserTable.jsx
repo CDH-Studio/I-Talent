@@ -35,8 +35,8 @@ const UserTable = () => {
       dispatch(setAdminUsersLoading(true));
 
       const results = await Promise.all([
-        axios.get(`api/admin/users?language=${locale}`),
-        axios.get(`api/keycloak/users?language=${locale}`),
+        axios.get(`admin/users?language=${locale}`),
+        axios.get(`keycloak/users?language=${locale}`),
       ]);
 
       // Formats data from backend into viewable data for the table
@@ -66,7 +66,7 @@ const UserTable = () => {
 
   // Handles profile status change
   const handleApply = async () => {
-    const url = `api/admin/userStatuses`;
+    const url = `admin/userStatuses`;
 
     await axios.put(url, statuses);
 
@@ -128,7 +128,7 @@ const UserTable = () => {
 
   // Handles the deletion of a user
   const handleSubmitDelete = async (id) => {
-    await axios.delete(`api/user/${id}`);
+    await axios.delete(`user/${id}`);
 
     getUserInformation();
   };

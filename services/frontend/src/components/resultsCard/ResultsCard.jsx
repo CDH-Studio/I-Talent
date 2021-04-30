@@ -28,7 +28,7 @@ const ResultsCard = () => {
       const queryString = urlSections[1];
       const type = queryString.includes("searchValue") ? "fuzzy" : "filters";
       const result = await axios.get(
-        `api/search/${type}?${queryString}&language=${locale}`
+        `search/${type}?${queryString}&language=${locale}`
       );
 
       setResults(result.data);
@@ -44,7 +44,7 @@ const ResultsCard = () => {
    */
   const getConnections = useCallback(async () => {
     const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
+      `profile/private/${id}?language=${locale}`
     );
 
     setConnections(map(result.data.connections, property("id")));
@@ -70,7 +70,7 @@ const ResultsCard = () => {
    */
   const addConnection = async (urlID) => {
     await axios
-      .post(`api/connections/${urlID}`)
+      .post(`connections/${urlID}`)
       .catch((error) => handleError(error, "message", history));
     getConnections();
   };
@@ -81,7 +81,7 @@ const ResultsCard = () => {
    */
   const removeConnection = async (urlID) => {
     await axios
-      .delete(`api/connections/${urlID}`)
+      .delete(`connections/${urlID}`)
       .catch((error) => handleError(error, "message", history));
     getConnections();
   };
