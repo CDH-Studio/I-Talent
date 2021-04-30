@@ -1,22 +1,22 @@
 <img src="services/frontend/src/assets/I-talent-logo-light.png" alt="I-Talent Logo" width="270" />
 
+[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white&style=plastic)](https://cicd.ised-isde.canada.ca/blue/organizations/jenkins/DSD%2FI-Talent%2FI-Talent/branches/)
+
 [![DEV Deployment](https://img.shields.io/badge/Access%20Application-DEV-gray?logo=react&logoColor=white&style=plastic&labelColor=green)](https://italent-development.apps.ocp.dev.ised-isde.canada.ca/)
 
 [![UAT Deployment](https://img.shields.io/badge/Access%20Application-UAT-gray?logo=react&logoColor=white&style=plastic&labelColor=green)](https://italent-uat.apps.ocp.dev.ised-isde.canada.ca/)
+
+[![Drupal DEV](https://img.shields.io/badge/Drupal-DEV-gray?logo=drupal&labelColor=blue&style=plastic)](https://italent-dev-cms-studioup-dev.apps.ocp.dev.ised-isde.canada.ca/en)
+
+[![Drupal UAT](https://img.shields.io/badge/Drupal-UAT-gray?logo=drupal&labelColor=blue&style=plastic)](https://italent-uat-cms-studioup-dev.apps.ocp.dev.ised-isde.canada.ca/en)
 
 [![SonarQube Frontend](https://img.shields.io/badge/SonarQube-Frontend-blue?logo=sonarqube&logoColor=white&style=plastic)](https://sonarqube.ised-isde.canada.ca/dashboard?id=ITalent-frontend)
 
 [![SonarQube Backend](https://img.shields.io/badge/SonarQube-Backend-blue?logo=sonarqube&logoColor=white&style=plastic)](https://sonarqube.ised-isde.canada.ca/dashboard?id=ITalent-backend)
 
-[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white&style=plastic)](https://cicd.ised-isde.canada.ca/job/DSD/job/I-Talent/job/I-Talent/)
+[![OpenShift-DEV](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=plastic&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/italent-development?view=graph)
 
-[![DEV OpenShift](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=plastic&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/italent-development?view=graph)
-
-[![UAT OpenShift](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=plastic&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/mytalent?view=graph)
-
-[![Drupal DEV](https://img.shields.io/badge/Drupal-DEV-gray?logo=drupal&labelColor=blue&style=plastic)](https://italent-dev-cms-studioup-dev.apps.dev.ocp-dev.ised-isde.canada.ca/en)
-
-[![Drupal UAT](https://img.shields.io/badge/Drupal-UAT-gray?logo=drupal&labelColor=blue&style=plastic)](https://italent-uat-cms-studioup-dev.apps.dev.ocp-dev.ised-isde.canada.ca/en)
+[![OpenShift-UAT](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=plastic&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/mytalent?view=graph)
 
 An improved directory and employee search tool.
 
@@ -24,7 +24,7 @@ I-Talent is an internal web-application that would enable employees to share inf
 
 # Getting started
 
-You'll need to create three files to define the envirnment variables, one at the root of the project and two in the `env` folder. To get those variables, ask the current developers.
+You'll need to create three files to define the environment variables, one at the root of the project and two in the `env` folder. To get those variables, ask the current developers.
 
 [Docker](https://www.docker.com/) and [Visual Studio Code](https://code.visualstudio.com/) are technically optional tools for development, but are highly recommended! A list of useful Visual Studio Code extensions are listed [here](https://github.com/CDH-Studio/I-Talent/wiki/Tech-stack#useful-visual-studio-code-extensions).
 
@@ -37,7 +37,7 @@ docker-compose up
 You can now access different components of the web application:
 
 - [localhost:3000](http://localhost:3000) - Application
-- [localhost:5555](http://localhost:5555) - Prisma studio, database visualizer/editer
+- [localhost:5555](http://localhost:5555) - Prisma studio, database visualizer/editor
 - [localhost:3031](http://localhost:3031) - Webpack analyzer (need to run `yarn analyze` in the frontend docker container)
 - [localhost:8080](http://localhost:8080) - API endpoints
 - [localhost:8080/api-docs](http://localhost:8080/api-docs) - API endpoints documentation
@@ -55,14 +55,13 @@ Visit the [Wiki](https://github.com/CDH-Studio/UpSkill/wiki) has more informatio
 
 Our full stack developers
 
-| **Active developers**                                             | **Previous developers**                                           |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| [Ali Nouri](https://www.linkedin.com/in/a-nouri/)                 | [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/) |
-| [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)   | [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)   |
-| [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)          | [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)     |
-| [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/) | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)            |
-
-| [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/)
+| **Active developers**                                              | **Previous developers**                                           |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------- |
+| [Ali Nouri](https://www.linkedin.com/in/a-nouri/)                  | [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/) |
+| [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)    | [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)   |
+| [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)           | [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/)     |
+| [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)  | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)            |
+| [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/) |                                                                   |
 
 # Contributing
 
@@ -70,4 +69,4 @@ Want to contribute to this project? Take a look at our [Wiki](https://github.com
 
 # Contact
 
-This application is developped by students at [CDH Studio](https://cdhstudio.ca/)
+This application is developed by students at [CDH Studio](https://cdhstudio.ca/)
