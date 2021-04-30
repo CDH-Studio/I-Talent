@@ -63,10 +63,10 @@ const VisibilityConfirmationView = ({
         <Descriptions.Item label={<FormattedMessage id="official.languages" />}>
           {getCardStatusElement(visibleCards.officialLanguage)}
         </Descriptions.Item>
-        <Descriptions.Item label={<FormattedMessage id="official.languages" />}>
+        <Descriptions.Item label={<FormattedMessage id="skills" />}>
           {getCardStatusElement(visibleCards.skills)}
         </Descriptions.Item>
-        <Descriptions.Item label={<FormattedMessage id="official.languages" />}>
+        <Descriptions.Item label={<FormattedMessage id="mentorship.skills" />}>
           {getCardStatusElement(visibleCards.mentorshipSkills)}
         </Descriptions.Item>
         <Descriptions.Item label={<FormattedMessage id="competencies" />}>
