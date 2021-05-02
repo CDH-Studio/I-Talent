@@ -8,18 +8,16 @@ import {
   Form,
   Select,
   Switch,
-  Popover,
   Checkbox,
   notification,
+  Space,
 } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
 import { identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
@@ -759,28 +757,15 @@ const LangProficiencyFormView = ({
           <Row className="lang-secondLangRow" gutter={24}>
             <Col className="gutter-row" span={24}>
               <Row>
-                <Text>
-                  <FormattedMessage id="graded.on.second.language" />
-                </Text>
-                <Popover
-                  trigger={["focus", "hover"]}
-                  content={
-                    <div>
-                      <FormattedMessage id="tooltip.extra.info.help" />
-                      <Link to="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </Link>
-                    </div>
-                  }
-                >
-                  <div className="iconBySwitch">
-                    <InfoCircleOutlined tabIndex={0} />
-                  </div>
-                </Popover>
-                <Switch
-                  checked={displaySecondLangForm}
-                  onChange={toggleSecLangForm}
-                />
+                <Space>
+                  <Text>
+                    <FormattedMessage id="graded.on.second.language" />
+                  </Text>
+                  <Switch
+                    checked={displaySecondLangForm}
+                    onChange={toggleSecLangForm}
+                  />
+                </Space>
               </Row>
               {getSecondLanguageForm(displaySecondLangForm)}
             </Col>

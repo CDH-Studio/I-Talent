@@ -11,16 +11,14 @@ import {
   Switch,
   Checkbox,
   notification,
-  Popover,
+  Space,
 } from "antd";
 import PropTypes from "prop-types";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
 import { isEqual, identity, pickBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
@@ -583,28 +581,15 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row employment-tempRoleRow" span={24}>
               <Row>
-                <Text>
-                  <FormattedMessage id="presently.acting" />
-                </Text>
-                <Popover
-                  trigger={["focus", "hover"]}
-                  content={
-                    <div>
-                      <FormattedMessage id="tooltip.extra.info.help" />
-                      <Link to="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </Link>
-                    </div>
-                  }
-                >
-                  <div className="iconBySwitch">
-                    <InfoCircleOutlined tabIndex={0} />
-                  </div>
-                </Popover>
-                <Switch
-                  checked={displayActingRoleForm}
-                  onChange={toggleTempRoleForm}
-                />
+                <Space>
+                  <Text>
+                    <FormattedMessage id="presently.acting" />
+                  </Text>
+                  <Switch
+                    checked={displayActingRoleForm}
+                    onChange={toggleTempRoleForm}
+                  />
+                </Space>
               </Row>
               {getTempRoleForm(displayActingRoleForm)}
             </Col>
@@ -614,14 +599,6 @@ const EmploymentDataFormView = ({
 
           <FormSubTitle
             title={<FormattedMessage id="about.me" />}
-            popoverMessage={
-              <>
-                <FormattedMessage id="tooltip.extra.info.help" />
-                <Link to="/about/help">
-                  <FormattedMessage id="footer.contact.link" />
-                </Link>
-              </>
-            }
             extra={
               <CardVisibilityToggle
                 visibleCards={profileInfo.visibleCards}
