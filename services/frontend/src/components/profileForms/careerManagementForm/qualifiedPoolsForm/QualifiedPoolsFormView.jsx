@@ -101,7 +101,7 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobTitle"]}
             fieldKey={[fieldElement.fieldKey, "jobTitle"]}
-            label={<FormattedMessage id="job.title" />}
+            label={<FormattedMessage id="job.title.department" />}
             rules={[Rules.required]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
