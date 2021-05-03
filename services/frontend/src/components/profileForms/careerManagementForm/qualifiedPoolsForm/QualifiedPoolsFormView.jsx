@@ -116,7 +116,7 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobPosterLink"]}
             label={<FormattedMessage id="qualified.pools.job.poster.link" />}
-            rules={[Rules.required, Rules.url]}
+            rules={[Rules.url]}
             fieldKey={[fieldElement.fieldKey, "jobPosterLink"]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
@@ -133,7 +133,6 @@ const QualifiedPoolsFormView = ({
             label={
               <FormattedMessage id="qualified.pools.selection.process.number" />
             }
-            rules={[Rules.required]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
               savedQualifiedPools[fieldElement.fieldKey].description
