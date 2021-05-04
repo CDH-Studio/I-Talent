@@ -357,8 +357,6 @@ async function seedUsers() {
       skills,
       actingLevel,
       groupLevel,
-      actingEndDate,
-      actingStartDate,
       educations,
       relocationLocations,
       visibleCards,
@@ -409,8 +407,6 @@ async function seedUsers() {
           exFeeder,
           preferredLanguage,
           avatarColor,
-          actingEndDate,
-          actingStartDate,
           visibleCards: visibleCards
             ? {
                 create: {

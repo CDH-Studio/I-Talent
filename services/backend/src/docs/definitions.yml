@@ -405,7 +405,7 @@ definitions:
       telephone:
         type: string
       cellphone:
-        type: string 
+        type: string
       pri:
         type: string
       team:
@@ -420,12 +420,6 @@ definitions:
         $ref: "#/definitions/LanguageEnum"
       preferredLanguage:
         $ref: "#/definitions/LanguageEnum"
-      actingStartDate:
-        type: string
-        format: data-time
-      actingEndDate:
-        type: string
-        format: data-time
       linkedin:
         type: string
       github:

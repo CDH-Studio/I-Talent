@@ -6,7 +6,6 @@ const updateProfilePhoneNumberBody = ["telephone", "cellphone"];
 const updateProfilePRI = ["pri"];
 const updateProfileNumberBody = ["signupStep"];
 const updateProfileStringArrayBody = ["projects", "employmentEquityGroups"];
-const updateProfileDateBody = ["actingStartDate", "actingEndDate"];
 const updateProfileOptionalLanguageBody = ["firstLanguage", "secondLanguage"];
 const updateProfileLanguageBody = ["preferredLanguage"];
 const updateProfileBooleanBody = ["interestedInRemote", "exFeeder"];
@@ -68,11 +67,6 @@ const updateProfileValidator = [
     body(i, "must be a UUID or null")
       .optional()
       .custom((value) => value === null || isUUID(value))
-  ),
-  updateProfileDateBody.map((i) =>
-    body(i, "must be a date")
-      .optional()
-      .custom((j) => j === null || moment(j).isValid())
   ),
   updateProfileBooleanBody.map((i) =>
     body(i, "must be a boolean or null")
