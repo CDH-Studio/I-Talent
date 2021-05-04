@@ -22,6 +22,11 @@ pipeline {
 
     stages {
         stage('configure-node') {
+            when {
+                 not {
+                    branch 'development'
+                }
+            }
             steps{
                 sh script: """
                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
@@ -33,6 +38,11 @@ pipeline {
         }
         
         stage('install-dep'){
+            when {
+                 not {
+                    branch 'development'
+                }
+            }
             parallel{
                 stage('backend'){
                     steps{
@@ -54,6 +64,11 @@ pipeline {
         }
 
         stage('linter') {
+            when {
+                 not {
+                    branch 'development'
+                }
+            }
             parallel {
                 stage('i18n-linting') {
                     steps {
@@ -89,6 +104,11 @@ pipeline {
         }
 
         stage('backend-test') {
+            when {
+                 not {
+                    branch 'development'
+                }
+            }
             steps {
                 dir("${BACKEND_DIR}") {
                     sh script: """
@@ -104,7 +124,6 @@ pipeline {
 
         stage('build') {
             when { branch 'development' }
-            
             parallel {
                 stage('build-backend') {
                     steps {
