@@ -1,4 +1,5 @@
 import { useEffect, useCallback } from "react";
+import { Row, Col } from "antd";
 import { injectIntl, FormattedMessage } from "react-intl";
 import { useSelector, useDispatch } from "react-redux";
 import { AreaChartOutlined } from "@ant-design/icons";
@@ -92,8 +93,14 @@ const AdminDashboard = ({ intl }) => {
         title={<FormattedMessage id="admin.dashboard.title" />}
         icon={<AreaChartOutlined />}
       />
-      <StatCards />
-      <DashboardGraphs />
+      <Row gutter={[15, 15]} type="flex">
+        <Col span={24}>
+          <StatCards />
+        </Col>
+        <Col span={24}>
+          <DashboardGraphs />
+        </Col>
+      </Row>
     </AdminLayout>
   );
 };

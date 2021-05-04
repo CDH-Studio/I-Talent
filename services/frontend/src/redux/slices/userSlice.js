@@ -5,6 +5,8 @@ const initialState = {
   id: undefined,
   avatarColor: undefined,
   initials: undefined,
+  firstName: undefined,
+  LastName: undefined,
   name: undefined,
   email: undefined,
   isAdmin: false,
@@ -25,6 +27,12 @@ const userSlice = createSlice({
     },
     setUserInitials(state, action) {
       state.initials = action.payload;
+    },
+    setUserFirstName(state, action) {
+      state.firstName = action.payload;
+    },
+    setUseLastName(state, action) {
+      state.lastName = action.payload;
     },
     setUserName(state, action) {
       state.name = action.payload;
@@ -49,6 +57,8 @@ const userSlice = createSlice({
         id,
         avatarColor,
         initials,
+        firstName,
+        lastName,
         name,
         email,
         status,
@@ -60,6 +70,8 @@ const userSlice = createSlice({
         id: id || state.id,
         avatarColor: avatarColor || state.avatarColor,
         initials: initials || state.initials,
+        firstName: firstName || state.firstName,
+        lastName: lastName || state.lastName,
         name: name || state.name,
         email: email || state.email,
         status: status || state.status,
@@ -73,6 +85,8 @@ const userSlice = createSlice({
 });
 
 export const {
+  setUseFirstName,
+  setUseLastName,
   setUserName,
   setUserAvatarColor,
   setUserEmail,

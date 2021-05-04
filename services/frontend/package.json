@@ -23,7 +23,7 @@
     "@material-ui/styles": "^4.11.3",
     "@react-keycloak/web": "3.4.0",
     "@reduxjs/toolkit": "1.5.0",
-    "antd": "4.9.4",
+    "antd": "4.15.1",
     "axios": "0.21.1",
     "babel-plugin-import": "1.13.3",
     "babel-plugin-lodash": "3.3.4",

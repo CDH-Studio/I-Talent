@@ -7,6 +7,7 @@ pipeline {
 
     options {
         disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES') 
     }
 
     environment {
@@ -83,6 +84,7 @@ pipeline {
                 }
             }
         }
+        
 
         stage('build') {
             when { branch 'development' }
