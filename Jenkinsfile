@@ -7,6 +7,7 @@ pipeline {
 
     options {
         disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES') 
     }
 
     environment {
@@ -71,20 +72,19 @@ pipeline {
             }
         }
 
-        timeout(unit: 'MINUTES', time: 5) {
-            stage('backend-test') {
-                steps {
-                    dir("${BACKEND_DIR}") {
-                        sh script: """
-                            unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                            yarn generate
-                            yarn test
-                        """, label: 'Testing backend'
-                        archiveArtifacts artifacts: 'tests/coverage/'
-                    }
+        stage('backend-test') {
+            steps {
+                dir("${BACKEND_DIR}") {
+                    sh script: """
+                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                        yarn generate
+                        yarn test
+                    """, label: 'Testing backend'
+                    archiveArtifacts artifacts: 'tests/coverage/'
                 }
             }
         }
+        
 
         stage('build') {
             when { branch 'development' }
