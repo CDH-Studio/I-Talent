@@ -18,7 +18,7 @@ const Acting = ({ data }) => {
       if (data.actingStartDate) {
         const desc =
           dayjs(data.actingStartDate).format("ll") +
-          (data.actingStartDate
+          (data.actingEndDate
             ? ` - ${dayjs(data.actingEndDate).format("ll")}`
             : "");
 

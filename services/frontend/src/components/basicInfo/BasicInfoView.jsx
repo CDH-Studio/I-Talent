@@ -50,40 +50,6 @@ const BasicInfoView = ({
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
 
-  /* Component Styles */
-  const styles = {
-    avatar: {
-      backgroundColor: "transparent",
-      color: "#007471",
-      marginRight: "-10px",
-    },
-    userAvatar: {
-      verticalAlign: "middle",
-    },
-  };
-
-  const generateTeamInfo = () => {
-    const teams = {
-      icon: <TeamOutlined />,
-      title: <FormattedMessage id="employee.work.unit" />,
-      description:
-        data.teams && data.teams.length ? (
-          <List>
-            {Object.values(data.teams).map((item, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Tag color="#727272" key={index}>
-                {item}
-              </Tag>
-            ))}
-          </List>
-        ) : (
-          "-"
-        ),
-    };
-
-    return [teams];
-  };
-
   /*
    * Generate Profile Header
    *
@@ -93,7 +59,7 @@ const BasicInfoView = ({
   const generateProfileHeader = () => (
     <Row type="flex" className="profileHeaderRow">
       <Col
-        xs={6}
+        xs={0}
         md={5}
         lg={4}
         xxl={3}
@@ -101,32 +67,29 @@ const BasicInfoView = ({
         className="hide-for-print"
       >
         <Avatar
+          className="profileHeaderRow-avatar"
           size={80}
-          style={(styles.userAvatar, { backgroundColor: avatar.color })}
+          style={{ backgroundColor: avatar.color }}
         >
-          <Text style={{ fontSize: "35px", color: "white" }}>{avatar.acr}</Text>
+          <Text strong>{avatar.acr}</Text>
         </Avatar>
       </Col>
       <Col
-        xs={13}
+        xs={18}
         md={15}
         lg={17}
         xl={16}
         xxl={18}
-        style={{ padding: "11px 10px" }}
+        style={{ padding: "11px 0px" }}
       >
         <Text
+          className="profileHeaderRow-name"
           strong
-          style={{ display: "block", fontSize: "30px", lineHeight: "38px" }}
+          ellipsis={{ tooltip: name }}
         >
           {name}
         </Text>
-        <Text
-          type="secondary"
-          style={{ display: "block", fontSize: "16px", lineHeight: "28px" }}
-        >
-          {jobTitle}
-        </Text>
+        <Text className="profileHeaderRow-job-tile">{jobTitle}</Text>
       </Col>
       {urlID === userID ? (
         <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
@@ -163,11 +126,7 @@ const BasicInfoView = ({
               shape="circle"
               size="large"
               icon={
-                connectionStatus ? (
-                  <UserDeleteOutlined style={styles.buttonIcon} />
-                ) : (
-                  <UserAddOutlined style={styles.buttonIcon} />
-                )
+                connectionStatus ? <UserDeleteOutlined /> : <UserAddOutlined />
               }
               onClick={changeConnection}
               style={{ marginLeft: 10 }}
@@ -181,7 +140,7 @@ const BasicInfoView = ({
   /*
    * Generate Info List
    *
-   * Generates list of basic info with mall icons
+   * Generates list of basic info with small icons
    * This includes: address, email, etc.
    */
   const generateInfoList = (dataSource) => (
@@ -191,7 +150,9 @@ const BasicInfoView = ({
       renderItem={(item) => (
         <List.Item>
           <List.Item.Meta
-            avatar={<Avatar style={styles.avatar} size={48} icon={item.icon} />}
+            avatar={
+              <Avatar className="info-avatar" size={48} icon={item.icon} />
+            }
             title={item.title}
             description={item.description}
           />
@@ -204,12 +165,25 @@ const BasicInfoView = ({
    * Get Contact Info
    *
    * Generates data for contact info list
+   * Email, Work Phone, and Work Cell
    */
   const getContactInfo = () => {
     const email = {
       icon: <MailOutlined />,
       title: <FormattedMessage id="email" />,
-      description: data.email ? data.email : "-",
+      description: data.email ? (
+        <Text
+          id="profile-email"
+          copyable
+          ellipsis={{
+            tooltip: data.email,
+          }}
+        >
+          {data.email}
+        </Text>
+      ) : (
+        "-"
+      ),
     };
 
     const tel = {
@@ -228,11 +202,12 @@ const BasicInfoView = ({
   };
 
   /*
-   * Get Location Info
+   * Get Work Info
    *
-   * Generates data for user's location
+   * Generates data for user's work info
+   * Branch, Work Address, and Manager
    */
-  const getLocationInfo = () => {
+  const getWorkInfo = () => {
     const branch = {
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.org.tree" />,
@@ -274,6 +249,32 @@ const BasicInfoView = ({
   };
 
   /*
+   * Generate Team Info
+   *
+   */
+  const generateTeamInfo = () => {
+    const teams = {
+      icon: <TeamOutlined />,
+      title: <FormattedMessage id="employee.work.unit" />,
+      description:
+        data.teams && data.teams.length ? (
+          <List>
+            {Object.values(data.teams).map((item, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <Tag color="#727272" key={index}>
+                {item}
+              </Tag>
+            ))}
+          </List>
+        ) : (
+          "-"
+        ),
+    };
+
+    return [teams];
+  };
+
+  /*
    * Generate Actions
    *
    * Generates the list of actions at bottom of info card
@@ -310,7 +311,7 @@ const BasicInfoView = ({
           {generateInfoList(getContactInfo())}
         </Col>
         <Col xs={24} lg={12}>
-          {generateInfoList(getLocationInfo())}
+          {generateInfoList(getWorkInfo())}
         </Col>
       </Row>
       <Row className="rowTopSplitter">

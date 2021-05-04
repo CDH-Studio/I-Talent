@@ -8,19 +8,16 @@ import {
   Form,
   Select,
   Switch,
-  DatePicker,
-  Popover,
   Checkbox,
   notification,
+  Space,
 } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
-import { isEqual, identity, pickBy } from "lodash";
+import { identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
@@ -36,6 +33,7 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import "./LangProficiencyFormView.less";
+import DatePickerField from "../../formItems/DatePickerField";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -261,7 +259,93 @@ const LangProficiencyFormView = ({
       identity
     );
 
-    return !isEqual(formValues, dbValues);
+    // Check each field of the form to see if there are changed values
+    if (formValues) {
+      if (formValues.firstLanguage) {
+        if (formValues.firstLanguage !== dbValues.firstLanguage) return true;
+      } else if (dbValues.firstLanguage) return true;
+
+      if (formValues.readingProficiency) {
+        if (formValues.readingProficiency !== dbValues.readingProficiency)
+          return true;
+      } else if (dbValues.readingProficiency) return true;
+
+      if (formValues.secondaryReadingUnknownExpired) {
+        if (
+          formValues.secondaryReadingUnknownExpired !==
+          dbValues.secondaryReadingUnknownExpired
+        )
+          return true;
+      } else if (dbValues.secondaryReadingUnknownExpired) return true;
+
+      if (formValues.writingProficiency) {
+        if (formValues.writingProficiency !== dbValues.writingProficiency)
+          return true;
+      } else if (dbValues.writingProficiency) return true;
+
+      if (formValues.secondaryWritingUnknownExpired) {
+        if (
+          formValues.secondaryWritingUnknownExpired !==
+          dbValues.secondaryWritingUnknownExpired
+        )
+          return true;
+      } else if (dbValues.secondaryWritingUnknownExpired) return true;
+
+      if (formValues.oralProficiency) {
+        if (formValues.oralProficiency !== dbValues.oralProficiency)
+          return true;
+      } else if (dbValues.oralProficiency) return true;
+
+      if (formValues.secondaryOralDate) {
+        if (
+          dayjs(formValues.secondaryOralDate).diff(
+            dbValues.secondaryOralDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryOralDate) return true;
+
+      if (formValues.secondaryOralUnknownExpired) {
+        if (
+          formValues.secondaryOralUnknownExpired !==
+          dbValues.secondaryOralUnknownExpired
+        )
+          return true;
+      } else if (dbValues.secondaryOralUnknownExpired) return true;
+
+      // Check for differences in dates
+      if (formValues.secondaryReadingDate) {
+        if (
+          dayjs(formValues.secondaryReadingDate).diff(
+            dbValues.secondaryReadingDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryReadingDate) return true;
+
+      if (formValues.secondaryWritingDate) {
+        if (
+          dayjs(formValues.secondaryWritingDate).diff(
+            dbValues.secondaryWritingDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryWritingDate) return true;
+
+      if (formValues.secondaryOralDate) {
+        if (
+          dayjs(formValues.secondaryOralDate).diff(
+            dbValues.secondaryOralDate,
+            "days"
+          ) !== 0
+        )
+          return true;
+      } else if (dbValues.secondaryOralDate) return true;
+    }
+    return false;
   };
 
   const updateIfFormValuesChanged = () => {
@@ -441,12 +525,17 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
-                <DatePicker
-                  disabled={
+                <DatePickerField
+                  viewOptions={["year", "month", "date"]}
+                  placeholderText={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                  formatDate="YYYY-MM-DD"
+                  defaultDate={formValues.secondaryReadingDate}
+                  disableInput={
                     unknownExpiredGrades.reading ||
                     formValues.readingProficiency === "NA"
                   }
-                  className="datePicker"
                 />
               </Form.Item>
               <Form.Item
@@ -492,12 +581,17 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
-                <DatePicker
-                  disabled={
+                <DatePickerField
+                  viewOptions={["year", "month", "date"]}
+                  placeholderText={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                  disableInput={
                     unknownExpiredGrades.writing ||
                     formValues.writingProficiency === "NA"
                   }
-                  className="datePicker"
+                  formatDate="YYYY-MM-DD"
+                  defaultDate={formValues.secondaryWritingDate}
                 />
               </Form.Item>
               <Form.Item
@@ -543,12 +637,17 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="expiry.date" />}
                 className="language-date-item"
               >
-                <DatePicker
-                  disabled={
+                <DatePickerField
+                  viewOptions={["year", "month", "date"]}
+                  placeholderText={intl.formatMessage({
+                    id: "profile.select.date",
+                  })}
+                  disableInput={
                     unknownExpiredGrades.oral ||
                     formValues.oralProficiency === "NA"
                   }
-                  className="datePicker"
+                  formatDate="YYYY-MM-DD"
+                  defaultDate={formValues.secondaryOralDate}
                 />
               </Form.Item>
               <Form.Item
@@ -658,28 +757,15 @@ const LangProficiencyFormView = ({
           <Row className="lang-secondLangRow" gutter={24}>
             <Col className="gutter-row" span={24}>
               <Row>
-                <Text>
-                  <FormattedMessage id="graded.on.second.language" />
-                </Text>
-                <Popover
-                  trigger={["focus", "hover"]}
-                  content={
-                    <div>
-                      <FormattedMessage id="tooltip.extra.info.help" />
-                      <Link to="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </Link>
-                    </div>
-                  }
-                >
-                  <div className="iconBySwitch">
-                    <InfoCircleOutlined tabIndex={0} />
-                  </div>
-                </Popover>
-                <Switch
-                  checked={displaySecondLangForm}
-                  onChange={toggleSecLangForm}
-                />
+                <Space>
+                  <Text>
+                    <FormattedMessage id="graded.on.second.language" />
+                  </Text>
+                  <Switch
+                    checked={displaySecondLangForm}
+                    onChange={toggleSecLangForm}
+                  />
+                </Space>
               </Row>
               {getSecondLanguageForm(displaySecondLangForm)}
             </Col>

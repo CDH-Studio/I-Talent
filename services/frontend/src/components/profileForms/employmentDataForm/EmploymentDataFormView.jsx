@@ -9,19 +9,16 @@ import {
   Select,
   Input,
   Switch,
-  DatePicker,
   Checkbox,
   notification,
-  Popover,
+  Space,
 } from "antd";
 import PropTypes from "prop-types";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import dayjs from "dayjs";
 import { isEqual, identity, pickBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
@@ -36,6 +33,7 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
+import DatePickerField from "../../formItems/DatePickerField";
 
 import "./EmploymentDataFormView.less";
 
@@ -65,6 +63,12 @@ const EmploymentDataFormView = ({
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
+  const [disabledEndDates, changeDisabledEnd] = useState(
+    form.getFieldValue("actingStartDate")
+  );
+  const [disabledStartDates, changeDisabledStart] = useState(
+    form.getFieldValue("actingEndDate")
+  );
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -128,22 +132,6 @@ const EmploymentDataFormView = ({
     setEnableEndDate(!enableEndDate);
   };
 
-  /* Disable all dates before start date */
-  const disabledDatesBeforeStart = (current) => {
-    if (form.getFieldValue("actingStartDate")) {
-      return current && current < dayjs(form.getFieldValue("actingStartDate"));
-    }
-    return undefined;
-  };
-
-  /* Disable all dates after end date */
-  const disabledDatesAfterEnd = (current) => {
-    if (form.getFieldValue("actingEndDate")) {
-      return current && current > dayjs(form.getFieldValue("actingEndDate"));
-    }
-    return undefined;
-  };
-
   /**
    * Open Notification
    * @param {Object} notification - The notification to be displayed.
@@ -186,8 +174,8 @@ const EmploymentDataFormView = ({
         actingStartDate: profile.actingStartDate
           ? dayjs(profile.actingStartDate)
           : undefined,
-        actingEndDate: profile.actingStartDate
-          ? dayjs(profile.actingStartDate)
+        actingEndDate: profile.actingEndDate
+          ? dayjs(profile.actingEndDate)
           : undefined,
       };
     }
@@ -212,6 +200,8 @@ const EmploymentDataFormView = ({
 
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
+    changeDisabledEnd(form.getFieldValue("actingStartDate"));
+    changeDisabledStart(form.getFieldValue("actingEndDate"));
   };
 
   /*
@@ -367,13 +357,21 @@ const EmploymentDataFormView = ({
               name="actingStartDate"
               label={<FormattedMessage id="acting.period.start.date" />}
               rules={[Rules.required]}
+              shouldUpdate={(prevValues, curValues) => {
+                if (prevValues !== curValues) {
+                  changeDisabledEnd(form.getFieldValue("actingStartDate"));
+                  changeDisabledStart(form.getFieldValue("actingEndDate"));
+                }
+              }}
             >
-              <DatePicker
-                disabledDate={disabledDatesAfterEnd}
-                className="datePicker"
-                placeholder={intl.formatMessage({
+              <DatePickerField
+                viewOptions={["year", "month", "date"]}
+                placeholderText={intl.formatMessage({
                   id: "profile.select.date",
                 })}
+                formatDate="YYYY-MM-DD"
+                defaultDate={form.getFieldValue("actingStartDate")}
+                disableWhen={{ maxDate: disabledStartDates }}
               />
             </Form.Item>
           </Col>
@@ -382,15 +380,22 @@ const EmploymentDataFormView = ({
               name="actingEndDate"
               label={<FormattedMessage id="acting.period.end.date" />}
               rules={enableEndDate ? [Rules.required] : undefined}
+              shouldUpdate={(prevValues, curValues) => {
+                if (prevValues !== curValues) {
+                  changeDisabledEnd(form.getFieldValue("actingStartDate"));
+                  changeDisabledStart(form.getFieldValue("actingEndDate"));
+                }
+              }}
             >
               {enableEndDate && (
-                <DatePicker
-                  className="datePicker"
-                  disabledDate={disabledDatesBeforeStart}
-                  disabled={!enableEndDate}
-                  placeholder={intl.formatMessage({
+                <DatePickerField
+                  viewOptions={["year", "month", "date"]}
+                  placeholderText={intl.formatMessage({
                     id: "profile.select.date",
                   })}
+                  formatDate="YYYY-MM-DD"
+                  defaultDate={form.getFieldValue("actingEndDate")}
+                  disableWhen={{ minDate: disabledEndDates }}
                 />
               )}
             </Form.Item>
@@ -437,6 +442,16 @@ const EmploymentDataFormView = ({
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayActingRoleForm]);
+
+  useEffect(() => {
+    const startDate = form.getFieldValue("actingStartDate");
+    const endDate = form.getFieldValue("actingEndDate");
+    return () => {
+      changeDisabledEnd(startDate);
+      changeDisabledStart(endDate);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getTempRoleForm]);
 
   /** **********************************
    ********* Render Component *********
@@ -566,28 +581,15 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row employment-tempRoleRow" span={24}>
               <Row>
-                <Text>
-                  <FormattedMessage id="presently.acting" />
-                </Text>
-                <Popover
-                  trigger={["focus", "hover"]}
-                  content={
-                    <div>
-                      <FormattedMessage id="tooltip.extra.info.help" />
-                      <Link to="/about/help">
-                        <FormattedMessage id="footer.contact.link" />
-                      </Link>
-                    </div>
-                  }
-                >
-                  <div className="iconBySwitch">
-                    <InfoCircleOutlined tabIndex={0} />
-                  </div>
-                </Popover>
-                <Switch
-                  checked={displayActingRoleForm}
-                  onChange={toggleTempRoleForm}
-                />
+                <Space>
+                  <Text>
+                    <FormattedMessage id="presently.acting" />
+                  </Text>
+                  <Switch
+                    checked={displayActingRoleForm}
+                    onChange={toggleTempRoleForm}
+                  />
+                </Space>
               </Row>
               {getTempRoleForm(displayActingRoleForm)}
             </Col>
@@ -597,14 +599,6 @@ const EmploymentDataFormView = ({
 
           <FormSubTitle
             title={<FormattedMessage id="about.me" />}
-            popoverMessage={
-              <>
-                <FormattedMessage id="tooltip.extra.info.help" />
-                <Link to="/about/help">
-                  <FormattedMessage id="footer.contact.link" />
-                </Link>
-              </>
-            }
             extra={
               <CardVisibilityToggle
                 visibleCards={profileInfo.visibleCards}

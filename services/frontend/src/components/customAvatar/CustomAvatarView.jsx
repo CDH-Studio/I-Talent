@@ -8,6 +8,7 @@ const CustomAvatarView = ({ color, style, initials, hidden }) => {
       backgroundColor: color,
       color: "#fff",
       verticalAlign: "middle",
+      fontWeight: "500",
       ...style,
     },
   };
