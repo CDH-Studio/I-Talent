@@ -3,7 +3,7 @@ const { keycloak } = require("../../auth/keycloak");
 const admin = require("../../core/admin/admin");
 const { updateUserStatusValidator } = require("./validator");
 const { langValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddlware } = require("../../utils/middleware");
 
 const adminRouter = Router();
 

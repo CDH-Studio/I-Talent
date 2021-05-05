@@ -31,7 +31,7 @@ const {
 } = require("./validator");
 
 const { langValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddlware } = require("../../utils/middleware");
 
 const { keycloak } = require("../../auth/keycloak");
 

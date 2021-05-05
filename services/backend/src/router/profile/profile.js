@@ -5,7 +5,7 @@ const profile = require("../../core/profile/profile");
 const { updateProfileValidator } = require("./validator");
 
 const { langValidator, UUIDValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddlware } = require("../../utils/middleware");
 
 const profileRouter = Router();
 

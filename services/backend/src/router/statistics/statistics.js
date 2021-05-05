@@ -6,7 +6,7 @@ const {
   topFive,
 } = require("../../core/statistics");
 const { langValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddlware } = require("../../utils/middleware");
 
 const statsRouter = Router();
 
