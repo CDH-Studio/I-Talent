@@ -3,7 +3,7 @@ const { keycloak } = require("../../auth/keycloak");
 const bugs = require("../../core/bugs/bugs");
 const { createBugValidator, updateBugValidator } = require("./validator");
 const { UUIDValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddlware } = require("../../utils/middleware");
 
 const bugsRoute = Router();
 

@@ -3,7 +3,7 @@ const { fuzzyValidator } = require("./validator");
 const { keycloak } = require("../../auth/keycloak");
 const { filterSearch, fuzzySearch } = require("../../core/search/search");
 const { langValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddlware } = require("../../utils/middleware");
 
 const searchRouter = Router();
 
