@@ -1,10 +1,25 @@
 import PropTypes from "prop-types";
-import { Avatar, Row, Col, List, Empty, Tag, Descriptions } from "antd";
+import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
 import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
 import "./ExperienceView.less";
 
 const ExperienceView = ({ experienceInfo }) => {
+  const generateDescriptionBody = (text) => {
+    if (text) {
+      const lineStrings = text.split(" ").join("\u00A0").split("\n");
+      return (
+        <div className="bodyStyle">
+          {lineStrings.map((line, index) => (
+            <>
+              {index > 0 ? <br /> : null} {line}
+            </>
+          ))}
+        </div>
+      );
+    }
+    return undefined;
+  };
   const getUrl = (item) => {
     if (item.attachmentLinks && item.attachmentLinks.length > 0)
       return item.attachmentLinks.map((i) => (
@@ -28,34 +43,6 @@ const ExperienceView = ({ experienceInfo }) => {
     return undefined;
   };
 
-  const generateOrganizationItemDescription = (item) => (
-    <>
-      <Row>
-        <Col>
-          <Descriptions.Item>{item.description}</Descriptions.Item>
-        </Col>
-      </Row>
-
-      {item.projects && item.projects.length > 0 && (
-        <Row align="middle">
-          <Col>
-            <FormattedMessage id="projects" />:
-          </Col>
-          <Col>{getProjects(item)}</Col>
-        </Row>
-      )}
-
-      {item.attachmentLinks && item.attachmentLinks.length > 0 && (
-        <Row align="middle">
-          <Col>
-            <FormattedMessage id="attachment.links" />:
-          </Col>
-          <Col>{getUrl(item)}</Col>
-        </Row>
-      )}
-    </>
-  );
-
   if (experienceInfo.length > 0) {
     return (
       <Row>
@@ -75,7 +62,31 @@ const ExperienceView = ({ experienceInfo }) => {
                     />
                   }
                   title={`${item.jobTitle} - (${item.organization})`}
-                  description={generateOrganizationItemDescription(item)}
+                  description={
+                    <>
+                      <Row>
+                        <Col>{generateDescriptionBody(item.description)}</Col>
+                      </Row>
+
+                      {item.projects && item.projects.length > 0 && (
+                        <Row align="middle">
+                          <Col>
+                            <FormattedMessage id="projects" />:
+                          </Col>
+                          <Col>{getProjects(item)}</Col>
+                        </Row>
+                      )}
+
+                      {item.attachmentLinks && item.attachmentLinks.length > 0 && (
+                        <Row align="middle">
+                          <Col>
+                            <FormattedMessage id="attachment.links" />:
+                          </Col>
+                          <Col>{getUrl(item)}</Col>
+                        </Row>
+                      )}
+                    </>
+                  }
                 />
               </List.Item>
             )}
