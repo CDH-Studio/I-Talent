@@ -29,37 +29,16 @@ pipeline {
             }
             steps{
                 sh script: """
-                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                nvm install 14.15.1
-                nvm alias default 14.15.1
-                npm i yarn -g
+                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                    nvm install 14.15.1
+                    nvm alias default 14.15.1
+                    npm i yarn -g
                 """, label: 'Setting up proper node.js version'
-            }
-        }
-        
-        stage('install-dep'){
-            when {
-                 not {
-                    branch 'development'
-                }
-            }
-            parallel{
-                stage('backend'){
-                    steps{
-                        sh script: """
-                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                        (cd $BACKEND_DIR && yarn install --production=false)
-                        """, label: 'Installing packages'
-                    }
-                }
-                stage('frontend'){
-                    steps{
-                        sh script: """
-                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                        (cd $FRONTEND_DIR && yarn install --production=false)
-                        """, label: 'Installing packages'
-                    }                   
-                }
+                sh script: """
+                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                    (cd $FRONTEND_DIR && yarn install --production=false)
+                    (cd $BACKEND_DIR && yarn install --production=false)
+                """, label: 'Installing packages'
             }
         }
 
