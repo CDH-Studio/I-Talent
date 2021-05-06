@@ -205,6 +205,7 @@
   "item.start.date": "Start date",
   "job.title": "Job title",
   "job.title.department": "Job title and Department",
+  "job.title.department.placeholder": "Job title, Department",
   "job.title.tooltip": "This information is from GCdirectory. To update please update your GCdirectory profile and resync I-Talent.",
   "landing.call.to.action": "Connect with other talented individuals to learn and grow together.",
   "lang.code": "fr",
