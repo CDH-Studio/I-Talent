@@ -42,7 +42,7 @@ const VisibilityConfirmationView = ({
 
   return (
     <Modal
-      title={<FormattedMessage id="visibility.card.title" />}
+      title={<FormattedMessage id="visibility.review.title" />}
       visible={visible}
       onOk={onOk}
       onCancel={onCloseModal}
