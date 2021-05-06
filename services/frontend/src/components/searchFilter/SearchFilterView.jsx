@@ -240,7 +240,7 @@ const SearchFilterView = ({
 
         {/* mentor skills */}
         <Form.Item
-          className="search-w100"
+          className="search-w100 mentorship-dropdown"
           label={labelArr[5]}
           name={searchTitles[5]}
         >

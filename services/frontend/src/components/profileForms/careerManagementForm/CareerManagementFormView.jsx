@@ -510,14 +510,6 @@ const CareerManagementFormView = ({
             >
               <FormSubTitle
                 title={<FormattedMessage id="qualified.pools" />}
-                popoverMessage={
-                  <>
-                    <FormattedMessage id="tooltip.extra.info.help" />
-                    <Link to="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </Link>
-                  </>
-                }
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}
@@ -763,14 +755,6 @@ const CareerManagementFormView = ({
               {/* Form Row Three: ex feeder */}
               <FormSubTitle
                 title={<FormattedMessage id="ex.feeder" />}
-                popoverMessage={
-                  <>
-                    <FormattedMessage id="tooltip.extra.info.help" />
-                    <Link to="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </Link>
-                  </>
-                }
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}

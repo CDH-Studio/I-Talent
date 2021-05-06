@@ -4,7 +4,7 @@ const { keycloak } = require("../../auth/keycloak");
 const connections = require("../../core/connections/connections");
 
 const { UUIDValidator } = require("../util/commonValidators");
-const { validationMiddlware } = require("../../utils/middlewares");
+const { validationMiddlware } = require("../../utils/middleware");
 
 const connectionsRouter = Router();
 
