@@ -15,11 +15,11 @@ const { Option } = Select;
 const Rules = {
   required: {
     required: true,
-    message: <FormattedMessage id="profile.rules.required" />,
+    message: <FormattedMessage id="rules.required" />,
   },
   url: {
     type: "url",
-    message: <FormattedMessage id="profile.rules.url" />,
+    message: <FormattedMessage id="rules.url" />,
   },
 };
 
@@ -39,7 +39,7 @@ const LinkAttachmentView = ({
       >
         <Select
           optionFilterProp="children"
-          placeholder={<FormattedMessage id="admin.select" />}
+          placeholder={<FormattedMessage id="select" />}
         >
           {nameOptions.map((value) => (
             <Option key={value.id}>{value.name}</Option>
