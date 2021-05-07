@@ -10,7 +10,7 @@ import {
 } from "antd";
 
 import { FormOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, injectIntl, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import {
@@ -37,6 +37,8 @@ const QualifiedPoolsFormView = ({
   savedQualifiedPools,
   classificationOptions,
 }) => {
+  const intl = useIntl();
+
   const Rules = {
     required: {
       required: true,
@@ -101,14 +103,18 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobTitle"]}
             fieldKey={[fieldElement.fieldKey, "jobTitle"]}
-            label={<FormattedMessage id="job.title" />}
+            label={<FormattedMessage id="job.title.department" />}
             rules={[Rules.required]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
               savedQualifiedPools[fieldElement.fieldKey].description
             }
           >
-            <Input />
+            <Input
+              placeholder={intl.formatMessage({
+                id: "job.title.department.placeholder",
+              })}
+            />
           </Form.Item>
         </Col>
 
@@ -116,7 +122,7 @@ const QualifiedPoolsFormView = ({
           <Form.Item
             name={[fieldElement.name, "jobPosterLink"]}
             label={<FormattedMessage id="qualified.pools.job.poster.link" />}
-            rules={[Rules.required, Rules.url]}
+            rules={[Rules.url]}
             fieldKey={[fieldElement.fieldKey, "jobPosterLink"]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
@@ -133,7 +139,6 @@ const QualifiedPoolsFormView = ({
             label={
               <FormattedMessage id="qualified.pools.selection.process.number" />
             }
-            rules={[Rules.required]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
               savedQualifiedPools[fieldElement.fieldKey].description

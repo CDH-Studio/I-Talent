@@ -23,10 +23,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
       dataSource={qualifiedPoolsInfo}
       renderItem={(item) => (
         <List.Item>
-          <Descriptions
-            size="small"
-            column={{ xs: 1, sm: 2, md: 3, xl: 4, xxl: 6 }}
-          >
+          <Descriptions size="small" column={{ xs: 1, sm: 2, xxl: 3 }}>
             <Descriptions.Item
               label={
                 <Text strong>
@@ -39,7 +36,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
             <Descriptions.Item
               label={
                 <Text strong>
-                  <FormattedMessage id="job.title" />
+                  <FormattedMessage id="job.title.department" />
                 </Text>
               }
             >
