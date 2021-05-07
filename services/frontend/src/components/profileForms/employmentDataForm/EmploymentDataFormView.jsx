@@ -9,13 +9,11 @@ import {
   Select,
   Input,
   Switch,
-  Checkbox,
   notification,
   Space,
 } from "antd";
 import PropTypes from "prop-types";
 import { FormattedMessage, injectIntl } from "react-intl";
-import dayjs from "dayjs";
 import { isEqual, identity, pickBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -33,7 +31,6 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
-import DatePickerField from "../../formItems/DatePickerField";
 
 import "./EmploymentDataFormView.less";
 
@@ -59,16 +56,9 @@ const EmploymentDataFormView = ({
   const axios = useAxios();
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
-  const [enableEndDate, setEnableEndDate] = useState();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
-  const [disabledEndDates, changeDisabledEnd] = useState(
-    form.getFieldValue("actingStartDate")
-  );
-  const [disabledStartDates, changeDisabledStart] = useState(
-    form.getFieldValue("actingEndDate")
-  );
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -109,8 +99,6 @@ const EmploymentDataFormView = ({
 
     if (!unalteredValues.actingLevelId) {
       values.actingLevelId = null;
-      values.actingStartDate = null;
-      values.actingEndDate = null;
     }
 
     await axios.put(`api/profile/${userId}?language=${locale}`, values);
@@ -119,17 +107,6 @@ const EmploymentDataFormView = ({
   /* toggle temporary role form */
   const toggleTempRoleForm = () => {
     setDisplayActingRoleForm((prev) => !prev);
-  };
-
-  /* enable or disable end date field */
-  const toggleTempEndDate = () => {
-    // reset end date value
-    if (enableEndDate) {
-      form.setFieldsValue({
-        actingEndDate: null,
-      });
-    }
-    setEnableEndDate(!enableEndDate);
   };
 
   /**
@@ -171,12 +148,6 @@ const EmploymentDataFormView = ({
           : undefined,
         manager: profile.manager,
         actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
-        actingStartDate: profile.actingStartDate
-          ? dayjs(profile.actingStartDate)
-          : undefined,
-        actingEndDate: profile.actingEndDate
-          ? dayjs(profile.actingEndDate)
-          : undefined,
       };
     }
     return {};
@@ -185,7 +156,7 @@ const EmploymentDataFormView = ({
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    *
-   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * pickBy({}, identity) is used to omit falsely values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
@@ -200,8 +171,6 @@ const EmploymentDataFormView = ({
 
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
-    changeDisabledEnd(form.getFieldValue("actingStartDate"));
-    changeDisabledStart(form.getFieldValue("actingEndDate"));
   };
 
   /*
@@ -333,84 +302,22 @@ const EmploymentDataFormView = ({
   const getTempRoleForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
-        <Row gutter={24} style={{ marginTop: "10px" }}>
-          <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-            <Form.Item
-              name="actingLevelId"
-              label={<FormattedMessage id="acting" />}
-              rules={[Rules.required]}
-            >
-              <Select
-                showSearch
-                placeholder={<FormattedMessage id="input.placeholder.select" />}
-                allowClear
-                filterOption={filterOption}
-              >
-                {classificationOptions.map((value) => (
-                  <Option key={value.id}>{value.name}</Option>
-                ))}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
-            <Form.Item
-              name="actingStartDate"
-              label={<FormattedMessage id="acting.period.start.date" />}
-              rules={[Rules.required]}
-              shouldUpdate={(prevValues, curValues) => {
-                if (prevValues !== curValues) {
-                  changeDisabledEnd(form.getFieldValue("actingStartDate"));
-                  changeDisabledStart(form.getFieldValue("actingEndDate"));
-                }
-              }}
-            >
-              <DatePickerField
-                viewOptions={["year", "month", "date"]}
-                placeholderText={intl.formatMessage({
-                  id: "profile.select.date",
-                })}
-                formatDate="YYYY-MM-DD"
-                defaultDate={form.getFieldValue("actingStartDate")}
-                disableWhen={{ maxDate: disabledStartDates }}
-              />
-            </Form.Item>
-          </Col>
-          <Col className="gutter-row" xs={24} md={24} lg={6} xl={6}>
-            <Form.Item
-              name="actingEndDate"
-              label={<FormattedMessage id="acting.period.end.date" />}
-              rules={enableEndDate ? [Rules.required] : undefined}
-              shouldUpdate={(prevValues, curValues) => {
-                if (prevValues !== curValues) {
-                  changeDisabledEnd(form.getFieldValue("actingStartDate"));
-                  changeDisabledStart(form.getFieldValue("actingEndDate"));
-                }
-              }}
-            >
-              {enableEndDate && (
-                <DatePickerField
-                  viewOptions={["year", "month", "date"]}
-                  placeholderText={intl.formatMessage({
-                    id: "profile.select.date",
-                  })}
-                  formatDate="YYYY-MM-DD"
-                  defaultDate={form.getFieldValue("actingEndDate")}
-                  disableWhen={{ minDate: disabledEndDates }}
-                />
-              )}
-            </Form.Item>
-            <div style={{ marginTop: !enableEndDate ? "-38px" : "-10px" }}>
-              <Checkbox
-                tabIndex={0}
-                onChange={toggleTempEndDate}
-                onKeyDown={enableEndDate}
-                defaultChecked={enableEndDate}
-              >
-                <FormattedMessage id="acting.has.end.date" />
-              </Checkbox>
-            </div>
-          </Col>
-        </Row>
+        <Form.Item
+          name="actingLevelId"
+          label={<FormattedMessage id="acting" />}
+          rules={[Rules.required]}
+        >
+          <Select
+            showSearch
+            placeholder={<FormattedMessage id="input.placeholder.select" />}
+            allowClear
+            filterOption={filterOption}
+          >
+            {classificationOptions.map((value) => (
+              <Option key={value.id}>{value.name}</Option>
+            ))}
+          </Select>
+        </Form.Item>
       );
     }
     return <div />;
@@ -422,12 +329,6 @@ const EmploymentDataFormView = ({
       setDisplayActingRoleForm(
         profileInfo && profileInfo.actingLevel && !!profileInfo.actingLevel.id
       );
-
-      /* check if user has acting end date to enable the date felid on load */
-      setEnableEndDate(
-        profileInfo ? Boolean(profileInfo.actingEndDate) : false
-      );
-
       // Makes the subform not reset on language change
       setLoadedData(true);
     }
@@ -442,16 +343,6 @@ const EmploymentDataFormView = ({
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayActingRoleForm]);
-
-  useEffect(() => {
-    const startDate = form.getFieldValue("actingStartDate");
-    const endDate = form.getFieldValue("actingEndDate");
-    return () => {
-      changeDisabledEnd(startDate);
-      changeDisabledStart(endDate);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getTempRoleForm]);
 
   /** **********************************
    ********* Render Component *********

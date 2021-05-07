@@ -52,9 +52,6 @@ function filterProfileVisibility(request, profileResult, userId) {
     result.groupLevel = null;
     result.tenure = null;
     result.actingLevel = null;
-    result.actingStartDate = null;
-    result.actingEndDate = null;
-
     cardVisibilities.info = false;
   }
 

@@ -58,12 +58,6 @@
               $ref: "#/definitions/LanguageEnum"
             preferredLanguage:
               $ref: "#/definitions/LanguageEnum"
-            actingStartDate:
-              type: string
-              format: data-time
-            actingEndDate:
-              type: string
-              format: data-time
             interestedInRemote:
               type: boolean
             exFeeder:

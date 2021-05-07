@@ -25,8 +25,6 @@ module.exports = [
     talentMatrixResult: "Strong Performer",
     groupLevel: "AS 04",
     actingLevel: "CS 03",
-    actingStartDate: moment().subtract(3, "months").toISOString(),
-    actingEndDate: moment().add(6, "months").toISOString(),
     officeLocation: {
       streetNumber: 235,
       postalCode: "K1A 0H5",

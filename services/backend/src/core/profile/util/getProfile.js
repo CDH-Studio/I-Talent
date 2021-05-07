@@ -25,8 +25,6 @@ async function getFullProfile(id, language) {
       firstLanguage: true,
       secondLanguage: true,
       preferredLanguage: true,
-      actingStartDate: true,
-      actingEndDate: true,
       linkedin: true,
       github: true,
       gcconnex: true,
