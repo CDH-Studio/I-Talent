@@ -23,8 +23,6 @@ const FormControlButtonsView = ({
   fieldsChanged,
   visibleCards,
 }) => {
-  console.log("ONFINISH", typeof onFinish);
-
   const [finish, setFinish] = useState(false);
   const [modalFunc, setModalFunc] = useState(null);
 

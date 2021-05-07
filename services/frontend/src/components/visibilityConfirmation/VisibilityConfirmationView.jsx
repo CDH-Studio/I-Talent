@@ -8,32 +8,22 @@ const VisibilityConfirmationView = ({
   onOk,
   onCloseModal,
 }) => {
+  const getTag = (colour, message) => (
+    <>
+      <Tag color={colour}>
+        <FormattedMessage id={message} />
+      </Tag>
+    </>
+  );
+
   const getCardStatusElement = (cardStatus) => {
     switch (cardStatus) {
       case "PRIVATE":
-        return (
-          <>
-            <Tag color="red">
-              <FormattedMessage id="visibility.card.private" />
-            </Tag>
-          </>
-        );
+        return getTag("red", "visibility.card.private");
       case "PUBLIC":
-        return (
-          <>
-            <Tag color="green">
-              <FormattedMessage id="visibility.card.public" />
-            </Tag>
-          </>
-        );
+        return getTag("green", "visibility.card.public");
       case "CONNECTIONS":
-        return (
-          <>
-            <Tag color="blue">
-              <FormattedMessage id="visibility.card.connections" />
-            </Tag>
-          </>
-        );
+        return getTag("blue", "visibility.card.connections");
 
       default:
         return <p>None</p>;
