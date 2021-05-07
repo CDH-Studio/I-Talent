@@ -14,6 +14,7 @@ const FormControlButtons = ({
   onReset,
   onFinish,
   fieldsChanged,
+  visibleCards,
 }) => (
   <FormControlButtonsView
     edit={formType === "edit"}
@@ -24,6 +25,7 @@ const FormControlButtons = ({
     onReset={onReset}
     onFinish={onFinish}
     fieldsChanged={fieldsChanged}
+    visibleCards={visibleCards}
   />
 );
 
@@ -35,6 +37,9 @@ FormControlButtons.propTypes = {
   onReset: PropTypes.func.isRequired,
   onFinish: PropTypes.func.isRequired,
   fieldsChanged: PropTypes.bool.isRequired,
+  visibleCards: PropTypes.objectOf(
+    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
+  ).isRequired,
 };
 
 FormControlButtons.defaultProps = {
