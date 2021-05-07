@@ -205,6 +205,8 @@
   "item.is.ongoing": "Courant",
   "item.start.date": "Date de début",
   "job.title": "Poste de travail",
+  "job.title.department": "Poste de travail et département",
+  "job.title.department.placeholder": "Poste de travail, département",
   "job.title.tooltip": "Ces informations proviennent de GCannuaire. Pour mettre à jour, veuillez mettre à jour votre profil GCannuaire et resynchroniser I-Talent.",
   "landing.call.to.action": "Connectez-vous avec d'autres personnes talentueuses pour apprendre et grandir ensemble.",
   "lang.code": "en",
