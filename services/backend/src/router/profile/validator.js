@@ -142,11 +142,7 @@ const updateProfileValidator = [
     .isArray()
     .custom((array) =>
       array.every(
-        (i) =>
-          isUUID(i.classificationId) &&
-          typeof i.jobTitle === "string" &&
-          typeof i.selectionProcessNumber === "string" &&
-          typeof i.jobPosterLink === "string"
+        (i) => isUUID(i.classificationId) && typeof i.jobTitle === "string"
       )
     ),
   body(

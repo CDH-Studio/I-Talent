@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 model DbSeed {
@@ -72,7 +72,7 @@ model OpTransSecurityClearance {
   language    Language
   description String
 
-  opSecurityClearance   OpSecurityClearance? @relation(fields: [opSecurityClearanceId], references: [id])
+  opSecurityClearance   OpSecurityClearance? @relation(fields: [opSecurityClearanceId])
   opSecurityClearanceId String?
   @@unique([language, description])
 }
@@ -92,7 +92,7 @@ model OpTransLookingJob {
   language    Language
   description String
 
-  opLookingJob   OpLookingJob? @relation(fields: [opLookingJobId], references: [id])
+  opLookingJob   OpLookingJob? @relation(fields: [opLookingJobId])
   opLookingJobId String?
   @@unique([language, description])
 }
@@ -112,7 +112,7 @@ model OpTransTenure {
   language  Language
   name      String
 
-  opTenures  OpTenure? @relation(fields: [opTenureId], references: [id])
+  opTenures  OpTenure? @relation(fields: [opTenureId])
   opTenureId String?
   @@unique([language, name])
 }
@@ -132,7 +132,7 @@ model OpTransCareerMobility {
   language    Language
   description String
 
-  opCareerMobility   OpCareerMobility? @relation(fields: [opCareerMobilityId], references: [id])
+  opCareerMobility   OpCareerMobility? @relation(fields: [opCareerMobilityId])
   opCareerMobilityId String?
   @@unique([language, description])
 }
@@ -152,7 +152,7 @@ model OpTransTalentMatrixResult {
   language    Language
   description String
 
-  opTalentMatrixResult   OpTalentMatrixResult? @relation(fields: [opTalentMatrixResultId], references: [id])
+  opTalentMatrixResult   OpTalentMatrixResult? @relation(fields: [opTalentMatrixResultId])
   opTalentMatrixResultId String?
   @@unique([language, description])
 }
@@ -172,7 +172,7 @@ model OpTransOfficeLocation {
   language           Language
   streetName         String
   province           String
-  opOfficeLocation   OpOfficeLocation? @relation(fields: [opOfficeLocationId], references: [id])
+  opOfficeLocation   OpOfficeLocation? @relation(fields: [opOfficeLocationId])
   opOfficeLocationId String?
 }
 
@@ -205,7 +205,7 @@ model OpTransSkill {
   language  Language
   name      String
 
-  opSkill   OpSkill? @relation(fields: [opSkillId], references: [id])
+  opSkill   OpSkill? @relation(fields: [opSkillId])
   opSkillId String?
   @@unique([language, name])
 }
@@ -216,7 +216,7 @@ model OpSkill {
   updatedAt          DateTime            @updatedAt
   categoryId         String?
   translations       OpTransSkill[]
-  category           OpCategory?         @relation(fields: [categoryId], references: [id])
+  category           OpCategory?         @relation(fields: [categoryId])
   mentorshipSkills   MentorshipSkill[]
   skills             Skill[]
   developmentalGoals DevelopmentalGoal[]
@@ -229,7 +229,7 @@ model OpTransCategory {
   language  Language
   name      String
 
-  opCategory   OpCategory? @relation(fields: [opCategoryId], references: [id])
+  opCategory   OpCategory? @relation(fields: [opCategoryId])
   opCategoryId String?
   @@unique([language, name])
 }
@@ -249,7 +249,7 @@ model OpTransCompetency {
   language  Language
   name      String
 
-  opCompetency   OpCompetency? @relation(fields: [opCompetencyId], references: [id])
+  opCompetency   OpCompetency? @relation(fields: [opCompetencyId])
   opCompetencyId String?
   @@unique([language, name])
 }
@@ -269,8 +269,8 @@ model Competency {
   updatedAt    DateTime     @updatedAt
   userId       String
   competencyId String
-  user         User         @relation(fields: [userId], references: [id])
-  competency   OpCompetency @relation(fields: [competencyId], references: [id])
+  user         User         @relation(fields: [userId])
+  competency   OpCompetency @relation(fields: [competencyId])
 
   @@unique([userId, competencyId])
 }
@@ -281,7 +281,7 @@ model OpTransSchool {
   updatedAt  DateTime  @updatedAt
   language   Language
   name       String
-  opSchool   OpSchool? @relation(fields: [opSchoolId], references: [id])
+  opSchool   OpSchool? @relation(fields: [opSchoolId])
   opSchoolId String?
 }
 
@@ -301,7 +301,7 @@ model OpTransDiploma {
   updatedAt   DateTime   @updatedAt
   language    Language
   description String
-  opDiploma   OpDiploma? @relation(fields: [opDiplomaId], references: [id])
+  opDiploma   OpDiploma? @relation(fields: [opDiplomaId])
   opDiplomaId String?
 }
 
@@ -321,7 +321,7 @@ model OpTransRelocationLocation {
   city      String
   province  String
 
-  opRelocationLocation   OpRelocationLocation? @relation(fields: [opRelocationLocationId], references: [id])
+  opRelocationLocation   OpRelocationLocation? @relation(fields: [opRelocationLocationId])
   opRelocationLocationId String?
   @@unique([language, city, province])
 }
@@ -341,7 +341,7 @@ model TransEmploymentInfo {
   language         Language
   jobTitle         String?
   branch           String?
-  employmentInfo   EmploymentInfo? @relation(fields: [employmentInfoId], references: [id])
+  employmentInfo   EmploymentInfo? @relation(fields: [employmentInfoId])
   employmentInfoId String?
 }
 
@@ -380,8 +380,8 @@ model MentorshipSkill {
   updatedAt DateTime @updatedAt
   userId    String
   skillId   String
-  user      User     @relation(fields: [userId], references: [id])
-  skill     OpSkill  @relation(fields: [skillId], references: [id])
+  user      User     @relation(fields: [userId])
+  skill     OpSkill  @relation(fields: [skillId])
 
   @@unique([userId, skillId])
 }
@@ -392,8 +392,8 @@ model Skill {
   updatedAt DateTime @updatedAt
   userId    String
   skillId   String
-  user      User     @relation(fields: [userId], references: [id])
-  skill     OpSkill  @relation(fields: [skillId], references: [id])
+  user      User     @relation(fields: [userId])
+  skill     OpSkill  @relation(fields: [skillId])
 
   @@unique([userId, skillId])
 }
@@ -405,9 +405,9 @@ model DevelopmentalGoal {
   userId       String
   skillId      String?
   competencyId String?
-  user         User          @relation(fields: [userId], references: [id])
-  skill        OpSkill?      @relation(fields: [skillId], references: [id])
-  competency   OpCompetency? @relation(fields: [competencyId], references: [id])
+  user         User          @relation(fields: [userId])
+  skill        OpSkill?      @relation(fields: [skillId])
+  competency   OpCompetency? @relation(fields: [competencyId])
 
   @@unique([userId, skillId])
   @@unique([userId, competencyId])
@@ -422,7 +422,7 @@ model QualifiedPool {
   jobTitle               String
   selectionProcessNumber String?
   jobPosterLink          String?
-  user                   User             @relation(fields: [userId], references: [id])
+  user                   User             @relation(fields: [userId])
   classification         OpClassification @relation("qualifiedPools", fields: [classificationId], references: [id])
 }
 
@@ -435,7 +435,7 @@ model SecondLangProf {
   unknownExpiredDate Boolean?         @default(false)
   proficiency        Proficiency
   level              ProficiencyLevel
-  user               User             @relation(fields: [userId], references: [id])
+  user               User             @relation(fields: [userId])
 
   @@unique([userId, proficiency])
 }
@@ -446,7 +446,7 @@ model Organization {
   updatedAt        DateTime           @updatedAt
   userId           String
   organizationTier OrganizationTier[]
-  user             User               @relation(fields: [userId], references: [id])
+  user             User               @relation(fields: [userId])
 }
 
 model OrganizationTier {
@@ -454,7 +454,7 @@ model OrganizationTier {
   createdAt      DateTime            @default(now())
   updatedAt      DateTime            @updatedAt
   tier           Int
-  organization   Organization?       @relation(fields: [organizationId], references: [id])
+  organization   Organization?       @relation(fields: [organizationId])
   translations   TransOrganization[]
   organizationId String?
 }
@@ -465,7 +465,7 @@ model TransOrganization {
   updatedAt          DateTime          @updatedAt
   language           Language
   description        String
-  organizationTier   OrganizationTier? @relation(fields: [organizationTierId], references: [id])
+  organizationTier   OrganizationTier? @relation(fields: [organizationTierId])
   organizationTierId String?
 }
 
@@ -481,9 +481,9 @@ model Education {
   ongoingDate     Boolean          @default(false)
   description     String?
   attachmentLinks AttachmentLink[]
-  user            User             @relation(fields: [userId], references: [id])
-  school          OpSchool?        @relation(fields: [schoolId], references: [id])
-  diploma         OpDiploma?       @relation(fields: [diplomaId], references: [id])
+  user            User             @relation(fields: [userId])
+  school          OpSchool?        @relation(fields: [schoolId])
+  diploma         OpDiploma?       @relation(fields: [diplomaId])
 
   @@unique([userId, schoolId, diplomaId, startDate])
 }
@@ -496,7 +496,7 @@ model TransExperience {
   description  String?
   jobTitle     String
   organization String
-  experience   Experience? @relation(fields: [experienceId], references: [id])
+  experience   Experience? @relation(fields: [experienceId])
   experienceId String?
 }
 
@@ -511,7 +511,7 @@ model Experience {
   ongoingDate     Boolean           @default(false)
   projects        String[]
   attachmentLinks AttachmentLink[]
-  user            User              @relation(fields: [userId], references: [id])
+  user            User              @relation(fields: [userId])
 }
 
 model RelocationLocation {
@@ -519,9 +519,9 @@ model RelocationLocation {
   createdAt            DateTime             @default(now())
   updatedAt            DateTime             @updatedAt
   relocationLocationId String
-  relocationLocation   OpRelocationLocation @relation(fields: [relocationLocationId], references: [id])
+  relocationLocation   OpRelocationLocation @relation(fields: [relocationLocationId])
   userId               String
-  user                 User                 @relation(fields: [userId], references: [id])
+  user                 User                 @relation(fields: [userId])
 
   @@unique([userId, relocationLocationId])
 }
@@ -554,7 +554,7 @@ model TransAttachmentLink {
   nameId    String
   url       String
 
-  name             OpAttachmentLinkName @relation(fields: [nameId], references: [id])
+  name             OpAttachmentLinkName @relation(fields: [nameId])
   AttachmentLink   AttachmentLink?      @relation(fields: [attachmentLinkId], references: [id])
   attachmentLinkId String?
 }
@@ -614,6 +614,8 @@ model User {
   firstLanguage                 Language?
   secondLanguage                Language?
   preferredLanguage             Language                @default(ENGLISH)
+  actingStartDate               DateTime?
+  actingEndDate                 DateTime?
   linkedin                      String?
   github                        String?
   gcconnex                      String?
@@ -622,16 +624,16 @@ model User {
   status                        UserStatus              @default(ACTIVE)
   signupStep                    Int                     @default(1)
   teams                         String[]
-  groupLevel                    OpClassification?       @relation(fields: [groupLevelId], name: "groupLevels", references: [id])
-  actingLevel                   OpClassification?       @relation(fields: [actingLevelId], name: "actingLevels", references: [id])
-  securityClearance             OpSecurityClearance?    @relation(fields: [securityClearanceId], references: [id])
-  lookingJob                    OpLookingJob?           @relation(fields: [lookingJobId], references: [id])
-  tenure                        OpTenure?               @relation(fields: [tenureId], references: [id])
-  careerMobility                OpCareerMobility?       @relation(fields: [careerMobilityId], references: [id])
-  employmentInfo                EmploymentInfo?         @relation(fields: [employmentInfoId], references: [id])
-  talentMatrixResult            OpTalentMatrixResult?   @relation(fields: [talentMatrixResultId], references: [id])
-  officeLocation                OpOfficeLocation?       @relation(fields: [officeLocationId], references: [id])
-  visibleCards                  VisibleCard             @relation(fields: [visibleCardId], references: [id])
+  groupLevel                    OpClassification?       @relation(fields: [groupLevelId], name: "groupLevels")
+  actingLevel                   OpClassification?       @relation(fields: [actingLevelId], name: "actingLevels")
+  securityClearance             OpSecurityClearance?    @relation(fields: [securityClearanceId])
+  lookingJob                    OpLookingJob?           @relation(fields: [lookingJobId])
+  tenure                        OpTenure?               @relation(fields: [tenureId])
+  careerMobility                OpCareerMobility?       @relation(fields: [careerMobilityId])
+  employmentInfo                EmploymentInfo?         @relation(fields: [employmentInfoId])
+  talentMatrixResult            OpTalentMatrixResult?   @relation(fields: [talentMatrixResultId])
+  officeLocation                OpOfficeLocation?       @relation(fields: [officeLocationId])
+  visibleCards                  VisibleCard             @relation(fields: [visibleCardId])
   mentorshipSkills              MentorshipSkill[]
   skills                        Skill[]
   developmentalGoals            DevelopmentalGoal[]
@@ -646,6 +648,6 @@ model User {
   employmentEquityGroups        EmploymentEquityGroup[]
   bugsReported                  Bug[]
   connections                   User[]                  @relation("UserToUser")
-  user                          User?                   @relation("UserToUser", fields: [userId], references: [id])
+  user                          User?                   @relation("UserToUser", fields: [userId])
   userId                        String?
 }
