@@ -30,11 +30,16 @@ const VisibilityConfirmationView = ({
     }
   };
 
+  const onClickOk = () => {
+    onOk();
+    onCloseModal();
+  };
+
   return (
     <Modal
       title={<FormattedMessage id="visibility.review.title" />}
       visible={visible}
-      onOk={onOk}
+      onOk={onClickOk}
       onCancel={onCloseModal}
       width="70%"
     >
@@ -95,8 +100,12 @@ VisibilityConfirmationView.propTypes = {
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,
   visible: PropTypes.bool.isRequired,
-  onOk: PropTypes.func.isRequired,
+  onOk: PropTypes.func,
   onCloseModal: PropTypes.func.isRequired,
+};
+
+VisibilityConfirmationView.defaultProps = {
+  onOk: () => {},
 };
 
 export default VisibilityConfirmationView;
