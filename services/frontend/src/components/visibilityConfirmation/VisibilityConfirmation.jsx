@@ -20,8 +20,12 @@ VisibilityConfirmation.propTypes = {
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,
   visible: PropTypes.bool.isRequired,
-  onOk: PropTypes.func.isRequired,
+  onOk: PropTypes.func,
   onCloseModal: PropTypes.func.isRequired,
+};
+
+VisibilityConfirmation.defaultProps = {
+  onOk: () => {},
 };
 
 export default VisibilityConfirmation;
