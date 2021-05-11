@@ -6,7 +6,6 @@ import IELayout from "../components/layouts/internetExplorerErrorLayout/Internet
  *  Rendering the IE incompatibility error page.
  */
 const InternetExplorerError = () => {
-  console.log("here1");
   return <IELayout />;
 };
 

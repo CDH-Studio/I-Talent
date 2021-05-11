@@ -11,7 +11,6 @@ const { Header } = Layout;
  *  Component to render the IE incompatibility error
  */
 const InternetExplorerErrorLayoutView = ({ redirectBrowser }) => {
-  console.log("here2");
   return (
     <>
       <Layout className="layout">
