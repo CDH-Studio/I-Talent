@@ -5,8 +5,6 @@ import IELayout from "../components/layouts/internetExplorerErrorLayout/Internet
  *
  *  Rendering the IE incompatibility error page.
  */
-const InternetExplorerError = () => {
-  return <IELayout />;
-};
+const InternetExplorerError = () => <IELayout />;
 
 export default InternetExplorerError;
