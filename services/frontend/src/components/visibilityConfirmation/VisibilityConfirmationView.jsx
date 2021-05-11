@@ -30,11 +30,16 @@ const VisibilityConfirmationView = ({
     }
   };
 
+  const onClickOk = () => {
+    onOk();
+    onCloseModal();
+  };
+
   return (
     <Modal
       title={<FormattedMessage id="visibility.review.title" />}
       visible={visible}
-      onOk={onOk}
+      onOk={onClickOk}
       onCancel={onCloseModal}
       width="70%"
     >
