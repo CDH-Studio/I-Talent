@@ -36,13 +36,13 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
       nextData.titleId = `secondary.${profType.toLowerCase()}.proficiency`;
 
       if (info) {
+        nextData.status = intl.formatMessage({
+          id: info.status.toLowerCase(),
+        });
         if (info.level === "NA") {
           nextData.level = intl.formatMessage({ id: "grade.not.applicable" });
         } else {
           nextData.level = info.level;
-          nextData.status = intl.formatMessage({
-            id: info.status.toLowerCase(),
-          });
         }
       } else {
         nextData.level = "-";
