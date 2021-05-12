@@ -389,5 +389,8 @@
   "work.cellphone": "Work cellphone",
   "work.location": "Location",
   "working.address": "Work address",
-  "yes": "Yes"
+  "yes": "Yes",
+  "lang.status": "Language Status",
+  "valid": "Valid",
+  "unknown": "Unknown"
 }

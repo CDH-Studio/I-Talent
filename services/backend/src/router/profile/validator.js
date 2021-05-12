@@ -122,7 +122,7 @@ const updateProfileValidator = [
   ),
   body(
     "secondLangProfs",
-    "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X' | 'NA', date?: DateTime }"
+    "must be an array of containing { proficiency: 'ORAL' | 'WRITING' | 'READING', level: 'A' | 'B' | 'C' | 'E' | 'X' | 'NA'}"
   )
     .optional()
     .isArray()
@@ -131,7 +131,7 @@ const updateProfileValidator = [
         (i) =>
           isIn(i.level, ["A", "B", "C", "E", "X", "NA"]) &&
           isIn(i.proficiency, ["ORAL", "WRITING", "READING"]) &&
-          ("date" in i ? i.date === null || moment(i.date).isValid() : true)
+          isIn(i.status, ["EXPIRED", "VALID","UNKNOWN"])
       )
     ),
   body(

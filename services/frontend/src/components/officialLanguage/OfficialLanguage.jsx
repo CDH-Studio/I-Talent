@@ -1,7 +1,5 @@
 import { FormattedMessage, useIntl } from "react-intl";
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
-
 import OfficialLanguageView from "./OfficialLanguageView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
@@ -30,9 +28,11 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
 
     ["READING", "WRITING", "ORAL"].forEach((profType) => {
       const nextData = {};
+
       const info = dataSource.secondLangProfs
         ? dataSource.secondLangProfs.find((i) => i.proficiency === profType)
         : undefined;
+
       nextData.titleId = `secondary.${profType.toLowerCase()}.proficiency`;
 
       if (info) {
@@ -40,22 +40,13 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
           nextData.level = intl.formatMessage({ id: "grade.not.applicable" });
         } else {
           nextData.level = info.level;
-          if (info.date) {
-            nextData.expiryInfo = ` (${
-              info.expired
-                ? intl.formatMessage({ id: "expired" })
-                : intl.formatMessage({ id: "expires.date" })
-            } ${dayjs(info.date).format("ll")})`;
-          } else if (info.expired !== false) {
-            nextData.expiryInfo = `(${
-              info.expired
-                ? intl.formatMessage({ id: "expired" })
-                : intl.formatMessage({ id: "unexpired" })
-            })`;
-          }
+          nextData.status = intl.formatMessage({
+            id: info.status.toLowerCase(),
+          });
         }
       } else {
         nextData.level = "-";
+        nextData.status = "-";
       }
 
       languageInfo.push(nextData);

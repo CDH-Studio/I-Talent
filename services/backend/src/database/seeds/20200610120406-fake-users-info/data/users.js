@@ -64,17 +64,17 @@ module.exports = [
     proficiencies: [
       {
         proficiency: "ORAL",
-        date: new Date(),
+        status: "EXPIRED",
         level: "B",
       },
       {
         proficiency: "WRITING",
-        date: new Date(),
+        status: "VALID",
         level: "X",
       },
       {
         proficiency: "READING",
-        date: new Date(),
+        status: "UNKNOWN",
         level: "C",
       },
     ],
@@ -262,17 +262,17 @@ module.exports = [
     proficiencies: [
       {
         proficiency: "ORAL",
-        date: new Date(),
+        status: "EXPIRED",
         level: "A",
       },
       {
         proficiency: "WRITING",
-        date: new Date(),
+        status: "VALID",
         level: "B",
       },
       {
         proficiency: "READING",
-        date: new Date(),
+        status: "UNKNOWN",
         level: "E",
       },
     ],
