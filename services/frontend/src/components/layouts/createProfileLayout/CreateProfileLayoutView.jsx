@@ -84,11 +84,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * @param {*} descriptions
    */
   const createDescription = (descriptions) => {
-    const modifiedDescriptions = descriptions.map((description, index) => (
-      <li key={index}>
+    const modifiedDescriptions = descriptions.map((description) => (
+      <li key={description}>
         <FormattedMessage id={description} />
       </li>
     ));
+
     return modifiedDescriptions ? (
       <ul className="stepList">{modifiedDescriptions}</ul>
     ) : undefined;

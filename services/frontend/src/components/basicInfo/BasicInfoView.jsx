@@ -26,9 +26,9 @@ import {
   Tag,
   Popover,
 } from "antd";
-
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
+import { kebabCase } from "lodash";
 import OrgTree from "../orgTree/OrgTree";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
@@ -259,9 +259,8 @@ const BasicInfoView = ({
       description:
         data.teams && data.teams.length ? (
           <List>
-            {Object.values(data.teams).map((item, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <Tag color="#727272" key={index}>
+            {Object.values(data.teams).map((item) => (
+              <Tag color="#727272" key={kebabCase(item)}>
                 {item}
               </Tag>
             ))}
