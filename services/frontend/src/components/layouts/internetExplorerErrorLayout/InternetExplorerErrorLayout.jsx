@@ -12,7 +12,7 @@ const InternetExplorerErrorLayout = () => {
    * Open page in Microsoft Edge
    */
   function redirectBrowser() {
-    window.location = `microsoft-edge: ${window.location.hostname}`;
+    window.location = `microsoft-edge:${window.location.hostname}`;
   }
 
   return <IeLayoutView redirectBrowser={redirectBrowser} />;
