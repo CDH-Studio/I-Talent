@@ -96,8 +96,6 @@ const QualificationsFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
-    // eslint-disable-next-line no-console
-    console.log(formValues);
     const dbValues = pickBy(savedValues || initialValues, identity);
 
     // This needs to be done since the remove from the Form.List does not delete the
