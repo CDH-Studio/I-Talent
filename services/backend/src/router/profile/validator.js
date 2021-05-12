@@ -131,7 +131,7 @@ const updateProfileValidator = [
         (i) =>
           isIn(i.level, ["A", "B", "C", "E", "X", "NA"]) &&
           isIn(i.proficiency, ["ORAL", "WRITING", "READING"]) &&
-          isIn(i.status, ["EXPIRED", "VALID","UNKNOWN"])
+          isIn(i.status, ["EXPIRED", "VALID", "UNKNOWN"])
       )
     ),
   body(

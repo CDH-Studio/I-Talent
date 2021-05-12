@@ -75,7 +75,7 @@ function filterProfileVisibility(request, profileResult, userId) {
 
     cardVisibilities.officialLanguage = false;
   }
-  
+
   if (isCardHidden("skills")) {
     result.skills = [];
 

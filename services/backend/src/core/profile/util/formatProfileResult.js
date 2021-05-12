@@ -104,8 +104,10 @@ function formatProfileResult(profile, language) {
       _.remove(developmentalGoals, null),
       "name"
     );
-    filteredProfile.developmentalGoalsUpdatedAt =
-      profile.developmentalGoals.reduce(updatedAtReducer, undefined);
+    filteredProfile.developmentalGoalsUpdatedAt = profile.developmentalGoals.reduce(
+      updatedAtReducer,
+      undefined
+    );
   }
 
   if (profile.developmentalGoalsAttachments) {
