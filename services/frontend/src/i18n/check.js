@@ -15,7 +15,12 @@ blacklistedKeys.forEach((e) => delete fr[e]);
  * Check for duplicated values in en_CA.json and fr_CA.json
  */
 const findDuplicates = (arr) =>
-  arr.filter(((s) => (v) => s.has(v) || !s.add(v))(new Set()));
+  arr.filter(
+    (
+      (s) => (v) =>
+        s.has(v) || !s.add(v)
+    )(new Set())
+  );
 
 const enValues = sortBy(Object.values(en));
 const frValues = sortBy(Object.values(fr));
