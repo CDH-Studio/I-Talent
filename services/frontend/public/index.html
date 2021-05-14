@@ -1,55 +1,58 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="#087472" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta charset="utf-8" />
+    <title>I-Talent</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Search tool to find people based on experience and skills"
+    />
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
 
-<head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="theme-color" content="#087472" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-  <meta charset="utf-8" />
-  <title>I-Talent</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Search tool to find people based on experience and skills" />
-  <style>
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
+        to {
+          opacity: 1;
+        }
       }
 
-      to {
-        opacity: 1;
+      body {
+        background-color: #f0f2f5 !important;
+        margin: 0;
       }
-    }
 
-    body {
-      background-color: #f0f2f5 !important;
-      margin: 0;
-    }
+      .loading-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        animation: fadeIn 750ms;
+      }
+    </style>
+    <script src="%PUBLIC_URL%/env.js"></script>
+    <script>
+      // load polyfill only in IE
+      if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
+        document.write(
+          "<script src='https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js'><\/script>"
+        );
+      }
+    </script>
+  </head>
 
-    .loading-logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      height: 100vh;
-      animation: fadeIn 750ms;
-    }
-  </style>
-  <script src="%PUBLIC_URL%/env.js"></script>
-  <script>
-    // load polyfill only in IE
-    if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent)) {
-      document.write("<script src='https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser-polyfill.min.js'><\/script>");
-    }
-  </script>
-</head>
-
-<body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root">
-    <div class="loading-logo">
-      <img height="70px" src="/favicon.ico" />
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root">
+      <div class="loading-logo">
+        <img height="70px" src="/favicon.ico" />
+      </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>
