@@ -539,8 +539,8 @@ async function seedUsers() {
               }
             : undefined,
           secondLangProfs: {
-            create: proficiencies.map(({ date, level, proficiency }) => ({
-              date,
+            create: proficiencies.map(({ status, level, proficiency }) => ({
+              status,
               level,
               proficiency,
             })),

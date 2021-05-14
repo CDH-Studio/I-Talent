@@ -389,5 +389,8 @@
   "work.cellphone": "Cellulaire du travail",
   "work.location": "Lieu de travail",
   "working.address": "Adresse du travail",
-  "yes": "Oui"
+  "yes": "Oui",
+  "lang.status": "Statut de la langue",
+  "valid": "Valide",
+  "unknown": "Inconnue"
 }

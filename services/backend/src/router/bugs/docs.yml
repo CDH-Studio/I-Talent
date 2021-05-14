@@ -14,7 +14,7 @@
             description:
               type: string
             location:
-                $ref: "#/definitions/BugsLocationEnum"
+              $ref: "#/definitions/BugsLocationEnum"
     responses:
       200:
         $ref: "#/definitions/200"

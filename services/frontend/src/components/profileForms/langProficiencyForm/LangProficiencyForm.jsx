@@ -16,15 +16,9 @@ import handleError from "../../../functions/handleError";
 const LangProficiencyForm = ({ formType }) => {
   const [languageOptions, setLanguageOptions] = useState([]);
   const [proficiencyOptions, setProficiencyOptions] = useState([]);
-
-  // const [expiredSecondaryGradings, setExpiredSecondaryGradings] = useState({});
+  const [statusOptions, setStatusOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
-  const [unknownExpiredGrades, setUnknownExpiredGrades] = useState({
-    reading: false,
-    writing: false,
-    oral: false,
-  });
 
   const history = useHistory();
   const axios = useAxios();
@@ -32,29 +26,63 @@ const LangProficiencyForm = ({ formType }) => {
   const { id } = useSelector((state) => state.user);
   const { locale } = useSelector((state) => state.settings);
 
+  /* Save data */
+  const saveDataToDB = async (values, displaySecondLangForm) => {
+    const dbValues = {
+      secondLangProfs: [],
+    };
+
+    // If firstLanguage is undefined then clear value in DB
+    if (values.firstLanguage) {
+      dbValues.firstLanguage = values.firstLanguage;
+    } else {
+      dbValues.firstLanguage = null;
+    }
+
+    if (displaySecondLangForm) {
+      // set second language based on first language
+      dbValues.secondLanguage =
+        values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
+
+      if (
+        values.oralProficiency ||
+        values.writingProficiency ||
+        values.readingProficiency
+      ) {
+        if (values.oralProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "ORAL",
+            level: values.oralProficiency,
+            status: values.secondaryOralStatus,
+          });
+        }
+
+        if (values.writingProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "WRITING",
+            level: values.writingProficiency,
+            status: values.secondaryWritingStatus,
+          });
+        }
+
+        if (values.readingProficiency) {
+          dbValues.secondLangProfs.push({
+            proficiency: "READING",
+            level: values.readingProficiency,
+            status: values.secondaryReadingStatus,
+          });
+        }
+      }
+    }
+
+    await axios.put(`api/profile/${id}?language=${locale}`, dbValues);
+  };
+
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
     await axios
       .get(`api/profile/private/${id}?language=${locale}`)
       .then((result) => {
-        if (result.data && result.data.secondLangProfs) {
-          const readingObj = result.data.secondLangProfs.find(
-            (grading) => grading.proficiency === "READING"
-          );
-          const writingObj = result.data.secondLangProfs.find(
-            (grading) => grading.proficiency === "WRITING"
-          );
-          const oralObj = result.data.secondLangProfs.find(
-            (grading) => grading.proficiency === "ORAL"
-          );
-
-          setUnknownExpiredGrades({
-            reading: readingObj && readingObj.expired && !readingObj.date,
-            writing: writingObj && writingObj.expired && !writingObj.date,
-            oral: oralObj && oralObj.expired && !oralObj.date,
-          });
-        }
-
         setProfileInfo(result.data);
       });
   }, [axios, id, locale]);
@@ -89,6 +117,25 @@ const LangProficiencyForm = ({ formType }) => {
       },
     ]);
 
+    // Set status options:
+    setStatusOptions([
+      {
+        key: "EXPIRED",
+        value: "EXPIRED",
+        text: intl.formatMessage({ id: "expired" }),
+      },
+      {
+        key: "VALID",
+        value: "VALID",
+        text: intl.formatMessage({ id: "valid" }),
+      },
+      {
+        key: "UNKNOWN",
+        value: "UNKNOWN",
+        text: intl.formatMessage({ id: "unknown" }),
+      },
+    ]);
+
     // Get all required data component
     getProfileInfo()
       .then(() => {
@@ -104,13 +151,13 @@ const LangProficiencyForm = ({ formType }) => {
     <LangProficiencyFormView
       languageOptions={languageOptions}
       proficiencyOptions={proficiencyOptions}
+      statusOptions={statusOptions}
       profileInfo={profileInfo}
       formType={formType}
       load={load}
       history={history}
       userId={id}
-      unknownExpiredGrades={unknownExpiredGrades}
-      setUnknownExpiredGrades={setUnknownExpiredGrades}
+      saveDataToDB={saveDataToDB}
     />
   );
 };

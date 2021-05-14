@@ -74,10 +74,6 @@ function filterProfileVisibility(request, profileResult, userId) {
     result.secondLangProfs = null;
 
     cardVisibilities.officialLanguage = false;
-  } else if (result.secondLangProfs) {
-    result.secondLangProfs.forEach((lang, index) => {
-      delete result.secondLangProfs[index].date;
-    });
   }
 
   if (isCardHidden("skills")) {
@@ -85,6 +81,7 @@ function filterProfileVisibility(request, profileResult, userId) {
 
     cardVisibilities.skills = false;
   }
+
   if (isCardHidden("competencies")) {
     result.competencies = [];
 
