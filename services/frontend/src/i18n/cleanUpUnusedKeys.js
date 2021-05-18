@@ -60,7 +60,9 @@ const getFilesInDirectory = async (dir, ext) => {
  * Overwrites the i18n files without the unused keys and saves them
  *
  * @param {string[]} keysToRemove  Keys in the i18n files that are not being
- *                               used inside the application
+ *                                 used inside the application
+ * @returns {string[]}  Returns keys that only exited in one of the language
+ *                      files so they were deleted
  */
 const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
   const newEn = {};
@@ -69,7 +71,7 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
 
   allKeys.forEach((key) => {
     if (!_.includes(keysToRemove, key)) {
-      if (enList[key] && frList[key]) {
+      if (enList[key] !== undefined && frList[key] !== undefined) {
         newEn[key] = enList[key];
         newFr[key] = frList[key];
       } else {
@@ -100,6 +102,8 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
  * @param {string[]} searchableKeys  Keys to search for in the directory
  * @param {string[]} ignoreKeys  Keys that should not be returned even
  *                               if they were not found in directory
+ * @returns {string[]}  Returns keys that were not used in the project
+
  */
 const searchForUnusedKeysInFiles = async (
   dir,
@@ -138,7 +142,7 @@ const searchForUnusedKeysInFiles = async (
   );
 
   console.log(
-    `${unusedKeys.length} keys are not being used (they will be removed):`,
+    `${unusedKeys.length} keys are not being used in the app (they will be removed):`,
     unusedKeys
   );
 
@@ -173,7 +177,7 @@ const searchForUnusedKeysInFiles = async (
     blacklistedKeys
   );
 
-  const unmatchedKeys = writeNewFiles(
+  const unmatchedKeys = await writeNewFiles(
     enTranslations,
     frTranslations,
     allKeys,
@@ -183,7 +187,7 @@ const searchForUnusedKeysInFiles = async (
   // Print any problematic keys
   if (unmatchedKeys.length) {
     console.error(
-      `${unmatchedKeys.length} keys did not have a translation in english or french. PLEASE manually inspect these:`,
+      `${unmatchedKeys.length} keys that are used in the app only had translation in one language (they will be removed). PLEASE manually inspect these:`,
       unmatchedKeys
     );
   }
