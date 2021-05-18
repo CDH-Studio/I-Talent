@@ -103,7 +103,6 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
  * @param {string[]} ignoreKeys  Keys that should not be returned even
  *                               if they were not found in directory
  * @returns {string[]}  Returns keys that were not used in the project
-
  */
 const searchForUnusedKeysInFiles = async (
   dir,
@@ -148,12 +147,6 @@ const searchForUnusedKeysInFiles = async (
 
   return unusedKeys;
 };
-
-/**
- * Main Code
- *
- * Find unused i18n keys in the project and clean up the translation list
- */
 
 /**
  * Main Code
