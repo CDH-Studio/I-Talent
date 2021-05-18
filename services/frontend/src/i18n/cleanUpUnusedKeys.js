@@ -140,10 +140,14 @@ const searchForUnusedKeysInFiles = async (
     })
   );
 
-  console.log(
-    `${unusedKeys.length} keys are not being used in the app (they will be removed):`,
-    unusedKeys
-  );
+  if (unusedKeys.length > 0) {
+    console.log(
+      `${unusedKeys.length} keys are not being used in the app (they will be removed):`,
+      unusedKeys
+    );
+  } else {
+    console.log("All keys in en_CA and fr_CA files are used in the project!");
+  }
 
   return unusedKeys;
 };
