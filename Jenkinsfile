@@ -51,9 +51,9 @@ pipeline {
             parallel {
                 stage('i18n-linting') {
                     steps {
-                        dir("${FRONTEND_DIR_I18N}") {
-                            sh script: 'npm init -y && npm i lodash', label: 'Setup i18n linting dummy project'
-                            sh script: 'node check', label: 'Linting i18n files'
+                        dir("${FRONTEND_DIR}") {
+                            // sh script: 'npm init -y && npm i lodash', label: 'Setup i18n linting dummy project'
+                            sh script: 'yarn i18:validate', label: 'Validating i18n files'
                         }
                     }
                 }        
