@@ -90,23 +90,24 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
       `${unusedKeys.length} keys are not being used in the app (they will be removed):`,
       unusedKeys
     );
+
+    // rewrite files without unused keys
+    const unmatchedKeys = await writeNewFiles(
+      enTranslations,
+      frTranslations,
+      allKeys,
+      unusedKeys
+    );
+
+    // Print any problematic keys
+    if (unmatchedKeys.length) {
+      console.error(
+        `${unmatchedKeys.length} keys that are used in the app only had translation in one language (they will be removed). PLEASE manually inspect these:`,
+        unmatchedKeys
+      );
+    }
   } else {
     console.log("All keys in en_CA and fr_CA files are used in the project!");
-  }
-
-  const unmatchedKeys = await writeNewFiles(
-    enTranslations,
-    frTranslations,
-    allKeys,
-    unusedKeys
-  );
-
-  // Print any problematic keys
-  if (unmatchedKeys.length) {
-    console.error(
-      `${unmatchedKeys.length} keys that are used in the app only had translation in one language (they will be removed). PLEASE manually inspect these:`,
-      unmatchedKeys
-    );
   }
 
   console.log("************ Done i18n Clean Up ****************\n");
