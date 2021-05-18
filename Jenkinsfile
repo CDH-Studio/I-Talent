@@ -41,6 +41,8 @@ pipeline {
             }
         }
 
+
+
         stage('linter') {
             when {
                  not {
@@ -52,14 +54,10 @@ pipeline {
                     steps {
                         dir("${FRONTEND_DIR}") {
                             // sh script: 'npm init -y && npm i lodash', label: 'Setup i18n linting dummy project'
-                            sh script: """
-                            cd $FRONTEND_DIR
-                            yarn i18:validate
-                            """, label: 'Validating i18n files'
+                            sh script: 'yarn i18n:validate', label: 'Validating i18n files'
                         }
                     }
-                }        
-
+                }
                 // stage('frontend-linting') {
                 //     steps {
                 //         dir("${FRONTEND_DIR}") {
