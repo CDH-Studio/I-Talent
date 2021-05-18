@@ -15,6 +15,7 @@
 const _ = require("lodash");
 const fs = require("fs").promises;
 const path = require("path");
+const testHelpers = require("./validationHelperFunctions");
 
 // extract translations from file
 const enTranslations = require("./en_CA.json");
@@ -22,39 +23,6 @@ const frTranslations = require("./fr_CA.json");
 
 // get all blacklisted keys (keys to be ignored)
 const blacklistedKeys = require("./blacklistKeys");
-
-/**
- * Gets all files in directory based on file extensions
- *
- * @param {string} dir Directory to search files
- * @param {string} ext Extension of the files to be searched
- * @returns {string[]} Array of file paths relative to this file
- */
-const getFilesInDirectory = async (dir, ext) => {
-  let files = [];
-
-  try {
-    const filesFromDirectory = await fs.readdir(dir);
-
-    await Promise.all(
-      filesFromDirectory.map(async (file) => {
-        const filePath = path.join(dir, file);
-        const stat = await fs.lstat(filePath);
-
-        if (stat.isDirectory()) {
-          const nestedFiles = await getFilesInDirectory(filePath, ext);
-          files = files.concat(nestedFiles);
-        } else if (path.extname(file) === ext) {
-          files.push(filePath);
-        }
-      })
-    );
-  } catch (e) {
-    throw new Error(e.message);
-  }
-
-  return files;
-};
 
 /**
  * Overwrites the i18n files without the unused keys and saves them
@@ -95,64 +63,6 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
 };
 
 /**
- * Search files to find unused i18n keys
- *
- * @param {string} dir Directory to search files
- * @param {string[]} ext Extensions of the files to be searched
- * @param {string[]} searchableKeys  Keys to search for in the directory
- * @param {string[]} ignoreKeys  Keys that should not be returned even
- *                               if they were not found in directory
- * @returns {string[]}  Returns keys that were not used in the project
- */
-const searchForUnusedKeysInFiles = async (
-  dir,
-  ext,
-  searchableKeys,
-  ignoreKeys
-) => {
-  let unusedKeys = [];
-
-  // get all files in directory and flatten into one variable
-  let files = await Promise.all(
-    ext.map((extension) => getFilesInDirectory(dir, extension))
-  );
-  files = _.flatten(files);
-  const filesContent = await Promise.all(
-    files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
-  );
-
-  // function to search for key in file content
-  const searchContentForKey = async (key, contentToSearch) =>
-    contentToSearch.some(
-      (content) =>
-        _.includes(content, `"${key}"`) ||
-        _.includes(content, `'${key}'`) ||
-        _.includes(content, `\`${key}\``) ||
-        _.includes(ignoreKeys, key)
-    );
-
-  await Promise.all(
-    searchableKeys.map(async (key) => {
-      const found = await searchContentForKey(key, filesContent);
-      if (!found) {
-        unusedKeys.push(key);
-      }
-    })
-  );
-
-  if (unusedKeys.length > 0) {
-    console.log(
-      `${unusedKeys.length} keys are not being used in the app (they will be removed):`,
-      unusedKeys
-    );
-  } else {
-    console.log("All keys in en_CA and fr_CA files are used in the project!");
-  }
-
-  return unusedKeys;
-};
-
-/**
  * Main Code
  *
  * Find unused i18n keys in the project and clean up the translation list
@@ -167,12 +77,22 @@ const searchForUnusedKeysInFiles = async (
     .sort()
     .value();
 
-  const unusedKeys = await searchForUnusedKeysInFiles(
+  const unusedKeys = await testHelpers.searchForUnusedKeysInFiles(
     path.join(__dirname, ".."),
     [".jsx"],
     allKeys,
     blacklistedKeys
   );
+
+  // Print any unused keys
+  if (unusedKeys.length > 0) {
+    console.log(
+      `${unusedKeys.length} keys are not being used in the app (they will be removed):`,
+      unusedKeys
+    );
+  } else {
+    console.log("All keys in en_CA and fr_CA files are used in the project!");
+  }
 
   const unmatchedKeys = await writeNewFiles(
     enTranslations,
