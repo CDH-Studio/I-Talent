@@ -37,11 +37,10 @@ pipeline {
                 sh script: """
                     unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                     (cd $FRONTEND_DIR && yarn install --production=false)
+                    (cd $BACKEND_DIR && yarn install --production=false)
                 """, label: 'Installing packages'
             }
         }
-
-
 
         stage('linter') {
             when {
@@ -51,58 +50,58 @@ pipeline {
             }
             parallel {
                 stage('i18n-linting') {
-                    steps {
+                   steps {
                         dir("${FRONTEND_DIR}") {
                             sh script: """
                                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn i18n:validate
                             """, label: 'Validating i18n files'
-                            // sh script: 'npm init -y && npm i lodash', label: 'Setup i18n linting dummy project'
-                            // sh script: 'yarn i18n:validate', label: 'Validating i18n files'
+
+                        }
+                    }
+                }        
+
+                stage('frontend-linting') {
+                    steps {
+                        dir("${FRONTEND_DIR}") {
+                            sh script: """
+                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                                yarn lint
+                            """, label: 'Linting frontend'
+                        }
+                    }
+                }    
+
+                stage('backend-linting') {
+                    steps {
+                        dir("${BACKEND_DIR}") {
+                            sh script: """
+                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                                yarn lint
+                            """, label: 'Linting backend'
                         }
                     }
                 }
-                // stage('frontend-linting') {
-                //     steps {
-                //         dir("${FRONTEND_DIR}") {
-                //             sh script: """
-                //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                //                 yarn lint
-                //             """, label: 'Linting frontend'
-                //         }
-                //     }
-                // }    
-
-                // stage('backend-linting') {
-                //     steps {
-                //         dir("${BACKEND_DIR}") {
-                //             sh script: """
-                //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                //                 yarn lint
-                //             """, label: 'Linting backend'
-                //         }
-                //     }
-                // }
             }
         }
 
-        // stage('backend-test') {
-        //     when {
-        //          not {
-        //             branch 'development'
-        //         }
-        //     }
-        //     steps {
-        //         dir("${BACKEND_DIR}") {
-        //             sh script: """
-        //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-        //                 yarn generate
-        //                 yarn test
-        //             """, label: 'Testing backend'
-        //             archiveArtifacts artifacts: 'tests/coverage/'
-        //         }
-        //     }
-        // }
+        stage('backend-test') {
+            when {
+                 not {
+                    branch 'development'
+                }
+            }
+            steps {
+                dir("${BACKEND_DIR}") {
+                    sh script: """
+                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                        yarn generate
+                        yarn test
+                    """, label: 'Testing backend'
+                    archiveArtifacts artifacts: 'tests/coverage/'
+                }
+            }
+        }
         
 
         stage('build') {

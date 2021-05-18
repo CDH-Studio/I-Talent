@@ -40,10 +40,10 @@ const blacklistedKeys = require("./blacklistKeys");
     mismatchedTransKeys.extraKeysInFr.length ||
     unusedTranslations.length
   ) {
-    console.error("\n========= I18n Validator FAILED =========\n");
+    console.error("Summary: I18n Validator FAILED =========\n");
     process.exit(1);
   } else {
-    console.error("\n========= I18n Validator PASSED =========\n");
+    console.error("Summary: I18n Validator PASSED =========\n");
     process.exit(0);
   }
 })();
