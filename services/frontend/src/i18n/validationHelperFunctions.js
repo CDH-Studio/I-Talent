@@ -64,7 +64,7 @@ const findDuplicateTranslations = (enTranslations, frTranslations) => {
  * @returns {object}  Returns mismatched translation keys
  */
 const findMismatchedTranslations = (enTranslations, frTranslations) => {
-  let mismatchedKeys = { extraKeysInEn: [], extraKeysInFr: [] };
+  const mismatchedKeys = { extraKeysInEn: [], extraKeysInFr: [] };
 
   const enKeys = Object.keys(enTranslations);
   const frKeys = Object.keys(frTranslations);
@@ -100,6 +100,87 @@ const findMismatchedTranslations = (enTranslations, frTranslations) => {
   }
   return mismatchedKeys;
   // return
+};
+
+/**
+ * Gets all files in directory based on file extensions
+ *
+ * @param {string} dir Directory to search files
+ * @param {string} ext Extension of the files to be searched
+ * @returns {string[]} Array of file paths relative to this file
+ */
+const getFilesInDirectory = async (dir, ext) => {
+  let files = [];
+
+  try {
+    const filesFromDirectory = await fs.readdir(dir);
+
+    await Promise.all(
+      filesFromDirectory.map(async (file) => {
+        const filePath = path.join(dir, file);
+        const stat = await fs.lstat(filePath);
+
+        if (stat.isDirectory()) {
+          const nestedFiles = await getFilesInDirectory(filePath, ext);
+          files = files.concat(nestedFiles);
+        } else if (path.extname(file) === ext) {
+          files.push(filePath);
+        }
+      })
+    );
+  } catch (e) {
+    throw new Error(e.message);
+  }
+
+  return files;
+};
+
+/**
+ * Search given directory files to find unused i18n keys
+ *
+ * @param {string} dir Directory to search files
+ * @param {string[]} ext Extensions of the files to be searched
+ * @param {string[]} searchableKeys  Keys to search for in the directory
+ * @param {string[]} ignoreKeys  Keys that should not be returned even
+ *                               if they were not found in directory
+ * @returns {string[]}  Returns keys that were not used in the project
+ */
+const searchForUnusedKeysInFiles = async (
+  dir,
+  ext,
+  searchableKeys,
+  ignoreKeys
+) => {
+  const unusedKeys = [];
+
+  // get all files in directory and flatten into one variable
+  let files = await Promise.all(
+    ext.map((extension) => getFilesInDirectory(dir, extension))
+  );
+  files = _.flatten(files);
+  const filesContent = await Promise.all(
+    files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
+  );
+
+  // function to search for key in file content
+  const searchContentForKey = async (key, contentToSearch) =>
+    contentToSearch.some(
+      (content) =>
+        _.includes(content, `"${key}"`) ||
+        _.includes(content, `'${key}'`) ||
+        _.includes(content, `\`${key}\``) ||
+        _.includes(ignoreKeys, key)
+    );
+
+  await Promise.all(
+    searchableKeys.map(async (key) => {
+      const found = await searchContentForKey(key, filesContent);
+      if (!found) {
+        unusedKeys.push(key);
+      }
+    })
+  );
+  return unusedKeys;
 };
 
 /**
@@ -142,87 +223,6 @@ const findUnusedTranslations = async (
   }
 
   return unusedKeys;
-};
-
-/**
- * Search given directory files to find unused i18n keys
- *
- * @param {string} dir Directory to search files
- * @param {string[]} ext Extensions of the files to be searched
- * @param {string[]} searchableKeys  Keys to search for in the directory
- * @param {string[]} ignoreKeys  Keys that should not be returned even
- *                               if they were not found in directory
- * @returns {string[]}  Returns keys that were not used in the project
- */
-const searchForUnusedKeysInFiles = async (
-  dir,
-  ext,
-  searchableKeys,
-  ignoreKeys
-) => {
-  let unusedKeys = [];
-
-  // get all files in directory and flatten into one variable
-  let files = await Promise.all(
-    ext.map((extension) => getFilesInDirectory(dir, extension))
-  );
-  files = _.flatten(files);
-  const filesContent = await Promise.all(
-    files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
-  );
-
-  // function to search for key in file content
-  const searchContentForKey = async (key, contentToSearch) =>
-    contentToSearch.some(
-      (content) =>
-        _.includes(content, `"${key}"`) ||
-        _.includes(content, `'${key}'`) ||
-        _.includes(content, `\`${key}\``) ||
-        _.includes(ignoreKeys, key)
-    );
-
-  await Promise.all(
-    searchableKeys.map(async (key) => {
-      const found = await searchContentForKey(key, filesContent);
-      if (!found) {
-        unusedKeys.push(key);
-      }
-    })
-  );
-  return unusedKeys;
-};
-
-/**
- * Gets all files in directory based on file extensions
- *
- * @param {string} dir Directory to search files
- * @param {string} ext Extension of the files to be searched
- * @returns {string[]} Array of file paths relative to this file
- */
-const getFilesInDirectory = async (dir, ext) => {
-  let files = [];
-
-  try {
-    const filesFromDirectory = await fs.readdir(dir);
-
-    await Promise.all(
-      filesFromDirectory.map(async (file) => {
-        const filePath = path.join(dir, file);
-        const stat = await fs.lstat(filePath);
-
-        if (stat.isDirectory()) {
-          const nestedFiles = await getFilesInDirectory(filePath, ext);
-          files = files.concat(nestedFiles);
-        } else if (path.extname(file) === ext) {
-          files.push(filePath);
-        }
-      })
-    );
-  } catch (e) {
-    throw new Error(e.message);
-  }
-
-  return files;
 };
 
 module.exports = {
