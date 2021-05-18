@@ -37,7 +37,6 @@ pipeline {
                 sh script: """
                     unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                     (cd $FRONTEND_DIR && yarn install --production=false)
-                    (cd $BACKEND_DIR && yarn install --production=false)
                 """, label: 'Installing packages'
             }
         }
@@ -58,47 +57,47 @@ pipeline {
                     }
                 }        
 
-                stage('frontend-linting') {
-                    steps {
-                        dir("${FRONTEND_DIR}") {
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn lint
-                            """, label: 'Linting frontend'
-                        }
-                    }
-                }    
+                // stage('frontend-linting') {
+                //     steps {
+                //         dir("${FRONTEND_DIR}") {
+                //             sh script: """
+                //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                //                 yarn lint
+                //             """, label: 'Linting frontend'
+                //         }
+                //     }
+                // }    
 
-                stage('backend-linting') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn lint
-                            """, label: 'Linting backend'
-                        }
-                    }
-                }
+                // stage('backend-linting') {
+                //     steps {
+                //         dir("${BACKEND_DIR}") {
+                //             sh script: """
+                //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+                //                 yarn lint
+                //             """, label: 'Linting backend'
+                //         }
+                //     }
+                // }
             }
         }
 
-        stage('backend-test') {
-            when {
-                 not {
-                    branch 'development'
-                }
-            }
-            steps {
-                dir("${BACKEND_DIR}") {
-                    sh script: """
-                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                        yarn generate
-                        yarn test
-                    """, label: 'Testing backend'
-                    archiveArtifacts artifacts: 'tests/coverage/'
-                }
-            }
-        }
+        // stage('backend-test') {
+        //     when {
+        //          not {
+        //             branch 'development'
+        //         }
+        //     }
+        //     steps {
+        //         dir("${BACKEND_DIR}") {
+        //             sh script: """
+        //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //                 yarn generate
+        //                 yarn test
+        //             """, label: 'Testing backend'
+        //             archiveArtifacts artifacts: 'tests/coverage/'
+        //         }
+        //     }
+        // }
         
 
         stage('build') {
