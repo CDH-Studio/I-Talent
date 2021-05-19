@@ -2,8 +2,10 @@
 
 pipeline {
     agent {
-        label 'nodejs-0xrs3'
+        label 'nodejs-0xrs3 || nodejs-f7rjg || nodejs-4np8w || nodejs-lwpms || nodejs-z46tv || nodejs-b6v8p || nodejs-mtm6g || nodejs-dhj1f || nodejs-3bnlw || nodejs-c8blf'
     }
+
+
 
     options {
         timeout(time: 30) 
