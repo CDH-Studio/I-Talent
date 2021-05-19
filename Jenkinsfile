@@ -2,7 +2,7 @@
 
 pipeline {
     agent {
-        label 'nodejs'
+        label 'nodejs-0xrs3'
     }
 
     options {
