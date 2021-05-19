@@ -32,8 +32,8 @@ pipeline {
             steps{
                 sh script: """
                     unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    nvm install 14.15.1
-                    nvm alias default 14.15.1
+                    nvm install 14.17.0
+                    nvm alias default 14.17.0
                     npm i yarn -g
                 """, label: 'Setting up proper node.js version'
                 sh script: """
