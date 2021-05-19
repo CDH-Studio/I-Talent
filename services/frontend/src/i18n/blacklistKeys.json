@@ -16,5 +16,7 @@
   "input.placeholder.select",
   "search",
   "add",
-  "add.item"
+  "add.item",
+  "error.403.subtitle",
+  "error.404.subtitle"
 ]
