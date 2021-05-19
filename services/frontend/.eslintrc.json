@@ -6,7 +6,8 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/no-array-index-key": "warn",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   },
   "env": {
     "browser": true
