@@ -131,4 +131,9 @@ pipeline {
             }
         }
     }
+    post('workspace cleanup') {
+        always {
+            deleteDir();
+        }
+    }
 }
