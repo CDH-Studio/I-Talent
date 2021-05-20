@@ -36,9 +36,6 @@ app.use(
   bodyParser.json()
 );
 
-app.use("/test", (req, res) => {
-  res.send("Test Success");
-});
 app.use("/api", router);
 app.use(keycloak.middleware({ logout: "/" }), errorHandler);
 
