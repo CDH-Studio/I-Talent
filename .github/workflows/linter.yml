@@ -1,8 +1,10 @@
 name: Linter
 
 on:
+  push:
+    branches: [master, development]
   pull_request:
-    branches: [development]
+    branches: [master, development]
 
 jobs:
   frontend:
@@ -15,17 +17,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js 14.x
-        uses: actions/setup-node@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 12.x
 
       - name: Get Yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache Yarn
-        uses: actions/cache@v2
+        uses: actions/cache@v1
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -36,7 +38,7 @@ jobs:
         run: yarn
 
       - name: Run linter
-        run: yarn lint && yarn i18n:validate
+        run: yarn lint
 
   backend:
     runs-on: ubuntu-latest
@@ -50,7 +52,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use Node.js 12.x
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v1
         with:
           node-version: 12.x
 
@@ -59,7 +61,7 @@ jobs:
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
       - name: Cache Yarn
-        uses: actions/cache@v2
+        uses: actions/cache@v1
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -74,3 +76,25 @@ jobs:
 
       - name: Run linter
         run: yarn run lint
+
+  i18n:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./services/frontend-v3/src/i18n
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Installing Yarn dependencies
+        run: npm init -y && yarn add lodash
+
+      - name: Run i18n linter
+        run: node check
