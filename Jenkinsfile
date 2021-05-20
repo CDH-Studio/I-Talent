@@ -5,6 +5,8 @@ pipeline {
         label 'nodejs'
     }
 
+
+
     options {
         timeout(time: 30) 
         disableConcurrentBuilds()
@@ -21,87 +23,87 @@ pipeline {
     }
 
     stages {
-        stage('configure-node') {
-            when {
-                 not {
-                    branch 'development'
-                }
-            }
-            steps{
-                sh script: """
-                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    nvm install 14.15.1
-                    nvm alias default 14.15.1
-                    npm i yarn -g
-                """, label: 'Setting up proper node.js version'
-                sh script: """
-                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    (cd $FRONTEND_DIR && yarn install --production=false)
-                    (cd $BACKEND_DIR && yarn install --production=false)
-                """, label: 'Installing packages'
-            }
-        }
+        // stage('configure-node') {
+        //     when {
+        //          not {
+        //             branch 'development'
+        //         }
+        //     }
+        //     steps{
+        //         sh script: """
+        //             unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //             nvm install 14.17.0
+        //             nvm alias default 14.17.0
+        //             npm i yarn -g
+        //         """, label: 'Setting up proper node.js version'
+        //         sh script: """
+        //             unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //             (cd $FRONTEND_DIR && yarn install --production=false --verbose)
+        //             (cd $BACKEND_DIR && yarn install --production=false --verbose)
+        //         """, label: 'Installing packages'
+        //     }
+        // }
 
-        stage('linter') {
-            when {
-                 not {
-                    branch 'development'
-                }
-            }
-            parallel {
-                stage('i18n-linting') {
-                   steps {
-                        dir("${FRONTEND_DIR}") {
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn i18n:validate
-                            """, label: 'Validating i18n files'
+        // stage('linter') {
+        //     when {
+        //          not {
+        //             branch 'development'
+        //         }
+        //     }
+        //     parallel {
+        //         stage('i18n-linting') {
+        //            steps {
+        //                 dir("${FRONTEND_DIR}") {
+        //                     sh script: """
+        //                         unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //                         yarn i18n:validate
+        //                     """, label: 'Validating i18n files'
 
-                        }
-                    }
-                }        
+        //                 }
+        //             }
+        //         }        
 
-                stage('frontend-linting') {
-                    steps {
-                        dir("${FRONTEND_DIR}") {
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn lint
-                            """, label: 'Linting frontend'
-                        }
-                    }
-                }    
+        //         stage('frontend-linting') {
+        //             steps {
+        //                 dir("${FRONTEND_DIR}") {
+        //                     sh script: """
+        //                         unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //                         yarn lint
+        //                     """, label: 'Linting frontend'
+        //                 }
+        //             }
+        //         }    
 
-                stage('backend-linting') {
-                    steps {
-                        dir("${BACKEND_DIR}") {
-                            sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                                yarn lint
-                            """, label: 'Linting backend'
-                        }
-                    }
-                }
-            }
-        }
+        //         stage('backend-linting') {
+        //             steps {
+        //                 dir("${BACKEND_DIR}") {
+        //                     sh script: """
+        //                         unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //                         yarn lint
+        //                     """, label: 'Linting backend'
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-        stage('backend-test') {
-            when {
-                 not {
-                    branch 'development'
-                }
-            }
-            steps {
-                dir("${BACKEND_DIR}") {
-                    sh script: """
-                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                        yarn generate
-                        yarn test
-                    """, label: 'Testing backend'
-                    archiveArtifacts artifacts: 'tests/coverage/'
-                }
-            }
-        }
+        // stage('backend-test') {
+        //     when {
+        //          not {
+        //             branch 'development'
+        //         }
+        //     }
+        //     steps {
+        //         dir("${BACKEND_DIR}") {
+        //             sh script: """
+        //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //                 yarn generate
+        //                 yarn test
+        //             """, label: 'Testing backend'
+        //             archiveArtifacts artifacts: 'tests/coverage/'
+        //         }
+        //     }
+        // }
         
 
         stage('build') {
@@ -127,6 +129,11 @@ pipeline {
                     }
                 }
             }
+        }
+    }
+    post('workspace cleanup') {
+        always {
+            deleteDir();
         }
     }
 }
