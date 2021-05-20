@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { PageHeader, Button, Tooltip } from "antd";
+import { PageHeader, Tooltip } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useIntl } from "react-intl";
 
@@ -21,12 +21,7 @@ const HeaderView = ({ title, icon, subtitle, extra, backBtn }) => {
       subTitle={subtitle}
       backIcon={
         <Tooltip placement="top" title={intl.formatMessage({ id: "go.back" })}>
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<ArrowLeftOutlined />}
-            aria-label={intl.formatMessage({ id: "go.back" })}
-          />
+          <ArrowLeftOutlined className="circle-icon" />
         </Tooltip>
       }
       onBack={
@@ -39,6 +34,7 @@ const HeaderView = ({ title, icon, subtitle, extra, backBtn }) => {
   );
 };
 
+// aria-label={intl.formatMessage({ id: "go.back" })}
 HeaderView.propTypes = {
   title: PropTypes.node.isRequired,
   subtitle: PropTypes.node.isRequired,
