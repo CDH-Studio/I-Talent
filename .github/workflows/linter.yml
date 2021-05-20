@@ -33,8 +33,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install Dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn
+        run: yarn install
 
       - name: Run linter
         run: yarn lint
@@ -68,8 +67,7 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Install Dependencies
-        if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn
+        run: yarn install
 
       - name: Run linter
         run: yarn run lint
