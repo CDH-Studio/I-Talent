@@ -1,10 +1,8 @@
 name: Linter
 
 on:
-  push:
-    branches: [master, development]
   pull_request:
-    branches: [master, development]
+    branches: [development]
 
 jobs:
   frontend:
@@ -17,24 +15,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2
         with:
-          node-version: 12.x
+          node-version: 14.x
 
-      - name: Get Yarn cache directory path
+      - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache Yarn
-        uses: actions/cache@v1
+      - uses: actions/cache@v2
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('services/frontend-v3/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - name: Installing Yarn dependencies
+
+      - name: Install Dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
       - name: Run linter
@@ -51,50 +50,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v2
         with:
-          node-version: 12.x
+          node-version: 14.x
 
-      - name: Get Yarn cache directory path
+      - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
 
-      - name: Cache Yarn
-        uses: actions/cache@v1
+      - uses: actions/cache@v2
         id: yarn-cache
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('services/backend/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-      - name: Installing Yarn dependencies
-        run: yarn
 
-      - name: Generate prisma client
-        run: yarn generate
+      - name: Install Dependencies
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn
 
       - name: Run linter
         run: yarn run lint
-
-  i18n:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ./services/frontend-v3/src/i18n
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
-        with:
-          node-version: 12.x
-
-      - name: Installing Yarn dependencies
-        run: npm init -y && yarn add lodash
-
-      - name: Run i18n linter
-        run: node check
