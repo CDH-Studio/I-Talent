@@ -10,7 +10,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./services/frontend-v3
+        working-directory: ./services/frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -20,8 +20,10 @@ jobs:
         with:
           node-version: 14.x
 
+      - uses: c-hive/gha-yarn-cache@v1
+
       - name: Installing Yarn dependencies
-        run: yarn
+        run: yarn install
 
       - name: Run i18 validation
         run: yarn i18n:validate
