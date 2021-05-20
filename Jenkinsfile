@@ -23,26 +23,26 @@ pipeline {
     }
 
     stages {
-        stage('configure-node') {
-            when {
-                 not {
-                    branch 'development'
-                }
-            }
-            steps{
-                sh script: """
-                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    nvm install 14.17.0
-                    nvm alias default 14.17.0
-                    npm i yarn -g
-                """, label: 'Setting up proper node.js version'
-                sh script: """
-                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    (cd $FRONTEND_DIR && yarn install --production=false --verbose)
-                    (cd $BACKEND_DIR && yarn install --production=false --verbose)
-                """, label: 'Installing packages'
-            }
-        }
+        // stage('configure-node') {
+        //     when {
+        //          not {
+        //             branch 'development'
+        //         }
+        //     }
+        //     steps{
+        //         sh script: """
+        //             unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //             nvm install 14.17.0
+        //             nvm alias default 14.17.0
+        //             npm i yarn -g
+        //         """, label: 'Setting up proper node.js version'
+        //         sh script: """
+        //             unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //             (cd $FRONTEND_DIR && yarn install --production=false --verbose)
+        //             (cd $BACKEND_DIR && yarn install --production=false --verbose)
+        //         """, label: 'Installing packages'
+        //     }
+        // }
 
         // stage('linter') {
         //     when {
@@ -87,23 +87,23 @@ pipeline {
         //     }
         // }
 
-        stage('backend-test') {
-            when {
-                 not {
-                    branch 'development'
-                }
-            }
-            steps {
-                dir("${BACKEND_DIR}") {
-                    sh script: """
-                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                        yarn generate
-                        yarn test
-                    """, label: 'Testing backend'
-                    archiveArtifacts artifacts: 'tests/coverage/'
-                }
-            }
-        }
+        // stage('backend-test') {
+        //     when {
+        //          not {
+        //             branch 'development'
+        //         }
+        //     }
+        //     steps {
+        //         dir("${BACKEND_DIR}") {
+        //             sh script: """
+        //                 unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
+        //                 yarn generate
+        //                 yarn test
+        //             """, label: 'Testing backend'
+        //             archiveArtifacts artifacts: 'tests/coverage/'
+        //         }
+        //     }
+        // }
         
 
         stage('build') {
