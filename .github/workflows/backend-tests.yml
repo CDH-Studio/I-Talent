@@ -5,7 +5,7 @@ on:
     branches: [development]
 
 jobs:
-  bac:
+  backend:
     runs-on: ubuntu-latest
     defaults:
       run:
