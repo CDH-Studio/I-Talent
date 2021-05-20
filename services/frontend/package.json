@@ -11,6 +11,7 @@
     "lint": "./node_modules/.bin/eslint --cache --format codeframe --ext jsx,js src",
     "i18n:validate": "node ./src/i18n/validation",
     "i18n:cleanup": "node ./src/i18n/cleanUpUnusedKeys",
+    "i18n:export": "node ./src/i18n/exportTransToCSV",
     "analyze": "ANALYZE_BUILD=true yarn build"
   },
   "dependencies": {
@@ -62,6 +63,7 @@
     "eslint-plugin-prettier": "3.3.0",
     "eslint-plugin-react": "7.21.5",
     "eslint-plugin-react-hooks": "4.2.0",
+    "json2csv": "^5.0.6",
     "prettier": "2.2.1",
     "webpack-bundle-analyzer": "4.3.0"
   },
