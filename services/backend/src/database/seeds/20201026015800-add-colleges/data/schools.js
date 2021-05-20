@@ -498,12 +498,10 @@ module.exports = [
     abbrCountry: "CAN",
     translations: {
       en: {
-        name:
-          "Humber College Institute of Technology & Advanced Learning University of Guelph",
+        name: "Humber College Institute of Technology & Advanced Learning University of Guelph",
       },
       fr: {
-        name:
-          "Humber College Institute of Technology & Advanced Learning University of Guelph",
+        name: "Humber College Institute of Technology & Advanced Learning University of Guelph",
       },
     },
   },
