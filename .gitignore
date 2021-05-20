@@ -86,3 +86,6 @@ tmp
 
 # prisma generated client
 client/
+
+# translation exports
+ExportedTranslations.csv
