@@ -349,27 +349,12 @@ function formatProfileResult(profile, language) {
   }
 
   if (profile.secondLangProfs) {
-    filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => {
-      let expiredValue = prof.unknownExpiredDate;
-
-      let dateValue = null;
-      if (!prof.unknownExpiredDate && prof.date) {
-        dateValue = moment(prof.date);
-        if (dateValue.isBefore()) {
-          expiredValue = true;
-        } else {
-          expiredValue = null;
-        }
-      }
-
-      return {
-        id: prof.id,
-        date: dateValue,
-        proficiency: prof.proficiency,
-        expired: expiredValue,
-        level: prof.level,
-      };
-    });
+    filteredProfile.secondLangProfs = profile.secondLangProfs.map((prof) => ({
+      id: prof.id,
+      status: prof.status,
+      proficiency: prof.proficiency,
+      level: prof.level,
+    }));
   }
 
   if (profile.organizations) {

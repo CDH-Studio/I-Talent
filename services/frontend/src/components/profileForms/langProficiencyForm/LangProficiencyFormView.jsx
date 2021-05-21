@@ -8,17 +8,14 @@ import {
   Form,
   Select,
   Switch,
-  Checkbox,
   notification,
   Space,
 } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
-import dayjs from "dayjs";
 import { identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
@@ -33,7 +30,6 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import "./LangProficiencyFormView.less";
-import DatePickerField from "../../formItems/DatePickerField";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -46,23 +42,20 @@ const { Text } = Typography;
 const LangProficiencyFormView = ({
   formType,
   languageOptions,
+  statusOptions,
   load,
   proficiencyOptions,
   profileInfo,
   intl,
   history,
   userId,
-  unknownExpiredGrades,
-  setUnknownExpiredGrades,
+  saveDataToDB,
 }) => {
-  const axios = useAxios();
   const [form] = Form.useForm();
   const [displaySecondLangForm, setDisplaySecondLangForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
-
-  const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
   /* Component Rules for form fields */
@@ -71,105 +64,6 @@ const LangProficiencyFormView = ({
       required: true,
       message: <FormattedMessage id="rules.required" />,
     },
-  };
-
-  /* Save data */
-  const saveDataToDB = async (values) => {
-    const dbValues = {
-      secondLangProfs: [],
-    };
-
-    // If firstLanguage is undefined then clear value in DB
-    if (values.firstLanguage) {
-      dbValues.firstLanguage = values.firstLanguage;
-    } else {
-      dbValues.firstLanguage = null;
-    }
-
-    if (displaySecondLangForm) {
-      // set second language based on first language
-      dbValues.secondLanguage =
-        values.firstLanguage === "ENGLISH" ? "FRENCH" : "ENGLISH";
-
-      if (
-        values.oralProficiency ||
-        values.writingProficiency ||
-        values.readingProficiency
-      ) {
-        if (values.oralProficiency) {
-          const oralValue = {
-            proficiency: "ORAL",
-            level: values.oralProficiency,
-          };
-
-          if (oralValue.level === "NA") {
-            oralValue.unknownExpiredDate = false;
-            oralValue.date = null;
-          } else {
-            oralValue.unknownExpiredDate = values.secondaryOralUnknownExpired;
-            if (!oralValue.unknownExpiredDate && values.secondaryOralDate) {
-              oralValue.date = values.secondaryOralDate;
-            } else {
-              oralValue.date = null;
-            }
-          }
-
-          dbValues.secondLangProfs.push(oralValue);
-        }
-
-        if (values.writingProficiency) {
-          const writingValue = {
-            proficiency: "WRITING",
-            level: values.writingProficiency,
-          };
-
-          if (writingValue.level === "NA") {
-            writingValue.unknownExpiredDate = false;
-            writingValue.date = null;
-          } else {
-            writingValue.unknownExpiredDate =
-              values.secondaryWritingUnknownExpired;
-            if (
-              !writingValue.unknownExpiredDate &&
-              values.secondaryWritingDate
-            ) {
-              writingValue.date = values.secondaryWritingDate;
-            } else {
-              writingValue.date = null;
-            }
-          }
-
-          dbValues.secondLangProfs.push(writingValue);
-        }
-
-        if (values.readingProficiency) {
-          const readingValue = {
-            proficiency: "READING",
-            level: values.readingProficiency,
-          };
-
-          if (readingValue.level === "NA") {
-            readingValue.unknownExpiredDate = false;
-            readingValue.date = null;
-          } else {
-            readingValue.unknownExpiredDate =
-              values.secondaryReadingUnknownExpired;
-            if (
-              !readingValue.unknownExpiredDate &&
-              values.secondaryReadingDate
-            ) {
-              readingValue.date = values.secondaryReadingDate;
-            } else {
-              readingValue.date = null;
-            }
-          }
-
-          dbValues.secondLangProfs.push(readingValue);
-        }
-      }
-    }
-
-    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
   };
 
   /**
@@ -206,36 +100,20 @@ const LangProficiencyFormView = ({
       const data = {
         firstLanguage: profile.firstLanguage,
       };
-
       if (profile.secondLangProfs) {
-        profile.secondLangProfs.forEach(
-          ({ date, level, expired, proficiency }) => {
-            switch (proficiency) {
-              case "ORAL":
-                data.oralProficiency = level;
-                data.secondaryOralDate = date ? dayjs(date) : undefined;
-                data.secondaryOralUnknownExpired = expired && !date;
-                break;
-
-              case "WRITING":
-                data.writingProficiency = level;
-                data.secondaryWritingDate = date ? dayjs(date) : undefined;
-                data.secondaryWritingUnknownExpired = expired && !date;
-                break;
-
-              case "READING":
-                data.readingProficiency = level;
-                data.secondaryReadingDate = date ? dayjs(date) : undefined;
-                data.secondaryReadingUnknownExpired = expired && !date;
-                break;
-
-              default:
-                break;
-            }
+        profile.secondLangProfs.forEach(({ status, level, proficiency }) => {
+          if (proficiency === "ORAL") {
+            data.oralProficiency = level;
+            data.secondaryOralStatus = status;
+          } else if (proficiency === "WRITING") {
+            data.writingProficiency = level;
+            data.secondaryWritingStatus = status;
+          } else if (proficiency === "READING") {
+            data.readingProficiency = level;
+            data.secondaryReadingStatus = status;
           }
-        );
+        });
       }
-
       return data;
     }
     return {};
@@ -253,7 +131,6 @@ const LangProficiencyFormView = ({
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
-
     const dbValues = pickBy(
       savedValues || getInitialValues(profileInfo),
       identity
@@ -270,92 +147,40 @@ const LangProficiencyFormView = ({
           return true;
       } else if (dbValues.readingProficiency) return true;
 
-      if (formValues.secondaryReadingUnknownExpired) {
-        if (
-          formValues.secondaryReadingUnknownExpired !==
-          dbValues.secondaryReadingUnknownExpired
-        )
-          return true;
-      } else if (dbValues.secondaryReadingUnknownExpired) return true;
-
       if (formValues.writingProficiency) {
         if (formValues.writingProficiency !== dbValues.writingProficiency)
           return true;
       } else if (dbValues.writingProficiency) return true;
-
-      if (formValues.secondaryWritingUnknownExpired) {
-        if (
-          formValues.secondaryWritingUnknownExpired !==
-          dbValues.secondaryWritingUnknownExpired
-        )
-          return true;
-      } else if (dbValues.secondaryWritingUnknownExpired) return true;
 
       if (formValues.oralProficiency) {
         if (formValues.oralProficiency !== dbValues.oralProficiency)
           return true;
       } else if (dbValues.oralProficiency) return true;
 
-      if (formValues.secondaryOralDate) {
-        if (
-          dayjs(formValues.secondaryOralDate).diff(
-            dbValues.secondaryOralDate,
-            "days"
-          ) !== 0
-        )
+      if (formValues.secondaryOralStatus) {
+        if (formValues.secondaryOralStatus !== dbValues.secondaryOralStatus)
           return true;
-      } else if (dbValues.secondaryOralDate) return true;
+      } else if (dbValues.secondaryOralStatus) return true;
 
-      if (formValues.secondaryOralUnknownExpired) {
+      if (formValues.secondaryReadingStatus) {
         if (
-          formValues.secondaryOralUnknownExpired !==
-          dbValues.secondaryOralUnknownExpired
+          formValues.secondaryReadingStatus !== dbValues.secondaryReadingStatus
         )
           return true;
-      } else if (dbValues.secondaryOralUnknownExpired) return true;
+      } else if (dbValues.secondaryReadingStatus) return true;
 
-      // Check for differences in dates
-      if (formValues.secondaryReadingDate) {
+      if (formValues.secondaryWritingStatus) {
         if (
-          dayjs(formValues.secondaryReadingDate).diff(
-            dbValues.secondaryReadingDate,
-            "days"
-          ) !== 0
+          formValues.secondaryWritingStatus !== dbValues.secondaryWritingStatus
         )
           return true;
-      } else if (dbValues.secondaryReadingDate) return true;
-
-      if (formValues.secondaryWritingDate) {
-        if (
-          dayjs(formValues.secondaryWritingDate).diff(
-            dbValues.secondaryWritingDate,
-            "days"
-          ) !== 0
-        )
-          return true;
-      } else if (dbValues.secondaryWritingDate) return true;
-
-      if (formValues.secondaryOralDate) {
-        if (
-          dayjs(formValues.secondaryOralDate).diff(
-            dbValues.secondaryOralDate,
-            "days"
-          ) !== 0
-        )
-          return true;
-      } else if (dbValues.secondaryOralDate) return true;
+      } else if (dbValues.secondaryWritingStatus) return true;
     }
     return false;
   };
 
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
-    const formFields = form.getFieldsValue();
-    setUnknownExpiredGrades({
-      reading: formFields.secondaryReadingUnknownExpired,
-      writing: formFields.secondaryWritingUnknownExpired,
-      oral: formFields.secondaryOralUnknownExpired,
-    });
   };
 
   /*
@@ -373,57 +198,6 @@ const LangProficiencyFormView = ({
   );
 
   /*
-   * Save
-   *
-   * save and show success notification
-   */
-  const onSave = async () => {
-    form
-      .validateFields()
-      .then(async (values) => {
-        await saveDataToDB(values);
-        setFieldsChanged(false);
-        setSavedValues(values);
-        openNotificationWithIcon({ type: "success" });
-      })
-      .catch((error) => {
-        if (error.isAxiosError) {
-          handleError(error, "message", history);
-        } else {
-          openNotificationWithIcon({
-            type: "error",
-            description: getAllValidationErrorMessages(),
-          });
-        }
-      });
-  };
-
-  /*
-   * Save and next
-   *
-   * save and redirect to next step in setup
-   */
-  const onSaveAndNext = async () => {
-    form
-      .validateFields()
-      .then(async (values) => {
-        await saveDataToDB(values);
-        setFieldsChanged(false);
-        history.push("/profile/create/step/5");
-      })
-      .catch((error) => {
-        if (error.isAxiosError) {
-          handleError(error, "message", history);
-        } else {
-          openNotificationWithIcon({
-            type: "error",
-            description: getAllValidationErrorMessages(),
-          });
-        }
-      });
-  };
-
-  /*
    * Finish
    *
    * redirect to profile
@@ -433,25 +207,32 @@ const LangProficiencyFormView = ({
   };
 
   /*
-   * Save and finish
-   *
-   * Save form data and redirect home
+   * Save options:
+   * num = 1 : save
+   * num = 2 : save and next
+   * num = 3 : save and finish
    */
-  const onSaveAndFinish = async () => {
+  const onSave = async (num) => {
     form
       .validateFields()
       .then(async (values) => {
-        await saveDataToDB(values);
+        await saveDataToDB(values, displaySecondLangForm);
         setFieldsChanged(false);
-        if (formType === "create") {
-          history.push("/profile/create/step/8");
-        } else {
-          dispatch(setSavedFormContent(true));
-          onFinish();
+        if (num === 1) {
+          setSavedValues(values);
+          openNotificationWithIcon({ type: "success" });
+        } else if (num === 2) {
+          history.push("/profile/create/step/5");
+        } else if (num === 3) {
+          if (formType === "create") {
+            history.push("/profile/create/step/8");
+          } else {
+            dispatch(setSavedFormContent(true));
+            onFinish();
+          }
         }
       })
       .catch((error) => {
-        dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
           handleError(error, "message", history);
         } else {
@@ -488,186 +269,75 @@ const LangProficiencyFormView = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displaySecondLangForm]);
 
+  const getSecondLangRows = (name, label, statusName) => (
+    <Row gutter={24} style={{ marginTop: "10px" }}>
+      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Form.Item
+          name={name}
+          label={<FormattedMessage id={label} />}
+          rules={[Rules.required]}
+        >
+          <Select
+            showSearch
+            placeholder={<FormattedMessage id="input.placeholder.select" />}
+            allowClear
+            filterOption={filterOption}
+          >
+            {proficiencyOptions.map((value) => (
+              <Option key={value.key}>{value.text}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Form.Item
+          name={statusName}
+          label={<FormattedMessage id="lang.status" />}
+        >
+          <Select
+            showSearch
+            placeholder={<FormattedMessage id="input.placeholder.select" />}
+            allowClear
+            filterOption={filterOption}
+          >
+            {statusOptions.map((value) => (
+              <Option key={value.key}>{value.text}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+    </Row>
+  );
+
   /* Get temporary role form based on if the form switch is toggled */
   const getSecondLanguageForm = (expandMentorshipForm) => {
-    let formValues = form.getFieldsValue();
-
     if (expandMentorshipForm) {
-      formValues = Object.assign(getInitialValues(profileInfo), formValues);
-
+      const formValues = form.getFieldsValue();
+      Object.assign(getInitialValues(profileInfo), formValues);
       return (
-        <div>
+        <>
           {/* Reading Proficiency */}
-          <Row gutter={24} style={{ marginTop: "10px" }}>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="readingProficiency"
-                label={<FormattedMessage id="secondary.reading.proficiency" />}
-                rules={[Rules.required]}
-              >
-                <Select
-                  showSearch
-                  placeholder={
-                    <FormattedMessage id="input.placeholder.select" />
-                  }
-                  allowClear
-                  filterOption={filterOption}
-                >
-                  {proficiencyOptions.map((value) => (
-                    <Option key={value.key}>{value.text}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="secondaryReadingDate"
-                label={<FormattedMessage id="expiry.date" />}
-                className="language-date-item"
-              >
-                <DatePickerField
-                  viewOptions={["year", "month", "date"]}
-                  placeholderText={intl.formatMessage({
-                    id: "profile.select.date",
-                  })}
-                  formatDate="YYYY-MM-DD"
-                  defaultDate={formValues.secondaryReadingDate}
-                  disableInput={
-                    unknownExpiredGrades.reading ||
-                    formValues.readingProficiency === "NA"
-                  }
-                />
-              </Form.Item>
-              <Form.Item
-                name="secondaryReadingUnknownExpired"
-                valuePropName="checked"
-              >
-                <Checkbox
-                  valuePropName="checked"
-                  defaultChecked={formValues.secondaryReadingDate}
-                  disabled={formValues.readingProficiency === "NA"}
-                >
-                  <FormattedMessage id="date.unknown.expired" />
-                </Checkbox>
-              </Form.Item>
-            </Col>
-          </Row>
-
+          {getSecondLangRows(
+            "readingProficiency",
+            "secondary.reading.proficiency",
+            "secondaryReadingStatus"
+          )}
           {/* Writing Proficiency */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="writingProficiency"
-                label={<FormattedMessage id="secondary.writing.proficiency" />}
-                rules={[Rules.required]}
-              >
-                <Select
-                  showSearch
-                  placeholder={
-                    <FormattedMessage id="input.placeholder.select" />
-                  }
-                  allowClear
-                  filterOption={filterOption}
-                >
-                  {proficiencyOptions.map((value) => (
-                    <Option key={value.key}>{value.text}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="secondaryWritingDate"
-                label={<FormattedMessage id="expiry.date" />}
-                className="language-date-item"
-              >
-                <DatePickerField
-                  viewOptions={["year", "month", "date"]}
-                  placeholderText={intl.formatMessage({
-                    id: "profile.select.date",
-                  })}
-                  disableInput={
-                    unknownExpiredGrades.writing ||
-                    formValues.writingProficiency === "NA"
-                  }
-                  formatDate="YYYY-MM-DD"
-                  defaultDate={formValues.secondaryWritingDate}
-                />
-              </Form.Item>
-              <Form.Item
-                name="secondaryWritingUnknownExpired"
-                valuePropName="checked"
-              >
-                <Checkbox
-                  valuePropName="checked"
-                  defaultChecked={formValues.secondaryWritingDate}
-                  disabled={formValues.writingProficiency === "NA"}
-                >
-                  <FormattedMessage id="date.unknown.expired" />
-                </Checkbox>
-              </Form.Item>
-            </Col>
-          </Row>
-
+          {getSecondLangRows(
+            "writingProficiency",
+            "secondary.writing.proficiency",
+            "secondaryWritingStatus"
+          )}
           {/* Oral Proficiency */}
-          <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="oralProficiency"
-                label={<FormattedMessage id="secondary.oral.proficiency" />}
-                rules={[Rules.required]}
-              >
-                <Select
-                  showSearch
-                  placeholder={
-                    <FormattedMessage id="input.placeholder.select" />
-                  }
-                  allowClear
-                  filterOption={filterOption}
-                >
-                  {proficiencyOptions.map((value) => (
-                    <Option key={value.key}>{value.text}</Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="secondaryOralDate"
-                label={<FormattedMessage id="expiry.date" />}
-                className="language-date-item"
-              >
-                <DatePickerField
-                  viewOptions={["year", "month", "date"]}
-                  placeholderText={intl.formatMessage({
-                    id: "profile.select.date",
-                  })}
-                  disableInput={
-                    unknownExpiredGrades.oral ||
-                    formValues.oralProficiency === "NA"
-                  }
-                  formatDate="YYYY-MM-DD"
-                  defaultDate={formValues.secondaryOralDate}
-                />
-              </Form.Item>
-              <Form.Item
-                name="secondaryOralUnknownExpired"
-                valuePropName="checked"
-              >
-                <Checkbox
-                  valuePropName="checked"
-                  defaultChecked={formValues.secondaryOralDate}
-                  disabled={formValues.oralProficiency === "NA"}
-                >
-                  <FormattedMessage id="date.unknown.expired" />
-                </Checkbox>
-              </Form.Item>
-            </Col>
-          </Row>
-        </div>
+          {getSecondLangRows(
+            "oralProficiency",
+            "secondary.oral.proficiency",
+            "secondaryOralStatus"
+          )}
+        </>
       );
     }
-    return <div />;
+    return <></>;
   };
 
   useEffect(() => {
@@ -773,9 +443,9 @@ const LangProficiencyFormView = ({
           {/* Form Row Five: Submit button */}
           <FormControlButton
             formType={formType}
-            onSave={onSave}
-            onSaveAndNext={onSaveAndNext}
-            onSaveAndFinish={onSaveAndFinish}
+            onSave={() => onSave(1)}
+            onSaveAndNext={() => onSave(2)}
+            onSaveAndFinish={() => onSave(3)}
             onReset={onReset}
             onFinish={onFinish}
             fieldsChanged={fieldsChanged}
@@ -790,23 +460,20 @@ const LangProficiencyFormView = ({
 LangProficiencyFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   languageOptions: KeyTitleOptionsPropType,
-  load: PropTypes.bool.isRequired,
   proficiencyOptions: KeyTitleOptionsPropType,
+  statusOptions: KeyTitleOptionsPropType,
+  load: PropTypes.bool.isRequired,
   profileInfo: ProfileInfoPropType,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
-  unknownExpiredGrades: PropTypes.shape({
-    reading: PropTypes.bool,
-    writing: PropTypes.bool,
-    oral: PropTypes.bool,
-  }).isRequired,
-  setUnknownExpiredGrades: PropTypes.func.isRequired,
+  saveDataToDB: PropTypes.func.isRequired,
 };
 
 LangProficiencyFormView.defaultProps = {
   languageOptions: [],
   proficiencyOptions: [],
+  statusOptions: [],
   profileInfo: null,
   intl: null,
 };

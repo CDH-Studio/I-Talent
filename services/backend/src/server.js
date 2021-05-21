@@ -35,6 +35,7 @@ app.use(
   bodyParser.urlencoded({ extended: true }),
   bodyParser.json()
 );
+
 app.use("/api", router);
 app.use(keycloak.middleware({ logout: "/" }), errorHandler);
 

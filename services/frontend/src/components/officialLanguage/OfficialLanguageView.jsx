@@ -25,7 +25,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
             title={<FormattedMessage id={i.titleId} />}
             description={
               <>
-                {i.level} {i.expiryInfo}
+                {i.level} ({i.status})
               </>
             }
           />
@@ -57,7 +57,7 @@ OfficialLanguageView.propTypes = {
     PropTypes.shape({
       titleId: PropTypes.string,
       level: PropTypes.string,
-      expiryInfo: PropTypes.string,
+      status: PropTypes.string,
     })
   ).isRequired,
 };
