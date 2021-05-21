@@ -34,7 +34,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
 import "./BasicInfoView.less";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const BasicInfoView = ({
   data,
@@ -82,13 +82,9 @@ const BasicInfoView = ({
         xxl={18}
         style={{ padding: "11px 0px" }}
       >
-        <Text
-          className="profileHeaderRow-name"
-          strong
-          ellipsis={{ tooltip: name }}
-        >
+        <Title className="profileHeaderRow-name" ellipsis={{ tooltip: name }}>
           {name}
-        </Text>
+        </Title>
         <Text className="profileHeaderRow-job-tile">{jobTitle}</Text>
       </Col>
       {urlID === userID ? (
