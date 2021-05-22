@@ -20,4 +20,6 @@ module.exports = {
   "@card-head-height": "55px",
   "@list-item-meta-margin-bottom": "0",
   "@tag-font-size": "14px",
+  "@text-color-secondary": "rgba(0, 0, 0, 0.7)",
+  "@disabled-color": "rgba(0, 0, 0, 0.55)",
 };
