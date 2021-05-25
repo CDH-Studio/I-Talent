@@ -35,15 +35,15 @@ describe(`GET ${path}`, () => {
         "when there's data in a single year",
         [
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment("2020-04-10").toISOString(),
           },
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment("2020-05-04").toISOString(),
           },
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment("2020-05-10").toISOString(),
           },
         ],
@@ -63,11 +63,11 @@ describe(`GET ${path}`, () => {
         "when there's data for the first month of a single year",
         [
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment("2021-01-04").toISOString(),
           },
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment("2021-01-10").toISOString(),
           },
         ],
@@ -84,11 +84,11 @@ describe(`GET ${path}`, () => {
         "when there's data for multiple years",
         [
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment("2020-11-05").toISOString(),
           },
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment("2021-01-20").toISOString(),
           },
         ],
