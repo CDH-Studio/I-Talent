@@ -200,9 +200,8 @@ const ExperienceFormView = ({
             }}
           >
             {({ getFieldValue }) => {
-              const experienceItem = getFieldValue("experiences")[
-                fieldElement.name
-              ];
+              const experienceItem =
+                getFieldValue("experiences")[fieldElement.name];
 
               const disableEndDate = experienceItem
                 ? experienceItem.ongoingDate

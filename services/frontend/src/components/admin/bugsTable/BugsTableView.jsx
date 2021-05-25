@@ -131,8 +131,8 @@ const tableColumns = (handleEdit) => [
           #{value}
         </a>
       ) : (
-          "-"
-        ),
+        "-"
+      ),
   },
   {
     title: <FormattedMessage id="edit" />,

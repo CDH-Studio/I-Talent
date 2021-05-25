@@ -22,7 +22,7 @@ const enTranslations = require("./en_CA.json");
 const frTranslations = require("./fr_CA.json");
 
 // get all blacklisted keys (keys to be ignored)
-const blacklistedKeys = require("./blacklistKeys");
+const blacklistedKeys = require("./blacklistKeys.json");
 
 /**
  * Overwrites the i18n files without the unused keys and saves them

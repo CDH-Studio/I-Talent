@@ -56,9 +56,11 @@ const UserTableView = ({
   const { Option } = Select;
 
   const { locale } = useSelector((state) => state.settings);
-  const { data, loading, locale: dataLocale } = useSelector(
-    (state) => state.admin.users
-  );
+  const {
+    data,
+    loading,
+    locale: dataLocale,
+  } = useSelector((state) => state.admin.users);
 
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
