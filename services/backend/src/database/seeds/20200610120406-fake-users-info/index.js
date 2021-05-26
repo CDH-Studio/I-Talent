@@ -214,9 +214,8 @@ async function getDevelopmentalGoalsCompetenciesIds(developmentalGoals) {
     );
 
     developmentalGoalsCompetenciesIds = await Promise.all(promises);
-    developmentalGoalsCompetenciesIds = developmentalGoalsCompetenciesIds.filter(
-      (i) => i !== undefined
-    ); // Removes the null entries in the array from the skills
+    developmentalGoalsCompetenciesIds =
+      developmentalGoalsCompetenciesIds.filter((i) => i !== undefined); // Removes the null entries in the array from the skills
   }
 
   return developmentalGoalsCompetenciesIds;
@@ -372,9 +371,8 @@ async function seedUsers() {
       const developmentalGoalsSkillsIds = await getDevelopmentalGoalsSkillsIds(
         developmentalGoals
       );
-      const developmentalGoalsCompetenciesIds = await getDevelopmentalGoalsCompetenciesIds(
-        developmentalGoals
-      );
+      const developmentalGoalsCompetenciesIds =
+        await getDevelopmentalGoalsCompetenciesIds(developmentalGoals);
       const mentorshipSkillsIds = await getMentorshipSkillsIds(
         mentorshipSkills
       );

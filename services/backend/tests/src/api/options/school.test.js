@@ -196,7 +196,7 @@ describe(`PUT ${path}`, () => {
         [
           "when 'en' is specifed and 'en' exists in db",
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             abbrCountry: "CAN",
             abbrProvince: "on",
             en: "a",
@@ -217,7 +217,7 @@ describe(`PUT ${path}`, () => {
         [
           "when 'en' is specifed and 'en' does not exist in db",
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             abbrCountry: "CAN",
             abbrProvince: "on",
             en: "a",
@@ -234,7 +234,7 @@ describe(`PUT ${path}`, () => {
         [
           "when 'fr' is specifed an 'fr' exists in db",
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             abbrCountry: "CAN",
             abbrProvince: "on",
             fr: "a",
@@ -255,7 +255,7 @@ describe(`PUT ${path}`, () => {
         [
           "when 'fr' is specifed an 'fr' does not exist in db",
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             abbrCountry: "CAN",
             abbrProvince: "on",
             fr: "a",
@@ -272,7 +272,7 @@ describe(`PUT ${path}`, () => {
         [
           "when 'en' and 'fr' are specifed",
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             abbrCountry: "CAN",
             abbrProvince: "on",
             en: "a",
@@ -367,7 +367,7 @@ describe(`PUT ${path}`, () => {
           .put(path)
           .set("Authorization", getBearerToken(["manage-options"]))
           .send({
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             abbrCountry: "CAN",
             abbrProvince: "on",
             en: "a",
@@ -404,7 +404,7 @@ describe(`PUT ${path}`, () => {
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
           fr: "data",
           en: [],
           abbrCountry: "abc",
@@ -421,7 +421,7 @@ describe(`PUT ${path}`, () => {
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
           fr: [],
           en: "data",
           abbrCountry: "abc",
@@ -438,7 +438,7 @@ describe(`PUT ${path}`, () => {
         .post(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
           fr: "data",
           abbrCountry: "aaaaaaa",
           abbrProvince: "ab",
@@ -454,7 +454,7 @@ describe(`PUT ${path}`, () => {
         .post(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
           en: "data",
           abbrCountry: "abc",
           abbrProvince: "aaaaaaa",
@@ -494,7 +494,7 @@ describe(`DELETE ${path}`, () => {
 
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
-      const id = faker.random.uuid();
+      const id = faker.datatype.uuid();
 
       let res;
 

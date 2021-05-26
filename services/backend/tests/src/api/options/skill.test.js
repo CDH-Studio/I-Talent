@@ -32,7 +32,7 @@ describe(`POST ${path}`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const body = {
-        categoryId: faker.random.uuid(),
+        categoryId: faker.datatype.uuid(),
         en: faker.lorem.sentence(),
         fr: faker.lorem.sentence(),
       };
@@ -101,7 +101,7 @@ describe(`POST ${path}`, () => {
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ categoryId: faker.random.uuid(), fr: "data", en: [] });
+        .send({ categoryId: faker.datatype.uuid(), fr: "data", en: [] });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
@@ -112,7 +112,7 @@ describe(`POST ${path}`, () => {
       const res = await request(app)
         .post(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ categoryId: faker.random.uuid(), fr: [], en: "data" });
+        .send({ categoryId: faker.datatype.uuid(), fr: [], en: "data" });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
@@ -160,8 +160,8 @@ describe(`PUT ${path}`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const body = {
-        id: faker.random.uuid(),
-        categoryId: faker.random.uuid(),
+        id: faker.datatype.uuid(),
+        categoryId: faker.datatype.uuid(),
         fr: "data",
         en: "data",
       };
@@ -227,7 +227,7 @@ describe(`PUT ${path}`, () => {
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
           id: "notauuid",
-          categoryId: faker.random.uuid(),
+          categoryId: faker.datatype.uuid(),
           fr: "data",
           en: "data",
         });
@@ -242,8 +242,8 @@ describe(`PUT ${path}`, () => {
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
-          categoryId: faker.random.uuid(),
+          id: faker.datatype.uuid(),
+          categoryId: faker.datatype.uuid(),
           fr: "data",
           en: [],
         });
@@ -258,8 +258,8 @@ describe(`PUT ${path}`, () => {
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
-          categoryId: faker.random.uuid(),
+          id: faker.datatype.uuid(),
+          categoryId: faker.datatype.uuid(),
           fr: [],
           en: "data",
         });
@@ -274,7 +274,7 @@ describe(`PUT ${path}`, () => {
         .post(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
           categoryId: "notAUUID",
           fr: "data",
           en: "data",
@@ -314,7 +314,7 @@ describe(`DELETE ${path}`, () => {
 
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
-      const id = faker.random.uuid();
+      const id = faker.datatype.uuid();
 
       let res;
 

@@ -35,19 +35,19 @@ describe(`Test ${path}`, () => {
         "when there are users",
         [
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment().subtract(3, "week"),
           },
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment().subtract(1, "week"),
           },
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment(),
           },
           {
-            id: faker.random.uuid(),
+            id: faker.datatype.uuid(),
             createdAt: moment(),
           },
         ],

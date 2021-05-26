@@ -29,7 +29,7 @@ describe(`GET ${path}`, () => {
 
   describe("when authenticated", () => {
     test("should process request - 200", async () => {
-      const randomNumber = faker.random.number(1000);
+      const randomNumber = faker.datatype.number(1000);
 
       prisma.user.count.mockResolvedValue(randomNumber);
       const res = await request(app)

@@ -4,7 +4,7 @@ const KeycloakMock = require("keycloak-mock");
 const config = require("../../src/config");
 const keycloakUtils = require("../../src/utils/keycloak");
 
-const userId = faker.random.uuid();
+const userId = faker.datatype.uuid();
 
 const isKeycloakUserSpy = jest.spyOn(keycloakUtils, "isKeycloakUser");
 

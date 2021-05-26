@@ -4,14 +4,14 @@ const { getBearerToken, userId } = require("../../../mocks");
 
 const createFakeBug = (hasAppVersion, hasGithubIssue) => {
   const bug = {
-    id: faker.random.uuid(),
+    id: faker.datatype.uuid(),
     createdAt: faker.date.past().toISOString(),
     updatedAt: faker.date.past().toISOString(),
-    userId: faker.random.uuid(),
+    userId: faker.datatype.uuid(),
     userName: faker.name.findName(),
     description: faker.lorem.paragraphs(),
     appVersion: faker.random.alphaNumeric(),
-    githubIssue: faker.random.number(),
+    githubIssue: faker.datatype.number(),
     location: faker.random.arrayElement(["HOME", "PROFILE", "SEARCH", "FORMS"]),
     status: faker.random.arrayElement(["UNRESOLVED", "RESOLVED", "DUPLICATE"]),
   };
@@ -284,15 +284,15 @@ describe(`PUT ${path}/:id`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const data = [
-        ["when updating no fields", faker.random.uuid(), {}],
+        ["when updating no fields", faker.datatype.uuid(), {}],
         [
           "when updating some fields",
-          faker.random.uuid(),
+          faker.datatype.uuid(),
           { description: "Text" },
         ],
         [
           "when updating all fields",
-          faker.random.uuid(),
+          faker.datatype.uuid(),
           {
             description: "Text",
             location: "HOME",
@@ -337,7 +337,7 @@ describe(`PUT ${path}/:id`, () => {
       prisma.bug.update.mockRejectedValue(new Error());
 
       const res = await request(app)
-        .put(`${path}/${faker.random.uuid()}`)
+        .put(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({});
 
@@ -365,7 +365,7 @@ describe(`PUT ${path}/:id`, () => {
 
     test("should throw validation error if description is not a string in body - 422", async () => {
       const res = await request(app)
-        .put(`${path}/${faker.random.uuid()}`)
+        .put(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({ description: [] });
 
@@ -378,7 +378,7 @@ describe(`PUT ${path}/:id`, () => {
 
     test("should throw validation error if invalid value for location in body - 422", async () => {
       const res = await request(app)
-        .put(`${path}/${faker.random.uuid()}`)
+        .put(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({ location: "" });
 
@@ -391,7 +391,7 @@ describe(`PUT ${path}/:id`, () => {
 
     test("should throw validation error if githubIssue is not an integer in body - 422", async () => {
       const res = await request(app)
-        .put(`${path}/${faker.random.uuid()}`)
+        .put(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({ githubIssue: "randomstring" });
 
@@ -404,7 +404,7 @@ describe(`PUT ${path}/:id`, () => {
 
     test("should throw validation error if invalid value for status in body - 422", async () => {
       const res = await request(app)
-        .put(`${path}/${faker.random.uuid()}`)
+        .put(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({ status: "" });
 

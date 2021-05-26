@@ -143,7 +143,7 @@ describe(`PUT ${path}`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const body = {
-        id: faker.random.uuid(),
+        id: faker.datatype.uuid(),
         fr: "data",
         en: "data",
       };
@@ -218,7 +218,7 @@ describe(`PUT ${path}`, () => {
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
           fr: "data",
           en: [],
         });
@@ -233,7 +233,7 @@ describe(`PUT ${path}`, () => {
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
         .send({
-          id: faker.random.uuid(),
+          id: faker.datatype.uuid(),
           fr: [],
           en: "data",
         });
@@ -272,7 +272,7 @@ describe(`DELETE ${path}`, () => {
 
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
-      const id = faker.random.uuid();
+      const id = faker.datatype.uuid();
 
       let res;
 

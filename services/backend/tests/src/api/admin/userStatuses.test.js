@@ -32,13 +32,13 @@ describe(`PUT ${path}`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const body = {
-        [faker.random.uuid()]: "ACTIVE",
-        [faker.random.uuid()]: "ACTIVE",
-        [faker.random.uuid()]: "INACTIVE",
-        [faker.random.uuid()]: "INACTIVE",
-        [faker.random.uuid()]: "INACTIVE",
-        [faker.random.uuid()]: "HIDDEN",
-        [faker.random.uuid()]: "HIDDEN",
+        [faker.datatype.uuid()]: "ACTIVE",
+        [faker.datatype.uuid()]: "ACTIVE",
+        [faker.datatype.uuid()]: "INACTIVE",
+        [faker.datatype.uuid()]: "INACTIVE",
+        [faker.datatype.uuid()]: "INACTIVE",
+        [faker.datatype.uuid()]: "HIDDEN",
+        [faker.datatype.uuid()]: "HIDDEN",
       };
 
       let res;
@@ -82,7 +82,7 @@ describe(`PUT ${path}`, () => {
       const res = await request(app)
         .put(path)
         .set("Authorization", getBearerToken(["manage-users"]))
-        .send({ [faker.random.uuid()]: "ACTIVE" });
+        .send({ [faker.datatype.uuid()]: "ACTIVE" });
 
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
@@ -107,7 +107,7 @@ describe(`PUT ${path}`, () => {
       const res = await request(app)
         .put(path)
         .set("Authorization", getBearerToken(["manage-users"]))
-        .send({ [faker.random.uuid()]: "InvalidContent" });
+        .send({ [faker.datatype.uuid()]: "InvalidContent" });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();

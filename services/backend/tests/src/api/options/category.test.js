@@ -143,7 +143,7 @@ describe(`PUT ${path}`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const body = {
-        id: faker.random.uuid(),
+        id: faker.datatype.uuid(),
         fr: "data",
         en: "data",
       };
@@ -213,7 +213,7 @@ describe(`PUT ${path}`, () => {
       const res = await request(app)
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ id: faker.random.uuid(), fr: "data", en: [] });
+        .send({ id: faker.datatype.uuid(), fr: "data", en: [] });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
@@ -224,7 +224,7 @@ describe(`PUT ${path}`, () => {
       const res = await request(app)
         .put(path)
         .set("Authorization", getBearerToken(["manage-options"]))
-        .send({ id: faker.random.uuid(), fr: [], en: "data" });
+        .send({ id: faker.datatype.uuid(), fr: [], en: "data" });
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
@@ -261,7 +261,7 @@ describe(`DELETE ${path}`, () => {
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
       const body = {
-        id: faker.random.uuid(),
+        id: faker.datatype.uuid(),
       };
 
       let res;

@@ -4,7 +4,7 @@ const faker = require("faker");
 const { getBearerToken } = require("../../../mocks");
 
 const createFakeUser = (hasJob = true, hasTenure = true) => ({
-  id: faker.random.uuid(),
+  id: faker.datatype.uuid(),
   createdAt: faker.date.past().toISOString(),
   firstName: faker.name.firstName(),
   lastName: faker.name.lastName(),

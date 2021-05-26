@@ -534,12 +534,10 @@ module.exports = [
     abbrCountry: "CAN",
     translations: {
       en: {
-        name:
-          "King’s University College (King’s University College at The University of Western Ontario)",
+        name: "King’s University College (King’s University College at The University of Western Ontario)",
       },
       fr: {
-        name:
-          "King’s University College (King’s University College at The University of Western Ontario)",
+        name: "King’s University College (King’s University College at The University of Western Ontario)",
       },
     },
   },
