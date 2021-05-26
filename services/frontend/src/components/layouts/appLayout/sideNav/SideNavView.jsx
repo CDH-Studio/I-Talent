@@ -13,6 +13,7 @@ const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
         breakpoint="lg"
         collapsedWidth="0"
         zeroWidthTriggerStyle={{ backgroundColor: "#192e2f", bottom: "64px" }}
+        role="navigation"
       >
         {/* render content of side bar */}
         {loading ? (
