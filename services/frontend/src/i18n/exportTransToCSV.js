@@ -23,7 +23,7 @@ const testHelpers = require("./validationHelperFunctions");
 const en = require("./en_CA.json");
 const fr = require("./fr_CA.json");
 
-const blacklistedKeys = require("./blacklistKeys");
+const blacklistedKeys = require("./blacklistKeys.json");
 
 /**
  * Format translations in JSON format for export

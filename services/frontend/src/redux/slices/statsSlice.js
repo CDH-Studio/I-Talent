@@ -64,10 +64,7 @@ const statsSlice = createSlice({
   },
 });
 
-export const {
-  setTopFive,
-  clearStats,
-  setInitialAdminData,
-} = statsSlice.actions;
+export const { setTopFive, clearStats, setInitialAdminData } =
+  statsSlice.actions;
 
 export default statsSlice.reducer;

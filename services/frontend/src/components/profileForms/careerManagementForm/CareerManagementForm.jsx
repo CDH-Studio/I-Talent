@@ -35,9 +35,8 @@ const CareerManagementForm = ({ formType }) => {
   const [talentMatrixResultOptions, setTalentMatrixResultOptions] = useState(
     []
   );
-  const [savedTalentMatrixResult, setSavedTalentMatrixResult] = useState(
-    undefined
-  );
+  const [savedTalentMatrixResult, setSavedTalentMatrixResult] =
+    useState(undefined);
   const [savedExFeederBool, setSavedExFeederBool] = useState(undefined);
   const [classificationOptions, setClassificationOptions] = useState([]);
   const [savedQualifiedPools, setSavedQualifiedPools] = useState(undefined);
@@ -206,12 +205,8 @@ const CareerManagementForm = ({ formType }) => {
   // useEffect when profileInfo changes (extracts info from the profileInfo object)
   useEffect(() => {
     if (profileInfo) {
-      const {
-        lookingJob,
-        talentMatrixResult,
-        careerMobility,
-        exFeeder,
-      } = profileInfo;
+      const { lookingJob, talentMatrixResult, careerMobility, exFeeder } =
+        profileInfo;
       getSavedDevelopmentalGoals();
       getSavedRelocationLocations();
       getSavedQualifiedPools();
