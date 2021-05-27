@@ -25,8 +25,8 @@ const FooterView = () => {
   const { locale } = useSelector((state) => state.settings);
   const { keycloak } = useKeycloak();
   return (
-    <Footer className="footer" role="contentinfo">
-      <div className="aroundLinksSmall">
+    <Footer className="footer">
+      <div className="aroundLinksSmall" role="contentinfo">
         {footerObject(
           "about",
           "footer.about.link",
