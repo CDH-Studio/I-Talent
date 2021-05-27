@@ -34,7 +34,6 @@ const HeaderView = ({ title, icon, subtitle, extra, backBtn }) => {
   );
 };
 
-// aria-label={intl.formatMessage({ id: "go.back" })}
 HeaderView.propTypes = {
   title: PropTypes.node.isRequired,
   subtitle: PropTypes.node.isRequired,
