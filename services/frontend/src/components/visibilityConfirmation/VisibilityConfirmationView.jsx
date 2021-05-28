@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { Descriptions, Modal, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
+import "./VisibilityConfirmationView.less";
 
 const VisibilityConfirmationView = ({
   visibleCards,
@@ -41,9 +42,9 @@ const VisibilityConfirmationView = ({
       visible={visible}
       onOk={onClickOk}
       onCancel={onCloseModal}
-      width="70%"
+      width="40%"
     >
-      <Descriptions column={2} bordered>
+      <Descriptions column={2} size="middle" bordered>
         <Descriptions.Item
           label={<FormattedMessage id="employment.equity.groups" />}
         >
