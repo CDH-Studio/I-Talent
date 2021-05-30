@@ -2,17 +2,14 @@
 <!-- Explain briefly in a small paragraph or in bullet form the changes this PR brings to
      the application -->
 
-
 #### 🔗 Related issue(s)
 <!-- If this PR fixes/closes an issue, please prepend that issue number with one of the github
      closing keywords (ex: `fixes`, `closes`, ...) -->
 
-
 #### 📸 Screenshots (if applicable)
 <!-- If you have made UI changes to the application, include a screenshot and if the change 
      involves movement, include a GIF. If the UI changes when the application is in mobile view, 
-     show a mobile screenshot too. -->
-
+     show a mobile screenshot too. Include english and french versions as well for trasnlation validation-->
 
 #### ☑️ Checklist
 If the database has been modified:
