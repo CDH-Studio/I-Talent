@@ -9,7 +9,7 @@ describe(`GET ${path}/:id`, () => {
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
-      const res = await request(app).get(`${path}/${faker.random.uuid()}`);
+      const res = await request(app).get(`${path}/${faker.datatype.uuid()}`);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
@@ -54,7 +54,7 @@ describe(`GET ${path}/:id`, () => {
       prisma.user.findOne.mockResolvedValue(prismaData);
 
       const res = await request(app)
-        .get(`${path}/${faker.random.uuid()}?language=ENGLISH`)
+        .get(`${path}/${faker.datatype.uuid()}?language=ENGLISH`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(200);
@@ -63,7 +63,7 @@ describe(`GET ${path}/:id`, () => {
 
     test("should throw validation error without language query param - 422", async () => {
       const res = await request(app)
-        .get(`${path}/${faker.random.uuid()}`)
+        .get(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(422);
@@ -72,7 +72,7 @@ describe(`GET ${path}/:id`, () => {
 
     test("should throw validation error invalid language query param - 422", async () => {
       const res = await request(app)
-        .get(`${path}/${faker.random.uuid()}?language=ijoij`)
+        .get(`${path}/${faker.datatype.uuid()}?language=ijoij`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(422);
@@ -95,7 +95,7 @@ describe(`PUT ${path}/:id`, () => {
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
-      const res = await request(app).put(`${path}/${faker.random.uuid()}`);
+      const res = await request(app).put(`${path}/${faker.datatype.uuid()}`);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
@@ -110,7 +110,7 @@ describe(`PUT ${path}/:id`, () => {
 
     test("should throw validation error without language query param - 422", async () => {
       const res = await request(app)
-        .put(`${path}/${faker.random.uuid()}`)
+        .put(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(422);
@@ -119,7 +119,7 @@ describe(`PUT ${path}/:id`, () => {
 
     test("should throw validation error invalid language query param - 422", async () => {
       const res = await request(app)
-        .put(`${path}/${faker.random.uuid()}?language=ijoij`)
+        .put(`${path}/${faker.datatype.uuid()}?language=ijoij`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(422);

@@ -1,12 +1,14 @@
 {
-  "extends": ["airbnb", "prettier", "prettier/react"],
+  "extends": ["airbnb", "plugin:prettier/recommended"],
   "plugins": ["react", "react-hooks"],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/no-array-index-key": "warn",
     "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
+    "react/react-in-jsx-scope": "off",
+    "react/destructuring-assignment": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }]
   },
   "env": {
     "browser": true

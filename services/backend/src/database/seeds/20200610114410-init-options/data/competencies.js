@@ -129,8 +129,7 @@ module.exports = [
   },
   {
     en: "Developing Direct Reports with Others",
-    fr:
-      "Développer les compétences de ses collaborateurs directs et des autres",
+    fr: "Développer les compétences de ses collaborateurs directs et des autres",
   },
   {
     en: "Directing Others",

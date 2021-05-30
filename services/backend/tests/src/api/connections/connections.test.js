@@ -18,30 +18,30 @@ describe(`GET ${path}/:id`, () => {
   });
 
   describe("when authenticated", () => {
-    const conId = faker.random.uuid();
+    const conId = faker.datatype.uuid();
     const data = [
       [
         "connectionId is a connection",
         conId,
         {
           connections: [
-            { id: faker.random.uuid() },
+            { id: faker.datatype.uuid() },
             { id: conId },
-            { id: faker.random.uuid() },
-            { id: faker.random.uuid() },
+            { id: faker.datatype.uuid() },
+            { id: faker.datatype.uuid() },
           ],
         },
         { status: true },
       ],
       [
         "connectionId is not a connection",
-        faker.random.uuid(),
+        faker.datatype.uuid(),
         {
           connections: [
-            { id: faker.random.uuid() },
-            { id: faker.random.uuid() },
-            { id: faker.random.uuid() },
-            { id: faker.random.uuid() },
+            { id: faker.datatype.uuid() },
+            { id: faker.datatype.uuid() },
+            { id: faker.datatype.uuid() },
+            { id: faker.datatype.uuid() },
           ],
         },
         { status: false },
@@ -93,7 +93,7 @@ describe(`GET ${path}/:id`, () => {
       prisma.user.findOne.mockRejectedValue(new Error());
 
       const res = await request(app)
-        .get(`${path}/${faker.random.uuid()}`)
+        .get(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(500);
@@ -131,7 +131,7 @@ describe(`POST ${path}/:id`, () => {
 
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
-      const connectionId = faker.random.uuid();
+      const connectionId = faker.datatype.uuid();
       let res;
 
       beforeAll(async () => {
@@ -173,7 +173,7 @@ describe(`POST ${path}/:id`, () => {
       prisma.user.update.mockRejectedValue(new Error());
 
       const res = await request(app)
-        .post(`${path}/${faker.random.uuid()}`)
+        .post(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(500);
@@ -211,7 +211,7 @@ describe(`DELETE ${path}/:id`, () => {
 
   describe("when authenticated", () => {
     describe("when doing a normal query", () => {
-      const connectionId = faker.random.uuid();
+      const connectionId = faker.datatype.uuid();
       let res;
 
       beforeAll(async () => {
@@ -253,7 +253,7 @@ describe(`DELETE ${path}/:id`, () => {
       prisma.user.update.mockRejectedValue(new Error());
 
       const res = await request(app)
-        .delete(`${path}/${faker.random.uuid()}`)
+        .delete(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(500);

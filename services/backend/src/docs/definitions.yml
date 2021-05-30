@@ -360,15 +360,14 @@ definitions:
     type: array
     items:
       type: object
-      required: [proficiency, level, date]
+      required: [proficiency, level, status]
       properties:
         proficiency:
           $ref: "#/definitions/ProficiencyEnum"
         level:
           $ref: "#/definitions/ProficiencyLevelEnum"
-        date:
+        status:
           type: string
-          format: date-time
   QualifiedPools:
     type: array
     items:
@@ -580,9 +579,8 @@ definitions:
             id:
               type: string
               format: uuid
-            date:
+            status:
               type: string
-              format: date-time
             proficiency:
               $ref: "#/definitions/ProficiencyEnum"
             level:

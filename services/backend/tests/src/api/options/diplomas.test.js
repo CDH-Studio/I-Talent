@@ -145,9 +145,9 @@ describe(`DELETE ${path}`, () => {
         ["when 'ids' array is empty", []],
         [
           "when 'ids' array has multiple UUID",
-          [faker.random.uuid(), faker.random.uuid(), faker.random.uuid()],
+          [faker.datatype.uuid(), faker.datatype.uuid(), faker.datatype.uuid()],
         ],
-        ["when 'ids' array has a single UUID", [faker.random.uuid()]],
+        ["when 'ids' array has a single UUID", [faker.datatype.uuid()]],
       ];
 
       describe.each(data)("%s", (_testLabel, ids) => {

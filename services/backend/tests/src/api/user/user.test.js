@@ -362,7 +362,7 @@ describe(`DELETE ${path}/:id`, () => {
 
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
-      const res = await request(app).delete(`${path}/${faker.random.uuid()}`);
+      const res = await request(app).delete(`${path}/${faker.datatype.uuid()}`);
 
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
@@ -373,7 +373,7 @@ describe(`DELETE ${path}/:id`, () => {
   describe("when not authorised", () => {
     test("should not process request if not admin and not deleting itself - 403", async () => {
       const res = await request(app)
-        .delete(`${path}/${faker.random.uuid()}`)
+        .delete(`${path}/${faker.datatype.uuid()}`)
         .set("Authorization", getBearerToken());
 
       expect(res.statusCode).toBe(403);
@@ -387,7 +387,7 @@ describe(`DELETE ${path}/:id`, () => {
       ["when deleting yourself", userId, undefined],
       [
         "when deleting someone else as and admin",
-        faker.random.uuid(),
+        faker.datatype.uuid(),
         ["manage-users"],
       ],
     ];
