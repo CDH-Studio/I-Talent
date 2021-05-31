@@ -9,7 +9,7 @@
 #### 📸 Screenshots (if applicable)
 <!-- If you have made UI changes to the application, include a screenshot and if the change 
      involves movement, include a GIF. If the UI changes when the application is in mobile view, 
-     show a mobile screenshot too. Include english and french versions as well for trasnlation validation-->
+     show a mobile screenshot too. Include English and French versions for translation validation-->
 
 #### ☑️ Checklist
 If the database has been modified:
@@ -34,5 +34,4 @@ If the UI has been modified:
 - [ ] It is accessible
 
 If translations have been modified:
-- [ ] run `yarn i18n:validate"
-- [ ] run `yarn i18n:cleanup" 
+- [ ] run `yarn i18n:validate" and clear errors 
