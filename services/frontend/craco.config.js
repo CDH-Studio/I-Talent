@@ -6,6 +6,9 @@ const LodashModuleReplacementPlugin = require("lodash-webpack-plugin");
 const antdTheme = require("./src/styling/antdTheme");
 
 module.exports = {
+  eslint: {
+    enable: process.env.NODE_ENV === "production" ? false : true,
+  },
   babel: {
     plugins: [
       [

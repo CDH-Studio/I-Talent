@@ -8,7 +8,7 @@
  * 3) check if all i18n keys are used the project (findUnusedTranslations)
  *
  * To Run:
- * 'yarn i18n:check'
+ * 'yarn i18n:validate'
  */
 
 /* eslint-disable no-console */
