@@ -376,6 +376,7 @@
   "visibility.form.public": "Information visible pour tout le monde",
   "visibility.form.show.confirm": "Êtes-vous certain de rendre cette information visible sur votre profil public?",
   "visibility.review.title": "Examiner les paramètres de visibilité",
+  "visibility.selector": "Sélecteur de visibilité",
   "visibility.status.connections": "Uniquement visible pour les connexions du propriétaire et les administrateurs",
   "visibility.status.private": "Uniquement visible pour le propriétaire du profil et les administrateurs",
   "visibility.status.public": "Visible pour tous",
