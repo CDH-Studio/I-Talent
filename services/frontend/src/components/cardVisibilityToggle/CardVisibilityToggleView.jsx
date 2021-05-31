@@ -70,6 +70,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
         className="visibilitySelector"
         style={{ width: 120 }}
         onSelect={handleSelect}
+        aria-label={intl.formatMessage({ id: "visibility.selector" })}
       >
         <Option value="PUBLIC">
           <EyeOutlined className="visibilityOptionIcon" />
