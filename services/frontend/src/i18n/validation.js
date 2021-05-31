@@ -33,12 +33,15 @@ const blacklistedKeys = require("./blacklistKeys.json");
   const duplicatedTranslations = testHelpers.findDuplicateTranslations(en, fr);
   const mismatchedTransKeys = testHelpers.findMismatchedTranslations(en, fr);
   const unusedTranslations = await testHelpers.findUnusedTranslations(en, fr);
+  const areTransKeysAlphabetized = testHelpers.checkTransKeysOrder(en, fr);
 
   if (
-    duplicatedTranslations.length ||
+    duplicatedTranslations.en.length ||
+    duplicatedTranslations.fr.length ||
     mismatchedTransKeys.extraKeysInEn.length ||
     mismatchedTransKeys.extraKeysInFr.length ||
-    unusedTranslations.length
+    unusedTranslations.length ||
+    areTransKeysAlphabetized
   ) {
     console.error("Summary: I18n Validator FAILED =========\n");
     process.exit(1);

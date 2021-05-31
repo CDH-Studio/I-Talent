@@ -53,7 +53,10 @@ const findDuplicateTranslations = (enTranslations, frTranslations) => {
     console.error("findDuplicateTranslations check: FAIL\n");
   }
 
-  return enDuplicateValues;
+  return {
+    en: enDuplicateValues,
+    fr: frDuplicateValues,
+  };
 };
 
 /**
@@ -225,9 +228,43 @@ const findUnusedTranslations = async (
   return unusedKeys;
 };
 
+/**
+ * A test to see if translation keys are alphabetized
+ *
+ * @param {object} enTranslations List of english translations
+ * @param {object} frTranslations List of english translations
+ */
+const checkTransKeysOrder = async (enTranslations, frTranslations) => {
+  const enKeys = Object.keys(enTranslations);
+  const frKeys = Object.keys(frTranslations);
+
+  const allKeys = _([...enKeys, ...frKeys])
+    .uniq()
+    .value();
+
+  const sortedKeys = _([...enKeys, ...frKeys])
+    .uniq()
+    .sort()
+    .value();
+
+  const isCorrectlySorted = _.isEqual(allKeys, sortedKeys);
+
+  if (isCorrectlySorted) {
+    console.error("Translation keys are in alphabetical order!");
+    console.error("checkTransOrder check: SUCCESS\n");
+  } else {
+    console.error(`Translation keys are not in alphabetical order`);
+    console.error(`Please fix i18n files with 'yarn i18n:alphabetize'`);
+    console.error("checkTransOrder check: FAIL\n");
+  }
+
+  return isCorrectlySorted;
+};
+
 module.exports = {
   findDuplicateTranslations,
   findUnusedTranslations,
   findMismatchedTranslations,
   searchForUnusedKeysInFiles,
+  checkTransKeysOrder,
 };
