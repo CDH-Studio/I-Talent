@@ -26,7 +26,7 @@ const FooterView = () => {
   const { keycloak } = useKeycloak();
   return (
     <Footer className="footer">
-      <div className="aroundLinksSmall">
+      <div className="aroundLinksSmall" role="contentinfo">
         {footerObject(
           "about",
           "footer.about.link",

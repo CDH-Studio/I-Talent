@@ -248,7 +248,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   if (windowWidth > 450) {
     return (
-      <Header className="header">
+      <Header className="header" role="banner">
         <Row
           className="aroundNavContent"
           justify="space-between"
