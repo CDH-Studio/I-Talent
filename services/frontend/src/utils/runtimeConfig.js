@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable  no-underscore-dangle*/
 
 const test = {
   backendAddress: "",
@@ -20,7 +20,6 @@ const runtime = () => ({
 
 const config = () => {
   if (window.__ENV) {
-    console.log(runtime());
     return runtime();
   }
   return test;
