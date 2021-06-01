@@ -17,9 +17,6 @@ const testHelpers = require("./validationHelperFunctions");
 const enTranslations = require("./en_CA.json");
 const frTranslations = require("./fr_CA.json");
 
-// get all blacklisted keys (keys to be ignored)
-const blacklistedKeys = require("./blacklistKeys.json");
-
 /**
  * Overwrites the i18n files with the keys in alphabetical order
  *
@@ -30,7 +27,6 @@ const blacklistedKeys = require("./blacklistKeys.json");
 const writeNewFiles = async (enList, frList, allOrderedKeys, keysToRemove) => {
   const newEn = {};
   const newFr = {};
-  const badKeys = [];
 
   allOrderedKeys.forEach((key) => {
     newEn[key] = enList[key];
@@ -66,11 +62,7 @@ const writeNewFiles = async (enList, frList, allOrderedKeys, keysToRemove) => {
     .sort()
     .value();
 
-  const unmatchedKeys = await writeNewFiles(
-    enTranslations,
-    frTranslations,
-    allKeys
-  );
+  await writeNewFiles(enTranslations, frTranslations, allKeys);
 
   console.log("************ Done i18n Alphabetization ****************\n");
 })();
