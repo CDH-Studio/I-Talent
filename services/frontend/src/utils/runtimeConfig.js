@@ -1,4 +1,4 @@
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable */
 
 const test = {
   backendAddress: "",
@@ -15,11 +15,12 @@ const runtime = () => ({
   keycloakServerUrl: window.__ENV.REACT_APP_KEYCLOAK_SERVER_URL,
   manageKeycloakAddress: `${window.__ENV.REACT_APP_KEYCLOAK_SERVER_URL}/admin/individual/console/#/realms/individual/users`,
   keycloakClientId: window.__ENV.REACT_APP_KEYCLOAK_CLIENT_ID,
-  drupalSite: window.__ENV.DRUPAL_WEBSITE_URL,
+  drupalSite: window.__ENV.REACT_APP_DRUPAL_WEBSITE_URL,
 });
 
 const config = () => {
   if (window.__ENV) {
+    console.log(runtime());
     return runtime();
   }
   return test;

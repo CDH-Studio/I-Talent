@@ -7,7 +7,7 @@ const antdTheme = require("./src/styling/antdTheme");
 
 module.exports = {
   eslint: {
-    enable: process.env.NODE_ENV === "production" ? false : true,
+    enable: process.env.NODE_ENV !== "production",
   },
   babel: {
     plugins: [
