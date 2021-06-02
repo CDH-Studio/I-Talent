@@ -17,7 +17,7 @@ const enTranslations = require("./en_CA.json");
 const frTranslations = require("./fr_CA.json");
 
 /**
- * Overwrites the i18n files with the keys in alphabetical order
+ * Overwrites the i18n files
  *
  * @param {object} enList  All english translations
  * @param {object} frList  All french translations
