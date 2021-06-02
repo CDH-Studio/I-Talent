@@ -1,5 +1,5 @@
 /**
- * Clean up unused i18n Translations
+ * Clean up unused i18n translations
  *
  * This script parses all react files to find translation keys in the i18n files that are unused.
  * Keys can be added to a blacklist (blacklistKeys.json) to avoid false positives
@@ -27,6 +27,9 @@ const blacklistedKeys = require("./blacklistKeys.json");
 /**
  * Overwrites the i18n files without the unused keys and saves them
  *
+ * @param {object} enList  All english translations
+ * @param {object} frList  All french translations
+ * @param {string[]} allKeys  All translation keys in alphabetical order
  * @param {string[]} keysToRemove  Keys in the i18n files that are not being
  *                                 used inside the application
  * @returns {string[]}  Returns keys that only exited in one of the language
