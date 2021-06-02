@@ -11,7 +11,6 @@
 const _ = require("lodash");
 const fs = require("fs").promises;
 const path = require("path");
-const testHelpers = require("./validationHelperFunctions");
 
 // extract translations from file
 const enTranslations = require("./en_CA.json");
@@ -24,7 +23,7 @@ const frTranslations = require("./fr_CA.json");
  * @param {object} frList  All french translations
  * @param {string[]} allOrderedKeys  All translation keys in alphabetical order
  */
-const writeNewFiles = async (enList, frList, allOrderedKeys, keysToRemove) => {
+const writeNewFiles = async (enList, frList, allOrderedKeys) => {
   const newEn = {};
   const newFr = {};
 
