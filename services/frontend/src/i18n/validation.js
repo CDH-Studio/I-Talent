@@ -41,7 +41,7 @@ const blacklistedKeys = require("./blacklistKeys.json");
     mismatchedTransKeys.extraKeysInEn.length ||
     mismatchedTransKeys.extraKeysInFr.length ||
     unusedTranslations.length ||
-    areTransKeysAlphabetized
+    !areTransKeysAlphabetized
   ) {
     console.error("Summary: I18n Validator FAILED =========\n");
     process.exit(1);
