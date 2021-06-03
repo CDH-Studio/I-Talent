@@ -2,34 +2,33 @@ import PropTypes from "prop-types";
 import { Tag, Empty, Row, Col } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import { Fragment } from "react";
 
 const SkillsView = ({ categoriesSkills, skills }) => {
   if (skills.length > 0)
-    return (
-      <>
-        {categoriesSkills.map(
-          (categorySkill) =>
-            categorySkill != null && (
-              <>
-                <Row align="middle">
-                  <Col>
-                    <TagTwoTone twoToneColor="#3CBAB3" />
-                  </Col>
-                  <Col>
-                    <FormattedMessage id={categorySkill.val} />:
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    {skills[categorySkill.index].val.map((skill) => (
-                      <Tag color="#00605e">{skill}</Tag>
-                    ))}
-                  </Col>
-                </Row>
-              </>
-            )
-        )}
-      </>
+    return categoriesSkills.map(
+      (categorySkill) =>
+        categorySkill != null && (
+          <Fragment key={categorySkill.val}>
+            <Row align="middle">
+              <Col>
+                <TagTwoTone twoToneColor="#3CBAB3" />
+              </Col>
+              <Col>
+                <FormattedMessage id={categorySkill.val} />:
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {skills[categorySkill.index].val.map((skill) => (
+                  <Tag key={skill} color="#00605e">
+                    {skill}
+                  </Tag>
+                ))}
+              </Col>
+            </Row>
+          </Fragment>
+        )
     );
 
   return (
