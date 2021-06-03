@@ -13,10 +13,12 @@
     "docker:dev": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
     "docker:prod": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s start",
     "lint": "./node_modules/.bin/eslint src",
+    "formate": "prettier --write .",
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio",
     "test": "cross-env NODE_ENV=test jest",
-    "snyk-protect": "snyk protect"
+    "snyk-protect": "snyk protect",
+    "postinstall": "cd ../../ && husky install services/backend/.husky"
   },
   "dependencies": {
     "@prisma/client": "2.11.0",
@@ -52,6 +54,7 @@
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0",
     "faker": "^5.5.3",
+    "husky": "^6.0.0",
     "jest": "^26.6.3",
     "keycloak-mock": "BenJeau/keycloak-mock#feat-build",
     "mockdate": "^3.0.5",

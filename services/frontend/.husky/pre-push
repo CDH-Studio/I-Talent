@@ -2,6 +2,8 @@
 . "$(dirname "$0")/_/husky.sh"
 
 cd services/frontend
-yarn format
 yarn i18n:validate
+yarn i18n:cleanup
+yarn i18n:alphabetize
+yarn format
 yarn lint 

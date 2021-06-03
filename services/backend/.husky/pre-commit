@@ -1,7 +1,6 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-cd services/frontend
+cd services/backend
 yarn format
-yarn i18n:validate
 yarn lint 
