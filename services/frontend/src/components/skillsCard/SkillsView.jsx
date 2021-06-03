@@ -14,9 +14,7 @@ const SkillsView = ({ categoriesSkills, skills }) => {
               <Col>
                 <TagTwoTone twoToneColor="#3CBAB3" />
               </Col>
-              <Col>
-                <FormattedMessage id={categorySkill.val} />:
-              </Col>
+              <Col>{categorySkill.val}:</Col>
             </Row>
             <Row>
               <Col>
