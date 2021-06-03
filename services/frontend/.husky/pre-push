@@ -1,0 +1,9 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+cd services/frontend
+yarn format
+yarn lint 
+yarn i18n:validate
+yarn i18n:cleanup
+yarn i18n:alphabetize

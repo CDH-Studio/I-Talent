@@ -9,11 +9,13 @@
     "build": "NODE_ENV=production craco build",
     "test": "craco test",
     "lint": "./node_modules/.bin/eslint --cache --format codeframe --ext jsx,js src",
+    "format": "prettier --write .",
     "i18n:validate": "node ./src/i18n/validation",
     "i18n:cleanup": "node ./src/i18n/cleanUpUnusedKeys",
     "i18n:alphabetize": "node ./src/i18n/alphabetizeKeys",
     "i18n:export": "node ./src/i18n/exportTransToCSV",
-    "analyze": "ANALYZE_BUILD=true yarn build"
+    "analyze": "ANALYZE_BUILD=true yarn build",
+    "postinstall": "cd ../../ && husky install services/frontend/.husky"
   },
   "dependencies": {
     "@ant-design/icons": "4.6.2",
@@ -62,6 +64,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-react": "7.23.2",
     "eslint-plugin-react-hooks": "4.2.0",
+    "husky": "^6.0.0",
     "json2csv": "5.0.6",
     "prettier": "2.3.0",
     "webpack-bundle-analyzer": "4.4.2"
