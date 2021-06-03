@@ -1,6 +1,7 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+git add -A
 cd services/frontend
 yarn i18n:validate
 yarn i18n:cleanup

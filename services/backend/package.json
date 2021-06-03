@@ -17,8 +17,7 @@
     "seed": "node src/database/seeds",
     "studio": "cd src/database && prisma studio",
     "test": "cross-env NODE_ENV=test jest",
-    "snyk-protect": "snyk protect",
-    "postinstall": "cd ../../ && husky install services/backend/.husky"
+    "snyk-protect": "snyk protect"
   },
   "dependencies": {
     "@prisma/client": "2.11.0",
