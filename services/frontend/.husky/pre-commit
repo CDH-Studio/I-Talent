@@ -4,4 +4,7 @@
 cd services/frontend
 yarn format
 yarn i18n:validate
-yarn lint 
+yarn lint
+cd ../backend
+yarn format
+yarn lint
