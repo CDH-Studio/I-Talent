@@ -3,6 +3,7 @@ import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
 import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
 import "./ExperienceView.less";
+import { Fragment } from "react";
 
 const ExperienceView = ({ experienceInfo }) => {
   const generateDescriptionBody = (text) => {
@@ -11,9 +12,9 @@ const ExperienceView = ({ experienceInfo }) => {
       return (
         <div className="bodyStyle">
           {lineStrings.map((line, index) => (
-            <>
+            <Fragment key={line}>
               {index > 0 ? <br /> : null} {line}
-            </>
+            </Fragment>
           ))}
         </div>
       );
@@ -36,7 +37,7 @@ const ExperienceView = ({ experienceInfo }) => {
   const getProjects = (item) => {
     if (item.projects && item.projects.length > 0)
       return item.projects.map((i) => (
-        <Tag color="#727272" key={i.id}>
+        <Tag color="#727272" key={i}>
           <span>{i}</span>
         </Tag>
       ));
