@@ -248,28 +248,30 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   if (windowWidth > 450) {
     return (
-      <Header className="header" role="banner">
-        <Row
-          className="aroundNavContent"
-          justify="space-between"
-          align="middle"
-        >
-          <Row align="middle">
-            {displayLogo && (
-              <Link tabIndex={0} to="/">
-                <img src={Logo} alt="I-Talent Logo" className="navBrand" />
-              </Link>
-            )}
-          </Row>
+      <div role="banner">
+        <Header className="header">
+          <Row
+            className="aroundNavContent"
+            justify="space-between"
+            align="middle"
+          >
+            <Row align="middle">
+              {displayLogo && (
+                <Link tabIndex={0} to="/">
+                  <img src={Logo} alt="I-Talent Logo" className="navBrand" />
+                </Link>
+              )}
+            </Row>
 
-          {getSearchInput()}
+            {getSearchInput()}
 
-          <Row align="middle">
-            <div>{getAvatarDropdown(name)}</div>
-            <ChangeLanguage />
+            <Row align="middle">
+              <div>{getAvatarDropdown(name)}</div>
+              <ChangeLanguage />
+            </Row>
           </Row>
-        </Row>
-      </Header>
+        </Header>
+      </div>
     );
   }
 
