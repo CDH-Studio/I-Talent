@@ -81,7 +81,7 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
     .value();
 
   const unusedKeys = await testHelpers.searchForUnusedKeysInFiles(
-    path.join(__dirname, ".."),
+    path.join(__dirname, "../.."),
     [".jsx"],
     allKeys,
     blacklistedKeys

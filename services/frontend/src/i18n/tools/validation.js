@@ -32,7 +32,11 @@ const blacklistedKeys = require("../blacklistKeys.json");
 
   const duplicatedTranslations = testHelpers.findDuplicateTranslations(en, fr);
   const mismatchedTransKeys = testHelpers.findMismatchedTranslations(en, fr);
-  const unusedTranslations = await testHelpers.findUnusedTranslations(en, fr);
+  const unusedTranslations = await testHelpers.findUnusedTranslations(
+    en,
+    fr,
+    blacklistedKeys
+  );
   const areTransKeysAlphabetized = testHelpers.checkTransKeysOrder(en, fr);
 
   if (

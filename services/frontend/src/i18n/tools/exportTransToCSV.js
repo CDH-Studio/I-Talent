@@ -107,7 +107,7 @@ const saveAsCSV = (fileName, TranslationJSON) => {
     const FormattedTranslationJSON = formatTransForExport(en, fr);
 
     try {
-      saveAsCSV("ExportedTranslations.csv", FormattedTranslationJSON);
+      saveAsCSV("../ExportedTranslations.csv", FormattedTranslationJSON);
       console.log("SUCCESS: Translations exported to ExportedTranslations.csv");
     } catch (e) {
       console.error("ERROR: The following error occurred when exporting:");

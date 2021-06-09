@@ -33,12 +33,12 @@ const writeNewFiles = async (enList, frList, allOrderedKeys) => {
   });
 
   await fs.writeFile(
-    path.join(__dirname, "en_CA.json"),
+    path.join(__dirname, "../en_CA.json"),
     JSON.stringify(newEn, null, 2),
     "utf8"
   );
   await fs.writeFile(
-    path.join(__dirname, "fr_CA.json"),
+    path.join(__dirname, "../fr_CA.json"),
     JSON.stringify(newFr, null, 2),
     "utf8"
   );
