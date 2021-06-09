@@ -18,11 +18,11 @@ const path = require("path");
 const testHelpers = require("./validationHelperFunctions");
 
 // extract translations from file
-const enTranslations = require("./en_CA.json");
-const frTranslations = require("./fr_CA.json");
+const enTranslations = require("../en_CA.json");
+const frTranslations = require("../fr_CA.json");
 
 // get all blacklisted keys (keys to be ignored)
-const blacklistedKeys = require("./blacklistKeys.json");
+const blacklistedKeys = require("../blacklistKeys.json");
 
 /**
  * Overwrites the i18n files without the unused keys and saves them
@@ -52,12 +52,12 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
   });
 
   await fs.writeFile(
-    path.join(__dirname, "en_CA.json"),
+    path.join(__dirname, "../en_CA.json"),
     JSON.stringify(newEn, null, 2),
     "utf8"
   );
   await fs.writeFile(
-    path.join(__dirname, "fr_CA.json"),
+    path.join(__dirname, "../fr_CA.json"),
     JSON.stringify(newFr, null, 2),
     "utf8"
   );

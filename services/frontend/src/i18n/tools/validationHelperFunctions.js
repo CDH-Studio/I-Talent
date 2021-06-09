@@ -208,7 +208,7 @@ const findUnusedTranslations = async (
     .value();
 
   unusedKeys = await searchForUnusedKeysInFiles(
-    path.join(__dirname, ".."),
+    path.join(__dirname, "../.."),
     [".jsx"],
     allKeys,
     blacklistedKeys

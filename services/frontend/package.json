@@ -9,10 +9,10 @@
     "build": "NODE_ENV=production craco build",
     "test": "craco test",
     "lint": "./node_modules/.bin/eslint --cache --format codeframe --ext jsx,js src",
-    "i18n:validate": "node ./src/i18n/validation",
-    "i18n:cleanup": "node ./src/i18n/cleanUpUnusedKeys",
-    "i18n:alphabetize": "node ./src/i18n/alphabetizeKeys",
-    "i18n:export": "node ./src/i18n/exportTransToCSV",
+    "i18n:validate": "node ./src/i18n/tools/validation",
+    "i18n:cleanup": "node ./src/i18n/tools/cleanUpUnusedKeys",
+    "i18n:alphabetize": "node ./src/i18n/tools/alphabetizeKeys",
+    "i18n:export": "node ./src/i18n/tools/exportTransToCSV",
     "analyze": "ANALYZE_BUILD=true yarn build"
   },
   "dependencies": {

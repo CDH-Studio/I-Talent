@@ -13,8 +13,8 @@ const fs = require("fs").promises;
 const path = require("path");
 
 // extract translations from file
-const enTranslations = require("./en_CA.json");
-const frTranslations = require("./fr_CA.json");
+const enTranslations = require("../en_CA.json");
+const frTranslations = require("../fr_CA.json");
 
 /**
  * Overwrites the i18n files
