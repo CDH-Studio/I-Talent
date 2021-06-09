@@ -1,9 +1,9 @@
+import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
 import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
 import "./ExperienceView.less";
-import { Fragment } from "react";
 
 const ExperienceView = ({ experienceInfo }) => {
   const generateDescriptionBody = (text) => {

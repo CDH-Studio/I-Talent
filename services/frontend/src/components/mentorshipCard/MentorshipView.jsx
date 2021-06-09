@@ -1,8 +1,8 @@
+import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Tag, Empty, Row, Col } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
-import { Fragment } from "react";
 
 const MentorshipView = ({ mentoringCategories, mentoring }) => {
   if (mentoring.length > 0)
