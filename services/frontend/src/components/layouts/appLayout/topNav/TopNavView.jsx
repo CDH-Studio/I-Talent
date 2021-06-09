@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useState, useEffect } from "react";
 import {
   DownOutlined,
@@ -57,20 +56,17 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
     <Menu
       // Ant-design issue: recognizes either depending on machine
       // "-1" is used for off-screen content that appears on a specific event
-      /* eslint-disable react/jsx-no-duplicate-props */
       tabIndex={-1}
-      tabindex="-1"
-      /* eslint-enable react/jsx-no-duplicate-props */
       className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}
     >
       {optionalStartMenuItems}
-      <Menu.Item className="dropDownItem">
+      <Menu.Item key="profile_menu" className="dropDownItem">
         <Link to={`/profile/${id}`}>
           <UserOutlined className="menuIcon" />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
-      <Menu.Item className="dropDownItem">
+      <Menu.Item key="edit_menu" className="dropDownItem">
         <Link to="/profile/edit/primary-info">
           <EditOutlined className="menuIcon" />
           <FormattedMessage id="edit.profile" />
@@ -78,7 +74,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       </Menu.Item>
       <Menu.Divider />
       {isAdmin && (
-        <Menu.Item className="dropDownItem">
+        <Menu.Item key="admin_menu" className="dropDownItem">
           <Link to="/admin/dashboard">
             <DashboardOutlined className="menuIcon" />
             <FormattedMessage id="admin" />
@@ -86,21 +82,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         </Menu.Item>
       )}
       {!isAdmin && (
-        <Menu.Item className="dropDownItem">
+        <Menu.Item key="stats_menu" className="dropDownItem">
           <Link to="/statistics">
             <AreaChartOutlined className="menuIcon" />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
-      <Menu.Item className="dropDownItem">
+      <Menu.Item key="settings_menu" className="dropDownItem">
         <Link to="/settings">
           <SettingOutlined className="menuIcon" />
           <FormattedMessage id="settings" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
-      <Menu.Item className="dropDownItem">
+      <Menu.Item key="logout_menu" className="dropDownItem">
         <Link to="/logout">
           <LogoutOutlined className="menuIcon" />
           <FormattedMessage id="sign.out" />
@@ -278,15 +274,12 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       <Header className="header">
         <div className="hamburgerHeader">
           <ChangeLanguage />
-
           {hamburgerButton(name)}
         </div>
         {hamburgerMenu()}
       </Header>
       {showMenu && (
-        // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events
-        <div className="hamburgerOverlay" onClick={toggleHamburgerMenu} />
+        <Button className="hamburgerOverlay" onClick={toggleHamburgerMenu} />
       )}
     </>
   );
