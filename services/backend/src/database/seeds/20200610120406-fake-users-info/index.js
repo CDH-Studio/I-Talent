@@ -8,7 +8,7 @@ async function getSecurityClearanceId(description) {
 
   if (description) {
     securityClearanceId = await prisma.opTransSecurityClearance
-      .findOne({
+      .findUnique({
         where: {
           language_description: {
             description,
@@ -26,7 +26,7 @@ async function getCareerMobilityId(description) {
   if (description) {
     try {
       careerMobilityId = await prisma.opTransCareerMobility
-        .findOne({
+        .findUnique({
           where: {
             language_description: {
               description,
@@ -47,7 +47,7 @@ async function getLookingJobId(description) {
   if (description) {
     try {
       lookingJobId = await prisma.opTransLookingJob
-        .findOne({
+        .findUnique({
           where: {
             language_description: {
               description,
@@ -68,7 +68,7 @@ async function getTenureId(name) {
 
   if (name) {
     tenureId = await prisma.opTransTenure
-      .findOne({
+      .findUnique({
         where: {
           language_name: {
             name,
@@ -87,7 +87,7 @@ async function getTalentMatrixResultId(description) {
 
   if (description) {
     talentMatrixResultId = await prisma.opTransTalentMatrixResult
-      .findOne({
+      .findUnique({
         where: {
           language_description: {
             description,
@@ -130,7 +130,7 @@ async function getCompetenciesIds(compentencies) {
   if (compentencies) {
     const promises = compentencies.map(async (name) =>
       prisma.opTransCompetency
-        .findOne({
+        .findUnique({
           where: {
             language_name: {
               name,
@@ -153,7 +153,7 @@ async function getSkillsIds(skills) {
   if (skills) {
     const promises = skills.map(async (name) =>
       prisma.opTransSkill
-        .findOne({
+        .findUnique({
           where: {
             language_name: {
               name,
@@ -176,7 +176,7 @@ async function getDevelopmentalGoalsSkillsIds(developmentalGoals) {
   if (developmentalGoalsSkillsIds) {
     const promises = developmentalGoals.map(async (name) =>
       prisma.opTransSkill
-        .findOne({
+        .findUnique({
           where: {
             language_name: {
               name,
@@ -202,7 +202,7 @@ async function getDevelopmentalGoalsCompetenciesIds(developmentalGoals) {
   if (developmentalGoalsCompetenciesIds) {
     const promises = developmentalGoals.map(async (name) =>
       prisma.opTransCompetency
-        .findOne({
+        .findUnique({
           where: {
             language_name: {
               name,
@@ -227,7 +227,7 @@ async function getMentorshipSkillsIds(mentorshipSkills) {
   if (mentorshipSkills) {
     const promises = mentorshipSkills.map(async (name) =>
       prisma.opTransSkill
-        .findOne({
+        .findUnique({
           where: {
             language_name: {
               name,
@@ -629,7 +629,7 @@ async function seed() {
 
   const folderName = path.dirname(__filename).split(path.sep).pop();
 
-  const dbSeed = await prisma.dbSeed.findOne({
+  const dbSeed = await prisma.dbSeed.findUnique({
     where: { id: folderName },
   });
 
