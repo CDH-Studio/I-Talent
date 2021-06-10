@@ -41,9 +41,6 @@ const blacklistedKeys = require("../blacklistKeys.json");
     .sort()
     .value();
 
-  const duplicatedTranslations = testHelpers.findDuplicateTranslations(en, fr);
-  const mismatchedTransKeys = testHelpers.findMismatchedTranslations(en, fr);
-  const areTransKeysAlphabetized = testHelpers.checkTransKeysOrder(en, fr);
   const [unusedTranslations, missingTranslations] = await Promise.all([
     testHelpers.findUnusedTranslations(
       path.join(__dirname, "../.."),
@@ -58,6 +55,9 @@ const blacklistedKeys = require("../blacklistKeys.json");
       blacklistedKeys
     ),
   ]);
+  const duplicatedTranslations = testHelpers.findDuplicateTranslations(en, fr);
+  const mismatchedTransKeys = testHelpers.findMismatchedTranslations(en, fr);
+  const areTransKeysAlphabetized = testHelpers.checkTransKeysOrder(en, fr);
 
   if (
     duplicatedTranslations.en.length ||
