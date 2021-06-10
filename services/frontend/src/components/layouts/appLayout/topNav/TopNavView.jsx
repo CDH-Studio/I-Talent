@@ -54,8 +54,6 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
    */
   const menu = (isDropdown, optionalStartMenuItems) => (
     <Menu
-      // Ant-design issue: recognizes either depending on machine
-      // "-1" is used for off-screen content that appears on a specific event
       tabIndex={-1}
       className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}
     >
