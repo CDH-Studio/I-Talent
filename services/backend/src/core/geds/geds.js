@@ -34,7 +34,7 @@ async function getGedsSetup(request, response) {
       },
       timeout: 5000,
     }),
-    prisma.user.findOne({ where: { id }, select: { email: true } }),
+    prisma.user.findUnique({ where: { id }, select: { email: true } }),
   ]);
 
   const dataGEDS = dataGEDSArray.find(

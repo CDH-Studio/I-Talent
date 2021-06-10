@@ -40,14 +40,14 @@ describe(`GET ${path}`, () => {
       describe("Testing Name Filter", () => {
         afterEach(() => {
           prisma.user.findMany.mockReset();
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test("no results found - 200", async () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -65,7 +65,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -87,14 +87,14 @@ describe(`GET ${path}`, () => {
       describe("Testing Classification Filter", () => {
         afterEach(() => {
           prisma.user.findMany.mockReset();
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test("No results found - 200", async () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -112,7 +112,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -134,14 +134,14 @@ describe(`GET ${path}`, () => {
       describe("Testing Location Filter", () => {
         afterEach(() => {
           prisma.user.findMany.mockReset();
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test("No results found - 200", async () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -159,7 +159,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -181,14 +181,14 @@ describe(`GET ${path}`, () => {
       describe("Testing Skills Filter", () => {
         afterEach(() => {
           prisma.user.findMany.mockReset();
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test("No results found - 200", async () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -206,7 +206,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -230,14 +230,14 @@ describe(`GET ${path}`, () => {
       describe("Testing Mentorship Skills Filter", () => {
         afterEach(() => {
           prisma.user.findMany.mockReset();
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test("No results found - 200", async () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -255,7 +255,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -277,14 +277,14 @@ describe(`GET ${path}`, () => {
       describe("Testing Any Mentorship Skills Filter", () => {
         afterEach(() => {
           prisma.user.findMany.mockReset();
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test("Results found (Any Mentorship Skills = true) - 200", async () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -306,7 +306,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -328,7 +328,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -350,14 +350,14 @@ describe(`GET ${path}`, () => {
       describe("Testing ExFeeder Filter", () => {
         afterEach(() => {
           prisma.user.findMany.mockReset();
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test("Results found (ExFeeder = true) - 200", async () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -379,7 +379,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -401,7 +401,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -423,14 +423,14 @@ describe(`GET ${path}`, () => {
       describe("Testing Branch Filter", () => {
         afterEach(() => {
           prisma.user.findMany.mockReset();
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test("No results found - 200", async () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -448,7 +448,7 @@ describe(`GET ${path}`, () => {
           let _testData = JSON.parse(JSON.stringify(testData));
 
           prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-          prisma.user.findOne
+          prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 

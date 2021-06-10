@@ -55,7 +55,7 @@ describe(`GET ${path}/:id`, () => {
           let res;
 
           beforeAll(async () => {
-            prisma.user.findOne.mockResolvedValue(prismaData);
+            prisma.user.findUnique.mockResolvedValue(prismaData);
 
             res = await request(app)
               .get(`${path}/${connectionId}`)
@@ -63,7 +63,7 @@ describe(`GET ${path}/:id`, () => {
           });
 
           afterAll(() => {
-            prisma.user.findOne.mockReset();
+            prisma.user.findUnique.mockReset();
           });
 
           test("should process request - 200", () => {
@@ -72,7 +72,7 @@ describe(`GET ${path}/:id`, () => {
           });
 
           test("should call prisma with specified params", () => {
-            expect(prisma.user.findOne).toHaveBeenCalledWith({
+            expect(prisma.user.findUnique).toHaveBeenCalledWith({
               where: {
                 id: userId,
               },
@@ -90,7 +90,7 @@ describe(`GET ${path}/:id`, () => {
     );
 
     test("should trigger error if there's a database problem - 500", async () => {
-      prisma.user.findOne.mockRejectedValue(new Error());
+      prisma.user.findUnique.mockRejectedValue(new Error());
 
       const res = await request(app)
         .get(`${path}/${faker.datatype.uuid()}`)
@@ -99,9 +99,9 @@ describe(`GET ${path}/:id`, () => {
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(prisma.user.findUnique).toHaveBeenCalled();
 
-      prisma.user.findOne.mockReset();
+      prisma.user.findUnique.mockReset();
     });
 
     test("should throw validation error if param is not a UUID - 422", async () => {
@@ -111,7 +111,7 @@ describe(`GET ${path}/:id`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findOne).not.toHaveBeenCalled();
+      expect(prisma.user.findUnique).not.toHaveBeenCalled();
     });
   });
 });

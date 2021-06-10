@@ -30,7 +30,7 @@ function getNameInitials(firstName, lastName) {
 async function getCurrentUser(request, response) {
   const id = getKeycloakUserId(request);
 
-  const user = await prisma.user.findOne({
+  const user = await prisma.user.findUnique({
     where: { id },
     select: {
       id: true,

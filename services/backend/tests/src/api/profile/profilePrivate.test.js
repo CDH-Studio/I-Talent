@@ -51,7 +51,7 @@ describe(`GET ${path}/:id`, () => {
         },
       };
 
-      prisma.user.findOne.mockResolvedValue(prismaData);
+      prisma.user.findUnique.mockResolvedValue(prismaData);
 
       isKeycloakUserSpy.mockImplementationOnce(() => true);
 

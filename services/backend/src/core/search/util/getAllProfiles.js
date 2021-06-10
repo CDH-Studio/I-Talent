@@ -73,7 +73,7 @@ async function getAllUsers(language, userId, request) {
         },
         isConnection,
       }) => {
-        const userData = await prisma.user.findOne({
+        const userData = await prisma.user.findUnique({
           where: {
             id,
           },

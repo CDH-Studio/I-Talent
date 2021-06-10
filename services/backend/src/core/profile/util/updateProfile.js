@@ -301,7 +301,7 @@ async function updateProfile(request, userId, language) {
   }
 
   // Queries user ids to check if an id was already defined
-  const userIds = await prisma.user.findOne({
+  const userIds = await prisma.user.findUnique({
     where: { id: userId },
     select: {
       officeLocationId: true,
@@ -333,7 +333,7 @@ async function updateProfile(request, userId, language) {
   // Does not let the user override the Admin INACTIVE status
   let statusValue = status;
   if (status && !manageUsers(request)) {
-    const currentStatus = await prisma.user.findOne({
+    const currentStatus = await prisma.user.findUnique({
       where: { id: userId },
       select: {
         status: true,
@@ -346,7 +346,7 @@ async function updateProfile(request, userId, language) {
   }
 
   const savedSignupStep = (
-    await prisma.user.findOne({
+    await prisma.user.findUnique({
       where: { id: userId },
       select: { signupStep: true },
     })

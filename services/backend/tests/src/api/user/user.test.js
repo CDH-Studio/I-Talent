@@ -47,7 +47,7 @@ describe(`GET ${path}`, () => {
         let res;
 
         beforeAll(async () => {
-          prisma.user.findOne.mockResolvedValue(prismaData);
+          prisma.user.findUnique.mockResolvedValue(prismaData);
 
           res = await request(app)
             .get(path)
@@ -55,7 +55,7 @@ describe(`GET ${path}`, () => {
         });
 
         afterAll(() => {
-          prisma.user.findOne.mockReset();
+          prisma.user.findUnique.mockReset();
         });
 
         test(`should process request - ${statusCode}`, () => {
@@ -64,7 +64,7 @@ describe(`GET ${path}`, () => {
         });
 
         test("should call prisma with specified params", () => {
-          expect(prisma.user.findOne).toHaveBeenCalledWith({
+          expect(prisma.user.findUnique).toHaveBeenCalledWith({
             where: {
               id: userId,
             },
@@ -91,7 +91,7 @@ describe(`GET ${path}`, () => {
     );
 
     test("should trigger error if there's a database problem - 500", async () => {
-      prisma.user.findOne.mockRejectedValue(new Error());
+      prisma.user.findUnique.mockRejectedValue(new Error());
 
       const res = await request(app)
         .get(path)
@@ -100,9 +100,9 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(prisma.user.findUnique).toHaveBeenCalled();
 
-      prisma.user.findOne.mockReset();
+      prisma.user.findUnique.mockReset();
     });
   });
 });

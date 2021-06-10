@@ -51,7 +51,7 @@ describe(`GET ${path}/:id`, () => {
         },
       };
 
-      prisma.user.findOne.mockResolvedValue(prismaData);
+      prisma.user.findUnique.mockResolvedValue(prismaData);
 
       const res = await request(app)
         .get(`${path}/${faker.datatype.uuid()}?language=ENGLISH`)

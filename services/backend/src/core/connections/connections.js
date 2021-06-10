@@ -45,7 +45,7 @@ async function getConnectionById(request, response) {
   const { id } = request.params;
   const userId = getKeycloakUserId(request);
 
-  const connections = await prisma.user.findOne({
+  const connections = await prisma.user.findUnique({
     where: {
       id: userId,
     },
