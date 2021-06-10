@@ -1,9 +1,6 @@
 {
   "window.title": "${activeEditorMedium}${separator}",
-  "eslint.workingDirectories": [
-    "./services/backend/",
-    "./services/frontend/"
-  ],
+  "eslint.workingDirectories": ["./services/backend/", "./services/frontend/"],
   "editor.formatOnSave": true,
   "prettier.trailingComma": "es5",
   "files.insertFinalNewline": true,
