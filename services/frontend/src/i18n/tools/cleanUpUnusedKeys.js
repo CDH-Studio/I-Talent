@@ -80,7 +80,7 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
     .sort()
     .value();
 
-  const unusedKeys = await testHelpers.searchForUnusedKeysInFiles(
+  const unusedKeys = await testHelpers.findUnusedTranslations(
     path.join(__dirname, "../.."),
     [".jsx"],
     allKeys,
