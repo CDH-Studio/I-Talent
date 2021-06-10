@@ -222,14 +222,16 @@ const findMissingTranslations = async (
     _.compact(
       data.map((i) => {
         const value = i.replace(/,|\s/g, "");
-        if (value.match(/["|`|'].*[/$|'|"|`]/)) {
+        if (value.match(/["|`|'].*['|"|`]/)) {
           const cleanedValue = value
-            .match(/["|`|'].*[/$|'|"|`]/)[0]
+            .match(/["|`|'].*['|"|`]/)[0]
             .replace(/['|"|`]+/g, "");
+
           if (
             !_.includes(searchableKeys, cleanedValue) &&
             !_.includes(blacklistedKeys, cleanedValue) &&
-            !_.includes(valuesMissing, cleanedValue)
+            !_.includes(valuesMissing, cleanedValue) &&
+            !_.includes(cleanedValue, "${")
           ) {
             return cleanedValue;
           }

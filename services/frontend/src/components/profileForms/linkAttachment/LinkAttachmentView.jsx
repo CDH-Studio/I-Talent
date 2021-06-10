@@ -63,7 +63,7 @@ const LinkAttachmentView = ({
     </Col>
     <Col className="gutter-row" span={1}>
       <Form.Item>
-        <Tooltip placement="top" title={<FormattedMessage id="admin.delete" />}>
+        <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
           <Button
             type="link"
             shape="circle"

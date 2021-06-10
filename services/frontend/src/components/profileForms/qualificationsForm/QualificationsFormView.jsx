@@ -413,7 +413,7 @@ const QualificationsFormView = ({
                             style={{ width: "100%" }}
                           >
                             <PlusOutlined />
-                            <FormattedMessage id="add.item" />
+                            <FormattedMessage id="add" />
                           </Button>
                         </Form.Item>
                       </>
@@ -471,7 +471,7 @@ const QualificationsFormView = ({
                             style={{ width: "100%" }}
                           >
                             <PlusOutlined />
-                            <FormattedMessage id="add.item" />
+                            <FormattedMessage id="add" />
                           </Button>
                         </Form.Item>
                       </div>
