@@ -373,6 +373,7 @@
   "visibility.form.public": "Information visible to everyone",
   "visibility.form.show.confirm": "Are you sure you want to make this information visible to everyone?",
   "visibility.review.title": "Review visibility settings",
+  "visibility.selector": "Select visibility",
   "visibility.status.connections": "Only visible to profile owner's circle and administrators",
   "visibility.status.private": "Only visible to profile owner and administrators",
   "visibility.status.public": "Visible to everyone",
