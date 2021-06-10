@@ -166,9 +166,8 @@ const findUnusedTranslations = async (
     files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
   );
 
-  // function to search for key in file content
-  const searchContentForKey = async (key, contentToSearch) => {
-    const result = contentToSearch.some(
+  searchableKeys.map(async (key) => {
+    const result = filesContent.some(
       (content) =>
         _.includes(content, `"${key}"`) ||
         _.includes(content, `'${key}'`) ||
@@ -176,13 +175,7 @@ const findUnusedTranslations = async (
         _.includes(blacklistedKeys, key)
     );
     if (!result) unusedKeys.push(key);
-  };
-
-  await Promise.all(
-    searchableKeys.map(async (key) => {
-      searchContentForKey(key, filesContent);
-    })
-  );
+  });
 
   if (unusedKeys.length) {
     console.error(
