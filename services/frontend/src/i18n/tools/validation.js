@@ -12,6 +12,8 @@
  */
 
 /* eslint-disable no-console */
+const _ = require("lodash");
+const path = require("path");
 const testHelpers = require("./validationHelperFunctions");
 const en = require("../en_CA.json");
 const fr = require("../fr_CA.json");
@@ -27,17 +29,35 @@ const blacklistedKeys = require("../blacklistKeys.json");
   console.log("\n************ Starting i18n Validator ****************\n");
 
   // Remove all blacklisted key from the check
+  // Remove all blacklisted key from the check
   blacklistedKeys.forEach((key) => delete en[key]);
   blacklistedKeys.forEach((key) => delete fr[key]);
 
+  const enKeys = Object.keys(en);
+  const frKeys = Object.keys(fr);
+
+  const allKeys = _([...enKeys, ...frKeys])
+    .uniq()
+    .sort()
+    .value();
+
   const duplicatedTranslations = testHelpers.findDuplicateTranslations(en, fr);
   const mismatchedTransKeys = testHelpers.findMismatchedTranslations(en, fr);
-  const unusedTranslations = await testHelpers.findUnusedTranslations(
-    en,
-    fr,
-    blacklistedKeys
-  );
   const areTransKeysAlphabetized = testHelpers.checkTransKeysOrder(en, fr);
+  const [unusedTranslations, missingTranslations] = await Promise.all([
+    testHelpers.findUnusedTranslations(
+      path.join(__dirname, "../.."),
+      [".jsx"],
+      allKeys,
+      blacklistedKeys
+    ),
+    testHelpers.findMissingTranslations(
+      path.join(__dirname, "../.."),
+      [".jsx"],
+      allKeys,
+      blacklistedKeys
+    ),
+  ]);
 
   if (
     duplicatedTranslations.en.length ||
@@ -45,6 +65,7 @@ const blacklistedKeys = require("../blacklistKeys.json");
     mismatchedTransKeys.extraKeysInEn.length ||
     mismatchedTransKeys.extraKeysInFr.length ||
     unusedTranslations.length ||
+    missingTranslations.length ||
     !areTransKeysAlphabetized
   ) {
     console.error("Summary: I18n Validator FAILED =========\n");

@@ -148,11 +148,11 @@ const getFilesInDirectory = async (dir, ext) => {
  *                               if they were not found in directory
  * @returns {string[]}  Returns keys that were not used in the project
  */
-const searchForUnusedKeysInFiles = async (
+const findUnusedTranslations = async (
   dir,
   ext,
   searchableKeys,
-  ignoreKeys
+  blacklistedKeys
 ) => {
   const unusedKeys = [];
 
@@ -160,58 +160,28 @@ const searchForUnusedKeysInFiles = async (
   let files = await Promise.all(
     ext.map((extension) => getFilesInDirectory(dir, extension))
   );
+
   files = _.flatten(files);
   const filesContent = await Promise.all(
     files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
   );
 
   // function to search for key in file content
-  const searchContentForKey = async (key, contentToSearch) =>
-    contentToSearch.some(
+  const searchContentForKey = async (key, contentToSearch) => {
+    const result = contentToSearch.some(
       (content) =>
         _.includes(content, `"${key}"`) ||
         _.includes(content, `'${key}'`) ||
         _.includes(content, `\`${key}\``) ||
-        _.includes(ignoreKeys, key)
+        _.includes(blacklistedKeys, key)
     );
+    if (!result) unusedKeys.push(key);
+  };
 
   await Promise.all(
     searchableKeys.map(async (key) => {
-      const found = await searchContentForKey(key, filesContent);
-      if (!found) {
-        unusedKeys.push(key);
-      }
+      searchContentForKey(key, filesContent);
     })
-  );
-  return unusedKeys;
-};
-
-/**
- * A test to fined unused translations in the entire project
- *
- * @param {object} enTranslations List of english translations
- * @param {object} frTranslations List of english translations
- * @param {string[]} blacklistedKeys List of keys to be ignored
- */
-const findUnusedTranslations = async (
-  enTranslations,
-  frTranslations,
-  blacklistedKeys
-) => {
-  const enKeys = Object.keys(enTranslations);
-  const frKeys = Object.keys(frTranslations);
-  let unusedKeys = {};
-
-  const allKeys = _([...enKeys, ...frKeys])
-    .uniq()
-    .sort()
-    .value();
-
-  unusedKeys = await searchForUnusedKeysInFiles(
-    path.join(__dirname, "../.."),
-    [".jsx"],
-    allKeys,
-    blacklistedKeys
   );
 
   if (unusedKeys.length) {
@@ -226,6 +196,77 @@ const findUnusedTranslations = async (
   }
 
   return unusedKeys;
+};
+
+const findMissingTranslations = async (
+  dir,
+  ext,
+  searchableKeys,
+  blacklistedKeys
+) => {
+  // get all files in directory and flatten into one variable
+  let files = await Promise.all(
+    ext.map((extension) => getFilesInDirectory(dir, extension))
+  );
+
+  files = _.flatten(files);
+  const filesContent = await Promise.all(
+    files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
+  );
+  const valuesMissing = [];
+  const patternIntl =
+    /intl\.formatMessage(?:.|\n)*?\((?:.|\n)*?({.*?id.*?})(?:.|\n)*?\)/gs;
+  const patternDiv = /<FormattedMessage id=['|"|`](?:.|\n)*?['|"|`]/gs;
+
+  const getValue = (data) =>
+    _.compact(
+      data.map((i) => {
+        const value = i.replace(/,|\s/g, "");
+        if (value.match(/["|`|'].*[/$|'|"|`]/)) {
+          const cleanedValue = value
+            .match(/["|`|'].*[/$|'|"|`]/)[0]
+            .replace(/['|"|`]+/g, "");
+          if (
+            !_.includes(searchableKeys, cleanedValue) &&
+            !_.includes(blacklistedKeys, cleanedValue) &&
+            !_.includes(valuesMissing, cleanedValue)
+          ) {
+            return cleanedValue;
+          }
+        }
+        return null;
+      })
+    );
+
+  await Promise.all(
+    filesContent.map(async (content) => {
+      // The following is used for this format
+      // intl.formatMessage({ id: "visibility.selector" })
+      if (_.includes(content, "intl.formatMessage({")) {
+        const data = content.match(patternIntl);
+        if (data) valuesMissing.push(...getValue(data));
+      }
+      // The following is used for this format
+      // <FormattedMessage id="" />
+      if (_.includes(content, "<FormattedMessage id=")) {
+        const data = content.match(patternDiv);
+        if (data) valuesMissing.push(...getValue(data));
+      }
+    })
+  );
+
+  if (valuesMissing.length) {
+    console.error(
+      `${valuesMissing.length} keys that are in the project but missing from the i18 file`,
+      valuesMissing
+    );
+    console.error("missingTranslations check: FAIL\n");
+  } else {
+    console.error("All the keys in the project are in the i18 files!");
+    console.error("missingTranslations check: SUCCESS\n");
+  }
+
+  return valuesMissing;
 };
 
 /**
@@ -265,6 +306,6 @@ module.exports = {
   findDuplicateTranslations,
   findUnusedTranslations,
   findMismatchedTranslations,
-  searchForUnusedKeysInFiles,
   checkTransKeysOrder,
+  findMissingTranslations,
 };
