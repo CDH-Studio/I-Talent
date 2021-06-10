@@ -8,7 +8,7 @@
     "start": "serve -s build",
     "build": "NODE_ENV=production craco build",
     "test": "craco test",
-    "lint": "./node_modules/.bin/eslint --cache  && prettier --check .",
+    "lint": "prettier --check . && ./node_modules/.bin/eslint --cache",
     "format": "prettier --write .",
     "i18n:validate": "node ./src/i18n/validation",
     "i18n:cleanup": "node ./src/i18n/cleanUpUnusedKeys",
