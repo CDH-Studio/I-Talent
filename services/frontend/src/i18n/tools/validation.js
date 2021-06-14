@@ -34,28 +34,32 @@ const ignoredKeys = require("../ignoredKeys.json");
   const enKeys = Object.keys(en);
   const frKeys = Object.keys(fr);
 
-  const allKeys = _([...enKeys, ...frKeys])
-    .uniq()
-    .sort()
-    .value();
+  const uniqKeys = _([...enKeys, ...frKeys]).uniq();
+  const allKeys = _(uniqKeys).value();
+  const sortedKeys = _(uniqKeys).sort().value();
+
+  const filesContent = await testHelpers.getFileContent(
+    path.join(__dirname, "../.."),
+    [".jsx"]
+  );
 
   const [unusedTranslations, missingTranslations] = await Promise.all([
-    testHelpers.findUnusedTranslations(
-      path.join(__dirname, "../.."),
-      [".jsx"],
-      allKeys,
-      ignoredKeys
-    ),
-    testHelpers.findMissingTranslations(
-      path.join(__dirname, "../.."),
-      [".jsx"],
-      allKeys,
-      ignoredKeys
-    ),
+    testHelpers.findUnusedTranslations(filesContent, sortedKeys, ignoredKeys),
+    testHelpers.findMissingTranslations(filesContent, sortedKeys, ignoredKeys),
   ]);
-  const duplicatedTranslations = testHelpers.findDuplicateTranslations(en, fr);
-  const mismatchedTransKeys = testHelpers.findMismatchedTranslations(en, fr);
-  const areTransKeysAlphabetized = testHelpers.checkTransKeysOrder(en, fr);
+
+  const duplicatedTranslations = testHelpers.findDuplicateTranslations(
+    enKeys,
+    frKeys
+  );
+  const mismatchedTransKeys = testHelpers.findMismatchedTranslations(
+    enKeys,
+    frKeys
+  );
+  const areTransKeysAlphabetized = testHelpers.checkTransKeysOrder(
+    sortedKeys,
+    allKeys
+  );
 
   if (
     duplicatedTranslations.en.length ||

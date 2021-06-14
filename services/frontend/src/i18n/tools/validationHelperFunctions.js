@@ -30,8 +30,8 @@ const findDuplicateTranslations = (enTranslations, frTranslations) => {
       )(new Set())
     );
 
-  const enDuplicateValues = findDuplicates(Object.values(enTranslations));
-  const frDuplicateValues = findDuplicates(Object.values(frTranslations));
+  const enDuplicateValues = findDuplicates(enTranslations);
+  const frDuplicateValues = findDuplicates(frTranslations);
 
   // Message to show test results
   if (enDuplicateValues.length === 0 && frDuplicateValues.length === 0) {
@@ -66,11 +66,8 @@ const findDuplicateTranslations = (enTranslations, frTranslations) => {
  * @param {object} frTranslations List of english translations
  * @returns {object}  Returns mismatched translation keys
  */
-const findMismatchedTranslations = (enTranslations, frTranslations) => {
+const findMismatchedTranslations = (enKeys, frKeys) => {
   const mismatchedKeys = { extraKeysInEn: [], extraKeysInFr: [] };
-
-  const enKeys = Object.keys(enTranslations);
-  const frKeys = Object.keys(frTranslations);
 
   if (!_.isEqual(enKeys, frKeys)) {
     mismatchedKeys.extraKeysInEn = _.difference(enKeys, frKeys);
@@ -117,12 +114,10 @@ const getFilesInDirectory = async (dir, ext) => {
 
   try {
     const filesFromDirectory = await fs.readdir(dir);
-
     await Promise.all(
       filesFromDirectory.map(async (file) => {
         const filePath = path.join(dir, file);
         const stat = await fs.lstat(filePath);
-
         if (stat.isDirectory()) {
           const nestedFiles = await getFilesInDirectory(filePath, ext);
           files = files.concat(nestedFiles);
@@ -139,6 +134,25 @@ const getFilesInDirectory = async (dir, ext) => {
 };
 
 /**
+ *
+ * @param {string} dir
+ * @param {string[]} ext
+ * @returns
+ */
+const getFileContent = async (dir, ext) => {
+  // get all files in directory and flatten into one variable
+  const files = await Promise.all(
+    ext.map((extension) => getFilesInDirectory(dir, extension))
+  );
+
+  return Promise.all(
+    _.flatten(files).map(async (i) =>
+      fs.readFile(i).then((buffer) => buffer.toString())
+    )
+  );
+};
+
+/**
  * Search given directory files to find unused i18n keys
  *
  * @param {string} dir Directory to search files
@@ -149,23 +163,11 @@ const getFilesInDirectory = async (dir, ext) => {
  * @returns {string[]}  Returns keys that were not used in the project
  */
 const findUnusedTranslations = async (
-  dir,
-  ext,
+  filesContent,
   searchableKeys,
   ignoredKeys
 ) => {
   const unusedKeys = [];
-
-  // get all files in directory and flatten into one variable
-  let files = await Promise.all(
-    ext.map((extension) => getFilesInDirectory(dir, extension))
-  );
-
-  files = _.flatten(files);
-  const filesContent = await Promise.all(
-    files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
-  );
-
   searchableKeys.map(async (key) => {
     const result = filesContent.some(
       (content) =>
@@ -191,21 +193,20 @@ const findUnusedTranslations = async (
   return unusedKeys;
 };
 
+const getMissingValuesInI18File = (data) => {};
+
+/**
+ *
+ * @param {*} filesContent
+ * @param {*} searchableKeys
+ * @param {*} ignoredKeys
+ * @returns
+ */
 const findMissingTranslations = async (
-  dir,
-  ext,
+  filesContent,
   searchableKeys,
   ignoredKeys
 ) => {
-  // get all files in directory and flatten into one variable
-  let files = await Promise.all(
-    ext.map((extension) => getFilesInDirectory(dir, extension))
-  );
-
-  files = _.flatten(files);
-  const filesContent = await Promise.all(
-    files.map(async (i) => fs.readFile(i).then((buffer) => buffer.toString()))
-  );
   const valuesMissing = [];
   const patternIntl =
     /intl\.formatMessage(?:.|\n)*?\((?:.|\n)*?({.*?id.*?})(?:.|\n)*?\)/gs;
@@ -232,7 +233,6 @@ const findMissingTranslations = async (
         return null;
       })
     );
-
   await Promise.all(
     filesContent.map(async (content) => {
       // The following is used for this format
@@ -270,21 +270,8 @@ const findMissingTranslations = async (
  * @param {object} enTranslations List of english translations
  * @param {object} frTranslations List of english translations
  */
-const checkTransKeysOrder = async (enTranslations, frTranslations) => {
-  const enKeys = Object.keys(enTranslations);
-  const frKeys = Object.keys(frTranslations);
-
-  const allKeys = _([...enKeys, ...frKeys])
-    .uniq()
-    .value();
-
-  const sortedKeys = _([...enKeys, ...frKeys])
-    .uniq()
-    .sort()
-    .value();
-
+const checkTransKeysOrder = async (sortedKeys, allKeys) => {
   const isCorrectlySorted = _.isEqual(allKeys, sortedKeys);
-
   if (isCorrectlySorted) {
     console.error("Translation keys are in alphabetical order!");
     console.error("checkTransOrder check: SUCCESS\n");
@@ -303,4 +290,5 @@ module.exports = {
   findMismatchedTranslations,
   checkTransKeysOrder,
   findMissingTranslations,
+  getFileContent,
 };
