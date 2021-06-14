@@ -7,14 +7,14 @@ const { Sider } = Layout;
 const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
   if (displaySideBar) {
     return (
-      <div role="navigation">
-        <Sider
-          width="270"
-          className="app-sider"
-          breakpoint="lg"
-          collapsedWidth="0"
-          zeroWidthTriggerStyle={{ backgroundColor: "#192e2f", bottom: "64px" }}
-        >
+      <Sider
+        width="270"
+        className="app-sider"
+        breakpoint="lg"
+        collapsedWidth="0"
+        zeroWidthTriggerStyle={{ backgroundColor: "#192e2f", bottom: "64px" }}
+      >
+        <div role="navigation">
           {/* render content of side bar */}
           {loading ? (
             <div style={{ margin: 32 }}>
@@ -23,8 +23,8 @@ const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
           ) : (
             <div className="app-sider-content">{sideBarContent}</div>
           )}
-        </Sider>
-      </div>
+        </div>
+      </Sider>
     );
   }
   return <Sider width="0" />;

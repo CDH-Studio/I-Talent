@@ -157,7 +157,6 @@ const SearchFilterView = ({
             aria-label={ariaLabels[2]}
             aria-autocomplete="list"
             aria-owns="location_listbox"
-            aria-expanded="false"
             aria-haspopup="listbox"
             role="combobox"
             dropdownRender={(menu) => (
