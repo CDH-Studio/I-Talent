@@ -23,7 +23,7 @@ const testHelpers = require("./validationHelperFunctions");
 const en = require("../en_CA.json");
 const fr = require("../fr_CA.json");
 
-const blacklistedKeys = require("../blacklistKeys.json");
+const ignoredKeys = require("../ignoredKeys.json");
 
 /**
  * Format translations in JSON format for export
@@ -69,23 +69,26 @@ const saveAsCSV = (fileName, TranslationJSON) => {
 (async () => {
   console.log("\n************ Starting i18n Export ****************\n");
 
-  // Remove all blacklisted key from the check
+  // Remove all ignoredKeys key from the check
   const cleanedEn = en;
   const cleanedFr = fr;
-  blacklistedKeys.forEach((key) => delete cleanedEn[key]);
-  blacklistedKeys.forEach((key) => delete cleanedFr[key]);
+  ignoredKeys.forEach((key) => delete cleanedEn[key]);
+  ignoredKeys.forEach((key) => delete cleanedFr[key]);
 
   // Validate i18n files before export
   console.log("Running validation tests on i18n files before export...\n");
+
   const duplicatedTranslations = testHelpers.findDuplicateTranslations(
     cleanedEn,
     cleanedFr
   );
+
   const mismatchedTransKeys = testHelpers.findMismatchedTranslations(
     cleanedEn,
     cleanedFr
   );
-  const unusedTranslations = await testHelpers.findUnusedTranslations(
+
+  const unusedTranslations = testHelpers.findUnusedTranslations(
     cleanedEn,
     cleanedFr
   );

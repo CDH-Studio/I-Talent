@@ -17,8 +17,7 @@ const path = require("path");
 const testHelpers = require("./validationHelperFunctions");
 const en = require("../en_CA.json");
 const fr = require("../fr_CA.json");
-
-const blacklistedKeys = require("../blacklistKeys.json");
+const ignoredKeys = require("../ignoredKeys.json");
 
 /**
  * Main Code
@@ -29,9 +28,8 @@ const blacklistedKeys = require("../blacklistKeys.json");
   console.log("\n************ Starting i18n Validator ****************\n");
 
   // Remove all blacklisted key from the check
-  // Remove all blacklisted key from the check
-  blacklistedKeys.forEach((key) => delete en[key]);
-  blacklistedKeys.forEach((key) => delete fr[key]);
+  ignoredKeys.forEach((key) => delete en[key]);
+  ignoredKeys.forEach((key) => delete fr[key]);
 
   const enKeys = Object.keys(en);
   const frKeys = Object.keys(fr);
@@ -46,13 +44,13 @@ const blacklistedKeys = require("../blacklistKeys.json");
       path.join(__dirname, "../.."),
       [".jsx"],
       allKeys,
-      blacklistedKeys
+      ignoredKeys
     ),
     testHelpers.findMissingTranslations(
       path.join(__dirname, "../.."),
       [".jsx"],
       allKeys,
-      blacklistedKeys
+      ignoredKeys
     ),
   ]);
   const duplicatedTranslations = testHelpers.findDuplicateTranslations(en, fr);

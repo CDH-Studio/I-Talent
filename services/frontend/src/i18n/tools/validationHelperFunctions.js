@@ -152,7 +152,7 @@ const findUnusedTranslations = async (
   dir,
   ext,
   searchableKeys,
-  blacklistedKeys
+  ignoredKeys
 ) => {
   const unusedKeys = [];
 
@@ -172,7 +172,7 @@ const findUnusedTranslations = async (
         _.includes(content, `"${key}"`) ||
         _.includes(content, `'${key}'`) ||
         _.includes(content, `\`${key}\``) ||
-        _.includes(blacklistedKeys, key)
+        _.includes(ignoredKeys, key)
     );
     if (!result) unusedKeys.push(key);
   });
@@ -195,7 +195,7 @@ const findMissingTranslations = async (
   dir,
   ext,
   searchableKeys,
-  blacklistedKeys
+  ignoredKeys
 ) => {
   // get all files in directory and flatten into one variable
   let files = await Promise.all(
@@ -222,7 +222,7 @@ const findMissingTranslations = async (
 
           if (
             !_.includes(searchableKeys, cleanedValue) &&
-            !_.includes(blacklistedKeys, cleanedValue) &&
+            !_.includes(ignoredKeys, cleanedValue) &&
             !_.includes(valuesMissing, cleanedValue) &&
             !_.includes(cleanedValue, "${")
           ) {

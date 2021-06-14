@@ -2,7 +2,7 @@
  * Clean up unused i18n translations
  *
  * This script parses all react files to find translation keys in the i18n files that are unused.
- * Keys can be added to a blacklist (blacklistKeys.json) to avoid false positives
+ * Keys can be added to a ignoredKeys (ignoredKeys.json) to avoid false positives
  *
  * Logic for the next following functions comes from the answer of
  * https://stackoverflow.com/questions/48662924/javascript-nodejs-search-for-a-specific-word-string-in-files
@@ -21,8 +21,8 @@ const testHelpers = require("./validationHelperFunctions");
 const enTranslations = require("../en_CA.json");
 const frTranslations = require("../fr_CA.json");
 
-// get all blacklisted keys (keys to be ignored)
-const blacklistedKeys = require("../blacklistKeys.json");
+// get all ignoredKeys keys (keys to be ignored)
+const ignoredKeys = require("../ignoredKeys.json");
 
 /**
  * Overwrites the i18n files without the unused keys and saves them
@@ -84,7 +84,7 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
     path.join(__dirname, "../.."),
     [".jsx"],
     allKeys,
-    blacklistedKeys
+    ignoredKeys
   );
 
   // Print any unused keys
