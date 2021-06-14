@@ -209,6 +209,7 @@
   "linkedin": "LinkedIn",
   "linkedin.username": "LinkedIn username",
   "loading": "Loading",
+  "location": "Location",
   "location.not.found": "Unknown Location",
   "looking.for.mentor": "Are you searching for mentors?",
   "looking.for.new.job": "Looking for a new job",
@@ -379,7 +380,6 @@
   "welcome": "Welcome",
   "willing.to.relocate.to": "Willing to relocate to",
   "work.cellphone": "Work cellphone",
-  "location": "Location",
   "working.address": "Work address",
   "yes": "Yes"
 }
