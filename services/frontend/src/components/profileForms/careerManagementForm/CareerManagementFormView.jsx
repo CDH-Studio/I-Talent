@@ -18,7 +18,6 @@ import PropTypes from "prop-types";
 import { pickBy, identity, isEqual, isNil, omitBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
@@ -37,6 +36,7 @@ import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
+import config from "../../../utils/runtimeConfig";
 
 const { Option } = Select;
 const { SHOW_CHILD } = TreeSelect;
@@ -78,6 +78,7 @@ const CareerManagementFormView = ({
   const [selectedTab, setSelectedTab] = useState(1);
   const [tabErrorsBool, setTabErrorsBool] = useState({});
   const axios = useAxios();
+  const { drupalSite } = config;
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -439,15 +440,19 @@ const CareerManagementFormView = ({
                       id="tooltip.extra.info.help"
                       values={{
                         helpUrl: (
-                          <a href="/about/help">
+                          <a
+                            className="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`${drupalSite}${
+                              locale === "ENGLISH" ? "en" : "fr"
+                            }help`}
+                          >
                             <FormattedMessage id="footer.contact.link" />
                           </a>
                         ),
                       }}
                     />
-                    <Link to="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </Link>
                   </>
                 }
                 extra={
@@ -579,15 +584,19 @@ const CareerManagementFormView = ({
                       id="tooltip.extra.info.help"
                       values={{
                         helpUrl: (
-                          <a href="/about/help">
+                          <a
+                            className="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`${drupalSite}${
+                              locale === "ENGLISH" ? "en" : "fr"
+                            }help`}
+                          >
                             <FormattedMessage id="footer.contact.link" />
                           </a>
                         ),
                       }}
                     />
-                    <Link to="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </Link>
                   </>
                 }
                 extra={

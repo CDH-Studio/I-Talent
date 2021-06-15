@@ -22,12 +22,11 @@ import {
   PrinterOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
-
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Header from "../../header/Header";
 import Skills from "../../skillsCard/Skills";
@@ -47,6 +46,7 @@ import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
+import config from "../../../utils/runtimeConfig";
 import "./ProfileLayoutView.less";
 
 const { Link } = Anchor;
@@ -62,7 +62,9 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const locale = useSelector((state) => state.settings.locale);
   const { keycloak } = useKeycloak();
+  const { drupalSite } = config;
 
   useEffect(() => {
     if (savedFormContent === false) {
@@ -185,7 +187,14 @@ const ProfileLayoutView = ({
                       id="connections.tooltip.header"
                       values={{
                         helpUrl: (
-                          <a href="/about/help">
+                          <a
+                            className="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`${drupalSite}${
+                              locale === "ENGLISH" ? "en" : "fr"
+                            }help`}
+                          >
                             <FormattedMessage id="footer.contact.link" />
                           </a>
                         ),
@@ -412,7 +421,14 @@ const ProfileLayoutView = ({
             id="inactive.message"
             values={{
               helpUrl: (
-                <a href="/about/help">
+                <a
+                  className="link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`${drupalSite}${
+                    locale === "ENGLISH" ? "en" : "fr"
+                  }help`}
+                >
                   <FormattedMessage id="footer.contact.link" />
                 </a>
               ),

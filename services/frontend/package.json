@@ -10,7 +10,7 @@
     "test": "craco test",
     "lint": "./node_modules/.bin/eslint --cache",
     "format:write": "prettier --write .",
-    "format:check": "prettier --write .",
+    "format:check": "prettier --check .",
     "i18n:validate": "node ./src/i18n/tools/validation",
     "i18n:cleanup": "node ./src/i18n/tools/cleanUpUnusedKeys",
     "i18n:alphabetize": "node ./src/i18n/tools/alphabetizeKeys",
