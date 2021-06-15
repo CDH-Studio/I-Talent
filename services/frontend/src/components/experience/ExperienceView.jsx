@@ -80,7 +80,8 @@ const ExperienceView = ({ experienceInfo }) => {
                       {item.attachmentLinks && item.attachmentLinks.length > 0 && (
                         <Row align="middle">
                           <Col>
-                            <FormattedMessage id="attachment.links" />:
+                            <FormattedMessage id="attachment.links.employment" />
+                            :
                           </Col>
                           <Col>{getUrl(item)}</Col>
                         </Row>

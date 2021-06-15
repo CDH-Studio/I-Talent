@@ -240,7 +240,7 @@ const SkillTableView = ({
     <Modal
       visible={editVisible}
       title={<FormattedMessage id="edit.skill" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={() => {
         editForm
@@ -276,7 +276,7 @@ const SkillTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.skill.descriptionEn",
+              id: "add.english.term",
             })}
           />
         </Form.Item>
@@ -286,7 +286,7 @@ const SkillTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.skill.descriptionFr",
+              id: "add.french.term",
             })}
           />
         </Form.Item>
@@ -389,7 +389,7 @@ const SkillTableView = ({
     <Modal
       visible={addVisible}
       title={<FormattedMessage id="add.skill" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={() => {
         addForm
@@ -423,7 +423,7 @@ const SkillTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.skill.descriptionEn",
+              id: "add.english.term",
             })}
             allowClear
           />
@@ -440,7 +440,7 @@ const SkillTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.skill.descriptionFr",
+              id: "add.french.term",
             })}
             allowClear
           />
@@ -482,7 +482,7 @@ const SkillTableView = ({
       {addSkillButton()}
       {editSkillButton()}
       <Header
-        title={<FormattedMessage id="skills.table" />}
+        title={<FormattedMessage id="skills" />}
         icon={<DatabaseOutlined />}
         extra={
           <>

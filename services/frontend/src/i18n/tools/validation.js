@@ -34,6 +34,9 @@ const ignoredKeys = require("../ignoredKeys.json");
   const enKeys = Object.keys(en);
   const frKeys = Object.keys(fr);
 
+  const enValues = Object.values(en);
+  const frValues = Object.values(fr);
+
   const uniqKeys = _([...enKeys, ...frKeys]).uniq();
   const allKeys = _(uniqKeys).value();
   const sortedKeys = _(uniqKeys).sort().value();
@@ -49,8 +52,8 @@ const ignoredKeys = require("../ignoredKeys.json");
   ]);
 
   const duplicatedTranslations = testHelpers.findDuplicateTranslations(
-    enKeys,
-    frKeys
+    enValues,
+    frValues
   );
   const mismatchedTransKeys = testHelpers.findMismatchedTranslations(
     enKeys,
