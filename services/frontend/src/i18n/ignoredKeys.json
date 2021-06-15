@@ -1,0 +1,13 @@
+[
+  "visibility.form.public",
+  "visibility.form.connections",
+  "visibility.form.private",
+  "visibility.form.show.confirm",
+  "visibility.card.show.confirm",
+  "visibility.card.connections",
+  "error.403.subtitle",
+  "error.404.subtitle",
+  "admin.dashboard.popular.skills",
+  "admin.dashboard.popular.competencies",
+  "admin.dashboard.popular.development.goals"
+]

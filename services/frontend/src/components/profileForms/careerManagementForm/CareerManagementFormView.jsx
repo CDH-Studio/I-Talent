@@ -222,7 +222,7 @@ const CareerManagementFormView = ({
     }
 
     if (formsWithErrorsList.developmentalGoalsAttachments) {
-      messages.push(intl.formatMessage({ id: "profile.learning.development" }));
+      messages.push(intl.formatMessage({ id: "learning.development" }));
     }
     return (
       <div>
@@ -460,9 +460,7 @@ const CareerManagementFormView = ({
                       treeData={developmentalGoalOptions}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={
-                        <FormattedMessage id="input.placeholder.select" />
-                      }
+                      placeholder={<FormattedMessage id="search" />}
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -547,7 +545,7 @@ const CareerManagementFormView = ({
                             style={{ width: "100%" }}
                           >
                             <PlusOutlined />
-                            <FormattedMessage id="add.item" />
+                            <FormattedMessage id="add" />
                           </Button>
                         </Form.Item>
                       </>
@@ -590,9 +588,7 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={
-                        <FormattedMessage id="input.placeholder.select" />
-                      }
+                      placeholder={<FormattedMessage id="search" />}
                       allowClear
                       filterOption={filterOption}
                     >
@@ -619,9 +615,7 @@ const CareerManagementFormView = ({
                     <Select
                       mode="multiple"
                       style={{ width: "100%" }}
-                      placeholder={
-                        <FormattedMessage id="input.placeholder.select" />
-                      }
+                      placeholder={<FormattedMessage id="search" />}
                       filterOption={filterOption}
                     >
                       {relocationOptions.map((value) => (
@@ -643,9 +637,7 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={
-                        <FormattedMessage id="input.placeholder.select" />
-                      }
+                      placeholder={<FormattedMessage id="search" />}
                       allowClear
                       filterOption={filterOption}
                     >
@@ -707,9 +699,7 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={
-                        <FormattedMessage id="input.placeholder.select" />
-                      }
+                      placeholder={<FormattedMessage id="search" />}
                       allowClear
                       filterOption={filterOption}
                     >
@@ -730,9 +720,7 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={
-                        <FormattedMessage id="input.placeholder.select" />
-                      }
+                      placeholder={<FormattedMessage id="search" />}
                       allowClear
                       filterOption={filterOption}
                     >

@@ -117,11 +117,11 @@ const DiplomaTable = ({ intl }) => {
     const getDisplayType = (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `diplomas`,
+          id: "diplomas",
         });
 
       return intl.formatMessage({
-        id: `diploma`,
+        id: "diploma",
       });
     };
 

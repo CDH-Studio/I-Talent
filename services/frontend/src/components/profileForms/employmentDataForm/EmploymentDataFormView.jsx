@@ -309,7 +309,7 @@ const EmploymentDataFormView = ({
         >
           <Select
             showSearch
-            placeholder={<FormattedMessage id="input.placeholder.select" />}
+            placeholder={<FormattedMessage id="search" />}
             allowClear
             filterOption={filterOption}
           >
@@ -399,9 +399,7 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={
-                    <FormattedMessage id="input.placeholder.select" />
-                  }
+                  placeholder={<FormattedMessage id="search" />}
                   allowClear
                   filterOption={filterOption}
                 >
@@ -419,9 +417,7 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={
-                    <FormattedMessage id="input.placeholder.select" />
-                  }
+                  placeholder={<FormattedMessage id="search" />}
                   allowClear
                   filterOption={filterOption}
                 >
@@ -441,9 +437,7 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={
-                    <FormattedMessage id="input.placeholder.select" />
-                  }
+                  placeholder={<FormattedMessage id="search" />}
                   allowClear
                   filterOption={filterOption}
                 >

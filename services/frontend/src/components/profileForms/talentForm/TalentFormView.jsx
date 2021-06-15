@@ -507,9 +507,7 @@ const TalentFormView = ({
                   treeData={selectedSkills}
                   treeCheckable
                   showCheckedStrategy={SHOW_CHILD}
-                  placeholder={
-                    <FormattedMessage id="input.placeholder.select" />
-                  }
+                  placeholder={<FormattedMessage id="search" />}
                   treeNodeFilterProp="title"
                   showSearch
                   maxTagCount={15}
@@ -631,9 +629,7 @@ const TalentFormView = ({
                       onChange={onChangeSkills}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={
-                        <FormattedMessage id="input.placeholder.select" />
-                      }
+                      placeholder={<FormattedMessage id="search" />}
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -715,9 +711,7 @@ const TalentFormView = ({
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
-                      placeholder={
-                        <FormattedMessage id="input.placeholder.select" />
-                      }
+                      placeholder={<FormattedMessage id="search" />}
                       style={{ width: "100%" }}
                       filterOption={filterOption}
                     >
