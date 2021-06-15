@@ -81,8 +81,7 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
     .value();
 
   const unusedKeys = await testHelpers.findUnusedTranslations(
-    path.join(__dirname, "../.."),
-    [".jsx"],
+    await testHelpers.getFileContent(path.join(__dirname, "../.."), [".jsx"]),
     allKeys,
     ignoredKeys
   );

@@ -62,8 +62,8 @@ const findDuplicateTranslations = (enTranslations, frTranslations) => {
 /**
  * A test to check for mismatched keys between en_CA.json and fr_CA.json
  *
- * @param {object} enTranslations List of english translations
- * @param {object} frTranslations List of english translations
+ * @param {object} enKeys List of english translations
+ * @param {object} frKeys List of english translations
  * @returns {object}  Returns mismatched translation keys
  */
 const findMismatchedTranslations = (enKeys, frKeys) => {
@@ -134,10 +134,10 @@ const getFilesInDirectory = async (dir, ext) => {
 };
 
 /**
- *
+ * returns the content of a file in a string format
  * @param {string} dir
  * @param {string[]} ext
- * @returns
+ * @returns {string[]}
  */
 const getFileContent = async (dir, ext) => {
   // get all files in directory and flatten into one variable
@@ -155,12 +155,10 @@ const getFileContent = async (dir, ext) => {
 /**
  * Search given directory files to find unused i18n keys
  *
- * @param {string} dir Directory to search files
- * @param {string[]} ext Extensions of the files to be searched
- * @param {string[]} searchableKeys  Keys to search for in the directory
- * @param {string[]} ignoreKeys  Keys that should not be returned even
- *                               if they were not found in directory
- * @returns {string[]}  Returns keys that were not used in the project
+ * @param {string[]} filesContent
+ * @param {string[]} searchableKeys
+ * @param {string[]} ignoredKeys
+ * @returns
  */
 const findUnusedTranslations = async (
   filesContent,
@@ -193,13 +191,47 @@ const findUnusedTranslations = async (
   return unusedKeys;
 };
 
-const getMissingValuesInI18File = (data) => {};
+/**
+ * Cleans up the string value to obtain a key and compares it to
+ * value in the provided lists to check if its in the file
+ * @param {string} data
+ * @param {string[]} searchableKeys
+ * @param {string[]} ignoredKeys
+ * @param {string[]} valuesMissing
+ * @returns
+ */
+const getMissingValuesInI18File = (
+  data,
+  searchableKeys,
+  ignoredKeys,
+  valuesMissing
+) =>
+  _.compact(
+    data.map((i) => {
+      const value = i.replace(/,|\s/g, "");
+      if (value.match(/["|`|'].*['|"|`]/)) {
+        const cleanedValue = value
+          .match(/["|`|'].*['|"|`]/)[0]
+          .replace(/['|"|`]+/g, "");
+        if (
+          !_.includes(searchableKeys, cleanedValue) &&
+          !_.includes(ignoredKeys, cleanedValue) &&
+          !_.includes(valuesMissing, cleanedValue) &&
+          !_.includes(cleanedValue, "${")
+        ) {
+          return cleanedValue;
+        }
+      }
+      return null;
+    })
+  );
 
 /**
- *
- * @param {*} filesContent
- * @param {*} searchableKeys
- * @param {*} ignoredKeys
+ * This function searches through the project jsx files to find all the
+ * used translations keys and compares them with the translations in the 18n file.
+ * @param {string[]} filesContent
+ * @param {string[]} searchableKeys
+ * @param {string[]} ignoredKeys
  * @returns
  */
 const findMissingTranslations = async (
@@ -208,44 +240,39 @@ const findMissingTranslations = async (
   ignoredKeys
 ) => {
   const valuesMissing = [];
-  const patternIntl =
-    /intl\.formatMessage(?:.|\n)*?\((?:.|\n)*?({.*?id.*?})(?:.|\n)*?\)/gs;
-  const patternDiv = /<FormattedMessage id=['|"|`](?:.|\n)*?['|"|`]/gs;
-
-  const getValue = (data) =>
-    _.compact(
-      data.map((i) => {
-        const value = i.replace(/,|\s/g, "");
-        if (value.match(/["|`|'].*['|"|`]/)) {
-          const cleanedValue = value
-            .match(/["|`|'].*['|"|`]/)[0]
-            .replace(/['|"|`]+/g, "");
-
-          if (
-            !_.includes(searchableKeys, cleanedValue) &&
-            !_.includes(ignoredKeys, cleanedValue) &&
-            !_.includes(valuesMissing, cleanedValue) &&
-            !_.includes(cleanedValue, "${")
-          ) {
-            return cleanedValue;
-          }
-        }
-        return null;
-      })
-    );
   await Promise.all(
     filesContent.map(async (content) => {
       // The following is used for this format
       // intl.formatMessage({ id: "visibility.selector" })
       if (_.includes(content, "intl.formatMessage({")) {
-        const data = content.match(patternIntl);
-        if (data) valuesMissing.push(...getValue(data));
+        const data = content.match(
+          /intl\.formatMessage(?:.|\n)*?\((?:.|\n)*?({.*?id.*?})(?:.|\n)*?\)/gs
+        );
+        if (data)
+          valuesMissing.push(
+            ...getMissingValuesInI18File(
+              data,
+              searchableKeys,
+              ignoredKeys,
+              valuesMissing
+            )
+          );
       }
       // The following is used for this format
       // <FormattedMessage id="" />
       if (_.includes(content, "<FormattedMessage id=")) {
-        const data = content.match(patternDiv);
-        if (data) valuesMissing.push(...getValue(data));
+        const data = content.match(
+          /<FormattedMessage id=['|"|`](?:.|\n)*?['|"|`]/gs
+        );
+        if (data)
+          valuesMissing.push(
+            ...getMissingValuesInI18File(
+              data,
+              searchableKeys,
+              ignoredKeys,
+              valuesMissing
+            )
+          );
       }
     })
   );
@@ -267,8 +294,9 @@ const findMissingTranslations = async (
 /**
  * A test to see if translation keys are alphabetized
  *
- * @param {object} enTranslations List of english translations
- * @param {object} frTranslations List of english translations
+ * @param {string[]} sortedKeys list of all keys sorted in alphabetical order
+ * @param {string[]} allKeys unsorted list of all keys
+ * @returns
  */
 const checkTransKeysOrder = async (sortedKeys, allKeys) => {
   const isCorrectlySorted = _.isEqual(allKeys, sortedKeys);
