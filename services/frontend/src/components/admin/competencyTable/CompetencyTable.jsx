@@ -110,11 +110,11 @@ const CompetencyTable = ({ intl }) => {
     const getDisplayType = (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `competencies`,
+          id: "competencies",
         });
 
       return intl.formatMessage({
-        id: `competency`,
+        id: "competency",
       });
     };
 

@@ -138,11 +138,11 @@ const UserTable = () => {
     const getDisplayType = (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `users`,
+          id: "users",
         });
 
       return intl.formatMessage({
-        id: `user`,
+        id: "user",
       });
     };
 
