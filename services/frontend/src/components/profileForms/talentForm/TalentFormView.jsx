@@ -15,7 +15,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, isEmpty, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
-import { useHistory, Prompt, Link } from "react-router-dom";
+import { useHistory, Prompt } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import useAxios from "../../../utils/useAxios";
 import {
