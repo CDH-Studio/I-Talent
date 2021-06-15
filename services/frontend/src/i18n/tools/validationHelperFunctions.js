@@ -166,6 +166,7 @@ const findUnusedTranslations = async (
   ignoredKeys
 ) => {
   const unusedKeys = [];
+  // search for key in file content
   searchableKeys.map(async (key) => {
     const result = filesContent.some(
       (content) =>
