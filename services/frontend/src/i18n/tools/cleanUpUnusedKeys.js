@@ -2,7 +2,7 @@
  * Clean up unused i18n translations
  *
  * This script parses all react files to find translation keys in the i18n files that are unused.
- * Keys can be added to a blacklist (blacklistKeys.json) to avoid false positives
+ * Keys can be added to a ignoredKeys (ignoredKeys.json) to avoid false positives
  *
  * Logic for the next following functions comes from the answer of
  * https://stackoverflow.com/questions/48662924/javascript-nodejs-search-for-a-specific-word-string-in-files
@@ -18,11 +18,11 @@ const path = require("path");
 const testHelpers = require("./validationHelperFunctions");
 
 // extract translations from file
-const enTranslations = require("./en_CA.json");
-const frTranslations = require("./fr_CA.json");
+const enTranslations = require("../en_CA.json");
+const frTranslations = require("../fr_CA.json");
 
-// get all blacklisted keys (keys to be ignored)
-const blacklistedKeys = require("./blacklistKeys.json");
+// get all ignoredKeys keys (keys to be ignored)
+const ignoredKeys = require("../ignoredKeys.json");
 
 /**
  * Overwrites the i18n files without the unused keys and saves them
@@ -52,12 +52,12 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
   });
 
   await fs.writeFile(
-    path.join(__dirname, "en_CA.json"),
+    path.join(__dirname, "../en_CA.json"),
     JSON.stringify(newEn, null, 2),
     "utf8"
   );
   await fs.writeFile(
-    path.join(__dirname, "fr_CA.json"),
+    path.join(__dirname, "../fr_CA.json"),
     JSON.stringify(newFr, null, 2),
     "utf8"
   );
@@ -80,11 +80,10 @@ const writeNewFiles = async (enList, frList, allKeys, keysToRemove) => {
     .sort()
     .value();
 
-  const unusedKeys = await testHelpers.searchForUnusedKeysInFiles(
-    path.join(__dirname, ".."),
-    [".jsx"],
+  const unusedKeys = await testHelpers.findUnusedTranslations(
+    await testHelpers.getFileContent(path.join(__dirname, "../.."), [".jsx"]),
     allKeys,
-    blacklistedKeys
+    ignoredKeys
   );
 
   // Print any unused keys
