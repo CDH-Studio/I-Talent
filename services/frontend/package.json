@@ -16,7 +16,7 @@
     "i18n:alphabetize": "node ./src/i18n/tools/alphabetizeKeys",
     "i18n:export": "node ./src/i18n/tools/exportTransToCSV",
     "analyze": "ANALYZE_BUILD=true yarn build",
-    "postinstall": "cd ../../ && husky install services/frontend/.husky"
+    "prepare": "cd ../../ && husky install services/frontend/.husky"
   },
   "dependencies": {
     "@ant-design/icons": "4.6.2",
