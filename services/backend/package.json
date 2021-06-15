@@ -36,6 +36,7 @@
     "express-validator": "^6.11.1",
     "fuse.js": "^6.4.4",
     "helmet": "^4.6.0",
+    "jest-mock-extended": "^1.0.16",
     "keycloak-connect": "13.0.1",
     "lodash": "^4.17.21",
     "moment": "2.29.1",
