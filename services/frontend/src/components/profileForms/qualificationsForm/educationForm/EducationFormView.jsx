@@ -299,7 +299,7 @@ const EducationFormView = ({
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-          <FormattedMessage id="attachment.links" />
+          <FormattedMessage id="attachment.links.education" />
           <Form.List
             name={[fieldElement.name, "attachmentLinks"]}
             fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}

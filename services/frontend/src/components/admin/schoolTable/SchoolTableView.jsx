@@ -250,7 +250,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     <Modal
       visible={addVisible}
       title={<FormattedMessage id="add.school" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={() => {
         addForm
@@ -361,7 +361,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
     <Modal
       visible={editVisible}
       title={<FormattedMessage id="edit.school" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={() => {
         editForm
@@ -540,7 +540,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       {addSchoolModal()}
       {editSchoolModal()}
       <Header
-        title={<FormattedMessage id="schools.table" />}
+        title={<FormattedMessage id="schools" />}
         icon={<DatabaseOutlined />}
         extra={
           <>

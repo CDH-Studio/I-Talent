@@ -175,7 +175,7 @@ const ProfileLayoutView = ({
             id="divider-privateGroup"
           >
             <TeamOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
-            <FormattedMessage id="profile.privateGroup" />
+            <FormattedMessage id="connections" />
             <div className="privateGroupInfo">
               <Popover
                 trigger={["focus", "hover"]}
@@ -365,7 +365,7 @@ const ProfileLayoutView = ({
               href="#divider-privateGroup"
               title={
                 <Text strong className="sideBarText">
-                  <FormattedMessage id="profile.privateGroup" />
+                  <FormattedMessage id="connections" />
                 </Text>
               }
             >

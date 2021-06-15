@@ -30,8 +30,12 @@ const findDuplicateTranslations = (enTranslations, frTranslations) => {
       )(new Set())
     );
 
-  const enDuplicateValues = findDuplicates(enTranslations);
-  const frDuplicateValues = findDuplicates(frTranslations);
+  const enDuplicateValues = findDuplicates(
+    enTranslations.map((i) => i.toLowerCase())
+  );
+  const frDuplicateValues = findDuplicates(
+    frTranslations.map((i) => i.toLowerCase())
+  );
 
   // Message to show test results
   if (enDuplicateValues.length === 0 && frDuplicateValues.length === 0) {
@@ -241,7 +245,7 @@ const findMissingTranslations = async (
   searchableKeys,
   ignoredKeys
 ) => {
-  const valuesMissing = [];
+  let valuesMissing = [];
   await Promise.all(
     filesContent.map(async (content) => {
       // The following is used for this format
@@ -278,7 +282,7 @@ const findMissingTranslations = async (
       }
     })
   );
-
+  valuesMissing = _.uniq(valuesMissing);
   if (valuesMissing.length) {
     console.error(
       `${valuesMissing.length} keys that are in the project but missing from the i18 file`,

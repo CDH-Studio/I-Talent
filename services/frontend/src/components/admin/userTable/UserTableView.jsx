@@ -197,7 +197,7 @@ const UserTableView = ({
       <Button type="primary" disabled={!modifiedStatus}>
         <CheckCircleOutlined />
         <span>
-          <FormattedMessage id="apply" />
+          <FormattedMessage id="save" />
         </span>
       </Button>
     </Popconfirm>

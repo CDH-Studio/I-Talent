@@ -9,5 +9,6 @@
   "error.404.subtitle",
   "admin.dashboard.popular.skills",
   "admin.dashboard.popular.competencies",
-  "admin.dashboard.popular.development.goals"
+  "admin.dashboard.popular.development.goals",
+  "lang.db.code"
 ]
