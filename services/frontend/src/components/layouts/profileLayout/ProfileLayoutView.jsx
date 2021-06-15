@@ -181,10 +181,16 @@ const ProfileLayoutView = ({
                 trigger={["focus", "hover"]}
                 content={
                   <div className="popContent">
-                    <FormattedMessage id="connections.tooltip.header" />
-                    <a href="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
+                    <FormattedMessage
+                      id="connections.tooltip.header"
+                      values={{
+                        helpUrl: (
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        ),
+                      }}
+                    />
                   </div>
                 }
               >
@@ -399,16 +405,31 @@ const ProfileLayoutView = ({
       let messageId;
 
       if (privateProfile) {
-        messageId = isHidden ? "hidden.profile.message" : "inactive.message";
+        messageId = !isHidden ? (
+          <FormattedMessage id="hidden.profile.message" />
+        ) : (
+          <FormattedMessage
+            id="inactive.message"
+            values={{
+              helpUrl: (
+                <a href="/about/help">
+                  <FormattedMessage id="footer.contact.link" />
+                </a>
+              ),
+            }}
+          />
+        );
       } else if (canViewHiddenProfiles) {
-        messageId = isHidden
-          ? "hidden.profile.message.other"
-          : "inactive.message.other";
+        messageId = isHidden ? (
+          <FormattedMessage id="hidden.profile.message.other" />
+        ) : (
+          <FormattedMessage id="inactive.message.other" />
+        );
       }
 
       return (
         <Alert
-          message={<FormattedMessage id={messageId} />}
+          message={messageId}
           type={isHidden ? "warning" : "error"}
           showIcon
           style={{ marginBottom: 10 }}

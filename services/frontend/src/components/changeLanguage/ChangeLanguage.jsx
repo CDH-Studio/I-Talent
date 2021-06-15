@@ -1,15 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
-import { injectIntl } from "react-intl";
 import { useHistory } from "react-router";
 import ChangeLanguageView from "./ChangeLanguageView";
 import { setLocale } from "../../redux/slices/settingsSlice";
 import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
-import { IntlPropType } from "../../utils/customPropTypes";
 
-const ChangeLanguage = ({ intl }) => {
-  const languageCode = intl.formatMessage({ id: "lang.db.code" });
+const ChangeLanguage = () => {
   const userID = useSelector((state) => state.user.id);
+  const userLang = useSelector((state) => state.settings.locale);
+  let languageCode = "ENGLISH";
+  if (userLang) {
+    languageCode = userLang === "ENGLISH" ? "FRENCH" : "ENGLISH";
+  }
   const axios = useAxios();
   const history = useHistory();
 
@@ -29,12 +31,4 @@ const ChangeLanguage = ({ intl }) => {
   return <ChangeLanguageView handleLanguageChange={handleLanguageChange} />;
 };
 
-ChangeLanguage.propTypes = {
-  intl: IntlPropType,
-};
-
-ChangeLanguage.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(ChangeLanguage);
+export default ChangeLanguage;

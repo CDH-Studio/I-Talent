@@ -608,7 +608,16 @@ const TalentFormView = ({
                     title={<FormattedMessage id="skills" />}
                     popoverMessage={
                       <>
-                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <FormattedMessage
+                          id="tooltip.extra.info.help"
+                          values={{
+                            helpUrl: (
+                              <a href="/about/help">
+                                <FormattedMessage id="footer.contact.link" />
+                              </a>
+                            ),
+                          }}
+                        />
                         <Link to="/about/help">
                           <FormattedMessage id="footer.contact.link" />
                         </Link>
@@ -652,7 +661,16 @@ const TalentFormView = ({
                     title={<FormattedMessage id="mentorship.skills" />}
                     popoverMessage={
                       <>
-                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <FormattedMessage
+                          id="tooltip.extra.info.help"
+                          values={{
+                            helpUrl: (
+                              <a href="/about/help">
+                                <FormattedMessage id="footer.contact.link" />
+                              </a>
+                            ),
+                          }}
+                        />
                         <Link to="/about/help">
                           <FormattedMessage id="footer.contact.link" />
                         </Link>
@@ -693,7 +711,16 @@ const TalentFormView = ({
                     title={<FormattedMessage id="competencies" />}
                     popoverMessage={
                       <>
-                        <FormattedMessage id="tooltip.extra.info.help" />
+                        <FormattedMessage
+                          id="tooltip.extra.info.help"
+                          values={{
+                            helpUrl: (
+                              <a href="/about/help">
+                                <FormattedMessage id="footer.contact.link" />
+                              </a>
+                            ),
+                          }}
+                        />
                         <Link to="/about/help">
                           <FormattedMessage id="footer.contact.link" />
                         </Link>

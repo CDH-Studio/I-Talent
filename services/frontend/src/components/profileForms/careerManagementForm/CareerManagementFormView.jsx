@@ -435,7 +435,16 @@ const CareerManagementFormView = ({
                 title={<FormattedMessage id="developmental.goals" />}
                 popoverMessage={
                   <>
-                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <FormattedMessage
+                      id="tooltip.extra.info.help"
+                      values={{
+                        helpUrl: (
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        ),
+                      }}
+                    />
                     <Link to="/about/help">
                       <FormattedMessage id="footer.contact.link" />
                     </Link>
@@ -566,7 +575,16 @@ const CareerManagementFormView = ({
                 title={<FormattedMessage id="career.interests" />}
                 popoverMessage={
                   <>
-                    <FormattedMessage id="tooltip.extra.info.help" />
+                    <FormattedMessage
+                      id="tooltip.extra.info.help"
+                      values={{
+                        helpUrl: (
+                          <a href="/about/help">
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        ),
+                      }}
+                    />
                     <Link to="/about/help">
                       <FormattedMessage id="footer.contact.link" />
                     </Link>

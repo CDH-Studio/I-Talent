@@ -4,7 +4,6 @@
 git add -A
 cd services/frontend
 yarn i18n:validate
-yarn i18n:cleanup
 yarn i18n:alphabetize
 yarn format:write
 yarn lint

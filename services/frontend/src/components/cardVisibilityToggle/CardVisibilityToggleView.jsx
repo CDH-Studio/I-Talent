@@ -78,7 +78,7 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
         </Option>
         <Option value="CONNECTIONS">
           <TeamOutlined className="visibilityOptionIcon" />
-          <FormattedMessage id="visibility.card.connections" />
+          <FormattedMessage id="connections" />
         </Option>
         <Option value="PRIVATE">
           <EyeInvisibleOutlined className="visibilityOptionIcon" />

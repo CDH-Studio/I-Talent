@@ -179,6 +179,7 @@ const findUnusedTranslations = async (
         _.includes(content, `\`${key}\``) ||
         _.includes(ignoredKeys, key)
     );
+
     if (!result) unusedKeys.push(key);
   });
 
@@ -194,6 +195,28 @@ const findUnusedTranslations = async (
   }
 
   return unusedKeys;
+};
+
+/**
+ * This function checks if there is a value in the ignored list but not located in the translation files.
+ *
+ * @param {string[]} searchableKeys list of all keys sorted
+ * @param {string[]} ignoredKeys list of all keys to ignore
+ * @returns the missing keys
+ */
+const findMissingValuesInIgnoredFile = (searchableKeys, ignoredKeys) => {
+  const missingValues = _.difference(ignoredKeys, searchableKeys);
+  if (missingValues.length) {
+    console.error(
+      `${missingValues.length} keys are in the ignore file but not in the translation file`,
+      missingValues
+    );
+    console.error("findMissingValuesInIgnoredFile check: FAIL\n");
+  } else {
+    console.error("All keys in ignore file are in translation file!");
+    console.error("findMissingValuesInIgnoredFile check: SUCCESS\n");
+  }
+  return missingValues;
 };
 
 /**
@@ -325,4 +348,5 @@ module.exports = {
   checkTransKeysOrder,
   findMissingTranslations,
   getFileContent,
+  findMissingValuesInIgnoredFile,
 };
