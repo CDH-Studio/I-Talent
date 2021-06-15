@@ -135,9 +135,9 @@ const getFilesInDirectory = async (dir, ext) => {
 
 /**
  * returns the content of a file in a string format
- * @param {string} dir
- * @param {string[]} ext
- * @returns {string[]}
+ * @param {string} dir the directory of the files
+ * @param {string[]} ext the extensions of the files
+ * @returns {string[]} returns the content of the files in an array of strings
  */
 const getFileContent = async (dir, ext) => {
   // get all files in directory and flatten into one variable
@@ -155,9 +155,9 @@ const getFileContent = async (dir, ext) => {
 /**
  * Search given directory files to find unused i18n keys
  *
- * @param {string[]} filesContent
- * @param {string[]} searchableKeys
- * @param {string[]} ignoredKeys
+ * @param {string[]} filesContent an array of strings containing the content of the files
+ * @param {string[]} searchableKeys a list of all the keys in the 18n file
+ * @param {string[]} ignoredKeys a list of all keys that can be ignored in the check
  * @returns
  */
 const findUnusedTranslations = async (
@@ -195,10 +195,10 @@ const findUnusedTranslations = async (
 /**
  * Cleans up the string value to obtain a key and compares it to
  * value in the provided lists to check if its in the file
- * @param {string} data
- * @param {string[]} searchableKeys
- * @param {string[]} ignoredKeys
- * @param {string[]} valuesMissing
+ * @param {string} data string all the values that match the pattern
+ * @param {string[]} searchableKeys list of searchable keys
+ * @param {string[]} ignoredKeys list of keys that can be ignored
+ * @param {string[]} valuesMissing list of missing keys
  * @returns
  */
 const getMissingValuesInI18File = (
@@ -230,9 +230,10 @@ const getMissingValuesInI18File = (
 /**
  * This function searches through the project jsx files to find all the
  * used translations keys and compares them with the translations in the 18n file.
- * @param {string[]} filesContent
- * @param {string[]} searchableKeys
- * @param {string[]} ignoredKeys
+ *
+ * @param {string[]} filesContent an array of strings containing the content of the files
+ * @param {string[]} searchableKeys a list of all the keys in the 18n file
+ * @param {string[]} ignoredKeys a list of all keys that can be ignored in the check
  * @returns
  */
 const findMissingTranslations = async (
