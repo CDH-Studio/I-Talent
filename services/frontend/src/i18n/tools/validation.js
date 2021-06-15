@@ -27,13 +27,8 @@ const ignoredKeys = require("../ignoredKeys.json");
 (async () => {
   console.log("\n************ Starting i18n Validator ****************\n");
 
-  // Remove all blacklisted key from the check
-  ignoredKeys.forEach((key) => delete en[key]);
-  ignoredKeys.forEach((key) => delete fr[key]);
-
   const enKeys = Object.keys(en);
   const frKeys = Object.keys(fr);
-
   const enValues = Object.values(en);
   const frValues = Object.values(fr);
 
@@ -50,6 +45,9 @@ const ignoredKeys = require("../ignoredKeys.json");
     testHelpers.findUnusedTranslations(filesContent, sortedKeys, ignoredKeys),
     testHelpers.findMissingTranslations(filesContent, sortedKeys, ignoredKeys),
   ]);
+
+  const findMissingValuesInIgnoredFile =
+    testHelpers.findMissingValuesInIgnoredFile(sortedKeys, ignoredKeys);
 
   const duplicatedTranslations = testHelpers.findDuplicateTranslations(
     enValues,
@@ -71,6 +69,7 @@ const ignoredKeys = require("../ignoredKeys.json");
     mismatchedTransKeys.extraKeysInFr.length ||
     unusedTranslations.length ||
     missingTranslations.length ||
+    findMissingValuesInIgnoredFile.length ||
     !areTransKeysAlphabetized
   ) {
     console.error("Summary: I18n Validator FAILED =========\n");
