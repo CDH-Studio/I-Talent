@@ -226,9 +226,10 @@ const BasicInfoView = ({
               </>
             }
             visible={isModalVisible}
-            onOk={() => setIsModalVisible(false)}
+            closable={false}
+            cancelText={<FormattedMessage id="close" />}
             onCancel={() => setIsModalVisible(false)}
-            cancelButtonProps={{ style: { display: "none" } }}
+            okButtonProps={{ style: { display: "none" } }}
           >
             <OrgTree data={data} />
           </Modal>
