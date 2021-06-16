@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import {
   MailOutlined,
   PhoneOutlined,
   MobileOutlined,
-  BranchesOutlined,
   EnvironmentOutlined,
   UserOutlined,
   DownOutlined,
@@ -11,6 +11,7 @@ import {
   UserDeleteOutlined,
   UserAddOutlined,
   InfoCircleOutlined,
+  ApartmentOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
@@ -25,6 +26,7 @@ import {
   // Menu,
   Tag,
   Popover,
+  Modal,
 } from "antd";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -49,6 +51,7 @@ const BasicInfoView = ({
   const { id } = useParams();
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   /*
    * Generate Profile Header
@@ -205,21 +208,30 @@ const BasicInfoView = ({
    */
   const getWorkInfo = () => {
     const branch = {
-      icon: <BranchesOutlined />,
+      icon: <ApartmentOutlined />,
       title: <FormattedMessage id="profile.org.tree" />,
       description: data.branch ? (
         <>
-          <Popover
-            content={<OrgTree data={data} />}
-            title={<FormattedMessage id="profile.org.tree" />}
-            trigger="click"
-            placement="bottom"
+          <Button className="orgButton" onClick={() => setIsModalVisible(true)}>
+            <DownOutlined />
+            <span>{data.branch}</span>
+          </Button>
+          <Modal
+            title={
+              <>
+                <ApartmentOutlined />{" "}
+                <span>
+                  <FormattedMessage id="profile.org.tree" />
+                </span>
+              </>
+            }
+            visible={isModalVisible}
+            onOk={() => setIsModalVisible(false)}
+            onCancel={() => setIsModalVisible(false)}
+            cancelButtonProps={{ style: { display: "none" } }}
           >
-            <Button className="orgButton" type="link">
-              <DownOutlined />
-              <span className="leftSpacing">{data.branch}</span>
-            </Button>
-          </Popover>
+            <OrgTree data={data} />
+          </Modal>
         </>
       ) : (
         <FormattedMessage id="not.specified" />
