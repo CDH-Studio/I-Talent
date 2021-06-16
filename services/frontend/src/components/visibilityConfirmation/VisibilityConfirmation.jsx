@@ -5,13 +5,13 @@ const VisibilityConfirmation = ({
   visibleCards,
   visible,
   onOk,
-  onCloseModal,
+  onCloseDrawer,
 }) => (
   <VisibilityConfirmationView
     visibleCards={visibleCards}
     onOk={onOk}
     visible={visible}
-    onCloseModal={onCloseModal}
+    onCloseDrawer={onCloseDrawer}
   />
 );
 
@@ -21,7 +21,7 @@ VisibilityConfirmation.propTypes = {
   ).isRequired,
   visible: PropTypes.bool.isRequired,
   onOk: PropTypes.func,
-  onCloseModal: PropTypes.func.isRequired,
+  onCloseDrawer: PropTypes.func.isRequired,
 };
 
 VisibilityConfirmation.defaultProps = {

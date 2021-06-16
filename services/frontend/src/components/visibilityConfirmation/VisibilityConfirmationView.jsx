@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Descriptions, Modal, Tag } from "antd";
+import { Button, Descriptions, Drawer, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
 import "./VisibilityConfirmationView.less";
 
@@ -7,7 +7,7 @@ const VisibilityConfirmationView = ({
   visibleCards,
   visible,
   onOk,
-  onCloseModal,
+  onCloseDrawer,
 }) => {
   const getTag = (colour, message) => (
     <>
@@ -33,18 +33,32 @@ const VisibilityConfirmationView = ({
 
   const onClickOk = () => {
     onOk();
-    onCloseModal();
+    onCloseDrawer();
   };
 
   return (
-    <Modal
+    <Drawer
       title={<FormattedMessage id="visibility.review.title" />}
       visible={visible}
       onOk={onClickOk}
-      onCancel={onCloseModal}
-      width="40%"
+      onClose={onCloseDrawer}
+      width="20%"
+      footer={
+        <div
+          style={{
+            textAlign: "right",
+          }}
+        >
+          <Button onClick={onCloseDrawer} style={{ marginRight: 8 }}>
+            <FormattedMessage id="cancel" />
+          </Button>
+          <Button onClick={onClickOk} type="primary">
+            <FormattedMessage id="save" />
+          </Button>
+        </div>
+      }
     >
-      <Descriptions column={2} size="middle" bordered>
+      <Descriptions column={1} size="small" bordered>
         <Descriptions.Item
           label={<FormattedMessage id="employment.equity.groups" />}
         >
@@ -92,7 +106,7 @@ const VisibilityConfirmationView = ({
           {getCardStatusElement(visibleCards.exFeeder)}
         </Descriptions.Item>
       </Descriptions>
-    </Modal>
+    </Drawer>
   );
 };
 
@@ -102,7 +116,7 @@ VisibilityConfirmationView.propTypes = {
   ).isRequired,
   visible: PropTypes.bool.isRequired,
   onOk: PropTypes.func,
-  onCloseModal: PropTypes.func.isRequired,
+  onCloseDrawer: PropTypes.func.isRequired,
 };
 
 VisibilityConfirmationView.defaultProps = {

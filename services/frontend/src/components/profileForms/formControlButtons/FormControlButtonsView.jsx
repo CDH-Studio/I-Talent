@@ -94,7 +94,7 @@ const FormControlButtonsView = ({
       </>
     );
 
-  const onCloseModal = () => setFinish(false);
+  const onCloseDrawer = () => setFinish(false);
 
   return (
     <>
@@ -102,7 +102,7 @@ const FormControlButtonsView = ({
         visibleCards={visibleCards}
         visible={finish}
         onOk={modalFunc}
-        onCloseModal={onCloseModal}
+        onCloseDrawer={onCloseDrawer}
       />
       <Row gutter={[24, 14]} className="fcb-container">
         <Col xs={24} md={24} lg={18} xl={18}>
