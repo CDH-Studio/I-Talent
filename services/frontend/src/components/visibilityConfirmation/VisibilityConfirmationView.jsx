@@ -42,7 +42,7 @@ const VisibilityConfirmationView = ({
       visible={visible}
       onOk={onClickOk}
       onClose={onCloseDrawer}
-      width="20%"
+      width="450"
       footer={
         <div
           style={{
