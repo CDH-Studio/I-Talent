@@ -12,7 +12,7 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
           <Fragment key={mentoringCategory.val}>
             <Row align="middle">
               <Col>
-                <TagTwoTone twoToneColor="#3CBAB3" />
+                <TagTwoTone twoToneColor="#3CBAB3" className="mr-1" />
               </Col>
               <Col>{mentoringCategory.val}:</Col>
             </Row>

@@ -12,7 +12,7 @@ const SkillsView = ({ categoriesSkills, skills }) => {
           <Fragment key={categorySkill.val}>
             <Row align="middle">
               <Col>
-                <TagTwoTone twoToneColor="#3CBAB3" />
+                <TagTwoTone twoToneColor="#3CBAB3" className="mr-1" />
               </Col>
               <Col>{categorySkill.val}:</Col>
             </Row>

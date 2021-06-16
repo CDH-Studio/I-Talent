@@ -288,9 +288,7 @@ const BasicInfoView = ({
           href={button.url}
           className="hide-for-print"
         >
-          <span>
-            <FormattedMessage id={button.textId} />
-          </span>
+          <FormattedMessage id={button.textId} />
         </Button>
       );
     });
