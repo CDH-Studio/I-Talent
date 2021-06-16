@@ -72,7 +72,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
     <Menu onClick={redirectToForm} selectedKeys={step}>
       <Menu.Item tabIndex={0} key="primary-info" className="menu-item">
         <div className="menu-item-header">
-          <SolutionOutlined />
+          <SolutionOutlined className="mr-1" />
           <strong>
             <FormattedMessage id="primary.contact.information" />
           </strong>
@@ -91,7 +91,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex={0} key="employment" className="menu-item">
         <div className="menu-item-header">
-          <CompassOutlined />
+          <CompassOutlined className="mr-1" />
           <strong>
             <FormattedMessage id="employment.status" />
           </strong>
@@ -107,7 +107,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex={0} key="language-proficiency" className="menu-item">
         <div className="menu-item-header">
-          <GlobalOutlined />
+          <GlobalOutlined className="mr-1" />
           <strong>
             <FormattedMessage id="official.languages" />
           </strong>
@@ -123,7 +123,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex={0} key="talent" className="menu-item">
         <div className="menu-item-header">
-          <TagsOutlined />
+          <TagsOutlined className="mr-1" />
           <strong>
             <FormattedMessage id="skills.and.competencies" />
           </strong>
@@ -142,7 +142,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex={0} key="qualifications" className="menu-item">
         <div className="menu-item-header">
-          <TrophyOutlined />
+          <TrophyOutlined className="mr-1" />
           <strong>
             <FormattedMessage id="employee.qualifications" />
           </strong>
@@ -158,7 +158,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex="0" key="career-management" className="menu-item">
         <div className="menu-item-header">
-          <ProjectOutlined />
+          <ProjectOutlined className="mr-1" />
           <strong>
             <FormattedMessage id="employee.growth.interests" />
           </strong>
