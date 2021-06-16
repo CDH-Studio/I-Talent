@@ -1,5 +1,5 @@
 import { Tree, Typography } from "antd";
-import { BranchesOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -25,7 +25,6 @@ const OrgTreeView = ({ data }) => {
       const object = {
         title: titleString(val.title),
         key: val.id,
-        icon: <BranchesOutlined />,
       };
       if (retVal.length !== 0) {
         object.children = [retVal];
