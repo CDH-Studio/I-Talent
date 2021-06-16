@@ -24,9 +24,13 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
           <List.Item.Meta
             title={<FormattedMessage id={i.titleId} />}
             description={
-              <>
-                {i.level} ({i.status})
-              </>
+              i.level ? (
+                <>
+                  {i.level} ({i.status})
+                </>
+              ) : (
+                "-"
+              )
             }
           />
         </List.Item>
