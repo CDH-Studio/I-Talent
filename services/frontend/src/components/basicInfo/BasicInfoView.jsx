@@ -17,12 +17,12 @@ import {
   Row,
   Col,
   Card,
-  Dropdown,
+  // Dropdown,
   Avatar,
   List,
   Typography,
   Button,
-  Menu,
+  // Menu,
   Tag,
   Popover,
 } from "antd";
@@ -208,19 +208,19 @@ const BasicInfoView = ({
       icon: <BranchesOutlined />,
       title: <FormattedMessage id="profile.org.tree" />,
       description: data.branch ? (
-        <Dropdown
-          overlay={
-            <Menu className="orgDropdown">
-              <OrgTree data={data} />
-            </Menu>
-          }
-          trigger={["click"]}
-        >
-          <Button className="orgButton" type="link">
-            <DownOutlined />
-            <span className="leftSpacing">{data.branch}</span>
-          </Button>
-        </Dropdown>
+        <>
+          <Popover
+            content={<OrgTree data={data} />}
+            title={<FormattedMessage id="profile.org.tree" />}
+            trigger="click"
+            placement="bottom"
+          >
+            <Button className="orgButton" type="link">
+              <DownOutlined />
+              <span className="leftSpacing">{data.branch}</span>
+            </Button>
+          </Popover>
+        </>
       ) : (
         <FormattedMessage id="not.specified" />
       ),
