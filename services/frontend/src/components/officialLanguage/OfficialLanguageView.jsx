@@ -26,7 +26,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
             description={
               i.level ? (
                 <>
-                  {i.level} {i.status}
+                  {i.level} ({i.status})
                 </>
               ) : (
                 "-"
