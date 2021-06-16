@@ -284,7 +284,7 @@ const UserTableView = ({
       title: <FormattedMessage id="admin.roles" />,
       filters: [
         {
-          text: <FormattedMessage id="admin.roles.admin" />,
+          text: <FormattedMessage id="admin" />,
           value: "isAdmin",
         },
         {
@@ -296,7 +296,7 @@ const UserTableView = ({
       render: (record) => (
         <>
           <Tag visible={record.isAdmin} color="magenta">
-            <FormattedMessage id="admin.roles.admin" />
+            <FormattedMessage id="admin" />
           </Tag>
           <Tag visible={record.isManager} color="geekblue">
             <FormattedMessage id="admin.roles.manager" />

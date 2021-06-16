@@ -144,7 +144,7 @@ const ReportBugView = ({ saveDataToDB }) => {
         <Form form={form} layout="vertical" onFieldsChange={onFormValuesChange}>
           <Form.Item
             name="location"
-            label={<FormattedMessage id="bugs.location" />}
+            label={<FormattedMessage id="location" />}
             rules={[Rules.required]}
           >
             <Radio.Group

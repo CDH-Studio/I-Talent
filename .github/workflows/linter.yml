@@ -37,6 +37,8 @@ jobs:
 
       - name: Run linter
         run: yarn lint
+      - name: Run prettier check
+        run: yarn format:check
 
   backend:
     runs-on: ubuntu-latest
@@ -71,3 +73,5 @@ jobs:
 
       - name: Run linter
         run: yarn run lint
+      - name: Run prettier check
+        run: yarn format:check

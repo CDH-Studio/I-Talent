@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Avatar, Row, Col, List, Empty, Tag } from "antd";
 import { FormattedMessage } from "react-intl";
@@ -11,9 +12,9 @@ const ExperienceView = ({ experienceInfo }) => {
       return (
         <div className="bodyStyle">
           {lineStrings.map((line, index) => (
-            <>
+            <Fragment key={line}>
               {index > 0 ? <br /> : null} {line}
-            </>
+            </Fragment>
           ))}
         </div>
       );
@@ -36,7 +37,7 @@ const ExperienceView = ({ experienceInfo }) => {
   const getProjects = (item) => {
     if (item.projects && item.projects.length > 0)
       return item.projects.map((i) => (
-        <Tag color="#727272" key={i.id}>
+        <Tag color="#727272" key={i}>
           <span>{i}</span>
         </Tag>
       ));

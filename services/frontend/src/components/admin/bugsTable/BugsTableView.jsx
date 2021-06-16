@@ -49,7 +49,7 @@ const tableColumns = (handleEdit) => [
     render: (value) => value || "-",
   },
   {
-    title: <FormattedMessage id="bugs.location" />,
+    title: <FormattedMessage id="location" />,
     filters: [
       {
         text: <FormattedMessage id="home" />,
@@ -294,7 +294,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
       />
       <Modal
         visible={visible}
-        okText={<FormattedMessage id="admin.apply" />}
+        okText={<FormattedMessage id="apply" />}
         onCancel={() => setVisible(false)}
         onOk={updateBugReport}
         title={<FormattedMessage id="edit.bugs" />}
@@ -313,7 +313,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
           </Form.Item>
           <Form.Item
             name="location"
-            label={<FormattedMessage id="bugs.location" />}
+            label={<FormattedMessage id="location" />}
             rules={[Rules.required]}
           >
             <Radio.Group
