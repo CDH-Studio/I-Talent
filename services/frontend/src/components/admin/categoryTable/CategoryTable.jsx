@@ -117,11 +117,11 @@ const CategoryTable = ({ intl }) => {
     const getDisplayType = (plural) => {
       if (plural)
         return intl.formatMessage({
-          id: `skill.categories`,
+          id: "skill.categories",
         });
 
       return intl.formatMessage({
-        id: `category`,
+        id: "category",
       });
     };
 

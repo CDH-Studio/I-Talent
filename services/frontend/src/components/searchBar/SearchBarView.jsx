@@ -159,7 +159,7 @@ const SearchBarView = ({
           <Col span={12}>
             {/* Location field */}
             <Form.Item
-              label={<FormattedMessage id="work.location" />}
+              label={<FormattedMessage id="location" />}
               name="locations"
             >
               <Select
@@ -212,7 +212,7 @@ const SearchBarView = ({
                 treeData={skillOptions}
                 treeCheckable
                 showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="input.placeholder.select" />}
+                placeholder={<FormattedMessage id="search" />}
                 treeNodeFilterProp="title"
                 showSearch
                 maxTagCount={15}
@@ -266,7 +266,7 @@ const SearchBarView = ({
                 treeData={skillOptions}
                 treeCheckable
                 showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="input.placeholder.select" />}
+                placeholder={<FormattedMessage id="search" />}
                 treeNodeFilterProp="title"
                 showSearch
                 maxTagCount={15}
