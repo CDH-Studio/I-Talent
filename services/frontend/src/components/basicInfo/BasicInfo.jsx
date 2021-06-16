@@ -16,7 +16,7 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
       email: {
         textId: "email",
         url: `mailto:${email}`,
-        icon: <MailOutlined />,
+        icon: <MailOutlined className="mr-1" />,
       },
     };
 
@@ -24,7 +24,7 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
       buttonLinks.linkedin = {
         textId: "linkedin",
         url: `https://linkedin.com/in/${linkedin}`,
-        icon: <LinkedinOutlined />,
+        icon: <LinkedinOutlined className="mr-1" />,
       };
     }
 
@@ -32,7 +32,7 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
       buttonLinks.github = {
         textId: "github",
         url: `https://github.com/${github}`,
-        icon: <GithubOutlined />,
+        icon: <GithubOutlined className="mr-1" />,
       };
     }
 
@@ -40,7 +40,7 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
       buttonLinks.gcconnex = {
         textId: "gcconnex",
         url: `https://gcconnex.gc.ca/profile/${gcconnex}`,
-        icon: <LinkOutlined />,
+        icon: <LinkOutlined className="mr-1" />,
       };
     }
 
