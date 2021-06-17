@@ -385,7 +385,6 @@ const PrimaryInfoFormView = ({
                     onClick={() => {
                       setGedsModalVisible(true);
                     }}
-                    className="prim-rightSpacedButton"
                     aria-label={intl.formatMessage({ id: "geds.sync.button" })}
                   >
                     <SyncOutlined />
@@ -394,33 +393,6 @@ const PrimaryInfoFormView = ({
                     </span>
                   </Button>
                 )}
-                <Popover
-                  trigger={["focus", "hover"]}
-                  content={
-                    <div className="prim-popoverStyle">
-                      <FormattedMessage
-                        id="geds.edit.info"
-                        values={{
-                          instructionUrl: (
-                            <a
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              href={
-                                locale === "ENGLISH"
-                                  ? "http://icweb.ic.gc.ca/eic/site/029.nsf/eng/00172.html"
-                                  : "http://icweb.ic.gc.ca/eic/site/029.nsf/fra/00172.html"
-                              }
-                            >
-                              <FormattedMessage id="geds.edit.info.link" />
-                            </a>
-                          ),
-                        }}
-                      />
-                    </div>
-                  }
-                >
-                  <InfoCircleOutlined tabIndex={0} />
-                </Popover>
               </>
             }
           />

@@ -292,23 +292,31 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
         />
       ) : (
         <>
-          <div className="prim-popoverStyle">
-            <FormattedMessage id="geds.edit.info1" />
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://userprofile.prod.prv/icpup.asp?lang=E"
-            >
-              <FormattedMessage id="geds.edit.info.link" />
-            </a>
-            <FormattedMessage id="geds.edit.info2" />
-          </div>
+          <FormattedMessage
+            id="geds.edit.info"
+            values={{
+              instructionUrl: (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={
+                    locale === "ENGLISH"
+                      ? "http://icweb.ic.gc.ca/eic/site/029.nsf/eng/00172.html"
+                      : "http://icweb.ic.gc.ca/eic/site/029.nsf/fra/00172.html"
+                  }
+                >
+                  <FormattedMessage id="geds.edit.info.link" />
+                </a>
+              ),
+            }}
+          />
           <Table
             columns={columns}
             dataSource={tableData}
             pagination={false}
             size="small"
             loading={!tableData || tableLoading}
+            className="mt-4"
           />
         </>
       )}
