@@ -488,7 +488,23 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="pri"
-                label={<FormattedMessage id="pri" />}
+                label={
+                  <>
+                    <FormattedMessage id="pri" />
+                    <div className="prim-popoverStyleCareer">
+                      <Popover
+                        trigger={["focus", "hover"]}
+                        content={
+                          <div className="prim-popoverStyle">
+                            <FormattedMessage id="pri.private" />
+                          </div>
+                        }
+                      >
+                        <InfoCircleOutlined tabIndex={0} />
+                      </Popover>
+                    </div>
+                  </>
+                }
                 rules={[Rules.required, Rules.priFormat]}
               >
                 <Input />
