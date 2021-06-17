@@ -16,7 +16,7 @@ import {
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
@@ -27,7 +27,6 @@ import useAxios from "../../../utils/useAxios";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
-  IntlPropType,
   HistoryPropType,
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
@@ -49,7 +48,6 @@ const PrimaryInfoFormView = ({
   profileInfo,
   load,
   formType,
-  intl,
   history,
   userId,
   email,
@@ -62,6 +60,7 @@ const PrimaryInfoFormView = ({
   const [savedValues, setSavedValues] = useState(null);
   const [gedsModalVisible, setGedsModalVisible] = useState(false);
 
+  const intl = useIntl();
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
@@ -387,6 +386,7 @@ const PrimaryInfoFormView = ({
                       setGedsModalVisible(true);
                     }}
                     className="prim-rightSpacedButton"
+                    aria-label={intl.formatMessage({ id: "geds.sync.button" })}
                   >
                     <SyncOutlined />
                     <span>
@@ -701,7 +701,6 @@ PrimaryInfoFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   load: PropTypes.bool.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
@@ -711,7 +710,6 @@ PrimaryInfoFormView.propTypes = {
 PrimaryInfoFormView.defaultProps = {
   locationOptions: [],
   profileInfo: null,
-  intl: null,
 };
 
-export default injectIntl(PrimaryInfoFormView);
+export default PrimaryInfoFormView;

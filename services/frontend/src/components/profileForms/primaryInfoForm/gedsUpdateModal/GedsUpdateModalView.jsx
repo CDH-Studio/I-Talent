@@ -291,13 +291,26 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
           title={<FormattedMessage id="geds.update.error.message" />}
         />
       ) : (
-        <Table
-          columns={columns}
-          dataSource={tableData}
-          pagination={false}
-          size="small"
-          loading={!tableData || tableLoading}
-        />
+        <>
+          <div className="prim-popoverStyle">
+            <FormattedMessage id="geds.edit.info1" />
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://userprofile.prod.prv/icpup.asp?lang=E"
+            >
+              <FormattedMessage id="geds.edit.info.link" />
+            </a>
+            <FormattedMessage id="geds.edit.info2" />
+          </div>
+          <Table
+            columns={columns}
+            dataSource={tableData}
+            pagination={false}
+            size="small"
+            loading={!tableData || tableLoading}
+          />
+        </>
       )}
     </Modal>
   );
