@@ -11,6 +11,7 @@
 const _ = require("lodash");
 const fs = require("fs").promises;
 const path = require("path");
+const os = require("os");
 
 // extract translations from file
 const enTranslations = require("../en_CA.json");
@@ -34,12 +35,12 @@ const writeNewFiles = async (enList, frList, allOrderedKeys) => {
 
   await fs.writeFile(
     path.join(__dirname, "../en_CA.json"),
-    JSON.stringify(newEn, null, 2),
+    JSON.stringify(newEn, null, 2) + os.EOL,
     "utf8"
   );
   await fs.writeFile(
     path.join(__dirname, "../fr_CA.json"),
-    JSON.stringify(newFr, null, 2),
+    JSON.stringify(newFr, null, 2) + os.EOL,
     "utf8"
   );
 };

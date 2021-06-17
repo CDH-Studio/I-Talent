@@ -115,7 +115,7 @@ const ReportBugView = ({ saveDataToDB }) => {
         >
           <BugOutlined />
           <span>
-            <FormattedMessage id="report.a.bug" />
+            <FormattedMessage id="bugs.modal.ok" />
           </span>
         </Button>
       )}
@@ -127,12 +127,12 @@ const ReportBugView = ({ saveDataToDB }) => {
           <>
             <BugOutlined />
             <span>
-              <FormattedMessage id="bugs.modal.ok" />
+              <FormattedMessage id="" />
             </span>
           </>
         }
         onOk={createBugReport}
-        title={<FormattedMessage id="report.a.bug" />}
+        title={<FormattedMessage id="bugs.modal.ok" />}
       >
         <Paragraph>
           <FormattedMessage id="bugs.modal.description" />
