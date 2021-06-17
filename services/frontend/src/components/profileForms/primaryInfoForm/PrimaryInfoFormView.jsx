@@ -331,9 +331,10 @@ const PrimaryInfoFormView = ({
    * Generate formatted urlPopover
    * @param {string} url - url to display
    */
-  const urlPopover = (url) => (
+  const urlPopover = ({ url, ariaID }) => (
     <Popover
       trigger={["focus", "hover"]}
+      id={ariaID}
       content={
         <div style={{ textAlign: "center" }}>
           <FormattedMessage
@@ -444,7 +445,7 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="first.name" />}
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
-                <Input />
+                <Input aria-required="true" />
               </Form.Item>
             </Col>
 
@@ -454,7 +455,7 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="last.name" />}
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
-                <Input />
+                <Input aria-required="true" />
               </Form.Item>
             </Col>
           </Row>
@@ -474,8 +475,12 @@ const PrimaryInfoFormView = ({
                             <FormattedMessage id="job.title.tooltip" />
                           </div>
                         }
+                        id="job-title-popover"
                       >
-                        <InfoCircleOutlined tabIndex={0} />
+                        <InfoCircleOutlined
+                          tabIndex={0}
+                          aria-describedby="job-title-popover"
+                        />
                       </Popover>
                     </div>
                   </>
@@ -508,6 +513,7 @@ const PrimaryInfoFormView = ({
                             <FormattedMessage id="pri.private" />
                           </div>
                         }
+                        id="pri-popover"
                       >
                         <InfoCircleOutlined tabIndex={0} />
                       </Popover>
@@ -516,7 +522,7 @@ const PrimaryInfoFormView = ({
                 }
                 rules={[Rules.required, Rules.priFormat]}
               >
-                <Input />
+                <Input aria-describedby="pri-popover" aria-required="true" />
               </Form.Item>
             </Col>
           </Row>
@@ -533,6 +539,7 @@ const PrimaryInfoFormView = ({
                   placeholder={<FormattedMessage id="search" />}
                   allowClear
                   filterOption={filterOption}
+                  aria-required="true"
                 >
                   {locationOptions.map((value) => (
                     <Option key={value.id}>
@@ -598,12 +605,15 @@ const PrimaryInfoFormView = ({
                 label={
                   <>
                     <FormattedMessage id="gcconnex.username" />
-                    {urlPopover("https://gcconnex.gc.ca/profile/")}
+                    {urlPopover({
+                      url: "https://gcconnex.gc.ca/profile/",
+                      ariaID: "gcconnex-popover",
+                    })}
                   </>
                 }
                 rules={[Rules.maxChar100]}
               >
-                <Input />
+                <Input aria-describedby="gcconnex-popover" />
               </Form.Item>
             </Col>
             <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
@@ -612,12 +622,15 @@ const PrimaryInfoFormView = ({
                 label={
                   <>
                     <FormattedMessage id="linkedin.username" />
-                    {urlPopover("https://linkedin.com/in/")}
+                    {urlPopover({
+                      url: "https://linkedin.com/in/",
+                      ariaID: "linkedin-popover",
+                    })}
                   </>
                 }
                 rules={[Rules.maxChar100]}
               >
-                <Input />
+                <Input aria-describedby="linkedin-popover" />
               </Form.Item>
             </Col>
             <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
@@ -626,12 +639,15 @@ const PrimaryInfoFormView = ({
                 label={
                   <>
                     <FormattedMessage id="github.username" />
-                    {urlPopover("https://github.com/")}
+                    {urlPopover({
+                      url: "https://github.com/",
+                      ariaID: "github-popover",
+                    })}
                   </>
                 }
                 rules={[Rules.maxChar100]}
               >
-                <Input />
+                <Input aria-describedby="github-popover" />
               </Form.Item>
             </Col>
           </Row>
