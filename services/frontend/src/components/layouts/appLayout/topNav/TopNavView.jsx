@@ -60,13 +60,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {optionalStartMenuItems}
       <Menu.Item key="profile_menu" className="dropDownItem">
         <Link to={`/profile/${id}`}>
-          <UserOutlined className="menuIcon" />
+          <UserOutlined className="mr-2" />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
       <Menu.Item key="edit_menu" className="dropDownItem">
         <Link to="/profile/edit/primary-info">
-          <EditOutlined className="menuIcon" />
+          <EditOutlined className="mr-2" />
           <FormattedMessage id="edit.profile" />
         </Link>
       </Menu.Item>
@@ -74,7 +74,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {isAdmin && (
         <Menu.Item key="admin_menu" className="dropDownItem">
           <Link to="/admin/dashboard">
-            <DashboardOutlined className="menuIcon" />
+            <DashboardOutlined className="mr-2" />
             <FormattedMessage id="admin" />
           </Link>
         </Menu.Item>
@@ -82,21 +82,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {!isAdmin && (
         <Menu.Item key="stats_menu" className="dropDownItem">
           <Link to="/statistics">
-            <AreaChartOutlined className="menuIcon" />
+            <AreaChartOutlined className="mr-2" />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
       <Menu.Item key="settings_menu" className="dropDownItem">
         <Link to="/settings">
-          <SettingOutlined className="menuIcon" />
+          <SettingOutlined className="mr-2" />
           <FormattedMessage id="settings" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout_menu" className="dropDownItem">
         <Link to="/logout">
-          <LogoutOutlined className="menuIcon" />
+          <LogoutOutlined className="mr-2" />
           <FormattedMessage id="sign.out" />
         </Link>
       </Menu.Item>
@@ -189,7 +189,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         <Menu.Divider />
         <Menu.Item className="dropDownItem">
           <Link tabIndex={0} to="/">
-            <HomeOutlined className="menuIcon" />
+            <HomeOutlined className="mr-2" />
             <FormattedMessage id="home" />
           </Link>
         </Menu.Item>
@@ -242,28 +242,30 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
 
   if (windowWidth > 450) {
     return (
-      <Header className="header" role="banner">
-        <Row
-          className="aroundNavContent"
-          justify="space-between"
-          align="middle"
-        >
-          <Row align="middle">
-            {displayLogo && (
-              <Link tabIndex={0} to="/">
-                <img src={Logo} alt="I-Talent Logo" className="navBrand" />
-              </Link>
-            )}
-          </Row>
+      <div role="banner">
+        <Header className="header">
+          <Row
+            className="aroundNavContent"
+            justify="space-between"
+            align="middle"
+          >
+            <Row align="middle">
+              {displayLogo && (
+                <Link tabIndex={0} to="/">
+                  <img src={Logo} alt="I-Talent Logo" className="navBrand" />
+                </Link>
+              )}
+            </Row>
 
-          {getSearchInput()}
+            {getSearchInput()}
 
-          <Row align="middle">
-            <div>{getAvatarDropdown(name)}</div>
-            <ChangeLanguage />
+            <Row align="middle">
+              <div>{getAvatarDropdown(name)}</div>
+              <ChangeLanguage />
+            </Row>
           </Row>
-        </Row>
-      </Header>
+        </Header>
+      </div>
     );
   }
 

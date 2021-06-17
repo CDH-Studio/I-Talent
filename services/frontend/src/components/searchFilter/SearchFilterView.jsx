@@ -123,10 +123,8 @@ const SearchFilterView = ({
             filterOption={filterOption}
             aria-label={ariaLabels[1]}
             aria-autocomplete="list"
-            aria-expanded="false"
             aria-haspopup="listbox"
-            aria-owns="classification_listbox"
-            role="combobox"
+            role="textbox"
             dropdownRender={(menu) => (
               <div
                 id="classification_listbox"
@@ -159,7 +157,6 @@ const SearchFilterView = ({
             aria-label={ariaLabels[2]}
             aria-autocomplete="list"
             aria-owns="location_listbox"
-            aria-expanded="false"
             aria-haspopup="listbox"
             role="combobox"
             dropdownRender={(menu) => (
@@ -232,8 +229,6 @@ const SearchFilterView = ({
             showSearch
             mode="multiple"
             maxTagCount={3}
-            aria-label={ariaLabels[4]}
-            aria-multiselectable="true"
             aria-autocomplete="none"
           />
         </Form.Item>
@@ -254,8 +249,6 @@ const SearchFilterView = ({
             mode="multiple"
             maxTagCount={3}
             disabled={anyMentorSkills}
-            aria-label={ariaLabels[5]}
-            aria-multiselectable="true"
             aria-autocomplete="none"
           />
         </Form.Item>

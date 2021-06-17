@@ -13,8 +13,7 @@ const HeaderView = ({ title, icon, subtitle, extra, backBtn }) => {
       title={
         <>
           {icon && <div className="headerIcon">{icon}</div>}
-
-          {title}
+          <h1 id="headerTitle">{title}</h1>
         </>
       }
       extra={extra}
