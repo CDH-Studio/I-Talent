@@ -18,12 +18,9 @@
 const { Parser } = require("json2csv");
 const fs = require("fs");
 const path = require("path");
-const testHelpers = require("./validationHelperFunctions");
-
+const { validate } = require("./validationHelperFunctions");
 const en = require("../en_CA.json");
 const fr = require("../fr_CA.json");
-
-const ignoredKeys = require("../ignoredKeys.json");
 
 /**
  * Format translations in JSON format for export
@@ -68,57 +65,18 @@ const saveAsCSV = (fileName, TranslationJSON) => {
  */
 (async () => {
   console.log("\n************ Starting i18n Export ****************\n");
-
-  // Remove all ignoredKeys key from the check
-  const cleanedEn = en;
-  const cleanedFr = fr;
-  ignoredKeys.forEach((key) => delete cleanedEn[key]);
-  ignoredKeys.forEach((key) => delete cleanedFr[key]);
-
-  // Validate i18n files before export
-  console.log("Running validation tests on i18n files before export...\n");
-
-  const duplicatedTranslations = testHelpers.findDuplicateTranslations(
-    cleanedEn,
-    cleanedFr
-  );
-
-  const mismatchedTransKeys = testHelpers.findMismatchedTranslations(
-    cleanedEn,
-    cleanedFr
-  );
-
-  const unusedTranslations = testHelpers.findUnusedTranslations(
-    cleanedEn,
-    cleanedFr
-  );
-
-  if (
-    duplicatedTranslations.length ||
-    mismatchedTransKeys.extraKeysInEn.length ||
-    mismatchedTransKeys.extraKeysInFr.length ||
-    unusedTranslations.length
-  ) {
-    console.error(
-      "Export Canceled: Errors found in the files. Please correct and try again. \n"
-    );
-    process.exit(1);
-  } else {
-    console.log("Validation Successful! Beginning Export... \n");
-
-    // export to CSV upon successful validation
-    const FormattedTranslationJSON = formatTransForExport(en, fr);
-
-    try {
-      saveAsCSV("../ExportedTranslations.csv", FormattedTranslationJSON);
-      console.log("SUCCESS: Translations exported to ExportedTranslations.csv");
-    } catch (e) {
-      console.error("ERROR: The following error occurred when exporting:");
-      console.error("---------------------------------------------------");
-      console.error(e);
-      console.error("---------------------------------------------------");
-    }
-
-    process.exit(0);
+  const value = await validate();
+  if (!value) process.exit(1);
+  // export to CSV upon successful validation
+  const FormattedTranslationJSON = formatTransForExport(en, fr);
+  try {
+    saveAsCSV("../ExportedTranslations.csv", FormattedTranslationJSON);
+    console.log("SUCCESS: Translations exported to ExportedTranslations.csv");
+  } catch (e) {
+    console.error("ERROR: The following error occurred when exporting:");
+    console.error("---------------------------------------------------");
+    console.error(e);
+    console.error("---------------------------------------------------");
   }
+  process.exit(0);
 })();

@@ -13,6 +13,10 @@ const _ = require("lodash");
 const path = require("path");
 const fs = require("fs").promises;
 
+const en = require("../en_CA.json");
+const fr = require("../fr_CA.json");
+const ignoredKeys = require("../ignoredKeys.json");
+
 /**
  * A test to search for duplicate translations values
  *
@@ -161,14 +165,9 @@ const getFileContent = async (dir, ext) => {
  *
  * @param {string[]} filesContent an array of strings containing the content of the files
  * @param {string[]} searchableKeys a list of all the keys in the 18n file
- * @param {string[]} ignoredKeys a list of all keys that can be ignored in the check
  * @returns
  */
-const findUnusedTranslations = async (
-  filesContent,
-  searchableKeys,
-  ignoredKeys
-) => {
+const findUnusedTranslations = async (filesContent, searchableKeys) => {
   const unusedKeys = [];
   // search for key in file content
   searchableKeys.map(async (key) => {
@@ -201,10 +200,9 @@ const findUnusedTranslations = async (
  * This function checks if there is a value in the ignored list but not located in the translation files.
  *
  * @param {string[]} searchableKeys list of all keys sorted
- * @param {string[]} ignoredKeys list of all keys to ignore
  * @returns the missing keys
  */
-const findMissingValuesInIgnoredFile = (searchableKeys, ignoredKeys) => {
+const findMissingValuesInIgnoredFile = (searchableKeys) => {
   const missingValues = _.difference(ignoredKeys, searchableKeys);
   if (missingValues.length) {
     console.error(
@@ -224,16 +222,10 @@ const findMissingValuesInIgnoredFile = (searchableKeys, ignoredKeys) => {
  * value in the provided lists to check if its in the file
  * @param {string} data string all the values that match the pattern
  * @param {string[]} searchableKeys list of searchable keys
- * @param {string[]} ignoredKeys list of keys that can be ignored
  * @param {string[]} valuesMissing list of missing keys
  * @returns
  */
-const getMissingValuesInI18File = (
-  data,
-  searchableKeys,
-  ignoredKeys,
-  valuesMissing
-) =>
+const getMissingValuesInI18File = (data, searchableKeys, valuesMissing) =>
   _.compact(
     data.map((i) => {
       const value = i.replace(/,|\s/g, "");
@@ -260,14 +252,9 @@ const getMissingValuesInI18File = (
  *
  * @param {string[]} filesContent an array of strings containing the content of the files
  * @param {string[]} searchableKeys a list of all the keys in the 18n file
- * @param {string[]} ignoredKeys a list of all keys that can be ignored in the check
  * @returns
  */
-const findMissingTranslations = async (
-  filesContent,
-  searchableKeys,
-  ignoredKeys
-) => {
+const findMissingTranslations = async (filesContent, searchableKeys) => {
   let valuesMissing = [];
   await Promise.all(
     filesContent.map(async (content) => {
@@ -323,13 +310,18 @@ const findMissingTranslations = async (
 /**
  * A test to see if translation keys are alphabetized
  *
- * @param {string[]} sortedKeys list of all keys sorted in alphabetical order
- * @param {string[]} allKeys unsorted list of all keys
+ * @param {string[]} enKeys a list of keys in english
+ * @param {string[]} frKeys a list of keys in french
  * @returns
  */
-const checkTransKeysOrder = async (sortedKeys, allKeys) => {
-  const isCorrectlySorted = _.isEqual(allKeys, sortedKeys);
-  if (isCorrectlySorted) {
+const checkTransKeysOrder = async (enKeys, frKeys) => {
+  const sortedEnKeys = _(_.cloneDeep(enKeys)).sort();
+  const sortedFrKeys = _(_.cloneDeep(frKeys)).sort();
+
+  const isEnCorrectlySorted = _.isEqual(enKeys, sortedEnKeys);
+  const isFrCorrectlySorted = _.isEqual(frKeys, sortedFrKeys);
+
+  if (isEnCorrectlySorted && isFrCorrectlySorted) {
     console.error("Translation keys are in alphabetical order!");
     console.error("checkTransOrder check: SUCCESS\n");
   } else {
@@ -338,8 +330,54 @@ const checkTransKeysOrder = async (sortedKeys, allKeys) => {
     console.error("checkTransOrder check: FAIL\n");
   }
 
-  return isCorrectlySorted;
+  return isEnCorrectlySorted && isFrCorrectlySorted;
 };
+
+/**
+ *
+ * Run checks to validate i18n files
+ */
+async function validate() {
+  console.log("\n************ Starting i18n Validator ****************\n");
+
+  const enKeys = Object.keys(en);
+  const frKeys = Object.keys(fr);
+  const enValues = Object.values(en);
+  const frValues = Object.values(fr);
+
+  const sortedKeys = _([...enKeys, ...frKeys])
+    .uniq()
+    .sort()
+    .value();
+  const filesContent = await getFileContent(path.join(__dirname, "../.."), [
+    ".jsx",
+  ]);
+
+  const [unusedTranslations, missingTranslations, areTransKeysAlphabetized] =
+    await Promise.all([
+      findUnusedTranslations(filesContent, sortedKeys),
+      findMissingTranslations(filesContent, sortedKeys),
+      checkTransKeysOrder(enKeys, frKeys),
+    ]);
+  const findMissingValuesInIgnored = findMissingValuesInIgnoredFile(sortedKeys);
+  const duplicatedTranslations = findDuplicateTranslations(enValues, frValues);
+  const mismatchedTransKeys = findMismatchedTranslations(enKeys, frKeys);
+  if (
+    duplicatedTranslations.en.length ||
+    duplicatedTranslations.fr.length ||
+    mismatchedTransKeys.extraKeysInEn.length ||
+    mismatchedTransKeys.extraKeysInFr.length ||
+    unusedTranslations.length ||
+    missingTranslations.length ||
+    findMissingValuesInIgnored.length ||
+    !areTransKeysAlphabetized
+  ) {
+    console.error("Summary: I18n Validator FAILED =========\n");
+    return false;
+  }
+  console.error("Summary: I18n Validator PASSED =========\n");
+  return true;
+}
 
 module.exports = {
   findDuplicateTranslations,
@@ -349,4 +387,5 @@ module.exports = {
   findMissingTranslations,
   getFileContent,
   findMissingValuesInIgnoredFile,
+  validate,
 };
