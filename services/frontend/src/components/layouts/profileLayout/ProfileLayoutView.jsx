@@ -22,12 +22,11 @@ import {
   PrinterOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { useKeycloak } from "@react-keycloak/web";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
-
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Header from "../../header/Header";
 import Skills from "../../skillsCard/Skills";
@@ -47,6 +46,7 @@ import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
+import config from "../../../utils/runtimeConfig";
 import "./ProfileLayoutView.less";
 
 const { Link } = Anchor;
@@ -62,7 +62,9 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
+  const locale = useSelector((state) => state.settings.locale);
   const { keycloak } = useKeycloak();
+  const { drupalSite } = config;
 
   useEffect(() => {
     if (savedFormContent === false) {
@@ -175,16 +177,29 @@ const ProfileLayoutView = ({
             id="divider-privateGroup"
           >
             <TeamOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
-            <FormattedMessage id="profile.privateGroup" />
+            <FormattedMessage id="connections" />
             <div className="privateGroupInfo">
               <Popover
                 trigger={["focus", "hover"]}
                 content={
                   <div className="popContent">
-                    <FormattedMessage id="connections.tooltip.header" />
-                    <a href="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
+                    <FormattedMessage
+                      id="connections.tooltip.header"
+                      values={{
+                        helpUrl: (
+                          <a
+                            className="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`${drupalSite}${
+                              locale === "ENGLISH" ? "en" : "fr"
+                            }help`}
+                          >
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        ),
+                      }}
+                    />
                   </div>
                 }
               >
@@ -365,7 +380,7 @@ const ProfileLayoutView = ({
               href="#divider-privateGroup"
               title={
                 <Text strong className="sideBarText">
-                  <FormattedMessage id="profile.privateGroup" />
+                  <FormattedMessage id="connections" />
                 </Text>
               }
             >
@@ -399,16 +414,38 @@ const ProfileLayoutView = ({
       let messageId;
 
       if (privateProfile) {
-        messageId = isHidden ? "hidden.profile.message" : "inactive.message";
+        messageId = !isHidden ? (
+          <FormattedMessage id="hidden.profile.message" />
+        ) : (
+          <FormattedMessage
+            id="inactive.message"
+            values={{
+              helpUrl: (
+                <a
+                  className="link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={`${drupalSite}${
+                    locale === "ENGLISH" ? "en" : "fr"
+                  }help`}
+                >
+                  <FormattedMessage id="footer.contact.link" />
+                </a>
+              ),
+            }}
+          />
+        );
       } else if (canViewHiddenProfiles) {
-        messageId = isHidden
-          ? "hidden.profile.message.other"
-          : "inactive.message.other";
+        messageId = isHidden ? (
+          <FormattedMessage id="hidden.profile.message.other" />
+        ) : (
+          <FormattedMessage id="inactive.message.other" />
+        );
       }
 
       return (
         <Alert
-          message={<FormattedMessage id={messageId} />}
+          message={messageId}
           type={isHidden ? "warning" : "error"}
           showIcon
           style={{ marginBottom: 10 }}

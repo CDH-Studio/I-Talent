@@ -69,7 +69,8 @@ const EducationView = ({ educationInfo }) => {
                             item.attachmentLinks.length > 0 && (
                               <Row align="middle">
                                 <Col>
-                                  <FormattedMessage id="attachment.links" />:
+                                  <FormattedMessage id="attachment.links.education" />
+                                  :
                                 </Col>
                                 <Col>{getUrl(item)}</Col>
                               </Row>

@@ -397,15 +397,24 @@ const PrimaryInfoFormView = ({
                   trigger={["focus", "hover"]}
                   content={
                     <div className="prim-popoverStyle">
-                      <FormattedMessage id="geds.edit.info1" />
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                      >
-                        <FormattedMessage id="geds.edit.info.link" />
-                      </a>
-                      <FormattedMessage id="geds.edit.info2" />
+                      <FormattedMessage
+                        id="geds.edit.info"
+                        values={{
+                          instructionUrl: (
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              href={
+                                locale === "ENGLISH"
+                                  ? "http://icweb.ic.gc.ca/eic/site/029.nsf/eng/00172.html"
+                                  : "http://icweb.ic.gc.ca/eic/site/029.nsf/fra/00172.html"
+                              }
+                            >
+                              <FormattedMessage id="geds.edit.info.link" />
+                            </a>
+                          ),
+                        }}
+                      />
                     </div>
                   }
                 >
@@ -488,7 +497,23 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
               <Form.Item
                 name="pri"
-                label={<FormattedMessage id="pri" />}
+                label={
+                  <>
+                    <FormattedMessage id="pri" />
+                    <div className="prim-popoverStyleCareer">
+                      <Popover
+                        trigger={["focus", "hover"]}
+                        content={
+                          <div className="prim-popoverStyle">
+                            <FormattedMessage id="pri.private" />
+                          </div>
+                        }
+                      >
+                        <InfoCircleOutlined tabIndex={0} />
+                      </Popover>
+                    </div>
+                  </>
+                }
                 rules={[Rules.required, Rules.priFormat]}
               >
                 <Input />

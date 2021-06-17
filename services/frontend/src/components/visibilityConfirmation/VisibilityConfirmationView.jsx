@@ -24,7 +24,7 @@ const VisibilityConfirmationView = ({
       case "PUBLIC":
         return getTag("green", "visibility.card.public");
       case "CONNECTIONS":
-        return getTag("blue", "visibility.card.connections");
+        return getTag("blue", "connections");
 
       default:
         return <p>None</p>;
