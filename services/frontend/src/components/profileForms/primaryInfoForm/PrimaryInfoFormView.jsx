@@ -55,12 +55,12 @@ const PrimaryInfoFormView = ({
 }) => {
   const { keycloak } = useKeycloak();
   const axios = useAxios();
+  const intl = useIntl();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [gedsModalVisible, setGedsModalVisible] = useState(false);
 
-  const intl = useIntl();
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 

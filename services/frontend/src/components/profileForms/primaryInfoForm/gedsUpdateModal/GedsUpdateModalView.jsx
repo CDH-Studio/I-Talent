@@ -1,98 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import { Modal, Table, Button, Result } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import useAxios from "../../../../utils/useAxios";
-
-/**
- * Parse and generate table data based in saved profile and GEDS
- * @param {Object} savedProfile - saved profile data.
- * @param {Object} gedsProfile - profile from geds.
- */
-const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
-  {
-    key: "1",
-    rowName: <FormattedMessage id="first.name" />,
-    savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
-    savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
-    gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
-    gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
-    paramName: "firstName",
-  },
-  {
-    key: "2",
-    rowName: <FormattedMessage id="last.name" />,
-    savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
-    savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
-    gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
-    gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
-    paramName: "lastName",
-  },
-  {
-    key: "3",
-    rowName: <FormattedMessage id="profile.telephone" />,
-    savedLabel: savedProfile.telephone ? savedProfile.telephone : "-",
-    savedValue: savedProfile.telephone ? savedProfile.telephone : "-",
-    gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
-    gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
-    paramName: "telephone",
-  },
-  {
-    key: "4",
-    rowName: <FormattedMessage id="location" />,
-    savedLabel: savedProfile.officeLocation
-      ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
-      : "-",
-    savedValue: savedProfile.officeLocation
-      ? savedProfile.officeLocation.id
-      : "-",
-    gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
-    gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
-    paramName: "location",
-  },
-  {
-    key: "5",
-    rowName: <FormattedMessage id="job.title" />,
-    savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
-    savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
-    gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
-    gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
-    paramName: "jobTitle",
-  },
-  {
-    key: "6",
-    rowName: <FormattedMessage id="branch" />,
-    savedLabel: savedProfile.branch ? gedsProfile.branch[locale] : "-",
-    savedValue: savedProfile.branch ? gedsProfile.branch[locale] : "-",
-    gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
-    gedsValue: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
-    paramName: "branch",
-  },
-  {
-    key: "7",
-    rowName: <FormattedMessage id="profile.org.tree" />,
-    savedLabel: savedProfile.organizations
-      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
-      : "-",
-    savedValue: savedProfile.organizations
-      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
-      : "-",
-    gedsLabel: gedsProfile.organizations
-      ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
-          locale
-        ]
-      : "-",
-    gedsValue: gedsProfile.organizations
-      ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
-          locale
-        ]
-      : "-",
-    paramName: "organization",
-  },
-];
 
 /**
  * Component to render the GC directory Sync modal
@@ -100,12 +13,102 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
  */
 const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
   const axios = useAxios();
+  const intl = useIntl();
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [tableData, setTableData] = useState(null);
   const [tableLoading, setTableLoading] = useState(false);
   const [errorCaught, setErrorCaught] = useState(false);
   const { locale } = useSelector((state) => state.settings);
   const { id, email } = useSelector((state) => state.user);
+
+  /**
+   * Parse and generate table data based in saved profile and GEDS
+   * @param {Object} savedProfile - saved profile data.
+   * @param {Object} gedsProfile - profile from geds.
+   */
+  const generateTableData = ({ savedProfile, gedsProfile }) => [
+    {
+      key: "1",
+      rowName: <FormattedMessage id="first.name" />,
+      savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
+      savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
+      gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
+      gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
+      paramName: "firstName",
+    },
+    {
+      key: "2",
+      rowName: <FormattedMessage id="last.name" />,
+      savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
+      savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
+      gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
+      gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
+      paramName: "lastName",
+    },
+    {
+      key: "3",
+      rowName: <FormattedMessage id="profile.telephone" />,
+      savedLabel: savedProfile.telephone ? savedProfile.telephone : "-",
+      savedValue: savedProfile.telephone ? savedProfile.telephone : "-",
+      gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
+      gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
+      paramName: "telephone",
+    },
+    {
+      key: "4",
+      rowName: <FormattedMessage id="location" />,
+      savedLabel: savedProfile.officeLocation
+        ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
+        : "-",
+      savedValue: savedProfile.officeLocation
+        ? savedProfile.officeLocation.id
+        : "-",
+      gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
+      gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
+      paramName: "location",
+    },
+    {
+      key: "5",
+      rowName: <FormattedMessage id="job.title" />,
+      savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
+      savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
+      gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
+      gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
+      paramName: "jobTitle",
+    },
+    {
+      key: "6",
+      rowName: <FormattedMessage id="branch" />,
+      savedLabel: savedProfile.branch ? gedsProfile.branch[locale] : "-",
+      savedValue: savedProfile.branch ? gedsProfile.branch[locale] : "-",
+      gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
+      gedsValue: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
+      paramName: "branch",
+    },
+    {
+      key: "7",
+      rowName: <FormattedMessage id="profile.org.tree" />,
+      savedLabel: savedProfile.organizations
+        ? savedProfile.organizations[savedProfile.organizations.length - 1]
+            .title
+        : "-",
+      savedValue: savedProfile.organizations
+        ? savedProfile.organizations[savedProfile.organizations.length - 1]
+            .title
+        : "-",
+      gedsLabel: gedsProfile.organizations
+        ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
+            locale
+          ]
+        : "-",
+      gedsValue: gedsProfile.organizations
+        ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
+            locale
+          ]
+        : "-",
+      paramName: "organization",
+    },
+  ];
 
   /**
    * Make all API calls and update data in states
@@ -130,7 +133,6 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
         generateTableData({
           savedProfile: profileResult.data,
           gedsProfile: gedsResult.data,
-          locale,
         })
       );
     } catch (error) {
@@ -240,6 +242,11 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
+          aria-label={
+            isEqual(record.savedValue, record.gedsValue)
+              ? intl.formatMessage({ id: "geds.update.synced" })
+              : intl.formatMessage({ id: "geds.update.sync" })
+          }
         >
           <span>
             {isEqual(record.savedValue, record.gedsValue) ? (
@@ -304,6 +311,7 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
                       ? "http://icweb.ic.gc.ca/eic/site/029.nsf/eng/00172.html"
                       : "http://icweb.ic.gc.ca/eic/site/029.nsf/fra/00172.html"
                   }
+                  tabIndex="0"
                 >
                   <FormattedMessage id="geds.edit.info.link" />
                 </a>
