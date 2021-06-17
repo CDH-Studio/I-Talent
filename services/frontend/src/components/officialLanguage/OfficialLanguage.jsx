@@ -44,9 +44,6 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
         } else {
           nextData.level = info.level;
         }
-      } else {
-        nextData.level = "-";
-        nextData.status = "-";
       }
 
       languageInfo.push(nextData);

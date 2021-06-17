@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import {
   MailOutlined,
   PhoneOutlined,
   MobileOutlined,
-  BranchesOutlined,
   EnvironmentOutlined,
   UserOutlined,
   DownOutlined,
@@ -11,20 +11,22 @@ import {
   UserDeleteOutlined,
   UserAddOutlined,
   InfoCircleOutlined,
+  ApartmentOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import {
   Row,
   Col,
   Card,
-  Dropdown,
+  // Dropdown,
   Avatar,
   List,
   Typography,
   Button,
-  Menu,
+  // Menu,
   Tag,
   Popover,
+  Modal,
 } from "antd";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -49,6 +51,7 @@ const BasicInfoView = ({
   const { id } = useParams();
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   /*
    * Generate Profile Header
@@ -205,22 +208,32 @@ const BasicInfoView = ({
    */
   const getWorkInfo = () => {
     const branch = {
-      icon: <BranchesOutlined />,
+      icon: <ApartmentOutlined />,
       title: <FormattedMessage id="profile.org.tree" />,
       description: data.branch ? (
-        <Dropdown
-          overlay={
-            <Menu className="orgDropdown">
-              <OrgTree data={data} />
-            </Menu>
-          }
-          trigger={["click"]}
-        >
-          <Button className="orgButton" type="link">
+        <>
+          <Button className="orgButton" onClick={() => setIsModalVisible(true)}>
             <DownOutlined />
-            <span className="leftSpacing">{data.branch}</span>
+            <span>{data.branch}</span>
           </Button>
-        </Dropdown>
+          <Modal
+            title={
+              <>
+                <ApartmentOutlined />{" "}
+                <span>
+                  <FormattedMessage id="profile.org.tree" />
+                </span>
+              </>
+            }
+            visible={isModalVisible}
+            closable={false}
+            cancelText={<FormattedMessage id="close" />}
+            onCancel={() => setIsModalVisible(false)}
+            okButtonProps={{ style: { display: "none" } }}
+          >
+            <OrgTree data={data} />
+          </Modal>
+        </>
       ) : (
         <FormattedMessage id="not.specified" />
       ),
