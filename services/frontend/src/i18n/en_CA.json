@@ -53,6 +53,7 @@
   "competencies": "Competencies",
   "competencies.empty": "No competencies provided",
   "competency": "Competency",
+  "confirm": "Confirm",
   "connection.tooltip": "{name} has added you to their circle.",
   "connection.tooltip.hidden": "This member's profile is hidden.",
   "connection.tooltip.inactive": "This member is inactive and hidden from others",

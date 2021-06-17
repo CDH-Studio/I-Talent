@@ -53,7 +53,7 @@ const VisibilityConfirmationView = ({
             <FormattedMessage id="cancel" />
           </Button>
           <Button onClick={onClickOk} type="primary">
-            <FormattedMessage id="save" />
+            <FormattedMessage id="confirm" />
           </Button>
         </div>
       }
