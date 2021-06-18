@@ -416,17 +416,21 @@ const PrimaryInfoFormView = ({
                     <FormattedMessage id="job.title" />
                     <div className="prim-popoverStyleCareer">
                       <Popover
-                        trigger={["focus", "hover"]}
+                        trigger={["focus", "click"]}
                         content={
                           <div className="prim-popoverStyle">
                             <FormattedMessage id="job.title.tooltip" />
                           </div>
                         }
                         id="job-title-popover"
+                        role="button"
                       >
                         <InfoCircleOutlined
                           tabIndex={0}
                           aria-describedby="job-title-popover"
+                          aria-label={intl.formatMessage({
+                            id: "job.title.popover.arialabel",
+                          })}
                         />
                       </Popover>
                     </div>
@@ -454,7 +458,7 @@ const PrimaryInfoFormView = ({
                     <FormattedMessage id="pri" />
                     <div className="prim-popoverStyleCareer">
                       <Popover
-                        trigger={["focus", "hover"]}
+                        trigger={["focus", "click"]}
                         content={
                           <div className="prim-popoverStyle">
                             <FormattedMessage id="pri.private" />
@@ -462,14 +466,20 @@ const PrimaryInfoFormView = ({
                         }
                         id="pri-popover"
                       >
-                        <InfoCircleOutlined tabIndex={0} />
+                        <InfoCircleOutlined
+                          tabIndex={0}
+                          aria-label={intl.formatMessage({
+                            id: "pri.popover.arialabel",
+                          })}
+                          aria-describedby="pri-popover"
+                        />
                       </Popover>
                     </div>
                   </>
                 }
                 rules={[Rules.required, Rules.priFormat]}
               >
-                <Input aria-describedby="pri-popover" aria-required="true" />
+                <Input aria-required="true" />
               </Form.Item>
             </Col>
           </Row>
@@ -544,7 +554,8 @@ const PrimaryInfoFormView = ({
             }}
           >
             <Col className="gutter-row mb-1" span={24}>
-              <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
+              <LinkOutlined aria-hidden="true" className="mr-1" />
+              <FormattedMessage id="setup.link.profiles" />
             </Col>
             <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
