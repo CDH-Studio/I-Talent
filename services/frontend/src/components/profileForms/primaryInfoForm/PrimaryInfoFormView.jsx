@@ -326,31 +326,6 @@ const PrimaryInfoFormView = ({
     checkIfFormValuesChanged();
   };
 
-  /**
-   * Generate formatted urlPopover
-   * @param {string} url - url to display
-   */
-  const urlPopover = ({ url, ariaID }) => (
-    <Popover
-      trigger={["focus", "hover"]}
-      id={ariaID}
-      content={
-        <div style={{ textAlign: "center" }}>
-          <FormattedMessage
-            id="employee.username.help"
-            values={{
-              url,
-              b: (chunks) => <b>{chunks}</b>,
-              br: () => <br />,
-            }}
-          />
-        </div>
-      }
-    >
-      <InfoCircleOutlined className="prim-infoIcon" tabIndex={0} />
-    </Popover>
-  );
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -568,58 +543,61 @@ const PrimaryInfoFormView = ({
               borderRadius: 5,
             }}
           >
-            <Col className="gutter-row" span={24}>
+            <Col className="gutter-row mb-1" span={24}>
               <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
             </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="gcconnex"
-                label={
-                  <>
-                    <FormattedMessage id="gcconnex.username" />
-                    {urlPopover({
-                      url: "https://gcconnex.gc.ca/profile/",
-                      ariaID: "gcconnex-popover",
-                    })}
-                  </>
-                }
+                label={<FormattedMessage id="gcconnex.username" />}
                 rules={[Rules.maxChar100]}
               >
-                <Input aria-describedby="gcconnex-popover" />
+                {/* accessibility related description for input */}
+                <span id="gcconnex-field-info" style={{ display: "none" }}>
+                  <FormattedMessage id="gcconnex.username" />
+                  https://gcconnex.gc.ca/profile/
+                </span>
+                <Input
+                  aria-describedby="gcconnex-field-info"
+                  addonBefore="https://gcconnex.gc.ca/profile/"
+                  placeholder={intl.formatMessage({ id: "username" })}
+                />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="linkedin"
-                label={
-                  <>
-                    <FormattedMessage id="linkedin.username" />
-                    {urlPopover({
-                      url: "https://linkedin.com/in/",
-                      ariaID: "linkedin-popover",
-                    })}
-                  </>
-                }
+                label={<FormattedMessage id="linkedin.username" />}
                 rules={[Rules.maxChar100]}
               >
-                <Input aria-describedby="linkedin-popover" />
+                {/* accessibility related description for input */}
+                <span id="linkedin-field-info" style={{ display: "none" }}>
+                  <FormattedMessage id="linkedin.username" />
+                  https://linkedin.com/in/
+                </span>
+                <Input
+                  addonBefore="https://linkedin.com/in/"
+                  aria-describedby="linkedin-field-info"
+                  placeholder={intl.formatMessage({ id: "username" })}
+                />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="github"
-                label={
-                  <>
-                    <FormattedMessage id="github.username" />
-                    {urlPopover({
-                      url: "https://github.com/",
-                      ariaID: "github-popover",
-                    })}
-                  </>
-                }
+                label={<FormattedMessage id="github.username" />}
                 rules={[Rules.maxChar100]}
               >
-                <Input aria-describedby="github-popover" />
+                {/* accessibility related description for input */}
+                <span id="github-field-info" style={{ display: "none" }}>
+                  <FormattedMessage id="github.username" />
+                  https://github.com/
+                </span>
+                <Input
+                  addonBefore="https://github.com/"
+                  aria-describedby="github-field-info"
+                  placeholder={intl.formatMessage({ id: "username" })}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -644,6 +622,9 @@ const PrimaryInfoFormView = ({
                   allowClear
                   filterOption={filterOption}
                   className="custom-bubble-select-style"
+                  aria-label={intl.formatMessage({
+                    id: "employment.equity.groups",
+                  })}
                 >
                   {employmentEquityOptions.map(({ key, text }) => (
                     <Option key={key}>{text}</Option>

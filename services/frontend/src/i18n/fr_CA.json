@@ -334,6 +334,7 @@
   "update": "Mettre à jour",
   "update.confirm": "Changer le statut du profil ?",
   "user": "Utilisateur",
+  "username": "Identifiant",
   "user.reported.bugs": "Des bogues signalés par des utilisateurs",
   "users": "Utilisateurs",
   "users.table": "Tableau d’utilisateurs",
