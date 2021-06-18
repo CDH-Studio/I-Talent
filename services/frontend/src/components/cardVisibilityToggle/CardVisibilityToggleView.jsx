@@ -76,21 +76,21 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
           value="PUBLIC Us"
           aria-label={intl.formatMessage({ id: "visibility.card.public" })}
         >
-          <EyeOutlined className="mr-1" aria-required="true" />
+          <EyeOutlined className="mr-1" aria-hidden="true" />
           <FormattedMessage id="visibility.card.public" />
         </Option>
         <Option
           value="CONNECTIONS"
           aria-label={intl.formatMessage({ id: "connections" })}
         >
-          <TeamOutlined className="mr-1" aria-required="true" />
+          <TeamOutlined className="mr-1" aria-hidden="true" />
           <FormattedMessage id="connections" />
         </Option>
         <Option
           value="PRIVATE"
           aria-label={intl.formatMessage({ id: "visibility.card.private" })}
         >
-          <EyeInvisibleOutlined className="mr-1" aria-required="true" />
+          <EyeInvisibleOutlined className="mr-1" aria-hidden="true" />
           <FormattedMessage id="visibility.card.private" />
         </Option>
       </Select>
