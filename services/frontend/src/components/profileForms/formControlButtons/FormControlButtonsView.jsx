@@ -38,17 +38,13 @@ const FormControlButtonsView = ({
   const firstButtonContent = () =>
     create ? (
       <>
-        <CheckOutlined />
-        <span>
-          <FormattedMessage id="save.and.finish" />
-        </span>
+        <CheckOutlined aria-hidden="true" className="mr-2" />
+        <FormattedMessage id="save.and.finish" />
       </>
     ) : (
       <>
-        <SaveOutlined />
-        <span>
-          <FormattedMessage id="save" />
-        </span>
+        <SaveOutlined aria-hidden="true" className="mr-2" />
+        <FormattedMessage id="save" />
       </>
     );
 
@@ -72,25 +68,21 @@ const FormControlButtonsView = ({
   const lastButtonContent = () =>
     create ? (
       <>
-        <span>
-          {onSaveAndNext ? (
-            <FormattedMessage id="save.and.next" />
-          ) : (
-            <FormattedMessage id="save.and.finish" />
-          )}
-        </span>
-        <RightOutlined />
+        {onSaveAndNext ? (
+          <FormattedMessage id="save.and.next" />
+        ) : (
+          <FormattedMessage id="save.and.finish" />
+        )}
+        <RightOutlined aria-hidden="true" className="ml-2" />
       </>
     ) : (
       <>
-        <CheckOutlined />
-        <span>
-          {fieldsChanged ? (
-            <FormattedMessage id="save.and.finish" />
-          ) : (
-            <FormattedMessage id="button.finish" />
-          )}
-        </span>
+        <CheckOutlined aria-hidden="true" className="mr-2" />
+        {fieldsChanged ? (
+          <FormattedMessage id="save.and.finish" />
+        ) : (
+          <FormattedMessage id="button.finish" />
+        )}
       </>
     );
 
@@ -110,7 +102,7 @@ const FormControlButtonsView = ({
             <Button
               className="fcb-finishAndSaveBtn"
               onClick={firstButtonOnClick}
-              htmlType="button"
+              htmlType="submit"
               disabled={edit && !fieldsChanged}
             >
               {firstButtonContent()}
@@ -123,16 +115,14 @@ const FormControlButtonsView = ({
             danger
             disabled={!fieldsChanged}
           >
-            <ClearOutlined />
-            <span>
-              <FormattedMessage id="clear.changes" />
-            </span>
+            <ClearOutlined aria-hidden="true" className="mr-2" />
+            <FormattedMessage id="clear.changes" />
           </Button>
         </Col>
         <Col xs={24} md={24} lg={6} xl={6}>
           <Button
             className="fcb-saveBtn"
-            type="primary"
+            htmlType="submit"
             onClick={lastButtonOnClick}
           >
             {lastButtonContent()}
