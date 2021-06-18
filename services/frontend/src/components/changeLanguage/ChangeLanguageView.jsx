@@ -15,13 +15,8 @@ const ChangeLanguageView = ({ handleLanguageChange }) => (
       borderColor: "#454545",
     }}
   >
-    <GlobalOutlined />
-    <span>
-      <FormattedMessage
-        style={{ textTransform: "capitalize" }}
-        id="lang.code"
-      />
-    </span>
+    <GlobalOutlined id="admin" className="mr-2" />
+    <FormattedMessage style={{ textTransform: "capitalize" }} id="lang.code" />
   </Button>
 );
 

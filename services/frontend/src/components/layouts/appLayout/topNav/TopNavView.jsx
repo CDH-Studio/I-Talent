@@ -9,6 +9,7 @@ import {
   HomeOutlined,
   AreaChartOutlined,
   SettingOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
@@ -60,13 +61,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {optionalStartMenuItems}
       <Menu.Item key="profile_menu" className="dropDownItem">
         <Link to={`/profile/${id}`}>
-          <UserOutlined className="mr-2" />
+          <UserOutlined className="mr-2" aria-hidden="true" />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
       <Menu.Item key="edit_menu" className="dropDownItem">
         <Link to="/profile/edit/primary-info">
-          <EditOutlined className="mr-2" />
+          <EditOutlined className="mr-2" aria-hidden="true" />
           <FormattedMessage id="edit.profile" />
         </Link>
       </Menu.Item>
@@ -74,7 +75,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {isAdmin && (
         <Menu.Item key="admin_menu" className="dropDownItem">
           <Link to="/admin/dashboard">
-            <DashboardOutlined className="mr-2" />
+            <DashboardOutlined className="mr-2" aria-hidden="true" />
             <FormattedMessage id="admin" />
           </Link>
         </Menu.Item>
@@ -82,21 +83,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {!isAdmin && (
         <Menu.Item key="stats_menu" className="dropDownItem">
           <Link to="/statistics">
-            <AreaChartOutlined className="mr-2" />
+            <AreaChartOutlined className="mr-2" aria-hidden="true" />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
       <Menu.Item key="settings_menu" className="dropDownItem">
         <Link to="/settings">
-          <SettingOutlined className="mr-2" />
+          <SettingOutlined className="mr-2" aria-hidden="true" />
           <FormattedMessage id="settings" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout_menu" className="dropDownItem">
         <Link to="/logout">
-          <LogoutOutlined className="mr-2" />
+          <LogoutOutlined className="mr-2" aria-hidden="true" />
           <FormattedMessage id="sign.out" />
         </Link>
       </Menu.Item>
@@ -133,7 +134,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
             <Text id="nav-dropDownButton-name" ellipsis>
               {shortenName(firstName, lastName)}
             </Text>
-            <DownOutlined className="dropDownArrow" />
+            <DownOutlined className="dropDownArrow" id="admin" />
           </Button>
         </Dropdown>
       );
@@ -169,7 +170,12 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         }}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
-        enterButton
+        enterButton={
+          <>
+            <SearchOutlined className="mr-1" aria-hidden="true" />
+            <FormattedMessage id="search" />
+          </>
+        }
         onSearch={search}
         placeholder={intl.formatMessage({
           id: "search",
