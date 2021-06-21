@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Layout, Dropdown, Menu, Button, Input, Row, Typography } from "antd";
 import {
   DownOutlined,
   EditOutlined,
@@ -13,7 +14,6 @@ import {
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
-import { Layout, Dropdown, Menu, Button, Input, Row, Typography } from "antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -145,11 +145,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
             <Text id="nav-dropDownButton-name" ellipsis>
               {shortenName(firstName, lastName)}
             </Text>
-            <DownOutlined
-              className="dropDownArrow"
-              id="admin"
-              aria-hidden="true"
-            />
+            <DownOutlined className="dropDownArrow" aria-hidden="true" />
           </Button>
         </Dropdown>
       );
