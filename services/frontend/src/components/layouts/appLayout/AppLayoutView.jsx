@@ -38,19 +38,16 @@ const AppLayoutView = ({
           loading={loading}
         />
         <Layout className="app-layout">
-          <div id="main">
-            <Content className="app-content">
-              {loading ? (
-                <Card>
-                  <Skeleton active />
-                </Card>
-              ) : (
-                children
-              )}
-            </Content>
-
-            {!loading && <Footer />}
-          </div>
+          <Content className="app-content" id="main">
+            {loading ? (
+              <Card>
+                <Skeleton active />
+              </Card>
+            ) : (
+              children
+            )}
+          </Content>
+          {!loading && <Footer />}
         </Layout>
       </Layout>
     </Layout>
