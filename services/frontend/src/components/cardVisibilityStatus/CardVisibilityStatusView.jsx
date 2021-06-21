@@ -10,7 +10,6 @@ import PropTypes from "prop-types";
 const CardVisibilityStatusView = ({ visibilityStatus }) => {
   let cardVisibilityMessage = null;
   let cardVisibilityIcon = null;
-
   switch (visibilityStatus) {
     case "PUBLIC":
       cardVisibilityMessage = (
