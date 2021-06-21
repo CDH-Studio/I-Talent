@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import PropTypes from "prop-types";
 import ChangeLanguageView from "./ChangeLanguageView";
 import { setLocale } from "../../redux/slices/settingsSlice";
 import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 
-const ChangeLanguage = () => {
+const ChangeLanguage = ({ className }) => {
   const userID = useSelector((state) => state.user.id);
   const userLang = useSelector((state) => state.settings.locale);
   let languageCode = "ENGLISH";
@@ -28,7 +29,20 @@ const ChangeLanguage = () => {
     }
   };
 
-  return <ChangeLanguageView handleLanguageChange={handleLanguageChange} />;
+  return (
+    <ChangeLanguageView
+      handleLanguageChange={handleLanguageChange}
+      className={className}
+    />
+  );
+};
+
+ChangeLanguage.propTypes = {
+  className: PropTypes.string,
+};
+
+ChangeLanguage.defaultProps = {
+  className: "",
 };
 
 export default ChangeLanguage;
