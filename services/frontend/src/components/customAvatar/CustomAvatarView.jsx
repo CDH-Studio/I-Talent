@@ -15,7 +15,7 @@ const CustomAvatarView = ({ color, style, initials, hidden }) => {
 
   return (
     <Avatar style={styles.avatar}>
-      {hidden ? <EyeInvisibleOutlined /> : initials}
+      {hidden ? <EyeInvisibleOutlined aria-hidden="true" /> : initials}
     </Avatar>
   );
 };

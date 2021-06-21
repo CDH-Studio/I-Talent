@@ -119,9 +119,14 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
           placement="bottomCenter"
           trigger={["click"]}
           getPopupContainer={(triggerNode) => triggerNode.parentNode}
-          showAction={["focus"]}
         >
-          <Button type="link" className="nav-dropDownButton ant-dropdown-link">
+          <Button
+            type="link"
+            className="nav-dropDownButton ant-dropdown-link"
+            aria-label="profile navigation dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             <CustomAvatar
               style={{
                 marginRight: 8,
@@ -134,7 +139,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
             <Text id="nav-dropDownButton-name" ellipsis>
               {shortenName(firstName, lastName)}
             </Text>
-            <DownOutlined className="dropDownArrow" id="admin" />
+            <DownOutlined
+              className="dropDownArrow"
+              id="admin"
+              aria-hidden="true"
+            />
           </Button>
         </Dropdown>
       );

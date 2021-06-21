@@ -232,6 +232,7 @@
   "private.group.empty": "Aucune membre ajouter à ton cercle",
   "profile": "Profil",
   "profile.ex.feeder": "Je suis nommé dans le programme de la relève des EX ",
+  "profile.navivation.dropdown": "liste déroulante de navigation de profil",
   "profile.not.found": "Ce profil n’existe pas",
   "profile.not.found.description": "Veuillez vérifier votre adresse URL.",
   "profile.org.tree": "Organisation",
