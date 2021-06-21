@@ -16,20 +16,6 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => (
     visible={showModal}
     closable={false}
     maskClosable={false}
-    // okText={
-    //   <>
-    //     <CheckOutlined className="ModalbBtnIcon" aria-hidden="true" />
-    //     <FormattedMessage id="privacy.modal.accept" />
-    //   </>
-    // }
-    // cancelText={
-    //   <>
-    //     <CloseOutlined className="ModalbBtnIcon" aria-hidden="true" />
-    //     <FormattedMessage id="privacy.modal.decline" />
-    //   </>
-    // }
-    onOk={handleOk}
-    onCancel={handleCancel}
     width={600}
     footer={
       <>
