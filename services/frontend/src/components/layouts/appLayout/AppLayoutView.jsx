@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import TopNav from "./topNav/TopNav";
 import Footer from "./footer/Footer";
 import SideNav from "./sideNav/SideNav";
+import SkipToContent from "./skipToContent/SkipToContent";
 import "./AppLayoutView.less";
 
 const { Content } = Layout;
@@ -24,6 +25,7 @@ const AppLayoutView = ({
       <Helmet>
         <html lang={locale === "ENGLISH" ? "en" : "fr"} />
       </Helmet>
+      <SkipToContent contentId="#main" />
       <TopNav
         loading={loading}
         displayLogo={displayLogo}
@@ -36,16 +38,19 @@ const AppLayoutView = ({
           loading={loading}
         />
         <Layout className="app-layout">
-          <Content className="app-content">
-            {loading ? (
-              <Card>
-                <Skeleton active />
-              </Card>
-            ) : (
-              children
-            )}
-          </Content>
-          {!loading && <Footer />}
+          <div id="main">
+            <Content className="app-content">
+              {loading ? (
+                <Card>
+                  <Skeleton active />
+                </Card>
+              ) : (
+                children
+              )}
+            </Content>
+
+            {!loading && <Footer />}
+          </div>
         </Layout>
       </Layout>
     </Layout>
