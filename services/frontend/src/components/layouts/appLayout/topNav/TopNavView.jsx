@@ -9,11 +9,12 @@ import {
   HomeOutlined,
   AreaChartOutlined,
   SettingOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
 import { Layout, Dropdown, Menu, Button, Input, Row, Typography } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import queryString from "query-string";
@@ -21,23 +22,24 @@ import { Link } from "react-router-dom";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/I-talent-logo-light.png";
-import { IntlPropType } from "../../../../utils/customPropTypes";
 import "./TopNavView.less";
 
 const { Header } = Layout;
 const { Text } = Typography;
 
-const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
+const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
   const history = useHistory();
-  const [searchValue, setSearchValue] = useState("");
   const { keycloak } = useKeycloak();
+  const intl = useIntl();
 
   const { id, firstName, lastName, name, status } = useSelector(
     (state) => state.user
   );
 
+  const [searchValue, setSearchValue] = useState("");
   const [showMenu, setShowMenu] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [profileMenuIsExpanded, setProfileMenuIsExpanded] = useState(false);
 
   const updateWidth = () => setWindowWidth(window.innerWidth);
 
@@ -60,13 +62,13 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {optionalStartMenuItems}
       <Menu.Item key="profile_menu" className="dropDownItem">
         <Link to={`/profile/${id}`}>
-          <UserOutlined className="mr-2" />
+          <UserOutlined className="mr-2" aria-hidden="true" />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
       <Menu.Item key="edit_menu" className="dropDownItem">
         <Link to="/profile/edit/primary-info">
-          <EditOutlined className="mr-2" />
+          <EditOutlined className="mr-2" aria-hidden="true" />
           <FormattedMessage id="edit.profile" />
         </Link>
       </Menu.Item>
@@ -74,7 +76,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {isAdmin && (
         <Menu.Item key="admin_menu" className="dropDownItem">
           <Link to="/admin/dashboard">
-            <DashboardOutlined className="mr-2" />
+            <DashboardOutlined className="mr-2" aria-hidden="true" />
             <FormattedMessage id="admin" />
           </Link>
         </Menu.Item>
@@ -82,21 +84,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
       {!isAdmin && (
         <Menu.Item key="stats_menu" className="dropDownItem">
           <Link to="/statistics">
-            <AreaChartOutlined className="mr-2" />
+            <AreaChartOutlined className="mr-2" aria-hidden="true" />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
       <Menu.Item key="settings_menu" className="dropDownItem">
         <Link to="/settings">
-          <SettingOutlined className="mr-2" />
+          <SettingOutlined className="mr-2" aria-hidden="true" />
           <FormattedMessage id="settings" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout_menu" className="dropDownItem">
         <Link to="/logout">
-          <LogoutOutlined className="mr-2" />
+          <LogoutOutlined className="mr-2" aria-hidden="true" />
           <FormattedMessage id="sign.out" />
         </Link>
       </Menu.Item>
@@ -118,9 +120,19 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
           placement="bottomCenter"
           trigger={["click"]}
           getPopupContainer={(triggerNode) => triggerNode.parentNode}
-          showAction={["focus"]}
+          onVisibleChange={() => {
+            setProfileMenuIsExpanded((prev) => !prev);
+          }}
         >
-          <Button type="link" className="nav-dropDownButton ant-dropdown-link">
+          <Button
+            type="link"
+            className="nav-dropDownButton ant-dropdown-link"
+            aria-label={intl.formatMessage({
+              id: "profile.navigation.dropdown",
+            })}
+            aria-haspopup="true"
+            aria-expanded={profileMenuIsExpanded ? "true" : "false"}
+          >
             <CustomAvatar
               style={{
                 marginRight: 8,
@@ -133,7 +145,11 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
             <Text id="nav-dropDownButton-name" ellipsis>
               {shortenName(firstName, lastName)}
             </Text>
-            <DownOutlined className="dropDownArrow" />
+            <DownOutlined
+              className="dropDownArrow"
+              id="admin"
+              aria-hidden="true"
+            />
           </Button>
         </Dropdown>
       );
@@ -169,7 +185,12 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
         }}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
-        enterButton
+        enterButton={
+          <>
+            <SearchOutlined className="mr-1" aria-hidden="true" />
+            <FormattedMessage id="search" />
+          </>
+        }
         onSearch={search}
         placeholder={intl.formatMessage({
           id: "search",
@@ -290,9 +311,6 @@ TopNavView.propTypes = {
   loading: PropTypes.bool.isRequired,
   displaySearch: PropTypes.bool.isRequired,
   displayLogo: PropTypes.bool.isRequired,
-  intl: IntlPropType,
 };
-TopNavView.defaultProps = {
-  intl: undefined,
-};
-export default injectIntl(TopNavView);
+
+export default TopNavView;
