@@ -90,7 +90,6 @@ const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
   const handleVisibilityPublicOk = () => {
     handleVisibilityToggle("PUBLIC");
     setModalVisibility(false);
-    // openNotification();
   };
 
   /**
