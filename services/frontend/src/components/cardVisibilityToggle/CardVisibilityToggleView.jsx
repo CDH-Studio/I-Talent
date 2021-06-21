@@ -63,10 +63,9 @@ const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
       .put(`api/profile/${urlID || userID}?language=${locale}`, {
         visibleCards,
       })
-      .then((res) => {
+      .then(() => {
         openNotification();
         setStatus(value);
-        console.log(res);
       })
       .catch((error) => handleError(error, "message", history));
   };
