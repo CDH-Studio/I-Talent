@@ -14,7 +14,7 @@ import {
 import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
 import { Layout, Dropdown, Menu, Button, Input, Row, Typography } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import queryString from "query-string";
@@ -22,16 +22,16 @@ import { Link } from "react-router-dom";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
 import Logo from "../../../../assets/I-talent-logo-light.png";
-import { IntlPropType } from "../../../../utils/customPropTypes";
 import "./TopNavView.less";
 
 const { Header } = Layout;
 const { Text } = Typography;
 
-const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo, intl }) => {
+const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
   const history = useHistory();
   const [searchValue, setSearchValue] = useState("");
   const { keycloak } = useKeycloak();
+  const intl = useIntl();
 
   const { id, firstName, lastName, name, status } = useSelector(
     (state) => state.user
@@ -296,9 +296,6 @@ TopNavView.propTypes = {
   loading: PropTypes.bool.isRequired,
   displaySearch: PropTypes.bool.isRequired,
   displayLogo: PropTypes.bool.isRequired,
-  intl: IntlPropType,
 };
-TopNavView.defaultProps = {
-  intl: undefined,
-};
-export default injectIntl(TopNavView);
+
+export default TopNavView;
