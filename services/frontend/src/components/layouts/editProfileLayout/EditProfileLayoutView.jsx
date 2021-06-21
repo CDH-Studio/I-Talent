@@ -20,6 +20,7 @@ import {
   TalentForm,
   CareerManagementForm,
   QualificationsForm,
+  DoneSetup,
 } from "../../profileForms";
 import Header from "../../header/Header";
 import "./EditProfileLayoutView.less";
@@ -48,6 +49,8 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         return <CareerManagementForm formType="edit" />;
       case "qualifications":
         return <QualificationsForm formType="edit" />;
+      case "finish":
+        return <DoneSetup />;
       default:
         return <Redirect to="/profile/edit/primary-info" />;
     }

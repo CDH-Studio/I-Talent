@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Row, Col, Button } from "antd";
 import {
   CheckOutlined,
@@ -10,7 +9,6 @@ import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
 import "./FormControlButtonsView.less";
-import VisibilityConfirmation from "../../visibilityConfirmation/VisibilityConfirmation";
 
 const FormControlButtonsView = ({
   edit,
@@ -21,20 +19,7 @@ const FormControlButtonsView = ({
   onReset,
   onFinish,
   fieldsChanged,
-  visibleCards,
 }) => {
-  const [finish, setFinish] = useState(false);
-  const [modalFunc, setModalFunc] = useState(null);
-
-  const firstButtonOnClick = () => {
-    if (create) {
-      setFinish(true);
-      setModalFunc(() => () => onSaveAndFinish());
-    } else {
-      onSave();
-    }
-  };
-
   const firstButtonContent = () =>
     create ? (
       <>
@@ -53,15 +38,12 @@ const FormControlButtonsView = ({
       if (onSaveAndNext) {
         onSaveAndNext();
       } else {
-        setFinish(true);
-        setModalFunc(() => () => onSaveAndFinish());
+        onSaveAndFinish();
       }
     } else if (fieldsChanged) {
-      setFinish(true);
-      setModalFunc(() => () => onSaveAndFinish());
+      onSaveAndFinish();
     } else {
-      setFinish(true);
-      setModalFunc(() => () => onFinish());
+      onFinish();
     }
   };
 
@@ -86,50 +68,40 @@ const FormControlButtonsView = ({
       </>
     );
 
-  const onCloseModal = () => setFinish(false);
-
   return (
-    <>
-      <VisibilityConfirmation
-        visibleCards={visibleCards}
-        visible={finish}
-        onOk={modalFunc}
-        onCloseModal={onCloseModal}
-      />
-      <Row gutter={[24, 14]} className="fcb-container">
-        <Col xs={24} md={24} lg={18} xl={18}>
-          {(edit || onSaveAndNext) && (
-            <Button
-              className="fcb-finishAndSaveBtn"
-              onClick={firstButtonOnClick}
-              htmlType="submit"
-              disabled={edit && !fieldsChanged}
-            >
-              {firstButtonContent()}
-            </Button>
-          )}
+    <Row gutter={[24, 14]} className="fcb-container">
+      <Col xs={24} md={24} lg={18} xl={18}>
+        {(edit || onSaveAndNext) && (
           <Button
             className="fcb-finishAndSaveBtn"
-            htmlType="button"
-            onClick={onReset}
-            danger
-            disabled={!fieldsChanged}
-          >
-            <ClearOutlined aria-hidden="true" className="mr-2" />
-            <FormattedMessage id="clear.changes" />
-          </Button>
-        </Col>
-        <Col xs={24} md={24} lg={6} xl={6}>
-          <Button
-            className="fcb-saveBtn"
+            onClick={create ? onSaveAndFinish : onSave}
             htmlType="submit"
-            onClick={lastButtonOnClick}
+            disabled={edit && !fieldsChanged}
           >
-            {lastButtonContent()}
+            {firstButtonContent()}
           </Button>
-        </Col>
-      </Row>
-    </>
+        )}
+        <Button
+          className="fcb-finishAndSaveBtn"
+          htmlType="button"
+          onClick={onReset}
+          danger
+          disabled={!fieldsChanged}
+        >
+          <ClearOutlined aria-hidden="true" className="mr-2" />
+          <FormattedMessage id="clear.changes" />
+        </Button>
+      </Col>
+      <Col xs={24} md={24} lg={6} xl={6}>
+        <Button
+          className="fcb-saveBtn"
+          htmlType="submit"
+          onClick={lastButtonOnClick}
+        >
+          {lastButtonContent()}
+        </Button>
+      </Col>
+    </Row>
   );
 };
 
@@ -142,9 +114,6 @@ FormControlButtonsView.propTypes = {
   onReset: PropTypes.func.isRequired,
   onFinish: PropTypes.func.isRequired,
   fieldsChanged: PropTypes.bool.isRequired,
-  visibleCards: PropTypes.objectOf(
-    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
-  ).isRequired,
 };
 
 FormControlButtonsView.defaultProps = {

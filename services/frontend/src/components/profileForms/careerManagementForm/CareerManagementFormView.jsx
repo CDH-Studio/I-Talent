@@ -308,7 +308,7 @@ const CareerManagementFormView = ({
    * redirect to profile
    */
   const onFinish = () => {
-    history.push(`/profile/${userId}`);
+    history.push(`/profile/edit/finish`);
   };
 
   /*
