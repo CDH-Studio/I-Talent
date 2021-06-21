@@ -29,7 +29,6 @@ const { Text } = Typography;
 
 const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
   const history = useHistory();
-  const [searchValue, setSearchValue] = useState("");
   const { keycloak } = useKeycloak();
   const intl = useIntl();
 
@@ -37,8 +36,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
     (state) => state.user
   );
 
+  const [searchValue, setSearchValue] = useState("");
   const [showMenu, setShowMenu] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [profileMenuIsExpanded, setProfileMenuIsExpanded] = useState(false);
 
   const updateWidth = () => setWindowWidth(window.innerWidth);
 
@@ -119,13 +120,18 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
           placement="bottomCenter"
           trigger={["click"]}
           getPopupContainer={(triggerNode) => triggerNode.parentNode}
+          onVisibleChange={() => {
+            setProfileMenuIsExpanded((prev) => !prev);
+          }}
         >
           <Button
             type="link"
             className="nav-dropDownButton ant-dropdown-link"
-            aria-label="profile navigation dropdown"
+            aria-label={intl.formatMessage({
+              id: "profile.navigation.dropdown",
+            })}
             aria-haspopup="true"
-            aria-expanded="false"
+            aria-expanded={profileMenuIsExpanded ? "true" : "false"}
           >
             <CustomAvatar
               style={{

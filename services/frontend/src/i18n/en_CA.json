@@ -232,7 +232,7 @@
   "private.group.empty": "No members added to your circle.",
   "profile": "Profile",
   "profile.ex.feeder": "I am nominated in the EX Feeder program",
-  "profile.navifation.dropdown": "profile navigation dropdown",
+  "profile.navigation.dropdown": "profile navigation dropdown",
   "profile.not.found": "This profile does not exist",
   "profile.not.found.description": "Please verify your current URL address",
   "profile.org.tree": "Organization",
