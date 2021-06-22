@@ -84,15 +84,16 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * @param {*} descriptions
    */
   const createDescription = (descriptions) => {
-    const modifiedDescriptions = descriptions.map((description) => (
-      <li key={description}>
-        <FormattedMessage id={description} />
-      </li>
-    ));
+    if (descriptions.length > 0) {
+      const modifiedDescriptions = descriptions.map((description) => (
+        <li key={description}>
+          <FormattedMessage id={description} />
+        </li>
+      ));
+      return <ul className="stepList">{modifiedDescriptions}</ul>;
+    }
 
-    return modifiedDescriptions ? (
-      <ul className="stepList">{modifiedDescriptions}</ul>
-    ) : undefined;
+    return undefined;
   };
   /**
    * creates the steps for the side menu
@@ -100,9 +101,8 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    * @param {*} descriptions
    * @param {*} disabled
    */
-  const createProfileStep = (titleId, descriptions, disabled) => (
+  const createProfileStep = ({ titleId, descriptions, disabled }) => (
     <Step
-      tabIndex={0}
       title={<FormattedMessage id={titleId} />}
       description={createDescription(descriptions)}
       disabled={disabled}
@@ -124,44 +124,58 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           current={stepInt}
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
+          role="navigation"
+          aria-label="Sidebar navigation menu for profile creation"
         >
-          {createProfileStep("welcome", [])}
-          {createProfileStep("primary.contact.information", [
-            "general.profile.info",
-            "employment.equity.groups",
-          ])}
-          {createProfileStep(
-            "employment.status",
-            ["current.position", "about.me"],
-            highestStep < 3
-          )}
-          {createProfileStep(
-            "official.languages",
-            ["first.official.language", "second.official.language.results"],
-            highestStep < 3
-          )}
-          {createProfileStep(
-            "skills.and.competencies",
-            ["skills", "mentorship.skills", "competencies"],
-            highestStep < 3
-          )}
-          {createProfileStep(
-            "employee.qualifications",
-            ["education", "experience"],
-            highestStep < 3
-          )}
-          {createProfileStep(
-            "employee.growth.interests",
-            [
+          {createProfileStep({
+            titleId: "welcome",
+            descriptions: [],
+            disabled: false,
+          })}
+          {createProfileStep({
+            titleId: "primary.contact.information",
+            descriptions: ["general.profile.info", "employment.equity.groups"],
+            disabled: false,
+          })}
+          {createProfileStep({
+            titleId: "employment.status",
+            descriptions: ["current.position", "about.me"],
+            disabled: highestStep < 3,
+          })}
+          {createProfileStep({
+            titleId: "official.languages",
+            descriptions: [
+              "first.official.language",
+              "second.official.language.results",
+            ],
+            disabled: highestStep < 3,
+          })}
+          {createProfileStep({
+            titleId: "skills.and.competencies",
+            descriptions: ["skills", "mentorship.skills", "competencies"],
+            disabled: highestStep < 3,
+          })}
+          {createProfileStep({
+            titleId: "employee.qualifications",
+            descriptions: ["education", "experience"],
+            disabled: highestStep < 3,
+          })}
+          {createProfileStep({
+            titleId: "employee.growth.interests",
+            descriptions: [
               "developmental.goals",
               "qualified.pools",
               "career.interests",
               "talent.management",
               "ex.feeder",
             ],
-            highestStep < 3
-          )}
-          {createProfileStep("setup.done", [], highestStep < 3)}
+            disabled: highestStep < 3,
+          })}
+          {createProfileStep({
+            titleId: "setup.done",
+            descriptions: [],
+            disabled: highestStep < 3,
+          })}
         </Steps>
       </div>
     );
