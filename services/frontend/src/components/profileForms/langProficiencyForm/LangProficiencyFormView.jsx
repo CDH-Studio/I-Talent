@@ -293,6 +293,7 @@ const LangProficiencyFormView = ({
         <Form.Item
           name={statusName}
           label={<FormattedMessage id="lang.status" />}
+          rules={[Rules.required]}
         >
           <Select
             showSearch
