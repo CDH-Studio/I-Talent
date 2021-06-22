@@ -8,7 +8,7 @@ import {
   ProjectOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
 import AppLayout from "../appLayout/AppLayout";
@@ -29,6 +29,8 @@ import "./EditProfileLayoutView.less";
  *  Render the layout for the edit profile forms
  */
 const EditProfileLayoutView = ({ formStep, history }) => {
+  const intl = useIntl();
+
   /*
    * Profile Form Select
    *
@@ -72,7 +74,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
     <Menu
       onClick={redirectToForm}
       selectedKeys={step}
-      aria-label="Edit profile side navigation menu"
+      aria-label={intl.formatMessage({ id: "edit.profile.side.nav" })}
       role="menu"
     >
       <Menu.Item tabIndex={0} key="primary-info" className="menu-item">

@@ -1,6 +1,6 @@
 import { Steps, Card } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppLayout from "../appLayout/AppLayout";
@@ -26,6 +26,7 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const history = useHistory();
+  const int = useIntl();
 
   /*
    * On change
@@ -125,7 +126,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
           role="navigation"
-          aria-label="Sidebar navigation menu for profile creation"
+          aria-label={intl.formatMessage({id="create.profile.side.nav"})}
         >
           {createProfileStep({
             titleId: "welcome",
