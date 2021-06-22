@@ -22,28 +22,26 @@ const { Step } = Steps;
 
 /**
  *  CreateProfileLayoutView(props)
+ *
  *  Render the layout for the create profile forms
  */
 const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const history = useHistory();
   const intl = useIntl();
 
-  /*
-   * On change
-   *
+  /**
    * action to take if sidebar steps are clicked
+   * @param {number|string} current
    */
   const onChange = (current) => {
     const url = `/profile/create/step/${current + 1}`;
     history.push(url);
   };
 
-  /*
-   * Handle Key Press
-   *
+  /**
    * handle how to process when enter key is hit when focusing on a step in the sidebar
+   *
    */
-
   const handleKeyPress = (e, current) => {
     if (e.charCode === 32 || e.charCode === 13) {
       e.preventDefault();
@@ -52,10 +50,9 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
     }
   };
 
-  /*
-   * Profile Form Select
-   *
+  /**
    * Generate the correct form based on the step
+   * @param {number|string} step
    */
   const profileFormSelect = (step) => {
     const stepInt = parseInt(step, 10);
@@ -80,9 +77,10 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
         return <Redirect to={`/profile/create/step/${highestStep}`} />;
     }
   };
+
   /**
    * Creates a description for each step
-   * @param {*} descriptions
+   * @param {string[]} descriptions
    */
   const createDescription = (descriptions) => {
     if (descriptions.length > 0) {
@@ -96,11 +94,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
 
     return undefined;
   };
+
   /**
    * creates the steps for the side menu
-   * @param {*} titleId
-   * @param {*} descriptions
-   * @param {*} disabled
+   * @param {string} titleId
+   * @param {string[]} descriptions
+   * @param {boolean} disabled
    */
   const createProfileStep = ({ titleId, descriptions, disabled }) => (
     <Step
@@ -110,10 +109,9 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
     />
   );
 
-  /*
-   * Get Side Bar Content
-   *
+  /**
    * Generate the sidebar steps for create profile
+   *
    */
   const getSideBarContent = (step) => {
     const stepInt = parseInt(step, 10) - 1;
