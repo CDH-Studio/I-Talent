@@ -69,7 +69,12 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    * Generate the sidebar steps for create profile
    */
   const getSideBarContent = (step) => (
-    <Menu onClick={redirectToForm} selectedKeys={step}>
+    <Menu
+      onClick={redirectToForm}
+      selectedKeys={step}
+      aria-label="Edit profile side navigation menu"
+      role="menu"
+    >
       <Menu.Item tabIndex={0} key="primary-info" className="menu-item">
         <div className="menu-item-header">
           <SolutionOutlined className="mr-1" aria-hidden="true" />
