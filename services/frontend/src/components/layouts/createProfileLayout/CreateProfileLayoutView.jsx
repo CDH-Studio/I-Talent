@@ -26,7 +26,7 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const history = useHistory();
-  const int = useIntl();
+  const intl = useIntl();
 
   /*
    * On change
