@@ -126,7 +126,7 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
           role="navigation"
-          aria-label={intl.formatMessage({id="create.profile.side.nav"})}
+          aria-label={intl.formatMessage({ id: "create.profile.side.nav" })}
         >
           {createProfileStep({
             titleId: "welcome",
