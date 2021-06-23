@@ -276,6 +276,7 @@ const LangProficiencyFormView = ({
           name={name}
           label={<FormattedMessage id={label} />}
           rules={[Rules.required]}
+          aria-required="true"
         >
           <Select
             showSearch
@@ -294,6 +295,7 @@ const LangProficiencyFormView = ({
           name={statusName}
           label={<FormattedMessage id="lang.status" />}
           rules={[Rules.required]}
+          aria-required="true"
         >
           <Select
             showSearch
