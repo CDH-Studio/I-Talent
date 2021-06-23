@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { Select, notification } from "antd";
+import { Select, notification, Modal } from "antd";
 import {
   EyeInvisibleOutlined,
   TeamOutlined,
@@ -10,7 +10,6 @@ import { useHistory, useParams } from "react-router";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import "./CardVisibilityToggleView.less";
-import AlertDialog from "../modal/AlertDialog";
 import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 
@@ -135,16 +134,16 @@ const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
           <FormattedMessage id="visibility.card.private" />
         </Option>
       </Select>
-
-      <AlertDialog
+      <Modal
         title={<FormattedMessage id="visibility.card.title" />}
-        body={<FormattedMessage id={`visibility.${type}.show.confirm`} />}
-        isOpen={modalVisibility}
+        visible={modalVisibility}
         onOk={handleVisibilityPublicOk}
         onCancel={handleVisibilityPublicCancel}
         okText={<FormattedMessage id="yes" />}
         cancelText={<FormattedMessage id="no" />}
-      />
+      >
+        <FormattedMessage id={`visibility.${type}.show.confirm`} />
+      </Modal>
     </>
   );
 };
