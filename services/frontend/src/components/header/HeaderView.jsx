@@ -12,7 +12,11 @@ const HeaderView = ({ title, icon, subtitle, extra, backBtn }) => {
       className="pageHeader"
       title={
         <>
-          {icon && <div className="headerIcon">{icon}</div>}
+          {icon && (
+            <div className="headerIcon" aria-hidden="true">
+              {icon}
+            </div>
+          )}
           <h1 id="headerTitle">{title}</h1>
         </>
       }

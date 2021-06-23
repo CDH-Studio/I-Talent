@@ -30,10 +30,9 @@ const WelcomeView = ({
   const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
 
-  /*
-   * Generate Profile Button
-   *
+  /**
    * Generate large square button for GEDS profiles
+   *
    */
   const generateProfileBtn = ({
     icon,
@@ -114,10 +113,9 @@ const WelcomeView = ({
     type: undefined,
   };
 
-  /*
-   * Generate GEDS Profile List
-   *
+  /**
    * Generates a list of GEDS profiles that match the user using large square buttons
+   *
    */
   const generateGedsProfileList = () => {
     // check if GEDS profiles have loaded
@@ -126,7 +124,7 @@ const WelcomeView = ({
         <div>
           {/* loading button */}
           {generateProfileBtn({
-            icon: <LoadingOutlined />,
+            icon: <LoadingOutlined aria-hidden="true" />,
             firstTitle: intl.formatMessage({ id: "fetching.profiles" }),
             secondTitle: intl.formatMessage({
               id: "from.gcdirectory",
@@ -135,7 +133,7 @@ const WelcomeView = ({
           })}
           {/* new user button */}
           {generateProfileBtn({
-            icon: <UserAddOutlined />,
+            icon: <UserAddOutlined aria-hidden="true" />,
             firstTitle: intl.formatMessage({ id: "new.user" }),
             secondTitle: intl.formatMessage({
               id: "start.fresh",
@@ -149,7 +147,7 @@ const WelcomeView = ({
       <div>
         {/* generate list of GEDS profiles */}
         {generateProfileBtn({
-          icon: <UserOutlined />,
+          icon: <UserOutlined aria-hidden="true" />,
           firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
           secondTitle: gedsProfiles.jobTitle && gedsProfiles.jobTitle[locale],
           thirdTitle: gedsProfiles.email,
@@ -157,7 +155,7 @@ const WelcomeView = ({
         })}
         {/* new user button */}
         {generateProfileBtn({
-          icon: <UserAddOutlined />,
+          icon: <UserAddOutlined aria-hidden="true" />,
           firstTitle: intl.formatMessage({ id: "new.user" }),
           secondTitle: intl.formatMessage({
             id: "start.fresh",
@@ -180,8 +178,9 @@ const WelcomeView = ({
 
   return (
     <Col className="welcome-content">
-      <Title level={1} className="welcome">
-        <RocketOutlined rotate="45" /> <FormattedMessage id="welcome" />
+      <Title level={2} className="welcome">
+        <RocketOutlined className="mr-1" rotate="45" aria-hidden="true" />
+        <FormattedMessage id="welcome" />
       </Title>
       <Row justify="center">
         <Paragraph className="subHeading">

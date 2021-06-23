@@ -3,7 +3,7 @@ import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { FormattedMessage, useIntl } from "react-intl";
 
-const ChangeLanguageView = ({ handleLanguageChange }) => {
+const ChangeLanguageView = ({ className, handleLanguageChange }) => {
   const intl = useIntl();
 
   return (
@@ -18,6 +18,7 @@ const ChangeLanguageView = ({ handleLanguageChange }) => {
         borderColor: "#454545",
       }}
       aria-label={intl.formatMessage({ id: "language.change" })}
+      className={className}
     >
       <GlobalOutlined id="admin" className="mr-2" />
       <FormattedMessage
@@ -30,6 +31,7 @@ const ChangeLanguageView = ({ handleLanguageChange }) => {
 
 ChangeLanguageView.propTypes = {
   handleLanguageChange: PropTypes.func.isRequired,
+  className: PropTypes.string.isRequired,
 };
 
 export default ChangeLanguageView;
