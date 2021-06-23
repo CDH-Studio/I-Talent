@@ -38,7 +38,7 @@ const AppLayoutView = ({
           loading={loading}
         />
         <Layout className="app-layout">
-          <Content className="app-content" id="main">
+          <Content className="app-content" id="main" role="main">
             {loading ? (
               <Card>
                 <Skeleton active />
