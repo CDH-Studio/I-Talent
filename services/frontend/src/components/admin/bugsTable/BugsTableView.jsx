@@ -265,12 +265,8 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
   return (
     <>
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="user.reported.bugs" />
-          </>
-        }
+        title={<FormattedMessage id="user.reported.bugs" />}
+        icon={<DatabaseOutlined />}
       />
       <Table
         size="large"
