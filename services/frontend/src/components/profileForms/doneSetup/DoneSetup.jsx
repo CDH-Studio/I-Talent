@@ -19,6 +19,24 @@ const DoneSetup = () => {
   const axios = useAxios();
   const history = useHistory();
 
+  const editUrls = {
+    employmentEquityGroup: "/profile/edit/primary-info",
+    info: "/profile/edit/employment",
+    description: "/profile/edit/employment",
+    officialLanguage: "/profile/edit/language-proficiency",
+    skills: "/profile/edit/talent?tab=skills",
+    mentorshipSkills: "/profile/edit/talent?tab=mentorship",
+    competencies: "/profile/edit/talent?tab=competencies",
+    education: "/profile/edit/qualifications?tab=education",
+    experience: "/profile/edit/qualifications?tab=experience",
+    developmentalGoals:
+      "/profile/edit/career-management?tab=learning-development",
+    qualifiedPools: "/profile/edit/career-management?tab=qualified-pools",
+    careerInterests: "/profile/edit/career-management?tab=career-interests",
+    talentManagement: "/profile/edit/career-management?tab=talent-management",
+    exFeeder: "/profile/edit/career-management?tab=ex-feeder",
+  };
+
   /**
    * Get user profile
    */
@@ -47,6 +65,7 @@ const DoneSetup = () => {
       userId={id}
       load={load}
       visibleCards={load ? profileInfo.visibleCards : null}
+      editUrls={editUrls}
     />
   );
 };

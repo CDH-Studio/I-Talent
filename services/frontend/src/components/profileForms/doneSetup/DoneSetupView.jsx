@@ -1,8 +1,10 @@
+import { Link } from "react-router-dom";
 import { Typography, Button, Descriptions, Tag, Skeleton } from "antd";
 import {
   SearchOutlined,
   UserOutlined,
   CheckCircleOutlined,
+  LinkOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
@@ -16,7 +18,7 @@ const { Title, Paragraph } = Typography;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetupView = ({ userId, load, visibleCards }) => {
+const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
   const history = useHistory();
 
   const getTag = (colour, message) => (
@@ -73,57 +75,143 @@ const DoneSetupView = ({ userId, load, visibleCards }) => {
           style={{ width: "80%", margin: "auto", marginBottom: "2rem" }}
         >
           <Descriptions.Item
-            label={<FormattedMessage id="employment.equity.groups" />}
+            label={
+              <Link to={editUrls.employmentEquityGroup}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="employment.equity.groups" />
+              </Link>
+            }
           >
             {getCardStatusElement(visibleCards.employmentEquityGroup)}
           </Descriptions.Item>
           <Descriptions.Item
-            label={<FormattedMessage id="employment.status" />}
+            label={
+              <Link to={editUrls.info}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="employment.status" />
+              </Link>
+            }
           >
             {getCardStatusElement(visibleCards.info)}
           </Descriptions.Item>
-          <Descriptions.Item label={<FormattedMessage id="about.me" />}>
+          <Descriptions.Item
+            label={
+              <Link to={editUrls.description}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="about.me" />
+              </Link>
+            }
+          >
             {getCardStatusElement(visibleCards.description)}
           </Descriptions.Item>
           <Descriptions.Item
-            label={<FormattedMessage id="official.languages" />}
+            label={
+              <Link to={editUrls.officialLanguage}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="official.languages" />
+              </Link>
+            }
           >
             {getCardStatusElement(visibleCards.officialLanguage)}
           </Descriptions.Item>
-          <Descriptions.Item label={<FormattedMessage id="skills" />}>
+          <Descriptions.Item
+            label={
+              <Link to={editUrls.skills}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="skills" />
+              </Link>
+            }
+          >
             {getCardStatusElement(visibleCards.skills)}
           </Descriptions.Item>
           <Descriptions.Item
-            label={<FormattedMessage id="mentorship.skills" />}
+            label={
+              <Link to={editUrls.mentorshipSkills}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="mentorship.skills" />
+              </Link>
+            }
           >
             {getCardStatusElement(visibleCards.mentorshipSkills)}
           </Descriptions.Item>
-          <Descriptions.Item label={<FormattedMessage id="competencies" />}>
+          <Descriptions.Item
+            label={
+              <Link to={editUrls.competencies}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="competencies" />
+              </Link>
+            }
+          >
             {getCardStatusElement(visibleCards.competencies)}
           </Descriptions.Item>
-          <Descriptions.Item label={<FormattedMessage id="education" />}>
+          <Descriptions.Item
+            label={
+              <Link to={editUrls.education}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="education" />
+              </Link>
+            }
+          >
             {getCardStatusElement(visibleCards.education)}
           </Descriptions.Item>
-          <Descriptions.Item label={<FormattedMessage id="experience" />}>
+          <Descriptions.Item
+            label={
+              <Link to={editUrls.experience}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="experience" />
+              </Link>
+            }
+          >
             {getCardStatusElement(visibleCards.experience)}
           </Descriptions.Item>
           <Descriptions.Item
-            label={<FormattedMessage id="learning.development" />}
+            label={
+              <Link to={editUrls.developmentalGoals}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="learning.development" />
+              </Link>
+            }
           >
             {getCardStatusElement(visibleCards.developmentalGoals)}
           </Descriptions.Item>
-          <Descriptions.Item label={<FormattedMessage id="qualified.pools" />}>
+          <Descriptions.Item
+            label={
+              <Link to={editUrls.qualifiedPools}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="qualified.pools" />
+              </Link>
+            }
+          >
             {getCardStatusElement(visibleCards.qualifiedPools)}
           </Descriptions.Item>
-          <Descriptions.Item label={<FormattedMessage id="career.interests" />}>
+          <Descriptions.Item
+            label={
+              <Link to={editUrls.careerInterests}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="career.interests" />
+              </Link>
+            }
+          >
             {getCardStatusElement(visibleCards.careerInterests)}
           </Descriptions.Item>
           <Descriptions.Item
-            label={<FormattedMessage id="talent.management" />}
+            label={
+              <Link to={editUrls.talentManagement}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="talent.management" />
+              </Link>
+            }
           >
             {getCardStatusElement(visibleCards.talentManagement)}
           </Descriptions.Item>
-          <Descriptions.Item label={<FormattedMessage id="ex.feeder" />}>
+          <Descriptions.Item
+            label={
+              <Link to={editUrls.exFeeder}>
+                <LinkOutlined className="mr-1" />
+                <FormattedMessage id="ex.feeder" />
+              </Link>
+            }
+          >
             {getCardStatusElement(visibleCards.exFeeder)}
           </Descriptions.Item>
         </Descriptions>
@@ -160,6 +248,7 @@ DoneSetupView.propTypes = {
   visibleCards: PropTypes.objectOf(
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,
+  editUrls: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default DoneSetupView;
