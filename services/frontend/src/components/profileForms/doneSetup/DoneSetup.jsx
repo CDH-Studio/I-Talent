@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 import DoneSetupView from "./DoneSetupView";
 import useAxios from "../../../utils/useAxios";
 import handleError from "../../../functions/handleError";
@@ -10,7 +11,7 @@ import handleError from "../../../functions/handleError";
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetup = () => {
+const DoneSetup = ({ formType }) => {
   const [profileInfo, setProfileInfo] = useState(null);
   const [load, setLoad] = useState(false);
 
@@ -66,8 +67,13 @@ const DoneSetup = () => {
       load={load}
       visibleCards={load ? profileInfo.visibleCards : null}
       editUrls={editUrls}
+      formType={formType}
     />
   );
+};
+
+DoneSetup.propTypes = {
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
 };
 
 export default DoneSetup;

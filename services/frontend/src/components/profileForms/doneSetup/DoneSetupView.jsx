@@ -4,9 +4,9 @@ import {
   SearchOutlined,
   UserOutlined,
   CheckCircleOutlined,
-  LinkOutlined,
+  EditOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router";
 import "./DoneSetupView.less";
@@ -18,8 +18,9 @@ const { Title, Paragraph } = Typography;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
+const DoneSetupView = ({ userId, load, visibleCards, editUrls, formType }) => {
   const history = useHistory();
+  const intl = useIntl();
 
   const getTag = (colour, message) => (
     <>
@@ -59,16 +60,23 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           marginTop: "15px",
         }}
       >
-        <FormattedMessage id="setup.all.done" />
+        {formType === "create" ? (
+          <FormattedMessage id="setup.all.done" />
+        ) : (
+          <FormattedMessage id="edit.save.success" />
+        )}
       </Title>
-      <Paragraph className="done-subHeading">
-        <FormattedMessage id="setup.done.description" />
-      </Paragraph>
+      {formType === "create" ? (
+        <Paragraph className="done-subHeading">
+          <FormattedMessage id="setup.done.description" />
+        </Paragraph>
+      ) : null}
       <Paragraph className="done-subHeading" strong>
         <FormattedMessage id="setup.done.action" />
       </Paragraph>
       {load ? (
         <Descriptions
+          title="Your current visibility settings (Click on any section to update)"
           column={{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
           size="small"
           bordered
@@ -76,8 +84,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
         >
           <Descriptions.Item
             label={
-              <Link to={editUrls.employmentEquityGroup}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.employmentEquityGroup}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "employment.equity.groups" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="employment.equity.groups" />
               </Link>
             }
@@ -86,8 +99,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.info}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.info}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "employment.status" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="employment.status" />
               </Link>
             }
@@ -96,8 +114,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.description}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.description}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "about.me" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="about.me" />
               </Link>
             }
@@ -106,8 +129,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.officialLanguage}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.officialLanguage}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "official.languages" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="official.languages" />
               </Link>
             }
@@ -116,8 +144,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.skills}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.skills}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "skills" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="skills" />
               </Link>
             }
@@ -126,8 +159,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.mentorshipSkills}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.mentorshipSkills}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "mentorship.skills" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="mentorship.skills" />
               </Link>
             }
@@ -136,8 +174,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.competencies}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.competencies}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "competencies" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="competencies" />
               </Link>
             }
@@ -146,8 +189,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.education}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.education}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "education" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="education" />
               </Link>
             }
@@ -156,8 +204,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.experience}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.experience}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "experience" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="experience" />
               </Link>
             }
@@ -166,8 +219,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.developmentalGoals}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.developmentalGoals}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "learning.development" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="learning.development" />
               </Link>
             }
@@ -176,8 +234,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.qualifiedPools}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.qualifiedPools}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "qualified.pools" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="qualified.pools" />
               </Link>
             }
@@ -186,8 +249,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.careerInterests}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.careerInterests}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "career.interests" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="career.interests" />
               </Link>
             }
@@ -196,8 +264,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.talentManagement}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.talentManagement}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "talent.management" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="talent.management" />
               </Link>
             }
@@ -206,8 +279,13 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls }) => {
           </Descriptions.Item>
           <Descriptions.Item
             label={
-              <Link to={editUrls.exFeeder}>
-                <LinkOutlined className="mr-1" />
+              <Link
+                to={editUrls.exFeeder}
+                aria-label={` ${intl.formatMessage({
+                  id: "edit",
+                })} ${intl.formatMessage({ id: "ex.feeder" })}`}
+              >
+                <EditOutlined className="mr-1" aria-hidden="true" />
                 <FormattedMessage id="ex.feeder" />
               </Link>
             }
@@ -249,6 +327,7 @@ DoneSetupView.propTypes = {
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,
   editUrls: PropTypes.objectOf(PropTypes.string).isRequired,
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
 };
 
 export default DoneSetupView;

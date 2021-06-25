@@ -52,7 +52,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       case "qualifications":
         return <QualificationsForm formType="edit" />;
       case "finish":
-        return <DoneSetup />;
+        return <DoneSetup formType="edit" />;
       default:
         return <Redirect to="/profile/edit/primary-info" />;
     }
