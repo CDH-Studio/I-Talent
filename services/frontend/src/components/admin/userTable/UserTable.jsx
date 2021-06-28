@@ -49,7 +49,6 @@ const UserTable = () => {
         formatCreatedAt: dayjs(user.createdAt).format("YYYY-MM-DD"),
         formatUpdatedAt: dayjs(user.updatedAt).format("YYYY-MM-DD"),
         status: user.status,
-        visibility: user.status === "HIDDEN",
         isAdmin: results[1].data.admin.includes(user.id),
         isManager: results[1].data.manager.includes(user.id),
       }));
