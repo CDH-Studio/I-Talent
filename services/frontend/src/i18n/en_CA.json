@@ -369,10 +369,10 @@
   "visibility.status.connections": "Only visible to profile owner’s circle and administrators",
   "visibility.status.private": "Only visible to profile owner and administrators",
   "visibility.status.public": "Visible to everyone",
+  "visible": "Visible",
   "welcome": "Welcome",
   "willing.to.relocate.to": "Interested in relocating to: ",
   "work.cellphone": "Work cell phone",
   "working.address": "Work address",
-  "yes": "Yes",
-  "visible": "Visible"
+  "yes": "Yes"
 }
