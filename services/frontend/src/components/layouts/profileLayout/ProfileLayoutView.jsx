@@ -422,7 +422,6 @@ const ProfileLayoutView = ({
             values={{
               helpUrl: (
                 <a
-                  className="link"
                   target="_blank"
                   rel="noopener noreferrer"
                   href={`${drupalSite}${
