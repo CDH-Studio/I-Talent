@@ -353,11 +353,11 @@ const UserTableView = ({
           : record.status === "HIDDEN" || record.status === "INACTIVE",
       render: (record) =>
         record.status === "HIDDEN" || record.status === "INACTIVE" ? (
-          <div className="icon">
+          <div className="visibility-icon">
             <EyeInvisibleOutlined />
           </div>
         ) : (
-          <div className="icon">
+          <div className="visibility-icon">
             <EyeOutlined />
           </div>
         ),
