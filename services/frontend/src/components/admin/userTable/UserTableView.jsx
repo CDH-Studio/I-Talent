@@ -354,13 +354,11 @@ const UserTableView = ({
       render: (record) =>
         record.status === "HIDDEN" || record.status === "INACTIVE" ? (
           <div className="icon">
-            <EyeInvisibleOutlined
-              style={{ fontSize: "150%", textAlign: "center" }}
-            />
+            <EyeInvisibleOutlined />
           </div>
         ) : (
           <div className="icon">
-            <EyeOutlined style={{ fontSize: "150%" }} />
+            <EyeOutlined />
           </div>
         ),
     },
