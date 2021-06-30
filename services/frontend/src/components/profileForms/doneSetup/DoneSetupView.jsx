@@ -308,7 +308,6 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls, formType }) => {
         icon={<SearchOutlined />}
         size="large"
         className="mx-3 my-2"
-        // style={{ marginRight: "25px" }}
         onClick={() => history.push(`/`)}
       >
         <span>
