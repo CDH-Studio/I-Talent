@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { useHistory } from "react-router";
 import "./DoneSetupView.less";
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 /**
  *  DoneSetup(props)
@@ -46,31 +46,35 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls, formType }) => {
 
   return (
     <div className="done-content">
-      <CheckCircleOutlined
-        style={{
-          color: "#087472",
-          fontSize: "85px",
-        }}
-      />
-      <Title
-        level={1}
-        style={{
-          color: "#001529",
-          opacity: 0.7,
-          marginTop: "15px",
-        }}
-      >
-        {formType === "create" ? (
-          <FormattedMessage id="setup.all.done" />
-        ) : (
-          <FormattedMessage id="edit.save.success" />
-        )}
-      </Title>
-      {formType === "create" ? (
-        <Paragraph className="done-subHeading">
-          <FormattedMessage id="setup.done.description" />
-        </Paragraph>
-      ) : null}
+      <div className="done-success-message">
+        <table>
+          <tbody>
+            <tr>
+              <td className="success-icon-col">
+                <CheckCircleOutlined
+                  className="success-icon"
+                  aria-hidden="true"
+                />
+              </td>
+              <td className="success-message-col">
+                <Paragraph className="success-main-message" strong>
+                  {formType === "create" ? (
+                    <FormattedMessage id="setup.all.done" />
+                  ) : (
+                    <FormattedMessage id="edit.save.success" />
+                  )}
+                </Paragraph>
+                {formType === "create" ? (
+                  <Paragraph className="success-secondary-message">
+                    <FormattedMessage id="setup.done.description" />
+                  </Paragraph>
+                ) : null}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div style={{ textAlign: "left" }}>
         <Paragraph className="done-action" strong>
           <FormattedMessage id="setup.done.action" />
@@ -303,7 +307,8 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls, formType }) => {
       <Button
         icon={<SearchOutlined />}
         size="large"
-        style={{ marginRight: "25px" }}
+        className="mx-3 my-2"
+        // style={{ marginRight: "25px" }}
         onClick={() => history.push(`/`)}
       >
         <span>
@@ -314,6 +319,7 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls, formType }) => {
         icon={<UserOutlined />}
         size="large"
         type="primary"
+        className="mx-3 my-2"
         onClick={() => history.push(`/profile/${userId}`)}
       >
         <span>
