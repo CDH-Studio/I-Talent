@@ -19,6 +19,8 @@ import {
   TeamOutlined,
   DeleteOutlined,
   DatabaseOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
 } from "@ant-design/icons";
 import dayjs from "dayjs";
 import Highlighter from "react-highlight-words";
@@ -320,14 +322,47 @@ const UserTableView = ({
           text: <FormattedMessage id="inactive" />,
           value: "INACTIVE",
         },
+      ],
+      onFilter: (value, record) =>
+        value === "ACTIVE"
+          ? record.status === value || record.status === "HIDDEN"
+          : record.status === value,
+      render: (record) =>
+        renderStatusDropdown(
+          record.key,
+          record.status === "HIDDEN" ? "ACTIVE" : record.status
+        ),
+    },
+    {
+      title: <FormattedMessage id="profile.visibility" />,
+      fixed: "right",
+      width: 150,
+      filters: [
+        {
+          text: <FormattedMessage id="visible" />,
+          value: "VISIBLE",
+        },
         {
           text: <FormattedMessage id="flagged" />,
           value: "HIDDEN",
         },
       ],
-      onFilter: (value, record) => record.status === value,
-      render: (record) => renderStatusDropdown(record.key, record.status),
+      onFilter: (value, record) =>
+        value === "VISIBLE"
+          ? record.status === "ACTIVE"
+          : record.status === "HIDDEN" || record.status === "INACTIVE",
+      render: (record) =>
+        record.status === "HIDDEN" || record.status === "INACTIVE" ? (
+          <div className="visibility-icon">
+            <EyeInvisibleOutlined />
+          </div>
+        ) : (
+          <div className="visibility-icon">
+            <EyeOutlined />
+          </div>
+        ),
     },
+
     {
       title: <FormattedMessage id="delete" />,
       fixed: "right",
