@@ -408,7 +408,7 @@ const PrimaryInfoFormView = ({
           </Row>
           {/* Form Row Two */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="jobTitle"
                 label={
@@ -441,7 +441,7 @@ const PrimaryInfoFormView = ({
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="email"
                 label={<FormattedMessage id="email" />}
@@ -450,42 +450,24 @@ const PrimaryInfoFormView = ({
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-              <Form.Item
-                name="pri"
-                label={
-                  <>
-                    <FormattedMessage id="pri" />
-                    <div className="prim-popoverStyleCareer">
-                      <Popover
-                        trigger={["focus", "click"]}
-                        content={
-                          <div className="prim-popoverStyle">
-                            <FormattedMessage id="pri.private" />
-                          </div>
-                        }
-                        id="pri-popover"
-                      >
-                        <InfoCircleOutlined
-                          tabIndex={0}
-                          aria-label={intl.formatMessage({
-                            id: "pri.popover.arialabel",
-                          })}
-                          aria-describedby="pri-popover"
-                        />
-                      </Popover>
-                    </div>
-                  </>
-                }
-                rules={[Rules.required, Rules.priFormat]}
-              >
-                <Input aria-required="true" />
-              </Form.Item>
-            </Col>
           </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="pri"
+                extra={
+                  <div className="prim-popoverStyle" id="pri-extra-info">
+                    <FormattedMessage id="pri.private" />
+                  </div>
+                }
+                label={<FormattedMessage id="pri" />}
+                rules={[Rules.required, Rules.priFormat]}
+              >
+                <Input aria-describedby="pri-extra-info" aria-required="true" />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="locationId"
                 label={<FormattedMessage id="location" />}
@@ -507,7 +489,10 @@ const PrimaryInfoFormView = ({
                 </Select>
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+          </Row>
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="telephone"
                 label={<FormattedMessage id="profile.telephone" />}
@@ -516,7 +501,7 @@ const PrimaryInfoFormView = ({
                 <Input />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="cellphone"
                 label={<FormattedMessage id="work.cellphone" />}
