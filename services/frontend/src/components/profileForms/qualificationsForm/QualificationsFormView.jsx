@@ -42,7 +42,6 @@ const QualificationsFormView = ({
   currentTab,
   load,
   history,
-  userId,
   options,
   saveDataToDB,
 }) => {
@@ -250,7 +249,7 @@ const QualificationsFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/profile/${userId}`);
+    history.push(`/profile/edit/finish`);
   };
 
   /*
@@ -522,7 +521,6 @@ QualificationsFormView.propTypes = {
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
   options: PropTypes.shape({
     diplomas: KeyTitleOptionsPropType,
     schools: KeyTitleOptionsPropType,

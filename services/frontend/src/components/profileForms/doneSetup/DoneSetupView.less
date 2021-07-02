@@ -1,10 +1,74 @@
 .done {
+  &-success-message {
+    width: 80%;
+    margin: 0 auto 40px auto;
+    padding: 30px;
+    background-color: @primary-color;
+    border-radius: 1rem;
+    color: white !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  }
+
   &-content {
     text-align: center !important;
     width: 100%;
-    padding: 80px 10px !important;
+    padding: 70px 10px !important;
+
+    table {
+      width: 100%;
+    }
+
+    .success-icon-col {
+      width: 15%;
+      text-align: left;
+    }
+
+    .success-message-col {
+      width: 85%;
+      text-align: left;
+    }
+
+    @media (max-width: 768px) {
+      .done-success-message {
+        width: 90%;
+      }
+
+      .success-icon-col {
+        display: block;
+        width: 100%;
+        text-align: center;
+      }
+
+      .success-message-col {
+        display: block;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .success-icon {
+      color: #fff;
+      font-size: 65px;
+    }
+
+    .success-main-message {
+      color: #fff;
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .success-secondary-message {
+      color: #fff;
+      font-size: 1.2rem;
+      margin: 0;
+    }
   }
   &-subHeading {
-    font-size: 1.3em;
+    font-size: 1.3rem;
+  }
+
+  &-action {
+    font-size: 1.1rem;
+    margin-left: 10%;
   }
 }

@@ -48,7 +48,6 @@ const LangProficiencyFormView = ({
   profileInfo,
   intl,
   history,
-  userId,
   saveDataToDB,
 }) => {
   const [form] = Form.useForm();
@@ -203,7 +202,7 @@ const LangProficiencyFormView = ({
    * redirect to profile
    */
   const onFinish = () => {
-    history.push(`/profile/${userId}`);
+    history.push(`/profile/edit/finish`);
   };
 
   /*
@@ -467,7 +466,6 @@ LangProficiencyFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
   saveDataToDB: PropTypes.func.isRequired,
 };
 
