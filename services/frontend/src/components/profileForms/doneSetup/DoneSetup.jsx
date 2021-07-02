@@ -20,23 +20,78 @@ const DoneSetup = ({ formType }) => {
   const axios = useAxios();
   const history = useHistory();
 
-  const editUrls = {
-    employmentEquityGroup: "/profile/edit/primary-info",
-    info: "/profile/edit/employment",
-    description: "/profile/edit/employment",
-    officialLanguage: "/profile/edit/language-proficiency",
-    skills: "/profile/edit/talent?tab=skills",
-    mentorshipSkills: "/profile/edit/talent?tab=mentorship",
-    competencies: "/profile/edit/talent?tab=competencies",
-    education: "/profile/edit/qualifications?tab=education",
-    experience: "/profile/edit/qualifications?tab=experience",
-    developmentalGoals:
-      "/profile/edit/career-management?tab=learning-development",
-    qualifiedPools: "/profile/edit/career-management?tab=qualified-pools",
-    careerInterests: "/profile/edit/career-management?tab=career-interests",
-    talentManagement: "/profile/edit/career-management?tab=talent-management",
-    exFeeder: "/profile/edit/career-management?tab=ex-feeder",
-  };
+  const visibilityItems = [
+    {
+      label: "employment.equity.groups",
+      url: "/profile/edit/primary-info",
+      visibility: load ? profileInfo.visibleCards.employmentEquityGroup : null,
+    },
+    {
+      label: "employment.status",
+      url: "/profile/edit/employment",
+      visibility: load ? profileInfo.visibleCards.info : null,
+    },
+    {
+      label: "about.me",
+      url: "/profile/edit/employment",
+      visibility: load ? profileInfo.visibleCards.description : null,
+    },
+    {
+      label: "official.languages",
+      url: "/profile/edit/language-proficiency",
+      visibility: load ? profileInfo.visibleCards.officialLanguage : null,
+    },
+    {
+      label: "skills",
+      url: "/profile/edit/talent?tab=skills",
+      visibility: load ? profileInfo.visibleCards.skills : null,
+    },
+    {
+      label: "mentorship.skills",
+      url: "/profile/edit/talent?tab=mentorship",
+      visibility: load ? profileInfo.visibleCards.mentorshipSkills : null,
+    },
+    {
+      label: "competencies",
+      url: "/profile/edit/talent?tab=competencies",
+      visibility: load ? profileInfo.visibleCards.competencies : null,
+    },
+    {
+      label: "education",
+      url: "/profile/edit/qualifications?tab=education",
+      visibility: load ? profileInfo.visibleCards.education : null,
+    },
+    {
+      label: "experience",
+      url: "/profile/edit/qualifications?tab=experience",
+      visibility: load ? profileInfo.visibleCards.experience : null,
+    },
+    {
+      label: "learning.development",
+      url: "/profile/edit/career-management?tab=learning-development",
+      visibility: load ? profileInfo.visibleCards.developmentalGoals : null,
+    },
+    {
+      label: "qualified.pools",
+      url: "/profile/edit/career-management?tab=qualified-pools",
+      visibility: load ? profileInfo.visibleCards.qualifiedPools : null,
+    },
+    {
+      label: "career.interests",
+      url: "/profile/edit/career-management?tab=career-interests",
+      visibility: load ? profileInfo.visibleCards.careerInterests : null,
+    },
+    {
+      label: "talent.management",
+      url: "/profile/edit/career-management?tab=talent-management",
+      visibility: load ? profileInfo.visibleCards.talentManagement : null,
+    },
+    {
+      label: "ex.feeder",
+      url: "/profile/edit/career-management?tab=ex-feeder",
+      visibility: load ? profileInfo.visibleCards.exFeeder : null,
+    },
+  ];
 
   /**
    * Get user profile
@@ -65,8 +120,7 @@ const DoneSetup = ({ formType }) => {
     <DoneSetupView
       userId={id}
       load={load}
-      visibleCards={load ? profileInfo.visibleCards : null}
-      editUrls={editUrls}
+      visibilityItems={visibilityItems}
       formType={formType}
     />
   );

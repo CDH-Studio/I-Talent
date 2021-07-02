@@ -18,7 +18,7 @@ const { Paragraph } = Typography;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetupView = ({ userId, load, visibleCards, editUrls, formType }) => {
+const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
   const history = useHistory();
   const intl = useIntl();
 
@@ -87,218 +87,25 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls, formType }) => {
             bordered
             style={{ width: "80%", margin: "auto", marginBottom: "2rem" }}
           >
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.employmentEquityGroup}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({
-                    id: "employment.equity.groups",
-                  })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="employment.equity.groups" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.employmentEquityGroup)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.info}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "employment.status" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="employment.status" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.info)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.description}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "about.me" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="about.me" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.description)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.officialLanguage}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "official.languages" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="official.languages" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.officialLanguage)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.skills}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "skills" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="skills" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.skills)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.mentorshipSkills}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "mentorship.skills" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="mentorship.skills" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.mentorshipSkills)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.competencies}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "competencies" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="competencies" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.competencies)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.education}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "education" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="education" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.education)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.experience}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "experience" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="experience" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.experience)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.developmentalGoals}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "learning.development" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="learning.development" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.developmentalGoals)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.qualifiedPools}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "qualified.pools" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="qualified.pools" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.qualifiedPools)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.careerInterests}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "career.interests" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="career.interests" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.careerInterests)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.talentManagement}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "talent.management" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="talent.management" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.talentManagement)}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Link
-                  to={editUrls.exFeeder}
-                  aria-label={` ${intl.formatMessage({
-                    id: "edit",
-                  })} ${intl.formatMessage({ id: "ex.feeder" })}`}
-                >
-                  <EditOutlined className="mr-1" aria-hidden="true" />
-                  <FormattedMessage id="ex.feeder" />
-                </Link>
-              }
-            >
-              {getCardStatusElement(visibleCards.exFeeder)}
-            </Descriptions.Item>
+            {visibilityItems.map((item) => (
+              <Descriptions.Item
+                label={
+                  <Link
+                    to={item.url}
+                    aria-label={` ${intl.formatMessage({
+                      id: "edit",
+                    })} ${intl.formatMessage({
+                      id: item.label,
+                    })}`}
+                  >
+                    <EditOutlined className="mr-1" aria-hidden="true" />
+                    <FormattedMessage id={item.label} />
+                  </Link>
+                }
+              >
+                {getCardStatusElement(item.visibility)}
+              </Descriptions.Item>
+            ))}
           </Descriptions>
         ) : (
           <Skeleton />
@@ -332,10 +139,7 @@ const DoneSetupView = ({ userId, load, visibleCards, editUrls, formType }) => {
 DoneSetupView.propTypes = {
   userId: PropTypes.string.isRequired,
   load: PropTypes.bool.isRequired,
-  visibleCards: PropTypes.objectOf(
-    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
-  ).isRequired,
-  editUrls: PropTypes.objectOf(PropTypes.string).isRequired,
+  visibilityItems: PropTypes.objectOf(PropTypes.object).isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
 };
 
