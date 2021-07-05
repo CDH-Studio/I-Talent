@@ -326,6 +326,13 @@ const PrimaryInfoFormView = ({
     checkIfFormValuesChanged();
   };
 
+  /**
+   * Generate address label
+   * @param {Object} address - Data from primary info form.
+   */
+  const generateAddressOptions = (address) =>
+    `${address.streetNumber} ${address.streetName}, ${address.city}, ${address.province}`;
+
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -481,9 +488,11 @@ const PrimaryInfoFormView = ({
                   aria-required="true"
                 >
                   {locationOptions.map((value) => (
-                    <Option key={value.id}>
-                      {value.streetNumber} {value.streetName}, {value.city},{" "}
-                      {value.province}
+                    <Option
+                      key={value.id}
+                      aria-label={generateAddressOptions(value)}
+                    >
+                      {generateAddressOptions(value)}
                     </Option>
                   ))}
                 </Select>
@@ -623,7 +632,9 @@ const PrimaryInfoFormView = ({
                   })}
                 >
                   {employmentEquityOptions.map(({ key, text }) => (
-                    <Option key={key}>{text}</Option>
+                    <Option key={key} aria-label={text}>
+                      {text}
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>
