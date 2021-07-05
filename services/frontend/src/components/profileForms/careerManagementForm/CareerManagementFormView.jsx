@@ -297,6 +297,7 @@ const CareerManagementFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });

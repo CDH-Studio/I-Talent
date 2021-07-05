@@ -242,6 +242,7 @@ const QualificationsFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
