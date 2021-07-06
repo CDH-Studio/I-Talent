@@ -226,11 +226,12 @@ const TalentFormView = ({
     return (
       <div>
         <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-        <ul>
-          {messages.map((value) => (
-            <li key={value}>{value}</li>
-          ))}
-        </ul>
+        {messages.map((value) => (
+          <p style={{ marginBottom: 0, marginLeft: "0.5em" }}>
+            {"- "}
+            {value}
+          </p>
+        ))}
       </div>
     );
   };

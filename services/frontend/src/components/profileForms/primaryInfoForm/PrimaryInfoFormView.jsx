@@ -100,8 +100,7 @@ const PrimaryInfoFormView = ({
       message: <FormattedMessage id="rules.email" />,
     },
     nameFormat: {
-      pattern:
-        /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+(-|\s)[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
+      pattern: /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+(-|\s)[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
       message: <FormattedMessage id="rules.name" />,
     },
     priFormat: {
@@ -200,11 +199,10 @@ const PrimaryInfoFormView = ({
   const getErrorMessages = () => (
     <div>
       <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-      <ul>
-        <li key="1">
-          {intl.formatMessage({ id: "primary.contact.information" })}
-        </li>
-      </ul>
+      <p>
+        {"- "}
+        {intl.formatMessage({ id: "primary.contact.information" })}
+      </p>
     </div>
   );
 
