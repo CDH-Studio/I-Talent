@@ -548,13 +548,10 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="gcconnex.username" />}
                 rules={[Rules.maxChar100]}
               >
-                {/* accessibility related description for input */}
-                <span id="gcconnex-field-info" style={{ display: "none" }}>
-                  <FormattedMessage id="gcconnex.username" />
-                  https://gcconnex.gc.ca/profile/
-                </span>
                 <Input
-                  aria-describedby="gcconnex-field-info"
+                  aria-label={`${intl.formatMessage({
+                    id: "gcconnex.username",
+                  })} https://gcconnex.gc.ca/profile/`}
                   addonBefore="https://gcconnex.gc.ca/profile/"
                   placeholder={intl.formatMessage({ id: "username" })}
                 />
@@ -566,12 +563,10 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="linkedin.username" />}
                 rules={[Rules.maxChar100]}
               >
-                {/* accessibility related description for input */}
-                <span id="linkedin-field-info" style={{ display: "none" }}>
-                  <FormattedMessage id="linkedin.username" />
-                  https://linkedin.com/in/
-                </span>
                 <Input
+                  aria-label={`${intl.formatMessage({
+                    id: "linkedin.username",
+                  })} https://linkedin.com/in/`}
                   addonBefore="https://linkedin.com/in/"
                   aria-describedby="linkedin-field-info"
                   placeholder={intl.formatMessage({ id: "username" })}
@@ -584,12 +579,10 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="github.username" />}
                 rules={[Rules.maxChar100]}
               >
-                {/* accessibility related description for input */}
-                <span id="github-field-info" style={{ display: "none" }}>
-                  <FormattedMessage id="github.username" />
-                  https://github.com/
-                </span>
                 <Input
+                  aria-label={`${intl.formatMessage({
+                    id: "github.username",
+                  })} https://github.com/`}
                   addonBefore="https://github.com/"
                   aria-describedby="github-field-info"
                   placeholder={intl.formatMessage({ id: "username" })}
