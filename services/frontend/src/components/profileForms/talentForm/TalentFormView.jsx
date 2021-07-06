@@ -508,7 +508,7 @@ const TalentFormView = ({
                   treeData={selectedSkills}
                   treeCheckable
                   showCheckedStrategy={SHOW_CHILD}
-                  placeholder={<FormattedMessage id="search" />}
+                  placeholder={<FormattedMessage id="type.to.search" />}
                   treeNodeFilterProp="title"
                   showSearch
                   maxTagCount={15}
@@ -643,7 +643,7 @@ const TalentFormView = ({
                       onChange={onChangeSkills}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="search" />}
+                      placeholder={<FormattedMessage id="type.to.search" />}
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -751,12 +751,14 @@ const TalentFormView = ({
                     <Select
                       className="custom-bubble-select-style"
                       mode="multiple"
-                      placeholder={<FormattedMessage id="search" />}
+                      placeholder={<FormattedMessage id="type.to.search" />}
                       style={{ width: "100%" }}
                       filterOption={filterOption}
                     >
                       {competencyOptions.map((value) => (
-                        <Option key={value.id}>{value.name}</Option>
+                        <Option key={value.id} aria-label={value.name}>
+                          {value.name}
+                        </Option>
                       ))}
                     </Select>
                   </Form.Item>

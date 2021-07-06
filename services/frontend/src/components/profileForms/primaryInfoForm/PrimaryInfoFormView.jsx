@@ -482,7 +482,7 @@ const PrimaryInfoFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="search" />}
+                  placeholder={<FormattedMessage id="type.to.search" />}
                   allowClear
                   filterOption={filterOption}
                   aria-required="true"
@@ -531,6 +531,7 @@ const PrimaryInfoFormView = ({
                 <Select
                   mode="tags"
                   style={{ width: "100%" }}
+                  placeholder={<FormattedMessage id="press.enter.to.add" />}
                   notFoundContent={<FormattedMessage id="press.enter.to.add" />}
                 />
               </Form.Item>
@@ -621,11 +622,9 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" span={24}>
               <Form.Item name="employmentEquityGroups">
                 <Select
-                  showSearch
                   mode="multiple"
-                  placeholder={<FormattedMessage id="search" />}
+                  placeholder={<FormattedMessage id="select" />}
                   allowClear
-                  filterOption={filterOption}
                   className="custom-bubble-select-style"
                   aria-label={intl.formatMessage({
                     id: "employment.equity.groups",

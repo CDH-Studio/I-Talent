@@ -303,18 +303,21 @@ const EmploymentDataFormView = ({
     if (expandMentorshipForm) {
       return (
         <Form.Item
+          className="mt-2"
           name="actingLevelId"
           label={<FormattedMessage id="acting" />}
           rules={[Rules.required]}
         >
           <Select
             showSearch
-            placeholder={<FormattedMessage id="search" />}
+            placeholder={<FormattedMessage id="type.to.search" />}
             allowClear
             filterOption={filterOption}
           >
             {classificationOptions.map((value) => (
-              <Option key={value.id}>{value.name}</Option>
+              <Option key={value.id} aria-label={value.name}>
+                {value.name}
+              </Option>
             ))}
           </Select>
         </Form.Item>
@@ -398,13 +401,13 @@ const EmploymentDataFormView = ({
                 label={<FormattedMessage id="profile.substantive" />}
               >
                 <Select
-                  showSearch
-                  placeholder={<FormattedMessage id="search" />}
+                  placeholder={<FormattedMessage id="select" />}
                   allowClear
-                  filterOption={filterOption}
                 >
                   {substantiveOptions.map((value) => (
-                    <Option key={value.id}>{value.name}</Option>
+                    <Option key={value.id} aria-label={value.name}>
+                      {value.name}
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -417,12 +420,14 @@ const EmploymentDataFormView = ({
               >
                 <Select
                   showSearch
-                  placeholder={<FormattedMessage id="search" />}
+                  placeholder={<FormattedMessage id="type.to.search" />}
                   allowClear
                   filterOption={filterOption}
                 >
                   {classificationOptions.map((value) => (
-                    <Option key={value.id}>{value.name}</Option>
+                    <Option key={value.id} aria-label={value.name}>
+                      {value.name}
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>
@@ -436,13 +441,13 @@ const EmploymentDataFormView = ({
                 label={<FormattedMessage id="profile.security" />}
               >
                 <Select
-                  showSearch
-                  placeholder={<FormattedMessage id="search" />}
+                  placeholder={<FormattedMessage id="select" />}
                   allowClear
-                  filterOption={filterOption}
                 >
                   {securityOptions.map((value) => (
-                    <Option key={value.id}>{value.description}</Option>
+                    <Option key={value.id} aria-label={value.description}>
+                      {value.description}
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>

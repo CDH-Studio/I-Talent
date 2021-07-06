@@ -26,7 +26,6 @@ import {
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import "./LangProficiencyFormView.less";
@@ -277,14 +276,11 @@ const LangProficiencyFormView = ({
           rules={[Rules.required]}
           aria-required="true"
         >
-          <Select
-            showSearch
-            placeholder={<FormattedMessage id="search" />}
-            allowClear
-            filterOption={filterOption}
-          >
+          <Select placeholder={<FormattedMessage id="select" />} allowClear>
             {proficiencyOptions.map((value) => (
-              <Option key={value.key}>{value.text}</Option>
+              <Option key={value.key} aria-label={value.text}>
+                {value.text}
+              </Option>
             ))}
           </Select>
         </Form.Item>
@@ -296,14 +292,11 @@ const LangProficiencyFormView = ({
           rules={[Rules.required]}
           aria-required="true"
         >
-          <Select
-            showSearch
-            placeholder={<FormattedMessage id="search" />}
-            allowClear
-            filterOption={filterOption}
-          >
+          <Select placeholder={<FormattedMessage id="select" />} allowClear>
             {statusOptions.map((value) => (
-              <Option key={value.key}>{value.text}</Option>
+              <Option key={value.key} aria-label={value.text}>
+                {value.text}
+              </Option>
             ))}
           </Select>
         </Form.Item>
@@ -411,13 +404,13 @@ const LangProficiencyFormView = ({
                 label={<FormattedMessage id="first.official.language" />}
               >
                 <Select
-                  showSearch
-                  placeholder={<FormattedMessage id="search" />}
+                  placeholder={<FormattedMessage id="select" />}
                   allowClear
-                  filterOption={filterOption}
                 >
                   {languageOptions.map((value) => (
-                    <Option key={value.key}>{value.text}</Option>
+                    <Option key={value.key} aria-label={value.text}>
+                      {value.text}
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>

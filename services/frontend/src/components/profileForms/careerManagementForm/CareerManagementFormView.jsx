@@ -474,7 +474,7 @@ const CareerManagementFormView = ({
                       treeData={developmentalGoalOptions}
                       treeCheckable
                       showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="search" />}
+                      placeholder={<FormattedMessage id="type.to.search" />}
                       treeNodeFilterProp="title"
                       showSearch
                       maxTagCount={15}
@@ -614,13 +614,11 @@ const CareerManagementFormView = ({
                     label={<FormattedMessage id="edit.interested.in.remote" />}
                   >
                     <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
+                      placeholder={<FormattedMessage id="select" />}
                       allowClear
-                      filterOption={filterOption}
                     >
                       {interestedInRemoteOptions.map(({ key, value, text }) => (
-                        <Option key={key} value={value}>
+                        <Option key={key} value={value} aria-label={text}>
                           {text}
                         </Option>
                       ))}
@@ -640,14 +638,17 @@ const CareerManagementFormView = ({
                     }
                   >
                     <Select
+                      showSearch
+                      allowClear
                       mode="multiple"
                       style={{ width: "100%" }}
-                      placeholder={<FormattedMessage id="search" />}
+                      placeholder={<FormattedMessage id="type.to.search" />}
                       filterOption={filterOption}
                     >
                       {relocationOptions.map((value) => (
                         <Option
                           key={value.id}
+                          aria-label={`${value.city}, ${value.province}`}
                         >{`${value.city}, ${value.province}`}</Option>
                       ))}
                     </Select>
@@ -663,13 +664,13 @@ const CareerManagementFormView = ({
                     label={<FormattedMessage id="edit.looking.for.new.job" />}
                   >
                     <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
+                      placeholder={<FormattedMessage id="select" />}
                       allowClear
-                      filterOption={filterOption}
                     >
                       {lookingForNewJobOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
+                        <Option key={value.id} aria-label={value.description}>
+                          {value.description}
+                        </Option>
                       ))}
                     </Select>
                   </Form.Item>
@@ -726,12 +727,14 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="search" />}
+                      placeholder={<FormattedMessage id="type.to.search" />}
                       allowClear
                       filterOption={filterOption}
                     >
                       {careerMobilityOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
+                        <Option key={value.id} aria-label={value.description}>
+                          {value.description}
+                        </Option>
                       ))}
                     </Select>
                   </Form.Item>
@@ -747,12 +750,14 @@ const CareerManagementFormView = ({
                   >
                     <Select
                       showSearch
-                      placeholder={<FormattedMessage id="search" />}
+                      placeholder={<FormattedMessage id="type.to.search" />}
                       allowClear
                       filterOption={filterOption}
                     >
                       {talentMatrixResultOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
+                        <Option key={value.id} aria-label={value.description}>
+                          {value.description}
+                        </Option>
                       ))}
                     </Select>
                   </Form.Item>
