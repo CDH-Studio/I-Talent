@@ -183,7 +183,8 @@ const EmploymentDataFormView = ({
       <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
       <p>
         {"- "}
-        {intl.formatMessage({ id: "employment.data" })}
+        {intl.formatMessage({ id: "employment.data" })}{" "}
+        {intl.formatMessage({ id: "form" })}
       </p>
     </div>
   );

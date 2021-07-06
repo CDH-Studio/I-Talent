@@ -202,7 +202,8 @@ const PrimaryInfoFormView = ({
       <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
       <p>
         {"- "}
-        {intl.formatMessage({ id: "primary.contact.information" })}
+        {intl.formatMessage({ id: "primary.contact.information" })}{" "}
+        {intl.formatMessage({ id: "form" })}
       </p>
     </div>
   );

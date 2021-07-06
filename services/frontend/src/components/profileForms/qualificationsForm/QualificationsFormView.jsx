@@ -172,7 +172,7 @@ const QualificationsFormView = ({
         {messages.map((value) => (
           <p style={{ marginBottom: 0, marginLeft: "0.5em" }}>
             {"- "}
-            {value}
+            {value} {intl.formatMessage({ id: "form" })}
           </p>
         ))}
       </div>

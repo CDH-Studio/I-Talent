@@ -192,7 +192,8 @@ const LangProficiencyFormView = ({
       <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
       <p>
         {"- "}
-        {intl.formatMessage({ id: "official.languages" })}
+        {intl.formatMessage({ id: "official.languages" })}{" "}
+        {intl.formatMessage({ id: "form" })}
       </p>
     </div>
   );
