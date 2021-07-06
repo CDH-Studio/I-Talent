@@ -320,7 +320,7 @@ module.exports = [
         startDate: moment().subtract(20, "years").toISOString(),
         endDate: moment().subtract(16, "years").toISOString(),
         diploma: "Bachelor of Science (Honours)",
-        school: "Ottawa, University of",
+        school: "University of Ottawa",
       },
     ],
     relocationLocations: [],

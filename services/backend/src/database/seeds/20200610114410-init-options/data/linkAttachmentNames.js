@@ -21,11 +21,6 @@ module.exports = [
     type: "Exp",
   },
   {
-    en: "Reference letter",
-    fr: "Lettre de recommandation",
-    type: "Exp",
-  },
-  {
     en: "Work Sample",
     fr: "Échantillon de travail",
     type: "Exp",
