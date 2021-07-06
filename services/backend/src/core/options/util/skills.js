@@ -22,16 +22,7 @@ async function getSkills(request, response) {
     },
   });
 
-  const skills = _.sortBy(
-    skillsQuery.map((i) => ({
-      id: i.opSkill.id,
-      name: i.name,
-      categoryId: i.opSkill.categoryId,
-    })),
-    "name"
-  );
-
-  response.status(200).json(skills);
+  response.status(200).json(skillsQuery);
 }
 
 async function getSkillsAllLang(_request, response) {

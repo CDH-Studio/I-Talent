@@ -67,11 +67,11 @@ const TalentForm = ({ formType }) => {
       const children = [];
 
       skillsResults.data.forEach((skill) => {
-        if (skill.categoryId === category.id) {
+        if (skill.opSkill.categoryId === category.id) {
           children.push({
             title: `${category.name}: ${skill.name}`,
-            value: skill.id,
-            key: skill.id,
+            value: skill.opSkill.id,
+            key: skill.opSkill.id,
           });
         }
       });
