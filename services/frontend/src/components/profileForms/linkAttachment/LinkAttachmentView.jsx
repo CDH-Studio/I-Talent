@@ -29,13 +29,19 @@ const LinkAttachmentView = ({
   nameOptions,
   intl,
 }) => (
-  <Row span={24} gutter={12}>
+  <Row
+    span={24}
+    gutter={12}
+    className="my-2 px-2 rounded"
+    style={{ backgroundColor: "red" }}
+  >
     <Col className="gutter-row" span={5}>
       <Form.Item
         rules={[Rules.required]}
         className="formItem"
         name={[fieldElement.name, "nameId"]}
         fieldKey={[fieldElement.fieldKey, "nameId"]}
+        label="Nickname"
       >
         <Select
           optionFilterProp="children"
@@ -53,6 +59,7 @@ const LinkAttachmentView = ({
         fieldKey={[fieldElement.fieldKey, "url"]}
         className="formItem"
         rules={[Rules.required, Rules.url]}
+        label="Nickname"
       >
         <Input
           placeholder={intl.formatMessage({
@@ -72,7 +79,7 @@ const LinkAttachmentView = ({
               removeElement(fieldElement.name);
             }}
             size="small"
-            className="deleteButton"
+            className="deleteButton mt-4"
           />
         </Tooltip>
       </Form.Item>
