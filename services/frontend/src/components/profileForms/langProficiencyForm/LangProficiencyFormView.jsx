@@ -190,9 +190,11 @@ const LangProficiencyFormView = ({
   const getAllValidationErrorMessages = () => (
     <div>
       <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-      <ul>
-        <li key="1">{intl.formatMessage({ id: "official.languages" })}</li>
-      </ul>
+      <p>
+        {"- "}
+        {intl.formatMessage({ id: "official.languages" })}{" "}
+        {intl.formatMessage({ id: "form" })}
+      </p>
     </div>
   );
 
