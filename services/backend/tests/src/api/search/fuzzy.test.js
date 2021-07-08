@@ -48,14 +48,14 @@ describe(`GET ${path}`, () => {
     describe("when doing a normal query", () => {
       afterEach(() => {
         prisma.user.findMany.mockReset();
-        prisma.user.findOne.mockReset();
+        prisma.user.findUnique.mockReset();
       });
 
       test("should return results for search term 'a' - 200", async () => {
         let _testData = JSON.parse(JSON.stringify(testData));
 
         prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-        prisma.user.findOne
+        prisma.user.findUnique
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -77,7 +77,7 @@ describe(`GET ${path}`, () => {
         let _testData = JSON.parse(JSON.stringify(testData));
 
         prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-        prisma.user.findOne
+        prisma.user.findUnique
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -99,7 +99,7 @@ describe(`GET ${path}`, () => {
         let _testData = JSON.parse(JSON.stringify(testData));
 
         prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-        prisma.user.findOne
+        prisma.user.findUnique
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -121,7 +121,7 @@ describe(`GET ${path}`, () => {
         let _testData = JSON.parse(JSON.stringify(testData));
 
         prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-        prisma.user.findOne
+        prisma.user.findUnique
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
@@ -143,7 +143,7 @@ describe(`GET ${path}`, () => {
         let _testData = JSON.parse(JSON.stringify(testData));
 
         prisma.user.findMany.mockResolvedValue(_testData.allProfiles);
-        prisma.user.findOne
+        prisma.user.findUnique
           .mockResolvedValueOnce(_testData.allProfilesInfo[0])
           .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 

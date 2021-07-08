@@ -3,6 +3,7 @@ const faker = require("faker");
 const KeycloakMock = require("keycloak-mock");
 const config = require("../../src/config");
 const keycloakUtils = require("../../src/utils/keycloak");
+const { mockDeep } = require("jest-mock-extended");
 
 const userId = faker.datatype.uuid();
 
@@ -36,7 +37,7 @@ const getBearerToken = (roles) => {
 };
 
 const prismaMock = () => {
-  jest.mock("../../src/database");
+  jest.mock("../../src/database", () => mockDeep());
 };
 
 const axiosMock = () => {

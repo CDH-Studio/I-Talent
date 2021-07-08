@@ -26,7 +26,7 @@ async function seedData() {
 async function seed() {
   const folderName = path.dirname(__filename).split(path.sep).pop();
 
-  const dbSeed = await prisma.dbSeed.findOne({
+  const dbSeed = await prisma.dbSeed.findUnique({
     where: { id: folderName },
   });
 

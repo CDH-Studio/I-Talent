@@ -107,7 +107,7 @@ async function updateSchool(request, response) {
   const { id, abbrCountry, abbrProvince, en, fr } = request.body;
 
   const savedTranslations = await prisma.opSchool
-    .findOne({
+    .findUnique({
       where: {
         id,
       },

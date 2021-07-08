@@ -7,7 +7,7 @@ const prisma = require("../../../database");
  * @param {"ENGLISH" | "FRENCH"} language Language to fetch the profile information
  */
 async function getFullProfile(id, language) {
-  return prisma.user.findOne({
+  return prisma.user.findUnique({
     where: { id },
     select: {
       id: true,

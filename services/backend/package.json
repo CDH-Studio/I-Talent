@@ -8,11 +8,12 @@
     "start": "node src/server.js",
     "dev": "npx concurrently \"nodemon -e yml,js,json src/server.js\" \"yarn -s studio\"",
     "generate": "cd src/database && prisma generate",
-    "migrate": "cd src/database && prisma migrate up --experimental -c",
-    "migrate:create": "cd src/database && prisma migrate save --experimental",
-    "docker:dev": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s dev",
-    "docker:prod": "yarn -s generate && yarn -s migrate && yarn -s seed && yarn -s start",
-    "lint": "./node_modules/.bin/eslint  --cache src ",
+    "migrate:dev": "cd src/database && prisma migrate dev",
+    "migrate:prod": "cd src/database && prisma migrate deploy",
+    "migrate:create": "cd src/database && prisma migrate save",
+    "docker:dev": "yarn -s generate && yarn -s migrate:dev && yarn -s seed && yarn -s dev",
+    "docker:prod": "yarn -s generate && yarn -s migrate:prod && yarn -s seed && yarn -s start",
+    "lint": "./node_modules/.bin/eslint src --cache src ",
     "format:write": "prettier --write .",
     "format:check": "prettier --check .",
     "seed": "node src/database/seeds",
@@ -21,7 +22,7 @@
     "snyk-protect": "snyk protect"
   },
   "dependencies": {
-    "@prisma/client": "2.11.0",
+    "@prisma/client": "^2.25.0",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
     "concurrently": "^6.2.0",
@@ -35,6 +36,7 @@
     "express-validator": "^6.12.0",
     "fuse.js": "^6.4.4",
     "helmet": "^4.6.0",
+    "jest-mock-extended": "^1.0.16",
     "keycloak-connect": "13.0.1",
     "lodash": "^4.17.21",
     "moment": "2.29.1",
@@ -46,7 +48,6 @@
     "validator": "^13.6.0"
   },
   "devDependencies": {
-    "@prisma/cli": "2.11.0",
     "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -59,6 +60,7 @@
     "mockdate": "^3.0.5",
     "nodemon": "^2.0.7",
     "prettier": "^2.3.0",
+    "prisma": "^2.25.0",
     "redis-mock": "^0.56.3",
     "supertest": "^6.1.3"
   },

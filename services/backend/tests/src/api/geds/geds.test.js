@@ -77,7 +77,7 @@ describe(`GET ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        prisma.user.findOne.mockResolvedValue(prismaUserData);
+        prisma.user.findUnique.mockResolvedValue(prismaUserData);
         axios.mockResolvedValue({ data: axiosData });
         prisma.opOfficeLocation.findMany.mockResolvedValue(prismaLocationData);
 
@@ -87,7 +87,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.user.findOne.mockReset();
+        prisma.user.findUnique.mockReset();
         axios.mockReset();
         prisma.opOfficeLocation.findMany.mockReset();
       });
@@ -98,7 +98,7 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.user.findOne).toHaveBeenCalledWith({
+        expect(prisma.user.findUnique).toHaveBeenCalledWith({
           where: { id: userId },
           select: { email: true },
         });
@@ -169,7 +169,7 @@ describe(`GET ${path}`, () => {
 
     test("should trigger error if user does not exist in db - 500", async () => {
       axios.mockResolvedValue({ data: [] });
-      prisma.user.findOne.mockResolvedValue(undefined);
+      prisma.user.findUnique.mockResolvedValue(undefined);
 
       const res = await request(app)
         .get(`${path}?email=${faker.internet.email()}`)
@@ -178,16 +178,16 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(prisma.user.findUnique).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
       axios.mockReset();
-      prisma.user.findOne.mockReset();
+      prisma.user.findUnique.mockReset();
     });
 
     test("should trigger error if GEDS API returns an empty array - 500", async () => {
       axios.mockResolvedValue({ data: [] });
-      prisma.user.findOne.mockResolvedValue({ email: "" });
+      prisma.user.findUnique.mockResolvedValue({ email: "" });
 
       const res = await request(app)
         .get(`${path}?email=${faker.internet.email()}`)
@@ -196,16 +196,16 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(prisma.user.findUnique).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
       axios.mockReset();
-      prisma.user.findOne.mockReset();
+      prisma.user.findUnique.mockReset();
     });
 
     test("should trigger error if there's a database problem - 500", async () => {
       axios.mockResolvedValue({ data: [] });
-      prisma.user.findOne.mockRejectedValue(new Error());
+      prisma.user.findUnique.mockRejectedValue(new Error());
 
       const res = await request(app)
         .get(`${path}?email=${faker.internet.email()}`)
@@ -214,16 +214,16 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(prisma.user.findUnique).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
       axios.mockReset();
-      prisma.user.findOne.mockReset();
+      prisma.user.findUnique.mockReset();
     });
 
     test("should trigger error if there's an axios problem - 500", async () => {
       axios.mockRejectedValue(new Error());
-      prisma.user.findOne.mockResolvedValue({ email: "" });
+      prisma.user.findUnique.mockResolvedValue({ email: "" });
 
       const res = await request(app)
         .get(`${path}?email=${faker.internet.email()}`)
@@ -232,11 +232,11 @@ describe(`GET ${path}`, () => {
       expect(res.statusCode).toBe(500);
       expect(res.text).toBe("Internal Server Error");
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findOne).toHaveBeenCalled();
+      expect(prisma.user.findUnique).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 
       axios.mockReset();
-      prisma.user.findOne.mockReset();
+      prisma.user.findUnique.mockReset();
     });
 
     test("should throw validation error if email is not valid - 422", async () => {
@@ -246,7 +246,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.user.findOne).not.toHaveBeenCalled();
+      expect(prisma.user.findUnique).not.toHaveBeenCalled();
     });
   });
 });
