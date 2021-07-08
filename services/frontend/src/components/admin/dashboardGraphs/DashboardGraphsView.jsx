@@ -48,7 +48,7 @@ const DashboardGraphsView = ({
   };
 
   const barGraphData = (data, type) => ({
-    labels: [intl.formatMessage({ id: `admin.dashboard.popular.${type}` })],
+    labels: [intl.formatMessage({ id: `dashboard.popular.${type}` })],
     datasets: data
       ? data.map((element, index) => ({
           data: [element.count],

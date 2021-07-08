@@ -8,7 +8,7 @@ import {
   ProjectOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
 import AppLayout from "../appLayout/AppLayout";
@@ -20,6 +20,7 @@ import {
   TalentForm,
   CareerManagementForm,
   QualificationsForm,
+  DoneSetup,
 } from "../../profileForms";
 import Header from "../../header/Header";
 import "./EditProfileLayoutView.less";
@@ -29,6 +30,8 @@ import "./EditProfileLayoutView.less";
  *  Render the layout for the edit profile forms
  */
 const EditProfileLayoutView = ({ formStep, history }) => {
+  const intl = useIntl();
+
   /*
    * Profile Form Select
    *
@@ -48,6 +51,8 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         return <CareerManagementForm formType="edit" />;
       case "qualifications":
         return <QualificationsForm formType="edit" />;
+      case "finish":
+        return <DoneSetup formType="edit" />;
       default:
         return <Redirect to="/profile/edit/primary-info" />;
     }
@@ -69,10 +74,15 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    * Generate the sidebar steps for create profile
    */
   const getSideBarContent = (step) => (
-    <Menu onClick={redirectToForm} selectedKeys={step}>
+    <Menu
+      onClick={redirectToForm}
+      selectedKeys={step}
+      aria-label={intl.formatMessage({ id: "edit.profile.side.nav" })}
+      role="menu"
+    >
       <Menu.Item tabIndex={0} key="primary-info" className="menu-item">
         <div className="menu-item-header">
-          <SolutionOutlined className="mr-1" />
+          <SolutionOutlined className="mr-1" aria-hidden="true" />
           <strong>
             <FormattedMessage id="primary.contact.information" />
           </strong>
@@ -91,7 +101,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex={0} key="employment" className="menu-item">
         <div className="menu-item-header">
-          <CompassOutlined className="mr-1" />
+          <CompassOutlined className="mr-1" aria-hidden="true" />
           <strong>
             <FormattedMessage id="employment.status" />
           </strong>
@@ -107,7 +117,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex={0} key="language-proficiency" className="menu-item">
         <div className="menu-item-header">
-          <GlobalOutlined className="mr-1" />
+          <GlobalOutlined className="mr-1" aria-hidden="true" />
           <strong>
             <FormattedMessage id="official.languages" />
           </strong>
@@ -123,7 +133,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex={0} key="talent" className="menu-item">
         <div className="menu-item-header">
-          <TagsOutlined className="mr-1" />
+          <TagsOutlined className="mr-1" aria-hidden="true" />
           <strong>
             <FormattedMessage id="skills.and.competencies" />
           </strong>
@@ -142,7 +152,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex={0} key="qualifications" className="menu-item">
         <div className="menu-item-header">
-          <TrophyOutlined className="mr-1" />
+          <TrophyOutlined className="mr-1" aria-hidden="true" />
           <strong>
             <FormattedMessage id="employee.qualifications" />
           </strong>
@@ -158,7 +168,7 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
       <Menu.Item tabIndex="0" key="career-management" className="menu-item">
         <div className="menu-item-header">
-          <ProjectOutlined className="mr-1" />
+          <ProjectOutlined className="mr-1" aria-hidden="true" />
           <strong>
             <FormattedMessage id="employee.growth.interests" />
           </strong>

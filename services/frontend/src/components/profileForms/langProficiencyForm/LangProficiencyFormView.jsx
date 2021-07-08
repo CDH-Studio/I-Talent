@@ -48,7 +48,6 @@ const LangProficiencyFormView = ({
   profileInfo,
   intl,
   history,
-  userId,
   saveDataToDB,
 }) => {
   const [form] = Form.useForm();
@@ -191,9 +190,11 @@ const LangProficiencyFormView = ({
   const getAllValidationErrorMessages = () => (
     <div>
       <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-      <ul>
-        <li key="1">{intl.formatMessage({ id: "official.languages" })}</li>
-      </ul>
+      <p>
+        {"- "}
+        {intl.formatMessage({ id: "official.languages" })}{" "}
+        {intl.formatMessage({ id: "form" })}
+      </p>
     </div>
   );
 
@@ -203,7 +204,7 @@ const LangProficiencyFormView = ({
    * redirect to profile
    */
   const onFinish = () => {
-    history.push(`/profile/${userId}`);
+    history.push(`/profile/edit/finish`);
   };
 
   /*
@@ -276,6 +277,7 @@ const LangProficiencyFormView = ({
           name={name}
           label={<FormattedMessage id={label} />}
           rules={[Rules.required]}
+          aria-required="true"
         >
           <Select
             showSearch
@@ -293,6 +295,8 @@ const LangProficiencyFormView = ({
         <Form.Item
           name={statusName}
           label={<FormattedMessage id="lang.status" />}
+          rules={[Rules.required]}
+          aria-required="true"
         >
           <Select
             showSearch
@@ -464,7 +468,6 @@ LangProficiencyFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   intl: IntlPropType,
   history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
   saveDataToDB: PropTypes.func.isRequired,
 };
 

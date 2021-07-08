@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
 import { LockOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
@@ -9,30 +9,27 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => (
   <Modal
     title={
       <>
-        <LockOutlined /> <FormattedMessage id="privacy.modal.header" />
-        <div className="privacyModalHeaderExtra">
-          <ChangeLanguage />
-        </div>
+        <LockOutlined aria-hidden="true" className="mr-1" />
+        <FormattedMessage id="privacy.modal.header" />
       </>
     }
     visible={showModal}
     closable={false}
     maskClosable={false}
-    okText={
-      <>
-        <CheckOutlined className="ModalbBtnIcon" />
-        <FormattedMessage id="privacy.modal.accept" />
-      </>
-    }
-    cancelText={
-      <>
-        <CloseOutlined className="ModalbBtnIcon" />
-        <FormattedMessage id="privacy.modal.decline" />
-      </>
-    }
-    onOk={handleOk}
-    onCancel={handleCancel}
     width={600}
+    footer={
+      <>
+        <ChangeLanguage className="privacyModalChangeLangBtn" />
+        <Button onClick={handleCancel}>
+          <CloseOutlined className="ModalbBtnIcon" aria-hidden="true" />
+          <FormattedMessage id="privacy.modal.decline" />
+        </Button>
+        <Button onClick={handleOk}>
+          <CheckOutlined className="ModalbBtnIcon" aria-hidden="true" />
+          <FormattedMessage id="privacy.modal.accept" />
+        </Button>
+      </>
+    }
   >
     <div className="privacyModalContent">
       {locale === "ENGLISH" ? (

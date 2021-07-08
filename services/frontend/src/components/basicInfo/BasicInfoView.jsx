@@ -32,6 +32,7 @@ import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { kebabCase } from "lodash";
 import OrgTree from "../orgTree/OrgTree";
+import config from "../../utils/runtimeConfig";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import EditCardButton from "../editCardButton/EditCardButton";
 import "./BasicInfoView.less";
@@ -51,6 +52,8 @@ const BasicInfoView = ({
   const { id } = useParams();
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
+  const locale = useSelector((state) => state.settings.locale);
+  const { drupalSite } = config;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   /*
@@ -103,14 +106,28 @@ const BasicInfoView = ({
                 connectionStatus ? (
                   <div className="popContent">
                     <FormattedMessage id="connections.tooltip.remove.connection" />
-                    <a href="/about/help">
+                    <a
+                      className="link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`${drupalSite}${
+                        locale === "ENGLISH" ? "en" : "fr"
+                      }help`}
+                    >
                       <FormattedMessage id="footer.contact.link" />
                     </a>
                   </div>
                 ) : (
                   <div className="popContent">
                     <FormattedMessage id="connections.tooltip.add.connection" />
-                    <a href="/about/help">
+                    <a
+                      className="link"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`${drupalSite}${
+                        locale === "ENGLISH" ? "en" : "fr"
+                      }help`}
+                    >
                       <FormattedMessage id="footer.contact.link" />
                     </a>
                   </div>
