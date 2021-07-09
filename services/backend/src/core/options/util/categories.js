@@ -110,29 +110,60 @@ async function updateCategory(request, response) {
   response.sendStatus(204);
 }
 
-async function deleteCategory(request, response) {
-  const { id } = request.body;
-
-  await prisma.$transaction([
-    prisma.opTransCategory.deleteMany({
-      where: {
-        opCategoryId: id,
-      },
-    }),
-    prisma.opCategory.delete({
-      where: {
-        id,
-      },
-    }),
-  ]);
-
-  response.sendStatus(204);
-}
-
 async function deleteCategories(request, response) {
   const { ids } = request.body;
 
+  let skillsId = await prisma.opCategory.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+    select: {
+      opSkills: true,
+    },
+  });
+
+  skillsId = _.flatten(
+    skillsId.map(({ opSkills }) => opSkills.map(({ id }) => id))
+  );
+
   await prisma.$transaction([
+    prisma.skill.deleteMany({
+      where: {
+        skillId: {
+          in: skillsId,
+        },
+      },
+    }),
+    prisma.mentorshipSkill.deleteMany({
+      where: {
+        skillId: {
+          in: skillsId,
+        },
+      },
+    }),
+    prisma.developmentalGoal.deleteMany({
+      where: {
+        skillId: {
+          in: skillsId,
+        },
+      },
+    }),
+    prisma.opTransSkill.deleteMany({
+      where: {
+        opSkillId: {
+          in: skillsId,
+        },
+      },
+    }),
+    prisma.opSkill.deleteMany({
+      where: {
+        id: {
+          in: skillsId,
+        },
+      },
+    }),
     prisma.opTransCategory.deleteMany({
       where: {
         opCategoryId: {
@@ -157,6 +188,5 @@ module.exports = {
   getCategoriesAllLang,
   createCategory,
   updateCategory,
-  deleteCategory,
   deleteCategories,
 };
