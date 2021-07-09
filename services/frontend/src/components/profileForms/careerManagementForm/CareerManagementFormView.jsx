@@ -11,7 +11,7 @@ import {
   Tabs,
   notification,
   Button,
-  Typography,
+  // Typography,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -37,8 +37,9 @@ import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import config from "../../../utils/runtimeConfig";
+import Fieldset from "../../fieldset/Fieldset";
 
-const { Title } = Typography;
+// const { Title } = Typography;
 const { Option } = Select;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
@@ -485,44 +486,51 @@ const CareerManagementFormView = ({
                 </Col>
 
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                  <Title level={4} style={{ fontSize: "0.8rem" }}>
+                  {/* <Title level={4} style={{ fontSize: "0.8rem" }}>
                     <FormattedMessage id="supporting.document" />
-                  </Title>
-                  <Form.List name="developmentalGoalsAttachments">
-                    {(fields, { add, remove }) => (
-                      <div>
-                        {fields.map((field) => (
-                          <LinkAttachment
-                            key={field.fieldKey}
-                            fieldElement={field}
-                            removeElement={remove}
-                            nameOptions={attachmentOptions}
-                          />
-                        ))}
-                        <Form.Item>
-                          <Button
-                            type="dashed"
-                            onClick={() => add()}
-                            disabled={fields.length === 6}
-                            style={{
-                              width: "100%",
-                              textTransform: "capitalize",
-                            }}
-                          >
-                            <PlusOutlined aria-hidden="true" />
-                            {`${intl.formatMessage({
-                              id: "add",
-                            })} ${intl.formatMessage({
-                              id: "supporting.document",
-                            })}`}
-
-                            {/* <FormattedMessage id="add" />{" "}
-                            <FormattedMessage id="supporting.document" /> */}
-                          </Button>
-                        </Form.Item>
-                      </div>
-                    )}
-                  </Form.List>
+                  </Title> */}
+                  <Fieldset
+                    title={<FormattedMessage id="supporting.document" />}
+                  >
+                    <Form.List name="developmentalGoalsAttachments">
+                      {(fields, { add, remove }) => (
+                        <div>
+                          {fields.map((field) => (
+                            <LinkAttachment
+                              key={field.fieldKey}
+                              fieldElement={field}
+                              removeElement={remove}
+                              nameOptions={attachmentOptions}
+                            />
+                          ))}
+                          <Form.Item>
+                            <Button
+                              type="dashed"
+                              onClick={() => add()}
+                              disabled={fields.length === 6}
+                              style={{
+                                width: "100%",
+                                textTransform: "capitalize",
+                              }}
+                            >
+                              <PlusOutlined
+                                className="mr-1"
+                                aria-hidden="true"
+                              />
+                              <FormattedMessage id="supporting.document.add" />
+                            </Button>
+                          </Form.Item>
+                        </div>
+                      )}
+                    </Form.List>
+                  </Fieldset>
+                  {/* <fieldset>
+                    <legend>
+                      <Title level={4} style={{ fontSize: "0.8rem" }}>
+                        <FormattedMessage id="supporting.document" />
+                      </Title>
+                    </legend>
+                  </fieldset> */}
                 </Col>
               </Row>
             </TabPane>

@@ -59,12 +59,17 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
           name={[fieldElement.name, "nameId"]}
           fieldKey={[fieldElement.fieldKey, "nameId"]}
           label={<FormattedMessage id="type" />}
-          aria-required="true"
         >
           <Select
             optionFilterProp="children"
             placeholder={<FormattedMessage id="select" />}
             dropdownMatchSelectWidth={false}
+            aria-required="true"
+            aria-label={` ${intl.formatMessage({ id: "document" })} ${
+              fieldElement.name + 1
+            } ${intl.formatMessage({
+              id: "type",
+            })} `}
           >
             {nameOptions.map((value) => (
               <Option key={value.id}>{value.name}</Option>
@@ -79,12 +84,17 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
           className="formItem"
           rules={[Rules.required, Rules.url]}
           label={<FormattedMessage id="link.to.document" />}
-          aria-required="true"
         >
           <Input
             placeholder={intl.formatMessage({
               id: "attachment.placeholder",
             })}
+            aria-required="true"
+            aria-label={` ${intl.formatMessage({ id: "link.to.document" })} ${
+              fieldElement.name + 1
+            } ${intl.formatMessage({
+              id: "type",
+            })} `}
           />
         </Form.Item>
       </Col>
