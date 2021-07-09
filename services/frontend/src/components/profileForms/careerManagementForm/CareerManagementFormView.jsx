@@ -486,9 +486,6 @@ const CareerManagementFormView = ({
                 </Col>
 
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-                  {/* <Title level={4} style={{ fontSize: "0.8rem" }}>
-                    <FormattedMessage id="supporting.document" />
-                  </Title> */}
                   <Fieldset
                     title={<FormattedMessage id="supporting.document" />}
                   >
@@ -523,13 +520,6 @@ const CareerManagementFormView = ({
                       )}
                     </Form.List>
                   </Fieldset>
-                  {/* <fieldset>
-                    <legend>
-                      <Title level={4} style={{ fontSize: "0.8rem" }}>
-                        <FormattedMessage id="supporting.document" />
-                      </Title>
-                    </legend>
-                  </fieldset> */}
                 </Col>
               </Row>
             </TabPane>
