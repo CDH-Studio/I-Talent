@@ -18,7 +18,6 @@ import { FormattedMessage, injectIntl } from "react-intl";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import { useState } from "react";
-
 import {
   FieldPropType,
   FormInstancePropType,
@@ -30,6 +29,7 @@ import filterOption from "../../../../functions/filterSelectInput";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 import "./EducationFormView.less";
 import DatePickerField from "../../../formItems/DatePickerField";
+import Fieldset from "../../../fieldset/Fieldset";
 
 const { Option } = Select;
 const { Title } = Typography;
@@ -299,35 +299,38 @@ const EducationFormView = ({
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-          <FormattedMessage id="attachment.links.education" />
-          <Form.List
-            name={[fieldElement.name, "attachmentLinks"]}
-            fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
+          <Fieldset
+            title={<FormattedMessage id="attachment.links.education" />}
           >
-            {(fields, { add, remove }) => (
-              <div>
-                {fields.map((field) => (
-                  <LinkAttachment
-                    key={field.fieldKey}
-                    fieldElement={field}
-                    removeElement={remove}
-                    nameOptions={attachmentNames}
-                  />
-                ))}
-                <Form.Item>
-                  <Button
-                    type="default"
-                    onClick={() => add()}
-                    disabled={fields.length === 3}
-                    style={{ width: "100%" }}
-                  >
-                    <PlusOutlined />
-                    <FormattedMessage id="add.attachment" />
-                  </Button>
-                </Form.Item>
-              </div>
-            )}
-          </Form.List>
+            <Form.List
+              name={[fieldElement.name, "attachmentLinks"]}
+              fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
+            >
+              {(fields, { add, remove }) => (
+                <div>
+                  {fields.map((field) => (
+                    <LinkAttachment
+                      key={field.fieldKey}
+                      fieldElement={field}
+                      removeElement={remove}
+                      nameOptions={attachmentNames}
+                    />
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="default"
+                      onClick={() => add()}
+                      disabled={fields.length === 3}
+                      style={{ width: "100%" }}
+                    >
+                      <PlusOutlined className="mr-1" aria-hidden="true" />
+                      <FormattedMessage id="attachment.links.education.add" />
+                    </Button>
+                  </Form.Item>
+                </div>
+              )}
+            </Form.List>
+          </Fieldset>
         </Col>
       </Row>
     </div>
