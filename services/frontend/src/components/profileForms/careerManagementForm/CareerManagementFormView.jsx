@@ -510,7 +510,6 @@ const CareerManagementFormView = ({
                               disabled={fields.length === 6}
                               style={{
                                 width: "100%",
-                                textTransform: "capitalize",
                               }}
                             >
                               <PlusOutlined
