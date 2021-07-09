@@ -27,6 +27,7 @@ import {
 import "./ExperienceFormView.less";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 import DatePickerField from "../../../formItems/DatePickerField";
+import Fieldset from "../../../fieldset/Fieldset";
 
 const { Title } = Typography;
 /**
@@ -299,38 +300,41 @@ const ExperienceFormView = ({
         </Col>
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
-          <FormattedMessage id="attachment.links.employment" />
-          <Form.List
-            name={[fieldElement.name, "attachmentLinks"]}
-            fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
+          <Fieldset
+            title={<FormattedMessage id="attachment.links.employment" />}
           >
-            {(fields, { add, remove }) => (
-              <div>
-                {fields.map((field) => (
-                  <LinkAttachment
-                    key={field.fieldKey}
-                    form={form}
-                    fieldElement={field}
-                    removeElement={remove}
-                    nameOptions={attachmentNames}
-                  />
-                ))}
-                <Form.Item>
-                  <Button
-                    type="default"
-                    onClick={() => {
-                      add();
-                    }}
-                    disabled={fields.length === 5}
-                    style={{ width: "100%" }}
-                  >
-                    <PlusOutlined />
-                    <FormattedMessage id="add.attachment" />
-                  </Button>
-                </Form.Item>
-              </div>
-            )}
-          </Form.List>
+            <Form.List
+              name={[fieldElement.name, "attachmentLinks"]}
+              fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
+            >
+              {(fields, { add, remove }) => (
+                <div>
+                  {fields.map((field) => (
+                    <LinkAttachment
+                      key={field.fieldKey}
+                      form={form}
+                      fieldElement={field}
+                      removeElement={remove}
+                      nameOptions={attachmentNames}
+                    />
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="default"
+                      onClick={() => {
+                        add();
+                      }}
+                      disabled={fields.length === 5}
+                      style={{ width: "100%" }}
+                    >
+                      <PlusOutlined className="mr-1" aria-hidden="true" />
+                      <FormattedMessage id="attachment.links.employment.add" />
+                    </Button>
+                  </Form.Item>
+                </div>
+              )}
+            </Form.List>
+          </Fieldset>
         </Col>
       </Row>
     </div>

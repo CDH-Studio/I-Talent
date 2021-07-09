@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import "./FieldsetView.less";
 
 const Fieldset = ({ children, title }) => (
-  <fieldset className="fieldset mt-2">
+  <fieldset className="fieldset mt-1">
     <legend className="mb-2">{title}</legend>
     {children}
   </fieldset>
