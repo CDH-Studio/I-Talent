@@ -112,73 +112,74 @@ async function updateCategory(request, response) {
 
 async function deleteCategories(request, response) {
   const { ids } = request.body;
-
-  let skillsId = await prisma.opCategory.findMany({
-    where: {
-      id: {
-        in: ids,
-      },
-    },
-    select: {
-      opSkills: true,
-    },
-  });
-
-  skillsId = _.flatten(
-    skillsId.map(({ opSkills }) => opSkills.map(({ id }) => id))
-  );
-
-  await prisma.$transaction([
-    prisma.skill.deleteMany({
-      where: {
-        skillId: {
-          in: skillsId,
-        },
-      },
-    }),
-    prisma.mentorshipSkill.deleteMany({
-      where: {
-        skillId: {
-          in: skillsId,
-        },
-      },
-    }),
-    prisma.developmentalGoal.deleteMany({
-      where: {
-        skillId: {
-          in: skillsId,
-        },
-      },
-    }),
-    prisma.opTransSkill.deleteMany({
-      where: {
-        opSkillId: {
-          in: skillsId,
-        },
-      },
-    }),
-    prisma.opSkill.deleteMany({
-      where: {
-        id: {
-          in: skillsId,
-        },
-      },
-    }),
-    prisma.opTransCategory.deleteMany({
-      where: {
-        opCategoryId: {
-          in: ids,
-        },
-      },
-    }),
-    prisma.opCategory.deleteMany({
+  if (ids.length > 0) {
+    let skillsId = await prisma.opCategory.findMany({
       where: {
         id: {
           in: ids,
         },
       },
-    }),
-  ]);
+      select: {
+        opSkills: true,
+      },
+    });
+
+    skillsId = _.flatten(
+      skillsId.map(({ opSkills }) => opSkills.map(({ id }) => id))
+    );
+
+    await prisma.$transaction([
+      prisma.skill.deleteMany({
+        where: {
+          skillId: {
+            in: skillsId,
+          },
+        },
+      }),
+      prisma.mentorshipSkill.deleteMany({
+        where: {
+          skillId: {
+            in: skillsId,
+          },
+        },
+      }),
+      prisma.developmentalGoal.deleteMany({
+        where: {
+          skillId: {
+            in: skillsId,
+          },
+        },
+      }),
+      prisma.opTransSkill.deleteMany({
+        where: {
+          opSkillId: {
+            in: skillsId,
+          },
+        },
+      }),
+      prisma.opSkill.deleteMany({
+        where: {
+          id: {
+            in: skillsId,
+          },
+        },
+      }),
+      prisma.opTransCategory.deleteMany({
+        where: {
+          opCategoryId: {
+            in: ids,
+          },
+        },
+      }),
+      prisma.opCategory.deleteMany({
+        where: {
+          id: {
+            in: ids,
+          },
+        },
+      }),
+    ]);
+  }
 
   response.sendStatus(204);
 }
