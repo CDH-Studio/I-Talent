@@ -11,9 +11,10 @@ import {
   Tabs,
   notification,
   Button,
+  Typography,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { pickBy, identity, isEqual, isNil, omitBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,7 +23,6 @@ import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  IntlPropType,
   HistoryPropType,
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
@@ -38,6 +38,7 @@ import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import config from "../../../utils/runtimeConfig";
 
+const { Title } = Typography;
 const { Option } = Select;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
@@ -64,7 +65,6 @@ const CareerManagementFormView = ({
   formType,
   currentTab,
   load,
-  intl,
   history,
   userId,
   attachmentOptions,
@@ -73,6 +73,7 @@ const CareerManagementFormView = ({
   savedQualifiedPools,
 }) => {
   const [form] = Form.useForm();
+  const intl = useIntl();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
   const [selectedTab, setSelectedTab] = useState(1);
@@ -437,25 +438,23 @@ const CareerManagementFormView = ({
               <FormSubTitle
                 title={<FormattedMessage id="developmental.goals" />}
                 popoverMessage={
-                  <>
-                    <FormattedMessage
-                      id="tooltip.extra.info.help"
-                      values={{
-                        helpUrl: (
-                          <a
-                            className="link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`${drupalSite}${
-                              locale === "ENGLISH" ? "en" : "fr"
-                            }help`}
-                          >
-                            <FormattedMessage id="footer.contact.link" />
-                          </a>
-                        ),
-                      }}
-                    />
-                  </>
+                  <FormattedMessage
+                    id="tooltip.extra.info.help"
+                    values={{
+                      helpUrl: (
+                        <a
+                          className="link"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          href={`${drupalSite}${
+                            locale === "ENGLISH" ? "en" : "fr"
+                          }help`}
+                        >
+                          <FormattedMessage id="footer.contact.link" />
+                        </a>
+                      ),
+                    }}
+                  />
                 }
                 extra={
                   <CardVisibilityToggle
@@ -470,6 +469,7 @@ const CareerManagementFormView = ({
                   <Form.Item
                     className="custom-bubble-select-style"
                     name="developmentalGoals"
+                    label={<FormattedMessage id="developmental.goals" />}
                   >
                     <TreeSelect
                       className="custom-bubble-select-style"
@@ -485,6 +485,9 @@ const CareerManagementFormView = ({
                 </Col>
 
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                  <Title level={4} style={{ fontSize: "0.8rem" }}>
+                    <FormattedMessage id="supporting.document" />
+                  </Title>
                   <Form.List name="developmentalGoalsAttachments">
                     {(fields, { add, remove }) => (
                       <div>
@@ -501,10 +504,20 @@ const CareerManagementFormView = ({
                             type="dashed"
                             onClick={() => add()}
                             disabled={fields.length === 6}
-                            style={{ width: "100%" }}
+                            style={{
+                              width: "100%",
+                              textTransform: "capitalize",
+                            }}
                           >
-                            <PlusOutlined />
-                            <FormattedMessage id="add.attachment" />
+                            <PlusOutlined aria-hidden="true" />
+                            {`${intl.formatMessage({
+                              id: "add",
+                            })} ${intl.formatMessage({
+                              id: "supporting.document",
+                            })}`}
+
+                            {/* <FormattedMessage id="add" />{" "}
+                            <FormattedMessage id="supporting.document" /> */}
                           </Button>
                         </Form.Item>
                       </div>
@@ -842,7 +855,6 @@ CareerManagementFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
-  intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
   attachmentOptions: KeyNameOptionsPropType.isRequired,
@@ -872,8 +884,7 @@ CareerManagementFormView.defaultProps = {
   savedTalentMatrixResult: undefined,
   savedQualifiedPools: undefined,
   talentMatrixResultOptions: [],
-  intl: null,
   savedAttachments: undefined,
 };
 
-export default injectIntl(CareerManagementFormView);
+export default CareerManagementFormView;

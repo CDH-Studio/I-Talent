@@ -1,10 +1,9 @@
-import { Row, Col, Form, Select, Button, Tooltip, Input } from "antd";
+import { Row, Col, Form, Select, Button, Input, Divider } from "antd";
 
-import { DeleteOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { CloseCircleOutlined, PaperClipOutlined } from "@ant-design/icons";
+import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import {
-  IntlPropType,
   FieldPropType,
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
@@ -23,79 +22,80 @@ const Rules = {
   },
 };
 
-const LinkAttachmentView = ({
-  fieldElement,
-  removeElement,
-  nameOptions,
-  intl,
-}) => (
-  <Row
-    span={24}
-    gutter={12}
-    className="my-2 px-2 rounded"
-    style={{ backgroundColor: "red" }}
-  >
-    <Col className="gutter-row" span={5}>
-      <Form.Item
-        rules={[Rules.required]}
-        className="formItem"
-        name={[fieldElement.name, "nameId"]}
-        fieldKey={[fieldElement.fieldKey, "nameId"]}
-        label="Nickname"
-      >
-        <Select
-          optionFilterProp="children"
-          placeholder={<FormattedMessage id="select" />}
+const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
+  const intl = useIntl();
+  return (
+    <Row span={24} gutter={12} className="my-1">
+      {fieldElement.name !== 0 && <Divider className="mt-0 mb-2" />}
+      <Col xs={12} lg={20}>
+        <PaperClipOutlined className="mr-1" aria-hidden="true" />
+        {`${intl.formatMessage({ id: "Document" })}: ${fieldElement.name + 1}`}
+      </Col>
+      <Col xs={12} lg={4} style={{ textAlign: "right" }}>
+        <Button
+          icon={
+            <CloseCircleOutlined className="deleted mr-1" aria-hidden="true" />
+          }
+          onClick={() => {
+            removeElement(fieldElement.name);
+          }}
+          size="small"
+          className="deleteButton"
+          style={{ borderRadius: "1rem" }}
+          type="primary"
+          aria-label={`${intl.formatMessage({
+            id: "delete",
+          })} ${intl.formatMessage({ id: "Document" })} ${
+            fieldElement.name + 1
+          }`}
         >
-          {nameOptions.map((value) => (
-            <Option key={value.id}>{value.name}</Option>
-          ))}
-        </Select>
-      </Form.Item>
-    </Col>
-    <Col className="gutter-row" span={18}>
-      <Form.Item
-        name={[fieldElement.name, "url"]}
-        fieldKey={[fieldElement.fieldKey, "url"]}
-        className="formItem"
-        rules={[Rules.required, Rules.url]}
-        label="Nickname"
-      >
-        <Input
-          placeholder={intl.formatMessage({
-            id: "attachment.placeholder",
-          })}
-        />
-      </Form.Item>
-    </Col>
-    <Col className="gutter-row" span={1}>
-      <Form.Item>
-        <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
-          <Button
-            type="link"
-            shape="circle"
-            icon={<DeleteOutlined className="deleted" />}
-            onClick={() => {
-              removeElement(fieldElement.name);
-            }}
-            size="small"
-            className="deleteButton mt-4"
+          <FormattedMessage id="delete" />
+        </Button>
+      </Col>
+      <Col className="gutter-row" xs={24} lg={5}>
+        <Form.Item
+          rules={[Rules.required]}
+          className="formItem"
+          name={[fieldElement.name, "nameId"]}
+          fieldKey={[fieldElement.fieldKey, "nameId"]}
+          label={<FormattedMessage id="type" />}
+          aria-required="true"
+        >
+          <Select
+            optionFilterProp="children"
+            placeholder={<FormattedMessage id="select" />}
+            dropdownMatchSelectWidth={false}
+          >
+            {nameOptions.map((value) => (
+              <Option key={value.id}>{value.name}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+      </Col>
+      <Col className="gutter-row" xs={24} lg={19}>
+        <Form.Item
+          name={[fieldElement.name, "url"]}
+          fieldKey={[fieldElement.fieldKey, "url"]}
+          className="formItem"
+          rules={[Rules.required, Rules.url]}
+          label={<FormattedMessage id="link.to.document" />}
+          aria-required="true"
+        >
+          <Input
+            placeholder={intl.formatMessage({
+              id: "attachment.placeholder",
+            })}
           />
-        </Tooltip>
-      </Form.Item>
-    </Col>
-  </Row>
-);
+        </Form.Item>
+      </Col>
+    </Row>
+  );
+};
 
 LinkAttachmentView.propTypes = {
-  intl: IntlPropType,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   nameOptions: KeyNameOptionsPropType.isRequired,
 };
 
-LinkAttachmentView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(LinkAttachmentView);
+export default LinkAttachmentView;
