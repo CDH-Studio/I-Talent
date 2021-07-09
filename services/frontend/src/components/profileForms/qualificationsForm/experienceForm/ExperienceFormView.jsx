@@ -17,7 +17,6 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useState } from "react";
-
 import {
   FieldPropType,
   FormInstancePropType,

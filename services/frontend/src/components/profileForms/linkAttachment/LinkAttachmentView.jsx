@@ -29,7 +29,7 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
       {fieldElement.name !== 0 && <Divider className="mt-0 mb-2" />}
       <Col xs={12} lg={20}>
         <PaperClipOutlined className="mr-1" aria-hidden="true" />
-        {`${intl.formatMessage({ id: "Document" })}: ${fieldElement.name + 1}`}
+        {`${intl.formatMessage({ id: "document" })}: ${fieldElement.name + 1}`}
       </Col>
       <Col xs={12} lg={4} style={{ textAlign: "right" }}>
         <Button
@@ -45,7 +45,7 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
           type="primary"
           aria-label={`${intl.formatMessage({
             id: "delete",
-          })} ${intl.formatMessage({ id: "Document" })} ${
+          })} ${intl.formatMessage({ id: "document" })} ${
             fieldElement.name + 1
           }`}
         >
