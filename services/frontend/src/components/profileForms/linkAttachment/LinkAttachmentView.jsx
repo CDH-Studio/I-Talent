@@ -1,5 +1,4 @@
 import { Row, Col, Form, Select, Button, Input, Divider } from "antd";
-
 import { CloseCircleOutlined, PaperClipOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
@@ -27,11 +26,9 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
   return (
     <Row span={24} gutter={12} className="my-1">
       {fieldElement.name !== 0 && <Divider className="mt-0 mb-2" />}
-      <Col xs={12} lg={20}>
+      <Col span={24}>
         <PaperClipOutlined className="mr-1" aria-hidden="true" />
         {`${intl.formatMessage({ id: "document" })}: ${fieldElement.name + 1}`}
-      </Col>
-      <Col xs={12} lg={4} style={{ textAlign: "right" }}>
         <Button
           icon={
             <CloseCircleOutlined className="deleted mr-1" aria-hidden="true" />
@@ -40,8 +37,7 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
             removeElement(fieldElement.name);
           }}
           size="small"
-          className="deleteButton"
-          style={{ borderRadius: "1rem" }}
+          className="deleteAttachmentButton"
           type="primary"
           aria-label={`${intl.formatMessage({
             id: "delete",
@@ -52,6 +48,7 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
           <FormattedMessage id="delete" />
         </Button>
       </Col>
+
       <Col className="gutter-row" xs={24} lg={5}>
         <Form.Item
           rules={[Rules.required]}
