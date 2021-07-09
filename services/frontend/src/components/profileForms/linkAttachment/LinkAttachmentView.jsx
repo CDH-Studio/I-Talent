@@ -90,10 +90,10 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
               id: "attachment.placeholder",
             })}
             aria-required="true"
-            aria-label={` ${intl.formatMessage({ id: "link.to.document" })} ${
+            aria-label={` ${intl.formatMessage({ id: "document" })} ${
               fieldElement.name + 1
             } ${intl.formatMessage({
-              id: "type",
+              id: "link.to.document",
             })} `}
           />
         </Form.Item>
