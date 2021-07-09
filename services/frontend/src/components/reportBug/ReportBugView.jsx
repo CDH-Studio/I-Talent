@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useState } from "react";
 import { Modal, Typography, Form, Radio, Button, notification } from "antd";
 import TextArea from "antd/lib/input/TextArea";
@@ -115,7 +117,7 @@ const ReportBugView = ({ saveDataToDB }) => {
         >
           <BugOutlined />
           <span>
-            <FormattedMessage id="report.a.bug" />
+            <FormattedMessage id="bugs.modal.ok" />
           </span>
         </Button>
       )}
@@ -132,7 +134,7 @@ const ReportBugView = ({ saveDataToDB }) => {
           </>
         }
         onOk={createBugReport}
-        title={<FormattedMessage id="report.a.bug" />}
+        title={<FormattedMessage id="bugs.modal.ok" />}
       >
         <Paragraph>
           <FormattedMessage id="bugs.modal.description" />

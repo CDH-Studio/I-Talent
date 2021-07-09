@@ -40,7 +40,7 @@ const UnexpectedError = () => {
               <Button onClick={() => history.push("/")}>
                 <HomeOutlined />
                 <span>
-                  <FormattedMessage id="back.to.landing" />
+                  <FormattedMessage id="back.to.home" />
                 </span>
               </Button>
             </Col>

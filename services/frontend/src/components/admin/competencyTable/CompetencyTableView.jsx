@@ -219,7 +219,7 @@ const CompetencyTableView = ({
     <Modal
       visible={addVisible}
       title={<FormattedMessage id="add.competency" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={async () => {
         addForm
@@ -253,7 +253,7 @@ const CompetencyTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.competency.descriptionEn",
+              id: "add.english.term",
             })}
             allowClear
           />
@@ -270,7 +270,7 @@ const CompetencyTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.competency.descriptionFr",
+              id: "add.french.term",
             })}
             allowClear
           />
@@ -284,7 +284,7 @@ const CompetencyTableView = ({
     <Modal
       visible={editVisible}
       title={<FormattedMessage id="edit.competency" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={async () => {
         editForm
@@ -320,7 +320,7 @@ const CompetencyTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.competency.descriptionEn",
+              id: "add.english.term",
             })}
           />
         </Form.Item>
@@ -330,7 +330,7 @@ const CompetencyTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.competency.descriptionFr",
+              id: "add.french.term",
             })}
           />
         </Form.Item>
@@ -397,7 +397,7 @@ const CompetencyTableView = ({
       {addCompetencyModal()}
       {editCompetencyModal()}
       <Header
-        title={<FormattedMessage id="competencies.table" />}
+        title={<FormattedMessage id="competencies" />}
         icon={<DatabaseOutlined />}
         extra={
           <>

@@ -15,7 +15,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, isEmpty, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
-import { useHistory, Prompt, Link } from "react-router-dom";
+import { useHistory, Prompt } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import useAxios from "../../../utils/useAxios";
 import {
@@ -29,6 +29,7 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
+import config from "../../../utils/runtimeConfig";
 
 import "./TalentFormView.less";
 
@@ -65,7 +66,7 @@ const TalentFormView = ({
   const [loadedData, setLoadedData] = useState(false);
   const [selectedTab, setSelectedTab] = useState(1);
   const [tabErrorsBool, setTabErrorsBool] = useState([]);
-
+  const { drupalSite } = config;
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
@@ -225,11 +226,12 @@ const TalentFormView = ({
     return (
       <div>
         <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-        <ul>
-          {messages.map((value) => (
-            <li key={value}>{value}</li>
-          ))}
-        </ul>
+        {messages.map((value) => (
+          <p style={{ marginBottom: 0, marginLeft: "0.5em" }}>
+            {"- "}
+            {value} {intl.formatMessage({ id: "form" })}
+          </p>
+        ))}
       </div>
     );
   };
@@ -309,7 +311,7 @@ const TalentFormView = ({
    * redirect to profile
    */
   const onFinish = () => {
-    history.push(`/profile/${userId}`);
+    history.push(`/profile/edit/finish`);
   };
 
   /*
@@ -608,10 +610,23 @@ const TalentFormView = ({
                     title={<FormattedMessage id="skills" />}
                     popoverMessage={
                       <>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <Link to="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </Link>
+                        <FormattedMessage
+                          id="tooltip.extra.info.help"
+                          values={{
+                            helpUrl: (
+                              <a
+                                className="link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`${drupalSite}${
+                                  locale === "ENGLISH" ? "en" : "fr"
+                                }help`}
+                              >
+                                <FormattedMessage id="footer.contact.link" />
+                              </a>
+                            ),
+                          }}
+                        />
                       </>
                     }
                     extra={
@@ -652,10 +667,23 @@ const TalentFormView = ({
                     title={<FormattedMessage id="mentorship.skills" />}
                     popoverMessage={
                       <>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <Link to="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </Link>
+                        <FormattedMessage
+                          id="tooltip.extra.info.help"
+                          values={{
+                            helpUrl: (
+                              <a
+                                className="link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`${drupalSite}${
+                                  locale === "ENGLISH" ? "en" : "fr"
+                                }help`}
+                              >
+                                <FormattedMessage id="footer.contact.link" />
+                              </a>
+                            ),
+                          }}
+                        />
                       </>
                     }
                     extra={
@@ -693,10 +721,23 @@ const TalentFormView = ({
                     title={<FormattedMessage id="competencies" />}
                     popoverMessage={
                       <>
-                        <FormattedMessage id="tooltip.extra.info.help" />
-                        <Link to="/about/help">
-                          <FormattedMessage id="footer.contact.link" />
-                        </Link>
+                        <FormattedMessage
+                          id="tooltip.extra.info.help"
+                          values={{
+                            helpUrl: (
+                              <a
+                                className="link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={`${drupalSite}${
+                                  locale === "ENGLISH" ? "en" : "fr"
+                                }help`}
+                              >
+                                <FormattedMessage id="footer.contact.link" />
+                              </a>
+                            ),
+                          }}
+                        />
                       </>
                     }
                     extra={

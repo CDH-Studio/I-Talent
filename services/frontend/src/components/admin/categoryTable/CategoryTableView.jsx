@@ -199,7 +199,7 @@ const CategoryTableView = ({
     <Modal
       visible={addVisible}
       title={<FormattedMessage id="add.category" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={() => {
         addForm
@@ -233,7 +233,7 @@ const CategoryTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.category.descriptionEn",
+              id: "add.english.term",
             })}
             allowClear
           />
@@ -250,7 +250,7 @@ const CategoryTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.category.descriptionFr",
+              id: "add.french.term",
             })}
             allowClear
           />
@@ -264,7 +264,7 @@ const CategoryTableView = ({
     <Modal
       visible={editVisible}
       title={<FormattedMessage id="edit.category" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={() => {
         editForm
@@ -300,7 +300,7 @@ const CategoryTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.category.descriptionEn",
+              id: "add.english.term",
             })}
           />
         </Form.Item>
@@ -310,7 +310,7 @@ const CategoryTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.category.descriptionFr",
+              id: "add.french.term",
             })}
           />
         </Form.Item>

@@ -265,12 +265,8 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
   return (
     <>
       <Header
-        title={
-          <>
-            <DatabaseOutlined />
-            <FormattedMessage id="user.reported.bugs" />
-          </>
-        }
+        title={<FormattedMessage id="user.reported.bugs" />}
+        icon={<DatabaseOutlined />}
       />
       <Table
         size="large"
@@ -294,7 +290,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
       />
       <Modal
         visible={visible}
-        okText={<FormattedMessage id="apply" />}
+        okText={<FormattedMessage id="save" />}
         onCancel={() => setVisible(false)}
         onOk={updateBugReport}
         title={<FormattedMessage id="edit.bugs" />}

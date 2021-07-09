@@ -42,7 +42,6 @@ const QualificationsFormView = ({
   currentTab,
   load,
   history,
-  userId,
   options,
   saveDataToDB,
 }) => {
@@ -170,11 +169,12 @@ const QualificationsFormView = ({
     return (
       <div>
         <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-        <ul>
-          {messages.map((value) => (
-            <li key={value}>{value}</li>
-          ))}
-        </ul>
+        {messages.map((value) => (
+          <p style={{ marginBottom: 0, marginLeft: "0.5em" }}>
+            {"- "}
+            {value} {intl.formatMessage({ id: "form" })}
+          </p>
+        ))}
       </div>
     );
   };
@@ -243,6 +243,7 @@ const QualificationsFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
@@ -250,7 +251,7 @@ const QualificationsFormView = ({
 
   // redirect to profile
   const onFinish = () => {
-    history.push(`/profile/${userId}`);
+    history.push(`/profile/edit/finish`);
   };
 
   /*
@@ -522,7 +523,6 @@ QualificationsFormView.propTypes = {
   currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
   history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
   options: PropTypes.shape({
     diplomas: KeyTitleOptionsPropType,
     schools: KeyTitleOptionsPropType,

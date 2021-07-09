@@ -52,7 +52,6 @@ const UserTable = () => {
         isAdmin: results[1].data.admin.includes(user.id),
         isManager: results[1].data.manager.includes(user.id),
       }));
-
       dispatch(setAdminUsers({ data: formattedData, locale }));
     } catch (error) {
       handleError(error, "redirect", history);

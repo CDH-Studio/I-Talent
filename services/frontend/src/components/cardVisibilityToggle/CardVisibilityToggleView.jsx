@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Select, notification } from "antd";
 import {
   EyeInvisibleOutlined,
@@ -6,15 +6,35 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
+import { useHistory, useParams } from "react-router";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import "./CardVisibilityToggleView.less";
 import AlertDialog from "../modal/AlertDialog";
+import useAxios from "../../utils/useAxios";
+import handleError from "../../functions/handleError";
 
 const { Option } = Select;
 
-const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
+const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
+  const axios = useAxios();
   const intl = useIntl();
+  const history = useHistory();
+  const urlID = useParams().id;
+  const userID = useSelector((state) => state.user.id);
+  const { locale } = useSelector((state) => state.settings);
   const [modalVisibility, setModalVisibility] = useState(false);
+  const [status, setStatus] = useState("PRIVATE");
+
+  /**
+   * Read card visibility status
+   */
+  const getCardStatus = useCallback(async () => {
+    if (visibleCards && (urlID === userID || !urlID)) {
+      const modifiedCard = cardName;
+      setStatus(visibleCards[modifiedCard]);
+    }
+  }, [visibleCards, urlID, userID, cardName]);
 
   /**
    * Open success notification on save
@@ -32,6 +52,25 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
   };
 
   /**
+   * Handel the change in visibility
+   * save the selected visibility to backend
+   * @param {Object} value - value selected from dropdown
+   */
+  const handleVisibilityToggle = async (value) => {
+    // eslint-disable-next-line no-param-reassign
+    visibleCards[cardName] = value;
+    await axios
+      .put(`api/profile/${urlID || userID}?language=${locale}`, {
+        visibleCards,
+      })
+      .then(() => {
+        openNotification();
+        setStatus(value);
+      })
+      .catch((error) => handleError(error, "message", history));
+  };
+
+  /**
    * Handel selection change in drop down
    * open modal confirmation if "public" is selected
    * @param {Object} value - value selected from dropdown
@@ -41,7 +80,6 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
       setModalVisibility(true);
     } else {
       handleVisibilityToggle(value);
-      openNotification();
     }
   };
 
@@ -52,7 +90,6 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
   const handleVisibilityPublicOk = () => {
     handleVisibilityToggle("PUBLIC");
     setModalVisibility(false);
-    openNotification();
   };
 
   /**
@@ -63,6 +100,10 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
     setModalVisibility(false);
   };
 
+  useEffect(() => {
+    getCardStatus();
+  }, [getCardStatus]);
+
   return (
     <>
       <Select
@@ -72,16 +113,25 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
         onSelect={handleSelect}
         aria-label={intl.formatMessage({ id: "visibility.selector" })}
       >
-        <Option value="PUBLIC">
-          <EyeOutlined className="mr-1" />
+        <Option
+          value="PUBLIC"
+          aria-label={intl.formatMessage({ id: "visibility.card.public" })}
+        >
+          <EyeOutlined className="mr-1" aria-hidden="true" />
           <FormattedMessage id="visibility.card.public" />
         </Option>
-        <Option value="CONNECTIONS">
-          <TeamOutlined className="mr-1" />
-          <FormattedMessage id="visibility.card.connections" />
+        <Option
+          value="CONNECTIONS"
+          aria-label={intl.formatMessage({ id: "connections" })}
+        >
+          <TeamOutlined className="mr-1" aria-hidden="true" />
+          <FormattedMessage id="connections" />
         </Option>
-        <Option value="PRIVATE">
-          <EyeInvisibleOutlined className="mr-1" />
+        <Option
+          value="PRIVATE"
+          aria-label={intl.formatMessage({ id: "visibility.card.private" })}
+        >
+          <EyeInvisibleOutlined className="mr-1" aria-hidden="true" />
           <FormattedMessage id="visibility.card.private" />
         </Option>
       </Select>
@@ -100,8 +150,10 @@ const CardVisibilityToggleView = ({ status, handleVisibilityToggle, type }) => {
 };
 
 CardVisibilityToggleView.propTypes = {
-  status: PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]).isRequired,
-  handleVisibilityToggle: PropTypes.func.isRequired,
+  visibleCards: PropTypes.objectOf(
+    PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
+  ).isRequired,
+  cardName: PropTypes.string.isRequired,
   type: PropTypes.oneOf(["form", "card"]).isRequired,
 };
 

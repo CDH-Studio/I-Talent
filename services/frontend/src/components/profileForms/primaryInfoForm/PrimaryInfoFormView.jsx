@@ -16,7 +16,7 @@ import {
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
@@ -27,7 +27,6 @@ import useAxios from "../../../utils/useAxios";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
-  IntlPropType,
   HistoryPropType,
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
@@ -49,7 +48,6 @@ const PrimaryInfoFormView = ({
   profileInfo,
   load,
   formType,
-  intl,
   history,
   userId,
   email,
@@ -57,6 +55,7 @@ const PrimaryInfoFormView = ({
 }) => {
   const { keycloak } = useKeycloak();
   const axios = useAxios();
+  const intl = useIntl();
   const [form] = Form.useForm();
   const [fieldsChanged, setFieldsChanged] = useState(false);
   const [savedValues, setSavedValues] = useState(null);
@@ -201,11 +200,11 @@ const PrimaryInfoFormView = ({
   const getErrorMessages = () => (
     <div>
       <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-      <ul>
-        <li key="1">
-          {intl.formatMessage({ id: "primary.contact.information" })}
-        </li>
-      </ul>
+      <p>
+        {"- "}
+        {intl.formatMessage({ id: "primary.contact.information" })}{" "}
+        {intl.formatMessage({ id: "form" })}
+      </p>
     </div>
   );
 
@@ -280,7 +279,7 @@ const PrimaryInfoFormView = ({
    * Redirect to profile
    */
   const onFinish = () => {
-    history.push(`/profile/${userId}`);
+    history.push(`/profile/edit/finish`);
   };
 
   /**
@@ -327,30 +326,6 @@ const PrimaryInfoFormView = ({
     checkIfFormValuesChanged();
   };
 
-  /**
-   * Generate formatted urlPopover
-   * @param {string} url - url to display
-   */
-  const urlPopover = (url) => (
-    <Popover
-      trigger={["focus", "hover"]}
-      content={
-        <div style={{ textAlign: "center" }}>
-          <FormattedMessage
-            id="employee.username.help"
-            values={{
-              url,
-              b: (chunks) => <b>{chunks}</b>,
-              br: () => <br />,
-            }}
-          />
-        </div>
-      }
-    >
-      <InfoCircleOutlined className="prim-infoIcon" tabIndex={0} />
-    </Popover>
-  );
-
   /** **********************************
    ********* Render Component *********
    *********************************** */
@@ -385,7 +360,7 @@ const PrimaryInfoFormView = ({
                     onClick={() => {
                       setGedsModalVisible(true);
                     }}
-                    className="prim-rightSpacedButton"
+                    aria-label={intl.formatMessage({ id: "geds.sync.button" })}
                   >
                     <SyncOutlined />
                     <span>
@@ -393,24 +368,6 @@ const PrimaryInfoFormView = ({
                     </span>
                   </Button>
                 )}
-                <Popover
-                  trigger={["focus", "hover"]}
-                  content={
-                    <div className="prim-popoverStyle">
-                      <FormattedMessage id="geds.edit.info1" />
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href="https://userprofile.prod.prv/icpup.asp?lang=E"
-                      >
-                        <FormattedMessage id="geds.edit.info.link" />
-                      </a>
-                      <FormattedMessage id="geds.edit.info2" />
-                    </div>
-                  }
-                >
-                  <InfoCircleOutlined tabIndex={0} />
-                </Popover>
               </>
             }
           />
@@ -435,7 +392,7 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="first.name" />}
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
-                <Input />
+                <Input aria-required="true" />
               </Form.Item>
             </Col>
 
@@ -445,13 +402,13 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="last.name" />}
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
-                <Input />
+                <Input aria-required="true" />
               </Form.Item>
             </Col>
           </Row>
           {/* Form Row Two */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="jobTitle"
                 label={
@@ -459,14 +416,22 @@ const PrimaryInfoFormView = ({
                     <FormattedMessage id="job.title" />
                     <div className="prim-popoverStyleCareer">
                       <Popover
-                        trigger={["focus", "hover"]}
+                        trigger={["focus", "click"]}
                         content={
                           <div className="prim-popoverStyle">
                             <FormattedMessage id="job.title.tooltip" />
                           </div>
                         }
+                        id="job-title-popover"
+                        role="button"
                       >
-                        <InfoCircleOutlined tabIndex={0} />
+                        <InfoCircleOutlined
+                          tabIndex={0}
+                          aria-describedby="job-title-popover"
+                          aria-label={intl.formatMessage({
+                            id: "job.title.popover.arialabel",
+                          })}
+                        />
                       </Popover>
                     </div>
                   </>
@@ -476,7 +441,7 @@ const PrimaryInfoFormView = ({
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="email"
                 label={<FormattedMessage id="email" />}
@@ -485,35 +450,24 @@ const PrimaryInfoFormView = ({
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
-              <Form.Item
-                name="pri"
-                label={
-                  <>
-                    <FormattedMessage id="pri" />
-                    <div className="prim-popoverStyleCareer">
-                      <Popover
-                        trigger={["focus", "hover"]}
-                        content={
-                          <div className="prim-popoverStyle">
-                            <FormattedMessage id="pri.private" />
-                          </div>
-                        }
-                      >
-                        <InfoCircleOutlined tabIndex={0} />
-                      </Popover>
-                    </div>
-                  </>
-                }
-                rules={[Rules.required, Rules.priFormat]}
-              >
-                <Input />
-              </Form.Item>
-            </Col>
           </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+              <Form.Item
+                name="pri"
+                extra={
+                  <div className="prim-popoverStyle" id="pri-extra-info">
+                    <FormattedMessage id="pri.private" />
+                  </div>
+                }
+                label={<FormattedMessage id="pri" />}
+                rules={[Rules.required, Rules.priFormat]}
+              >
+                <Input aria-describedby="pri-extra-info" aria-required="true" />
+              </Form.Item>
+            </Col>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="locationId"
                 label={<FormattedMessage id="location" />}
@@ -524,6 +478,7 @@ const PrimaryInfoFormView = ({
                   placeholder={<FormattedMessage id="search" />}
                   allowClear
                   filterOption={filterOption}
+                  aria-required="true"
                 >
                   {locationOptions.map((value) => (
                     <Option key={value.id}>
@@ -534,7 +489,10 @@ const PrimaryInfoFormView = ({
                 </Select>
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+          </Row>
+          {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="telephone"
                 label={<FormattedMessage id="profile.telephone" />}
@@ -543,7 +501,7 @@ const PrimaryInfoFormView = ({
                 <Input />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={8} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
                 name="cellphone"
                 label={<FormattedMessage id="work.cellphone" />}
@@ -580,49 +538,55 @@ const PrimaryInfoFormView = ({
               borderRadius: 5,
             }}
           >
-            <Col className="gutter-row" span={24}>
-              <LinkOutlined /> <FormattedMessage id="setup.link.profiles" />
+            <Col className="gutter-row mb-1" span={24}>
+              <LinkOutlined aria-hidden="true" className="mr-1" />
+              <FormattedMessage id="setup.link.profiles" />
             </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="gcconnex"
-                label={
-                  <>
-                    <FormattedMessage id="gcconnex.username" />
-                    {urlPopover("https://gcconnex.gc.ca/profile/")}
-                  </>
-                }
+                label={<FormattedMessage id="gcconnex.username" />}
                 rules={[Rules.maxChar100]}
               >
-                <Input />
+                <Input
+                  aria-label={`${intl.formatMessage({
+                    id: "gcconnex.username",
+                  })} https://gcconnex.gc.ca/profile/`}
+                  addonBefore="https://gcconnex.gc.ca/profile/"
+                  placeholder={intl.formatMessage({ id: "username" })}
+                />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="linkedin"
-                label={
-                  <>
-                    <FormattedMessage id="linkedin.username" />
-                    {urlPopover("https://linkedin.com/in/")}
-                  </>
-                }
+                label={<FormattedMessage id="linkedin.username" />}
                 rules={[Rules.maxChar100]}
               >
-                <Input />
+                <Input
+                  aria-label={`${intl.formatMessage({
+                    id: "linkedin.username",
+                  })} https://linkedin.com/in/`}
+                  addonBefore="https://linkedin.com/in/"
+                  aria-describedby="linkedin-field-info"
+                  placeholder={intl.formatMessage({ id: "username" })}
+                />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={8} xl={8}>
+            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
               <Form.Item
                 name="github"
-                label={
-                  <>
-                    <FormattedMessage id="github.username" />
-                    {urlPopover("https://github.com/")}
-                  </>
-                }
+                label={<FormattedMessage id="github.username" />}
                 rules={[Rules.maxChar100]}
               >
-                <Input />
+                <Input
+                  aria-label={`${intl.formatMessage({
+                    id: "github.username",
+                  })} https://github.com/`}
+                  addonBefore="https://github.com/"
+                  aria-describedby="github-field-info"
+                  placeholder={intl.formatMessage({ id: "username" })}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -647,6 +611,9 @@ const PrimaryInfoFormView = ({
                   allowClear
                   filterOption={filterOption}
                   className="custom-bubble-select-style"
+                  aria-label={intl.formatMessage({
+                    id: "employment.equity.groups",
+                  })}
                 >
                   {employmentEquityOptions.map(({ key, text }) => (
                     <Option key={key}>{text}</Option>
@@ -676,7 +643,6 @@ PrimaryInfoFormView.propTypes = {
   profileInfo: ProfileInfoPropType,
   load: PropTypes.bool.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  intl: IntlPropType,
   history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
@@ -686,7 +652,6 @@ PrimaryInfoFormView.propTypes = {
 PrimaryInfoFormView.defaultProps = {
   locationOptions: [],
   profileInfo: null,
-  intl: null,
 };
 
-export default injectIntl(PrimaryInfoFormView);
+export default PrimaryInfoFormView;

@@ -67,7 +67,7 @@ const SearchFilterView = ({
     <FormattedMessage id="ex.feeder" />,
   ];
   const ariaLabels = [
-    intl.formatMessage({ id: "search.filter.person.name" }),
+    intl.formatMessage({ id: "name" }),
     intl.formatMessage({
       id: "search.filter.classification",
     }),

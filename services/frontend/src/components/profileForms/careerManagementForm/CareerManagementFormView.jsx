@@ -18,7 +18,6 @@ import PropTypes from "prop-types";
 import { pickBy, identity, isEqual, isNil, omitBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
-import { Link } from "react-router-dom";
 import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
@@ -37,6 +36,7 @@ import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
+import config from "../../../utils/runtimeConfig";
 
 const { Option } = Select;
 const { SHOW_CHILD } = TreeSelect;
@@ -78,6 +78,7 @@ const CareerManagementFormView = ({
   const [selectedTab, setSelectedTab] = useState(1);
   const [tabErrorsBool, setTabErrorsBool] = useState({});
   const axios = useAxios();
+  const { drupalSite } = config;
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -227,11 +228,12 @@ const CareerManagementFormView = ({
     return (
       <div>
         <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-        <ul>
-          {messages.map((value) => (
-            <li key={value}>{value}</li>
-          ))}
-        </ul>
+        {messages.map((value) => (
+          <p style={{ marginBottom: 0, marginLeft: "0.5em" }}>
+            {"- "}
+            {value} {intl.formatMessage({ id: "form" })}
+          </p>
+        ))}
       </div>
     );
   };
@@ -296,6 +298,7 @@ const CareerManagementFormView = ({
         } else {
           openNotificationWithIcon({
             type: "error",
+            description: getAllValidationErrorMessages(findErrorTabs()),
           });
         }
       });
@@ -307,7 +310,7 @@ const CareerManagementFormView = ({
    * redirect to profile
    */
   const onFinish = () => {
-    history.push(`/profile/${userId}`);
+    history.push(`/profile/edit/finish`);
   };
 
   /*
@@ -435,10 +438,23 @@ const CareerManagementFormView = ({
                 title={<FormattedMessage id="developmental.goals" />}
                 popoverMessage={
                   <>
-                    <FormattedMessage id="tooltip.extra.info.help" />
-                    <Link to="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </Link>
+                    <FormattedMessage
+                      id="tooltip.extra.info.help"
+                      values={{
+                        helpUrl: (
+                          <a
+                            className="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`${drupalSite}${
+                              locale === "ENGLISH" ? "en" : "fr"
+                            }help`}
+                          >
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        ),
+                      }}
+                    />
                   </>
                 }
                 extra={
@@ -566,10 +582,23 @@ const CareerManagementFormView = ({
                 title={<FormattedMessage id="career.interests" />}
                 popoverMessage={
                   <>
-                    <FormattedMessage id="tooltip.extra.info.help" />
-                    <Link to="/about/help">
-                      <FormattedMessage id="footer.contact.link" />
-                    </Link>
+                    <FormattedMessage
+                      id="tooltip.extra.info.help"
+                      values={{
+                        helpUrl: (
+                          <a
+                            className="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={`${drupalSite}${
+                              locale === "ENGLISH" ? "en" : "fr"
+                            }help`}
+                          >
+                            <FormattedMessage id="footer.contact.link" />
+                          </a>
+                        ),
+                      }}
+                    />
                   </>
                 }
                 extra={

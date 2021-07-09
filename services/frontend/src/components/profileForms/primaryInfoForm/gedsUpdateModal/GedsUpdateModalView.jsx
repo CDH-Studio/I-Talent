@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Modal, Table, Button, Result } from "antd";
 import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { isEqual } from "lodash";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
@@ -100,6 +100,7 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
  */
 const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
   const axios = useAxios();
+  const intl = useIntl();
   const [newGedsValues, setNewGedsValues] = useState(null);
   const [tableData, setTableData] = useState(null);
   const [tableLoading, setTableLoading] = useState(false);
@@ -240,6 +241,11 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
+          aria-label={
+            isEqual(record.savedValue, record.gedsValue)
+              ? intl.formatMessage({ id: "geds.update.synced" })
+              : intl.formatMessage({ id: "geds.update.sync" })
+          }
         >
           <span>
             {isEqual(record.savedValue, record.gedsValue) ? (
@@ -291,13 +297,35 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
           title={<FormattedMessage id="geds.update.error.message" />}
         />
       ) : (
-        <Table
-          columns={columns}
-          dataSource={tableData}
-          pagination={false}
-          size="small"
-          loading={!tableData || tableLoading}
-        />
+        <>
+          <FormattedMessage
+            id="geds.edit.info"
+            values={{
+              instructionUrl: (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={
+                    locale === "ENGLISH"
+                      ? "http://icweb.ic.gc.ca/eic/site/029.nsf/eng/00172.html"
+                      : "http://icweb.ic.gc.ca/eic/site/029.nsf/fra/00172.html"
+                  }
+                  tabIndex="0"
+                >
+                  <FormattedMessage id="geds.edit.info.link" />
+                </a>
+              ),
+            }}
+          />
+          <Table
+            columns={columns}
+            dataSource={tableData}
+            pagination={false}
+            size="small"
+            loading={!tableData || tableLoading}
+            className="mt-4"
+          />
+        </>
       )}
     </Modal>
   );

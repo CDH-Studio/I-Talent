@@ -221,7 +221,7 @@ const DiplomaTableView = ({
     <Modal
       visible={addVisible}
       title={<FormattedMessage id="add.diploma" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={() => {
         addForm
@@ -255,7 +255,7 @@ const DiplomaTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.diploma.descriptionEn",
+              id: "add.english.term",
             })}
             allowClear
           />
@@ -272,7 +272,7 @@ const DiplomaTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.diploma.descriptionFr",
+              id: "add.french.term",
             })}
             allowClear
           />
@@ -286,7 +286,7 @@ const DiplomaTableView = ({
     <Modal
       visible={editVisible}
       title={<FormattedMessage id="edit.diploma" />}
-      okText={<FormattedMessage id="apply" />}
+      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
       onOk={() => {
         editForm
@@ -322,7 +322,7 @@ const DiplomaTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.diploma.descriptionEn",
+              id: "add.english.term",
             })}
           />
         </Form.Item>
@@ -332,7 +332,7 @@ const DiplomaTableView = ({
         >
           <Input
             placeholder={intl.formatMessage({
-              id: "add.diploma.descriptionFr",
+              id: "add.french.term",
             })}
           />
         </Form.Item>
@@ -399,7 +399,7 @@ const DiplomaTableView = ({
       {addDiplomaModal()}
       {editDiplomaModal()}
       <Header
-        title={<FormattedMessage id="diplomas.table" />}
+        title={<FormattedMessage id="diplomas" />}
         icon={<DatabaseOutlined />}
         extra={
           <>
