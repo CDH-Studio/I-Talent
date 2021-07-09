@@ -12,6 +12,7 @@ const {
   categories,
   officeLocations,
   competencies,
+  linkAttachmentNames,
 } = require("./data");
 
 async function seedStaticInfo() {
@@ -144,10 +145,16 @@ async function seedStaticInfo() {
           abbrProvince,
           abbrCountry,
           translations: {
-            create: Object.keys(translations).map((i) => ({
-              name: translations[i].name,
-              language: i === "en" ? "ENGLISH" : "FRENCH",
-            })),
+            create: [
+              {
+                name: translations.en.name,
+                language: "ENGLISH",
+              },
+              {
+                name: translations.fr.name,
+                language: "FRENCH",
+              },
+            ],
           },
         },
       });
@@ -218,6 +225,26 @@ async function seedStaticInfo() {
     ...competencies.map(async ({ en, fr }) => {
       await prisma.opCompetency.create({
         data: {
+          translations: {
+            create: [
+              {
+                name: en,
+                language: "ENGLISH",
+              },
+              {
+                name: fr,
+                language: "FRENCH",
+              },
+            ],
+          },
+        },
+      });
+    }),
+
+    ...linkAttachmentNames.map(async ({ en, fr, type }) => {
+      await prisma.opAttachmentLinkName.create({
+        data: {
+          type,
           translations: {
             create: [
               {

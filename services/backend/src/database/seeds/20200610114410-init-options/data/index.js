@@ -9,6 +9,7 @@ const schools = require("./schools");
 const categories = require("./categories");
 const officeLocations = require("./officeLocations");
 const competencies = require("./competencies");
+const linkAttachmentNames = require("./linkAttachmentNames");
 
 module.exports = {
   lookingJobs,
@@ -22,4 +23,5 @@ module.exports = {
   categories,
   officeLocations,
   competencies,
+  linkAttachmentNames,
 };
