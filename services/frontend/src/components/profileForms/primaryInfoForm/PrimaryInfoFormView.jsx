@@ -33,7 +33,7 @@ import {
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
+// import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
@@ -43,7 +43,7 @@ import login from "../../../utils/login";
 
 import "./PrimaryInfoFormView.less";
 
-const { Option } = Select;
+// const { Option } = Select;
 
 const PrimaryInfoFormView = ({
   locationOptions,
@@ -193,7 +193,6 @@ const PrimaryInfoFormView = ({
       identity
     );
     console.log("initial", getInitialValues({ profile: profileInfo }));
-    console.log("locationId", form.getFieldValue("locationId"));
     console.log(
       "employmentEquityGroups",
       form.getFieldValue("employmentEquityGroups")
@@ -632,7 +631,17 @@ const PrimaryInfoFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item name="employmentEquityGroups">
-                <Select
+                <AliSelect
+                  initialValueId={
+                    getInitialValues({ profile: profileInfo })
+                      .employmentEquityGroups
+                  }
+                  placeholderText={<FormattedMessage id="select" />}
+                  options={employmentEquityOptions}
+                  isSearchable={false}
+                  isMulti
+                />
+                {/* <Select
                   showSearch
                   mode="multiple"
                   placeholder={<FormattedMessage id="search" />}
@@ -646,7 +655,7 @@ const PrimaryInfoFormView = ({
                   {employmentEquityOptions.map(({ key, text }) => (
                     <Option key={key}>{text}</Option>
                   ))}
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
           </Row>

@@ -12,10 +12,12 @@ const AliSelect = ({
   isSearchable,
   isClearable,
 }) => {
-  //   const [selectedValue, setSelectedValue] = useState(defaultValue);
-
-  const mapInitialValue = (SelectOptions, Id) =>
-    SelectOptions.find((option) => option.value === Id);
+  const mapInitialValue = (SelectOptions, savedIds) =>
+    isMulti
+      ? savedIds.map((Id) =>
+          SelectOptions.find((option) => option.value === Id)
+        )
+      : SelectOptions.find((option) => option.value === savedIds);
 
   const triggerChange = (changedValue) => {
     onChange?.(changedValue);
@@ -23,6 +25,10 @@ const AliSelect = ({
   // eslint-disable-next-line no-unused-vars
   const onSelectedValueChange = (newVal) => {
     if (newVal && isMulti) {
+      console.log(
+        "map",
+        newVal.map(({ value }) => value)
+      );
       triggerChange(newVal.map(({ value }) => value));
     } else if (newVal) {
       triggerChange(newVal.value);
@@ -31,7 +37,7 @@ const AliSelect = ({
     }
   };
 
-  console.log("initialValueId", mapInitialValue(options, initialValueId));
+  console.log("map", mapInitialValue(options, initialValueId));
 
   return (
     <Select
