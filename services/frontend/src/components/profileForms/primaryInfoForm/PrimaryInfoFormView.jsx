@@ -3,9 +3,9 @@ import {
   Row,
   Col,
   Skeleton,
+  Select,
   Divider,
   Form,
-  Select,
   Input,
   Button,
   notification,
@@ -16,6 +16,7 @@ import {
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
+// import Select from "react-select";
 import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
@@ -24,6 +25,7 @@ import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../../../utils/useAxios";
+import AliSelect from "../../formItems/AliSelect";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -190,7 +192,12 @@ const PrimaryInfoFormView = ({
       savedValues || getInitialValues({ profile: profileInfo }),
       identity
     );
-
+    console.log("initial", getInitialValues({ profile: profileInfo }));
+    console.log("locationId", form.getFieldValue("locationId"));
+    console.log(
+      "employmentEquityGroups",
+      form.getFieldValue("employmentEquityGroups")
+    );
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
@@ -469,11 +476,16 @@ const PrimaryInfoFormView = ({
             </Col>
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
+                id="zkzzz"
                 name="locationId"
-                label={<FormattedMessage id="location" />}
+                label={
+                  <span id="zzzz">
+                    <FormattedMessage id="location" />
+                  </span>
+                }
                 rules={[Rules.required, Rules.maxChar50]}
               >
-                <Select
+                {/* <Select
                   showSearch
                   placeholder={<FormattedMessage id="search" />}
                   allowClear
@@ -486,7 +498,23 @@ const PrimaryInfoFormView = ({
                       {value.province}
                     </Option>
                   ))}
-                </Select>
+                </Select> */}
+                {/* <Select
+                  aria-labelledby="zzzz"
+                  aria-required="true"
+                  options={locationOptions}
+                  placeholderText="jjjj"
+                  // isSearchable
+                /> */}
+                <AliSelect
+                  // aria-labelledby="zzzz"
+                  // aria-required="true"
+                  placeholderText={<FormattedMessage id="search" />}
+                  initialValueId={
+                    getInitialValues({ profile: profileInfo }).locationId
+                  }
+                  options={locationOptions}
+                />
               </Form.Item>
             </Col>
           </Row>
