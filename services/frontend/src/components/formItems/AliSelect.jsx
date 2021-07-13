@@ -1,8 +1,10 @@
 // import { useState } from "react";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { useIntl } from "react-intl";
 
 const AliSelect = ({
+  ariaLabel,
   onChange,
   initialValueId,
   placeholderText,
@@ -11,7 +13,10 @@ const AliSelect = ({
   isMulti,
   isSearchable,
   isClearable,
+  isRequired,
 }) => {
+  const intl = useIntl();
+
   const mapInitialValue = (SelectOptions, savedIds) =>
     isMulti
       ? savedIds.map((Id) =>
@@ -37,17 +42,11 @@ const AliSelect = ({
     }
   };
 
-  console.log("map", mapInitialValue(options, initialValueId));
-
   return (
     <Select
-      //   aria-label="this is a label for location"
-      //   aria-label="zzzz"
-      //   aria-live="assertive"
-      //   aria-required="true"
-      //   aria-autocomplete="list"
-      //   closeMenuOnSelect={false}
-
+      aria-label={`${ariaLabel} ${
+        isRequired && intl.formatMessage({ id: "rules.required" })
+      }`}
       defaultValue={mapInitialValue(options, initialValueId)}
       options={options}
       placeholder={placeholderText}
@@ -64,6 +63,7 @@ const AliSelect = ({
 };
 
 AliSelect.propTypes = {
+  ariaLabel: PropTypes.string,
   onChange: PropTypes.func,
   placeholderText: PropTypes.node,
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -72,16 +72,19 @@ AliSelect.propTypes = {
   initialValueId: PropTypes.string,
   isDisabled: PropTypes.bool,
   isClearable: PropTypes.bool,
+  isRequired: PropTypes.bool,
 };
 
 AliSelect.defaultProps = {
+  ariaLabel: "",
   placeholderText: "Select...",
-  isMulti: false,
   onChange: null,
+  isMulti: false,
   initialValueId: "",
   isSearchable: true,
   isDisabled: false,
   isClearable: true,
+  isRequired: false,
 };
 
 export default AliSelect;

@@ -475,13 +475,8 @@ const PrimaryInfoFormView = ({
             </Col>
             <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
               <Form.Item
-                id="zkzzz"
                 name="locationId"
-                label={
-                  <span id="zzzz">
-                    <FormattedMessage id="location" />
-                  </span>
-                }
+                label={<FormattedMessage id="location" />}
                 rules={[Rules.required, Rules.maxChar50]}
               >
                 {/* <Select
@@ -508,7 +503,8 @@ const PrimaryInfoFormView = ({
                 <AliSelect
                   // aria-labelledby="zzzz"
                   // aria-required="true"
-                  // aria-label="this is a label for location"
+                  ariaLabel={intl.formatMessage({ id: "location" })}
+                  isRequired
                   placeholderText={<FormattedMessage id="search" />}
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).locationId
