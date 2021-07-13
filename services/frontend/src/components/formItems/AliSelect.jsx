@@ -41,8 +41,13 @@ const AliSelect = ({
 
   return (
     <Select
-      aria-labelledby="zzzz"
-      aria-required="true"
+      //   aria-label="this is a label for location"
+      //   aria-label="zzzz"
+      //   aria-live="assertive"
+      //   aria-required="true"
+      //   aria-autocomplete="list"
+      //   closeMenuOnSelect={false}
+
       defaultValue={mapInitialValue(options, initialValueId)}
       options={options}
       placeholder={placeholderText}
@@ -51,6 +56,9 @@ const AliSelect = ({
       isSearchable={isSearchable}
       isClearable={isClearable}
       isDisabled={isDisabled}
+      required
+      closeMenuOnSelect={!isMulti}
+      blurInputOnSelect={false}
     />
   );
 };

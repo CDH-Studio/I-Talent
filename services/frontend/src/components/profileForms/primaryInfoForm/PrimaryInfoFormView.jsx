@@ -508,6 +508,7 @@ const PrimaryInfoFormView = ({
                 <AliSelect
                   // aria-labelledby="zzzz"
                   // aria-required="true"
+                  // aria-label="this is a label for location"
                   placeholderText={<FormattedMessage id="search" />}
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).locationId
