@@ -2,6 +2,7 @@
 import PropTypes from "prop-types";
 import Select from "react-select";
 import { useIntl } from "react-intl";
+import antdStyles from "../../styling/antdTheme";
 
 const AliSelect = ({
   ariaLabel,
@@ -42,6 +43,68 @@ const AliSelect = ({
     }
   };
 
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      background: "#fff",
+      borderColor: state.isFocused || state.active ? "#087472" : "#d9d9d9",
+      minHeight: isMulti ? "36px" : "32px",
+      padding: isMulti ? "3px 0" : 0,
+      // height: isMulti ? "36px" : "32px",
+      boxShadow:
+        state.isFocused || state.active
+          ? "0px 0px 0px 2px rgb(8 116 114 / 50%)"
+          : "none",
+    }),
+
+    valueContainer: (provided) => ({
+      ...provided,
+      // height: isMulti ? "36px" : "32px",
+      minHeight: "32px",
+      padding: "0 11px",
+    }),
+
+    input: (provided) => ({
+      ...provided,
+      margin: "0px",
+    }),
+    indicatorsContainer: (provided) => ({
+      ...provided,
+      height: isMulti ? "auto" : "32px",
+    }),
+    option: (provided) => ({
+      ...provided,
+      //   height: isMulti ? "36px" : "32px",
+      height: "32px",
+      padding: "0 11px",
+      //   lineHeight: isMulti ? "36px" : "32px",
+      lineHeight: "32px",
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: antdStyles["@primary-color-2"],
+      borderStyle: "solid",
+      borderColor: antdStyles["@primary-color-1"],
+      borderWidth: "1px",
+      borderRadius: "1rem",
+      padding: "0 5px",
+      margin: "3px 6px 3px 0",
+      fontSize: "1rem",
+      lineHeight: "1.3rem",
+    }),
+  };
+
+  const customTheme = (theme) => ({
+    ...theme,
+    borderRadius: "5px",
+    colors: {
+      ...theme.colors,
+      primary50: antdStyles["@primary-color-2"],
+      primary25: antdStyles["@primary-color-2"],
+      primary: antdStyles["@primary-color-1"],
+    },
+  });
+
   return (
     <Select
       aria-label={`${ariaLabel} ${
@@ -58,6 +121,8 @@ const AliSelect = ({
       required
       closeMenuOnSelect={!isMulti}
       blurInputOnSelect={false}
+      styles={customStyles}
+      theme={customTheme}
     />
   );
 };
