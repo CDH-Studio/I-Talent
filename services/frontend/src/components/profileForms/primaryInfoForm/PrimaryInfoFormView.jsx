@@ -3,7 +3,7 @@ import {
   Row,
   Col,
   Skeleton,
-  Select,
+  // Select,
   Divider,
   Form,
   Input,
@@ -543,10 +543,19 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="employee.work.unit" />}
                 className="custom-bubble-select-style"
               >
-                <Select
+                {/* <Select
                   mode="tags"
                   style={{ width: "100%" }}
                   notFoundContent={<FormattedMessage id="press.enter.to.add" />}
+                /> */}
+
+                <AliSelect
+                  initialValueId={
+                    getInitialValues({ profile: profileInfo }).teams
+                  }
+                  placeholderText={<FormattedMessage id="select" />}
+                  isCreatable
+                  isMulti
                 />
               </Form.Item>
             </Col>
