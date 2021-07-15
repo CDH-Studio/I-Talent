@@ -109,22 +109,34 @@ const AliSelect = ({
     },
   });
 
+  const generateAriaLabel = (formFieldLabel, isFieldRequired) =>
+    `${formFieldLabel} ${
+      isFieldRequired && intl.formatMessage({ id: "rules.required" })
+    }`;
+
   const formatCreateLabelCreator = (value) =>
     `${intl.formatMessage({ id: "press.enter.to.add" })} "${value}"`;
 
   const noOptionsMessageCreator = () =>
     intl.formatMessage({ id: "press.enter.to.add" });
 
-  const generateSelectOptions = (providedOptions, userSelectedOptions) =>
-    isMulti && userSelectedOptions.length >= 2 ? [] : providedOptions;
+  const generateSelectOptions = (
+    providedOptions,
+    userSelectedOptions,
+    isMultiSelect
+  ) =>
+    isMultiSelect && userSelectedOptions.length >= 2 ? [] : providedOptions;
+
+  const generateNoOptionsMessage = (userSelectedOptions, isMultiSelect) =>
+    isMulti && userSelectedOptions.length >= 2
+      ? "You've reached the max number of options."
+      : "No options available";
 
   return (
     <>
       {isCreatable ? (
         <CreatableSelect
-          aria-label={`${ariaLabel} ${
-            isRequired && intl.formatMessage({ id: "rules.required" })
-          }`}
+          aria-label={generateAriaLabel(ariaLabel, isRequired)}
           placeholder={placeholderText}
           defaultValue={mapInitialValueCreatable(initialValueId)}
           onChange={onSelectedValueChange}
@@ -137,18 +149,10 @@ const AliSelect = ({
         />
       ) : (
         <Select
-          //   components={{ Menu }}
-          aria-label={`${ariaLabel} ${
-            isRequired && intl.formatMessage({ id: "rules.required" })
-          }`}
+          aria-label={generateAriaLabel(ariaLabel, isRequired)}
           defaultValue={mapInitialValue(options, initialValueId)}
-          //   options={selectedOptions.length >= 2 ? [] : options}
-          options={generateSelectOptions(options, selectedOptions)}
-          noOptionsMessage={() =>
-            isMulti && selectedOptions.length >= 2
-              ? "You've reached the max number of options."
-              : "No options available"
-          }
+          options={generateSelectOptions(options, selectedOptions, isMulti)}
+          noOptionsMessage={generateNoOptionsMessage(selectedOptions, isMulti)}
           placeholder={placeholderText}
           onChange={onSelectedValueChange}
           isMulti={isMulti}
