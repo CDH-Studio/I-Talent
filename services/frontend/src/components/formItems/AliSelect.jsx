@@ -19,6 +19,7 @@ const AliSelect = ({
   isRequired,
   isCreatable,
   maxSelectedOptions,
+  className,
 }) => {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState(initialValueId);
@@ -38,6 +39,7 @@ const AliSelect = ({
 
   const triggerChange = (changedValue) => {
     setSelectedOptions(changedValue);
+    onChange?.(changedValue);
   };
 
   const onSelectedValueChange = (newVal) => {
@@ -160,6 +162,7 @@ const AliSelect = ({
           isValidNewOption={() =>
             isOptionsDisabled(isMulti, maxSelectedOptions)
           }
+          className={className}
         />
       ) : (
         <Select
@@ -192,6 +195,7 @@ const AliSelect = ({
           isOptionDisabled={() =>
             isOptionsDisabled(isMulti, maxSelectedOptions)
           }
+          className={className}
         />
       )}
     </>
@@ -218,6 +222,7 @@ AliSelect.propTypes = {
   isRequired: PropTypes.bool,
   isCreatable: PropTypes.bool,
   maxSelectedOptions: PropTypes.number,
+  className: PropTypes.string,
 };
 
 AliSelect.defaultProps = {
@@ -233,7 +238,8 @@ AliSelect.defaultProps = {
   isClearable: true,
   isRequired: false,
   isCreatable: false,
-  maxSelectedOptions: 2,
+  maxSelectedOptions: undefined,
+  className: "",
 };
 
 export default AliSelect;
