@@ -9,6 +9,7 @@ const AliSelect = ({
   ariaLabel,
   onChange,
   initialValueId,
+  inputValue,
   placeholderText,
   isDisabled,
   options,
@@ -37,8 +38,6 @@ const AliSelect = ({
 
   const triggerChange = (changedValue) => {
     setSelectedOptions(changedValue);
-    console.log("selectedOptions", selectedOptions);
-    onChange?.(changedValue);
   };
 
   const onSelectedValueChange = (newVal) => {
@@ -150,6 +149,7 @@ const AliSelect = ({
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
           placeholder={placeholderText}
           defaultValue={mapInitialValueCreatable(initialValueId)}
+          // inputValue={mapInitialValueCreatable(inputValue)}
           onChange={onSelectedValueChange}
           formatCreateLabel={formatCreateLabelCreator}
           noOptionsMessage={noOptionsMessageCreator}
@@ -165,6 +165,7 @@ const AliSelect = ({
         <Select
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
           defaultValue={mapInitialValue(options, initialValueId)}
+          value={mapInitialValue(options, inputValue || selectedOptions)}
           options={generateSelectOptions(
             options,
             selectedOptions,
@@ -208,6 +209,10 @@ AliSelect.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]),
+  inputValue: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   isDisabled: PropTypes.bool,
   isClearable: PropTypes.bool,
   isRequired: PropTypes.bool,
@@ -222,6 +227,7 @@ AliSelect.defaultProps = {
   onChange: null,
   isMulti: false,
   initialValueId: "",
+  inputValue: undefined,
   isSearchable: true,
   isDisabled: false,
   isClearable: true,
