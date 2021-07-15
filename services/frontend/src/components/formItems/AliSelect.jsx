@@ -17,6 +17,7 @@ const AliSelect = ({
   isClearable,
   isRequired,
   isCreatable,
+  maxSelectedOptions,
 }) => {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState(initialValueId);
@@ -123,14 +124,24 @@ const AliSelect = ({
   const generateSelectOptions = (
     providedOptions,
     userSelectedOptions,
-    isMultiSelect
+    isMultiSelect,
+    maxSelected
   ) =>
-    isMultiSelect && userSelectedOptions.length >= 2 ? [] : providedOptions;
+    isMultiSelect && maxSelected && userSelectedOptions.length >= maxSelected
+      ? []
+      : providedOptions;
 
-  const generateNoOptionsMessage = (userSelectedOptions, isMultiSelect) =>
-    isMulti && userSelectedOptions.length >= 2
+  const generateNoOptionsMessage = (
+    userSelectedOptions,
+    isMultiSelect,
+    maxSelected
+  ) =>
+    isMultiSelect && maxSelected && userSelectedOptions.length >= maxSelected
       ? "You've reached the max number of options."
       : "No options available";
+
+  const isOptionsDisabled = (isMultiSelect, maxSelected) =>
+    isMulti && maxSelected && selectedOptions.length > maxSelected;
 
   return (
     <>
@@ -146,13 +157,27 @@ const AliSelect = ({
           isMulti
           styles={customStyles}
           theme={customTheme}
+          isValidNewOption={() =>
+            isOptionsDisabled(isMulti, maxSelectedOptions)
+          }
         />
       ) : (
         <Select
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
           defaultValue={mapInitialValue(options, initialValueId)}
-          options={generateSelectOptions(options, selectedOptions, isMulti)}
-          noOptionsMessage={generateNoOptionsMessage(selectedOptions, isMulti)}
+          options={generateSelectOptions(
+            options,
+            selectedOptions,
+            isMulti,
+            maxSelectedOptions
+          )}
+          noOptionsMessage={() =>
+            generateNoOptionsMessage(
+              selectedOptions,
+              isMulti,
+              maxSelectedOptions
+            )
+          }
           placeholder={placeholderText}
           onChange={onSelectedValueChange}
           isMulti={isMulti}
@@ -163,7 +188,9 @@ const AliSelect = ({
           blurInputOnSelect={false}
           styles={customStyles}
           theme={customTheme}
-          isOptionDisabled={() => isMulti && selectedOptions.length > 2}
+          isOptionDisabled={() =>
+            isOptionsDisabled(isMulti, maxSelectedOptions)
+          }
         />
       )}
     </>
@@ -185,6 +212,7 @@ AliSelect.propTypes = {
   isClearable: PropTypes.bool,
   isRequired: PropTypes.bool,
   isCreatable: PropTypes.bool,
+  maxSelectedOptions: PropTypes.number,
 };
 
 AliSelect.defaultProps = {
@@ -199,6 +227,7 @@ AliSelect.defaultProps = {
   isClearable: true,
   isRequired: false,
   isCreatable: false,
+  maxSelectedOptions: 2,
 };
 
 export default AliSelect;
