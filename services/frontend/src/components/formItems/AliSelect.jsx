@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
@@ -19,6 +19,7 @@ const AliSelect = ({
   isCreatable,
 }) => {
   const intl = useIntl();
+  const [selectedOptions, setSelectedOptions] = useState(initialValueId);
 
   const mapInitialValue = (dropdownOptions, savedIds) =>
     isMulti
@@ -34,6 +35,8 @@ const AliSelect = ({
     }));
 
   const triggerChange = (changedValue) => {
+    setSelectedOptions(changedValue);
+    console.log("selectedOptions", selectedOptions);
     onChange?.(changedValue);
   };
 
@@ -112,6 +115,9 @@ const AliSelect = ({
   const noOptionsMessageCreator = () =>
     intl.formatMessage({ id: "press.enter.to.add" });
 
+  const generateSelectOptions = (providedOptions, userSelectedOptions) =>
+    isMulti && userSelectedOptions.length >= 2 ? [] : providedOptions;
+
   return (
     <>
       {isCreatable ? (
@@ -131,11 +137,18 @@ const AliSelect = ({
         />
       ) : (
         <Select
+          //   components={{ Menu }}
           aria-label={`${ariaLabel} ${
             isRequired && intl.formatMessage({ id: "rules.required" })
           }`}
           defaultValue={mapInitialValue(options, initialValueId)}
-          options={options}
+          //   options={selectedOptions.length >= 2 ? [] : options}
+          options={generateSelectOptions(options, selectedOptions)}
+          noOptionsMessage={() =>
+            isMulti && selectedOptions.length >= 2
+              ? "You've reached the max number of options."
+              : "No options available"
+          }
           placeholder={placeholderText}
           onChange={onSelectedValueChange}
           isMulti={isMulti}
@@ -146,6 +159,7 @@ const AliSelect = ({
           blurInputOnSelect={false}
           styles={customStyles}
           theme={customTheme}
+          isOptionDisabled={() => isMulti && selectedOptions.length > 2}
         />
       )}
     </>
@@ -156,10 +170,13 @@ AliSelect.propTypes = {
   ariaLabel: PropTypes.string,
   onChange: PropTypes.func,
   placeholderText: PropTypes.node,
-  options: PropTypes.arrayOf(PropTypes.object).isRequired,
+  options: PropTypes.arrayOf(PropTypes.object),
   isMulti: PropTypes.bool,
   isSearchable: PropTypes.bool,
-  initialValueId: PropTypes.string,
+  initialValueId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.string),
+  ]),
   isDisabled: PropTypes.bool,
   isClearable: PropTypes.bool,
   isRequired: PropTypes.bool,
@@ -167,6 +184,7 @@ AliSelect.propTypes = {
 };
 
 AliSelect.defaultProps = {
+  options: undefined,
   ariaLabel: "",
   placeholderText: "Select...",
   onChange: null,
