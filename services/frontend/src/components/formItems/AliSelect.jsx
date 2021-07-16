@@ -116,7 +116,6 @@ const AliSelect = ({
       isFieldRequired && intl.formatMessage({ id: "rules.required" })
     }`;
 
-  const formatCreateLabelCreator = (value) =>
   const formatCreateLabelCreatable = (value) =>
     `${intl.formatMessage({ id: "press.enter.to.add" })} "${value}"`;
 
