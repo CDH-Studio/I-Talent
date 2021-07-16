@@ -117,9 +117,10 @@ const AliSelect = ({
     }`;
 
   const formatCreateLabelCreator = (value) =>
+  const formatCreateLabelCreatable = (value) =>
     `${intl.formatMessage({ id: "press.enter.to.add" })} "${value}"`;
 
-  const noOptionsMessageCreator = () =>
+  const generateNoOptionsMessageCreatable = () =>
     intl.formatMessage({ id: "press.enter.to.add" });
 
   const generateSelectOptions = (
@@ -142,7 +143,28 @@ const AliSelect = ({
       : "No options available";
 
   const isOptionsDisabled = (isMultiSelect, maxSelected) =>
-    isMulti && maxSelected && selectedOptions.length > maxSelected;
+    isMulti && maxSelected && selectedOptions.length >= maxSelected;
+
+  const isValidInputCreatable = (
+    inputValueString,
+    selectValues,
+    isMultiSelect,
+    maxSelected
+  ) => {
+    // Check whether typed value is either empty or already exists
+    if (
+      inputValueString.trim().length === 0 ||
+      selectValues.find((option) => option.value === inputValueString)
+    ) {
+      return false;
+    }
+    // Check whether the number of selected options exceeds max count
+    if (isMulti && maxSelected && selectValues.length >= maxSelected) {
+      return false;
+    }
+
+    return true;
+  };
 
   return (
     <>
@@ -153,14 +175,19 @@ const AliSelect = ({
           defaultValue={mapInitialValueCreatable(initialValueId)}
           // inputValue={mapInitialValueCreatable(inputValue)}
           onChange={onSelectedValueChange}
-          formatCreateLabel={formatCreateLabelCreator}
-          noOptionsMessage={noOptionsMessageCreator}
+          formatCreateLabel={formatCreateLabelCreatable}
+          noOptionsMessage={generateNoOptionsMessageCreatable}
           blurInputOnSelect={false}
           isMulti
           styles={customStyles}
           theme={customTheme}
-          isValidNewOption={() =>
-            isOptionsDisabled(isMulti, maxSelectedOptions)
+          isValidNewOption={(userTypedValue, selectValue) =>
+            isValidInputCreatable(
+              userTypedValue,
+              selectValue,
+              isMulti,
+              maxSelectedOptions
+            )
           }
           className={className}
         />

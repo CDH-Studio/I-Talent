@@ -556,6 +556,7 @@ const PrimaryInfoFormView = ({
                   placeholderText={<FormattedMessage id="select" />}
                   isCreatable
                   isMulti
+                  maxSelectedOptions={2}
                 />
               </Form.Item>
             </Col>
@@ -646,6 +647,7 @@ const PrimaryInfoFormView = ({
                   options={employmentEquityOptions}
                   isSearchable={false}
                   isMulti
+                  maxSelectedOptions={2}
                 />
                 {/* <Select
                   showSearch
