@@ -120,8 +120,26 @@ const AliSelect = ({
   const formatCreateLabelCreatable = (value) =>
     `${intl.formatMessage({ id: "press.enter.to.add" })} "${value}"`;
 
-  const generateNoOptionsMessageCreatable = () =>
-    intl.formatMessage({ id: "press.enter.to.add" });
+  const generateNoOptionsMessageCreatable = (
+    userTypedInput,
+    userSelectedOptions,
+    isMultiSelect,
+    maxSelected
+  ) => {
+    const inputString = userTypedInput.inputValue;
+
+    // display message when value already exists
+    if (userSelectedOptions.find((option) => option === inputString)) {
+      return `"${inputString}" has already been added`;
+    }
+
+    // display message when max number of values have been selected
+    if (isMulti && maxSelected && userSelectedOptions.length >= maxSelected) {
+      return `You have reached the max of ${maxSelected} selected items`;
+    }
+
+    return `Type and press enter to add`;
+  };
 
   const generateSelectOptions = (
     providedOptions,
@@ -139,7 +157,7 @@ const AliSelect = ({
     maxSelected
   ) =>
     isMultiSelect && maxSelected && userSelectedOptions.length >= maxSelected
-      ? "You've reached the max number of options."
+      ? `You have reached the max of ${maxSelected} selected items`
       : "No options available";
 
   const isOptionsDisabled = (isMultiSelect, maxSelected) =>
@@ -176,15 +194,22 @@ const AliSelect = ({
           // inputValue={mapInitialValueCreatable(inputValue)}
           onChange={onSelectedValueChange}
           formatCreateLabel={formatCreateLabelCreatable}
-          noOptionsMessage={generateNoOptionsMessageCreatable}
+          noOptionsMessage={(typedInputValue) =>
+            generateNoOptionsMessageCreatable(
+              typedInputValue,
+              selectedOptions,
+              isMulti,
+              maxSelectedOptions
+            )
+          }
           blurInputOnSelect={false}
           isMulti
           styles={customStyles}
           theme={customTheme}
-          isValidNewOption={(userTypedValue, selectValue) =>
+          isValidNewOption={(userTypedValue, selectValues) =>
             isValidInputCreatable(
               userTypedValue,
-              selectValue,
+              selectValues,
               isMulti,
               maxSelectedOptions
             )
