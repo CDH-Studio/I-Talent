@@ -2,6 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
+import { PlusCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { useIntl } from "react-intl";
 import antdStyles from "../../styling/antdTheme";
 
@@ -115,7 +116,7 @@ const AliSelect = ({
    * @param {string[]} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
-   * @return {string} generated text to display
+   * @return {HTMLElement} generated element to display
    *
    */
   const generateNoOptionsMessageCreatable = (
@@ -128,7 +129,12 @@ const AliSelect = ({
 
     // display message when the user typed value already exists
     if (userSelectedOptions.find((option) => option === inputString)) {
-      return `"${inputString}" has already been added`;
+      return (
+        <span role="alert">
+          <InfoCircleOutlined aria-hidden="true" className="mr-1" />
+          <strong>{inputString}</strong> has already been added
+        </span>
+      );
     }
 
     // display message when the limit for the number of selected values has been reached
@@ -137,10 +143,20 @@ const AliSelect = ({
       maxSelectedLimit &&
       userSelectedOptions.length >= maxSelectedLimit
     ) {
-      return `You have reached the max of ${maxSelectedLimit} selected items`;
+      return (
+        <span role="alert">
+          <InfoCircleOutlined aria-hidden="true" className="mr-1" />
+          You have reached the max of {maxSelectedLimit} selected items
+        </span>
+      );
     }
 
-    return `Type and press enter to add`;
+    return (
+      <span role="alert">
+        <PlusCircleOutlined aria-hidden="true" className="mr-1" />
+        Type and press enter to add custom option
+      </span>
+    );
   };
 
   /**
@@ -172,7 +188,7 @@ const AliSelect = ({
    * @param {string[]} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
-   * @return {string} generated text to display
+   * @return {HTMLElement} generated text to display
    *
    */
   const generateNoOptionsMessage = (
@@ -182,9 +198,17 @@ const AliSelect = ({
   ) =>
     isMultiSelect &&
     maxSelectedLimit &&
-    userSelectedOptions.length >= maxSelectedLimit
-      ? `You have reached the max of ${maxSelectedLimit} selected items`
-      : "No options available";
+    userSelectedOptions.length >= maxSelectedLimit ? (
+      <span role="alert">
+        <InfoCircleOutlined aria-hidden="true" className="mr-1" />
+        You have reached the max of {maxSelectedLimit} selected items
+      </span>
+    ) : (
+      <span role="alert">
+        <InfoCircleOutlined aria-hidden="true" className="mr-1" />
+        No options available
+      </span>
+    );
 
   /**
    * Disable the selectable dropdown options when selected limit is reached
@@ -254,13 +278,15 @@ const AliSelect = ({
           ? "0px 0px 0px 2px rgb(8 116 114 / 50%)"
           : "none",
     }),
-
     valueContainer: (provided) => ({
       ...provided,
       minHeight: "32px",
       padding: "0 11px",
     }),
-
+    menu: (provided) => ({
+      ...provided,
+      marginTop: "3px",
+    }),
     input: (provided) => ({
       ...provided,
       margin: "0px",
@@ -287,6 +313,10 @@ const AliSelect = ({
       margin: "3px 6px 3px 0",
       fontSize: "1rem",
       lineHeight: "1.1rem",
+    }),
+    noOptionsMessage: (provided) => ({
+      ...provided,
+      color: antdStyles["@text-color-secondary"],
     }),
   };
 
@@ -324,7 +354,6 @@ const AliSelect = ({
               maxSelectedOptions
             )
           }
-          // blurInputOnSelect={false}
           isMulti
           isValidNewOption={(userTypedValue, selectValues) =>
             isValidInputCreatable(
@@ -334,10 +363,10 @@ const AliSelect = ({
               maxSelectedOptions
             )
           }
-          isSearchable={false}
           styles={customStyles}
           theme={customTheme}
           className={className}
+          aria-live="assertive"
         />
       ) : (
         <Select
