@@ -13,9 +13,7 @@ import "./CardVisibilityToggleView.less";
 import AlertDialog from "../modal/AlertDialog";
 import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
-import AliSelect from "../formItems/AliSelect";
-
-// const { Option } = Select;
+import CustomDropdown from "../formItems/CustomDropdown";
 
 const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
   const axios = useAxios();
@@ -137,7 +135,7 @@ const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
 
   return (
     <>
-      <AliSelect
+      <CustomDropdown
         inputValue={status}
         className="visibilitySelector"
         isClearable={false}
@@ -145,36 +143,6 @@ const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
         onChange={handleSelect}
         ariaLabel={intl.formatMessage({ id: "visibility.selector" })}
       />
-
-      {/* <Select
-        value={status}
-        className="visibilitySelector"
-        style={{ width: 120 }}
-        onSelect={handleSelect}
-        aria-label={intl.formatMessage({ id: "visibility.selector" })}
-      >
-        <Option
-          value="PUBLIC"
-          aria-label={intl.formatMessage({ id: "visibility.card.public" })}
-        >
-          <EyeOutlined className="mr-1" aria-hidden="true" />
-          <FormattedMessage id="visibility.card.public" />
-        </Option>
-        <Option
-          value="CONNECTIONS"
-          aria-label={intl.formatMessage({ id: "connections" })}
-        >
-          <TeamOutlined className="mr-1" aria-hidden="true" />
-          <FormattedMessage id="connections" />
-        </Option>
-        <Option
-          value="PRIVATE"
-          aria-label={intl.formatMessage({ id: "visibility.card.private" })}
-        >
-          <EyeInvisibleOutlined className="mr-1" aria-hidden="true" />
-          <FormattedMessage id="visibility.card.private" />
-        </Option>
-      </Select> */}
       <AlertDialog
         title={<FormattedMessage id="visibility.card.title" />}
         body={<FormattedMessage id={`visibility.${type}.show.confirm`} />}

@@ -25,7 +25,7 @@ import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../../../utils/useAxios";
-import AliSelect from "../../formItems/AliSelect";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -479,30 +479,7 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="location" />}
                 rules={[Rules.required, Rules.maxChar50]}
               >
-                {/* <Select
-                  showSearch
-                  placeholder={<FormattedMessage id="search" />}
-                  allowClear
-                  filterOption={filterOption}
-                  aria-required="true"
-                >
-                  {locationOptions.map((value) => (
-                    <Option key={value.id}>
-                      {value.streetNumber} {value.streetName}, {value.city},{" "}
-                      {value.province}
-                    </Option>
-                  ))}
-                </Select> */}
-                {/* <Select
-                  aria-labelledby="zzzz"
-                  aria-required="true"
-                  options={locationOptions}
-                  placeholderText="jjjj"
-                  // isSearchable
-                /> */}
-                <AliSelect
-                  // aria-labelledby="zzzz"
-                  // aria-required="true"
+                <CustomDropdown
                   ariaLabel={intl.formatMessage({ id: "location" })}
                   isRequired
                   placeholderText={<FormattedMessage id="search" />}
@@ -543,13 +520,7 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="employee.work.unit" />}
                 className="custom-bubble-select-style"
               >
-                {/* <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  notFoundContent={<FormattedMessage id="press.enter.to.add" />}
-                /> */}
-
-                <AliSelect
+                <CustomDropdown
                   ariaLabel={intl.formatMessage({
                     id: "employee.work.unit",
                   })}
@@ -641,7 +612,7 @@ const PrimaryInfoFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item name="employmentEquityGroups">
-                <AliSelect
+                <CustomDropdown
                   ariaLabel={intl.formatMessage({
                     id: "employment.equity.groups",
                   })}
@@ -655,21 +626,6 @@ const PrimaryInfoFormView = ({
                   isMulti
                   maxSelectedOptions={2}
                 />
-                {/* <Select
-                  showSearch
-                  mode="multiple"
-                  placeholder={<FormattedMessage id="search" />}
-                  allowClear
-                  filterOption={filterOption}
-                  className="custom-bubble-select-style"
-                  aria-label={intl.formatMessage({
-                    id: "employment.equity.groups",
-                  })}
-                >
-                  {employmentEquityOptions.map(({ key, text }) => (
-                    <Option key={key}>{text}</Option>
-                  ))}
-                </Select> */}
               </Form.Item>
             </Col>
           </Row>
