@@ -14,44 +14,234 @@ const AliSelect = ({
   isDisabled,
   options,
   isMulti,
+  maxSelectedOptions,
   isSearchable,
   isClearable,
   isRequired,
   isCreatable,
-  maxSelectedOptions,
   className,
 }) => {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState(initialValueId);
 
-  const mapInitialValue = (dropdownOptions, savedIds) =>
-    isMulti
-      ? savedIds.map((Id) =>
-          dropdownOptions.find((option) => option.value === Id)
-        )
-      : dropdownOptions.find((option) => option.value === savedIds);
-
-  const mapInitialValueCreatable = (savedIds) =>
-    savedIds.map((Id) => ({
-      value: Id,
-      label: Id,
-    }));
-
-  const triggerChange = (changedValue) => {
-    setSelectedOptions(changedValue);
-    onChange?.(changedValue);
+  /**
+   * Trigger the OnChange function passed into the component and update state
+   *
+   * @param {string[]} userSelectedOptionValues - an array of selected option values
+   *
+   */
+  const triggerChange = (userSelectedOptionValues) => {
+    setSelectedOptions(userSelectedOptionValues);
+    onChange?.(userSelectedOptionValues);
   };
 
-  const onSelectedValueChange = (newVal) => {
-    if (newVal && isMulti) {
-      triggerChange(newVal.map(({ value }) => value));
-    } else if (newVal) {
-      triggerChange(newVal.value);
+  /**
+   * A function that is triggered when the user types or makes a selection
+   * using react-select. It extracts the changed values returned by the
+   * component based on the dropdown configuration and triggers the onChange
+   *
+   * @param {Array.<{value:string, label:string}>} userSelectedOptions - an array of selected options
+   * @param {boolean} isMultiSelect - has the component been configured as a multiselect
+   *
+   */
+  const onSelectedValueChange = (userSelectedOptions, isMultiSelect) => {
+    if (userSelectedOptions && isMultiSelect) {
+      triggerChange(userSelectedOptions.map(({ value }) => value));
+    } else if (userSelectedOptions) {
+      triggerChange(userSelectedOptions.value);
     } else {
       triggerChange(undefined);
     }
   };
 
+  /**
+   * Extract the saved options from the options list using the values
+   * This is only used for the simple "react-select" dropdown
+   *
+   * @param {Array.<{value:string, label:string}>} dropdownOptions - an array of options for dropdown
+   * @param {(string || string[])} savedValues - an array of options for dropdown
+   * @return {Array.<{value:string, label:string}>} a list of save option objects
+   *
+   */
+  const mapInitialValue = (dropdownOptions, savedValues) =>
+    isMulti
+      ? savedValues.map((value) =>
+          dropdownOptions.find((option) => option.value === value)
+        )
+      : dropdownOptions.find((option) => option.value === savedValues);
+
+  /**
+   * Convert the saved values into a objects to be read by "creatable react-select"
+   *
+   * @param {string[]} savedValues - an array of options for dropdown
+   * @return {Array.<{value:string, label:string}>} a list of save option objects
+   *
+   */
+  const mapInitialValueCreatable = (savedValues) =>
+    savedValues.map((Id) => ({
+      value: Id,
+      label: Id,
+    }));
+
+  /**
+   * Generate the aria-label for the field
+   *
+   * @param {string} formFieldLabel - Text to describe the field
+   * @param {boolean} isFieldRequired - is the field required be filled out
+   * @return {string} generated aria-label
+   *
+   */
+  const generateAriaLabel = (formFieldLabel, isFieldRequired) =>
+    `${formFieldLabel} ${
+      isFieldRequired && intl.formatMessage({ id: "rules.required" })
+    }`;
+
+  /**
+   * Generate a text to prompt the user to press "enter" to add the typed
+   * value as a selected option for "creatable react-select"
+   *
+   * @param {string} userTypedInput - The users input as they type
+   * @return {string} generated text to display
+   *
+   */
+  const formatCreateLabelCreatable = (userTypedInput) =>
+    `${intl.formatMessage({ id: "press.enter.to.add" })} "${userTypedInput}"`;
+
+  /**
+   * Generate the message to display when no options are available to be selected
+   * for "creatable react-select"
+   *
+   * @param {Object} userTypedInput - The users input as they type
+   * @param {string[]} userSelectedOptions - The user selected options
+   * @param {boolean} isMultiSelect - is the field configured as multi-select
+   * @param {number} maxSelectedLimit - max number of options that can be selected
+   * @return {string} generated text to display
+   *
+   */
+  const generateNoOptionsMessageCreatable = (
+    userTypedInput,
+    userSelectedOptions,
+    isMultiSelect,
+    maxSelectedLimit
+  ) => {
+    const inputString = userTypedInput.inputValue;
+
+    // display message when the user typed value already exists
+    if (userSelectedOptions.find((option) => option === inputString)) {
+      return `"${inputString}" has already been added`;
+    }
+
+    // display message when the limit for the number of selected values has been reached
+    if (
+      isMultiSelect &&
+      maxSelectedLimit &&
+      userSelectedOptions.length >= maxSelectedLimit
+    ) {
+      return `You have reached the max of ${maxSelectedLimit} selected items`;
+    }
+
+    return `Type and press enter to add`;
+  };
+
+  /**
+   * Generate the options to display for regular "react-select" dropdown
+   *
+   * @param {Array.<{value:string, label:string}>} providedOptions - The dropdown options to display
+   * @param {string[]} userSelectedOptions - The user selected options
+   * @param {boolean} isMultiSelect - is the field configured as multi-select
+   * @param {number} maxSelectedLimit - max number of options that can be selected
+   * @return {Array.<{value:string, label:string}>} a list of options to display
+   *
+   */
+  const generateSelectOptions = (
+    providedOptions,
+    userSelectedOptions,
+    isMultiSelect,
+    maxSelectedLimit
+  ) =>
+    isMultiSelect &&
+    maxSelectedLimit &&
+    userSelectedOptions.length >= maxSelectedLimit
+      ? []
+      : providedOptions;
+
+  /**
+   * Generate the message to display when no options are available to be selected
+   * for regular "react-select"
+   *
+   * @param {string[]} userSelectedOptions - The user selected options
+   * @param {boolean} isMultiSelect - is the field configured as multi-select
+   * @param {number} maxSelectedLimit - max number of options that can be selected
+   * @return {string} generated text to display
+   *
+   */
+  const generateNoOptionsMessage = (
+    userSelectedOptions,
+    isMultiSelect,
+    maxSelectedLimit
+  ) =>
+    isMultiSelect &&
+    maxSelectedLimit &&
+    userSelectedOptions.length >= maxSelectedLimit
+      ? `You have reached the max of ${maxSelectedLimit} selected items`
+      : "No options available";
+
+  /**
+   * Disable the selectable dropdown options when selected limit is reached
+   *
+   * @param {string[]} userSelectedOptions - The selected options selected by user
+   * @param {boolean} isMultiSelect - is the field configured as multi-select
+   * @param {number} maxSelectedLimit - max number of options that can be selected
+   * @return {boolean} disabled options
+   *
+   */
+  const isOptionsDisabled = (
+    userSelectedOptions,
+    isMultiSelect,
+    maxSelectedLimit
+  ) =>
+    isMulti && maxSelectedLimit && selectedOptions.length >= maxSelectedLimit;
+
+  /**
+   * Detect whether the typed input value is valid for "creatable react-select"
+   *
+   * @param {string} userTypedInput - The users input as they type
+   * @param {Array.<{value:string, label:string}>} userSelectedOptions - The user selected options
+   * @param {boolean} isMultiSelect - is the field configured as multi-select
+   * @param {number} maxSelectedLimit - max number of options that can be selected
+   * @return {boolean} disabled options
+   *
+   */
+  const isValidInputCreatable = (
+    userTypedInput,
+    userSelectedOptions,
+    isMultiSelect,
+    maxSelectedLimit
+  ) => {
+    // Check whether typed value is either empty or already exists
+    if (
+      userTypedInput.trim().length === 0 ||
+      userSelectedOptions.find((option) => option.value === userTypedInput)
+    ) {
+      return false;
+    }
+
+    // Check whether the number of selected options exceeds max count
+    if (
+      isMulti &&
+      maxSelectedLimit &&
+      userSelectedOptions.length >= maxSelectedLimit
+    ) {
+      return false;
+    }
+
+    return true;
+  };
+
+  /**
+   * Custom styling for "react-select" based on the API provided in the documentation
+   * @const {Object}
+   */
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -100,6 +290,10 @@ const AliSelect = ({
     }),
   };
 
+  /**
+   * Custom theming for "react-select" based on the API provided in the documentation
+   * @const {Object}
+   */
   const customTheme = (theme) => ({
     ...theme,
     borderRadius: "5px",
@@ -111,78 +305,6 @@ const AliSelect = ({
     },
   });
 
-  const generateAriaLabel = (formFieldLabel, isFieldRequired) =>
-    `${formFieldLabel} ${
-      isFieldRequired && intl.formatMessage({ id: "rules.required" })
-    }`;
-
-  const formatCreateLabelCreatable = (value) =>
-    `${intl.formatMessage({ id: "press.enter.to.add" })} "${value}"`;
-
-  const generateNoOptionsMessageCreatable = (
-    userTypedInput,
-    userSelectedOptions,
-    isMultiSelect,
-    maxSelected
-  ) => {
-    const inputString = userTypedInput.inputValue;
-
-    // display message when value already exists
-    if (userSelectedOptions.find((option) => option === inputString)) {
-      return `"${inputString}" has already been added`;
-    }
-
-    // display message when max number of values have been selected
-    if (isMulti && maxSelected && userSelectedOptions.length >= maxSelected) {
-      return `You have reached the max of ${maxSelected} selected items`;
-    }
-
-    return `Type and press enter to add`;
-  };
-
-  const generateSelectOptions = (
-    providedOptions,
-    userSelectedOptions,
-    isMultiSelect,
-    maxSelected
-  ) =>
-    isMultiSelect && maxSelected && userSelectedOptions.length >= maxSelected
-      ? []
-      : providedOptions;
-
-  const generateNoOptionsMessage = (
-    userSelectedOptions,
-    isMultiSelect,
-    maxSelected
-  ) =>
-    isMultiSelect && maxSelected && userSelectedOptions.length >= maxSelected
-      ? `You have reached the max of ${maxSelected} selected items`
-      : "No options available";
-
-  const isOptionsDisabled = (isMultiSelect, maxSelected) =>
-    isMulti && maxSelected && selectedOptions.length >= maxSelected;
-
-  const isValidInputCreatable = (
-    inputValueString,
-    selectValues,
-    isMultiSelect,
-    maxSelected
-  ) => {
-    // Check whether typed value is either empty or already exists
-    if (
-      inputValueString.trim().length === 0 ||
-      selectValues.find((option) => option.value === inputValueString)
-    ) {
-      return false;
-    }
-    // Check whether the number of selected options exceeds max count
-    if (isMulti && maxSelected && selectValues.length >= maxSelected) {
-      return false;
-    }
-
-    return true;
-  };
-
   return (
     <>
       {isCreatable ? (
@@ -190,8 +312,9 @@ const AliSelect = ({
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
           placeholder={placeholderText}
           defaultValue={mapInitialValueCreatable(initialValueId)}
-          // inputValue={mapInitialValueCreatable(inputValue)}
-          onChange={onSelectedValueChange}
+          onChange={(selectValues) =>
+            onSelectedValueChange(selectValues, isMulti)
+          }
           formatCreateLabel={formatCreateLabelCreatable}
           noOptionsMessage={(typedInputValue) =>
             generateNoOptionsMessageCreatable(
@@ -201,10 +324,8 @@ const AliSelect = ({
               maxSelectedOptions
             )
           }
-          blurInputOnSelect={false}
+          // blurInputOnSelect={false}
           isMulti
-          styles={customStyles}
-          theme={customTheme}
           isValidNewOption={(userTypedValue, selectValues) =>
             isValidInputCreatable(
               userTypedValue,
@@ -213,6 +334,9 @@ const AliSelect = ({
               maxSelectedOptions
             )
           }
+          isSearchable={false}
+          styles={customStyles}
+          theme={customTheme}
           className={className}
         />
       ) : (
@@ -234,18 +358,20 @@ const AliSelect = ({
             )
           }
           placeholder={placeholderText}
-          onChange={onSelectedValueChange}
+          onChange={(selectValues) =>
+            onSelectedValueChange(selectValues, isMulti)
+          }
           isMulti={isMulti}
           isSearchable={isSearchable}
           isClearable={isClearable}
           isDisabled={isDisabled}
           closeMenuOnSelect={!isMulti}
           blurInputOnSelect={false}
+          isOptionDisabled={() =>
+            isOptionsDisabled(selectedOptions, isMulti, maxSelectedOptions)
+          }
           styles={customStyles}
           theme={customTheme}
-          isOptionDisabled={() =>
-            isOptionsDisabled(isMulti, maxSelectedOptions)
-          }
           className={className}
         />
       )}

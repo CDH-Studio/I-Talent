@@ -550,6 +550,9 @@ const PrimaryInfoFormView = ({
                 /> */}
 
                 <AliSelect
+                  ariaLabel={intl.formatMessage({
+                    id: "employee.work.unit",
+                  })}
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).teams
                   }
@@ -639,6 +642,9 @@ const PrimaryInfoFormView = ({
             <Col className="gutter-row" span={24}>
               <Form.Item name="employmentEquityGroups">
                 <AliSelect
+                  ariaLabel={intl.formatMessage({
+                    id: "employment.equity.groups",
+                  })}
                   initialValueId={
                     getInitialValues({ profile: profileInfo })
                       .employmentEquityGroups

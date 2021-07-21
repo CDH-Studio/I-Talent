@@ -143,7 +143,7 @@ const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
         isClearable={false}
         options={generateOptions()}
         onChange={handleSelect}
-        aria-label={intl.formatMessage({ id: "visibility.selector" })}
+        ariaLabel={intl.formatMessage({ id: "visibility.selector" })}
       />
 
       {/* <Select
