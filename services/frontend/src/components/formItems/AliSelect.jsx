@@ -310,6 +310,7 @@ const AliSelect = ({
       height: "32px",
       padding: "0 11px",
       lineHeight: "32px",
+      overflow: "hidden",
     }),
     multiValue: (provided) => ({
       ...provided,
