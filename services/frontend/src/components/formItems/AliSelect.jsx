@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
 import { PlusCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import antdStyles from "../../styling/antdTheme";
 
 const AliSelect = ({
@@ -127,16 +127,6 @@ const AliSelect = ({
   ) => {
     const inputString = userTypedInput.inputValue;
 
-    // display message when the user typed value already exists
-    if (userSelectedOptions.find((option) => option === inputString)) {
-      return (
-        <span role="alert">
-          <InfoCircleOutlined aria-hidden="true" className="mr-1" />
-          <strong>{inputString}</strong> has already been added
-        </span>
-      );
-    }
-
     // display message when the limit for the number of selected values has been reached
     if (
       isMultiSelect &&
@@ -146,7 +136,27 @@ const AliSelect = ({
       return (
         <span role="alert">
           <InfoCircleOutlined aria-hidden="true" className="mr-1" />
-          You have reached the max of {maxSelectedLimit} selected items
+          <FormattedMessage
+            id="max.selected.items"
+            values={{
+              maxItems: maxSelectedLimit,
+            }}
+          />
+        </span>
+      );
+    }
+
+    // display message when the user typed value already exists
+    if (userSelectedOptions.find((option) => option === inputString)) {
+      return (
+        <span role="alert">
+          <InfoCircleOutlined aria-hidden="true" className="mr-1" />
+          <FormattedMessage
+            id="already.added"
+            values={{
+              sampleValue: <strong>{inputString}</strong>,
+            }}
+          />
         </span>
       );
     }
@@ -154,7 +164,7 @@ const AliSelect = ({
     return (
       <span role="alert">
         <PlusCircleOutlined aria-hidden="true" className="mr-1" />
-        Type and press enter to add custom option
+        <FormattedMessage id="type.and.enter" />
       </span>
     );
   };
