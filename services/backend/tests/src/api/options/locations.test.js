@@ -68,41 +68,11 @@ describe(`GET ${path}`, () => {
           },
         ],
         [
-          {
-            id: 4,
-            streetNumber: 1,
-            streetName: "a",
-            city: "Ottawa",
-            province: "Ontario",
-          },
-          {
-            id: 1,
-            streetNumber: 12,
-            streetName: "b",
-            city: "Ottawa",
-            province: "Ontario",
-          },
-          {
-            id: 3,
-            streetNumber: 12,
-            streetName: "c",
-            city: "Toroto",
-            province: "Ontario",
-          },
-          {
-            id: 5,
-            streetNumber: 34,
-            streetName: "a",
-            city: "Gatineau",
-            province: "Quebec",
-          },
-          {
-            id: 2,
-            streetNumber: 34,
-            streetName: "z",
-            city: "Gatineau",
-            province: "Quebec",
-          },
+          { value: 2, label: "34 z, Gatineau, Quebec" },
+          { value: 1, label: "12 b, Ottawa, Ontario" },
+          { value: 3, label: "12 c, Toroto, Ontario" },
+          { value: 4, label: "1 a, Ottawa, Ontario" },
+          { value: 5, label: "34 a, Gatineau, Quebec" },
         ],
       ],
       [
@@ -118,15 +88,7 @@ describe(`GET ${path}`, () => {
             },
           },
         ],
-        [
-          {
-            id: 1,
-            streetNumber: 34,
-            streetName: "a",
-            city: "Gatineau",
-            province: "Quebec",
-          },
-        ],
+        [{ value: 1, label: "34 a, Gatineau, Quebec" }],
       ],
     ];
 
