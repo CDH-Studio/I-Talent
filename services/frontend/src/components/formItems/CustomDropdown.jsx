@@ -6,7 +6,7 @@ import { PlusCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
 import antdStyles from "../../styling/antdTheme";
 
-const AliSelect = ({
+const CustomDropdown = ({
   ariaLabel,
   onChange,
   initialValueId,
@@ -33,7 +33,7 @@ const AliSelect = ({
    */
   const triggerChange = (userSelectedOptionValues) => {
     setSelectedOptions(userSelectedOptionValues);
-    onChange?.(userSelectedOptionValues);
+    onChange(userSelectedOptionValues);
   };
 
   /**
@@ -419,7 +419,7 @@ const AliSelect = ({
   );
 };
 
-AliSelect.propTypes = {
+CustomDropdown.propTypes = {
   ariaLabel: PropTypes.string,
   onChange: PropTypes.func,
   placeholderText: PropTypes.node,
@@ -442,7 +442,7 @@ AliSelect.propTypes = {
   className: PropTypes.string,
 };
 
-AliSelect.defaultProps = {
+CustomDropdown.defaultProps = {
   options: undefined,
   ariaLabel: "",
   placeholderText: "Select...",
@@ -459,4 +459,4 @@ AliSelect.defaultProps = {
   className: "",
 };
 
-export default AliSelect;
+export default CustomDropdown;

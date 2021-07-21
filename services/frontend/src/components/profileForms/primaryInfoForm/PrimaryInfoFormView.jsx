@@ -192,11 +192,6 @@ const PrimaryInfoFormView = ({
       savedValues || getInitialValues({ profile: profileInfo }),
       identity
     );
-    console.log("initial", getInitialValues({ profile: profileInfo }));
-    console.log(
-      "employmentEquityGroups",
-      form.getFieldValue("employmentEquityGroups")
-    );
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
