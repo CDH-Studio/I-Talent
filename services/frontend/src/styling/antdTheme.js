@@ -10,6 +10,8 @@
 
 module.exports = {
   "@primary-color": "#087472",
+  "@primary-color-1": "#5C706C",
+  "@primary-color-2": "#dfe5e4",
   "@link": "#00B9B2",
   "@warning-color": "#ff661a",
   "@error-color": "#ff3333",

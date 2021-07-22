@@ -30,11 +30,8 @@ async function getLocations(request, response) {
       const { id, city, streetNumber } = i.opOfficeLocation;
 
       return {
-        id,
-        streetNumber,
-        streetName,
-        city,
-        province,
+        value: id,
+        label: `${streetNumber} ${streetName}, ${city}, ${province}`,
       };
     }),
     ["province", "city", "streetNumber", "streetName"]
