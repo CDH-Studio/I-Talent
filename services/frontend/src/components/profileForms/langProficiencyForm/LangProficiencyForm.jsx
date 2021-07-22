@@ -134,6 +134,11 @@ const LangProficiencyForm = ({ formType }) => {
         value: "UNKNOWN",
         text: intl.formatMessage({ id: "unknown" }),
       },
+      {
+        key: "NA",
+        value: "NA",
+        text: intl.formatMessage({ id: "grade.not.applicable" }),
+      },
     ]);
 
     // Get all required data component
