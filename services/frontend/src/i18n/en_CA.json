@@ -344,6 +344,7 @@
   "tooltip.extra.info.help": "For more information, visit {helpUrl}.",
   "total.ex.feeders": "Total EX-Feeders",
   "type": "Type",
+  "type.to.search": "Type to search",
   "type.and.enter": "Type and press enter to add custom option",
   "unexpected.error": "Unexpected error",
   "unknown": "Unknown",
