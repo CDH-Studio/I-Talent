@@ -136,7 +136,6 @@ const EmploymentDataFormView = ({
 
   /* Get the initial values for the form */
   const getInitialValues = ({ profile }) => {
-    // console.log(profile);
     if (profile) {
       return {
         description: profile.description,
@@ -197,7 +196,6 @@ const EmploymentDataFormView = ({
     form
       .validateFields()
       .then(async (values) => {
-        console.log("values", values);
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
