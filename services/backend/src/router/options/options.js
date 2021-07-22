@@ -67,12 +67,13 @@ optionsRouter
     validationMiddlware,
     categories.deleteCategories
   );
+
 optionsRouter
   .route("/category")
   .all(keycloak.protect("manage-options"))
   .post(createValidator, validationMiddlware, categories.createCategory)
-  .put(updateValidator, validationMiddlware, categories.updateCategory)
-  .delete(deleteOneValidator, validationMiddlware, categories.deleteCategory);
+  .put(updateValidator, validationMiddlware, categories.updateCategory);
+
 optionsRouter.get(
   "/categoriesAllLang",
   keycloak.protect("view-admin-console"),
