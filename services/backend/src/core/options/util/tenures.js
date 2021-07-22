@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getTenures(request, response) {
@@ -17,13 +16,10 @@ async function getTenures(request, response) {
     },
   });
 
-  const tenures = _.sortBy(
-    tenuresQuery.map((i) => ({
-      id: i.opTenureId,
-      name: i.name,
-    })),
-    "name"
-  );
+  const tenures = tenuresQuery.map((tenure) => ({
+    value: tenure.opTenureId,
+    label: tenure.name,
+  }));
 
   response.status(200).json(tenures);
 }
