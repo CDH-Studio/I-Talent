@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getSecurityClearances(request, response) {
@@ -18,12 +17,11 @@ async function getSecurityClearances(request, response) {
       },
     });
 
-  const securityClearances = _.sortBy(
-    securityClearancesQuery.map((i) => ({
-      id: i.opSecurityClearanceId,
-      description: i.description,
-    })),
-    "description"
+  const securityClearances = securityClearancesQuery.map(
+    (securityClearance) => ({
+      value: securityClearance.opSecurityClearanceId,
+      label: securityClearance.description,
+    })
   );
 
   response.status(200).json(securityClearances);
