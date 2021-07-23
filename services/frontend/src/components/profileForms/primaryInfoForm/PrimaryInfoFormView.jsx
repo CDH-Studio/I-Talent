@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Skeleton,
-  // Select,
   Divider,
   Form,
   Input,
@@ -16,7 +15,6 @@ import {
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
-// import Select from "react-select";
 import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
@@ -34,7 +32,6 @@ import {
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-// import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
@@ -43,8 +40,6 @@ import FormSubTitle from "../formSubTitle/FormSubTitle";
 import login from "../../../utils/login";
 
 import "./PrimaryInfoFormView.less";
-
-// const { Option } = Select;
 
 const PrimaryInfoFormView = ({
   locationOptions,
@@ -525,7 +520,6 @@ const PrimaryInfoFormView = ({
                   placeholderText={<FormattedMessage id="select" />}
                   isCreatable
                   isMulti
-                  maxSelectedOptions={2}
                 />
               </Form.Item>
             </Col>
@@ -616,7 +610,6 @@ const PrimaryInfoFormView = ({
                   options={employmentEquityOptions}
                   isSearchable={false}
                   isMulti
-                  maxSelectedOptions={2}
                 />
               </Form.Item>
             </Col>
