@@ -534,7 +534,7 @@ const PrimaryInfoFormView = ({
                 </>
               }
             >
-              <Col xs={24} md={24} lg={24} xl={24}>
+              <Col span={24}>
                 <Form.Item
                   name="gcconnex"
                   label={<FormattedMessage id="gcconnex.username" />}
@@ -549,7 +549,7 @@ const PrimaryInfoFormView = ({
                   />
                 </Form.Item>
               </Col>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Col span={24}>
                 <Form.Item
                   name="linkedin"
                   label={<FormattedMessage id="linkedin.username" />}
@@ -565,7 +565,7 @@ const PrimaryInfoFormView = ({
                   />
                 </Form.Item>
               </Col>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Col span={24}>
                 <Form.Item
                   name="github"
                   label={<FormattedMessage id="github.username" />}
