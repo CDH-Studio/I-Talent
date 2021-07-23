@@ -1,21 +1,26 @@
 import PropTypes from "prop-types";
+import { useIntl } from "react-intl";
 import TalentManagementView from "./TalentManagementView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
-const TalentManagement = ({ data, editableCardBool }) => (
-  <ProfileCards
-    titleId="talent.management"
-    cardName="talentManagement"
-    id="card-profile-talent-management"
-    editUrl="/profile/edit/career-management?tab=talent-management"
-    data={data}
-    editableCardBool={editableCardBool}
-    visibility={data.visibleCards.talentManagement}
-  >
-    <TalentManagementView data={data} />
-  </ProfileCards>
-);
+const TalentManagement = ({ data, editableCardBool }) => {
+  const intl = useIntl();
+
+  return (
+    <ProfileCards
+      titleString={intl.formatMessage({ id: "talent.management" })}
+      cardName="talentManagement"
+      id="card-profile-talent-management"
+      editUrl="/profile/edit/career-management?tab=talent-management"
+      data={data}
+      editableCardBool={editableCardBool}
+      visibility={data.visibleCards.talentManagement}
+    >
+      <TalentManagementView data={data} />
+    </ProfileCards>
+  );
+};
 
 TalentManagement.propTypes = {
   data: ProfileInfoPropType,

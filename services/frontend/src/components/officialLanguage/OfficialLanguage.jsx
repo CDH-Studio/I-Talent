@@ -59,7 +59,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="official.languages"
+      titleString={intl.formatMessage({ id: "official.languages" })}
       cardName="officialLanguage"
       id="card-profile-official-language"
       editUrl="/profile/edit/language-proficiency"
