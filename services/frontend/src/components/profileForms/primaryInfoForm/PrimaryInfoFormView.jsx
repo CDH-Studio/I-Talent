@@ -3,9 +3,9 @@ import {
   Row,
   Col,
   Skeleton,
+  // Select,
   Divider,
   Form,
-  Select,
   Input,
   Button,
   notification,
@@ -16,6 +16,7 @@ import {
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
+// import Select from "react-select";
 import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
@@ -24,6 +25,7 @@ import { isMobilePhone } from "validator";
 import { Prompt } from "react-router";
 import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../../../utils/useAxios";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -31,7 +33,7 @@ import {
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
+// import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
@@ -41,7 +43,7 @@ import login from "../../../utils/login";
 
 import "./PrimaryInfoFormView.less";
 
-const { Option } = Select;
+// const { Option } = Select;
 
 const PrimaryInfoFormView = ({
   locationOptions,
@@ -190,7 +192,6 @@ const PrimaryInfoFormView = ({
       savedValues || getInitialValues({ profile: profileInfo }),
       identity
     );
-
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
@@ -473,20 +474,15 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="location" />}
                 rules={[Rules.required, Rules.maxChar50]}
               >
-                <Select
-                  showSearch
-                  placeholder={<FormattedMessage id="search" />}
-                  allowClear
-                  filterOption={filterOption}
-                  aria-required="true"
-                >
-                  {locationOptions.map((value) => (
-                    <Option key={value.id}>
-                      {value.streetNumber} {value.streetName}, {value.city},{" "}
-                      {value.province}
-                    </Option>
-                  ))}
-                </Select>
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({ id: "location" })}
+                  isRequired
+                  placeholderText={<FormattedMessage id="search" />}
+                  initialValueId={
+                    getInitialValues({ profile: profileInfo }).locationId
+                  }
+                  options={locationOptions}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -519,10 +515,17 @@ const PrimaryInfoFormView = ({
                 label={<FormattedMessage id="employee.work.unit" />}
                 className="custom-bubble-select-style"
               >
-                <Select
-                  mode="tags"
-                  style={{ width: "100%" }}
-                  notFoundContent={<FormattedMessage id="press.enter.to.add" />}
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({
+                    id: "employee.work.unit",
+                  })}
+                  initialValueId={
+                    getInitialValues({ profile: profileInfo }).teams
+                  }
+                  placeholderText={<FormattedMessage id="select" />}
+                  isCreatable
+                  isMulti
+                  maxSelectedOptions={2}
                 />
               </Form.Item>
             </Col>
@@ -604,21 +607,20 @@ const PrimaryInfoFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item name="employmentEquityGroups">
-                <Select
-                  showSearch
-                  mode="multiple"
-                  placeholder={<FormattedMessage id="search" />}
-                  allowClear
-                  filterOption={filterOption}
-                  className="custom-bubble-select-style"
-                  aria-label={intl.formatMessage({
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({
                     id: "employment.equity.groups",
                   })}
-                >
-                  {employmentEquityOptions.map(({ key, text }) => (
-                    <Option key={key}>{text}</Option>
-                  ))}
-                </Select>
+                  initialValueId={
+                    getInitialValues({ profile: profileInfo })
+                      .employmentEquityGroups
+                  }
+                  placeholderText={<FormattedMessage id="select" />}
+                  options={employmentEquityOptions}
+                  isSearchable={false}
+                  isMulti
+                  maxSelectedOptions={2}
+                />
               </Form.Item>
             </Col>
           </Row>
