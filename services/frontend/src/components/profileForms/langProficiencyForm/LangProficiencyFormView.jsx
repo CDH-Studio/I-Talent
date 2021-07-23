@@ -391,6 +391,9 @@ const LangProficiencyFormView = ({
                   visibleCards={profileInfo.visibleCards}
                   cardName="officialLanguage"
                   type="form"
+                  ariaLabel={intl.formatMessage({
+                    id: "official.languages",
+                  })}
                 />
               </div>
             }

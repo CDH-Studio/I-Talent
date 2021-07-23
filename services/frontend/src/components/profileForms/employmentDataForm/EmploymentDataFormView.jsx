@@ -378,6 +378,9 @@ const EmploymentDataFormView = ({
                   visibleCards={profileInfo.visibleCards}
                   cardName="info"
                   type="form"
+                  ariaLabel={intl.formatMessage({
+                    id: "employment.status",
+                  })}
                 />
               </div>
             }
@@ -491,6 +494,9 @@ const EmploymentDataFormView = ({
                 visibleCards={profileInfo.visibleCards}
                 cardName="description"
                 type="form"
+                ariaLabel={intl.formatMessage({
+                  id: "about.me",
+                })}
               />
             }
           />

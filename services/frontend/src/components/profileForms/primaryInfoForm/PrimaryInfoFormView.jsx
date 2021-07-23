@@ -601,6 +601,9 @@ const PrimaryInfoFormView = ({
                 visibleCards={profileInfo.visibleCards}
                 cardName="employmentEquityGroup"
                 type="form"
+                ariaLabel={intl.formatMessage({
+                  id: "employment.equity.groups",
+                })}
               />
             }
           />
