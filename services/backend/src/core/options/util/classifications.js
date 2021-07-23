@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getClassifications(_request, response) {
@@ -12,9 +11,12 @@ async function getClassifications(_request, response) {
     },
   });
 
-  const classifications = _.sortBy(classificationsQuery, "name");
+  const responseData = classificationsQuery.map((classification) => ({
+    value: classification.id,
+    label: classification.name,
+  }));
 
-  response.status(200).json(classifications);
+  response.status(200).json(responseData);
 }
 
 module.exports = {

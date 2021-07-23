@@ -19,13 +19,13 @@ describe(`GET ${path}`, () => {
 
   describe("when authenticated", () => {
     const prismaData = [
-      { id: 1, name: "b" },
       { id: 2, name: "a" },
+      { id: 1, name: "b" },
     ];
 
     const result = [
-      { id: 2, name: "a" },
-      { id: 1, name: "b" },
+      { value: 2, label: "a" },
+      { value: 1, label: "b" },
     ];
 
     let res;
