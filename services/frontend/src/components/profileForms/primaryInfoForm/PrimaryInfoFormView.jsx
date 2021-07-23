@@ -24,6 +24,7 @@ import { Prompt } from "react-router";
 import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../../../utils/useAxios";
 import CustomDropdown from "../../formItems/CustomDropdown";
+import Fieldset from "../../fieldset/Fieldset";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -508,7 +509,6 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 name="teams"
                 label={<FormattedMessage id="employee.work.unit" />}
-                className="custom-bubble-select-style"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -525,68 +525,65 @@ const PrimaryInfoFormView = ({
             </Col>
           </Row>
           {/* Form Row Five */}
-          <Row
-            gutter={24}
-            style={{
-              backgroundColor: "#dfe5e4",
-              paddingTop: "15px",
-              marginBottom: "20px",
-              marginTop: "10px",
-              borderRadius: 5,
-            }}
-          >
-            <Col className="gutter-row mb-1" span={24}>
-              <LinkOutlined aria-hidden="true" className="mr-1" />
-              <FormattedMessage id="setup.link.profiles" />
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="gcconnex"
-                label={<FormattedMessage id="gcconnex.username" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input
-                  aria-label={`${intl.formatMessage({
-                    id: "gcconnex.username",
-                  })} https://gcconnex.gc.ca/profile/`}
-                  addonBefore="https://gcconnex.gc.ca/profile/"
-                  placeholder={intl.formatMessage({ id: "username" })}
-                />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="linkedin"
-                label={<FormattedMessage id="linkedin.username" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input
-                  aria-label={`${intl.formatMessage({
-                    id: "linkedin.username",
-                  })} https://linkedin.com/in/`}
-                  addonBefore="https://linkedin.com/in/"
-                  aria-describedby="linkedin-field-info"
-                  placeholder={intl.formatMessage({ id: "username" })}
-                />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="github"
-                label={<FormattedMessage id="github.username" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input
-                  aria-label={`${intl.formatMessage({
-                    id: "github.username",
-                  })} https://github.com/`}
-                  addonBefore="https://github.com/"
-                  aria-describedby="github-field-info"
-                  placeholder={intl.formatMessage({ id: "username" })}
-                />
-              </Form.Item>
-            </Col>
+          <Row className="prim-externalProfileSection">
+            <Fieldset
+              title={
+                <>
+                  <LinkOutlined aria-hidden="true" className="mr-1" />
+                  <FormattedMessage id="setup.link.profiles" />{" "}
+                </>
+              }
+            >
+              <Col xs={24} md={24} lg={24} xl={24}>
+                <Form.Item
+                  name="gcconnex"
+                  label={<FormattedMessage id="gcconnex.username" />}
+                  rules={[Rules.maxChar100]}
+                >
+                  <Input
+                    aria-label={`${intl.formatMessage({
+                      id: "gcconnex.username",
+                    })} https://gcconnex.gc.ca/profile/`}
+                    addonBefore="https://gcconnex.gc.ca/profile/"
+                    placeholder={intl.formatMessage({ id: "username" })}
+                  />
+                </Form.Item>
+              </Col>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Form.Item
+                  name="linkedin"
+                  label={<FormattedMessage id="linkedin.username" />}
+                  rules={[Rules.maxChar100]}
+                >
+                  <Input
+                    aria-label={`${intl.formatMessage({
+                      id: "linkedin.username",
+                    })} https://linkedin.com/in/`}
+                    addonBefore="https://linkedin.com/in/"
+                    aria-describedby="linkedin-field-info"
+                    placeholder={intl.formatMessage({ id: "username" })}
+                  />
+                </Form.Item>
+              </Col>
+              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Form.Item
+                  name="github"
+                  label={<FormattedMessage id="github.username" />}
+                  rules={[Rules.maxChar100]}
+                >
+                  <Input
+                    aria-label={`${intl.formatMessage({
+                      id: "github.username",
+                    })} https://github.com/`}
+                    addonBefore="https://github.com/"
+                    aria-describedby="github-field-info"
+                    placeholder={intl.formatMessage({ id: "username" })}
+                  />
+                </Form.Item>
+              </Col>
+            </Fieldset>
           </Row>
+
           <Divider className="prim-headerDiv" />
           <FormSubTitle
             title={<FormattedMessage id="employment.equity.groups" />}
