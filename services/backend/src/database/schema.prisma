@@ -17,6 +17,7 @@ enum SecondLangStatus {
   EXPIRED
   VALID
   UNKNOWN
+  NA
 }
 
 enum Language {
