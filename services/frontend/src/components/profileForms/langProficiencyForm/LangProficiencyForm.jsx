@@ -91,53 +91,46 @@ const LangProficiencyForm = ({ formType }) => {
   useEffect(() => {
     // Set proficiency options
     setProficiencyOptions([
-      { key: "A", value: "A", text: "A" },
-      { key: "B", value: "B", text: "B" },
-      { key: "C", value: "C", text: "C" },
-      { key: "E", value: "E", text: "E" },
-      { key: "X", value: "X", text: "X" },
+      { value: "A", label: "A" },
+      { value: "B", label: "B" },
+      { value: "C", label: "C" },
+      { value: "E", label: "E" },
+      { value: "X", label: "X" },
       {
-        key: "NA",
         value: "NA",
-        text: intl.formatMessage({ id: "grade.not.applicable" }),
+        label: intl.formatMessage({ id: "grade.not.applicable" }),
       },
     ]);
 
     // Set substantive level options
     setLanguageOptions([
       {
-        key: "ENGLISH",
         value: "ENGLISH",
-        text: "English",
+        label: "English",
       },
       {
-        key: "FRENCH",
         value: "FRENCH",
-        text: "Français",
+        label: "Français",
       },
     ]);
 
     // Set status options:
     setStatusOptions([
       {
-        key: "EXPIRED",
         value: "EXPIRED",
-        text: intl.formatMessage({ id: "expired" }),
+        label: intl.formatMessage({ id: "expired" }),
       },
       {
-        key: "VALID",
         value: "VALID",
-        text: intl.formatMessage({ id: "valid" }),
+        label: intl.formatMessage({ id: "valid" }),
       },
       {
-        key: "UNKNOWN",
         value: "UNKNOWN",
-        text: intl.formatMessage({ id: "unknown" }),
+        label: intl.formatMessage({ id: "unknown" }),
       },
       {
-        key: "NA",
         value: "NA",
-        text: intl.formatMessage({ id: "grade.not.applicable" }),
+        label: intl.formatMessage({ id: "grade.not.applicable" }),
       },
     ]);
 

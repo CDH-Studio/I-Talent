@@ -6,7 +6,6 @@ import {
   Typography,
   Divider,
   Form,
-  Select,
   Switch,
   notification,
   Space,
@@ -22,16 +21,14 @@ import {
   IntlPropType,
   HistoryPropType,
 } from "../../../utils/customPropTypes";
-
+import CustomDropdown from "../../formItems/CustomDropdown";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import "./LangProficiencyFormView.less";
 
-const { Option } = Select;
 const { Text } = Typography;
 
 /**
@@ -93,7 +90,7 @@ const LangProficiencyFormView = ({
   };
 
   /* Get the initial values for the form */
-  const getInitialValues = (profile) => {
+  const getInitialValues = ({ profile }) => {
     // Get default language from API and convert to dropdown key
     if (profile) {
       const data = {
@@ -129,9 +126,10 @@ const LangProficiencyFormView = ({
    * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
+    console.log("changes saved:", form.getFieldsValue());
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
-      savedValues || getInitialValues(profileInfo),
+      savedValues || getInitialValues({ profile: profileInfo }),
       identity
     );
 
@@ -217,6 +215,7 @@ const LangProficiencyFormView = ({
     form
       .validateFields()
       .then(async (values) => {
+        console.log("values", values);
         await saveDataToDB(values, displaySecondLangForm);
         setFieldsChanged(false);
         if (num === 1) {
@@ -234,6 +233,7 @@ const LangProficiencyFormView = ({
         }
       })
       .catch((error) => {
+        console.log("error", error);
         if (error.isAxiosError) {
           handleError(error, "message", history);
         } else {
@@ -256,21 +256,21 @@ const LangProficiencyFormView = ({
       message: intl.formatMessage({ id: "form.clear" }),
     });
 
-    const data = savedValues || getInitialValues(profileInfo);
+    const data = savedValues || getInitialValues({ profile: profileInfo });
     setDisplaySecondLangForm(data.oralProficiency);
     setFieldsChanged(false);
   };
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {
-    const data = savedValues || getInitialValues(profileInfo);
+    const data = savedValues || getInitialValues({ profile: profileInfo });
     const oppositeInitialToggle =
       !!data.oralProficiency !== displaySecondLangForm;
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displaySecondLangForm]);
 
-  const getSecondLangRows = (name, label, statusName) => (
+  const getSecondLangRows = ({ name, label, statusName }) => (
     <Row gutter={24} style={{ marginTop: "10px" }}>
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         <Form.Item
@@ -279,16 +279,16 @@ const LangProficiencyFormView = ({
           rules={[Rules.required]}
           aria-required="true"
         >
-          <Select
-            showSearch
-            placeholder={<FormattedMessage id="search" />}
-            allowClear
-            filterOption={filterOption}
-          >
-            {proficiencyOptions.map((value) => (
-              <Option key={value.key}>{value.text}</Option>
-            ))}
-          </Select>
+          <CustomDropdown
+            ariaLabel={intl.formatMessage({
+              id: label,
+            })}
+            placeholderText={<FormattedMessage id="select" />}
+            initialValueId={getInitialValues({ profile: profileInfo })[name]} // TODO: need to figure out how ot get value using "name"
+            options={proficiencyOptions}
+            isSearchable={false}
+            isRequired
+          />
         </Form.Item>
       </Col>
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
@@ -298,16 +298,18 @@ const LangProficiencyFormView = ({
           rules={[Rules.required]}
           aria-required="true"
         >
-          <Select
-            showSearch
-            placeholder={<FormattedMessage id="search" />}
-            allowClear
-            filterOption={filterOption}
-          >
-            {statusOptions.map((value) => (
-              <Option key={value.key}>{value.text}</Option>
-            ))}
-          </Select>
+          <CustomDropdown
+            ariaLabel={intl.formatMessage({
+              id: label,
+            })}
+            placeholderText={<FormattedMessage id="select" />}
+            initialValueId={
+              getInitialValues({ profile: profileInfo })[statusName]
+            } // TODO: need to figure out how ot get value using "name"
+            options={statusOptions}
+            isSearchable={false}
+            isRequired
+          />
         </Form.Item>
       </Col>
     </Row>
@@ -317,27 +319,27 @@ const LangProficiencyFormView = ({
   const getSecondLanguageForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       const formValues = form.getFieldsValue();
-      Object.assign(getInitialValues(profileInfo), formValues);
+      Object.assign(getInitialValues({ profile: profileInfo }), formValues);
       return (
         <>
           {/* Reading Proficiency */}
-          {getSecondLangRows(
-            "readingProficiency",
-            "secondary.reading.proficiency",
-            "secondaryReadingStatus"
-          )}
+          {getSecondLangRows({
+            name: "readingProficiency",
+            label: "secondary.reading.proficiency",
+            statusName: "secondaryReadingStatus",
+          })}
           {/* Writing Proficiency */}
-          {getSecondLangRows(
-            "writingProficiency",
-            "secondary.writing.proficiency",
-            "secondaryWritingStatus"
-          )}
+          {getSecondLangRows({
+            name: "writingProficiency",
+            label: "secondary.writing.proficiency",
+            statusName: "secondaryWritingStatus",
+          })}
           {/* Oral Proficiency */}
-          {getSecondLangRows(
-            "oralProficiency",
-            "secondary.oral.proficiency",
-            "secondaryOralStatus"
-          )}
+          {getSecondLangRows({
+            name: "oralProficiency",
+            label: "secondary.oral.proficiency",
+            statusName: "secondaryOralStatus",
+          })}
         </>
       );
     }
@@ -401,7 +403,9 @@ const LangProficiencyFormView = ({
         <Form
           name="basicForm"
           form={form}
-          initialValues={savedValues || getInitialValues(profileInfo)}
+          initialValues={
+            savedValues || getInitialValues({ profile: profileInfo })
+          }
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
         >
@@ -412,16 +416,17 @@ const LangProficiencyFormView = ({
                 name="firstLanguage"
                 label={<FormattedMessage id="first.official.language" />}
               >
-                <Select
-                  showSearch
-                  placeholder={<FormattedMessage id="search" />}
-                  allowClear
-                  filterOption={filterOption}
-                >
-                  {languageOptions.map((value) => (
-                    <Option key={value.key}>{value.text}</Option>
-                  ))}
-                </Select>
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({
+                    id: "first.official.language",
+                  })}
+                  placeholderText={<FormattedMessage id="select" />}
+                  initialValueId={
+                    getInitialValues({ profile: profileInfo }).firstLanguage
+                  }
+                  options={languageOptions}
+                  isSearchable={false}
+                />
               </Form.Item>
             </Col>
           </Row>
