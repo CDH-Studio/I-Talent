@@ -8,7 +8,6 @@ import {
   Form,
   Switch,
   notification,
-  Space,
 } from "antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { identity, pickBy } from "lodash";
@@ -21,6 +20,7 @@ import {
   HistoryPropType,
 } from "../../../utils/customPropTypes";
 import CustomDropdown from "../../formItems/CustomDropdown";
+import Fieldset from "../../fieldset/Fieldset";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -270,7 +270,7 @@ const LangProficiencyFormView = ({
   }, [displaySecondLangForm]);
 
   const getSecondLangRows = ({ name, label, statusName }) => (
-    <Row gutter={24} style={{ marginTop: "10px" }}>
+    <Row gutter={24}>
       <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
         <Form.Item
           name={name}
@@ -304,7 +304,7 @@ const LangProficiencyFormView = ({
             placeholderText={<FormattedMessage id="select" />}
             initialValueId={
               getInitialValues({ profile: profileInfo })[statusName]
-            } // TODO: need to figure out how ot get value using "name"
+            }
             options={statusOptions}
             isSearchable={false}
             isRequired
@@ -327,12 +327,14 @@ const LangProficiencyFormView = ({
             label: "secondary.reading.proficiency",
             statusName: "secondaryReadingStatus",
           })}
+          <Divider className="my-2" />
           {/* Writing Proficiency */}
           {getSecondLangRows({
             name: "writingProficiency",
             label: "secondary.writing.proficiency",
             statusName: "secondaryWritingStatus",
           })}
+          <Divider className="my-2" />
           {/* Oral Proficiency */}
           {getSecondLangRows({
             name: "oralProficiency",
@@ -430,21 +432,25 @@ const LangProficiencyFormView = ({
             </Col>
           </Row>
           {/* Form Row Four: Temporary role */}
-          <Row className="lang-secondLangRow" gutter={24}>
-            <Col className="gutter-row" span={24}>
-              <Row>
-                <Space>
+          <Row className="lang-secondLangRow">
+            <Fieldset
+              title={
+                <>
                   <Text>
                     <FormattedMessage id="graded.on.second.language" />
                   </Text>
                   <Switch
                     checked={displaySecondLangForm}
                     onChange={toggleSecLangForm}
+                    className="ml-2 mb-1"
                   />
-                </Space>
-              </Row>
-              {getSecondLanguageForm(displaySecondLangForm)}
-            </Col>
+                </>
+              }
+            >
+              <Col span={24}>
+                {getSecondLanguageForm(displaySecondLangForm)}
+              </Col>
+            </Fieldset>
           </Row>
           {/* Form Row Five: Submit button */}
           <FormControlButton
