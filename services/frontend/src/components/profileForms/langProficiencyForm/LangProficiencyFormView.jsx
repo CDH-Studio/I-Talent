@@ -10,7 +10,7 @@ import {
   notification,
   Space,
 } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -18,7 +18,6 @@ import { Prompt } from "react-router";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  IntlPropType,
   HistoryPropType,
 } from "../../../utils/customPropTypes";
 import CustomDropdown from "../../formItems/CustomDropdown";
@@ -43,7 +42,6 @@ const LangProficiencyFormView = ({
   load,
   proficiencyOptions,
   profileInfo,
-  intl,
   history,
   saveDataToDB,
 }) => {
@@ -53,6 +51,7 @@ const LangProficiencyFormView = ({
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   /* Component Rules for form fields */
   const Rules = {
@@ -471,7 +470,6 @@ LangProficiencyFormView.propTypes = {
   statusOptions: KeyTitleOptionsPropType,
   load: PropTypes.bool.isRequired,
   profileInfo: ProfileInfoPropType,
-  intl: IntlPropType,
   history: HistoryPropType.isRequired,
   saveDataToDB: PropTypes.func.isRequired,
 };
@@ -481,7 +479,6 @@ LangProficiencyFormView.defaultProps = {
   proficiencyOptions: [],
   statusOptions: [],
   profileInfo: null,
-  intl: null,
 };
 
-export default injectIntl(LangProficiencyFormView);
+export default LangProficiencyFormView;
