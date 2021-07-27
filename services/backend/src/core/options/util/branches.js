@@ -17,9 +17,14 @@ async function getBranches(request, response) {
     },
   });
 
-  const branches = _.sortBy(_.uniq(branchesQuery.map((i) => i.branch)));
+  const branchesQueryUniq = _.sortedUniqBy(branchesQuery, "branch");
 
-  response.status(200).json(branches);
+  const responseData = branchesQueryUniq.map((branch) => ({
+    value: branch.id,
+    label: branch.branch,
+  }));
+
+  response.status(200).json(responseData);
 }
 
 module.exports = {
