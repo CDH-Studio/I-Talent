@@ -179,8 +179,8 @@ const PrimaryInfoFormView = ({
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    *
-   * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);

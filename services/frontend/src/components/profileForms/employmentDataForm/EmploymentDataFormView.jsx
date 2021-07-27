@@ -158,8 +158,9 @@ const EmploymentDataFormView = ({
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
-   *
    * pickBy({}, identity) is used to omit falsely values from the object - https://stackoverflow.com/a/33432857
+   * @return {boolean} return true if any of the form inputs have changed
+   *
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
@@ -172,6 +173,10 @@ const EmploymentDataFormView = ({
     return !isEqual(formValues, dbValues);
   };
 
+  /**
+   * update state if form values have changed from the initial state
+   *
+   */
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
   };
