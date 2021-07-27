@@ -88,7 +88,11 @@ const LangProficiencyFormView = ({
     }
   };
 
-  /* Get the initial values for the form */
+  /**
+   * extract the initial values from the profile
+   * @param {Object} profile - user profile
+   *
+   */
   const getInitialValues = ({ profile }) => {
     // Get default language from API and convert to dropdown key
     if (profile) {
@@ -114,18 +118,21 @@ const LangProficiencyFormView = ({
     return {};
   };
 
-  /* toggle temporary role form */
+  /**
+   * toggle second language form visibility
+   *
+   */
   const toggleSecLangForm = () => {
     setDisplaySecondLangForm((prev) => !prev);
   };
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
-   *
    * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * @return {boolean} return true if any of the form inputs have changed
+   *
    */
   const checkIfFormValuesChanged = () => {
-    console.log("changes saved:", form.getFieldsValue());
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
       savedValues || getInitialValues({ profile: profileInfo }),
@@ -175,14 +182,18 @@ const LangProficiencyFormView = ({
     return false;
   };
 
+  /**
+   * update state if form values have changed from the initial state
+   *
+   */
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /*
    * Get All Validation Errors
-   *
    * Print out list of validation errors in a list for notification
+   *
    */
   const getAllValidationErrorMessages = () => (
     <div>
@@ -195,10 +206,10 @@ const LangProficiencyFormView = ({
     </div>
   );
 
-  /*
-   * Finish
+  /**
+   * Action to take "on finish".
+   * redirects to last page of profile forms
    *
-   * redirect to profile
    */
   const onFinish = () => {
     history.push(`/profile/edit/finish`);
@@ -214,7 +225,6 @@ const LangProficiencyFormView = ({
     form
       .validateFields()
       .then(async (values) => {
-        console.log("values", values);
         await saveDataToDB(values, displaySecondLangForm);
         setFieldsChanged(false);
         if (num === 1) {
@@ -232,7 +242,6 @@ const LangProficiencyFormView = ({
         }
       })
       .catch((error) => {
-        console.log("error", error);
         if (error.isAxiosError) {
           handleError(error, "message", history);
         } else {
@@ -244,10 +253,10 @@ const LangProficiencyFormView = ({
       });
   };
 
-  /*
-   * On Reset
-   *
+  /**
+   * Action to take "On Reset"
    * reset form fields to state when page was loaded
+   *
    */
   const onReset = () => {
     form.resetFields();
