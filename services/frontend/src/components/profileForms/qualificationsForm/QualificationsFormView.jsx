@@ -380,6 +380,9 @@ const QualificationsFormView = ({
                     visibleCards={profileInfo.visibleCards}
                     cardName="education"
                     type="form"
+                    ariaLabel={intl.formatMessage({
+                      id: "education",
+                    })}
                   />
                 }
               />
@@ -437,6 +440,9 @@ const QualificationsFormView = ({
                     visibleCards={profileInfo.visibleCards}
                     cardName="experience"
                     type="form"
+                    ariaLabel={intl.formatMessage({
+                      id: "experience",
+                    })}
                   />
                 }
               />
