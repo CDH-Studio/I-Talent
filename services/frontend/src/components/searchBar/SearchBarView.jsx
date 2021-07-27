@@ -19,6 +19,7 @@ import {
   DoubleRightOutlined,
 } from "@ant-design/icons";
 import CustomDropdown from "../formItems/CustomDropdown";
+import Fieldset from "../fieldset/Fieldset";
 import logo from "../../assets/I-talent-logo.png";
 import "./SearchBarView.less";
 
@@ -118,166 +119,138 @@ const SearchBarView = ({
         </Row>
 
         {/* General Info */}
-        <Row style={{ padding: "15px 5% 0px 5%" }}>
-          <Col span={24} style={{ padding: "0px 0" }}>
-            <Title level={3} style={{ fontSize: "1em" }}>
-              <FormattedMessage id="general.info" />
-            </Title>
-          </Col>
-        </Row>
-        <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
-          {/* form column one */}
-          <Col span={12}>
-            {/* name field */}
-            <Form.Item label={<FormattedMessage id="name" />} name="name">
-              <Input style={{ width: "100%" }} placeholder={searchLabel} />
-            </Form.Item>
+        <Row style={{ padding: "15px 5%" }}>
+          <Fieldset title={<FormattedMessage id="general.info" />}>
+            {/* form column one */}
+            <Col span={24}>
+              {/* name field */}
+              <Form.Item label={<FormattedMessage id="name" />} name="name">
+                <Input style={{ width: "100%" }} placeholder={searchLabel} />
+              </Form.Item>
 
-            {/* classification field */}
-            <Form.Item
-              label={<FormattedMessage id="classification" />}
-              name="classifications"
-            >
-              <CustomDropdown
-                ariaLabel={intl.formatMessage({
-                  id: "classification",
-                })}
-                placeholderText={<FormattedMessage id="type.to.search" />}
-                options={classOptions}
-                isSearchable
-                isMulti
-                maxSelectedOptions={3}
-              />
-            </Form.Item>
-          </Col>
+              {/* Location field */}
+              <Form.Item
+                label={<FormattedMessage id="location" />}
+                name="locations"
+              >
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({
+                    id: "location",
+                  })}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
+                  options={locationOptions}
+                  isSearchable
+                  isMulti
+                  maxSelectedOptions={3}
+                />
+              </Form.Item>
 
-          {/* form column three */}
-          <Col span={12}>
-            {/* Location field */}
-            <Form.Item
-              label={<FormattedMessage id="location" />}
-              name="locations"
-            >
-              <CustomDropdown
-                ariaLabel={intl.formatMessage({
-                  id: "location",
-                })}
-                placeholderText={<FormattedMessage id="type.to.search" />}
-                options={locationOptions}
-                isSearchable
-                isMulti
-                maxSelectedOptions={3}
-              />
-            </Form.Item>
-            {/* branch field */}
-            <Form.Item label={<FormattedMessage id="branch" />} name="branches">
-              <CustomDropdown
-                ariaLabel={intl.formatMessage({
-                  id: "branch",
-                })}
-                placeholderText={<FormattedMessage id="type.to.search" />}
-                options={branchOptions}
-                isSearchable
-                isMulti
-                maxSelectedOptions={3}
-              />
-            </Form.Item>
-          </Col>
+              {/* branch field */}
+              <Form.Item
+                label={<FormattedMessage id="branch" />}
+                name="branches"
+              >
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({
+                    id: "branch",
+                  })}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
+                  options={branchOptions}
+                  isSearchable
+                  isMulti
+                  maxSelectedOptions={3}
+                />
+              </Form.Item>
+
+              {/* classification field */}
+              <Form.Item
+                label={<FormattedMessage id="classification" />}
+                name="classifications"
+              >
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({
+                    id: "classification",
+                  })}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
+                  options={classOptions}
+                  isSearchable
+                  isMulti
+                  maxSelectedOptions={3}
+                />
+              </Form.Item>
+            </Col>
+          </Fieldset>
         </Row>
 
         {/* Skills section */}
-        <Row style={{ padding: "15px 5% 0px 5%" }}>
-          <Col span={24} style={{ padding: "0px 0" }}>
-            <Title level={3} style={{ fontSize: "1em" }}>
-              <FormattedMessage id="skills.and.talent.question" />
-            </Title>
-          </Col>
-        </Row>
-        <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
-          {/* form column one */}
-          <Col span={24}>
-            {/* Skills field */}
-            <Form.Item label={<FormattedMessage id="skills" />} name="skills">
-              <TreeSelect
-                className="custom-bubble-select-style"
-                treeData={skillOptions}
-                treeCheckable
-                showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="search" />}
-                treeNodeFilterProp="title"
-                showSearch
-                maxTagCount={15}
-              />
-            </Form.Item>
-          </Col>
+        <Row style={{ padding: "5px 5%" }}>
+          <Fieldset
+            title={<FormattedMessage id="skills.and.talent.question" />}
+          >
+            <Col span={24}>
+              <Form.Item label={<FormattedMessage id="skills" />} name="skills">
+                <TreeSelect
+                  className="custom-bubble-select-style"
+                  treeData={skillOptions}
+                  treeCheckable
+                  showCheckedStrategy={SHOW_CHILD}
+                  placeholder={<FormattedMessage id="search" />}
+                  treeNodeFilterProp="title"
+                  showSearch
+                  maxTagCount={15}
+                />
+              </Form.Item>
+            </Col>
+          </Fieldset>
         </Row>
 
         {/* Ex-Feeder section */}
-        <Row style={{ padding: "15px 5% 0px 5%" }}>
-          <Col span={24} style={{ padding: "0px 0" }}>
-            <Title level={3} style={{ fontSize: "1em" }}>
-              <FormattedMessage id="ex.feeder.question" />
-            </Title>
-          </Col>
-        </Row>
-        <Row gutter={[48, 24]} style={{ padding: "0px 5%" }}>
-          {/* form column one */}
-          <Col span={24}>
-            {/* exFeeder field */}
-            <Form.Item
-              label={<FormattedMessage id="ex.feeder" />}
-              name="exFeeder"
-              valuePropName="checked"
-              style={{ marginBottom: "5px" }}
-            >
-              <Switch />
-            </Form.Item>
-          </Col>
+        <Row style={{ padding: "5px 5%" }}>
+          <Fieldset title={<FormattedMessage id="ex.feeder.question" />}>
+            <Col span={24}>
+              <Form.Item
+                label={<FormattedMessage id="ex.feeder" />}
+                name="exFeeder"
+                valuePropName="checked"
+                style={{ marginBottom: "5px" }}
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
+          </Fieldset>
         </Row>
 
         {/* Mentorship section */}
-        <Row style={{ margin: "15px 5% 0px 5%" }}>
-          <Col span={24} style={{ padding: "0px 0" }}>
-            <Title level={3} style={{ fontSize: "1em" }}>
-              <FormattedMessage id="looking.for.mentor" />
-            </Title>
-          </Col>
+        <Row style={{ padding: "5px 5%" }}>
+          <Fieldset title={<FormattedMessage id="looking.for.mentor" />}>
+            <Col span={24}>
+              {/* Mentorship Skills field */}
+              <Form.Item
+                label={<FormattedMessage id="mentorship.skills" />}
+                name="mentorSkills"
+                className="mb-0"
+              >
+                <TreeSelect
+                  className="custom-bubble-select-style"
+                  treeData={skillOptions}
+                  treeCheckable
+                  showCheckedStrategy={SHOW_CHILD}
+                  placeholder={<FormattedMessage id="search" />}
+                  treeNodeFilterProp="title"
+                  showSearch
+                  maxTagCount={15}
+                  disabled={anyMentorSkills}
+                />
+              </Form.Item>
+              <Form.Item name="anyMentorSkills" valuePropName="checked">
+                <Checkbox onChange={handleAnyMentorSkillsChange}>
+                  <FormattedMessage id="select.any.mentors" />
+                </Checkbox>
+              </Form.Item>
+            </Col>
+          </Fieldset>
         </Row>
-        <Row gutter={[48, 24]} style={{ padding: "0px 5% 40px 5%" }}>
-          {/* form column one */}
-          <Col span={24}>
-            {/* Mentorship Skills field */}
-            <Form.Item
-              label={<FormattedMessage id="mentorship.skills" />}
-              name="mentorSkills"
-              style={{ marginBottom: "0px" }}
-            >
-              <TreeSelect
-                className="custom-bubble-select-style"
-                treeData={skillOptions}
-                treeCheckable
-                showCheckedStrategy={SHOW_CHILD}
-                placeholder={<FormattedMessage id="search" />}
-                treeNodeFilterProp="title"
-                showSearch
-                maxTagCount={15}
-                disabled={anyMentorSkills}
-              />
-            </Form.Item>
-            <Form.Item name="anyMentorSkills" valuePropName="checked">
-              <Checkbox onChange={handleAnyMentorSkillsChange}>
-                <FormattedMessage id="select.any.mentors" />
-              </Checkbox>
-            </Form.Item>
-          </Col>
-        </Row>
-        <div
-          style={{
-            width: "100%",
-            textAlign: "center",
-            margin: "-40px 0 30px 0",
-          }}
-        >
+        <div className="search-advancedSearchBtns">
           <Button
             size="large"
             type="primary"
@@ -297,7 +270,7 @@ const SearchBarView = ({
             <FormattedMessage id="clear.changes" />
           </Button>
         </div>
-        <Divider />
+        <Divider className="my-2" />
       </div>
     );
   };
@@ -337,17 +310,13 @@ const SearchBarView = ({
               >
                 {expandAdvancedSearch ? (
                   <>
-                    <DoubleRightOutlined rotate="270" />
-                    <span>
-                      <FormattedMessage id="basic.search" />
-                    </span>
+                    <DoubleRightOutlined rotate="270" className="mr-2" />
+                    <FormattedMessage id="basic.search" />
                   </>
                 ) : (
                   <>
-                    <DoubleRightOutlined rotate="90" />
-                    <span>
-                      <FormattedMessage id="advanced.search" />
-                    </span>
+                    <DoubleRightOutlined rotate="90" className="mr-2" />
+                    <FormattedMessage id="advanced.search" />
                   </>
                 )}
               </Button>
