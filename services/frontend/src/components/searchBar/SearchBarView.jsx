@@ -9,7 +9,6 @@ import {
   Form,
   Input,
   Switch,
-  Divider,
   Checkbox,
   TreeSelect,
 } from "antd";
@@ -80,7 +79,7 @@ const SearchBarView = ({
           size="large"
           type="primary"
           htmlType="submit"
-          icon={<SearchOutlined />}
+          icon={<SearchOutlined aria-hidden="true" />}
           className="search-submitBtn"
         >
           {searchLabel}
@@ -105,7 +104,7 @@ const SearchBarView = ({
       return null;
     }
     return (
-      <div style={{ marginBottom: "0" }}>
+      <div>
         <Row style={{ padding: "20px 5% 0px 5%" }}>
           <Col span={24} style={{ padding: "0px 0" }}>
             <Title level={2} style={{ fontSize: "1.3em" }}>
@@ -270,7 +269,6 @@ const SearchBarView = ({
             <FormattedMessage id="clear.changes" />
           </Button>
         </div>
-        <Divider className="my-2" />
       </div>
     );
   };
@@ -296,8 +294,6 @@ const SearchBarView = ({
           {getBasicSearchForm(!expandAdvancedSearch)}
         </div>
         <div className="search-advSearchCard">
-          {/* Gets fields for Advanced Search in collapse */}
-          {getAdvancedSearchForm(expandAdvancedSearch)}
           {/* expand advance search btn */}
           <Row>
             <Col span={24} className="search-advFieldPlacement">
@@ -307,21 +303,19 @@ const SearchBarView = ({
                 style={{ fontSize: 15 }}
                 tabIndex={0}
                 size="middle"
+                aria-expanded={expandAdvancedSearch}
               >
-                {expandAdvancedSearch ? (
-                  <>
-                    <DoubleRightOutlined rotate="270" className="mr-2" />
-                    <FormattedMessage id="basic.search" />
-                  </>
-                ) : (
-                  <>
-                    <DoubleRightOutlined rotate="90" className="mr-2" />
-                    <FormattedMessage id="advanced.search" />
-                  </>
-                )}
+                <DoubleRightOutlined
+                  rotate={expandAdvancedSearch ? "270" : "90"}
+                  className="mr-2"
+                  aria-hidden="true"
+                />
+                <FormattedMessage id="advanced.search" />
               </Button>
             </Col>
           </Row>
+          {/* Gets fields for Advanced Search in collapse */}
+          {getAdvancedSearchForm(expandAdvancedSearch)}
         </div>
       </div>
     </Form>
