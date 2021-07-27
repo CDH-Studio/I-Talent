@@ -307,9 +307,11 @@ const LangProficiencyFormView = ({
           aria-required="true"
         >
           <CustomDropdown
-            ariaLabel={intl.formatMessage({
+            ariaLabel={`${intl.formatMessage({
               id: label,
-            })}
+            })}: ${intl.formatMessage({
+              id: "lang.status",
+            })}`}
             placeholderText={<FormattedMessage id="select" />}
             initialValueId={
               getInitialValues({ profile: profileInfo })[statusName]
