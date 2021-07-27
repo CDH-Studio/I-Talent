@@ -486,9 +486,6 @@ const EmploymentDataFormView = ({
                 <>
                   <FormattedMessage id="presently.acting" />
                   <Switch
-                    // aria-label={intl.formatMessage({
-                    //   id: "presently.acting",
-                    // })}
                     checked={displayActingRoleForm}
                     onChange={toggleTempRoleForm}
                     className="ml-2 mb-1"
