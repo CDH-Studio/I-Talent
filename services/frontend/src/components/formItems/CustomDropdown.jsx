@@ -65,7 +65,7 @@ const CustomDropdown = ({
    *
    */
   const mapInitialValue = (dropdownOptions, savedValues) =>
-    isMulti
+    isMulti && savedValues
       ? savedValues.map((value) =>
           dropdownOptions.find((option) => option.value === value)
         )

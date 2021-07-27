@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { injectIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   Typography,
   Row,
@@ -9,7 +9,6 @@ import {
   Form,
   Input,
   Switch,
-  Select,
   Divider,
   Checkbox,
   TreeSelect,
@@ -19,18 +18,15 @@ import {
   SettingOutlined,
   DoubleRightOutlined,
 } from "@ant-design/icons";
+import CustomDropdown from "../formItems/CustomDropdown";
 import logo from "../../assets/I-talent-logo.png";
-import { IntlPropType } from "../../utils/customPropTypes";
-import filterOption from "../../functions/filterSelectInput";
 import "./SearchBarView.less";
 
 const { SHOW_CHILD } = TreeSelect;
-const { Option } = Select;
 const { Title } = Typography;
 
 const SearchBarView = ({
   anyMentorSkills,
-  intl,
   locationOptions,
   skillOptions,
   classOptions,
@@ -40,6 +36,7 @@ const SearchBarView = ({
 }) => {
   const [expandAdvancedSearch, setExpandAdvancedSearch] = useState(false);
   const [form] = Form.useForm();
+  const intl = useIntl();
 
   const searchLabel = intl.formatMessage({
     id: "search",
@@ -141,17 +138,16 @@ const SearchBarView = ({
               label={<FormattedMessage id="classification" />}
               name="classifications"
             >
-              <Select
-                style={{ width: "100%" }}
-                mode="multiple"
-                maxTagCount={3}
-                placeholder={searchLabel}
-                filterOption={filterOption}
-              >
-                {classOptions.map((value) => (
-                  <Option key={value.id}>{value.name}</Option>
-                ))}
-              </Select>
+              <CustomDropdown
+                ariaLabel={intl.formatMessage({
+                  id: "classification",
+                })}
+                placeholderText={<FormattedMessage id="type.to.search" />}
+                options={classOptions}
+                isSearchable
+                isMulti
+                maxSelectedOptions={3}
+              />
             </Form.Item>
           </Col>
 
@@ -162,34 +158,29 @@ const SearchBarView = ({
               label={<FormattedMessage id="location" />}
               name="locations"
             >
-              <Select
-                style={{ width: "100%" }}
-                mode="multiple"
-                placeholder={searchLabel}
-                maxTagCount={3}
-                filterOption={filterOption}
-              >
-                {locationOptions.map((value) => (
-                  <Option key={value.id}>
-                    {value.streetNumber} {value.streetName}, {value.city},{" "}
-                    {value.province}
-                  </Option>
-                ))}
-              </Select>
+              <CustomDropdown
+                ariaLabel={intl.formatMessage({
+                  id: "location",
+                })}
+                placeholderText={<FormattedMessage id="type.to.search" />}
+                options={locationOptions}
+                isSearchable
+                isMulti
+                maxSelectedOptions={3}
+              />
             </Form.Item>
             {/* branch field */}
             <Form.Item label={<FormattedMessage id="branch" />} name="branches">
-              <Select
-                style={{ width: "100%" }}
-                mode="multiple"
-                placeholder={searchLabel}
-                maxTagCount={3}
-                filterOption={filterOption}
-              >
-                {branchOptions.map((value) => (
-                  <Option key={value}>{value}</Option>
-                ))}
-              </Select>
+              <CustomDropdown
+                ariaLabel={intl.formatMessage({
+                  id: "branch",
+                })}
+                placeholderText={<FormattedMessage id="type.to.search" />}
+                options={branchOptions}
+                isSearchable
+                isMulti
+                maxSelectedOptions={3}
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -392,13 +383,8 @@ SearchBarView.propTypes = {
     })
   ).isRequired,
   handleSearch: PropTypes.func.isRequired,
-  intl: IntlPropType,
   anyMentorSkills: PropTypes.bool.isRequired,
   handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
-SearchBarView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(SearchBarView);
+export default SearchBarView;
