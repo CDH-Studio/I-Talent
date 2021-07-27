@@ -106,7 +106,7 @@ const SearchBarView = ({
     return (
       <div>
         <Row style={{ padding: "20px 5% 0px 5%" }}>
-          <Col span={24} style={{ padding: "0px 0" }}>
+          <Col span={24} className="p-0">
             <Title level={2} style={{ fontSize: "1.3em" }}>
               <SettingOutlined
                 style={{ marginRight: "4px", color: "#3CBAB3" }}
