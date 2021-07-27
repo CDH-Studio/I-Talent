@@ -296,8 +296,7 @@ const CustomDropdown = ({
       ...provided,
       background: "#fff",
       borderColor: state.isFocused || state.active ? "#087472" : "#d9d9d9",
-      minHeight: isMulti ? "36px" : "32px",
-      padding: isMulti ? "3px 0" : 0,
+      minHeight: "30px",
       boxShadow:
         state.isFocused || state.active
           ? "0px 0px 0px 2px rgb(8 116 114 / 50%)"
@@ -305,7 +304,7 @@ const CustomDropdown = ({
     }),
     valueContainer: (provided) => ({
       ...provided,
-      minHeight: "32px",
+      minHeight: "30px",
       padding: "0 11px",
     }),
     menu: (provided) => ({
@@ -316,9 +315,23 @@ const CustomDropdown = ({
       ...provided,
       margin: "0px",
     }),
+    placeholder: (provided) => ({
+      ...provided,
+      margin: "0px",
+    }),
     indicatorsContainer: (provided) => ({
       ...provided,
-      height: isMulti ? "auto" : "32px",
+      height: "auto",
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      paddingTop: 0,
+      paddingBottom: 0,
+    }),
+    clearIndicator: (provided) => ({
+      ...provided,
+      paddingTop: 0,
+      paddingBottom: 0,
     }),
     option: (provided) => ({
       ...provided,
@@ -335,10 +348,17 @@ const CustomDropdown = ({
       color: antdStyles["@primary-color"],
       borderWidth: "1px",
       borderRadius: "1rem",
-      padding: "0 5px",
+      padding: "0 0 0 5px",
       margin: "3px 6px 3px 0",
-      fontSize: "1rem",
-      lineHeight: "1.1rem",
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      fontSize: "14px",
+      lineHeight: "15px",
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      borderRadius: "0 1rem  1rem 0",
     }),
     noOptionsMessage: (provided) => ({
       ...provided,
