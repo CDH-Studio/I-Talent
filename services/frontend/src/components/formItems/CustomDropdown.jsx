@@ -273,8 +273,23 @@ const CustomDropdown = ({
   };
 
   /**
+   * Disable the selectable dropdown options when selected limit is reached
+   *
+   * @param {object} option - object describing the dropdown options
+   * @param {string} option.label - label to be displayed to user
+   * @param {string} option.icon - optional icon to be displayed
+   *
+   */
+  const formatOptionLabel = ({ label, icon }) => (
+    <>
+      {icon} {label}
+    </>
+  );
+
+  /**
    * Custom styling for "react-select" based on the API provided in the documentation
    * @const {Object}
+   *
    */
   const customStyles = {
     control: (provided, state) => ({
@@ -334,6 +349,7 @@ const CustomDropdown = ({
   /**
    * Custom theming for "react-select" based on the API provided in the documentation
    * @const {Object}
+   *
    */
   const customTheme = (theme) => ({
     ...theme,
@@ -412,6 +428,8 @@ const CustomDropdown = ({
           styles={customStyles}
           theme={customTheme}
           className={className}
+          formatOptionLabel={formatOptionLabel}
+          menuPortalTarget={document.body}
         />
       )}
     </>

@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
+import { useIntl } from "react-intl";
 import SkillsView from "./SkillsView";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const Skills = ({ data, editableCardBool }) => {
+  const intl = useIntl();
+
   const formatData = (list) => {
     const categorizedList = {};
 
@@ -65,7 +68,7 @@ const Skills = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="skills"
+      titleString={intl.formatMessage({ id: "skills" })}
       cardName="skills"
       id="card-profile-skills"
       editUrl="/profile/edit/talent?tab=skills"

@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
+import { useIntl } from "react-intl";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import MentorshipView from "./MentorshipView";
 import ProfileCards from "../profileCards/ProfileCards";
 
 const Mentorship = ({ data, editableCardBool }) => {
+  const intl = useIntl();
+
   const formatData = (list) => {
     const categorizedList = {};
 
@@ -21,6 +24,7 @@ const Mentorship = ({ data, editableCardBool }) => {
 
     return categorizedList;
   };
+
   const setUpCategories = (list) => {
     const categorizedList = {};
     const categoriesTemp = {};
@@ -62,9 +66,10 @@ const Mentorship = ({ data, editableCardBool }) => {
 
     return mentorshipSkills;
   };
+
   return (
     <ProfileCards
-      titleId="mentorship.skills"
+      titleString={intl.formatMessage({ id: "mentorship.skills" })}
       cardName="mentorshipSkills"
       id="card-profile-mentorship-skills"
       editUrl="/profile/edit/talent?tab=mentorship"

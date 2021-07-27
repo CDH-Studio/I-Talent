@@ -12,7 +12,7 @@ const { Text } = Typography;
 
 const ProfileCardsView = ({
   editUrl,
-  titleId,
+  titleString,
   id,
   children,
   style,
@@ -26,19 +26,24 @@ const ProfileCardsView = ({
   /**
    * Generate Edit Menu with visibility toggle and edit button for profile in edit mode
    * @param {Object} visibilityOfAllCards - visibility status of all cards.
-   * @param {String} cardInfoName - name of the card.
-   * @param {String} editFormUrl - url to edit form.
+   * @param {string} cardInfoName - name of the card.
+   * @param {string} editFormUrl - url to edit form.
+   * @param {string} cardTitleString - url to edit form.
+   * @return {HTMLElement} generated element to display
+   *
    */
   const generateEditMenu = ({
     visibilityOfAllCards,
     cardInfoName,
     editFormUrl,
+    cardTitleString,
   }) => (
     <Row>
       <Col className="hide-for-print">
         <CardVisibilityToggle
           visibleCards={visibilityOfAllCards}
           cardName={cardInfoName}
+          ariaLabel={cardTitleString}
         />
       </Col>
       <Col style={{ marginLeft: 20 }} className="hide-for-print">
@@ -49,7 +54,9 @@ const ProfileCardsView = ({
 
   /**
    * Generate Visibility Status indicator for public profile (view only mode)
-   * @param {Bool} visibleCards - visibility status of this card.
+   * @param {boolean} visibleCards - visibility status of this card.
+   * @return {HTMLElement} generated element to display
+   *
    */
   const generateVisibilityStatusForPublic = (cardVisibilityStatus) => {
     let visibilityStatusSymbol;
@@ -83,6 +90,7 @@ const ProfileCardsView = ({
   /**
    * Generate Visibility Status indicator for profile being viewed by admin
    * @param {('PRIVATE'|'CONNECTIONS'|'PUBLIC')} cardVisibilityStatus - visibility status of card.
+   * @return {HTMLElement} generated element to display
    */
   const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => (
     <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />
@@ -90,6 +98,7 @@ const ProfileCardsView = ({
 
   /**
    * Generate right menu in card header
+   * @return {HTMLElement} generated element to display
    */
   const generateExtraMenu = () => {
     let extraMenu;
@@ -100,6 +109,7 @@ const ProfileCardsView = ({
           visibilityOfAllCards: visibleCards,
           cardInfoName: cardName,
           editFormUrl: editUrl,
+          cardTitleString: titleString,
         });
       } else if (typeof visibility === "boolean") {
         extraMenu = generateVisibilityStatusForPublic(visibility);
@@ -119,11 +129,7 @@ const ProfileCardsView = ({
       <Card
         title={
           <>
-            {typeof titleId === "string" ? (
-              <FormattedMessage id={titleId} />
-            ) : (
-              titleId
-            )}
+            {titleString}
             {lastUpdated && (
               <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text
@@ -152,7 +158,7 @@ const ProfileCardsView = ({
 
 ProfileCardsView.propTypes = {
   editUrl: PropTypes.string,
-  titleId: PropTypes.node.isRequired,
+  titleString: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
   children: PropTypes.element,
   style: PropTypes.objectOf(PropTypes.string),
