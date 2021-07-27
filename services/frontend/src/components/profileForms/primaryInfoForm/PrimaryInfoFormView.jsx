@@ -3,7 +3,6 @@ import {
   Row,
   Col,
   Skeleton,
-  // Select,
   Divider,
   Form,
   Input,
@@ -16,7 +15,6 @@ import {
   InfoCircleOutlined,
   SyncOutlined,
 } from "@ant-design/icons";
-// import Select from "react-select";
 import { FormattedMessage, useIntl } from "react-intl";
 import { pickBy, identity, isEqual } from "lodash";
 import PropTypes from "prop-types";
@@ -26,6 +24,7 @@ import { Prompt } from "react-router";
 import { useKeycloak } from "@react-keycloak/web";
 import useAxios from "../../../utils/useAxios";
 import CustomDropdown from "../../formItems/CustomDropdown";
+import Fieldset from "../../fieldset/Fieldset";
 import {
   IdDescriptionPropType,
   ProfileInfoPropType,
@@ -33,7 +32,6 @@ import {
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-// import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
@@ -42,8 +40,6 @@ import FormSubTitle from "../formSubTitle/FormSubTitle";
 import login from "../../../utils/login";
 
 import "./PrimaryInfoFormView.less";
-
-// const { Option } = Select;
 
 const PrimaryInfoFormView = ({
   locationOptions,
@@ -183,8 +179,8 @@ const PrimaryInfoFormView = ({
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    *
-   * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
@@ -513,7 +509,6 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 name="teams"
                 label={<FormattedMessage id="employee.work.unit" />}
-                className="custom-bubble-select-style"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -525,74 +520,70 @@ const PrimaryInfoFormView = ({
                   placeholderText={<FormattedMessage id="select" />}
                   isCreatable
                   isMulti
-                  maxSelectedOptions={2}
                 />
               </Form.Item>
             </Col>
           </Row>
           {/* Form Row Five */}
-          <Row
-            gutter={24}
-            style={{
-              backgroundColor: "#dfe5e4",
-              paddingTop: "15px",
-              marginBottom: "20px",
-              marginTop: "10px",
-              borderRadius: 5,
-            }}
-          >
-            <Col className="gutter-row mb-1" span={24}>
-              <LinkOutlined aria-hidden="true" className="mr-1" />
-              <FormattedMessage id="setup.link.profiles" />
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="gcconnex"
-                label={<FormattedMessage id="gcconnex.username" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input
-                  aria-label={`${intl.formatMessage({
-                    id: "gcconnex.username",
-                  })} https://gcconnex.gc.ca/profile/`}
-                  addonBefore="https://gcconnex.gc.ca/profile/"
-                  placeholder={intl.formatMessage({ id: "username" })}
-                />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="linkedin"
-                label={<FormattedMessage id="linkedin.username" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input
-                  aria-label={`${intl.formatMessage({
-                    id: "linkedin.username",
-                  })} https://linkedin.com/in/`}
-                  addonBefore="https://linkedin.com/in/"
-                  aria-describedby="linkedin-field-info"
-                  placeholder={intl.formatMessage({ id: "username" })}
-                />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
-              <Form.Item
-                name="github"
-                label={<FormattedMessage id="github.username" />}
-                rules={[Rules.maxChar100]}
-              >
-                <Input
-                  aria-label={`${intl.formatMessage({
-                    id: "github.username",
-                  })} https://github.com/`}
-                  addonBefore="https://github.com/"
-                  aria-describedby="github-field-info"
-                  placeholder={intl.formatMessage({ id: "username" })}
-                />
-              </Form.Item>
-            </Col>
+          <Row className="prim-externalProfileSection">
+            <Fieldset
+              title={
+                <>
+                  <LinkOutlined aria-hidden="true" className="mr-1" />
+                  <FormattedMessage id="setup.link.profiles" />{" "}
+                </>
+              }
+            >
+              <Col span={24}>
+                <Form.Item
+                  name="gcconnex"
+                  label={<FormattedMessage id="gcconnex.username" />}
+                  rules={[Rules.maxChar100]}
+                >
+                  <Input
+                    aria-label={`${intl.formatMessage({
+                      id: "gcconnex.username",
+                    })} https://gcconnex.gc.ca/profile/`}
+                    addonBefore="https://gcconnex.gc.ca/profile/"
+                    placeholder={intl.formatMessage({ id: "username" })}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item
+                  name="linkedin"
+                  label={<FormattedMessage id="linkedin.username" />}
+                  rules={[Rules.maxChar100]}
+                >
+                  <Input
+                    aria-label={`${intl.formatMessage({
+                      id: "linkedin.username",
+                    })} https://linkedin.com/in/`}
+                    addonBefore="https://linkedin.com/in/"
+                    aria-describedby="linkedin-field-info"
+                    placeholder={intl.formatMessage({ id: "username" })}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item
+                  name="github"
+                  label={<FormattedMessage id="github.username" />}
+                  rules={[Rules.maxChar100]}
+                >
+                  <Input
+                    aria-label={`${intl.formatMessage({
+                      id: "github.username",
+                    })} https://github.com/`}
+                    addonBefore="https://github.com/"
+                    aria-describedby="github-field-info"
+                    placeholder={intl.formatMessage({ id: "username" })}
+                  />
+                </Form.Item>
+              </Col>
+            </Fieldset>
           </Row>
+
           <Divider className="prim-headerDiv" />
           <FormSubTitle
             title={<FormattedMessage id="employment.equity.groups" />}
@@ -622,7 +613,6 @@ const PrimaryInfoFormView = ({
                   options={employmentEquityOptions}
                   isSearchable={false}
                   isMulti
-                  maxSelectedOptions={2}
                 />
               </Form.Item>
             </Col>

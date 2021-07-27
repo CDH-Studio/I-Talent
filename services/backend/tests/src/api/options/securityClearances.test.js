@@ -22,22 +22,22 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            opSecurityClearanceId: 1,
-            description: "z",
+            opSecurityClearanceId: 2,
+            description: "b",
           },
           {
-            opSecurityClearanceId: 2,
-            description: "B",
+            opSecurityClearanceId: 1,
+            description: "z",
           },
         ],
         [
           {
-            id: 2,
-            description: "B",
+            value: 2,
+            label: "b",
           },
           {
-            id: 1,
-            description: "z",
+            value: 1,
+            label: "z",
           },
         ],
       ],
@@ -51,8 +51,8 @@ describe(`GET ${path}`, () => {
         ],
         [
           {
-            id: 3,
-            description: "b",
+            value: 3,
+            label: "b",
           },
         ],
       ],

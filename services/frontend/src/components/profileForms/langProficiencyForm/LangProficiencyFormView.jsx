@@ -6,12 +6,10 @@ import {
   Typography,
   Divider,
   Form,
-  Select,
   Switch,
   notification,
-  Space,
 } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -19,19 +17,17 @@ import { Prompt } from "react-router";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  IntlPropType,
   HistoryPropType,
 } from "../../../utils/customPropTypes";
-
+import CustomDropdown from "../../formItems/CustomDropdown";
+import Fieldset from "../../fieldset/Fieldset";
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import "./LangProficiencyFormView.less";
 
-const { Option } = Select;
 const { Text } = Typography;
 
 /**
@@ -46,7 +42,6 @@ const LangProficiencyFormView = ({
   load,
   proficiencyOptions,
   profileInfo,
-  intl,
   history,
   saveDataToDB,
 }) => {
@@ -56,6 +51,7 @@ const LangProficiencyFormView = ({
   const [savedValues, setSavedValues] = useState(null);
   const [loadedData, setLoadedData] = useState(false);
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   /* Component Rules for form fields */
   const Rules = {
@@ -92,8 +88,12 @@ const LangProficiencyFormView = ({
     }
   };
 
-  /* Get the initial values for the form */
-  const getInitialValues = (profile) => {
+  /**
+   * extract the initial values from the profile
+   * @param {Object} profile - user profile
+   *
+   */
+  const getInitialValues = ({ profile }) => {
     // Get default language from API and convert to dropdown key
     if (profile) {
       const data = {
@@ -118,20 +118,24 @@ const LangProficiencyFormView = ({
     return {};
   };
 
-  /* toggle temporary role form */
+  /**
+   * toggle second language form visibility
+   *
+   */
   const toggleSecLangForm = () => {
     setDisplaySecondLangForm((prev) => !prev);
   };
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
-   *
    * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
+   * @return {boolean} return true if any of the form inputs have changed
+   *
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
-      savedValues || getInitialValues(profileInfo),
+      savedValues || getInitialValues({ profile: profileInfo }),
       identity
     );
 
@@ -178,14 +182,18 @@ const LangProficiencyFormView = ({
     return false;
   };
 
+  /**
+   * update state if form values have changed from the initial state
+   *
+   */
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
   };
 
   /*
    * Get All Validation Errors
-   *
    * Print out list of validation errors in a list for notification
+   *
    */
   const getAllValidationErrorMessages = () => (
     <div>
@@ -198,10 +206,10 @@ const LangProficiencyFormView = ({
     </div>
   );
 
-  /*
-   * Finish
+  /**
+   * Action to take "on finish".
+   * redirects to last page of profile forms
    *
-   * redirect to profile
    */
   const onFinish = () => {
     history.push(`/profile/edit/finish`);
@@ -245,10 +253,10 @@ const LangProficiencyFormView = ({
       });
   };
 
-  /*
-   * On Reset
-   *
+  /**
+   * Action to take "On Reset"
    * reset form fields to state when page was loaded
+   *
    */
   const onReset = () => {
     form.resetFields();
@@ -256,58 +264,62 @@ const LangProficiencyFormView = ({
       message: intl.formatMessage({ id: "form.clear" }),
     });
 
-    const data = savedValues || getInitialValues(profileInfo);
+    const data = savedValues || getInitialValues({ profile: profileInfo });
     setDisplaySecondLangForm(data.oralProficiency);
     setFieldsChanged(false);
   };
 
   // Updates the unsaved indicator based on the toggle and form values
   useEffect(() => {
-    const data = savedValues || getInitialValues(profileInfo);
+    const data = savedValues || getInitialValues({ profile: profileInfo });
     const oppositeInitialToggle =
       !!data.oralProficiency !== displaySecondLangForm;
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displaySecondLangForm]);
 
-  const getSecondLangRows = (name, label, statusName) => (
-    <Row gutter={24} style={{ marginTop: "10px" }}>
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+  const getSecondLangRows = ({ name, label, statusName }) => (
+    <Row gutter={24}>
+      <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
         <Form.Item
           name={name}
           label={<FormattedMessage id={label} />}
           rules={[Rules.required]}
           aria-required="true"
         >
-          <Select
-            showSearch
-            placeholder={<FormattedMessage id="search" />}
-            allowClear
-            filterOption={filterOption}
-          >
-            {proficiencyOptions.map((value) => (
-              <Option key={value.key}>{value.text}</Option>
-            ))}
-          </Select>
+          <CustomDropdown
+            ariaLabel={intl.formatMessage({
+              id: label,
+            })}
+            placeholderText={<FormattedMessage id="select" />}
+            initialValueId={getInitialValues({ profile: profileInfo })[name]} // TODO: need to figure out how ot get value using "name"
+            options={proficiencyOptions}
+            isSearchable={false}
+            isRequired
+          />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
         <Form.Item
           name={statusName}
           label={<FormattedMessage id="lang.status" />}
           rules={[Rules.required]}
           aria-required="true"
         >
-          <Select
-            showSearch
-            placeholder={<FormattedMessage id="search" />}
-            allowClear
-            filterOption={filterOption}
-          >
-            {statusOptions.map((value) => (
-              <Option key={value.key}>{value.text}</Option>
-            ))}
-          </Select>
+          <CustomDropdown
+            ariaLabel={`${intl.formatMessage({
+              id: label,
+            })}: ${intl.formatMessage({
+              id: "lang.status",
+            })}`}
+            placeholderText={<FormattedMessage id="select" />}
+            initialValueId={
+              getInitialValues({ profile: profileInfo })[statusName]
+            }
+            options={statusOptions}
+            isSearchable={false}
+            isRequired
+          />
         </Form.Item>
       </Col>
     </Row>
@@ -317,27 +329,29 @@ const LangProficiencyFormView = ({
   const getSecondLanguageForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       const formValues = form.getFieldsValue();
-      Object.assign(getInitialValues(profileInfo), formValues);
+      Object.assign(getInitialValues({ profile: profileInfo }), formValues);
       return (
         <>
           {/* Reading Proficiency */}
-          {getSecondLangRows(
-            "readingProficiency",
-            "secondary.reading.proficiency",
-            "secondaryReadingStatus"
-          )}
+          {getSecondLangRows({
+            name: "readingProficiency",
+            label: "secondary.reading.proficiency",
+            statusName: "secondaryReadingStatus",
+          })}
+          <Divider className="mt-0 mb-2" />
           {/* Writing Proficiency */}
-          {getSecondLangRows(
-            "writingProficiency",
-            "secondary.writing.proficiency",
-            "secondaryWritingStatus"
-          )}
+          {getSecondLangRows({
+            name: "writingProficiency",
+            label: "secondary.writing.proficiency",
+            statusName: "secondaryWritingStatus",
+          })}
+          <Divider className="mt-0 mb-2" />
           {/* Oral Proficiency */}
-          {getSecondLangRows(
-            "oralProficiency",
-            "secondary.oral.proficiency",
-            "secondaryOralStatus"
-          )}
+          {getSecondLangRows({
+            name: "oralProficiency",
+            label: "secondary.oral.proficiency",
+            statusName: "secondaryOralStatus",
+          })}
         </>
       );
     }
@@ -360,7 +374,6 @@ const LangProficiencyFormView = ({
   /** **********************************
    ********* Render Component *********
    *********************************** */
-
   if (!load) {
     return (
       /* If form data is loading then wait */
@@ -404,7 +417,9 @@ const LangProficiencyFormView = ({
         <Form
           name="basicForm"
           form={form}
-          initialValues={savedValues || getInitialValues(profileInfo)}
+          initialValues={
+            savedValues || getInitialValues({ profile: profileInfo })
+          }
           layout="vertical"
           onValuesChange={updateIfFormValuesChanged}
         >
@@ -415,35 +430,40 @@ const LangProficiencyFormView = ({
                 name="firstLanguage"
                 label={<FormattedMessage id="first.official.language" />}
               >
-                <Select
-                  showSearch
-                  placeholder={<FormattedMessage id="search" />}
-                  allowClear
-                  filterOption={filterOption}
-                >
-                  {languageOptions.map((value) => (
-                    <Option key={value.key}>{value.text}</Option>
-                  ))}
-                </Select>
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({
+                    id: "first.official.language",
+                  })}
+                  placeholderText={<FormattedMessage id="select" />}
+                  initialValueId={
+                    getInitialValues({ profile: profileInfo }).firstLanguage
+                  }
+                  options={languageOptions}
+                  isSearchable={false}
+                />
               </Form.Item>
             </Col>
           </Row>
           {/* Form Row Four: Temporary role */}
-          <Row className="lang-secondLangRow" gutter={24}>
-            <Col className="gutter-row" span={24}>
-              <Row>
-                <Space>
+          <Row className="lang-secondLangRow">
+            <Fieldset
+              title={
+                <>
                   <Text>
                     <FormattedMessage id="graded.on.second.language" />
                   </Text>
                   <Switch
                     checked={displaySecondLangForm}
                     onChange={toggleSecLangForm}
+                    className="ml-2 mb-1"
                   />
-                </Space>
-              </Row>
-              {getSecondLanguageForm(displaySecondLangForm)}
-            </Col>
+                </>
+              }
+            >
+              <Col span={24}>
+                {getSecondLanguageForm(displaySecondLangForm)}
+              </Col>
+            </Fieldset>
           </Row>
           {/* Form Row Five: Submit button */}
           <FormControlButton
@@ -469,7 +489,6 @@ LangProficiencyFormView.propTypes = {
   statusOptions: KeyTitleOptionsPropType,
   load: PropTypes.bool.isRequired,
   profileInfo: ProfileInfoPropType,
-  intl: IntlPropType,
   history: HistoryPropType.isRequired,
   saveDataToDB: PropTypes.func.isRequired,
 };
@@ -479,7 +498,6 @@ LangProficiencyFormView.defaultProps = {
   proficiencyOptions: [],
   statusOptions: [],
   profileInfo: null,
-  intl: null,
 };
 
-export default injectIntl(LangProficiencyFormView);
+export default LangProficiencyFormView;

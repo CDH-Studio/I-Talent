@@ -32,12 +32,12 @@ describe(`GET ${path}`, () => {
         ],
         [
           {
-            id: 1,
-            name: "a",
+            value: 1,
+            label: "a",
           },
           {
-            id: 2,
-            name: "b",
+            value: 2,
+            label: "b",
           },
         ],
       ],
@@ -55,12 +55,12 @@ describe(`GET ${path}`, () => {
         ],
         [
           {
-            id: 3,
-            name: "b",
+            value: 4,
+            label: "à",
           },
           {
-            id: 4,
-            name: "à",
+            value: 3,
+            label: "b",
           },
         ],
       ],

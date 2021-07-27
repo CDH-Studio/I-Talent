@@ -393,7 +393,6 @@ const CustomDropdown = ({
           styles={customStyles}
           theme={customTheme}
           className={className}
-          aria-live="assertive"
         />
       ) : (
         <Select
