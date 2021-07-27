@@ -280,7 +280,7 @@ const LangProficiencyFormView = ({
 
   const getSecondLangRows = ({ name, label, statusName }) => (
     <Row gutter={24}>
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
         <Form.Item
           name={name}
           label={<FormattedMessage id={label} />}
@@ -299,7 +299,7 @@ const LangProficiencyFormView = ({
           />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
         <Form.Item
           name={statusName}
           label={<FormattedMessage id="lang.status" />}
@@ -336,14 +336,14 @@ const LangProficiencyFormView = ({
             label: "secondary.reading.proficiency",
             statusName: "secondaryReadingStatus",
           })}
-          <Divider className="my-2" />
+          <Divider className="mt-0 mb-2" />
           {/* Writing Proficiency */}
           {getSecondLangRows({
             name: "writingProficiency",
             label: "secondary.writing.proficiency",
             statusName: "secondaryWritingStatus",
           })}
-          <Divider className="my-2" />
+          <Divider className="mt-0 mb-2" />
           {/* Oral Proficiency */}
           {getSecondLangRows({
             name: "oralProficiency",
@@ -372,7 +372,6 @@ const LangProficiencyFormView = ({
   /** **********************************
    ********* Render Component *********
    *********************************** */
-
   if (!load) {
     return (
       /* If form data is loading then wait */
