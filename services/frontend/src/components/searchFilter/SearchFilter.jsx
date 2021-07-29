@@ -21,7 +21,6 @@ const SearchFilter = () => {
     name: "",
   });
   const [anyMentorSkills, setAnyMentorSkills] = useState(false);
-
   const axios = useAxios();
   const history = useHistory();
   const { locale } = useSelector((state) => state.settings);
@@ -61,17 +60,19 @@ const SearchFilter = () => {
     );
 
     setUrlSearchFieldValues(formattedQuerySearchData);
+
     if (formattedQuerySearchData.anyMentorSkills) {
       setAnyMentorSkills(formattedQuerySearchData.anyMentorSkills);
     }
   }, [history.location.search]);
 
-  const handleAnyMentorSkillsChange = (e) => {
-    setAnyMentorSkills(e.target.checked);
-  };
-
-  const getBackendInfo = useCallback(async () => {
+  /**
+   * Get dropdown options for search filters
+   *
+   */
+  const getFilterFormOptions = useCallback(async () => {
     try {
+      // get dropdown options
       const [
         branch,
         location,
@@ -85,11 +86,13 @@ const SearchFilter = () => {
         axios.get(`api/option/categories?language=${locale}`),
         axios.get(`api/option/skills?language=${locale}`),
       ]);
+
       setBranchOptions(branch.data);
       setLocationOptions(location.data);
       setClassOptions(classification.data);
-      // Loop through all skill categories
-      const dataTree = categoriesResult.data.map((category) => {
+
+      // generate formatted data tree for skills options
+      const skillsDataTree = categoriesResult.data.map((category) => {
         const children = [];
         skillsResults.data.forEach((skill) => {
           if (skill.categoryId === category.id) {
@@ -109,17 +112,22 @@ const SearchFilter = () => {
           disableCheckbox: true,
         };
       });
-      setSkillOptions(dataTree);
+
+      setSkillOptions(skillsDataTree);
     } catch (error) {
       handleError(error, "redirect", history);
       throw error;
     }
   }, [axios, history, locale]);
 
-  useEffect(getBackendInfo, [getBackendInfo]);
+  useEffect(getFilterFormOptions, [getFilterFormOptions]);
   useEffect(getSearchFieldValues, [getSearchFieldValues]);
 
-  // page with query
+  /**
+   * Handle search functionality
+   * @param {Object} values
+   *
+   */
   const handleSearch = (values) => {
     const searchFilter = values;
 
@@ -138,6 +146,14 @@ const SearchFilter = () => {
     const query = queryString.stringify(values, { arrayFormat: "bracket" });
     const url = `/results?${query}`;
     history.push(url);
+  };
+
+  /**
+   * handle what happens when "any mentorship skills" is selected
+   *
+   */
+  const handleAnyMentorSkillsChange = (e) => {
+    setAnyMentorSkills(e.target.checked);
   };
 
   return (
