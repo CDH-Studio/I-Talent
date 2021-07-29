@@ -64,12 +64,18 @@ const CustomDropdown = ({
    * @return {Array.<{value:string, label:string}>} a list of save option objects
    *
    */
-  const mapInitialValue = (dropdownOptions, savedValues) =>
-    isMulti && savedValues
-      ? savedValues.map((value) =>
-          dropdownOptions.find((option) => option.value === value)
-        )
-      : dropdownOptions.find((option) => option.value === savedValues);
+  const mapInitialValue = (dropdownOptions, savedValues) => {
+    if (isMulti) {
+      const savedValuesArray = Array.isArray(savedValues)
+        ? savedValues
+        : [savedValues];
+      return savedValuesArray.map((value) =>
+        dropdownOptions.find((option) => option.value === value)
+      );
+    }
+
+    return dropdownOptions.find((option) => option.value === savedValues);
+  };
 
   /**
    * Convert the saved values into a objects to be read by "creatable react-select"
@@ -187,6 +193,7 @@ const CustomDropdown = ({
   ) =>
     isMultiSelect &&
     maxSelectedLimit &&
+    Array.isArray(maxSelectedLimit) &&
     userSelectedOptions.length >= maxSelectedLimit
       ? []
       : providedOptions;
@@ -306,6 +313,10 @@ const CustomDropdown = ({
       ...provided,
       minHeight: "30px",
       padding: "0 11px",
+    }),
+    menuPortal: (provided) => ({
+      ...provided,
+      zIndex: 999,
     }),
     menu: (provided) => ({
       ...provided,

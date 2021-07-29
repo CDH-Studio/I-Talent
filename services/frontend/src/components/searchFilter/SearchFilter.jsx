@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import queryString from "query-string";
-import { injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useAxios from "../../utils/useAxios";
@@ -8,21 +7,24 @@ import SearchFilterView from "./SearchFilterView";
 import handleError from "../../functions/handleError";
 
 const SearchFilter = () => {
-  const [expand, setExpand] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
-  const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
+  const [urlSearchFieldValues, setUrlSearchFieldValues] = useState({
+    branches: [],
+    classifications: [],
+    mentorSkills: [],
+    locations: [],
+    skills: [],
+    exFeeder: false,
+    name: "",
+  });
   const [anyMentorSkills, setAnyMentorSkills] = useState(false);
-  const axios = useAxios();
 
+  const axios = useAxios();
   const history = useHistory();
   const { locale } = useSelector((state) => state.settings);
-
-  const toggle = () => {
-    setExpand(!expand);
-  };
 
   /**
    * Updates the state value {urlSearchFieldValues} to the values in the URL query string,
@@ -146,7 +148,6 @@ const SearchFilter = () => {
       locationOptions={locationOptions}
       classOptions={classOptions}
       handleSearch={handleSearch}
-      toggle={toggle}
       urlSearchFieldValues={urlSearchFieldValues}
       anyMentorSkills={anyMentorSkills}
       handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
@@ -154,4 +155,4 @@ const SearchFilter = () => {
   );
 };
 
-export default injectIntl(SearchFilter);
+export default SearchFilter;
