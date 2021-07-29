@@ -7,6 +7,7 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const Education = ({ data, editableCardBool }) => {
   const intl = useIntl();
+
   const getEducationDuration = (startDate, endDate, ongoingDate) => {
     const formattedStartDate = dayjs(startDate).format("MMMM YYYY");
     const formattedEndDate = dayjs(endDate).format("MMMM YYYY");
@@ -67,7 +68,7 @@ const Education = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="education"
+      titleString={intl.formatMessage({ id: "education" })}
       cardName="education"
       id="card-profile-education"
       editUrl="/profile/edit/qualifications?tab=education"

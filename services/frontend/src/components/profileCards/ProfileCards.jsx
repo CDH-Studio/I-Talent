@@ -4,7 +4,7 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const ProfileCards = ({
   data,
-  titleId,
+  titleString,
   children,
   editUrl,
   cardName,
@@ -15,7 +15,7 @@ const ProfileCards = ({
   lastUpdated,
 }) => (
   <ProfileCardsView
-    titleId={titleId}
+    titleString={titleString}
     editUrl={editUrl}
     cardName={cardName}
     id={id}
@@ -31,7 +31,7 @@ const ProfileCards = ({
 
 ProfileCards.propTypes = {
   data: ProfileInfoPropType,
-  titleId: PropTypes.node.isRequired,
+  titleString: PropTypes.string.isRequired,
   children: PropTypes.element,
   editUrl: PropTypes.string,
   cardName: PropTypes.string.isRequired,

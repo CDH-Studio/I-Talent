@@ -3,13 +3,11 @@ import {
   Row,
   Col,
   Skeleton,
-  Typography,
   Divider,
   Form,
   Input,
   Switch,
   notification,
-  Space,
 } from "antd";
 import PropTypes from "prop-types";
 import { FormattedMessage, injectIntl } from "react-intl";
@@ -17,6 +15,7 @@ import { isEqual, identity, pickBy } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import CustomDropdown from "../../formItems/CustomDropdown";
+import Fieldset from "../../fieldset/Fieldset";
 import useAxios from "../../../utils/useAxios";
 import {
   KeyTitleOptionsPropType,
@@ -32,8 +31,6 @@ import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 
 import "./EmploymentDataFormView.less";
-
-const { Text } = Typography;
 
 /**
  *  EmploymentDataFormView(props)
@@ -77,7 +74,11 @@ const EmploymentDataFormView = ({
     },
   };
 
-  /* Save data */
+  /**
+   * Save data to backend
+   * @param {Object} unalteredValues - Values to be saved.
+   *
+   */
   const saveDataToDB = async (unalteredValues) => {
     const values = {
       ...unalteredValues,
@@ -134,7 +135,11 @@ const EmploymentDataFormView = ({
     }
   };
 
-  /* Get the initial values for the form */
+  /**
+   * extract the initial values from the profile
+   * @param {Object} profile - user profile
+   *
+   */
   const getInitialValues = ({ profile }) => {
     if (profile) {
       return {
@@ -153,8 +158,9 @@ const EmploymentDataFormView = ({
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
-   *
    * pickBy({}, identity) is used to omit falsely values from the object - https://stackoverflow.com/a/33432857
+   * @return {boolean} return true if any of the form inputs have changed
+   *
    */
   const checkIfFormValuesChanged = () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
@@ -167,6 +173,10 @@ const EmploymentDataFormView = ({
     return !isEqual(formValues, dbValues);
   };
 
+  /**
+   * update state if form values have changed from the initial state
+   *
+   */
   const updateIfFormValuesChanged = () => {
     setFieldsChanged(checkIfFormValuesChanged());
   };
@@ -187,10 +197,9 @@ const EmploymentDataFormView = ({
     </div>
   );
 
-  /*
-   * Save
+  /**
+   * Action to take "on save"
    *
-   * save and show success notification
    */
   const onSave = async () => {
     form
@@ -213,10 +222,10 @@ const EmploymentDataFormView = ({
       });
   };
 
-  /*
-   * Save and next
+  /**
+   * Action to take "on save and next".
+   * redirects to next step of form
    *
-   * save and redirect to next step in setup
    */
   const onSaveAndNext = async () => {
     form
@@ -238,19 +247,19 @@ const EmploymentDataFormView = ({
       });
   };
 
-  /*
-   * Finish
+  /**
+   * Action to take "on finish".
+   * redirects to last page of profile forms
    *
-   * redirect to profile
    */
   const onFinish = () => {
     history.push(`/profile/edit/finish`);
   };
 
-  /*
-   * Save and finish
+  /**
+   * Action to take "on Save and finish".
+   * Save form data and redirect to last page of profile forms
    *
-   * Save form data and redirect home
    */
   const onSaveAndFinish = async () => {
     form
@@ -278,10 +287,10 @@ const EmploymentDataFormView = ({
       });
   };
 
-  /*
-   * On Reset
-   *
+  /**
+   * Action to take "On Reset"
    * reset form fields to state when page was loaded
+   *
    */
   const onReset = () => {
     // reset form fields
@@ -298,7 +307,12 @@ const EmploymentDataFormView = ({
     updateIfFormValuesChanged();
   };
 
-  /* Get temporary role form based on if the form switch is toggled */
+  /**
+   *  Get temporary role form based on if the form switch is toggled
+   * @param {boolean} expandMentorshipForm - should menu be rendered
+   * @return {HTMLElement} return the form
+   *
+   */
   const getTempRoleForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
@@ -378,6 +392,9 @@ const EmploymentDataFormView = ({
                   visibleCards={profileInfo.visibleCards}
                   cardName="info"
                   type="form"
+                  ariaLabel={intl.formatMessage({
+                    id: "employment.status",
+                  })}
                 />
               </div>
             }
@@ -471,22 +488,21 @@ const EmploymentDataFormView = ({
           </Row>
 
           {/* Form Row Four: Temporary role */}
-          <Row gutter={24}>
-            <Col className="gutter-row employment-tempRoleRow" span={24}>
-              <Row>
-                <Space>
-                  <Text>
-                    <FormattedMessage id="presently.acting" />
-                  </Text>
+          <Row className="employment-tempRoleRow">
+            <Fieldset
+              title={
+                <>
+                  <FormattedMessage id="presently.acting" />
                   <Switch
-                    aria-label={intl.formatMessage({ id: "presently.acting" })}
                     checked={displayActingRoleForm}
                     onChange={toggleTempRoleForm}
+                    className="ml-2 mb-1"
                   />
-                </Space>
-              </Row>
-              {getTempRoleForm(displayActingRoleForm)}
-            </Col>
+                </>
+              }
+            >
+              <Col span={24}>{getTempRoleForm(displayActingRoleForm)}</Col>
+            </Fieldset>
           </Row>
 
           <Divider className="employment-headerDiv" />
@@ -498,6 +514,9 @@ const EmploymentDataFormView = ({
                 visibleCards={profileInfo.visibleCards}
                 cardName="description"
                 type="form"
+                ariaLabel={intl.formatMessage({
+                  id: "about.me",
+                })}
               />
             }
           />

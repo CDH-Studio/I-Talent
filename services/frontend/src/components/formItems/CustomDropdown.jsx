@@ -65,7 +65,7 @@ const CustomDropdown = ({
    *
    */
   const mapInitialValue = (dropdownOptions, savedValues) =>
-    isMulti
+    isMulti && savedValues
       ? savedValues.map((value) =>
           dropdownOptions.find((option) => option.value === value)
         )
@@ -273,16 +273,30 @@ const CustomDropdown = ({
   };
 
   /**
+   * Disable the selectable dropdown options when selected limit is reached
+   *
+   * @param {object} option - object describing the dropdown options
+   * @param {string} option.label - label to be displayed to user
+   * @param {string} option.icon - optional icon to be displayed
+   *
+   */
+  const formatOptionLabel = ({ label, icon }) => (
+    <>
+      {icon} {label}
+    </>
+  );
+
+  /**
    * Custom styling for "react-select" based on the API provided in the documentation
    * @const {Object}
+   *
    */
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
       background: "#fff",
       borderColor: state.isFocused || state.active ? "#087472" : "#d9d9d9",
-      minHeight: isMulti ? "36px" : "32px",
-      padding: isMulti ? "3px 0" : 0,
+      minHeight: "30px",
       boxShadow:
         state.isFocused || state.active
           ? "0px 0px 0px 2px rgb(8 116 114 / 50%)"
@@ -290,7 +304,7 @@ const CustomDropdown = ({
     }),
     valueContainer: (provided) => ({
       ...provided,
-      minHeight: "32px",
+      minHeight: "30px",
       padding: "0 11px",
     }),
     menu: (provided) => ({
@@ -301,9 +315,23 @@ const CustomDropdown = ({
       ...provided,
       margin: "0px",
     }),
+    placeholder: (provided) => ({
+      ...provided,
+      margin: "0px",
+    }),
     indicatorsContainer: (provided) => ({
       ...provided,
-      height: isMulti ? "auto" : "32px",
+      height: "auto",
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      paddingTop: 0,
+      paddingBottom: 0,
+    }),
+    clearIndicator: (provided) => ({
+      ...provided,
+      paddingTop: 0,
+      paddingBottom: 0,
     }),
     option: (provided) => ({
       ...provided,
@@ -320,10 +348,17 @@ const CustomDropdown = ({
       color: antdStyles["@primary-color"],
       borderWidth: "1px",
       borderRadius: "1rem",
-      padding: "0 5px",
+      padding: "0 0 0 5px",
       margin: "3px 6px 3px 0",
-      fontSize: "1rem",
-      lineHeight: "1.1rem",
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      fontSize: "14px",
+      lineHeight: "15px",
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      borderRadius: "0 1rem  1rem 0",
     }),
     noOptionsMessage: (provided) => ({
       ...provided,
@@ -334,6 +369,7 @@ const CustomDropdown = ({
   /**
    * Custom theming for "react-select" based on the API provided in the documentation
    * @const {Object}
+   *
    */
   const customTheme = (theme) => ({
     ...theme,
@@ -412,6 +448,8 @@ const CustomDropdown = ({
           styles={customStyles}
           theme={customTheme}
           className={className}
+          formatOptionLabel={formatOptionLabel}
+          menuPortalTarget={document.body}
         />
       )}
     </>

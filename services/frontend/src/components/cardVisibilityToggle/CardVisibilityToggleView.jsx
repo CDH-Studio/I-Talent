@@ -15,7 +15,12 @@ import useAxios from "../../utils/useAxios";
 import handleError from "../../functions/handleError";
 import CustomDropdown from "../formItems/CustomDropdown";
 
-const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
+const CardVisibilityToggleView = ({
+  cardName,
+  type,
+  visibleCards,
+  ariaLabel,
+}) => {
   const axios = useAxios();
   const intl = useIntl();
   const history = useHistory();
@@ -106,30 +111,18 @@ const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
   const generateOptions = () => [
     {
       value: "PUBLIC",
-      label: (
-        <>
-          <EyeOutlined className="mr-1" aria-hidden="true" />
-          <FormattedMessage id="visibility.card.public" />
-        </>
-      ),
+      label: intl.formatMessage({ id: "visibility.card.public" }),
+      icon: <EyeOutlined className="mr-1" aria-hidden="true" />,
     },
     {
       value: "CONNECTIONS",
-      label: (
-        <>
-          <TeamOutlined className="mr-1" aria-hidden="true" />
-          <FormattedMessage id="connections" />
-        </>
-      ),
+      label: intl.formatMessage({ id: "connections" }),
+      icon: <TeamOutlined className="mr-1" aria-hidden="true" />,
     },
     {
       value: "PRIVATE",
-      label: (
-        <>
-          <EyeInvisibleOutlined className="mr-1" aria-hidden="true" />
-          <FormattedMessage id="visibility.card.private" />
-        </>
-      ),
+      label: intl.formatMessage({ id: "visibility.card.private" }),
+      icon: <EyeInvisibleOutlined className="mr-1" aria-hidden="true" />,
     },
   ];
 
@@ -141,7 +134,10 @@ const CardVisibilityToggleView = ({ cardName, type, visibleCards }) => {
         isClearable={false}
         options={generateOptions()}
         onChange={handleSelect}
-        ariaLabel={intl.formatMessage({ id: "visibility.selector" })}
+        ariaLabel={`${ariaLabel} ${intl.formatMessage({
+          id: "visibility.selector",
+        })}`}
+        isSearchable={false}
       />
       <AlertDialog
         title={<FormattedMessage id="visibility.card.title" />}
@@ -162,6 +158,7 @@ CardVisibilityToggleView.propTypes = {
   ).isRequired,
   cardName: PropTypes.string.isRequired,
   type: PropTypes.oneOf(["form", "card"]).isRequired,
+  ariaLabel: PropTypes.string.isRequired,
 };
 
 export default CardVisibilityToggleView;

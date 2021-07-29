@@ -7,6 +7,7 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const Experience = ({ data, editableCardBool }) => {
   const intl = useIntl();
+
   const getExperienceDuration = (startDate, endDate, ongoingDate) => {
     const formatedStartDate = dayjs(startDate).format("MMMM YYYY");
     const formatedEndDate = dayjs(endDate).format("MMMM YYYY");
@@ -73,7 +74,7 @@ const Experience = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleId="experience"
+      titleString={intl.formatMessage({ id: "experience" })}
       cardName="experience"
       id="card-profile-experience"
       editUrl="/profile/edit/qualifications?tab=experience"

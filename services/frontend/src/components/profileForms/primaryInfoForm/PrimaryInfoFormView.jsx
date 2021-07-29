@@ -179,8 +179,8 @@ const PrimaryInfoFormView = ({
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
+   * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    *
-   * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
@@ -534,7 +534,7 @@ const PrimaryInfoFormView = ({
                 </>
               }
             >
-              <Col xs={24} md={24} lg={24} xl={24}>
+              <Col span={24}>
                 <Form.Item
                   name="gcconnex"
                   label={<FormattedMessage id="gcconnex.username" />}
@@ -549,7 +549,7 @@ const PrimaryInfoFormView = ({
                   />
                 </Form.Item>
               </Col>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Col span={24}>
                 <Form.Item
                   name="linkedin"
                   label={<FormattedMessage id="linkedin.username" />}
@@ -565,7 +565,7 @@ const PrimaryInfoFormView = ({
                   />
                 </Form.Item>
               </Col>
-              <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+              <Col span={24}>
                 <Form.Item
                   name="github"
                   label={<FormattedMessage id="github.username" />}
@@ -592,6 +592,9 @@ const PrimaryInfoFormView = ({
                 visibleCards={profileInfo.visibleCards}
                 cardName="employmentEquityGroup"
                 type="form"
+                ariaLabel={intl.formatMessage({
+                  id: "employment.equity.groups",
+                })}
               />
             }
           />
