@@ -6,14 +6,13 @@ import {
   Button,
   Input,
   Switch,
-  Select,
   Typography,
   Checkbox,
   TreeSelect,
 } from "antd";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import { IdDescriptionPropType } from "../../utils/customPropTypes";
-import filterOption from "../../functions/filterSelectInput";
+import CustomDropdown from "../formItems/CustomDropdown";
 import "./SearchFilterView.less";
 
 const { SHOW_CHILD } = TreeSelect;
@@ -29,7 +28,6 @@ const SearchFilterView = ({
   handleAnyMentorSkillsChange,
   anyMentorSkills,
 }) => {
-  const { Option } = Select;
   const [form] = Form.useForm();
   const intl = useIntl();
 
@@ -44,40 +42,6 @@ const SearchFilterView = ({
       form.setFieldsValue(urlSearchFieldValues);
     }
   }, [form, urlSearchFieldValues]);
-
-  const searchLabel = <FormattedMessage id="search" />;
-  const searchTitles = [
-    "name",
-    "classifications",
-    "locations",
-    "branches",
-    "skills",
-    "mentorSkills",
-    "anyMentorSkills",
-    "exFeeder",
-  ];
-  const labelArr = [
-    <FormattedMessage id="name" />,
-    <FormattedMessage id="classification" />,
-    <FormattedMessage id="location" />,
-    <FormattedMessage id="branch" />,
-    <FormattedMessage id="skills" />,
-    <FormattedMessage id="mentorship.skills" />,
-    null,
-    <FormattedMessage id="ex.feeder" />,
-  ];
-  const ariaLabels = [
-    intl.formatMessage({ id: "name" }),
-    intl.formatMessage({
-      id: "search.filter.classification",
-    }),
-    intl.formatMessage({ id: "search.filter.location" }),
-    intl.formatMessage({ id: "search.filter.branch" }),
-    intl.formatMessage({ id: "search.filter.skills" }),
-    intl.formatMessage({ id: "search.filter.mentorship.skills" }),
-    intl.formatMessage({ id: "search.filter.any.mentors" }),
-    intl.formatMessage({ id: "search.filter.exfeeder" }),
-  ];
 
   return (
     <div className="search-searchSideBar">
@@ -99,126 +63,84 @@ const SearchFilterView = ({
       >
         {/* name */}
         <Form.Item
-          label={labelArr[0]}
-          name={searchTitles[0]}
+          label={intl.formatMessage({ id: "name" })}
+          name="name"
           className="search-w100"
         >
           <Input
             className="search-w100"
-            aria-label={ariaLabels[0]}
-            role="textbox"
+            placeholder={intl.formatMessage({ id: "search" })}
           />
         </Form.Item>
 
         {/* classification */}
         <Form.Item
           className="search-w100"
-          label={labelArr[1]}
-          name={searchTitles[1]}
+          label={<FormattedMessage id="classification" />}
+          name="classifications"
         >
-          <Select
-            className="search-w100"
-            mode="multiple"
-            maxTagCount={3}
-            filterOption={filterOption}
-            aria-label={ariaLabels[1]}
-            aria-autocomplete="list"
-            aria-haspopup="listbox"
-            role="textbox"
-            dropdownRender={(menu) => (
-              <div
-                id="classification_listbox"
-                role="listbox"
-                aria-multiselectable="true"
-              >
-                {menu}
-              </div>
-            )}
-          >
-            {classOptions.map((value) => (
-              <Option role="option" aria-selected={false} key={value.id}>
-                {value.name}
-              </Option>
-            ))}
-          </Select>
+          <CustomDropdown
+            ariaLabel={intl.formatMessage({
+              id: "classification",
+            })}
+            placeholderText={<FormattedMessage id="type.to.search" />}
+            options={classOptions}
+            initialValueId={
+              urlSearchFieldValues && urlSearchFieldValues.classifications
+            }
+            isSearchable
+            isMulti
+            maxSelectedOptions={3}
+          />
         </Form.Item>
 
         {/* location */}
         <Form.Item
           className="search-w100"
-          label={labelArr[2]}
-          name={searchTitles[2]}
+          label={<FormattedMessage id="location" />}
+          name="locations"
         >
-          <Select
-            className="search-w100"
-            mode="multiple"
-            maxTagCount={3}
-            filterOption={filterOption}
-            aria-label={ariaLabels[2]}
-            aria-autocomplete="list"
-            aria-owns="location_listbox"
-            aria-haspopup="listbox"
-            role="combobox"
-            dropdownRender={(menu) => (
-              <div
-                id="location_listbox"
-                role="listbox"
-                aria-multiselectable="true"
-              >
-                {menu}
-              </div>
-            )}
-          >
-            {locationOptions.map(
-              ({ streetNumber, streetName, city, province, id }) => (
-                <Option role="option" key={id}>
-                  {streetNumber} {streetName}, {city}, {province}
-                </Option>
-              )
-            )}
-          </Select>
+          <CustomDropdown
+            ariaLabel={intl.formatMessage({
+              id: "location",
+            })}
+            placeholderText={<FormattedMessage id="type.to.search" />}
+            options={locationOptions}
+            initialValueId={
+              urlSearchFieldValues && urlSearchFieldValues.locations
+            }
+            isSearchable
+            isMulti
+            maxSelectedOptions={3}
+          />
         </Form.Item>
 
         {/* branch */}
         <Form.Item
           className="search-w100"
-          label={labelArr[3]}
-          name={searchTitles[3]}
+          label={<FormattedMessage id="branch" />}
+          name="branches"
         >
-          <Select
-            className="search-w100"
-            mode="multiple"
-            maxTagCount={3}
-            filterOption={filterOption}
-            aria-label={ariaLabels[3]}
-            aria-autocomplete="list"
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            aria-owns="branch_listbox"
-            role="combobox"
-            dropdownRender={(menu) => (
-              <div
-                id="branch_listbox"
-                role="listbox"
-                aria-multiselectable="true"
-              >
-                {menu}
-              </div>
-            )}
-          >
-            {branchOptions.map((value) => (
-              <Option role="option" key={value}>
-                {value}
-              </Option>
-            ))}
-          </Select>
+          <CustomDropdown
+            ariaLabel={intl.formatMessage({
+              id: "branch",
+            })}
+            placeholderText={<FormattedMessage id="type.to.search" />}
+            options={branchOptions}
+            initialValueId={
+              urlSearchFieldValues && urlSearchFieldValues.branches
+            }
+            isSearchable
+            isMulti
+            maxSelectedOptions={3}
+          />
         </Form.Item>
 
         {/* skills */}
         <Form.Item
           className="search-w100"
-          label={labelArr[4]}
-          name={searchTitles[4]}
+          label={<FormattedMessage id="skills" />}
+          name="skills"
         >
           <TreeSelect
             className="search-w100"
@@ -230,14 +152,15 @@ const SearchFilterView = ({
             mode="multiple"
             maxTagCount={3}
             aria-autocomplete="none"
+            placeholder={<FormattedMessage id="type.to.search" />}
           />
         </Form.Item>
 
         {/* mentor skills */}
         <Form.Item
           className="search-w100 mentorship-dropdown"
-          label={labelArr[5]}
-          name={searchTitles[5]}
+          label={<FormattedMessage id="mentorship.skills" />}
+          name="mentorSkills"
         >
           <TreeSelect
             className="search-w100"
@@ -250,17 +173,16 @@ const SearchFilterView = ({
             maxTagCount={3}
             disabled={anyMentorSkills}
             aria-autocomplete="none"
+            placeholder={<FormattedMessage id="type.to.search" />}
           />
         </Form.Item>
         <Form.Item
           className="search-w100"
-          name={searchTitles[6]}
-          label={labelArr[6]}
+          name="anyMentorSkills"
           valuePropName="checked"
         >
           <Checkbox
-            role="checkbox"
-            aria-label={ariaLabels[6]}
+            aria-label={intl.formatMessage({ id: "select.any.mentors" })}
             onChange={handleAnyMentorSkillsChange}
           >
             <FormattedMessage id="select.any.mentors" />
@@ -270,11 +192,14 @@ const SearchFilterView = ({
         {/* exFeeder */}
         <Form.Item
           className="search-w100"
-          name={searchTitles[7]}
-          label={labelArr[7]}
+          name="exFeeder"
+          label={intl.formatMessage({ id: "search.filter.exfeeder" })}
           valuePropName="checked"
         >
-          <Switch role="switch" aria-label={ariaLabels[7]} />
+          <Switch
+            role="switch"
+            aria-label={intl.formatMessage({ id: "search.filter.exfeeder" })}
+          />
         </Form.Item>
         <Button
           className="search-w100"
@@ -282,8 +207,8 @@ const SearchFilterView = ({
           type="primary"
           htmlType="submit"
         >
-          <ReloadOutlined />
-          <span>{searchLabel}</span>
+          <ReloadOutlined className="mr-1" />
+          <FormattedMessage id="search" />
         </Button>
       </Form>
     </div>
@@ -291,19 +216,26 @@ const SearchFilterView = ({
 };
 
 SearchFilterView.propTypes = {
-  branchOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  branchOptions: PropTypes.arrayOf(
+    PropTypes.PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ).isRequired,
   classOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      description: PropTypes.string,
+      label: PropTypes.string,
+      value: PropTypes.string,
     })
   ).isRequired,
   locationOptions: IdDescriptionPropType.isRequired,
   skillOptions: IdDescriptionPropType.isRequired,
   handleSearch: PropTypes.func.isRequired,
   urlSearchFieldValues: PropTypes.shape({
-    classification: PropTypes.arrayOf(PropTypes.string),
-    location: PropTypes.arrayOf(PropTypes.string),
+    branches: PropTypes.arrayOf(PropTypes.string),
+    classifications: PropTypes.arrayOf(PropTypes.string),
+    mentorSkills: PropTypes.arrayOf(PropTypes.string),
+    locations: PropTypes.arrayOf(PropTypes.string),
     skills: PropTypes.arrayOf(PropTypes.string),
     exFeeder: PropTypes.bool,
     name: PropTypes.string,
