@@ -21,25 +21,55 @@ describe(`GET ${path}`, () => {
       [
         "ENGLISH",
         [
-          { branch: "Z Data" },
-          { branch: "Human Resources Branch" },
-          { branch: "Chief Information Office" },
-          { branch: "Human Resources Branch" },
+          {
+            branch: "Chief Information Office",
+          },
+          {
+            branch: "Human Resources Branch",
+          },
+          {
+            branch: "Human Resources Branch",
+          },
+          {
+            branch: "Z Data",
+          },
         ],
-        ["Chief Information Office", "Human Resources Branch", "Z Data"],
+        [
+          {
+            value: "Chief Information Office",
+            label: "Chief Information Office",
+          },
+          {
+            value: "Human Resources Branch",
+            label: "Human Resources Branch",
+          },
+          {
+            value: "Z Data",
+            label: "Z Data",
+          },
+        ],
       ],
       [
         "FRENCH",
         [
-          { branch: "Y Data" },
-          { branch: "Direction générale des ressources humaines" },
           { branch: "Bureau principal de l'information" },
           { branch: "Direction générale des ressources humaines" },
+          { branch: "Direction générale des ressources humaines" },
+          { branch: "Y Data" },
         ],
         [
-          "Bureau principal de l'information",
-          "Direction générale des ressources humaines",
-          "Y Data",
+          {
+            value: "Bureau principal de l'information",
+            label: "Bureau principal de l'information",
+          },
+          {
+            value: "Direction générale des ressources humaines",
+            label: "Direction générale des ressources humaines",
+          },
+          {
+            value: "Y Data",
+            label: "Y Data",
+          },
         ],
       ],
     ];
@@ -70,7 +100,6 @@ describe(`GET ${path}`, () => {
             language,
           },
           select: {
-            id: true,
             branch: true,
           },
           orderBy: {
