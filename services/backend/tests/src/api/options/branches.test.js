@@ -23,28 +23,46 @@ describe(`GET ${path}`, () => {
         [
           {
             branch: "Chief Information Office",
+            employmentInfo: {
+              id: "f412610e-0427-4e45-85ad-9eadc983ca83",
+            },
           },
           {
             branch: "Human Resources Branch",
+            employmentInfo: {
+              id: "2222222222222222222",
+            },
           },
           {
             branch: "Human Resources Branch",
+            employmentInfo: {
+              id: "2222222222222222222",
+            },
+          },
+          {
+            branch: "Human Resources Branch",
+            employmentInfo: {
+              id: "5555555555555555555555555",
+            },
           },
           {
             branch: "Z Data",
+            employmentInfo: {
+              id: "44444444444444444444444444",
+            },
           },
         ],
         [
           {
-            value: "Chief Information Office",
+            value: "f412610e-0427-4e45-85ad-9eadc983ca83",
             label: "Chief Information Office",
           },
           {
-            value: "Human Resources Branch",
+            value: "2222222222222222222",
             label: "Human Resources Branch",
           },
           {
-            value: "Z Data",
+            value: "44444444444444444444444444",
             label: "Z Data",
           },
         ],
@@ -52,22 +70,48 @@ describe(`GET ${path}`, () => {
       [
         "FRENCH",
         [
-          { branch: "Bureau principal de l'information" },
-          { branch: "Direction générale des ressources humaines" },
-          { branch: "Direction générale des ressources humaines" },
-          { branch: "Y Data" },
+          {
+            branch: "Bureau principal de l'information",
+            employmentInfo: {
+              id: "f412610e-0427-4e45-85ad-9eadc983ca83",
+            },
+          },
+          {
+            branch: "Direction générale des ressources humaines",
+            employmentInfo: {
+              id: "44444444444444444444444444",
+            },
+          },
+          {
+            branch: "Direction générale des ressources humaines",
+            employmentInfo: {
+              id: "44444444444444444444444444",
+            },
+          },
+          {
+            branch: "Direction générale des ressources humaines",
+            employmentInfo: {
+              id: "5555555555555555555555555",
+            },
+          },
+          {
+            branch: "Y Data",
+            employmentInfo: {
+              id: "1111111111111111111111111",
+            },
+          },
         ],
         [
           {
-            value: "Bureau principal de l'information",
+            value: "f412610e-0427-4e45-85ad-9eadc983ca83",
             label: "Bureau principal de l'information",
           },
           {
-            value: "Direction générale des ressources humaines",
+            value: "44444444444444444444444444",
             label: "Direction générale des ressources humaines",
           },
           {
-            value: "Y Data",
+            value: "1111111111111111111111111",
             label: "Y Data",
           },
         ],
@@ -101,6 +145,11 @@ describe(`GET ${path}`, () => {
           },
           select: {
             branch: true,
+            employmentInfo: {
+              select: {
+                id: true,
+              },
+            },
           },
           orderBy: {
             branch: "asc",
