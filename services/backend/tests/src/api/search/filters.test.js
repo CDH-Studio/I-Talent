@@ -434,6 +434,8 @@ describe(`GET ${path}`, () => {
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
 
+          prisma.employmentInfo.findUnique.mockResolvedValueOnce(null);
+
           let searchTerm = "zzzzzzzzzz";
 
           let res = await request(app)
@@ -451,6 +453,10 @@ describe(`GET ${path}`, () => {
           prisma.user.findUnique
             .mockResolvedValueOnce(_testData.allProfilesInfo[0])
             .mockResolvedValueOnce(_testData.allProfilesInfo[1]);
+
+          prisma.employmentInfo.findUnique.mockResolvedValueOnce({
+            translations: [{ branch: "Chief Information Office" }],
+          });
 
           let searchTerm = _testData.testParams.filterSearch[11].testSearchTerm;
 

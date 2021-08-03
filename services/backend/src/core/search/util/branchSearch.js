@@ -6,10 +6,9 @@ async function branchSearch(profiles, branchArray, language) {
     branchArray.map(async (employmentInfoId) => {
       const branchNameFound = await prisma.employmentInfo.findUnique({
         where: {
-          id: employmentInfoId,
+          id: "employmentInfoId",
         },
         select: {
-          id: true,
           translations: {
             where: {
               language,
