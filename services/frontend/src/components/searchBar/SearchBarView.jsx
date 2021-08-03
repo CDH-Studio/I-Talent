@@ -38,10 +38,6 @@ const SearchBarView = ({
   const [form] = Form.useForm();
   const intl = useIntl();
 
-  const searchLabel = intl.formatMessage({
-    id: "search",
-  });
-
   // Toggle expandable advanced search form
   const toggle = () => {
     setExpandAdvancedSearch(!expandAdvancedSearch);
@@ -62,7 +58,7 @@ const SearchBarView = ({
       }
       name="searchValue"
     >
-      <Input placeholder={searchLabel} size="large" />
+      <Input placeholder={intl.formatMessage({ id: "search" })} size="large" />
     </Form.Item>
   );
 
@@ -79,10 +75,10 @@ const SearchBarView = ({
           size="large"
           type="primary"
           htmlType="submit"
-          icon={<SearchOutlined aria-hidden="true" />}
           className="search-submitBtn"
         >
-          {searchLabel}
+          <SearchOutlined aria-hidden="true" className="mr-1" />
+          <FormattedMessage id="search" />
         </Button>
         <Button
           ghost
@@ -124,7 +120,12 @@ const SearchBarView = ({
             <Col span={24}>
               {/* name field */}
               <Form.Item label={<FormattedMessage id="name" />} name="name">
-                <Input style={{ width: "100%" }} placeholder={searchLabel} />
+                <Input
+                  style={{ width: "100%" }}
+                  placeholder={intl.formatMessage({
+                    id: "search",
+                  })}
+                />
               </Form.Item>
 
               {/* Location field */}
@@ -254,10 +255,10 @@ const SearchBarView = ({
             size="large"
             type="primary"
             htmlType="submit"
-            icon={<SearchOutlined />}
             className="search-submitBtn"
           >
-            {searchLabel}
+            <SearchOutlined aria-hidden="true" className="mr-1" />
+            <FormattedMessage id="search" />
           </Button>
           <Button
             size="large"
@@ -323,26 +324,28 @@ const SearchBarView = ({
 };
 
 SearchBarView.propTypes = {
-  branchOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  branchOptions: PropTypes.arrayOf(
+    PropTypes.PropTypes.shape({
+      label: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ).isRequired,
   classOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
+      label: PropTypes.string,
+      value: PropTypes.string,
     })
   ).isRequired,
   locationOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      city: PropTypes.string,
-      province: PropTypes.string,
-      streetName: PropTypes.string,
-      streetNumber: PropTypes.number,
+      label: PropTypes.string,
+      value: PropTypes.string,
     })
   ).isRequired,
   skillOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
+      label: PropTypes.string,
+      value: PropTypes.string,
     })
   ).isRequired,
   handleSearch: PropTypes.func.isRequired,

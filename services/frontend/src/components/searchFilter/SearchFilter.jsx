@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import queryString from "query-string";
-import { injectIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import useAxios from "../../utils/useAxios";
@@ -8,21 +7,23 @@ import SearchFilterView from "./SearchFilterView";
 import handleError from "../../functions/handleError";
 
 const SearchFilter = () => {
-  const [expand, setExpand] = useState(false);
   const [skillOptions, setSkillOptions] = useState([]);
   const [branchOptions, setBranchOptions] = useState([]);
   const [locationOptions, setLocationOptions] = useState([]);
   const [classOptions, setClassOptions] = useState([]);
-  const [urlSearchFieldValues, setUrlSearchFieldValues] = useState(null);
+  const [urlSearchFieldValues, setUrlSearchFieldValues] = useState({
+    branches: [],
+    classifications: [],
+    mentorSkills: [],
+    locations: [],
+    skills: [],
+    exFeeder: false,
+    name: "",
+  });
   const [anyMentorSkills, setAnyMentorSkills] = useState(false);
   const axios = useAxios();
-
   const history = useHistory();
   const { locale } = useSelector((state) => state.settings);
-
-  const toggle = () => {
-    setExpand(!expand);
-  };
 
   /**
    * Updates the state value {urlSearchFieldValues} to the values in the URL query string,
@@ -59,17 +60,19 @@ const SearchFilter = () => {
     );
 
     setUrlSearchFieldValues(formattedQuerySearchData);
+
     if (formattedQuerySearchData.anyMentorSkills) {
       setAnyMentorSkills(formattedQuerySearchData.anyMentorSkills);
     }
   }, [history.location.search]);
 
-  const handleAnyMentorSkillsChange = (e) => {
-    setAnyMentorSkills(e.target.checked);
-  };
-
-  const getBackendInfo = useCallback(async () => {
+  /**
+   * Get dropdown options for search filters
+   *
+   */
+  const getFilterFormOptions = useCallback(async () => {
     try {
+      // get dropdown options
       const [
         branch,
         location,
@@ -83,11 +86,13 @@ const SearchFilter = () => {
         axios.get(`api/option/categories?language=${locale}`),
         axios.get(`api/option/skills?language=${locale}`),
       ]);
+
       setBranchOptions(branch.data);
       setLocationOptions(location.data);
       setClassOptions(classification.data);
-      // Loop through all skill categories
-      const dataTree = categoriesResult.data.map((category) => {
+
+      // generate formatted data tree for skills options
+      const skillsDataTree = categoriesResult.data.map((category) => {
         const children = [];
         skillsResults.data.forEach((skill) => {
           if (skill.categoryId === category.id) {
@@ -107,17 +112,22 @@ const SearchFilter = () => {
           disableCheckbox: true,
         };
       });
-      setSkillOptions(dataTree);
+
+      setSkillOptions(skillsDataTree);
     } catch (error) {
       handleError(error, "redirect", history);
       throw error;
     }
   }, [axios, history, locale]);
 
-  useEffect(getBackendInfo, [getBackendInfo]);
+  useEffect(getFilterFormOptions, [getFilterFormOptions]);
   useEffect(getSearchFieldValues, [getSearchFieldValues]);
 
-  // page with query
+  /**
+   * Handle search functionality
+   * @param {Object} values
+   *
+   */
   const handleSearch = (values) => {
     const searchFilter = values;
 
@@ -138,6 +148,14 @@ const SearchFilter = () => {
     history.push(url);
   };
 
+  /**
+   * handle what happens when "any mentorship skills" is selected
+   *
+   */
+  const handleAnyMentorSkillsChange = (e) => {
+    setAnyMentorSkills(e.target.checked);
+  };
+
   return (
     <SearchFilterView
       history={history}
@@ -146,7 +164,6 @@ const SearchFilter = () => {
       locationOptions={locationOptions}
       classOptions={classOptions}
       handleSearch={handleSearch}
-      toggle={toggle}
       urlSearchFieldValues={urlSearchFieldValues}
       anyMentorSkills={anyMentorSkills}
       handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
@@ -154,4 +171,4 @@ const SearchFilter = () => {
   );
 };
 
-export default injectIntl(SearchFilter);
+export default SearchFilter;
