@@ -212,10 +212,10 @@ const CustomDropdown = ({
     userSelectedOptions,
     isMultiSelect,
     maxSelectedLimit
-  ) => {
-    return isMultiSelect &&
-      maxSelectedLimit &&
-      userSelectedOptions.length >= maxSelectedLimit ? (
+  ) =>
+    isMultiSelect &&
+    maxSelectedLimit &&
+    userSelectedOptions.length >= maxSelectedLimit ? (
       <span role="alert">
         <InfoCircleOutlined aria-hidden="true" className="mr-1" />
         You have reached the max of {maxSelectedLimit} selected items
@@ -226,7 +226,6 @@ const CustomDropdown = ({
         No options available
       </span>
     );
-  };
   /**
    * Disable the selectable dropdown options when selected limit is reached
    *
