@@ -193,7 +193,7 @@ const CustomDropdown = ({
   ) =>
     isMultiSelect &&
     maxSelectedLimit &&
-    Array.isArray(maxSelectedLimit) &&
+    Array.isArray(userSelectedOptions) &&
     userSelectedOptions.length >= maxSelectedLimit
       ? []
       : providedOptions;
@@ -231,7 +231,6 @@ const CustomDropdown = ({
         <FormattedMessage id="no.options.available" />
       </span>
     );
-
   /**
    * Disable the selectable dropdown options when selected limit is reached
    *
