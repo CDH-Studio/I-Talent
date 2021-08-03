@@ -19,7 +19,6 @@ async function branchSearch(profiles, branchArray, language) {
           },
         },
       });
-      s;
       return branchNameFound && branchNameFound.translations[0].branch;
     })
   );
