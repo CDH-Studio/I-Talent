@@ -277,6 +277,8 @@
   "school": "School",
   "schools": "Schools",
   "search": "Search",
+  "no.options.available": "No options available",
+  "max.options.selected": "You have reached the max of {limitNumber} selected items",
   "search.empty.query.subtitle": "Refine your search criteria on the left or above to start finding talent.",
   "search.empty.query.title": "You have not defined a search criteria yet",
   "search.filter.exfeeder": "Search for EX-Feeder",

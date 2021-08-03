@@ -218,12 +218,17 @@ const CustomDropdown = ({
     userSelectedOptions.length >= maxSelectedLimit ? (
       <span role="alert">
         <InfoCircleOutlined aria-hidden="true" className="mr-1" />
-        You have reached the max of {maxSelectedLimit} selected items
+        <FormattedMessage
+          id="max.options.selected"
+          values={{
+            limitNumber: maxSelectedLimit,
+          }}
+        />
       </span>
     ) : (
       <span role="alert">
         <InfoCircleOutlined aria-hidden="true" className="mr-1" />
-        No options available
+        <FormattedMessage id="no.options.available" />
       </span>
     );
 

@@ -277,6 +277,8 @@
   "school": "École",
   "schools": "Écoles",
   "search": "Rechercher",
+  "no.options.available": "Aucune option disponible",
+  "max.options.selected": "Vous avez atteint le maximum de {limitNumber} éléments sélectionnés",
   "search.empty.query.subtitle": "Raffinez vos critères de recherche à gauche ou au-dessus pour commencer à trouver des talents",
   "search.empty.query.title": "Vous n’avez pas encore défini de critères de recherche",
   "search.filter.exfeeder": "Rechercher la relève des EX ?",
