@@ -9,8 +9,12 @@ async function getBranches(request, response) {
       language,
     },
     select: {
-      id: true,
       branch: true,
+      employmentInfo: {
+        select: {
+          id: true,
+        },
+      },
     },
     orderBy: {
       branch: "asc",
@@ -20,7 +24,7 @@ async function getBranches(request, response) {
   const branchesQueryUniq = _.sortedUniqBy(branchesQuery, "branch");
 
   const responseData = branchesQueryUniq.map((branch) => ({
-    value: branch.id,
+    value: branch.employmentInfo.id,
     label: branch.branch,
   }));
 

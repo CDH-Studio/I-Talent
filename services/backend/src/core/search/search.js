@@ -41,7 +41,7 @@ async function filterSearch(request, response) {
   }
 
   if (branches) {
-    results = await utils.branchSearch(results, branches);
+    results = await utils.branchSearch(results, branches, language);
   }
 
   if (locations) {
