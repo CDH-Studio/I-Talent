@@ -2,11 +2,13 @@
 
 **An improved directory and employee search tool.**
 
+# :wave: Introduction
+
 I-Talent is an internal web-application that would enable employees to share information about their employment status, job position, skills, and credentials. ISED employees can login to I-Talent with their windows credentials, where they can create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
 
 ## Helpful links
 
-### Access the live testing enviroments
+### Access the live testing environments
 
 [![DEV Deployment](https://img.shields.io/badge/Access%20Application-DEV-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](https://italent-development.apps.ocp.dev.ised-isde.canada.ca/)
 [![UAT Deployment](https://img.shields.io/badge/Access%20Application-UAT-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](https://italent-uat.apps.ocp.dev.ised-isde.canada.ca/)
@@ -25,7 +27,33 @@ I-Talent is an internal web-application that would enable employees to share inf
 [![OpenShift-DEV](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/italent-development?view=graph)
 [![OpenShift-UAT](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/mytalent?view=graph)
 
-# Getting started
+# :pushpin: Table of Content
+
+- [:wave: Introduction](#wave-introduction)
+  - [Helpful links](#helpful-links)
+    - [Access the live testing environments](#access-the-live-testing-environments)
+    - [Testing and Building Services](#testing-and-building-services)
+    - [Hosting servers/services](#hosting-serversservices)
+- [:pushpin: Table of Content](#pushpin-table-of-content)
+- [:star:Getting started](#stargetting-started)
+  - [Background](#background)
+    - [Docker](#docker)
+    - [Git](#git)
+  - [Step 1: Install VS Code](#step-1-install-vs-code)
+  - [Step 2: Install Docker](#step-2-install-docker)
+    - [Install Docker on Windows](#install-docker-on-windows)
+    - [Install Docker on Mac](#install-docker-on-mac)
+  - [Step 3: Install/Launch the App On Docker](#step-3-installlaunch-the-app-on-docker)
+    - [Run on Windows](#run-on-windows)
+    - [Run on Mac](#run-on-mac)
+  - [Step 4: Try out the different services of the app](#step-4-try-out-the-different-services-of-the-app)
+- [:gear: Advanced](#gear-advanced)
+  - [Local Keycloak setup](#local-keycloak-setup)
+- [Contribution](#contribution)
+- [Contributors](#contributors)
+- [Contact](#contact)
+
+# :star:Getting started
 
 ## Background
 
@@ -124,9 +152,39 @@ You can now access different components of the web application:
 
 Visit backend [README](services/backend/README.md) and the frontend [README](services/frontend/README.md) for more information.
 
-# Wiki
+# :gear: Advanced
 
-Visit the [Wiki](https://github.com/CDH-Studio/UpSkill/wiki) has more information about our tech stack, OpenShift project management and templating, Postman API testing setup, and local Keycloak setup.
+## Local Keycloak setup
+
+Keycloak is the SSO service that the app utilizes to authenticate users. Therefore, an Internet connection is required to run the application unless you setup keycloak locally with the steps described here:
+
+1. Add the network_mode to the backend container to "host" (in docker-compose.yml)
+2. And add the following docker-compose service
+
+```yml
+keycloak:
+  container_name: "italent-keycloak"
+  image: "jboss/keycloak"
+  ports:
+    - "8180:8180"
+  volumes:
+    - ./keycloak:/opt/jboss/keycloak/keycloak
+  hostname: keycloak
+  command:
+    - "-Dkeycloak.import=/opt/jboss/keycloak/keycloak/realm-export.json -Djboss.http.port=8180"
+  environment:
+    KEYCLOAK_USER: administrator
+    KEYCLOAK_PASSWORD: password
+```
+
+3. You'll need to make everything linking a container in the backend to refer localhost instead (i.e. redis and postgres)
+4. You'll also need to update the keycloak environment variables in the frontend and in the backend to refer to http://localhost:8180/auth
+
+The credentials for the users when using the local keycloak are specified in the [realm-export.json](./keycloak/realm-export.json) file
+
+# Contribution
+
+We encourage contribution to the project! We are a friendly team and are always looking for things to improve on. We just as that you follow our [contribution guidelines ](CONTRIBUTING.md) to help us keep things well documented and organized.
 
 # Contributors
 
@@ -141,10 +199,10 @@ Our full stack developers
 |                                                               | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)             |
 |                                                               | [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/) |
 
-# Contributing
-
-Want to contribute to this project? Take a look at our [Wiki](https://github.com/CDH-Studio/UpSkill/wiki) and [CONTRIBUTING](CONTRIBUTING.md) file to start!
-
 # Contact
 
 This application is developed by students at [CDH Studio](https://cdhstudio.ca/)
+
+<!-- # Wiki
+
+Visit the [Wiki](https://github.com/CDH-Studio/UpSkill/wiki) has more information about our tech stack, OpenShift project management and templating, Postman API testing setup, and local Keycloak setup. -->
