@@ -1,18 +1,29 @@
 <img src="services/frontend/src/assets/I-talent-logo-light.png" alt="I-Talent Logo" width="270" />
 
-[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white&style=plastic)](https://cicd.ised-isde.canada.ca/blue/organizations/jenkins/DSD%2FI-Talent%2FI-Talent/branches/)
-[![DEV Deployment](https://img.shields.io/badge/Access%20Application-DEV-gray?logo=react&logoColor=white&style=plastic&labelColor=green)](https://italent-development.apps.ocp.dev.ised-isde.canada.ca/)
-[![UAT Deployment](https://img.shields.io/badge/Access%20Application-UAT-gray?logo=react&logoColor=white&style=plastic&labelColor=green)](https://italent-uat.apps.ocp.dev.ised-isde.canada.ca/)
-[![Drupal DEV](https://img.shields.io/badge/Drupal-DEV-gray?logo=drupal&labelColor=blue&style=plastic)](https://italent-dev-cms-studioup-dev.apps.ocp.dev.ised-isde.canada.ca/en)
-[![Drupal UAT](https://img.shields.io/badge/Drupal-UAT-gray?logo=drupal&labelColor=blue&style=plastic)](https://italent-uat-cms-studioup-dev.apps.ocp.dev.ised-isde.canada.ca/en)
-[![SonarQube Frontend](https://img.shields.io/badge/SonarQube-Frontend-blue?logo=sonarqube&logoColor=white&style=plastic)](https://sonarqube.ised-isde.canada.ca/dashboard?id=ITalent-frontend)
-[![SonarQube Backend](https://img.shields.io/badge/SonarQube-Backend-blue?logo=sonarqube&logoColor=white&style=plastic)](https://sonarqube.ised-isde.canada.ca/dashboard?id=ITalent-backend)
-[![OpenShift-DEV](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=plastic&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/italent-development?view=graph)
-[![OpenShift-UAT](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=plastic&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/mytalent?view=graph)
-
-An improved directory and employee search tool.
+**An improved directory and employee search tool.**
 
 I-Talent is an internal web-application that would enable employees to share information about their employment status, job position, skills, and credentials. ISED employees can login to I-Talent with their windows credentials, where they can create a profile or search for employees with the right expertise, education, competencies, experience and other essential qualifications at any time for talent management, staffing, succession planning, or simply for insight on a project or file.
+
+## Helpful links
+
+### Access the live testing enviroments
+
+[![DEV Deployment](https://img.shields.io/badge/Access%20Application-DEV-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](https://italent-development.apps.ocp.dev.ised-isde.canada.ca/)
+[![UAT Deployment](https://img.shields.io/badge/Access%20Application-UAT-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](https://italent-uat.apps.ocp.dev.ised-isde.canada.ca/)
+
+[![Drupal DEV](https://img.shields.io/badge/Drupal-DEV-gray?logo=drupal&labelColor=blue&style=for-the-badge)](https://italent-dev-cms-studioup-dev.apps.ocp.dev.ised-isde.canada.ca/en)
+[![Drupal UAT](https://img.shields.io/badge/Drupal-UAT-gray?logo=drupal&labelColor=blue&style=for-the-badge)](https://italent-uat-cms-studioup-dev.apps.ocp.dev.ised-isde.canada.ca/en)
+
+### Testing and Building Services
+
+[![SonarQube Frontend](https://img.shields.io/badge/SonarQube-Frontend-gray?logo=sonarqube&&labelColor=yellow&style=for-the-badge)](https://sonarqube.ised-isde.canada.ca/dashboard?id=ITalent-frontend)
+[![SonarQube Backend](https://img.shields.io/badge/SonarQube-Backend-gray?logo=sonarqube&labelColor=yellow&style=for-the-badge)](https://sonarqube.ised-isde.canada.ca/dashboard?id=ITalent-backend)
+[![Jenkins](https://img.shields.io/badge/Jenkins-gray?logo=jenkins&logoColor=white&style=for-the-badge)](https://cicd.ised-isde.canada.ca/blue/organizations/jenkins/DSD%2FI-Talent%2FI-Talent/branches/)
+
+### Hosting servers/services
+
+[![OpenShift-DEV](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/italent-development?view=graph)
+[![OpenShift-UAT](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/mytalent?view=graph)
 
 # Getting started
 
