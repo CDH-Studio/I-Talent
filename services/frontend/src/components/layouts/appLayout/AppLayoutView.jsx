@@ -11,8 +11,9 @@ import "./AppLayoutView.less";
 const { Content } = Layout;
 
 const AppLayoutView = ({
-  sideBarContent,
   displaySideBar,
+  sideBarWidth,
+  sideBarContent,
   children,
   loading,
   displayLogo,
@@ -33,8 +34,9 @@ const AppLayoutView = ({
       />
       <Layout>
         <SideNav
-          sideBarContent={sideBarContent}
           displaySideBar={displaySideBar}
+          siderWidth={sideBarWidth}
+          sideBarContent={sideBarContent}
           loading={loading}
         />
         <Layout className="app-layout">
@@ -55,8 +57,9 @@ const AppLayoutView = ({
 };
 
 AppLayoutView.propTypes = {
-  sideBarContent: PropTypes.node.isRequired,
   displaySideBar: PropTypes.bool.isRequired,
+  sideBarWidth: PropTypes.number.isRequired,
+  sideBarContent: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
   loading: PropTypes.bool.isRequired,
   displaySearch: PropTypes.bool.isRequired,
