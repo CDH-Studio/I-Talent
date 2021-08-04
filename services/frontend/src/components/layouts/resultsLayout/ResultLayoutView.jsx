@@ -3,7 +3,11 @@ import ResultsCard from "../../resultsCard/ResultsCard";
 import SearchFilter from "../../searchFilter/SearchFilter";
 
 const ResultLayoutView = () => (
-  <AppLayout displaySideBar sideBarContent={<SearchFilter />}>
+  <AppLayout
+    displaySideBar
+    sideBarWidth={400}
+    sideBarContent={<SearchFilter />}
+  >
     <ResultsCard />
   </AppLayout>
 );

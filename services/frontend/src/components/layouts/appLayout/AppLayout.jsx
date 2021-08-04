@@ -3,6 +3,7 @@ import AppLayoutView from "./AppLayoutView";
 
 const AppLayout = ({
   displaySideBar,
+  sideBarWidth,
   sideBarContent,
   children,
   loading,
@@ -11,6 +12,7 @@ const AppLayout = ({
 }) => (
   <AppLayoutView
     displaySideBar={displaySideBar}
+    sideBarWidth={sideBarWidth}
     sideBarContent={sideBarContent}
     loading={loading}
     displayLogo={displayLogo}
@@ -22,8 +24,9 @@ const AppLayout = ({
 
 AppLayout.propTypes = {
   children: PropTypes.node,
-  sideBarContent: PropTypes.node,
   displaySideBar: PropTypes.bool,
+  sideBarWidth: PropTypes.number,
+  sideBarContent: PropTypes.node,
   loading: PropTypes.bool,
   displaySearch: PropTypes.bool,
   displayLogo: PropTypes.bool,
@@ -31,8 +34,9 @@ AppLayout.propTypes = {
 
 AppLayout.defaultProps = {
   children: false,
-  sideBarContent: "",
   displaySideBar: false,
+  sideBarWidth: 300,
+  sideBarContent: "",
   loading: false,
   displayLogo: true,
   displaySearch: true,
