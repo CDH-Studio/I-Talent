@@ -4,11 +4,16 @@ import "./SideNavView.less";
 
 const { Sider } = Layout;
 
-const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
+const SideNavView = ({
+  displaySideBar,
+  siderWidth,
+  sideBarContent,
+  loading,
+}) => {
   if (displaySideBar) {
     return (
       <Sider
-        width="270"
+        width={siderWidth}
         className="app-sider"
         breakpoint="lg"
         collapsedWidth="0"
@@ -30,6 +35,7 @@ const SideNavView = ({ displaySideBar, sideBarContent, loading }) => {
 
 SideNavView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
+  siderWidth: PropTypes.number.isRequired,
   sideBarContent: PropTypes.node.isRequired,
   loading: PropTypes.bool.isRequired,
 };
