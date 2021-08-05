@@ -24,3 +24,5 @@ yarn-error.log*
 
 # react-env
 env.js
+
+package-lock.json
