@@ -189,7 +189,7 @@ The credentials for the users when using the local keycloak are specified in the
 
 # Contribution
 
-We encourage contribution to the project! We are a friendly team and are always looking for things to improve on. We just as that you follow our [contribution guidelines ](CONTRIBUTING.md) to help us keep things well documented and organized.
+We encourage contributions to the project! We are a friendly team and are always looking for things to improve on. We just as that you follow our [contribution guidelines ](CONTRIBUTING.md) to help us keep things well documented and organized.
 
 # Contributors
 
