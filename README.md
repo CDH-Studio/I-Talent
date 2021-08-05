@@ -207,7 +207,3 @@ Our full stack developers
 # Contact
 
 This application is developed by students at [CDH Studio](https://cdhstudio.ca/)
-
-<!-- # Wiki
-
-Visit the [Wiki](https://github.com/CDH-Studio/UpSkill/wiki) has more information about our tech stack, OpenShift project management and templating, Postman API testing setup, and local Keycloak setup. -->
