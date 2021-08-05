@@ -48,6 +48,7 @@ I-Talent is an internal web-application that would enable employees to share inf
     - [Run on Mac](#run-on-mac)
   - [Step 4: Try out the different services of the app](#step-4-try-out-the-different-services-of-the-app)
 - [:gear: Advanced](#gear-advanced)
+  - [Project Building Blocks](#project-building-blocks)
   - [Local Keycloak setup](#local-keycloak-setup)
 - [Contribution](#contribution)
 - [Contributors](#contributors)
@@ -153,6 +154,10 @@ You can now access different components of the web application:
 Visit backend [README](services/backend/README.md) and the frontend [README](services/frontend/README.md) for more information.
 
 # :gear: Advanced
+
+## Project Building Blocks
+
+<img src="docs/Italent-Architecture.jpg" alt="I-Talent Architecture" width="80%"/>
 
 ## Local Keycloak setup
 
