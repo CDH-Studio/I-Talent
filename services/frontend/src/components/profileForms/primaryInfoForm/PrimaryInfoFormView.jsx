@@ -32,16 +32,15 @@ import {
   KeyTitleOptionsPropType,
 } from "../../../utils/customPropTypes";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import store from "../../../redux";
+import { setUserSignupStep } from "../../../redux/slices/userSlice";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import login from "../../../utils/login";
-
 import "./PrimaryInfoFormView.less";
-import store from "../../../redux";
-import { setUserSignupStep } from "../../../redux/slices/userSlice";
 
 const PrimaryInfoFormView = ({
   locationOptions,
