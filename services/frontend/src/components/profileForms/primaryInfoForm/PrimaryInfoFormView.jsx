@@ -40,6 +40,8 @@ import FormSubTitle from "../formSubTitle/FormSubTitle";
 import login from "../../../utils/login";
 
 import "./PrimaryInfoFormView.less";
+import store from "../../../redux";
+import { setUserSignupStep } from "../../../redux/slices/userSlice";
 
 const PrimaryInfoFormView = ({
   locationOptions,
@@ -213,7 +215,6 @@ const PrimaryInfoFormView = ({
     const dbValues = {
       ...formValues,
     };
-
     delete dbValues.jobTitle;
     await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
     await login(keycloak, axios);
@@ -254,7 +255,10 @@ const PrimaryInfoFormView = ({
     form
       .validateFields()
       .then(async (values) => {
-        await saveDataToDB(values);
+        Promise.all([
+          store.dispatch(setUserSignupStep(3)),
+          saveDataToDB({ ...values, signupStep: 3 }),
+        ]);
         setFieldsChanged(false);
       })
       .then(() => history.push("/profile/create/step/3"))
@@ -275,7 +279,7 @@ const PrimaryInfoFormView = ({
   /**
    * Redirect to profile
    */
-  const onFinish = () => {
+  const onFinish = async () => {
     history.push(`/profile/edit/finish`);
   };
 
@@ -287,14 +291,20 @@ const PrimaryInfoFormView = ({
     form
       .validateFields()
       .then(async (values) => {
-        await saveDataToDB(values);
-        setFieldsChanged(false);
         if (formType === "create") {
+          Promise.all([
+            store.dispatch(setUserSignupStep(8)),
+            saveDataToDB({ ...values, signupStep: 8 }),
+          ]);
           history.push("/profile/create/step/8");
         } else {
-          dispatch(setSavedFormContent(true));
+          Promise.all([
+            saveDataToDB(values),
+            dispatch(setSavedFormContent(true)),
+          ]);
           onFinish();
         }
+        setFieldsChanged(false);
       })
       .catch((error) => {
         dispatch(setSavedFormContent(false));
