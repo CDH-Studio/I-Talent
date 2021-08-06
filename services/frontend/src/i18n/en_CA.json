@@ -272,7 +272,7 @@
   "rules.required": "Required",
   "rules.url": "Must be a URL address ex—https://www.google.com",
   "rules.valid.phone.number": "Must be a valid phone number",
-  "rules.valid.pri": "Must be a valid PRI",
+  "rules.valid.pri": "Must be a valid PRI ex—23241235",
   "save": "Save",
   "save.and.finish": "Save and finish",
   "save.and.next": "Save and next",
