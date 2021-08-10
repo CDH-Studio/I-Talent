@@ -8,7 +8,6 @@ import {
   notification,
   Popover,
   Tooltip,
-  Alert,
   Button,
 } from "antd";
 import {
@@ -17,14 +16,11 @@ import {
   TrophyOutlined,
   TeamOutlined,
   InfoCircleOutlined,
-  EyeInvisibleOutlined,
-  LockOutlined,
   PrinterOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { useKeycloak } from "@react-keycloak/web";
+import { useDispatch, useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import BasicInfo from "../../basicInfo/BasicInfo";
@@ -47,8 +43,9 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 import config from "../../../utils/runtimeConfig";
-import "./ProfileLayoutView.less";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
+
+import "./ProfileLayoutView.less";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;
@@ -64,7 +61,6 @@ const ProfileLayoutView = ({
   const intl = useIntl();
   const dispatch = useDispatch();
   const locale = useSelector((state) => state.settings.locale);
-  const { keycloak } = useKeycloak();
   const { drupalSite } = config;
 
   useEffect(() => {
@@ -400,72 +396,12 @@ const ProfileLayoutView = ({
     </Row>
   );
 
-  const displayHiddenAlert = () => {
-    const canViewHiddenProfiles = keycloak.hasResourceRole(
-      "view-private-profile"
-    );
-
-    console.log("canViewHiddenProfileszzz", canViewHiddenProfiles);
-    if (
-      (canViewHiddenProfiles || isUsersProfile) &&
-      data &&
-      data.status &&
-      ["INACTIVE", "HIDDEN"].includes(data.status)
-    ) {
-      const isHidden = data.status === "HIDDEN";
-
-      let messageId;
-
-      if (isUsersProfile) {
-        messageId = !isHidden ? (
-          <FormattedMessage id="hidden.profile.message" />
-        ) : (
-          <FormattedMessage
-            id="inactive.message"
-            values={{
-              helpUrl: (
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={`${drupalSite}${
-                    locale === "ENGLISH" ? "en" : "fr"
-                  }help`}
-                >
-                  <FormattedMessage id="footer.contact.link" />
-                </a>
-              ),
-            }}
-          />
-        );
-      } else if (canViewHiddenProfiles) {
-        messageId = isHidden ? (
-          <FormattedMessage id="hidden.profile.message.other" />
-        ) : (
-          <FormattedMessage id="inactive.message.other" />
-        );
-      }
-
-      return (
-        <Alert
-          message={messageId}
-          type={isHidden ? "warning" : "error"}
-          showIcon
-          style={{ marginBottom: 10 }}
-          icon={isHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
-        />
-      );
-    }
-
-    return undefined;
-  };
-
   return (
     <AppLayout
       sideBarContent={generateProfileSidebarContent()}
       displaySideBar
       loading={loading}
     >
-      {displayHiddenAlert()}
       <ProfileVisibilityAlert
         isUsersProfile={isUsersProfile}
         isProfileHidden={
