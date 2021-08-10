@@ -13,32 +13,32 @@ const ProfileVisibilityAlertView = ({
   isProfileHidden,
   isProfileInactive,
 }) => {
-  let messageText;
+  let messageId;
   const locale = useSelector((state) => state.settings.locale);
 
   // Message to show when user is looking at their own profile
   if (isUsersProfile) {
     if (isProfileInactive) {
-      messageText = "inactive.message";
+      messageId = "inactive.message";
     } else if (isProfileHidden) {
-      messageText = "hidden.profile.message";
+      messageId = "hidden.profile.message";
     }
   }
 
   // messages to show if an admin is looking at another user's profile
   if (canViewHiddenProfiles) {
     if (isProfileInactive) {
-      messageText = "inactive.message.other";
+      messageId = "inactive.message.other";
     } else if (isProfileHidden) {
-      messageText = "hidden.profile.message.other";
+      messageId = "hidden.profile.message.other";
     }
   }
 
-  return messageText ? (
+  return messageId ? (
     <Alert
       message={
         <FormattedMessage
-          id={messageText}
+          id={messageId}
           values={{
             b: (chunks) => <b>{chunks}</b>,
             helpUrl: (
