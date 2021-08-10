@@ -272,7 +272,7 @@
   "rules.required": "Obligatoire",
   "rules.url": "Doit être une adresse URL ex—https://www.google.com",
   "rules.valid.phone.number": "Doit être un numéro de téléphone valide",
-  "rules.valid.pri": "Doit être un CIDP valide",
+  "rules.valid.pri": "Doit être un CIDP valide (p. ex. 22222222)",
   "save": "Sauvegarder",
   "save.and.finish": "Sauvegarder et terminer",
   "save.and.next": "Sauvegarder et suivant",
