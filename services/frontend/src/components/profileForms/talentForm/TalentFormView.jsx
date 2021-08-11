@@ -29,6 +29,7 @@ import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import config from "../../../utils/runtimeConfig";
 
 import "./TalentFormView.less";
@@ -769,6 +770,18 @@ const TalentFormView = ({
                         <Option key={value.id}>{value.name}</Option>
                       ))}
                     </Select>
+
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "acting",
+                      })}
+                      initialValueId={
+                        getInitialValues({ profile: profileInfo }).competencies
+                      }
+                      placeholderText={<FormattedMessage id="type.to.search" />}
+                      options={competencyOptions}
+                      isSearchable
+                    />
                   </Form.Item>
                 </Col>
               </Row>
