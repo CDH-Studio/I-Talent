@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
@@ -19,19 +19,18 @@ const LandingPage = ({ location }) => {
 
   const { signupStep } = useSelector((state) => state.user);
 
-  const setLoginInfo = useCallback(async () => {
-    await login(keycloak, axios);
-    setSavedLoginInfo(true);
-  }, [keycloak, axios]);
-
   useEffect(() => {
+    const setLoginInfo = async () => {
+      await login(keycloak, axios);
+      setSavedLoginInfo(true);
+    };
     if (keycloak.authenticated) {
       setLoginInfo();
     } else {
       document.title = "I-Talent";
       dispatch(clearUser());
     }
-  }, [keycloak.authenticated, setLoginInfo, dispatch]);
+  }, [keycloak.authenticated, dispatch, keycloak, axios]);
 
   if (keycloak.authenticated) {
     if (savedLoginInfo) {
