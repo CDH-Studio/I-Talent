@@ -74,6 +74,16 @@ definitions:
     type: array
     items:
       type: string
+  ValueLabelArray:
+    type: array
+    items:
+      type: object
+      properties:
+        value:
+          type: string
+          format: uuid
+        label:
+          type: string
   IdDescription:
     type: object
     properties:

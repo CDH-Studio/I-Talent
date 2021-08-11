@@ -8,7 +8,7 @@
     responses:
       200:
         schema:
-          $ref: "#/definitions/StringArray"
+          $ref: "#/definitions/ValueLabelArray"
       403:
         $ref: "#/definitions/403"
       422:
@@ -28,7 +28,8 @@
       - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
-        $ref: "#/definitions/IdDescriptionArray"
+        schema:
+          $ref: "#/definitions/ValueLabelArray"
       403:
         $ref: "#/definitions/403"
       422:
@@ -47,7 +48,7 @@
     responses:
       200:
         schema:
-          $ref: "#/definitions/IdNameArray"
+          $ref: "#/definitions/ValueLabelArray"
       403:
         $ref: "#/definitions/403"
       500:
@@ -99,21 +100,7 @@
     responses:
       200:
         schema:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              streetNumber:
-                type: number
-              streetName:
-                type: string
-              city:
-                type: string
-              province:
-                type: string
+          $ref: "#/definitions/ValueLabelArray"
       403:
         $ref: "#/definitions/403"
       422:
@@ -184,7 +171,8 @@
       - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
-        $ref: "#/definitions/IdDescriptionArray"
+        schema:
+          $ref: "#/definitions/ValueLabelArray"
       403:
         $ref: "#/definitions/403"
       422:
@@ -225,7 +213,7 @@
     responses:
       200:
         schema:
-          $ref: "#/definitions/IdNameArray"
+          $ref: "#/definitions/ValueLabelArray"
       403:
         $ref: "#/definitions/403"
       422:
