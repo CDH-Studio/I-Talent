@@ -3,7 +3,7 @@ import {
   Col,
   Typography,
   Form,
-  Select,
+  // Select,
   Button,
   Tooltip,
   Input,
@@ -25,13 +25,14 @@ import {
   IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
-import filterOption from "../../../../functions/filterSelectInput";
+// import filterOption from "../../../../functions/filterSelectInput";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 import "./EducationFormView.less";
 import DatePickerField from "../../../formItems/DatePickerField";
+import CustomDropdown from "../../../formItems/CustomDropdown";
 import Fieldset from "../../../fieldset/Fieldset";
 
-const { Option } = Select;
+// const { Option } = Select;
 const { Title } = Typography;
 
 /**
@@ -124,16 +125,20 @@ const EducationFormView = ({
             label={<FormattedMessage id="diploma" />}
             rules={[Rules.required]}
           >
-            <Select
-              showSearch
-              placeholder={<FormattedMessage id="search" />}
-              allowClear
-              filterOption={filterOption}
-            >
-              {diplomaOptions.map((value) => (
-                <Option key={value.id}>{value.description}</Option>
-              ))}
-            </Select>
+            <CustomDropdown
+              ariaLabel={intl.formatMessage({
+                id: "diploma",
+              })}
+              initialValueId={form.getFieldValue([
+                "educations",
+                fieldElement.fieldKey,
+                "diplomaId",
+              ])}
+              placeholderText={<FormattedMessage id="type.to.search" />}
+              options={diplomaOptions}
+              isSearchable
+              isRequired
+            />
           </Form.Item>
         </Col>
 
@@ -145,16 +150,20 @@ const EducationFormView = ({
             label={<FormattedMessage id="school" />}
             rules={[Rules.required]}
           >
-            <Select
-              showSearch
-              placeholder={<FormattedMessage id="search" />}
-              allowClear
-              filterOption={filterOption}
-            >
-              {schoolOptions.map((value) => (
-                <Option key={value.id}>{value.name}</Option>
-              ))}
-            </Select>
+            <CustomDropdown
+              ariaLabel={intl.formatMessage({
+                id: "school",
+              })}
+              initialValueId={form.getFieldValue([
+                "educations",
+                fieldElement.fieldKey,
+                "schoolId",
+              ])}
+              placeholderText={<FormattedMessage id="type.to.search" />}
+              options={schoolOptions}
+              isSearchable
+              isRequired
+            />
           </Form.Item>
         </Col>
 
