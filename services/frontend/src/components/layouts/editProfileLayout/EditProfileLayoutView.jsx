@@ -11,6 +11,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router";
+import { useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import { HistoryPropType } from "../../../utils/customPropTypes";
 import {
@@ -24,6 +25,7 @@ import {
 } from "../../profileForms";
 import Header from "../../header/Header";
 import "./EditProfileLayoutView.less";
+import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 
 /*
  *  EditProfileLayoutView(props)
@@ -31,6 +33,7 @@ import "./EditProfileLayoutView.less";
  */
 const EditProfileLayoutView = ({ formStep, history }) => {
   const intl = useIntl();
+  const { status } = useSelector((state) => state.user);
 
   /*
    * Profile Form Select
@@ -201,6 +204,11 @@ const EditProfileLayoutView = ({ formStep, history }) => {
 
   return (
     <AppLayout sideBarContent={sideBarContent} displaySideBar>
+      <ProfileVisibilityAlert
+        isUsersProfile
+        isProfileHidden={status === "HIDDEN"}
+        isProfileInactive={status === "INACTIVE"}
+      />
       <Header
         title={<FormattedMessage id="edit.profile" />}
         icon={<EditOutlined />}
