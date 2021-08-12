@@ -28,8 +28,6 @@ import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import CustomDropdown from "../../formItems/CustomDropdown";
-import config from "../../../utils/runtimeConfig";
-
 import "./TalentFormView.less";
 
 const { Text } = Typography;
@@ -64,7 +62,6 @@ const TalentFormView = ({
   const [loadedData, setLoadedData] = useState(false);
   const [selectedTab, setSelectedTab] = useState(1);
   const [tabErrorsBool, setTabErrorsBool] = useState([]);
-  const { drupalSite } = config;
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
 
@@ -606,27 +603,6 @@ const TalentFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <FormSubTitle
                     title={<FormattedMessage id="skills" />}
-                    popoverMessage={
-                      <>
-                        <FormattedMessage
-                          id="tooltip.extra.info.help"
-                          values={{
-                            helpUrl: (
-                              <a
-                                className="link"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href={`${drupalSite}${
-                                  locale === "ENGLISH" ? "en" : "fr"
-                                }help`}
-                              >
-                                <FormattedMessage id="footer.contact.link" />
-                              </a>
-                            ),
-                          }}
-                        />
-                      </>
-                    }
                     extra={
                       <CardVisibilityToggle
                         visibleCards={profileInfo.visibleCards}
@@ -666,27 +642,6 @@ const TalentFormView = ({
                 <Col className="gutter-row" span={24}>
                   <FormSubTitle
                     title={<FormattedMessage id="mentorship.skills" />}
-                    popoverMessage={
-                      <>
-                        <FormattedMessage
-                          id="tooltip.extra.info.help"
-                          values={{
-                            helpUrl: (
-                              <a
-                                className="link"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href={`${drupalSite}${
-                                  locale === "ENGLISH" ? "en" : "fr"
-                                }help`}
-                              >
-                                <FormattedMessage id="footer.contact.link" />
-                              </a>
-                            ),
-                          }}
-                        />
-                      </>
-                    }
                     extra={
                       <CardVisibilityToggle
                         visibleCards={profileInfo.visibleCards}
@@ -723,27 +678,6 @@ const TalentFormView = ({
                 <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
                   <FormSubTitle
                     title={<FormattedMessage id="competencies" />}
-                    popoverMessage={
-                      <>
-                        <FormattedMessage
-                          id="tooltip.extra.info.help"
-                          values={{
-                            helpUrl: (
-                              <a
-                                className="link"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href={`${drupalSite}${
-                                  locale === "ENGLISH" ? "en" : "fr"
-                                }help`}
-                              >
-                                <FormattedMessage id="footer.contact.link" />
-                              </a>
-                            ),
-                          }}
-                        />
-                      </>
-                    }
                     extra={
                       <CardVisibilityToggle
                         visibleCards={profileInfo.visibleCards}
