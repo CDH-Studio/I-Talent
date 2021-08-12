@@ -1,4 +1,4 @@
-import { Row, Col, Form, Select, Button, Input, Divider } from "antd";
+import { Row, Col, Form, Button, Input, Divider } from "antd";
 import { CloseCircleOutlined, PaperClipOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
@@ -6,9 +6,9 @@ import {
   FieldPropType,
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
-import "./LinkAttachmentView.less";
+import CustomDropdown from "../../formItems/CustomDropdown";
 
-const { Option } = Select;
+import "./LinkAttachmentView.less";
 
 const Rules = {
   required: {
@@ -21,7 +21,12 @@ const Rules = {
   },
 };
 
-const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
+const LinkAttachmentView = ({
+  fieldElement,
+  removeElement,
+  attachmentNamesOptions,
+  attachmentNameDefault,
+}) => {
   const intl = useIntl();
   return (
     <Row span={24} gutter={12} className="my-1">
@@ -49,7 +54,7 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
         </Button>
       </Col>
 
-      <Col className="gutter-row" xs={24} lg={5}>
+      <Col className="gutter-row" xs={24} lg={8}>
         <Form.Item
           rules={[Rules.required]}
           className="formItem"
@@ -57,24 +62,20 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
           fieldKey={[fieldElement.fieldKey, "nameId"]}
           label={<FormattedMessage id="type" />}
         >
-          <Select
-            optionFilterProp="children"
-            placeholder={<FormattedMessage id="select" />}
-            dropdownMatchSelectWidth={false}
-            aria-required="true"
-            aria-label={` ${intl.formatMessage({ id: "document" })} ${
+          <CustomDropdown
+            ariaLabel={` ${intl.formatMessage({ id: "document" })} ${
               fieldElement.name + 1
             } ${intl.formatMessage({
               id: "type",
             })} `}
-          >
-            {nameOptions.map((value) => (
-              <Option key={value.id}>{value.name}</Option>
-            ))}
-          </Select>
+            initialValueId={attachmentNameDefault}
+            placeholderText={<FormattedMessage id="select" />}
+            options={attachmentNamesOptions}
+            isRequired
+          />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" xs={24} lg={19}>
+      <Col className="gutter-row" xs={24} lg={16}>
         <Form.Item
           name={[fieldElement.name, "url"]}
           fieldKey={[fieldElement.fieldKey, "url"]}
@@ -102,7 +103,8 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
 LinkAttachmentView.propTypes = {
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  nameOptions: KeyNameOptionsPropType.isRequired,
+  attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
+  attachmentNameDefault: PropTypes.string.isRequired,
 };
 
 export default LinkAttachmentView;

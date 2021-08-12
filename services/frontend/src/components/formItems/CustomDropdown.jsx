@@ -73,8 +73,11 @@ const CustomDropdown = ({
         dropdownOptions.find((option) => option.value === value)
       );
     }
-
-    return dropdownOptions.find((option) => option.value === savedValues);
+    return (
+      dropdownOptions &&
+      savedValues &&
+      dropdownOptions.find((option) => option.value === savedValues)
+    );
   };
 
   /**

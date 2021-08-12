@@ -3,7 +3,6 @@ import {
   Col,
   Typography,
   Form,
-  // Select,
   Button,
   Tooltip,
   Input,
@@ -25,14 +24,12 @@ import {
   IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
-// import filterOption from "../../../../functions/filterSelectInput";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
 import "./EducationFormView.less";
 import DatePickerField from "../../../formItems/DatePickerField";
 import CustomDropdown from "../../../formItems/CustomDropdown";
 import Fieldset from "../../../fieldset/Fieldset";
 
-// const { Option } = Select;
 const { Title } = Typography;
 
 /**
@@ -322,7 +319,14 @@ const EducationFormView = ({
                       key={field.fieldKey}
                       fieldElement={field}
                       removeElement={remove}
-                      nameOptions={attachmentNames}
+                      attachmentNamesOptions={attachmentNames}
+                      attachmentNameDefault={form.getFieldValue([
+                        "educations",
+                        fieldElement.fieldKey,
+                        "attachmentLinks",
+                        field.fieldKey,
+                        "nameId",
+                      ])}
                     />
                   ))}
                   <Form.Item>

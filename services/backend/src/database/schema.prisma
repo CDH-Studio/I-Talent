@@ -539,7 +539,7 @@ model OpTransAttachmentLinkName {
   language  Language
   name      String
 
-  OpAttachmentLinkName   OpAttachmentLinkName? @relation(fields: [opAttachmentLinkNameId], references: [id])
+  opAttachmentLinkName   OpAttachmentLinkName? @relation(fields: [opAttachmentLinkNameId], references: [id])
   opAttachmentLinkNameId String?
 }
 
