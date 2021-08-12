@@ -17,15 +17,12 @@ async function getCompetencies(request, response) {
     },
   });
 
-  const competencies = _.sortBy(
-    competenciesQuery.map((i) => ({
-      id: i.opCompetencyId,
-      name: i.name,
-    })),
-    "name"
-  );
+  const responseData = competenciesQuery.map((competency) => ({
+    value: competency.opCompetencyId,
+    label: competency.name,
+  }));
 
-  response.status(200).json(competencies);
+  response.status(200).json(responseData);
 }
 
 async function getCompetenciesAllLang(_request, response) {

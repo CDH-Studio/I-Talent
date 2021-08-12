@@ -6,7 +6,6 @@ import {
   Typography,
   Divider,
   Form,
-  Select,
   Switch,
   TreeSelect,
   Tabs,
@@ -25,15 +24,14 @@ import {
 import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import config from "../../../utils/runtimeConfig";
 
 import "./TalentFormView.less";
 
-const { Option } = Select;
 const { Text } = Typography;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
@@ -758,17 +756,18 @@ const TalentFormView = ({
                     }
                   />
                   <Form.Item name="competencies">
-                    <Select
-                      className="custom-bubble-select-style"
-                      mode="multiple"
-                      placeholder={<FormattedMessage id="search" />}
-                      style={{ width: "100%" }}
-                      filterOption={filterOption}
-                    >
-                      {competencyOptions.map((value) => (
-                        <Option key={value.id}>{value.name}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "competencies",
+                      })}
+                      initialValueId={
+                        getInitialValues({ profile: profileInfo }).competencies
+                      }
+                      placeholderText={<FormattedMessage id="type.to.search" />}
+                      options={competencyOptions}
+                      isSearchable
+                      isMulti
+                    />
                   </Form.Item>
                 </Col>
               </Row>
