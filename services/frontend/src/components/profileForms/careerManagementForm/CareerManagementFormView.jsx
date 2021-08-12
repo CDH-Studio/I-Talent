@@ -11,7 +11,6 @@ import {
   Tabs,
   notification,
   Button,
-  // Typography,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -36,10 +35,8 @@ import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
-import config from "../../../utils/runtimeConfig";
 import Fieldset from "../../fieldset/Fieldset";
 
-// const { Title } = Typography;
 const { Option } = Select;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
@@ -80,7 +77,6 @@ const CareerManagementFormView = ({
   const [selectedTab, setSelectedTab] = useState(1);
   const [tabErrorsBool, setTabErrorsBool] = useState({});
   const axios = useAxios();
-  const { drupalSite } = config;
 
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
@@ -438,25 +434,6 @@ const CareerManagementFormView = ({
             >
               <FormSubTitle
                 title={<FormattedMessage id="developmental.goals" />}
-                popoverMessage={
-                  <FormattedMessage
-                    id="tooltip.extra.info.help"
-                    values={{
-                      helpUrl: (
-                        <a
-                          className="link"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          href={`${drupalSite}${
-                            locale === "ENGLISH" ? "en" : "fr"
-                          }help`}
-                        >
-                          <FormattedMessage id="footer.contact.link" />
-                        </a>
-                      ),
-                    }}
-                  />
-                }
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}
@@ -596,27 +573,6 @@ const CareerManagementFormView = ({
             >
               <FormSubTitle
                 title={<FormattedMessage id="career.interests" />}
-                popoverMessage={
-                  <>
-                    <FormattedMessage
-                      id="tooltip.extra.info.help"
-                      values={{
-                        helpUrl: (
-                          <a
-                            className="link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`${drupalSite}${
-                              locale === "ENGLISH" ? "en" : "fr"
-                            }help`}
-                          >
-                            <FormattedMessage id="footer.contact.link" />
-                          </a>
-                        ),
-                      }}
-                    />
-                  </>
-                }
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}

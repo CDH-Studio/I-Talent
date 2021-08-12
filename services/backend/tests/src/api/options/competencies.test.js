@@ -26,11 +26,15 @@ describe(`GET ${path}`, () => {
           { opCompetencyId: 2, name: "B" },
         ],
         [
-          { id: 2, name: "B" },
-          { id: 1, name: "z" },
+          { value: 1, label: "z" },
+          { value: 2, label: "B" },
         ],
       ],
-      ["FRENCH", [{ opCompetencyId: 3, name: "b" }], [{ id: 3, name: "b" }]],
+      [
+        "FRENCH",
+        [{ opCompetencyId: 3, name: "b" }],
+        [{ value: 3, label: "b" }],
+      ],
     ];
 
     describe.each(data)("in %s", (language, prismaData, result) => {

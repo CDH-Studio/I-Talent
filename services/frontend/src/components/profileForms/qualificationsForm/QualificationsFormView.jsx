@@ -434,7 +434,7 @@ const QualificationsFormView = ({
               key="experience"
             >
               <FormSubTitle
-                title={<FormattedMessage id="experience" />}
+                title={<FormattedMessage id="experience.most.recent" />}
                 extra={
                   <CardVisibilityToggle
                     visibleCards={profileInfo.visibleCards}
