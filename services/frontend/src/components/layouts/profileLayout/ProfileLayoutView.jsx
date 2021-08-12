@@ -8,7 +8,6 @@ import {
   notification,
   Popover,
   Tooltip,
-  Alert,
   Button,
 } from "antd";
 import {
@@ -17,14 +16,11 @@ import {
   TrophyOutlined,
   TeamOutlined,
   InfoCircleOutlined,
-  EyeInvisibleOutlined,
-  LockOutlined,
   PrinterOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
-import { useKeycloak } from "@react-keycloak/web";
+import { useDispatch, useSelector } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import BasicInfo from "../../basicInfo/BasicInfo";
@@ -47,6 +43,8 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 import config from "../../../utils/runtimeConfig";
+import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
+
 import "./ProfileLayoutView.less";
 
 const { Link } = Anchor;
@@ -55,7 +53,7 @@ const { Title, Text } = Typography;
 const ProfileLayoutView = ({
   data,
   connectionStatus,
-  privateProfile,
+  isUsersProfile,
   changeConnection,
   loading,
   savedFormContent,
@@ -63,7 +61,6 @@ const ProfileLayoutView = ({
   const intl = useIntl();
   const dispatch = useDispatch();
   const locale = useSelector((state) => state.settings.locale);
-  const { keycloak } = useKeycloak();
   const { drupalSite } = config;
 
   useEffect(() => {
@@ -93,19 +90,19 @@ const ProfileLayoutView = ({
       <Col xs={24} xl={10}>
         <Row gutter={[0, 15]}>
           <Col span={24}>
-            <EmployeeSummary data={data} editableCardBool={privateProfile} />
+            <EmployeeSummary data={data} editableCardBool={isUsersProfile} />
           </Col>
           <Col span={24}>
-            <EmploymentEquity data={data} editableCardBool={privateProfile} />
+            <EmploymentEquity data={data} editableCardBool={isUsersProfile} />
           </Col>
         </Row>
       </Col>
 
       <Col span={24}>
-        <DescriptionCard data={data} editableCardBool={privateProfile} />
+        <DescriptionCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <OfficialLanguage data={data} editableCardBool={privateProfile} />
+        <OfficialLanguage data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Skills and competencies *********** */}
@@ -118,13 +115,13 @@ const ProfileLayoutView = ({
         <FormattedMessage id="skills.and.competencies" />
       </Title>
       <Col span={24}>
-        <Skills data={data} editableCardBool={privateProfile} />
+        <Skills data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Mentorship data={data} editableCardBool={privateProfile} />
+        <Mentorship data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Competencies data={data} editableCardBool={privateProfile} />
+        <Competencies data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Qualifications *********** */}
@@ -137,10 +134,10 @@ const ProfileLayoutView = ({
         <FormattedMessage id="employee.qualifications" />
       </Title>
       <Col span={24}>
-        <Education data={data} editableCardBool={privateProfile} />
+        <Education data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Experience data={data} editableCardBool={privateProfile} />
+        <Experience data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Personal Growth *********** */}
@@ -153,23 +150,23 @@ const ProfileLayoutView = ({
         <FormattedMessage id="employee.growth.interests" />
       </Title>
       <Col span={24}>
-        <LearningDevelopment editableCardBool={privateProfile} data={data} />
+        <LearningDevelopment editableCardBool={isUsersProfile} data={data} />
       </Col>
       <Col span={24}>
-        <QualifiedPools data={data} editableCardBool={privateProfile} />
+        <QualifiedPools data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col xs={24} xl={12}>
-        <TalentManagement data={data} editableCardBool={privateProfile} />
+        <TalentManagement data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col xs={24} xl={12}>
-        <CareerInterests data={data} editableCardBool={privateProfile} />
+        <CareerInterests data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <ExFeeder data={data} editableCardBool={privateProfile} />
+        <ExFeeder data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Connections *********** */}
-      {privateProfile && (
+      {isUsersProfile && (
         <>
           <Title
             level={2}
@@ -375,7 +372,7 @@ const ProfileLayoutView = ({
               }
             />
           </Link>
-          {privateProfile && (
+          {isUsersProfile && (
             <Link
               href="#divider-privateGroup"
               title={
@@ -399,73 +396,24 @@ const ProfileLayoutView = ({
     </Row>
   );
 
-  const displayHiddenAlert = () => {
-    const canViewHiddenProfiles = keycloak.hasResourceRole(
-      "view-private-profile"
-    );
-    if (
-      (canViewHiddenProfiles || privateProfile) &&
-      data &&
-      data.status &&
-      ["INACTIVE", "HIDDEN"].includes(data.status)
-    ) {
-      const isHidden = data.status === "HIDDEN";
-
-      let messageId;
-
-      if (privateProfile) {
-        messageId = !isHidden ? (
-          <FormattedMessage id="hidden.profile.message" />
-        ) : (
-          <FormattedMessage
-            id="inactive.message"
-            values={{
-              helpUrl: (
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href={`${drupalSite}${
-                    locale === "ENGLISH" ? "en" : "fr"
-                  }help`}
-                >
-                  <FormattedMessage id="footer.contact.link" />
-                </a>
-              ),
-            }}
-          />
-        );
-      } else if (canViewHiddenProfiles) {
-        messageId = isHidden ? (
-          <FormattedMessage id="hidden.profile.message.other" />
-        ) : (
-          <FormattedMessage id="inactive.message.other" />
-        );
-      }
-
-      return (
-        <Alert
-          message={messageId}
-          type={isHidden ? "warning" : "error"}
-          showIcon
-          style={{ marginBottom: 10 }}
-          icon={isHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
-        />
-      );
-    }
-
-    return undefined;
-  };
-
   return (
     <AppLayout
       sideBarContent={generateProfileSidebarContent()}
       displaySideBar
       loading={loading}
     >
-      {displayHiddenAlert()}
+      <ProfileVisibilityAlert
+        isUsersProfile={isUsersProfile}
+        isProfileHidden={
+          data && data.status && ["HIDDEN"].includes(data.status)
+        }
+        isProfileInactive={
+          data && data.status && ["INACTIVE"].includes(data.status)
+        }
+      />
       <Header
         title={
-          <FormattedMessage id={privateProfile ? "my.profile" : "profile"} />
+          <FormattedMessage id={isUsersProfile ? "my.profile" : "profile"} />
         }
         subtitle={
           <Tooltip title={<FormattedMessage id="last.modified.date" />}>
@@ -495,7 +443,7 @@ ProfileLayoutView.propTypes = {
   data: ProfileInfoPropType,
   loading: PropTypes.bool,
   connectionStatus: PropTypes.bool,
-  privateProfile: PropTypes.bool,
+  isUsersProfile: PropTypes.bool,
   changeConnection: PropTypes.func,
   savedFormContent: PropTypes.bool,
 };
@@ -504,7 +452,7 @@ ProfileLayoutView.defaultProps = {
   data: null,
   loading: null,
   connectionStatus: null,
-  privateProfile: null,
+  isUsersProfile: null,
   changeConnection: null,
   savedFormContent: undefined,
 };
