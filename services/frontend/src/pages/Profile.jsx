@@ -122,7 +122,7 @@ const Profile = ({ history, match }) => {
     <ProfileLayout
       data={data}
       connectionStatus={connectionData}
-      privateProfile={id === userID}
+      isUsersProfile={id === userID}
       changeConnection={changeConnection}
       loading={loading}
       savedFormContent={savedFormContent}

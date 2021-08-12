@@ -34,7 +34,7 @@ const profileExist = async (userInfo, axios) => {
     signupStep,
   } = response.data;
 
-  store.dispatch(
+  await store.dispatch(
     setUser({
       id,
       avatarColor,
@@ -52,13 +52,11 @@ const profileExist = async (userInfo, axios) => {
 };
 
 const login = async (keycloak, axios) => {
+  const userInfo = await keycloak.loadUserInfo();
+  await profileExist(userInfo, axios);
   store.dispatch(
     setUserIsAdmin(keycloak.hasResourceRole("view-admin-console"))
   );
-
-  const userInfo = await keycloak.loadUserInfo();
-
-  await profileExist(userInfo, axios);
 };
 
 export default login;

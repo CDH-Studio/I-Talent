@@ -6,7 +6,7 @@ import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 const ProfileLayout = ({
   data,
   connectionStatus,
-  privateProfile,
+  isUsersProfile,
   changeConnection,
   loading,
   savedFormContent,
@@ -14,7 +14,7 @@ const ProfileLayout = ({
   <ProfileLayoutView
     data={data}
     connectionStatus={connectionStatus}
-    privateProfile={privateProfile}
+    isUsersProfile={isUsersProfile}
     changeConnection={changeConnection}
     loading={loading}
     savedFormContent={savedFormContent}
@@ -24,7 +24,7 @@ const ProfileLayout = ({
 ProfileLayout.propTypes = {
   data: ProfileInfoPropType,
   connectionStatus: propTypes.bool,
-  privateProfile: propTypes.bool,
+  isUsersProfile: propTypes.bool,
   changeConnection: propTypes.func,
   loading: propTypes.bool,
   savedFormContent: propTypes.bool,
@@ -33,7 +33,7 @@ ProfileLayout.propTypes = {
 ProfileLayout.defaultProps = {
   data: null,
   connectionStatus: null,
-  privateProfile: null,
+  isUsersProfile: null,
   changeConnection: null,
   loading: null,
   savedFormContent: undefined,
