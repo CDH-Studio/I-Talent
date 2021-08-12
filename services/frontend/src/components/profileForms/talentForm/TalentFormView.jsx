@@ -71,10 +71,7 @@ const TalentFormView = ({
   const dispatch = useDispatch();
 
   /* Values for tabs */
-  const tabs = useMemo(
-    () => ({ 1: "skills", 2: "mentorship", 3: "competencies" }),
-    []
-  );
+  const tabs = useMemo(() => ({ 1: "skills", 3: "competencies" }), []);
   const MAXTAB = 3;
 
   /* Component Rules for form fields */
@@ -655,14 +652,9 @@ const TalentFormView = ({
                   </Form.Item>
                 </Col>
               </Row>
-            </TabPane>
-            <TabPane
-              tab={getTabTitle({
-                message: <FormattedMessage id="mentorship.skills" />,
-                errorBool: tabErrorsBool.mentorshipSkills,
-              })}
-              key="mentorship"
-            >
+
+              <Divider className="prim-headerDiv" />
+
               {/* Form Row Two: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" span={24}>

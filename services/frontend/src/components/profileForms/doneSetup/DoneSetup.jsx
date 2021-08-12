@@ -48,7 +48,7 @@ const DoneSetup = ({ formType }) => {
     },
     {
       label: "mentorship.skills",
-      url: "/profile/edit/talent?tab=mentorship",
+      url: "/profile/edit/talent?tab=skills",
       visibility: load ? profileInfo.visibleCards.mentorshipSkills : null,
     },
     {

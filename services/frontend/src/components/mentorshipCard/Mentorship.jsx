@@ -72,7 +72,7 @@ const Mentorship = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "mentorship.skills" })}
       cardName="mentorshipSkills"
       id="card-profile-mentorship-skills"
-      editUrl="/profile/edit/talent?tab=mentorship"
+      editUrl="/profile/edit/talent?tab=skills"
       data={data}
       editableCardBool={editableCardBool}
       visibility={data.visibleCards.mentorshipSkills}
