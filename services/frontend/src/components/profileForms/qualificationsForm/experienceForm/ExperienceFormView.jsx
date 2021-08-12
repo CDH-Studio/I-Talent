@@ -7,7 +7,6 @@ import {
   Checkbox,
   Input,
   Tooltip,
-  // Select,
 } from "antd";
 import PropTypes from "prop-types";
 import {
