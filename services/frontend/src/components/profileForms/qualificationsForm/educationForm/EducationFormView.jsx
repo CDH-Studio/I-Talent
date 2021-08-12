@@ -25,10 +25,11 @@ import {
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
-import "./EducationFormView.less";
 import DatePickerField from "../../../formItems/DatePickerField";
 import CustomDropdown from "../../../formItems/CustomDropdown";
 import Fieldset from "../../../fieldset/Fieldset";
+
+import "./EducationFormView.less";
 
 const { Title } = Typography;
 
