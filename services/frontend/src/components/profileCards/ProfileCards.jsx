@@ -13,7 +13,6 @@ const ProfileCards = ({
   displayExtraHeaderContent,
   visibility,
   lastUpdated,
-  subTitle,
 }) => (
   <ProfileCardsView
     titleString={titleString}
@@ -25,7 +24,6 @@ const ProfileCards = ({
     visibleCards={data.visibleCards}
     lastUpdated={lastUpdated}
     displayExtraHeaderContent={displayExtraHeaderContent}
-    subTitle={subTitle}
   >
     {visibility ? children : null}
   </ProfileCardsView>
@@ -45,7 +43,6 @@ ProfileCards.propTypes = {
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]),
   ]),
   lastUpdated: PropTypes.string,
-  subTitle: PropTypes.string,
 };
 
 ProfileCards.defaultProps = {
@@ -56,7 +53,6 @@ ProfileCards.defaultProps = {
   displayExtraHeaderContent: true,
   visibility: null,
   lastUpdated: null,
-  subTitle: null,
 };
 
 export default ProfileCards;

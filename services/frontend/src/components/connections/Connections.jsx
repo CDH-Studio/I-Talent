@@ -5,7 +5,7 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const connections = ({ data }) => {
   const intl = useIntl();
-
+  console.log(data);
   return (
     <ProfileCards
       titleString={intl.formatMessage({ id: "connections.info" })}
@@ -15,9 +15,9 @@ const connections = ({ data }) => {
       editableCardBool={false}
       displayExtraHeaderContent={false}
       visibility="PUBLIC"
-      subTitle={intl.formatMessage({
-        id: "connections.usage.info",
-      })}
+      // subTitle={intl.formatMessage({
+      //   id: "connections.usage.info",
+      // })}
     >
       <ConnectionsView connections={data.connections} />
     </ProfileCards>
