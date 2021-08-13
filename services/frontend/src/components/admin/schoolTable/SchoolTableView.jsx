@@ -394,6 +394,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         <Form.Item
           name="editSchoolEn"
           label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.name" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -404,6 +410,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         <Form.Item
           name="editSchoolFr"
           label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.name" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -414,6 +426,17 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         <Form.Item
           name="editSchoolProvince"
           label={<FormattedMessage id="province.state.limit" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.location" />,
+            },
+            {
+              min: 2,
+              max: 2,
+              message: <FormattedMessage id="validate.length.2" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -425,6 +448,17 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         <Form.Item
           name="editSchoolCountry"
           label={<FormattedMessage id="country.limit" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.country" />,
+            },
+            {
+              min: 3,
+              max: 3,
+              message: <FormattedMessage id="validate.length.3" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({

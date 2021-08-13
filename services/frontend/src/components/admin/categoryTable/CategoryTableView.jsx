@@ -297,6 +297,12 @@ const CategoryTableView = ({
         <Form.Item
           name="editCategoryEn"
           label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -307,6 +313,12 @@ const CategoryTableView = ({
         <Form.Item
           name="editCategoryFr"
           label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -400,7 +412,7 @@ const CategoryTableView = ({
       {addCategoryButton()}
       {editCategoryButton()}
       <Header
-        title={<FormattedMessage id="skill.categories.table" />}
+        title={<FormattedMessage id="skill.categories" />}
         icon={<DatabaseOutlined />}
         extra={
           <>

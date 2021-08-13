@@ -319,6 +319,12 @@ const DiplomaTableView = ({
         <Form.Item
           name="editDiplomaEn"
           label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -329,6 +335,12 @@ const DiplomaTableView = ({
         <Form.Item
           name="editDiplomaFr"
           label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({

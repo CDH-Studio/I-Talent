@@ -273,6 +273,12 @@ const SkillTableView = ({
         <Form.Item
           name="editSkillEn"
           label={<FormattedMessage id="language.english" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -283,6 +289,12 @@ const SkillTableView = ({
         <Form.Item
           name="editSkillFr"
           label={<FormattedMessage id="language.french" />}
+          rules={[
+            {
+              required: true,
+              message: <FormattedMessage id="validate.description" />,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -293,6 +305,14 @@ const SkillTableView = ({
         <Form.Item
           name="editSkillCategoryId"
           label={<FormattedMessage id="category" />}
+          rules={[
+            {
+              required: true,
+              message: intl.formatMessage({
+                id: "validate.description",
+              }),
+            },
+          ]}
         >
           <Select
             showSearch
@@ -417,7 +437,7 @@ const SkillTableView = ({
           rules={[
             {
               required: true,
-              message: <FormattedMessage id="validate.country" />,
+              message: <FormattedMessage id="validate.description" />,
             },
           ]}
         >
@@ -434,7 +454,7 @@ const SkillTableView = ({
           rules={[
             {
               required: true,
-              message: <FormattedMessage id="validate.country" />,
+              message: <FormattedMessage id="validate.description" />,
             },
           ]}
         >
@@ -452,7 +472,7 @@ const SkillTableView = ({
             {
               required: true,
               message: intl.formatMessage({
-                id: "validate.country",
+                id: "validate.description",
               }),
             },
           ]}
