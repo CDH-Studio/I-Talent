@@ -40,7 +40,7 @@ const ProfileVisibilityAlertView = ({
         <FormattedMessage
           id={messageId}
           values={{
-            b: (chunks) => <b>{chunks}</b>,
+            b: (chunks) => <strong>{chunks}</strong>,
             helpUrl: (
               <a
                 target="_blank"
