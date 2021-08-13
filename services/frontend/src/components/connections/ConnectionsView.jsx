@@ -29,7 +29,7 @@ const ConnectionsView = ({ connections }) => {
                       <Text strong className="d-block">
                         {item.firstName} {item.lastName}
                       </Text>
-                      <Text type="secondary" lassName="d-block">
+                      <Text type="secondary" className="d-block">
                         {item.email}
                       </Text>
                     </div>

@@ -5,7 +5,6 @@ import ProfileCards from "../profileCards/ProfileCards";
 
 const connections = ({ data }) => {
   const intl = useIntl();
-  console.log(data);
   return (
     <ProfileCards
       titleString={intl.formatMessage({ id: "connections.info" })}
