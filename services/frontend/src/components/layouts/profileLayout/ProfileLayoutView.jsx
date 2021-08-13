@@ -6,7 +6,6 @@ import {
   Row,
   Col,
   notification,
-  Popover,
   Tooltip,
   Button,
 } from "antd";
@@ -15,12 +14,11 @@ import {
   RiseOutlined,
   TrophyOutlined,
   TeamOutlined,
-  InfoCircleOutlined,
   PrinterOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AppLayout from "../appLayout/AppLayout";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import BasicInfo from "../../basicInfo/BasicInfo";
@@ -42,7 +40,6 @@ import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
-import config from "../../../utils/runtimeConfig";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 
 import "./ProfileLayoutView.less";
@@ -60,8 +57,6 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const locale = useSelector((state) => state.settings.locale);
-  const { drupalSite } = config;
 
   useEffect(() => {
     if (savedFormContent === false) {
@@ -175,34 +170,6 @@ const ProfileLayoutView = ({
           >
             <TeamOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
             <FormattedMessage id="connections" />
-            <div className="privateGroupInfo">
-              <Popover
-                trigger={["focus", "hover"]}
-                content={
-                  <div className="popContent">
-                    <FormattedMessage
-                      id="connections.tooltip.header"
-                      values={{
-                        helpUrl: (
-                          <a
-                            className="link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`${drupalSite}${
-                              locale === "ENGLISH" ? "en" : "fr"
-                            }help`}
-                          >
-                            <FormattedMessage id="footer.contact.link" />
-                          </a>
-                        ),
-                      }}
-                    />
-                  </div>
-                }
-              >
-                <InfoCircleOutlined tabIndex={0} />
-              </Popover>
-            </div>
           </Title>
           <Col span={24} className="hide-for-print">
             <Connections data={data} />

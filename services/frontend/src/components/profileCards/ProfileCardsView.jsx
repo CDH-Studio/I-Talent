@@ -22,6 +22,7 @@ const ProfileCardsView = ({
   visibleCards,
   cardName,
   lastUpdated,
+  subTitle,
 }) => {
   /**
    * Generate Edit Menu with visibility toggle and edit button for profile in edit mode
@@ -144,6 +145,20 @@ const ProfileCardsView = ({
                 </Text>
               </Tooltip>
             )}
+            {subTitle && (
+              <>
+                <br />
+                <Text
+                  style={{
+                    fontWeight: "normal",
+                    fontSize: "12px",
+                  }}
+                  type="secondary"
+                >
+                  <FormattedMessage id={subTitle} />
+                </Text>
+              </>
+            )}
           </>
         }
         id={id}
@@ -176,6 +191,7 @@ ProfileCardsView.propTypes = {
     ])
   ),
   lastUpdated: PropTypes.string,
+  subTitle: PropTypes.string,
 };
 
 ProfileCardsView.defaultProps = {
@@ -187,6 +203,7 @@ ProfileCardsView.defaultProps = {
   visibility: null,
   visibleCards: {},
   lastUpdated: null,
+  subTitle: null,
 };
 
 export default ProfileCardsView;
