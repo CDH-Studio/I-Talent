@@ -32,7 +32,20 @@ describe(`GET ${path}/:id`, () => {
         signupStep: 8,
         preferredLanguage: "ENGLISH",
         nameInitials: "JD",
-        connections: [],
+        connections: [
+          {
+            id: "580a2ac5-f2b1-4439-8dc9-f55426885182",
+            firstName: "Mary",
+            lastName: "Doe",
+            email: "mary.doe@canada.ca",
+          },
+          {
+            id: "51de4c81-40d7-4f87-883b-e7e1c31137cb",
+            firstName: "John",
+            lastName: "Doe",
+            email: "john.doe@canada.ca",
+          },
+        ],
         visibleCards: {
           info: "PUBLIC",
           talentManagement: "PRIVATE",
