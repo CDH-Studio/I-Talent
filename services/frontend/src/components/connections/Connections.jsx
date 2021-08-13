@@ -15,9 +15,6 @@ const connections = ({ data }) => {
       editableCardBool={false}
       displayExtraHeaderContent={false}
       visibility="PUBLIC"
-      // subTitle={intl.formatMessage({
-      //   id: "connections.usage.info",
-      // })}
     >
       <ConnectionsView connections={data.connections} />
     </ProfileCards>
