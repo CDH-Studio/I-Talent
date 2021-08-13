@@ -18,44 +18,35 @@ describe(`GET ${path}`, () => {
   });
 
   describe("when authenticated", () => {
-    const prismaQueryData = [
-      { id: 1, translations: [{ name: "z", language: "ENGLISH" }] },
-      {
-        id: 2,
-        translations: [
-          { name: "a", language: "ENGLISH" },
-          { name: "d", language: "FRENCH" },
-        ],
-      },
-      {
-        id: 3,
-        translations: [{ name: "c", language: "FRENCH" }],
-      },
-      {
-        id: 4,
-        translations: [],
-      },
-    ];
-
     const data = [
       [
         "ENGLISH",
-        prismaQueryData,
         [
-          { id: 4, name: "" },
-          { id: 2, name: "a" },
-          { id: 3, name: "c" },
-          { id: 1, name: "z" },
+          { opSchoolId: 4, name: "" },
+          { opSchoolId: 2, name: "a" },
+          { opSchoolId: 3, name: "c" },
+          { opSchoolId: 1, name: "z" },
+        ],
+        [
+          { value: 4, label: "" },
+          { value: 2, label: "a" },
+          { value: 3, label: "c" },
+          { value: 1, label: "z" },
         ],
       ],
       [
         "FRENCH",
-        prismaQueryData,
         [
-          { id: 4, name: "" },
-          { id: 3, name: "c" },
-          { id: 2, name: "d" },
-          { id: 1, name: "z" },
+          { opSchoolId: 4, name: "" },
+          { opSchoolId: 2, name: "c" },
+          { opSchoolId: 3, name: "d" },
+          { opSchoolId: 1, name: "z" },
+        ],
+        [
+          { value: 4, label: "" },
+          { value: 3, label: "c" },
+          { value: 2, label: "d" },
+          { value: 1, label: "z" },
         ],
       ],
     ];
@@ -81,15 +72,16 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opSchool.findMany).toHaveBeenCalledWith({
+        expect(prisma.opTransSchool.findMany).toHaveBeenCalledWith({
+          where: {
+            language,
+          },
           select: {
-            id: true,
-            translations: {
-              select: {
-                name: true,
-                language: true,
-              },
-            },
+            opSchoolId: true,
+            name: true,
+          },
+          orderBy: {
+            name: "asc",
           },
         });
       });
