@@ -396,6 +396,7 @@ async function getFullProfile(id, language) {
           id: true,
           firstName: true,
           lastName: true,
+          email: true,
         },
       },
       visibleCards: {
