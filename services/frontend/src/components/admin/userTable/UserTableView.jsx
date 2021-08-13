@@ -415,7 +415,7 @@ const UserTableView = ({
                   <FormattedMessage
                     id="admin.roles.tooltip"
                     values={{
-                      b: (chunks) => <b>{chunks}</b>,
+                      b: (chunks) => <strong>{chunks}</strong>,
                       br: () => <br />,
                     }}
                   />
