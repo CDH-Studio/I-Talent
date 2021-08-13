@@ -44,8 +44,8 @@ describe(`GET ${path}`, () => {
         ],
         [
           { value: 4, label: "" },
-          { value: 3, label: "c" },
-          { value: 2, label: "d" },
+          { value: 2, label: "c" },
+          { value: 3, label: "d" },
           { value: 1, label: "z" },
         ],
       ],
@@ -55,7 +55,7 @@ describe(`GET ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        prisma.opSchool.findMany.mockResolvedValue(prismaData);
+        prisma.opTransSchool.findMany.mockResolvedValue(prismaData);
 
         res = await request(app)
           .get(`${path}?language=${language}`)
@@ -63,7 +63,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opSchool.findMany.mockReset();
+        prisma.opTransSchool.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -91,7 +91,7 @@ describe(`GET ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opSchool.findMany.mockRejectedValue(new Error());
+        prisma.opTransSchool.findMany.mockRejectedValue(new Error());
 
         const dbRes = await request(app)
           .get(`${path}?language=${language}`)
@@ -100,9 +100,9 @@ describe(`GET ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opSchool.findMany).toHaveBeenCalled();
+        expect(prisma.opTransSchool.findMany).toHaveBeenCalled();
 
-        prisma.opSchool.findMany.mockReset();
+        prisma.opTransSchool.findMany.mockReset();
       });
     });
 
