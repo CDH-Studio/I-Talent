@@ -23,23 +23,23 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            id: 1,
-            translations: [{ name: "z" }],
+            opAttachmentLinkNameId: 2,
+            name: "B",
           },
           {
-            id: 2,
-            translations: [{ name: "B" }],
+            opAttachmentLinkNameId: 1,
+            name: "z",
           },
         ],
         faker.random.arrayElement(["Edu", "Exp", "Dev"]),
         [
           {
-            id: 2,
-            name: "B",
+            value: 2,
+            label: "B",
           },
           {
-            id: 1,
-            name: "z",
+            value: 1,
+            label: "z",
           },
         ],
       ],
@@ -47,15 +47,15 @@ describe(`GET ${path}`, () => {
         "FRENCH",
         [
           {
-            id: 3,
-            translations: [{ name: "b" }],
+            opAttachmentLinkNameId: 3,
+            name: "b",
           },
         ],
         faker.random.arrayElement(["Edu", "Exp", "Dev"]),
         [
           {
-            id: 3,
-            name: "b",
+            value: 3,
+            label: "b",
           },
         ],
       ],
@@ -65,7 +65,7 @@ describe(`GET ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        prisma.opAttachmentLinkName.findMany.mockResolvedValue(prismaData);
+        prisma.opTransAttachmentLinkName.findMany.mockResolvedValue(prismaData);
 
         res = await request(app)
           .get(`${path}?language=${language}&type=${type}`)
@@ -73,7 +73,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opAttachmentLinkName.findMany.mockReset();
+        prisma.opTransAttachmentLinkName.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -82,20 +82,19 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opAttachmentLinkName.findMany).toHaveBeenCalledWith({
+        expect(prisma.opTransAttachmentLinkName.findMany).toHaveBeenCalledWith({
           where: {
-            type,
+            opAttachmentLinkName: {
+              type,
+            },
+            language,
           },
           select: {
-            id: true,
-            translations: {
-              where: {
-                language,
-              },
-              select: {
-                name: true,
-              },
-            },
+            name: true,
+            opAttachmentLinkNameId: true,
+          },
+          orderBy: {
+            name: "asc",
           },
         });
       });
@@ -105,7 +104,9 @@ describe(`GET ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opAttachmentLinkName.findMany.mockRejectedValue(new Error());
+        prisma.opTransAttachmentLinkName.findMany.mockRejectedValue(
+          new Error()
+        );
 
         const dbRes = await request(app)
           .get(`${path}?language=${language}&type=${type}`)
@@ -114,9 +115,9 @@ describe(`GET ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opAttachmentLinkName.findMany).toHaveBeenCalled();
+        expect(prisma.opTransAttachmentLinkName.findMany).toHaveBeenCalled();
 
-        prisma.opAttachmentLinkName.findMany.mockReset();
+        prisma.opTransAttachmentLinkName.findMany.mockReset();
       });
     });
 
@@ -127,7 +128,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opAttachmentLinkName.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransAttachmentLinkName.findMany).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid language query param - 422", async () => {
@@ -137,7 +138,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opAttachmentLinkName.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransAttachmentLinkName.findMany).not.toHaveBeenCalled();
     });
 
     test("should throw validation error invalid type query param - 422", async () => {
@@ -147,7 +148,7 @@ describe(`GET ${path}`, () => {
 
       expect(res.statusCode).toBe(422);
       expect(console.log).toHaveBeenCalled();
-      expect(prisma.opAttachmentLinkName.findMany).not.toHaveBeenCalled();
+      expect(prisma.opTransAttachmentLinkName.findMany).not.toHaveBeenCalled();
     });
   });
 });

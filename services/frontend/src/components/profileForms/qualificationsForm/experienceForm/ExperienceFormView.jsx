@@ -7,7 +7,6 @@ import {
   Checkbox,
   Input,
   Tooltip,
-  Select,
 } from "antd";
 import PropTypes from "prop-types";
 import {
@@ -17,16 +16,17 @@ import {
 } from "@ant-design/icons";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useState } from "react";
+import "./ExperienceFormView.less";
+import LinkAttachment from "../../linkAttachment/LinkAttachment";
+import DatePickerField from "../../../formItems/DatePickerField";
+import Fieldset from "../../../fieldset/Fieldset";
+import CustomDropdown from "../../../formItems/CustomDropdown";
 import {
   FieldPropType,
   FormInstancePropType,
   IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
-import "./ExperienceFormView.less";
-import LinkAttachment from "../../linkAttachment/LinkAttachment";
-import DatePickerField from "../../../formItems/DatePickerField";
-import Fieldset from "../../../fieldset/Fieldset";
 
 const { Title } = Typography;
 /**
@@ -284,16 +284,23 @@ const ExperienceFormView = ({
 
         <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
           <Form.Item
-            mode="tags"
             name={[fieldElement.name, "projects"]}
             fieldKey={[fieldElement.fieldKey, "projects"]}
             label={<FormattedMessage id="projects" />}
             className="custom-bubble-select-style"
           >
-            <Select
-              mode="tags"
-              style={{ width: "100%" }}
-              placeholder={<FormattedMessage id="press.enter.to.add" />}
+            <CustomDropdown
+              ariaLabel={intl.formatMessage({
+                id: "projects",
+              })}
+              initialValueId={form.getFieldValue([
+                "experiences",
+                fieldElement.fieldKey,
+                "projects",
+              ])}
+              placeholderText={<FormattedMessage id="press.enter.to.add" />}
+              isCreatable
+              isMulti
             />
           </Form.Item>
         </Col>
@@ -314,7 +321,14 @@ const ExperienceFormView = ({
                       form={form}
                       fieldElement={field}
                       removeElement={remove}
-                      nameOptions={attachmentNames}
+                      attachmentNamesOptions={attachmentNames}
+                      attachmentNameDefault={form.getFieldValue([
+                        "experiences",
+                        fieldElement.fieldKey,
+                        "attachmentLinks",
+                        field.fieldKey,
+                        "nameId",
+                      ])}
                     />
                   ))}
                   <Form.Item>

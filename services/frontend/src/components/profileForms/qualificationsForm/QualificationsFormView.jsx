@@ -20,7 +20,7 @@ import handleError from "../../../functions/handleError";
 import ExperienceForm from "./experienceForm/ExperienceForm";
 import EducationForm from "./educationForm/EducationForm";
 import FormTitle from "../formTitle/FormTitle";
-import FormSubTitle from "../formSubTitle/FormSubTitleView";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";

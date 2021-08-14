@@ -42,11 +42,16 @@ const CustomDropdown = ({
    * component based on the dropdown configuration and triggers the onChange
    *
    * @param {Array.<{value:string, label:string}>} userSelectedOptions - an array of selected options
+   * @param {boolean} isClearableSelect - is the component configured as a creatable dropdown
    * @param {boolean} isMultiSelect - has the component been configured as a multiselect
    *
    */
-  const onSelectedValueChange = (userSelectedOptions, isMultiSelect) => {
-    if (userSelectedOptions && isMultiSelect) {
+  const onSelectedValueChange = (
+    userSelectedOptions,
+    isMultiSelect,
+    isClearableSelect
+  ) => {
+    if ((userSelectedOptions && isMultiSelect) || isClearableSelect) {
       triggerChange(userSelectedOptions.map(({ value }) => value));
     } else if (userSelectedOptions) {
       triggerChange(userSelectedOptions.value);
@@ -73,8 +78,11 @@ const CustomDropdown = ({
         dropdownOptions.find((option) => option.value === value)
       );
     }
-
-    return dropdownOptions.find((option) => option.value === savedValues);
+    return (
+      dropdownOptions &&
+      savedValues &&
+      dropdownOptions.find((option) => option.value === savedValues)
+    );
   };
 
   /**
@@ -85,6 +93,7 @@ const CustomDropdown = ({
    *
    */
   const mapInitialValueCreatable = (savedValues) =>
+    savedValues &&
     savedValues.map((Id) => ({
       value: Id,
       label: Id,
@@ -132,12 +141,22 @@ const CustomDropdown = ({
     maxSelectedLimit
   ) => {
     const inputString = userTypedInput.inputValue;
+    let selectedItemLimit;
+
+    // set the maximum selectable items
+    if (isMultiSelect && maxSelectedLimit) {
+      selectedItemLimit = maxSelectedLimit;
+    } else if (isMultiSelect && !maxSelectedLimit) {
+      selectedItemLimit = undefined;
+    } else {
+      selectedItemLimit = 1;
+    }
 
     // display message when the limit for the number of selected values has been reached
     if (
-      isMultiSelect &&
-      maxSelectedLimit &&
-      userSelectedOptions.length >= maxSelectedLimit
+      userSelectedOptions &&
+      selectedItemLimit &&
+      userSelectedOptions.length >= selectedItemLimit
     ) {
       return (
         <span role="alert">
@@ -145,7 +164,7 @@ const CustomDropdown = ({
           <FormattedMessage
             id="max.selected.items"
             values={{
-              maxItems: maxSelectedLimit,
+              maxItems: selectedItemLimit,
             }}
           />
         </span>
@@ -153,7 +172,10 @@ const CustomDropdown = ({
     }
 
     // display message when the user typed value already exists
-    if (userSelectedOptions.find((option) => option === inputString)) {
+    if (
+      userSelectedOptions &&
+      userSelectedOptions.find((option) => option === inputString)
+    ) {
       return (
         <span role="alert">
           <InfoCircleOutlined aria-hidden="true" className="mr-1" />
@@ -277,6 +299,11 @@ const CustomDropdown = ({
       maxSelectedLimit &&
       userSelectedOptions.length >= maxSelectedLimit
     ) {
+      return false;
+    }
+
+    // Check whether the component is not configured as a multi-select
+    if (!isMulti && userSelectedOptions.length >= 1) {
       return false;
     }
 
@@ -405,7 +432,7 @@ const CustomDropdown = ({
           placeholder={placeholderText}
           defaultValue={mapInitialValueCreatable(initialValueId)}
           onChange={(selectValues) =>
-            onSelectedValueChange(selectValues, isMulti)
+            onSelectedValueChange(selectValues, isMulti, true)
           }
           formatCreateLabel={formatCreateLabelCreatable}
           noOptionsMessage={(typedInputValue) =>
@@ -449,7 +476,7 @@ const CustomDropdown = ({
           }
           placeholder={placeholderText}
           onChange={(selectValues) =>
-            onSelectedValueChange(selectValues, isMulti)
+            onSelectedValueChange(selectValues, isMulti, false)
           }
           isMulti={isMulti}
           isSearchable={isSearchable}

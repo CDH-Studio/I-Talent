@@ -4,32 +4,29 @@ const prisma = require("../../../database");
 async function getNames(request, response) {
   const { language, type } = request.query;
 
-  const nameQuery = await prisma.opAttachmentLinkName.findMany({
-    where: {
-      type,
-    },
-    select: {
-      id: true,
-      translations: {
-        where: {
-          language,
+  const attachmentLinkNameQuery =
+    await prisma.opTransAttachmentLinkName.findMany({
+      where: {
+        opAttachmentLinkName: {
+          type,
         },
-        select: {
-          name: true,
-        },
+        language,
       },
-    },
-  });
+      select: {
+        name: true,
+        opAttachmentLinkNameId: true,
+      },
+      orderBy: {
+        name: "asc",
+      },
+    });
 
-  const name = sortBy(
-    nameQuery.map((i) => ({
-      id: i.id,
-      name: i.translations[0].name,
-    })),
-    "name"
-  );
+  const responseData = attachmentLinkNameQuery.map((attachmentLink) => ({
+    value: attachmentLink.opAttachmentLinkNameId,
+    label: attachmentLink.name,
+  }));
 
-  response.status(200).json(name);
+  response.status(200).json(responseData);
 }
 
 module.exports = {

@@ -526,7 +526,7 @@ const PrimaryInfoFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).teams
                   }
-                  placeholderText={<FormattedMessage id="select" />}
+                  placeholderText={<FormattedMessage id="press.enter.to.add" />}
                   isCreatable
                   isMulti
                 />
@@ -539,7 +539,7 @@ const PrimaryInfoFormView = ({
               title={
                 <>
                   <LinkOutlined aria-hidden="true" className="mr-1" />
-                  <FormattedMessage id="setup.link.profiles" />{" "}
+                  <FormattedMessage id="setup.link.profiles" />
                 </>
               }
             >

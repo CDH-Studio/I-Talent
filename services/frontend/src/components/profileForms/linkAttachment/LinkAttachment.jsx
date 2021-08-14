@@ -5,18 +5,25 @@ import {
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
 
-const LinkAttachment = ({ fieldElement, removeElement, nameOptions }) => (
+const LinkAttachment = ({
+  fieldElement,
+  removeElement,
+  attachmentNamesOptions,
+  attachmentNameDefault,
+}) => (
   <LinkAttachmentView
     fieldElement={fieldElement}
     removeElement={removeElement}
-    nameOptions={nameOptions}
+    attachmentNamesOptions={attachmentNamesOptions}
+    attachmentNameDefault={attachmentNameDefault}
   />
 );
 
 LinkAttachment.propTypes = {
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  nameOptions: KeyNameOptionsPropType.isRequired,
+  attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
+  attachmentNameDefault: PropTypes.string.isRequired,
 };
 
 export default LinkAttachment;
