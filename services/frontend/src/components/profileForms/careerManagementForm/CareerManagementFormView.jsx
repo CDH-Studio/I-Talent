@@ -30,6 +30,7 @@ import {
 import useAxios from "../../../utils/useAxios";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import Fieldset from "../../fieldset/Fieldset";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormTitle from "../formTitle/FormTitle";
@@ -597,18 +598,17 @@ const CareerManagementFormView = ({
                     name="interestedInRemote"
                     label={<FormattedMessage id="edit.interested.in.remote" />}
                   >
-                    <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
-                      allowClear
-                      filterOption={filterOption}
-                    >
-                      {interestedInRemoteOptions.map(({ key, value, text }) => (
-                        <Option key={key} value={value}>
-                          {text}
-                        </Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "edit.interested.in.remote",
+                      })}
+                      initialValueId={form.getFieldValue([
+                        "interestedInRemote",
+                      ])}
+                      placeholderText={<FormattedMessage id="select" />}
+                      isSearchable={false}
+                      options={interestedInRemoteOptions}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -623,18 +623,18 @@ const CareerManagementFormView = ({
                       <FormattedMessage id="edit.willing.to.relocate.to" />
                     }
                   >
-                    <Select
-                      mode="multiple"
-                      style={{ width: "100%" }}
-                      placeholder={<FormattedMessage id="search" />}
-                      filterOption={filterOption}
-                    >
-                      {relocationOptions.map((value) => (
-                        <Option
-                          key={value.id}
-                        >{`${value.city}, ${value.province}`}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "edit.willing.to.relocate.to",
+                      })}
+                      initialValueId={form.getFieldValue([
+                        "relocationLocations",
+                      ])}
+                      placeholderText={<FormattedMessage id="type.to.search" />}
+                      isSearchable
+                      options={relocationOptions}
+                      isMulti
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -646,16 +646,17 @@ const CareerManagementFormView = ({
                     name="lookingForANewJobId"
                     label={<FormattedMessage id="edit.looking.for.new.job" />}
                   >
-                    <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
-                      allowClear
-                      filterOption={filterOption}
-                    >
-                      {lookingForNewJobOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "edit.looking.for.new.job",
+                      })}
+                      initialValueId={form.getFieldValue([
+                        "lookingForANewJobId",
+                      ])}
+                      placeholderText={<FormattedMessage id="select" />}
+                      isSearchable={false}
+                      options={lookingForNewJobOptions}
+                    />
                   </Form.Item>
                 </Col>
               </Row>

@@ -72,6 +72,7 @@ const LinkAttachmentView = ({
             placeholderText={<FormattedMessage id="select" />}
             options={attachmentNamesOptions}
             isRequired
+            isSearchable={false}
           />
         </Form.Item>
       </Col>
