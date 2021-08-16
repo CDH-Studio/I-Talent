@@ -2,10 +2,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const settingsSlice = createSlice({
-  name: "settings",
   initialState: {
     locale: "ENGLISH",
   },
+  name: "settings",
   reducers: {
     setLocale(state, action) {
       state.locale = action.payload;

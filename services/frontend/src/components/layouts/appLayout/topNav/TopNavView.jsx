@@ -138,10 +138,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
             <CustomAvatar
               hidden={status === "HIDDEN" || status === "INACTIVE"}
               style={{
-                marginRight: 8,
                 height: "35px",
-                width: "35px",
                 lineHeight: "35px",
+                marginRight: 8,
+                width: "35px",
               }}
             />
             <Text ellipsis id="nav-dropDownButton-name">
@@ -187,10 +187,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
           id: "search",
         })}
         style={{
-          width: "30%",
-          minWidth: windowWidth > 920 ? 400 : undefined,
           flex: windowWidth > 920 ? undefined : 1,
           margin: "0 20px",
+          minWidth: windowWidth > 920 ? 400 : undefined,
+          width: "30%",
         }}
         value={searchValue}
       />
@@ -305,10 +305,10 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
 };
 
 TopNavView.propTypes = {
+  displayLogo: PropTypes.bool.isRequired,
+  displaySearch: PropTypes.bool.isRequired,
   isAdmin: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  displaySearch: PropTypes.bool.isRequired,
-  displayLogo: PropTypes.bool.isRequired,
 };
 
 export default TopNavView;

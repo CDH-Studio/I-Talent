@@ -106,10 +106,10 @@ const ProfileCardsView = ({
     if (displayExtraHeaderContent) {
       if (editableCardBool) {
         extraMenu = generateEditMenu({
-          visibilityOfAllCards: visibleCards,
           cardInfoName: cardName,
-          editFormUrl: editUrl,
           cardTitleString: titleString,
+          editFormUrl: editUrl,
+          visibilityOfAllCards: visibleCards,
         });
       } else if (typeof visibility === "boolean") {
         extraMenu = generateVisibilityStatusForPublic(visibility);
@@ -137,9 +137,9 @@ const ProfileCardsView = ({
               <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text
                   style={{
-                    marginLeft: 10,
-                    fontWeight: "normal",
                     fontSize: "12px",
+                    fontWeight: "normal",
+                    marginLeft: 10,
                   }}
                   type="secondary"
                 >
@@ -157,36 +157,36 @@ const ProfileCardsView = ({
 };
 
 ProfileCardsView.propTypes = {
-  editUrl: PropTypes.string,
-  titleString: PropTypes.node.isRequired,
-  id: PropTypes.string.isRequired,
+  cardName: PropTypes.string.isRequired,
   children: PropTypes.element,
-  style: PropTypes.objectOf(PropTypes.string),
-  editableCardBool: PropTypes.bool,
   displayExtraHeaderContent: PropTypes.bool,
+  editUrl: PropTypes.string,
+  editableCardBool: PropTypes.bool,
+  id: PropTypes.string.isRequired,
+  lastUpdated: PropTypes.string,
+  style: PropTypes.objectOf(PropTypes.string),
+  titleString: PropTypes.node.isRequired,
   visibility: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]),
   ]),
-  cardName: PropTypes.string.isRequired,
   visibleCards: PropTypes.objectOf(
     PropTypes.oneOfType([
       PropTypes.bool,
       PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"]),
     ])
   ),
-  lastUpdated: PropTypes.string,
 };
 
 ProfileCardsView.defaultProps = {
-  style: undefined,
   children: null,
+  displayExtraHeaderContent: false,
   editUrl: null,
   editableCardBool: false,
-  displayExtraHeaderContent: false,
+  lastUpdated: null,
+  style: undefined,
   visibility: null,
   visibleCards: {},
-  lastUpdated: null,
 };
 
 export default ProfileCardsView;

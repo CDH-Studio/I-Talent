@@ -13,9 +13,9 @@ const ChangeLanguageView = ({ className, handleLanguageChange }) => {
       ghost="true"
       onClick={handleLanguageChange}
       style={{
-        textTransform: "uppercase",
-        color: "#454545",
         borderColor: "#454545",
+        color: "#454545",
+        textTransform: "uppercase",
       }}
       tabIndex={0}
       type="default"
@@ -30,8 +30,8 @@ const ChangeLanguageView = ({ className, handleLanguageChange }) => {
 };
 
 ChangeLanguageView.propTypes = {
-  handleLanguageChange: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+  handleLanguageChange: PropTypes.func.isRequired,
 };
 
 export default ChangeLanguageView;

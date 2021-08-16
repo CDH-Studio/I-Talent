@@ -37,20 +37,20 @@ const SearchBar = () => {
       skillsResults.data.forEach((skill) => {
         if (skill.categoryId === category.id) {
           children.push({
+            key: skill.id,
             title: `${category.name}: ${skill.name}`,
             value: skill.id,
-            key: skill.id,
           });
         }
       });
 
       return {
+        checkable: false,
+        children,
+        disableCheckbox: true,
+        selectable: false,
         title: category.name,
         value: category.id,
-        children,
-        selectable: false,
-        checkable: false,
-        disableCheckbox: true,
       };
     });
 

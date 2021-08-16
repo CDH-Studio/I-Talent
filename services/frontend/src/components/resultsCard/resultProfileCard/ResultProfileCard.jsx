@@ -22,11 +22,11 @@ const ResultProfileCard = ({
 );
 
 ResultProfileCard.propTypes = {
-  profile: ProfileInfoPropType.isRequired,
-  key: PropTypes.string.isRequired,
-  isConnection: PropTypes.bool.isRequired,
-  loggedInUserId: PropTypes.string.isRequired,
   addConnection: PropTypes.func.isRequired,
+  isConnection: PropTypes.bool.isRequired,
+  key: PropTypes.string.isRequired,
+  loggedInUserId: PropTypes.string.isRequired,
+  profile: ProfileInfoPropType.isRequired,
   removeConnection: PropTypes.func.isRequired,
 };
 

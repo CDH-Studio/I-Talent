@@ -38,7 +38,7 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
 };
 
 MentorshipView.propTypes = {
-  mentoringCategories: PropTypes.oneOfType([
+  mentoring: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(
       PropTypes.shape({
@@ -47,7 +47,7 @@ MentorshipView.propTypes = {
       })
     ),
   ]),
-  mentoring: PropTypes.oneOfType([
+  mentoringCategories: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(
       PropTypes.shape({
@@ -59,8 +59,8 @@ MentorshipView.propTypes = {
 };
 
 MentorshipView.defaultProps = {
-  mentoringCategories: undefined,
   mentoring: undefined,
+  mentoringCategories: undefined,
 };
 
 export default MentorshipView;

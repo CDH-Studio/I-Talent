@@ -96,26 +96,26 @@ const StatCardsView = ({
 );
 
 StatCardsView.propTypes = {
-  countUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  countExFeederUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   countHiddenUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   countInactiveUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  countExFeederUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  newUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  countUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   growthRatePrevMonth: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
   ]),
   intl: IntlPropType,
+  newUsers: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 StatCardsView.defaultProps = {
-  countUsers: "-",
+  countExFeederUsers: "-",
   countHiddenUsers: "-",
   countInactiveUsers: "-",
-  countExFeederUsers: "-",
-  newUsers: "-",
+  countUsers: "-",
   growthRatePrevMonth: "-",
   intl: undefined,
+  newUsers: "-",
 };
 
 export default injectIntl(StatCardsView);

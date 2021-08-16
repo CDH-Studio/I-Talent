@@ -42,16 +42,16 @@ const UserTable = () => {
 
       // Formats data from backend into viewable data for the table
       const formattedData = results[0].data.map((user) => ({
-        key: user.id,
-        profileLink: `/profile/${user.id}`,
-        fullName: `${user.firstName} ${user.lastName}`,
-        jobTitle: user.jobTitle || intl.formatMessage({ id: "none.specified" }),
-        tenure: user.tenure || intl.formatMessage({ id: "none.specified" }),
         formatCreatedAt: dayjs(user.createdAt).format("YYYY-MM-DD"),
         formatUpdatedAt: dayjs(user.updatedAt).format("YYYY-MM-DD"),
-        status: user.status,
+        fullName: `${user.firstName} ${user.lastName}`,
         isAdmin: results[1].data.admin.includes(user.id),
         isManager: results[1].data.manager.includes(user.id),
+        jobTitle: user.jobTitle || intl.formatMessage({ id: "none.specified" }),
+        key: user.id,
+        profileLink: `/profile/${user.id}`,
+        status: user.status,
+        tenure: user.tenure || intl.formatMessage({ id: "none.specified" }),
       }));
       dispatch(setAdminUsers({ data: formattedData, locale }));
     } catch (error) {

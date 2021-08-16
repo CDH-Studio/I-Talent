@@ -24,8 +24,8 @@ const OrgTreeView = ({ data }) => {
     for (let i = 0; i < branchSize; i += 1) {
       const val = orgData[branchSize - i - 1];
       const object = {
-        title: titleString(val.title),
         key: val.id,
+        title: titleString(val.title),
       };
       if (retVal.length !== 0) {
         object.children = [retVal];
@@ -62,9 +62,9 @@ OrgTreeView.propTypes = {
   data: PropTypes.shape({
     organizations: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string,
         key: PropTypes.string,
         tier: PropTypes.number,
+        title: PropTypes.string,
       })
     ),
   }).isRequired,

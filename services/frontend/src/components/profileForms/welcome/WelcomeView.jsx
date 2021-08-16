@@ -100,19 +100,19 @@ const WelcomeView = ({
   };
 
   generateProfileBtn.propTypes = {
-    icon: PropTypes.element.isRequired,
     firstTitle: PropTypes.string.isRequired,
+    icon: PropTypes.element.isRequired,
     secondTitle: PropTypes.string,
     thirdTitle: PropTypes.string,
-    value: PropTypes.string,
     type: PropTypes.string,
+    value: PropTypes.string,
   };
 
   generateProfileBtn.defaultProps = {
     secondTitle: undefined,
     thirdTitle: undefined,
-    value: undefined,
     type: undefined,
+    value: undefined,
   };
 
   /**
@@ -126,8 +126,8 @@ const WelcomeView = ({
         <div>
           {/* loading button */}
           {generateProfileBtn({
-            icon: <LoadingOutlined aria-hidden="true" />,
             firstTitle: intl.formatMessage({ id: "fetching.profiles" }),
+            icon: <LoadingOutlined aria-hidden="true" />,
             secondTitle: intl.formatMessage({
               id: "from.gcdirectory",
             }),
@@ -135,8 +135,8 @@ const WelcomeView = ({
           })}
           {/* new user button */}
           {generateProfileBtn({
-            icon: <UserAddOutlined aria-hidden="true" />,
             firstTitle: intl.formatMessage({ id: "new.user" }),
+            icon: <UserAddOutlined aria-hidden="true" />,
             secondTitle: intl.formatMessage({
               id: "start.fresh",
             }),
@@ -149,16 +149,16 @@ const WelcomeView = ({
       <div>
         {/* generate list of GEDS profiles */}
         {generateProfileBtn({
-          icon: <UserOutlined aria-hidden="true" />,
           firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
+          icon: <UserOutlined aria-hidden="true" />,
           secondTitle: gedsProfiles.jobTitle && gedsProfiles.jobTitle[locale],
           thirdTitle: gedsProfiles.email,
           value: gedsProfiles,
         })}
         {/* new user button */}
         {generateProfileBtn({
-          icon: <UserAddOutlined aria-hidden="true" />,
           firstTitle: intl.formatMessage({ id: "new.user" }),
+          icon: <UserAddOutlined aria-hidden="true" />,
           secondTitle: intl.formatMessage({
             id: "start.fresh",
           }),
@@ -169,12 +169,12 @@ const WelcomeView = ({
 
   const showSkipModal = () => {
     Modal.confirm({
-      title: intl.formatMessage({ id: "settings.delete.modal.title" }),
+      cancelText: intl.formatMessage({ id: "no" }),
       content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
       icon: <ExclamationCircleOutlined />,
-      onOk: skipProfileCreation,
       okText: intl.formatMessage({ id: "yes" }),
-      cancelText: intl.formatMessage({ id: "no" }),
+      onOk: skipProfileCreation,
+      title: intl.formatMessage({ id: "settings.delete.modal.title" }),
     });
   };
 
@@ -207,11 +207,11 @@ const WelcomeView = ({
 WelcomeView.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   gedsProfiles: PropTypes.object,
+  history: HistoryPropType.isRequired,
   intl: IntlPropType,
   load: PropTypes.bool.isRequired,
-  history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
   skipProfileCreation: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 WelcomeView.defaultProps = {

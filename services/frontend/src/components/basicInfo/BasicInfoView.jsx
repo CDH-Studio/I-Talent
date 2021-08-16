@@ -187,8 +187,6 @@ const BasicInfoView = ({
    */
   const getContactInfo = () => {
     const email = {
-      icon: <MailOutlined />,
-      title: <FormattedMessage id="email" />,
       description: data.email ? (
         <Text
           copyable
@@ -202,18 +200,20 @@ const BasicInfoView = ({
       ) : (
         "-"
       ),
+      icon: <MailOutlined />,
+      title: <FormattedMessage id="email" />,
     };
 
     const tel = {
+      description: data.telephone ? data.telephone : "-",
       icon: <PhoneOutlined />,
       title: <FormattedMessage id="profile.telephone" />,
-      description: data.telephone ? data.telephone : "-",
     };
 
     const cel = {
+      description: data.cellphone ? data.cellphone : "-",
       icon: <MobileOutlined />,
       title: <FormattedMessage id="work.cellphone" />,
-      description: data.cellphone ? data.cellphone : "-",
     };
 
     return [email, tel, cel];
@@ -227,8 +227,6 @@ const BasicInfoView = ({
    */
   const getWorkInfo = () => {
     const branch = {
-      icon: <ApartmentOutlined />,
-      title: <FormattedMessage id="profile.org.tree" />,
       description: data.branch ? (
         <>
           <Button className="orgButton" onClick={() => setIsModalVisible(true)}>
@@ -256,21 +254,23 @@ const BasicInfoView = ({
       ) : (
         <FormattedMessage id="not.specified" />
       ),
+      icon: <ApartmentOutlined />,
+      title: <FormattedMessage id="profile.org.tree" />,
     };
 
     const location = data.officeLocation;
     const address = {
-      icon: <EnvironmentOutlined />,
-      title: <FormattedMessage id="working.address" />,
       description: location
         ? `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
         : "-",
+      icon: <EnvironmentOutlined />,
+      title: <FormattedMessage id="working.address" />,
     };
 
     const manager = {
+      description: data.manager ? data.manager : "-",
       icon: <UserOutlined />,
       title: <FormattedMessage id="employee.manager" />,
-      description: data.manager ? data.manager : "-",
     };
 
     return [branch, address, manager];
@@ -282,8 +282,6 @@ const BasicInfoView = ({
    */
   const generateTeamInfo = () => {
     const teams = {
-      icon: <TeamOutlined />,
-      title: <FormattedMessage id="employee.work.unit" />,
       description:
         data.teams && data.teams.length ? (
           <List>
@@ -296,6 +294,8 @@ const BasicInfoView = ({
         ) : (
           "-"
         ),
+      icon: <TeamOutlined />,
+      title: <FormattedMessage id="employee.work.unit" />,
     };
 
     return [teams];
@@ -347,16 +347,16 @@ const BasicInfoView = ({
 };
 
 BasicInfoView.propTypes = {
-  data: ProfileInfoPropType.isRequired,
-  name: PropTypes.string.isRequired,
   avatar: PropTypes.shape({
     acr: PropTypes.string,
     color: PropTypes.string,
   }).isRequired,
-  jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
-  connectionStatus: PropTypes.bool.isRequired,
   changeConnection: PropTypes.func.isRequired,
+  connectionStatus: PropTypes.bool.isRequired,
+  data: ProfileInfoPropType.isRequired,
+  jobTitle: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };
 
 BasicInfoView.defaultProps = {

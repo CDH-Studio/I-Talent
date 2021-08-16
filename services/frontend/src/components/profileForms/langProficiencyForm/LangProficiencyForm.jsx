@@ -51,24 +51,24 @@ const LangProficiencyForm = ({ formType }) => {
       ) {
         if (values.oralProficiency) {
           dbValues.secondLangProfs.push({
-            proficiency: "ORAL",
             level: values.oralProficiency,
+            proficiency: "ORAL",
             status: values.secondaryOralStatus,
           });
         }
 
         if (values.writingProficiency) {
           dbValues.secondLangProfs.push({
-            proficiency: "WRITING",
             level: values.writingProficiency,
+            proficiency: "WRITING",
             status: values.secondaryWritingStatus,
           });
         }
 
         if (values.readingProficiency) {
           dbValues.secondLangProfs.push({
-            proficiency: "READING",
             level: values.readingProficiency,
+            proficiency: "READING",
             status: values.secondaryReadingStatus,
           });
         }
@@ -91,46 +91,46 @@ const LangProficiencyForm = ({ formType }) => {
   useEffect(() => {
     // Set proficiency options
     setProficiencyOptions([
-      { value: "A", label: "A" },
-      { value: "B", label: "B" },
-      { value: "C", label: "C" },
-      { value: "E", label: "E" },
-      { value: "X", label: "X" },
+      { label: "A", value: "A" },
+      { label: "B", value: "B" },
+      { label: "C", value: "C" },
+      { label: "E", value: "E" },
+      { label: "X", value: "X" },
       {
-        value: "NA",
         label: intl.formatMessage({ id: "grade.not.applicable" }),
+        value: "NA",
       },
     ]);
 
     // Set substantive level options
     setLanguageOptions([
       {
-        value: "ENGLISH",
         label: "English",
+        value: "ENGLISH",
       },
       {
-        value: "FRENCH",
         label: "Français",
+        value: "FRENCH",
       },
     ]);
 
     // Set status options:
     setStatusOptions([
       {
-        value: "EXPIRED",
         label: intl.formatMessage({ id: "expired" }),
+        value: "EXPIRED",
       },
       {
-        value: "VALID",
         label: intl.formatMessage({ id: "valid" }),
+        value: "VALID",
       },
       {
-        value: "UNKNOWN",
         label: intl.formatMessage({ id: "unknown" }),
+        value: "UNKNOWN",
       },
       {
-        value: "NA",
         label: intl.formatMessage({ id: "grade.not.applicable" }),
+        value: "NA",
       },
     ]);
 

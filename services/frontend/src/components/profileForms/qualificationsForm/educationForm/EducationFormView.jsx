@@ -50,13 +50,13 @@ const EducationFormView = ({
   attachmentNames,
 }) => {
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="rules.required" />,
-    },
     maxChar1500: {
       max: 1500,
       message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
+    },
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
   };
 
@@ -281,8 +281,8 @@ const EducationFormView = ({
                     initialValue={false}
                     name={[fieldElement.name, "ongoingDate"]}
                     style={{
-                      marginTop: disableEndDate ? "-45px" : "-15px",
                       marginBottom: disableEndDate ? "35px" : "15px",
+                      marginTop: disableEndDate ? "-45px" : "-15px",
                     }}
                     valuePropName="checked"
                   >
@@ -353,28 +353,28 @@ const EducationFormView = ({
 };
 
 DatePickerField.propTypes = {
-  onChange: PropTypes.func,
-  placeholderText: PropTypes.string.isRequired,
   defaultDate: PropTypes.instanceOf(Object),
-  viewOptions: PropTypes.arrayOf(String),
   disableWhen: PropTypes.instanceOf(Object),
   formatDate: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  placeholderText: PropTypes.string.isRequired,
+  viewOptions: PropTypes.arrayOf(String),
 };
 
 EducationFormView.propTypes = {
-  form: FormInstancePropType.isRequired,
+  attachmentNames: KeyNameOptionsPropType.isRequired,
+  diplomaOptions: KeyTitleOptionsPropType,
   fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
+  intl: IntlPropType,
   removeElement: PropTypes.func.isRequired,
   schoolOptions: KeyTitleOptionsPropType,
-  diplomaOptions: KeyTitleOptionsPropType,
-  intl: IntlPropType,
-  attachmentNames: KeyNameOptionsPropType.isRequired,
 };
 
 EducationFormView.defaultProps = {
-  schoolOptions: undefined,
   diplomaOptions: undefined,
   intl: undefined,
+  schoolOptions: undefined,
 };
 
 export default injectIntl(EducationFormView);

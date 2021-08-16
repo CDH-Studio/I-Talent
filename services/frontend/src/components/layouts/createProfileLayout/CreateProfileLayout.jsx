@@ -11,13 +11,13 @@ const CreateProfileLayout = ({ step, highestStep }) => (
 );
 
 CreateProfileLayout.propTypes = {
-  step: PropTypes.string,
   highestStep: PropTypes.number,
+  step: PropTypes.string,
 };
 
 CreateProfileLayout.defaultProps = {
-  step: null,
   highestStep: null,
+  step: null,
 };
 
 export default CreateProfileLayout;

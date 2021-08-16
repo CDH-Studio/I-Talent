@@ -106,14 +106,14 @@ const FormControlButtonsView = ({
 };
 
 FormControlButtonsView.propTypes = {
-  edit: PropTypes.bool.isRequired,
   create: PropTypes.bool.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onSaveAndNext: PropTypes.func,
-  onSaveAndFinish: PropTypes.func.isRequired,
-  onReset: PropTypes.func.isRequired,
-  onFinish: PropTypes.func.isRequired,
+  edit: PropTypes.bool.isRequired,
   fieldsChanged: PropTypes.bool.isRequired,
+  onFinish: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onSaveAndFinish: PropTypes.func.isRequired,
+  onSaveAndNext: PropTypes.func,
 };
 
 FormControlButtonsView.defaultProps = {

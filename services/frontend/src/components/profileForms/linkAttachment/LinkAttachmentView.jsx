@@ -13,12 +13,12 @@ import CustomDropdown from "../../formItems/CustomDropdown";
 
 const Rules = {
   required: {
-    required: true,
     message: <FormattedMessage id="rules.required" />,
+    required: true,
   },
   url: {
-    type: "url",
     message: <FormattedMessage id="rules.url" />,
+    type: "url",
   },
 };
 
@@ -103,10 +103,10 @@ const LinkAttachmentView = ({
 };
 
 LinkAttachmentView.propTypes = {
+  attachmentNameDefault: PropTypes.string.isRequired,
+  attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
-  attachmentNameDefault: PropTypes.string.isRequired,
 };
 
 export default LinkAttachmentView;

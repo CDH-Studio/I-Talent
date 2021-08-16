@@ -17,14 +17,14 @@ const TopNav = ({ loading, displayLogo, displaySearch }) => {
 };
 
 TopNav.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  displaySearch: PropTypes.bool,
   displayLogo: PropTypes.bool,
+  displaySearch: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
 };
 
 TopNav.defaultProps = {
-  displaySearch: true,
   displayLogo: true,
+  displaySearch: true,
 };
 
 export default TopNav;

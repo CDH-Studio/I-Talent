@@ -41,12 +41,12 @@ const QualifiedPoolsFormView = ({
 
   const Rules = {
     required: {
-      required: true,
       message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
     url: {
-      type: "url",
       message: <FormattedMessage id="rules.url" />,
+      type: "url",
     },
   };
 
@@ -157,16 +157,16 @@ const QualifiedPoolsFormView = ({
 
 QualifiedPoolsFormView.propTypes = {
   form: FormInstancePropType.isRequired,
+  classificationOptions: KeyTitleOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   savedQualifiedPools: PropTypes.arrayOf(
     PropTypes.shape({
+      jobPosterLink: PropTypes.string,
       jobTitle: PropTypes.string,
       selectionProcessNumber: PropTypes.string,
-      jobPosterLink: PropTypes.string,
     })
   ).isRequired,
-  classificationOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 export default QualifiedPoolsFormView;

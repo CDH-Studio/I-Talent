@@ -218,6 +218,7 @@ const SearchFilterView = ({
 };
 
 SearchFilterView.propTypes = {
+  anyMentorSkills: PropTypes.bool.isRequired,
   branchOptions: PropTypes.arrayOf(
     PropTypes.PropTypes.shape({
       label: PropTypes.string,
@@ -230,20 +231,19 @@ SearchFilterView.propTypes = {
       value: PropTypes.string,
     })
   ).isRequired,
+  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   locationOptions: IdDescriptionPropType.isRequired,
   skillOptions: IdDescriptionPropType.isRequired,
-  handleSearch: PropTypes.func.isRequired,
   urlSearchFieldValues: PropTypes.shape({
     branches: PropTypes.arrayOf(PropTypes.string),
     classifications: PropTypes.arrayOf(PropTypes.string),
-    mentorSkills: PropTypes.arrayOf(PropTypes.string),
-    locations: PropTypes.arrayOf(PropTypes.string),
-    skills: PropTypes.arrayOf(PropTypes.string),
     exFeeder: PropTypes.bool,
+    locations: PropTypes.arrayOf(PropTypes.string),
+    mentorSkills: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
+    skills: PropTypes.arrayOf(PropTypes.string),
   }),
-  anyMentorSkills: PropTypes.bool.isRequired,
-  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
 SearchFilterView.defaultProps = {

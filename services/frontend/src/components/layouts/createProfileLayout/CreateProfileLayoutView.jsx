@@ -128,40 +128,39 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           size="small"
         >
           {createProfileStep({
-            titleId: "welcome",
             descriptions: [],
             disabled: false,
+            titleId: "welcome",
           })}
           {createProfileStep({
-            titleId: "primary.contact.information",
             descriptions: ["general.profile.info", "employment.equity.groups"],
             disabled: false,
+            titleId: "primary.contact.information",
           })}
           {createProfileStep({
-            titleId: "employment.status",
             descriptions: ["current.position", "about.me"],
             disabled: highestStep < 3,
+            titleId: "employment.status",
           })}
           {createProfileStep({
-            titleId: "official.languages",
             descriptions: [
               "first.official.language",
               "second.official.language.results",
             ],
             disabled: highestStep < 3,
+            titleId: "official.languages",
           })}
           {createProfileStep({
-            titleId: "skills.and.competencies",
             descriptions: ["skills", "mentorship.skills", "competencies"],
             disabled: highestStep < 3,
+            titleId: "skills.and.competencies",
           })}
           {createProfileStep({
-            titleId: "employee.qualifications",
             descriptions: ["education", "experience"],
             disabled: highestStep < 3,
+            titleId: "employee.qualifications",
           })}
           {createProfileStep({
-            titleId: "employee.growth.interests",
             descriptions: [
               "developmental.goals",
               "qualified.pools",
@@ -170,11 +169,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
               "ex.feeder",
             ],
             disabled: highestStep < 3,
+            titleId: "employee.growth.interests",
           })}
           {createProfileStep({
-            titleId: "setup.done",
             descriptions: [],
             disabled: highestStep < 3,
+            titleId: "setup.done",
           })}
         </Steps>
       </div>

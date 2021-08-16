@@ -92,14 +92,14 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           placeholder={`${intl.formatMessage({
             id: "search.for",
           })} ${title}`}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
           value={selectedKeys[0]}
         />
         <Button
           icon={<SearchOutlined />}
           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
           type="primary"
         >
           <FormattedMessage id="search" />
@@ -278,8 +278,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           name="addSchoolEn"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.name" />,
+              required: true,
             },
           ]}
         >
@@ -295,8 +295,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           name="addSchoolFr"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.name" />,
+              required: true,
             },
           ]}
         >
@@ -312,13 +312,13 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           name="addSchoolProvince"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.location" />,
+              required: true,
             },
             {
-              min: 2,
               max: 2,
               message: <FormattedMessage id="validate.length.2" />,
+              min: 2,
             },
           ]}
         >
@@ -335,13 +335,13 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           name="addSchoolCountry"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.country" />,
+              required: true,
             },
             {
-              min: 3,
               max: 3,
               message: <FormattedMessage id="validate.length.3" />,
+              min: 3,
             },
           ]}
         >
@@ -443,9 +443,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   // Consult: Ant Design table components for further clarification
   const schoolsTableColumns = () => [
     {
-      title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
+      sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       sorter: (a, b) => {
         if (!a.en) {
           return 1;
@@ -456,7 +456,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
         return a.en.localeCompare(b.en);
       },
-      sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
+      title: <FormattedMessage id="language.english" />,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -465,9 +465,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
+      sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       sorter: (a, b) => {
         if (!a.fr) {
           return 1;
@@ -478,7 +478,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
         return a.fr.localeCompare(b.fr);
       },
-      sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
+      title: <FormattedMessage id="language.french" />,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({
@@ -487,10 +487,10 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="province.state" />,
       dataIndex: "abbrProvince",
       key: "schoolState",
       sorter: (a, b) => a.abbrProvince.localeCompare(b.abbrProvince),
+      title: <FormattedMessage id="province.state" />,
       ...getColumnSearchProps(
         "abbrProvince",
         intl.formatMessage({
@@ -499,10 +499,10 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="country" />,
       dataIndex: "abbrCountry",
       key: "schoolCountry",
       sorter: (a, b) => a.abbrCountry.localeCompare(b.abbrCountry),
+      title: <FormattedMessage id="country" />,
       ...getColumnSearchProps(
         "abbrCountry",
         intl.formatMessage({
@@ -511,10 +511,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="edit" />,
-      key: "edit",
       fixed: "right",
-      width: 70,
+      key: "edit",
       render: (item) => (
         <div>
           <Button
@@ -533,6 +531,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           />
         </div>
       ),
+      title: <FormattedMessage id="edit" />,
+      width: 70,
     },
   ];
 
@@ -571,16 +571,16 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 };
 
 SchoolTableView.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
-  handleSubmitEdit: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
   intl: IntlPropType,
-  selectedRowKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-  searchedColumn: PropTypes.string.isRequired,
-  searchText: PropTypes.string.isRequired,
   rowSelection: PropTypes.shape({ onChange: PropTypes.func }).isRequired,
+  searchText: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 SchoolTableView.defaultProps = {

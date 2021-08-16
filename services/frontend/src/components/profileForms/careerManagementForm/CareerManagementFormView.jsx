@@ -153,8 +153,8 @@ const CareerManagementFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -171,18 +171,18 @@ const CareerManagementFormView = ({
   const getInitialValues = (profile) => {
     if (profile) {
       return {
+        careerMobilityId: savedCareerMobility,
         developmentalGoals: savedDevelopmentalGoals,
         developmentalGoalsAttachments: savedAttachments,
+        exFeeder: savedExFeederBool,
         interestedInRemote:
           profile.interestedInRemote === null
             ? undefined
             : profile.interestedInRemote,
-        relocationLocations: savedRelocationLocations,
         lookingForANewJobId: savedLookingForNewJob,
-        careerMobilityId: savedCareerMobility,
-        talentMatrixResultId: savedTalentMatrixResult,
-        exFeeder: savedExFeederBool,
         qualifiedPools: savedQualifiedPools,
+        relocationLocations: savedRelocationLocations,
+        talentMatrixResultId: savedTalentMatrixResult,
       };
     }
     return {};
@@ -286,8 +286,8 @@ const CareerManagementFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -311,8 +311,8 @@ const CareerManagementFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -352,8 +352,8 @@ const CareerManagementFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -444,8 +444,8 @@ const CareerManagementFormView = ({
             <TabPane
               key="learning-development"
               tab={getTabTitle({
-                message: <FormattedMessage id="learning.development" />,
                 errorBool: tabErrorsBool.developmentalGoalsAttachments,
+                message: <FormattedMessage id="learning.development" />,
               })}
             >
               <FormSubTitle
@@ -534,8 +534,8 @@ const CareerManagementFormView = ({
             <TabPane
               key="qualified-pools"
               tab={getTabTitle({
-                message: <FormattedMessage id="qualified.pools" />,
                 errorBool: tabErrorsBool.qualifiedPools,
+                message: <FormattedMessage id="qualified.pools" />,
               })}
             >
               <FormSubTitle
@@ -882,43 +882,26 @@ const CareerManagementFormView = ({
 };
 
 CareerManagementFormView.propTypes = {
-  profileInfo: ProfileInfoPropType,
+  attachmentOptions: KeyNameOptionsPropType.isRequired,
+  careerMobilityOptions: KeyTitleOptionsPropType,
+  classificationOptions: KeyNameOptionsPropType,
+  currentTab: PropTypes.string,
   developmentalGoalOptions: KeyTitleOptionsPropType,
-  savedDevelopmentalGoals: PropTypes.arrayOf(PropTypes.string),
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  history: HistoryPropType.isRequired,
   interestedInRemoteOptions: PropTypes.arrayOf(
     PropTypes.shape({ key: PropTypes.string, text: PropTypes.string })
   ),
+  load: PropTypes.bool.isRequired,
+  lookingForNewJobOptions: KeyTitleOptionsPropType,
+  profileInfo: ProfileInfoPropType,
   relocationOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
       city: PropTypes.string,
+      id: PropTypes.string,
       province: PropTypes.string,
     })
   ),
-  savedRelocationLocations: PropTypes.arrayOf(PropTypes.string),
-  lookingForNewJobOptions: KeyTitleOptionsPropType,
-  savedLookingForNewJob: PropTypes.string,
-  careerMobilityOptions: KeyTitleOptionsPropType,
-  savedCareerMobility: PropTypes.string,
-  talentMatrixResultOptions: KeyTitleOptionsPropType,
-  savedTalentMatrixResult: PropTypes.string,
-  savedExFeederBool: PropTypes.bool,
-  classificationOptions: KeyNameOptionsPropType,
-  savedQualifiedPools: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      classificationId: PropTypes.string,
-      jobTitle: PropTypes.string,
-      selectionProcessNumber: PropTypes.string,
-      jobPosterLink: PropTypes.string,
-    })
-  ),
-  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string,
-  load: PropTypes.bool.isRequired,
-  history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
-  attachmentOptions: KeyNameOptionsPropType.isRequired,
   savedAttachments: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -926,26 +909,43 @@ CareerManagementFormView.propTypes = {
       url: PropTypes.string,
     })
   ),
+  savedCareerMobility: PropTypes.string,
+  savedDevelopmentalGoals: PropTypes.arrayOf(PropTypes.string),
+  savedExFeederBool: PropTypes.bool,
+  savedLookingForNewJob: PropTypes.string,
+  savedQualifiedPools: PropTypes.arrayOf(
+    PropTypes.shape({
+      classificationId: PropTypes.string,
+      id: PropTypes.string,
+      jobPosterLink: PropTypes.string,
+      jobTitle: PropTypes.string,
+      selectionProcessNumber: PropTypes.string,
+    })
+  ),
+  savedRelocationLocations: PropTypes.arrayOf(PropTypes.string),
+  savedTalentMatrixResult: PropTypes.string,
+  talentMatrixResultOptions: KeyTitleOptionsPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 CareerManagementFormView.defaultProps = {
-  currentTab: null,
   careerMobilityOptions: [],
+  classificationOptions: [],
+  currentTab: null,
   developmentalGoalOptions: [],
   interestedInRemoteOptions: [],
   lookingForNewJobOptions: [],
-  classificationOptions: [],
   profileInfo: null,
   relocationOptions: [],
+  savedAttachments: undefined,
   savedCareerMobility: undefined,
   savedDevelopmentalGoals: [],
   savedExFeederBool: undefined,
   savedLookingForNewJob: undefined,
+  savedQualifiedPools: undefined,
   savedRelocationLocations: [],
   savedTalentMatrixResult: undefined,
-  savedQualifiedPools: undefined,
   talentMatrixResultOptions: [],
-  savedAttachments: undefined,
 };
 
 export default CareerManagementFormView;

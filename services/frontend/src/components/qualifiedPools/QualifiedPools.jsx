@@ -20,9 +20,9 @@ const QualifiedPools = ({ data, editableCardBool }) => {
         jobPosterLink,
       }) => ({
         classification: classification.name,
+        jobPosterLink,
         jobTitle,
         selectionProcessNumber,
-        jobPosterLink,
       })
     );
   };

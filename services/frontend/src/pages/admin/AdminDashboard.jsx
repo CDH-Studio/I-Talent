@@ -65,10 +65,10 @@ const AdminDashboard = ({ intl }) => {
       ]);
       dispatch(
         setInitialAdminData({
-          countUsers: users.data,
+          countExFeederUsers: exFeederUsers.data,
           countHiddenUsers: hiddenUsers.data,
           countInactiveUsers: inactiveUsers.data,
-          countExFeederUsers: exFeederUsers.data,
+          countUsers: users.data,
           growthRateByMonth: growthRateByMonth.data,
           growthRateByWeek: growthRateByWeek.data,
           topFiveCompetencies: topFiveCompetencies.data,

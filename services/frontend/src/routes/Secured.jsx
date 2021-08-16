@@ -106,7 +106,7 @@ const Secured = ({ location }) => {
         <Route
           path="/results"
           render={({ location: { search } }) => (
-            <Redirect to={{ search, pathname: "/results" }} />
+            <Redirect to={{ pathname: "/results", search }} />
           )}
         />
         <Route

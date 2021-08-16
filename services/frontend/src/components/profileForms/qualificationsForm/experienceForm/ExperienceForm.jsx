@@ -30,11 +30,11 @@ const ExperienceForm = ({
 );
 
 ExperienceForm.propTypes = {
-  form: FormInstancePropType.isRequired,
-  fieldElement: FieldPropType.isRequired,
-  removeElement: PropTypes.func.isRequired,
-  checkIfFormValuesChanged: PropTypes.func.isRequired,
   attachmentNames: KeyNameOptionsPropType.isRequired,
+  checkIfFormValuesChanged: PropTypes.func.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
 };
 
 export default ExperienceForm;

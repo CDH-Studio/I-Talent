@@ -45,17 +45,17 @@ const ExperienceFormView = ({
   intl,
 }) => {
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="rules.required" />,
+    maxChar1500: {
+      max: 1500,
+      message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
     },
     maxChar60: {
       max: 60,
       message: <FormattedMessage id="rules.max" values={{ max: 60 }} />,
     },
-    maxChar1500: {
-      max: 1500,
-      message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
   };
 
@@ -259,8 +259,8 @@ const ExperienceFormView = ({
                     initialValue={false}
                     name={[fieldElement.name, "ongoingDate"]}
                     style={{
-                      marginTop: disableEndDate ? "-45px" : "-15px",
                       marginBottom: disableEndDate ? "35px" : "15px",
+                      marginTop: disableEndDate ? "-45px" : "-15px",
                     }}
                     valuePropName="checked"
                   >
@@ -357,11 +357,11 @@ const ExperienceFormView = ({
 };
 
 ExperienceFormView.propTypes = {
-  form: FormInstancePropType.isRequired,
-  fieldElement: FieldPropType.isRequired,
-  removeElement: PropTypes.func.isRequired,
-  intl: IntlPropType,
   attachmentNames: KeyNameOptionsPropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
+  intl: IntlPropType,
+  removeElement: PropTypes.func.isRequired,
 };
 
 ExperienceFormView.defaultProps = {

@@ -15,33 +15,33 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
 
     const buttonLinks = {
       email: {
+        icon: <MailOutlined className="mr-1" />,
         textId: "email",
         url: `mailto:${email}`,
-        icon: <MailOutlined className="mr-1" />,
       },
     };
 
     if (linkedin) {
       buttonLinks.linkedin = {
+        icon: <LinkedinOutlined className="mr-1" />,
         textId: "linkedin",
         url: `https://linkedin.com/in/${linkedin}`,
-        icon: <LinkedinOutlined className="mr-1" />,
       };
     }
 
     if (github) {
       buttonLinks.github = {
+        icon: <GithubOutlined className="mr-1" />,
         textId: "github",
         url: `https://github.com/${github}`,
-        icon: <GithubOutlined className="mr-1" />,
       };
     }
 
     if (gcconnex) {
       buttonLinks.gcconnex = {
+        icon: <LinkOutlined className="mr-1" />,
         textId: "gcconnex",
         url: `https://gcconnex.gc.ca/profile/${gcconnex}`,
-        icon: <LinkOutlined className="mr-1" />,
       };
     }
 
@@ -67,9 +67,9 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
 };
 
 BasicInfo.propTypes = {
-  data: ProfileInfoPropType.isRequired,
-  connectionStatus: PropTypes.bool.isRequired,
   changeConnection: PropTypes.func.isRequired,
+  connectionStatus: PropTypes.bool.isRequired,
+  data: ProfileInfoPropType.isRequired,
 };
 
 export default BasicInfo;

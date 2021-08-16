@@ -6,26 +6,26 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 const EmployeeSummaryView = ({ data }) => {
   const left = [
     {
-      title: <FormattedMessage id="classification" />,
       description: data.groupLevel ? data.groupLevel.name : "-",
+      title: <FormattedMessage id="classification" />,
     },
     {
-      title: <FormattedMessage id="profile.substantive" />,
       description:
         data.tenure && data.tenure.description ? data.tenure.description : "-",
+      title: <FormattedMessage id="profile.substantive" />,
     },
   ];
 
   const right = [
     {
-      title: <FormattedMessage id="acting" />,
       description: data.actingLevel ? data.actingLevel.name : "-",
+      title: <FormattedMessage id="acting" />,
     },
     {
-      title: <FormattedMessage id="profile.security" />,
       description: data.securityClearance
         ? data.securityClearance.description
         : "-",
+      title: <FormattedMessage id="profile.security" />,
     },
   ];
 

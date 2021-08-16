@@ -25,18 +25,18 @@ const QualifiedPoolsForm = ({
 
 QualifiedPoolsForm.propTypes = {
   form: FormInstancePropType.isRequired,
+  classificationOptions: KeyTitleOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   savedQualifiedPools: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
       classificationId: PropTypes.string,
+      id: PropTypes.string,
+      jobPosterLink: PropTypes.string,
       jobTitle: PropTypes.string,
       selectionProcessNumber: PropTypes.string,
-      jobPosterLink: PropTypes.string,
     })
   ).isRequired,
-  classificationOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 export default QualifiedPoolsForm;

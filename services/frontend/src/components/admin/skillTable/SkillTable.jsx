@@ -73,9 +73,9 @@ const SkillTable = ({ intl }) => {
   // Handles addition of a skill
   const handleSubmitAdd = async (values) => {
     await axios.post(`api/option/skill`, {
+      categoryId: values.addSkillCategory,
       en: values.addSkillEn,
       fr: values.addSkillFr,
-      categoryId: values.addSkillCategory,
     });
     getBackendInfo();
   };
@@ -83,10 +83,10 @@ const SkillTable = ({ intl }) => {
   // Handles the update/edit of a skill
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/skill`, {
-      id,
+      categoryId: values.editSkillCategoryId,
       en: values.editSkillEn,
       fr: values.editSkillFr,
-      categoryId: values.editSkillCategoryId,
+      id,
     });
     getBackendInfo();
   };
@@ -112,10 +112,10 @@ const SkillTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {

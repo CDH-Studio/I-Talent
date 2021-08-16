@@ -27,12 +27,12 @@ const EducationForm = ({
 );
 
 EducationForm.propTypes = {
-  form: FormInstancePropType.isRequired,
-  fieldElement: FieldPropType.isRequired,
-  removeElement: PropTypes.func.isRequired,
-  diplomaOptions: KeyTitleOptionsPropType.isRequired,
-  schoolOptions: KeyTitleOptionsPropType.isRequired,
   attachmentNames: KeyNameOptionsPropType.isRequired,
+  diplomaOptions: KeyTitleOptionsPropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
+  schoolOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 export default EducationForm;

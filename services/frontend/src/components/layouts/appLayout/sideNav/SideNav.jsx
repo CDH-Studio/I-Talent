@@ -13,9 +13,9 @@ const SideNav = ({ displaySideBar, siderWidth, sideBarContent, loading }) => (
 
 SideNav.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
-  siderWidth: PropTypes.number,
-  sideBarContent: PropTypes.node.isRequired,
   loading: PropTypes.bool.isRequired,
+  sideBarContent: PropTypes.node.isRequired,
+  siderWidth: PropTypes.number,
 };
 
 SideNav.defaultProps = {

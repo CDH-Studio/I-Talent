@@ -51,13 +51,13 @@ const ErrorProfilePage = ({ titleId, subtitleId }) => {
 };
 
 ErrorProfilePage.propTypes = {
-  titleId: PropTypes.string,
   subtitleId: PropTypes.string,
+  titleId: PropTypes.string,
 };
 
 ErrorProfilePage.defaultProps = {
-  titleId: "",
   subtitleId: "",
+  titleId: "",
 };
 
 export default ErrorProfilePage;

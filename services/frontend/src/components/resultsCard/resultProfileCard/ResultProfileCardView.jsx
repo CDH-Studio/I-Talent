@@ -97,8 +97,8 @@ const ResultProfileCardView = ({
           style={{
             backgroundColor: badgeColor,
             borderRadius: "20px",
-            padding: "5px",
             color: "white",
+            padding: "5px",
           }}
         >
           <Avatar
@@ -264,7 +264,7 @@ const ResultProfileCardView = ({
         >
           <Card
             actions={getCardFooter({ user: profile })}
-            bodyStyle={{ padding: "23px", flex: 1, flexBasis: "auto" }}
+            bodyStyle={{ flex: 1, flexBasis: "auto", padding: "23px" }}
             bordered
             className="result-card"
             hoverable
@@ -372,11 +372,11 @@ const ResultProfileCardView = ({
 };
 
 ResultProfileCardView.propTypes = {
-  profile: ProfileInfoPropType.isRequired,
-  key: PropTypes.string.isRequired,
-  isConnection: PropTypes.bool.isRequired,
-  loggedInUserId: PropTypes.string.isRequired,
   addConnection: PropTypes.func.isRequired,
+  isConnection: PropTypes.bool.isRequired,
+  key: PropTypes.string.isRequired,
+  loggedInUserId: PropTypes.string.isRequired,
+  profile: ProfileInfoPropType.isRequired,
   removeConnection: PropTypes.func.isRequired,
 };
 

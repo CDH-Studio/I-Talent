@@ -77,8 +77,8 @@ const TalentFormView = ({
   /* Component Rules for form fields */
   const Rules = {
     required: {
-      required: true,
       message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
   };
 
@@ -112,8 +112,8 @@ const TalentFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -135,8 +135,8 @@ const TalentFormView = ({
     if (hasRequiredProps()) {
       return {
         competencies: savedCompetencies,
-        skills: savedSkills,
         mentorshipSkills: savedMentorshipSkills,
+        skills: savedSkills,
       };
     }
     return {};
@@ -266,8 +266,8 @@ const TalentFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -295,8 +295,8 @@ const TalentFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -335,8 +335,8 @@ const TalentFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -401,20 +401,20 @@ const TalentFormView = ({
             if (itemsFoundInCategory === 1) {
               numbCategories += 1;
               const parent = {
+                checkable: false,
+                children: [],
+                disableCheckbox: true,
+                selectable: false,
                 title: fullSkillsOptionsList[i].title,
                 value: fullSkillsOptionsList[i].value,
-                children: [],
-                selectable: false,
-                checkable: false,
-                disableCheckbox: true,
               };
               dataTree.push(parent);
             }
             // save skill as child in parent
             const child = {
+              key: fullSkillsOptionsList[i].children[w].value,
               title: fullSkillsOptionsList[i].children[w].title,
               value: fullSkillsOptionsList[i].children[w].value,
-              key: fullSkillsOptionsList[i].children[w].value,
             };
             dataTree[numbCategories - 1].children.push(child);
           }
@@ -596,8 +596,8 @@ const TalentFormView = ({
             <TabPane
               key="skills"
               tab={getTabTitle({
-                message: <FormattedMessage id="skills" />,
                 errorBool: tabErrorsBool.skills,
+                message: <FormattedMessage id="skills" />,
               })}
             >
               {/* Form Row Two: skills */}
@@ -635,8 +635,8 @@ const TalentFormView = ({
             <TabPane
               key="mentorship"
               tab={getTabTitle({
-                message: <FormattedMessage id="mentorship.skills" />,
                 errorBool: tabErrorsBool.mentorshipSkills,
+                message: <FormattedMessage id="mentorship.skills" />,
               })}
             >
               {/* Form Row Two: skills */}
@@ -671,8 +671,8 @@ const TalentFormView = ({
             <TabPane
               key="competencies"
               tab={getTabTitle({
-                message: <FormattedMessage id="competencies" />,
                 errorBool: tabErrorsBool.competencies,
+                message: <FormattedMessage id="competencies" />,
               })}
             >
               {/* Form Row Three: competencies */}
@@ -727,38 +727,38 @@ const TalentFormView = ({
 };
 
 TalentFormView.propTypes = {
+  competencyOptions: KeyTitleOptionsPropType,
+  currentTab: PropTypes.string,
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  load: PropTypes.bool.isRequired,
   profileInfo: ProfileInfoPropType,
+  savedCompetencies: PropTypes.arrayOf(PropTypes.string),
+  savedMentorshipSkills: PropTypes.arrayOf(PropTypes.string),
+  savedSkills: PropTypes.arrayOf(PropTypes.string),
   skillOptions: PropTypes.arrayOf(
     PropTypes.shape({
       children: PropTypes.arrayOf(
         PropTypes.shape({
+          key: PropTypes.string,
           title: PropTypes.string,
           value: PropTypes.string,
-          key: PropTypes.string,
         })
       ),
       title: PropTypes.string,
       value: PropTypes.string,
     })
   ),
-  competencyOptions: KeyTitleOptionsPropType,
-  savedCompetencies: PropTypes.arrayOf(PropTypes.string),
-  savedSkills: PropTypes.arrayOf(PropTypes.string),
-  savedMentorshipSkills: PropTypes.arrayOf(PropTypes.string),
-  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string,
-  load: PropTypes.bool.isRequired,
   userId: PropTypes.string.isRequired,
 };
 
 TalentFormView.defaultProps = {
-  profileInfo: null,
-  currentTab: null,
-  skillOptions: [],
   competencyOptions: [],
+  currentTab: null,
+  profileInfo: null,
   savedCompetencies: [],
-  savedSkills: [],
   savedMentorshipSkills: [],
+  savedSkills: [],
+  skillOptions: [],
 };
 
 export default TalentFormView;

@@ -21,9 +21,9 @@ const ProfileVisibilityAlert = ({
 };
 
 ProfileVisibilityAlert.propTypes = {
-  isUsersProfile: PropTypes.bool.isRequired,
   isProfileHidden: PropTypes.bool.isRequired,
   isProfileInactive: PropTypes.bool.isRequired,
+  isUsersProfile: PropTypes.bool.isRequired,
 };
 
 export default ProfileVisibilityAlert;

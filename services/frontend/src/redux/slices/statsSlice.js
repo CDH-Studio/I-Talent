@@ -3,21 +3,25 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   count: {},
-  topFive: {
-    competencies: [],
-    skills: [],
-    developmentalGoals: [],
-  },
   growthRate: {
     month: {},
     week: {},
   },
+  topFive: {
+    competencies: [],
+    developmentalGoals: [],
+    skills: [],
+  },
 };
 
 const statsSlice = createSlice({
-  name: "stats",
   initialState,
+  name: "stats",
   reducers: {
+    clearStats() {
+      return initialState;
+    },
+
     setInitialAdminData(state, action) {
       const {
         countUsers,
@@ -34,19 +38,19 @@ const statsSlice = createSlice({
       return {
         ...state,
         count: {
-          users: countUsers,
+          exFeederUsers: countExFeederUsers,
           hiddenUsers: countHiddenUsers,
           inactiveUsers: countInactiveUsers,
-          exFeederUsers: countExFeederUsers,
-        },
-        topFive: {
-          competencies: topFiveCompetencies,
-          skills: topFiveSkills,
-          developmentalGoals: topFiveDevelopmentalGoals,
+          users: countUsers,
         },
         growthRate: {
           month: growthRateByMonth,
           week: growthRateByWeek,
+        },
+        topFive: {
+          competencies: topFiveCompetencies,
+          developmentalGoals: topFiveDevelopmentalGoals,
+          skills: topFiveSkills,
         },
       };
     },
@@ -56,10 +60,6 @@ const statsSlice = createSlice({
       state.topFive.competencies = competencies;
       state.topFive.skills = skills;
       state.topFive.developmentalGoals = developmentalGoals;
-    },
-
-    clearStats() {
-      return initialState;
     },
   },
 });

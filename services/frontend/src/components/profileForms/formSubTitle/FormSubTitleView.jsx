@@ -25,14 +25,14 @@ const FormSubTitleView = ({ title, popoverMessage, extra }) => (
 );
 
 FormSubTitleView.propTypes = {
-  title: PropTypes.node.isRequired,
-  popoverMessage: PropTypes.node,
   extra: PropTypes.node,
+  popoverMessage: PropTypes.node,
+  title: PropTypes.node.isRequired,
 };
 
 FormSubTitleView.defaultProps = {
-  popoverMessage: null,
   extra: null,
+  popoverMessage: null,
 };
 
 export default FormSubTitleView;

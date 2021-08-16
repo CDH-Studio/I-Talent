@@ -13,18 +13,18 @@ const Header = ({ title, icon, extra, subtitle, backBtn }) => (
 );
 
 Header.propTypes = {
-  title: PropTypes.node.isRequired,
-  subtitle: PropTypes.node,
+  backBtn: PropTypes.bool,
   extra: PropTypes.node,
   icon: PropTypes.node,
-  backBtn: PropTypes.bool,
+  subtitle: PropTypes.node,
+  title: PropTypes.node.isRequired,
 };
 
 Header.defaultProps = {
-  extra: " ",
-  subtitle: " ",
-  icon: " ",
   backBtn: false,
+  extra: " ",
+  icon: " ",
+  subtitle: " ",
 };
 
 export default Header;

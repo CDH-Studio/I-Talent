@@ -25,9 +25,9 @@ const DashboardGraphs = () => {
       Object.keys(rate).forEach((year) => {
         Object.keys(rate[year]).forEach((month) => {
           data.push({
-            year,
-            monthName: shortMonthNames[month],
             count: rate[year][month],
+            monthName: shortMonthNames[month],
+            year,
           });
         });
       });

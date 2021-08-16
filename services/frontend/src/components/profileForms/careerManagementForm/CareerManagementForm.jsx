@@ -90,11 +90,11 @@ const CareerManagementForm = ({ formType }) => {
   const getSavedQualifiedPools = () => {
     const ll = {
       qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
-        id: i.id,
         classificationId: i.classification.id,
+        id: i.id,
+        jobPosterLink: i.jobPosterLink,
         jobTitle: i.jobTitle,
         selectionProcessNumber: i.selectionProcessNumber,
-        jobPosterLink: i.jobPosterLink,
       })),
     };
     if (profileInfo.qualifiedPools) setSavedQualifiedPools(ll.qualifiedPools);
@@ -163,17 +163,17 @@ const CareerManagementForm = ({ formType }) => {
         devGoalsResults.data.forEach((devGoal) => {
           if (devGoal.categoryId === category.id) {
             children.push({
+              key: devGoal.id,
               title: `${category.name}: ${devGoal.name}`,
               value: devGoal.id,
-              key: devGoal.id,
             });
           }
         });
 
         return {
+          children,
           title: category.name,
           value: category.id || category.name,
-          children,
         };
       });
       setDevelopmentalGoalOptions(sortBy(dataTree, "title"));

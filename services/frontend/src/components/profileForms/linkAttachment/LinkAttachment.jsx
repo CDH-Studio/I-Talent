@@ -21,10 +21,10 @@ const LinkAttachment = ({
 );
 
 LinkAttachment.propTypes = {
+  attachmentNameDefault: PropTypes.string.isRequired,
+  attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
-  attachmentNameDefault: PropTypes.string.isRequired,
 };
 
 export default LinkAttachment;

@@ -12,10 +12,10 @@ const ErrorResultView = ({ status, title, subTitle, extra }) => (
 );
 
 ErrorResultView.propTypes = {
-  status: PropTypes.string.isRequired,
-  title: PropTypes.node.isRequired,
-  subTitle: PropTypes.node.isRequired,
   extra: PropTypes.node.isRequired,
+  status: PropTypes.string.isRequired,
+  subTitle: PropTypes.node.isRequired,
+  title: PropTypes.node.isRequired,
 };
 
 export default ErrorResultView;

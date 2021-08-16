@@ -47,11 +47,11 @@ const CardVisibilityToggleView = ({
    */
   const openNotification = () => {
     notification.success({
-      message: intl.formatMessage({
-        id: "visibility.confirmation.title",
-      }),
       description: intl.formatMessage({
         id: "visibility.confirmation.message",
+      }),
+      message: intl.formatMessage({
+        id: "visibility.confirmation.title",
       }),
       placement: "topRight",
     });
@@ -112,19 +112,19 @@ const CardVisibilityToggleView = ({
 
   const generateOptions = () => [
     {
-      value: "PUBLIC",
-      label: intl.formatMessage({ id: "visibility.card.public" }),
       icon: <EyeOutlined aria-hidden="true" className="mr-1" />,
+      label: intl.formatMessage({ id: "visibility.card.public" }),
+      value: "PUBLIC",
     },
     {
-      value: "CONNECTIONS",
-      label: intl.formatMessage({ id: "connections" }),
       icon: <TeamOutlined aria-hidden="true" className="mr-1" />,
+      label: intl.formatMessage({ id: "connections" }),
+      value: "CONNECTIONS",
     },
     {
-      value: "PRIVATE",
-      label: intl.formatMessage({ id: "visibility.card.private" }),
       icon: <EyeInvisibleOutlined aria-hidden="true" className="mr-1" />,
+      label: intl.formatMessage({ id: "visibility.card.private" }),
+      value: "PRIVATE",
     },
   ];
 
@@ -155,12 +155,12 @@ const CardVisibilityToggleView = ({
 };
 
 CardVisibilityToggleView.propTypes = {
+  ariaLabel: PropTypes.string.isRequired,
+  cardName: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["form", "card"]).isRequired,
   visibleCards: PropTypes.objectOf(
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,
-  cardName: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["form", "card"]).isRequired,
-  ariaLabel: PropTypes.string.isRequired,
 };
 
 export default CardVisibilityToggleView;

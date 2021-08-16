@@ -74,9 +74,9 @@ const CategoryTable = ({ intl }) => {
   // Handles the update/edit of a category
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/category`, {
-      id,
       en: values.editCategoryEn,
       fr: values.editCategoryFr,
+      id,
     });
 
     getCategories();
@@ -107,10 +107,10 @@ const CategoryTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {

@@ -20,7 +20,6 @@ const SettingsLayoutView = ({
 
   const listData = [
     {
-      title: <FormattedMessage id="profile.visibility" />,
       description: <FormattedMessage id="profile.visibility.description" />,
       extra: (
         <Tooltip
@@ -45,9 +44,9 @@ const SettingsLayoutView = ({
           />
         </Tooltip>
       ),
+      title: <FormattedMessage id="profile.visibility" />,
     },
     {
-      title: <FormattedMessage id="permanently.delete.account" />,
       description: <FormattedMessage id="delete.account.description" />,
       extra: (
         <Button
@@ -55,15 +54,15 @@ const SettingsLayoutView = ({
           icon={<DeleteOutlined />}
           onClick={() => {
             Modal.confirm({
-              title: intl.formatMessage({ id: "settings.delete.modal.title" }),
+              autoFocusButton: null,
+              cancelText: intl.formatMessage({ id: "no" }),
               content: intl.formatMessage({
                 id: "settings.delete.modal.content",
               }),
               okText: intl.formatMessage({ id: "yes" }),
               okType: "danger",
-              cancelText: intl.formatMessage({ id: "no" }),
-              autoFocusButton: null,
               onOk: deleteCurrentUser,
+              title: intl.formatMessage({ id: "settings.delete.modal.title" }),
             });
           }}
         >
@@ -72,6 +71,7 @@ const SettingsLayoutView = ({
           </span>
         </Button>
       ),
+      title: <FormattedMessage id="permanently.delete.account" />,
     },
   ];
 
@@ -98,8 +98,8 @@ const SettingsLayoutView = ({
 
 SettingsLayoutView.propTypes = {
   deleteCurrentUser: PropTypes.func.isRequired,
-  setProfileVisibility: PropTypes.func.isRequired,
   profileStatus: PropTypes.oneOf(["ACTIVE", "INACTIVE", "HIDDEN"]).isRequired,
+  setProfileVisibility: PropTypes.func.isRequired,
 };
 
 export default SettingsLayoutView;

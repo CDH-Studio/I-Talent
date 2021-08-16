@@ -6,15 +6,15 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 const TalentManagementView = ({ data }) => {
   const getTalentManagementDatasource = () => {
     const careerMobility = {
-      title: <FormattedMessage id="career.mobility" />,
       description: data.careerMobility ? data.careerMobility.description : "-",
+      title: <FormattedMessage id="career.mobility" />,
     };
 
     const talentMatrixResult = {
-      title: <FormattedMessage id="talent.matrix.result" />,
       description: data.talentMatrixResult
         ? data.talentMatrixResult.description
         : "-",
+      title: <FormattedMessage id="talent.matrix.result" />,
     };
 
     return [careerMobility, talentMatrixResult];

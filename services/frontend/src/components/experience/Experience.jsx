@@ -56,11 +56,6 @@ const Experience = ({ data, editableCardBool }) => {
         attachmentLinks,
         projects,
       }) => ({
-        description,
-        duration: getExperienceDuration(startDate, endDate, ongoingDate),
-        icon: "solution",
-        jobTitle,
-        organization,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
               id: a.id,
@@ -68,6 +63,11 @@ const Experience = ({ data, editableCardBool }) => {
               url: a.url,
             }))
           : [],
+        description,
+        duration: getExperienceDuration(startDate, endDate, ongoingDate),
+        icon: "solution",
+        jobTitle,
+        organization,
         projects,
       })
     );

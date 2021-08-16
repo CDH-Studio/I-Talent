@@ -11,14 +11,14 @@ const FormSubTitle = ({ title, popoverMessage, extra }) => (
 );
 
 FormSubTitle.propTypes = {
-  title: PropTypes.node.isRequired,
-  popoverMessage: PropTypes.node,
   extra: PropTypes.node,
+  popoverMessage: PropTypes.node,
+  title: PropTypes.node.isRequired,
 };
 
 FormSubTitle.defaultProps = {
-  popoverMessage: null,
   extra: null,
+  popoverMessage: null,
 };
 
 export default FormSubTitle;

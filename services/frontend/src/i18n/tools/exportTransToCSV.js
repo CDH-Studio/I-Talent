@@ -35,9 +35,9 @@ const formatTransForExport = (enTranslations, frTranslations) => {
 
   allKeys.forEach((key) => {
     formattedTranslations.push({
-      Key: key,
       English: enTranslations[key],
       French: frTranslations[key],
+      Key: key,
     });
   });
 

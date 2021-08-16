@@ -20,8 +20,8 @@ const Stats = () => {
       dispatch(
         setTopFive({
           competencies: [],
-          skills: [],
           developmentalGoals: [],
+          skills: [],
         })
       );
       const [topFiveCompetencies, topFiveSkills, topFiveDevelopmentalGoals] =
@@ -33,8 +33,8 @@ const Stats = () => {
       dispatch(
         setTopFive({
           competencies: topFiveCompetencies.data,
-          skills: topFiveSkills.data,
           developmentalGoals: topFiveDevelopmentalGoals.data,
+          skills: topFiveSkills.data,
         })
       );
     } catch (error) {

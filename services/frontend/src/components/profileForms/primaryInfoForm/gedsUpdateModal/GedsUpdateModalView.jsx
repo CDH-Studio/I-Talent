@@ -15,34 +15,37 @@ import useAxios from "../../../../utils/useAxios";
  */
 const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   {
+    gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
+    gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
     key: "1",
+    paramName: "firstName",
     rowName: <FormattedMessage id="first.name" />,
     savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
     savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
-    gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
-    gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
-    paramName: "firstName",
   },
   {
+    gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
+    gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
     key: "2",
+    paramName: "lastName",
     rowName: <FormattedMessage id="last.name" />,
     savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
     savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
-    gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
-    gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
-    paramName: "lastName",
   },
   {
+    gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
+    gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
     key: "3",
+    paramName: "telephone",
     rowName: <FormattedMessage id="profile.telephone" />,
     savedLabel: savedProfile.telephone ? savedProfile.telephone : "-",
     savedValue: savedProfile.telephone ? savedProfile.telephone : "-",
-    gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
-    gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
-    paramName: "telephone",
   },
   {
+    gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
+    gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
     key: "4",
+    paramName: "location",
     rowName: <FormattedMessage id="location" />,
     savedLabel: savedProfile.officeLocation
       ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
@@ -50,37 +53,26 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
     savedValue: savedProfile.officeLocation
       ? savedProfile.officeLocation.id
       : "-",
-    gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
-    gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
-    paramName: "location",
   },
   {
+    gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
+    gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
     key: "5",
+    paramName: "jobTitle",
     rowName: <FormattedMessage id="job.title" />,
     savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
     savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
-    gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
-    gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
-    paramName: "jobTitle",
   },
   {
+    gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
+    gedsValue: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
     key: "6",
+    paramName: "branch",
     rowName: <FormattedMessage id="branch" />,
     savedLabel: savedProfile.branch ? gedsProfile.branch[locale] : "-",
     savedValue: savedProfile.branch ? gedsProfile.branch[locale] : "-",
-    gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
-    gedsValue: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
-    paramName: "branch",
   },
   {
-    key: "7",
-    rowName: <FormattedMessage id="profile.org.tree" />,
-    savedLabel: savedProfile.organizations
-      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
-      : "-",
-    savedValue: savedProfile.organizations
-      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
-      : "-",
     gedsLabel: gedsProfile.organizations
       ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
           locale
@@ -91,7 +83,15 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
           locale
         ]
       : "-",
+    key: "7",
     paramName: "organization",
+    rowName: <FormattedMessage id="profile.org.tree" />,
+    savedLabel: savedProfile.organizations
+      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
+      : "-",
+    savedValue: savedProfile.organizations
+      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
+      : "-",
   },
 ];
 
@@ -130,9 +130,9 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 
       setTableData(
         generateTableData({
-          savedProfile: profileResult.data,
           gedsProfile: gedsResult.data,
           locale,
+          savedProfile: profileResult.data,
         })
       );
     } catch (error) {
@@ -205,30 +205,30 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
    */
   const columns = [
     {
-      title: "",
       dataIndex: "rowName",
+      ellipsis: true,
       key: "rowName",
       render: (text) => <strong>{text}</strong>,
+      title: "",
       width: "20%",
-      ellipsis: true,
     },
     {
-      title: <FormattedMessage id="geds.update.saved" />,
       dataIndex: "savedLabel",
+      ellipsis: true,
       key: "saved",
+      title: <FormattedMessage id="geds.update.saved" />,
       width: "30%",
-      ellipsis: true,
     },
     {
-      title: <FormattedMessage id="geds.update.geds" />,
       dataIndex: "gedsLabel",
-      key: "geds",
-      width: "30%",
       ellipsis: true,
+      key: "geds",
+      title: <FormattedMessage id="geds.update.geds" />,
+      width: "30%",
     },
     {
-      key: "action",
       align: "center",
+      key: "action",
       render: (text, record) => (
         <Button
           aria-label={
@@ -333,8 +333,8 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 };
 
 GedsUpdateModalView.propTypes = {
-  visibility: PropTypes.bool.isRequired,
   saveDataToDB: PropTypes.func.isRequired,
+  visibility: PropTypes.bool.isRequired,
 };
 
 export default GedsUpdateModalView;

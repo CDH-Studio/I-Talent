@@ -38,11 +38,11 @@ const HeaderView = ({ title, icon, subtitle, extra, backBtn }) => {
 };
 
 HeaderView.propTypes = {
-  title: PropTypes.node.isRequired,
-  subtitle: PropTypes.node.isRequired,
+  backBtn: PropTypes.bool.isRequired,
   extra: PropTypes.node.isRequired,
   icon: PropTypes.node.isRequired,
-  backBtn: PropTypes.bool.isRequired,
+  subtitle: PropTypes.node.isRequired,
+  title: PropTypes.node.isRequired,
 };
 
 export default HeaderView;

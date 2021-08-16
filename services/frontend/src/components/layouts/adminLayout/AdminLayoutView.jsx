@@ -84,9 +84,9 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
 };
 
 AdminLayoutView.propTypes = {
+  children: PropTypes.node.isRequired,
   displaySideBar: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(availableTypes).isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default AdminLayoutView;

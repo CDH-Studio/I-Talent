@@ -87,14 +87,14 @@ const CompetencyTableView = ({
           placeholder={`${intl.formatMessage({
             id: "search.for",
           })} ${title}`}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
           value={selectedKeys[0]}
         />
         <Button
           icon={<SearchOutlined />}
           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
           type="primary"
         >
           <FormattedMessage id="search" />
@@ -246,8 +246,8 @@ const CompetencyTableView = ({
           name="addCompetencyEn"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
@@ -263,8 +263,8 @@ const CompetencyTableView = ({
           name="addCompetencyFr"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
@@ -343,11 +343,11 @@ const CompetencyTableView = ({
   // Consult: Ant Design table components for further clarification
   const competencyTableColumns = () => [
     {
-      title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.en.localeCompare(b.en),
+      title: <FormattedMessage id="language.english" />,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -356,11 +356,11 @@ const CompetencyTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
+      title: <FormattedMessage id="language.french" />,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({
@@ -369,10 +369,8 @@ const CompetencyTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="edit" />,
-      key: "edit",
       fixed: "right",
-      width: 70,
+      key: "edit",
       render: (record) => (
         <div>
           <Button
@@ -389,6 +387,8 @@ const CompetencyTableView = ({
           />
         </div>
       ),
+      title: <FormattedMessage id="edit" />,
+      width: 70,
     },
   ];
 
@@ -427,15 +427,15 @@ const CompetencyTableView = ({
 };
 
 CompetencyTableView.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
-  handleSubmitEdit: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
-  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
-  searchedColumn: PropTypes.string.isRequired,
-  searchText: PropTypes.string.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
+  searchText: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default CompetencyTableView;

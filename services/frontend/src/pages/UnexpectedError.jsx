@@ -12,8 +12,8 @@ import { useHistory } from "react-router-dom";
 import ErrorResultView from "../components/errorResult/errorResultView";
 
 const styles = {
-  list: { width: "100%", marginTop: "1em", textAlign: "left", maxWidth: 700 },
   errorDescription: { marginBottom: 0 },
+  list: { marginTop: "1em", maxWidth: 700, textAlign: "left", width: "100%" },
 };
 
 const UnexpectedError = () => {

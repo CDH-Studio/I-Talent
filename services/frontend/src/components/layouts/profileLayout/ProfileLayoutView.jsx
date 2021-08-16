@@ -408,20 +408,20 @@ const ProfileLayoutView = ({
 };
 
 ProfileLayoutView.propTypes = {
-  data: ProfileInfoPropType,
-  loading: PropTypes.bool,
-  connectionStatus: PropTypes.bool,
-  isUsersProfile: PropTypes.bool,
   changeConnection: PropTypes.func,
+  connectionStatus: PropTypes.bool,
+  data: ProfileInfoPropType,
+  isUsersProfile: PropTypes.bool,
+  loading: PropTypes.bool,
   savedFormContent: PropTypes.bool,
 };
 
 ProfileLayoutView.defaultProps = {
-  data: null,
-  loading: null,
-  connectionStatus: null,
-  isUsersProfile: null,
   changeConnection: null,
+  connectionStatus: null,
+  data: null,
+  isUsersProfile: null,
+  loading: null,
   savedFormContent: undefined,
 };
 

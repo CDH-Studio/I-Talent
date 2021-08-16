@@ -12,21 +12,21 @@ const EmploymentEquity = ({ data, editableCardBool }) => {
 
   useEffect(() => {
     const dataMapped = {
-      WOMEN: {
-        key: "WOMEN",
-        text: intl.formatMessage({ id: "employment.equity.group.woman" }),
+      DISABILITY: {
+        key: "DISABILITY",
+        text: intl.formatMessage({ id: "employment.equity.group.disability" }),
       },
       INDIGENOUS: {
         key: "INDIGENOUS",
         text: intl.formatMessage({ id: "employment.equity.group.indigenous" }),
       },
-      DISABILITY: {
-        key: "DISABILITY",
-        text: intl.formatMessage({ id: "employment.equity.group.disability" }),
-      },
       MINORITY: {
         key: "MINORITY",
         text: intl.formatMessage({ id: "employment.equity.group.minority" }),
+      },
+      WOMEN: {
+        key: "WOMEN",
+        text: intl.formatMessage({ id: "employment.equity.group.woman" }),
       },
     };
 

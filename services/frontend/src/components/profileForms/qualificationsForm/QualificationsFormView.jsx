@@ -74,8 +74,8 @@ const QualificationsFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -212,8 +212,8 @@ const QualificationsFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -242,8 +242,8 @@ const QualificationsFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -278,8 +278,8 @@ const QualificationsFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -369,8 +369,8 @@ const QualificationsFormView = ({
             <TabPane
               key="education"
               tab={getTabTitle({
-                message: <FormattedMessage id="education" />,
                 errorBool: tabErrorsBool.educations,
+                message: <FormattedMessage id="education" />,
               })}
             >
               <FormSubTitle
@@ -429,8 +429,8 @@ const QualificationsFormView = ({
             <TabPane
               key="experience"
               tab={getTabTitle({
-                message: <FormattedMessage id="experience" />,
                 errorBool: tabErrorsBool.experiences,
+                message: <FormattedMessage id="experience" />,
               })}
             >
               <FormSubTitle
@@ -505,14 +505,16 @@ const QualificationsFormView = ({
 };
 
 QualificationsFormView.propTypes = {
-  profileInfo: ProfileInfoPropType,
+  currentTab: PropTypes.string,
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  history: HistoryPropType.isRequired,
   initialValues: PropTypes.shape({
     educations: PropTypes.arrayOf(
       PropTypes.shape({
         diploma: PropTypes.string,
         endDate: PropTypes.oneOfType([PropTypes.object]),
-        startDate: PropTypes.oneOfType([PropTypes.object]),
         school: PropTypes.string,
+        startDate: PropTypes.oneOfType([PropTypes.object]),
       })
     ),
     experiences: PropTypes.arrayOf(
@@ -525,24 +527,22 @@ QualificationsFormView.propTypes = {
       })
     ),
   }),
-  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
-  history: HistoryPropType.isRequired,
   options: PropTypes.shape({
-    diplomas: KeyTitleOptionsPropType,
-    schools: KeyTitleOptionsPropType,
     attachmentNamesEdu: KeyNameOptionsPropType,
     attachmentNamesExp: KeyNameOptionsPropType,
+    diplomas: KeyTitleOptionsPropType,
+    schools: KeyTitleOptionsPropType,
   }),
+  profileInfo: ProfileInfoPropType,
   saveDataToDB: PropTypes.func.isRequired,
 };
 
 QualificationsFormView.defaultProps = {
   currentTab: null,
-  profileInfo: null,
   initialValues: undefined,
   options: undefined,
+  profileInfo: null,
 };
 
 export default QualificationsFormView;

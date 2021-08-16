@@ -100,8 +100,8 @@ EducationView.propTypes = {
   educationInfo: PropTypes.arrayOf(
     PropTypes.shape({
       diploma: PropTypes.string,
-      school: PropTypes.string,
       duration: PropTypes.string,
+      school: PropTypes.string,
     })
   ).isRequired,
 };

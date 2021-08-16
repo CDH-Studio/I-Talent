@@ -22,34 +22,33 @@ import Header from "../../header/Header";
 
 const tableColumns = (handleEdit) => [
   {
-    title: <FormattedMessage id="name" />,
     key: "user",
     render: (record) => (
       <Link to={`/profile/${record.userId}`}>{record.userName}</Link>
     ),
+    title: <FormattedMessage id="name" />,
   },
   {
-    title: <FormattedMessage id="created.at" />,
     dataIndex: "createdAt",
+    defaultSortOrder: "ascend",
     key: "createdAt",
     sortDirections: ["descend"],
-    defaultSortOrder: "ascend",
     sorter: (a, b) => dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix(),
+    title: <FormattedMessage id="created.at" />,
   },
   {
-    title: <FormattedMessage id="last.updated" />,
     dataIndex: "updatedAt",
     key: "updatedAt",
     sorter: (a, b) => dayjs(a.updatedAt).unix() - dayjs(b.updatedAt).unix(),
+    title: <FormattedMessage id="last.updated" />,
   },
   {
-    title: <FormattedMessage id="application.version" />,
     dataIndex: "appVersion",
     key: "appVersion",
     render: (value) => value || "-",
+    title: <FormattedMessage id="application.version" />,
   },
   {
-    title: <FormattedMessage id="location" />,
     filters: [
       {
         text: <FormattedMessage id="home" />,
@@ -85,9 +84,9 @@ const tableColumns = (handleEdit) => [
         </Tag>
       </>
     ),
+    title: <FormattedMessage id="location" />,
   },
   {
-    title: <FormattedMessage id="bugs.status" />,
     filters: [
       {
         text: <FormattedMessage id="bugs.status.duplicate" />,
@@ -116,9 +115,9 @@ const tableColumns = (handleEdit) => [
         </Tag>
       </>
     ),
+    title: <FormattedMessage id="bugs.status" />,
   },
   {
-    title: <FormattedMessage id="github.issue.link" />,
     dataIndex: "githubIssue",
     key: "githubIssue",
     render: (value) =>
@@ -133,12 +132,11 @@ const tableColumns = (handleEdit) => [
       ) : (
         "-"
       ),
+    title: <FormattedMessage id="github.issue.link" />,
   },
   {
-    title: <FormattedMessage id="edit" />,
-    key: "edit",
     fixed: "right",
-    width: 70,
+    key: "edit",
     render: (record) => (
       <Button
         icon={<EditOutlined />}
@@ -147,17 +145,19 @@ const tableColumns = (handleEdit) => [
         type="primary"
       />
     ),
+    title: <FormattedMessage id="edit" />,
+    width: 70,
   },
 ];
 
 const Rules = {
-  required: {
-    required: true,
-    message: <FormattedMessage id="rules.required" />,
-  },
   maxChar500: {
     max: 500,
     message: <FormattedMessage id="rules.max" values={{ max: 500 }} />,
+  },
+  required: {
+    message: <FormattedMessage id="rules.required" />,
+    required: true,
   },
 };
 
@@ -220,8 +220,8 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -272,9 +272,8 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
         columns={tableColumns(handleEdit)}
         dataSource={data}
         expandable={{
-          rowExpandable: () => true,
-          expandRowByClick: true,
           defaultExpandAllRows: true,
+          expandRowByClick: true,
           expandedRowRender: (record) => (
             <p style={{ margin: 0 }}>
               <strong>
@@ -283,6 +282,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
               {record.description}
             </p>
           ),
+          rowExpandable: () => true,
         }}
         loading={loading}
         scroll={{ x: 1200 }}

@@ -40,13 +40,13 @@ const AlertDialog = ({
 );
 
 AlertDialog.propTypes = {
-  title: PropTypes.element.isRequired,
   body: PropTypes.element.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onOk: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  okText: PropTypes.element.isRequired,
   cancelText: PropTypes.element.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  okText: PropTypes.element.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
+  title: PropTypes.element.isRequired,
 };
 
 export default AlertDialog;

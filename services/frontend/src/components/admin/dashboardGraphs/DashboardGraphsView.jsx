@@ -23,8 +23,8 @@ const DashboardGraphsView = ({
   intl,
 }) => {
   const options = {
-    responsive: true,
     maintainAspectRatio: false,
+    responsive: true,
     scales: {
       xAxes: [
         {
@@ -33,15 +33,15 @@ const DashboardGraphsView = ({
       ],
       yAxes: [
         {
-          ticks: {
-            stepSize: 1,
-            beginAtZero: true,
-          },
           scaleLabel: {
             display: true,
             labelString: intl.formatMessage({
               id: "dashboard.number.of.occurrences",
             }),
+          },
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1,
           },
         },
       ],
@@ -49,27 +49,27 @@ const DashboardGraphsView = ({
   };
 
   const barGraphData = (data, type) => ({
-    labels: [intl.formatMessage({ id: `dashboard.popular.${type}` })],
     datasets: data
       ? data.map((element, index) => ({
-          data: [element.count],
           backgroundColor: chartColors[index],
-          label: element.name,
           barPercentage: 0.8,
+          data: [element.count],
+          label: element.name,
         }))
       : [],
+    labels: [intl.formatMessage({ id: `dashboard.popular.${type}` })],
   });
 
   const monthlyGrowthData = {
     datasets: [
       {
-        label: intl.formatMessage({
-          id: "dashboard.number.of.occurrences",
-        }),
+        backgroundColor: "rgb(8, 116, 114)",
         data: monthlyGrowth
           ? monthlyGrowth.map((element) => element.count)
           : [],
-        backgroundColor: "rgb(8, 116, 114)",
+        label: intl.formatMessage({
+          id: "dashboard.number.of.occurrences",
+        }),
       },
     ],
     labels: monthlyGrowth
@@ -141,32 +141,32 @@ const DashboardGraphsView = ({
 };
 
 DashboardGraphsView.propTypes = {
-  topFiveSkills: PropTypes.arrayOf(
+  intl: IntlPropType,
+  monthlyGrowth: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
       count: PropTypes.number,
+      monthName: PropTypes.string,
+      year: PropTypes.string,
     })
-  ).isRequired,
+  ),
   topFiveCompetencies: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
       count: PropTypes.number,
+      name: PropTypes.string,
     })
   ).isRequired,
   topFiveDevelopmentalGoals: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
       count: PropTypes.number,
+      name: PropTypes.string,
     })
   ).isRequired,
-  monthlyGrowth: PropTypes.arrayOf(
+  topFiveSkills: PropTypes.arrayOf(
     PropTypes.shape({
-      year: PropTypes.string,
       count: PropTypes.number,
-      monthName: PropTypes.string,
+      name: PropTypes.string,
     })
-  ),
-  intl: IntlPropType,
+  ).isRequired,
 };
 
 DashboardGraphsView.defaultProps = {

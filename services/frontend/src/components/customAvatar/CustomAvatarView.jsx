@@ -7,8 +7,8 @@ const CustomAvatarView = ({ color, style, initials, hidden }) => {
     avatar: {
       backgroundColor: color,
       color: "#fff",
-      verticalAlign: "middle",
       fontWeight: "500",
+      verticalAlign: "middle",
       ...style,
     },
   };
@@ -22,11 +22,11 @@ const CustomAvatarView = ({ color, style, initials, hidden }) => {
 
 CustomAvatarView.propTypes = {
   color: PropTypes.string.isRequired,
+  hidden: PropTypes.bool.isRequired,
+  initials: PropTypes.string.isRequired,
   style: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ).isRequired,
-  initials: PropTypes.string.isRequired,
-  hidden: PropTypes.bool.isRequired,
 };
 
 export default CustomAvatarView;

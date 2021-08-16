@@ -35,11 +35,11 @@ const BugsTable = () => {
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((bug) => ({
         ...bug,
-        key: bug.id,
         createdAt: dayjs(bug.createdAt).format("lll"),
+        key: bug.id,
         updatedAt: dayjs(bug.updatedAt).format("lll"),
-        userName: bug.user.name,
         userId: bug.user.id,
+        userName: bug.user.name,
       }));
 
       dispatch(setAdminBugs(formattedData));

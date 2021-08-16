@@ -22,19 +22,19 @@ const ProfileLayout = ({
 );
 
 ProfileLayout.propTypes = {
-  data: ProfileInfoPropType,
-  connectionStatus: propTypes.bool,
-  isUsersProfile: propTypes.bool,
   changeConnection: propTypes.func,
+  connectionStatus: propTypes.bool,
+  data: ProfileInfoPropType,
+  isUsersProfile: propTypes.bool,
   loading: propTypes.bool,
   savedFormContent: propTypes.bool,
 };
 
 ProfileLayout.defaultProps = {
-  data: null,
-  connectionStatus: null,
-  isUsersProfile: null,
   changeConnection: null,
+  connectionStatus: null,
+  data: null,
+  isUsersProfile: null,
   loading: null,
   savedFormContent: undefined,
 };

@@ -52,10 +52,6 @@ const Education = ({ data, editableCardBool }) => {
         description,
         attachmentLinks,
       }) => ({
-        diploma: diploma.description,
-        school: school.name,
-        duration: getEducationDuration(startDate, endDate, ongoingDate),
-        description,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
               id: a.id,
@@ -63,6 +59,10 @@ const Education = ({ data, editableCardBool }) => {
               url: a.url,
             }))
           : [],
+        description,
+        diploma: diploma.description,
+        duration: getEducationDuration(startDate, endDate, ongoingDate),
+        school: school.name,
       })
     );
   };

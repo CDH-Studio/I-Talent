@@ -18,21 +18,21 @@ const getUserConfirmation = (_content, callback) => {
   }
 
   Modal.confirm({
-    title: intl.formatMessage({
-      id: "form.unsaved.alert.title",
-    }),
+    cancelText: intl.formatMessage({ id: "no" }),
     content: intl.formatMessage({
       id: "form.unsaved.alert.content",
     }),
     icon: <ExclamationCircleOutlined />,
-    onOk: () => {
-      callback(true);
-    },
+    okText: intl.formatMessage({ id: "yes" }),
     onCancel: () => {
       callback(false);
     },
-    okText: intl.formatMessage({ id: "yes" }),
-    cancelText: intl.formatMessage({ id: "no" }),
+    onOk: () => {
+      callback(true);
+    },
+    title: intl.formatMessage({
+      id: "form.unsaved.alert.title",
+    }),
   });
 };
 

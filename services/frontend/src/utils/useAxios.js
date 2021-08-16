@@ -10,10 +10,10 @@ const useAxios = () => {
     () =>
       axios.create({
         baseURL: config.backendAddress,
-        timeout: 5000,
         headers: {
           Pragma: "no-cache",
         },
+        timeout: 5000,
       }),
     []
   );

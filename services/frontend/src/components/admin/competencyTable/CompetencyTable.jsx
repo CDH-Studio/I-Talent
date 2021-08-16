@@ -77,9 +77,9 @@ const CompetencyTable = ({ intl }) => {
   // Handles the update/edit of a competency
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/competency`, {
-      id,
       en: values.editCompetencyEn,
       fr: values.editCompetencyFr,
+      id,
     });
 
     getCompetencies();
@@ -100,10 +100,10 @@ const CompetencyTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (_selectedRowKeys) => {
       setSelectedRowKeys(_selectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {

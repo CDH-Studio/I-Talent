@@ -87,14 +87,14 @@ const DiplomaTableView = ({
           placeholder={`${intl.formatMessage({
             id: "search.for",
           })} ${title}`}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
           value={selectedKeys[0]}
         />
         <Button
           icon={<SearchOutlined />}
           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
           type="primary"
         >
           <FormattedMessage id="search" />
@@ -249,8 +249,8 @@ const DiplomaTableView = ({
           name="addDiplomaEn"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
@@ -266,8 +266,8 @@ const DiplomaTableView = ({
           name="addDiplomaFr"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
@@ -346,11 +346,11 @@ const DiplomaTableView = ({
   // Consult: Ant Design table components for further clarification
   const diplomaTableColumns = () => [
     {
-      title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.en.localeCompare(b.en),
+      title: <FormattedMessage id="language.english" />,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -359,11 +359,11 @@ const DiplomaTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
+      title: <FormattedMessage id="language.french" />,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({
@@ -372,10 +372,8 @@ const DiplomaTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="edit" />,
-      key: "edit",
       fixed: "right",
-      width: 70,
+      key: "edit",
       render: (item) => (
         <div>
           <Button
@@ -392,6 +390,8 @@ const DiplomaTableView = ({
           />
         </div>
       ),
+      title: <FormattedMessage id="edit" />,
+      width: 70,
     },
   ];
 

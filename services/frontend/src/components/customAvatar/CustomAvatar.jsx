@@ -17,10 +17,10 @@ const CustomAvatar = ({ style, hidden }) => {
 };
 
 CustomAvatar.propTypes = {
+  hidden: PropTypes.bool,
   style: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ).isRequired,
-  hidden: PropTypes.bool,
 };
 
 CustomAvatar.defaultProps = {

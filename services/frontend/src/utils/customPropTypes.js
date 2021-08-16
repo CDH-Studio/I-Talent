@@ -32,10 +32,10 @@ const IdDescriptionPropType = PropTypes.arrayOf(
 );
 
 const FormInstancePropType = PropTypes.shape({
-  getFieldValue: PropTypes.func,
-  getFieldsValue: PropTypes.func,
   getFieldError: PropTypes.func,
+  getFieldValue: PropTypes.func,
   getFieldsError: PropTypes.func,
+  getFieldsValue: PropTypes.func,
   isFieldTouched: PropTypes.func,
   isFieldValidating: PropTypes.func,
   resetFields: PropTypes.func,
@@ -66,32 +66,32 @@ const IntlPropType = PropTypes.shape({
 });
 
 const ProfileInfoPropType = PropTypes.shape({
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  nameInitials: PropTypes.string,
   avatarColor: PropTypes.string,
-  linkedin: PropTypes.string,
-  github: PropTypes.string,
-  gcconnex: PropTypes.string,
-  email: PropTypes.string,
-  jobTitle: PropTypes.string,
   branch: PropTypes.string,
-  manager: PropTypes.string,
-  telephone: PropTypes.string,
   cellphone: PropTypes.string,
+  email: PropTypes.string,
+  firstName: PropTypes.string,
+  gcconnex: PropTypes.string,
+  github: PropTypes.string,
+  jobTitle: PropTypes.string,
+  lastName: PropTypes.string,
+  linkedin: PropTypes.string,
+  manager: PropTypes.string,
+  nameInitials: PropTypes.string,
   officeLocation: PropTypes.shape({
-    streetNumber: PropTypes.number,
-    streetName: PropTypes.string,
     city: PropTypes.string,
     province: PropTypes.string,
+    streetName: PropTypes.string,
+    streetNumber: PropTypes.number,
   }),
   teams: PropTypes.arrayOf(PropTypes.string),
+  telephone: PropTypes.string,
 });
 
 const FieldPropType = PropTypes.shape({
   field: PropTypes.number,
-  key: PropTypes.number,
   fieldKey: PropTypes.number,
+  key: PropTypes.number,
 });
 
 const HistoryPropType = PropTypes.shape({
@@ -104,9 +104,9 @@ const HistoryPropType = PropTypes.shape({
   length: PropTypes.number,
   listen: PropTypes.func,
   location: PropTypes.shape({
+    hash: PropTypes.string,
     pathname: PropTypes.string,
     search: PropTypes.string,
-    hash: PropTypes.string,
   }),
   push: PropTypes.func,
   replace: PropTypes.func,

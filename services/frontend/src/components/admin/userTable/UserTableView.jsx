@@ -88,14 +88,14 @@ const UserTableView = ({
           placeholder={`${intl.formatMessage({
             id: "search.for",
           })} ${title}`}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
           value={selectedKeys[0]}
         />
         <Button
           icon={<SearchOutlined />}
           onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
           type="primary"
         >
           <FormattedMessage id="search" />
@@ -222,11 +222,11 @@ const UserTableView = ({
   // Consult: Ant Design table components for further clarification
   const userTableColumns = () => [
     {
-      title: <FormattedMessage id="name" />,
       dataIndex: "fullName",
       key: "name",
-      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
       sortDirections: ["descend"],
+      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
+      title: <FormattedMessage id="name" />,
       ...getColumnSearchProps(
         "fullName",
         intl.formatMessage({
@@ -236,10 +236,10 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="job.title" />,
       dataIndex: "jobTitle",
       key: "jobTitle",
       sorter: (a, b) => a.jobTitle.localeCompare(b.jobTitle),
+      title: <FormattedMessage id="job.title" />,
       ...getColumnSearchProps(
         "jobTitle",
         intl.formatMessage({
@@ -248,11 +248,11 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="registered" />,
       dataIndex: "formatCreatedAt",
       key: "registered",
       sorter: (a, b) =>
         dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix(),
+      title: <FormattedMessage id="registered" />,
       ...getColumnSearchProps(
         "formatCreatedAt",
         intl.formatMessage({
@@ -261,11 +261,11 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="last.updated" />,
       dataIndex: "formatUpdatedAt",
       key: "updated",
       sorter: (a, b) =>
         dayjs(a.formatUpdatedAt).unix() - dayjs(b.formatUpdatedAt).unix(),
+      title: <FormattedMessage id="last.updated" />,
       ...getColumnSearchProps(
         "formatUpdatedAt",
         intl.formatMessage({
@@ -274,17 +274,16 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="tenure" />,
       dataIndex: "tenure",
-      key: "tenure",
       filters: uniq(data.map((i) => i.tenure)).map((i) => ({
         text: i,
         value: i,
       })),
+      key: "tenure",
       onFilter: (value, record) => record.tenure === value,
+      title: <FormattedMessage id="tenure" />,
     },
     {
-      title: <FormattedMessage id="admin.roles" />,
       filters: [
         {
           text: <FormattedMessage id="admin" />,
@@ -309,11 +308,9 @@ const UserTableView = ({
           </Tag>
         </>
       ),
+      title: <FormattedMessage id="admin.roles" />,
     },
     {
-      title: <FormattedMessage id="profile.status" />,
-      fixed: "right",
-      width: 150,
       filters: [
         {
           text: <FormattedMessage id="active" />,
@@ -324,6 +321,7 @@ const UserTableView = ({
           value: "INACTIVE",
         },
       ],
+      fixed: "right",
       onFilter: (value, record) =>
         value === "ACTIVE"
           ? record.status === value || record.status === "HIDDEN"
@@ -333,11 +331,10 @@ const UserTableView = ({
           record.key,
           record.status === "HIDDEN" ? "ACTIVE" : record.status
         ),
+      title: <FormattedMessage id="profile.status" />,
+      width: 150,
     },
     {
-      title: <FormattedMessage id="profile.visibility" />,
-      fixed: "right",
-      width: 150,
       filters: [
         {
           text: <FormattedMessage id="visible" />,
@@ -348,6 +345,7 @@ const UserTableView = ({
           value: "HIDDEN",
         },
       ],
+      fixed: "right",
       onFilter: (value, record) =>
         value === "VISIBLE"
           ? record.status === "ACTIVE"
@@ -362,12 +360,12 @@ const UserTableView = ({
             <EyeOutlined />
           </div>
         ),
+      title: <FormattedMessage id="profile.visibility" />,
+      width: 150,
     },
 
     {
-      title: <FormattedMessage id="delete" />,
       fixed: "right",
-      width: 80,
       render: (record) => (
         <Popconfirm
           cancelText={<FormattedMessage id="cancel" />}
@@ -387,6 +385,8 @@ const UserTableView = ({
           <Button danger icon={<DeleteOutlined />} shape="circle" />
         </Popconfirm>
       ),
+      title: <FormattedMessage id="delete" />,
+      width: 80,
     },
   ];
 
@@ -448,15 +448,15 @@ const UserTableView = ({
 };
 
 UserTableView.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired,
   handleApply: PropTypes.func.isRequired,
-  handleSubmitDelete: PropTypes.func.isRequired,
   handleDropdownChange: PropTypes.func.isRequired,
-  profileStatusValue: PropTypes.func.isRequired,
-  searchedColumn: PropTypes.string.isRequired,
-  searchText: PropTypes.string.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
   modifiedStatus: PropTypes.bool.isRequired,
+  profileStatusValue: PropTypes.func.isRequired,
+  searchText: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
 };
 
 export default UserTableView;

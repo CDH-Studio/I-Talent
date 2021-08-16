@@ -58,8 +58,8 @@ const LangProficiencyFormView = ({
   /* Component Rules for form fields */
   const Rules = {
     required: {
-      required: true,
       message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
   };
 
@@ -78,8 +78,8 @@ const LangProficiencyFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -248,8 +248,8 @@ const LangProficiencyFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -336,22 +336,22 @@ const LangProficiencyFormView = ({
         <>
           {/* Reading Proficiency */}
           {getSecondLangRows({
-            name: "readingProficiency",
             label: "secondary.reading.proficiency",
+            name: "readingProficiency",
             statusName: "secondaryReadingStatus",
           })}
           <Divider className="mt-0 mb-2" />
           {/* Writing Proficiency */}
           {getSecondLangRows({
-            name: "writingProficiency",
             label: "secondary.writing.proficiency",
+            name: "writingProficiency",
             statusName: "secondaryWritingStatus",
           })}
           <Divider className="mt-0 mb-2" />
           {/* Oral Proficiency */}
           {getSecondLangRows({
-            name: "oralProficiency",
             label: "secondary.oral.proficiency",
+            name: "oralProficiency",
             statusName: "secondaryOralStatus",
           })}
         </>
@@ -486,20 +486,20 @@ const LangProficiencyFormView = ({
 
 LangProficiencyFormView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  languageOptions: KeyTitleOptionsPropType,
-  proficiencyOptions: KeyTitleOptionsPropType,
-  statusOptions: KeyTitleOptionsPropType,
-  load: PropTypes.bool.isRequired,
-  profileInfo: ProfileInfoPropType,
   history: HistoryPropType.isRequired,
+  languageOptions: KeyTitleOptionsPropType,
+  load: PropTypes.bool.isRequired,
+  proficiencyOptions: KeyTitleOptionsPropType,
+  profileInfo: ProfileInfoPropType,
   saveDataToDB: PropTypes.func.isRequired,
+  statusOptions: KeyTitleOptionsPropType,
 };
 
 LangProficiencyFormView.defaultProps = {
   languageOptions: [],
   proficiencyOptions: [],
-  statusOptions: [],
   profileInfo: null,
+  statusOptions: [],
 };
 
 export default LangProficiencyFormView;

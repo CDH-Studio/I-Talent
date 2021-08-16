@@ -77,9 +77,9 @@ const DiplomaTable = ({ intl }) => {
   // Handles the update/edit of a diploma
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/diploma`, {
-      id,
       en: values.editDiplomaEn,
       fr: values.editDiplomaFr,
+      id,
     });
 
     getDiplomas();
@@ -107,10 +107,10 @@ const DiplomaTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (modifiedSelectedRowKeys) => {
       onSelectChange(modifiedSelectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {

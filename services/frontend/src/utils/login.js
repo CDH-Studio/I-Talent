@@ -5,9 +5,9 @@ import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
 const createUser = async (userInfo, axios) =>
   axios.post("api/user", {
     email: userInfo.email,
-    name: userInfo.name,
-    lastName: userInfo.family_name,
     firstName: userInfo.given_name,
+    lastName: userInfo.family_name,
+    name: userInfo.name,
   });
 
 const profileExist = async (userInfo, axios) => {
@@ -36,15 +36,15 @@ const profileExist = async (userInfo, axios) => {
 
   await store.dispatch(
     setUser({
-      id,
       avatarColor,
-      initials,
+      email,
       firstName: `${firstName}`,
+      id,
+      initials,
       lastName: `${lastName}`,
       name: `${firstName} ${lastName}`,
-      email,
-      status,
       signupStep,
+      status,
     })
   );
 

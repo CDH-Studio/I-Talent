@@ -67,22 +67,35 @@ const PrimaryInfoFormView = ({
 
   /* Component Rules for form fields */
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="rules.required" />,
-    },
-    maxChar50: {
-      max: 50,
-      message: <FormattedMessage id="rules.max" values={{ max: 50 }} />,
+    emailFormat: {
+      message: <FormattedMessage id="rules.email" />,
+      pattern: /\S+@\S+\.ca/i,
     },
     maxChar100: {
       max: 100,
       message: <FormattedMessage id="rules.max" values={{ max: 100 }} />,
     },
+    maxChar50: {
+      max: 50,
+      message: <FormattedMessage id="rules.max" values={{ max: 50 }} />,
+    },
+    nameFormat: {
+      message: <FormattedMessage id="rules.name" />,
+      pattern:
+        /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+(-|\s)[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
+    },
+    priFormat: {
+      message: <FormattedMessage id="rules.valid.pri" />,
+      pattern: /(?=^[0-9]{8}$)(?=^(?!.*(\w)\1{1,}).+$)/,
+    },
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
+    },
     telephoneFormat: [
       {
-        pattern: /^\d{3}-\d{3}-\d{4}$/i,
         message: <FormattedMessage id="rules.phone.number" />,
+        pattern: /^\d{3}-\d{3}-\d{4}$/i,
       },
       {
         validator(rule, value) {
@@ -96,19 +109,6 @@ const PrimaryInfoFormView = ({
         },
       },
     ],
-    emailFormat: {
-      pattern: /\S+@\S+\.ca/i,
-      message: <FormattedMessage id="rules.email" />,
-    },
-    nameFormat: {
-      pattern:
-        /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+(-|\s)[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
-      message: <FormattedMessage id="rules.name" />,
-    },
-    priFormat: {
-      pattern: /(?=^[0-9]{8}$)(?=^(?!.*(\w)\1{1,}).+$)/,
-      message: <FormattedMessage id="rules.valid.pri" />,
-    },
   };
 
   /**
@@ -140,14 +140,14 @@ const PrimaryInfoFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
         notification.warning({
-          message: intl.formatMessage({ id: "edit.save.problem" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.problem" }),
         });
         break;
     }
@@ -160,21 +160,21 @@ const PrimaryInfoFormView = ({
   const getInitialValues = ({ profile }) => {
     if (profile) {
       return {
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        telephone: profile.telephone,
-        jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
-        pri: profile.pri,
         email: profile.email,
+        employmentEquityGroups: profile.employmentEquityGroups,
+        firstName: profile.firstName,
+        gcconnex: profile.gcconnex,
+        github: profile.github,
+        jobTitle: profile.jobTitle,
+        lastName: profile.lastName,
+        linkedin: profile.linkedin,
         locationId: profile.officeLocation
           ? profile.officeLocation.id
           : undefined,
+        pri: profile.pri,
         teams: profile.teams,
-        gcconnex: profile.gcconnex,
-        linkedin: profile.linkedin,
-        github: profile.github,
-        employmentEquityGroups: profile.employmentEquityGroups,
+        telephone: profile.telephone,
       };
     }
     return { email };
@@ -241,8 +241,8 @@ const PrimaryInfoFormView = ({
           });
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -270,8 +270,8 @@ const PrimaryInfoFormView = ({
           });
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -315,8 +315,8 @@ const PrimaryInfoFormView = ({
           });
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -645,14 +645,14 @@ const PrimaryInfoFormView = ({
 };
 
 PrimaryInfoFormView.propTypes = {
-  locationOptions: IdDescriptionPropType,
-  profileInfo: ProfileInfoPropType,
-  load: PropTypes.bool.isRequired,
-  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   employmentEquityOptions: KeyTitleOptionsPropType.isRequired,
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  history: HistoryPropType.isRequired,
+  load: PropTypes.bool.isRequired,
+  locationOptions: IdDescriptionPropType,
+  profileInfo: ProfileInfoPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

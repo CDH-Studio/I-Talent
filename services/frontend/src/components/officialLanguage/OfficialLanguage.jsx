@@ -18,8 +18,8 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
     }
 
     const firstLanguage = {
-      title: <FormattedMessage id="first.official.language" />,
       description,
+      title: <FormattedMessage id="first.official.language" />,
     };
     return [firstLanguage];
   };

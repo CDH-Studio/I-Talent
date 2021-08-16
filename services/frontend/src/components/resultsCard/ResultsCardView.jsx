@@ -99,7 +99,7 @@ const ResultsCardView = ({
     <>
       <Header
         backBtn
-        subtitle={getResultCount({ isLoading: loading, count: results.length })}
+        subtitle={getResultCount({ count: results.length, isLoading: loading })}
         title={<FormattedMessage id="results.title" />}
       />
       <div className="res-container">
@@ -118,14 +118,14 @@ const ResultsCardView = ({
 };
 
 ResultsCardView.propTypes = {
-  results: PropTypes.arrayOf(ProfileInfoPropType),
-  locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
+  addConnection: PropTypes.func.isRequired,
+  connections: PropTypes.arrayOf(PropTypes.string).isRequired,
   emptyQuery: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
   loggedInUserId: PropTypes.string.isRequired,
-  connections: PropTypes.arrayOf(PropTypes.string).isRequired,
-  addConnection: PropTypes.func.isRequired,
   removeConnection: PropTypes.func.isRequired,
+  results: PropTypes.arrayOf(ProfileInfoPropType),
 };
 
 ResultsCardView.defaultProps = {

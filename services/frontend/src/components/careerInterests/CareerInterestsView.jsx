@@ -19,18 +19,17 @@ const CareerInterestsView = ({
 
     items.push(
       {
-        title: <FormattedMessage id="interested.in.remote" />,
         description,
+        title: <FormattedMessage id="interested.in.remote" />,
       },
       {
-        title: <FormattedMessage id="looking.for.new.job" />,
         description: (lookingJob && lookingJob.description) || "-",
+        title: <FormattedMessage id="looking.for.new.job" />,
       }
     );
 
     if (relocationLocations && relocationLocations.length > 0) {
       items.push({
-        title: <FormattedMessage id="willing.to.relocate.to" />,
         render: (
           <div style={{ marginTop: 7 }}>
             {relocationLocations.map(({ id, city, province }) => (
@@ -40,6 +39,7 @@ const CareerInterestsView = ({
             ))}
           </div>
         ),
+        title: <FormattedMessage id="willing.to.relocate.to" />,
       });
     }
 
@@ -73,8 +73,8 @@ CareerInterestsView.propTypes = {
   }),
   relocationLocations: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
       city: PropTypes.string,
+      id: PropTypes.string,
       province: PropTypes.string,
     })
   ),

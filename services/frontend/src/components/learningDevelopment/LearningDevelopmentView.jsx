@@ -16,7 +16,6 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
 
   const dataSource = [
     {
-      title: <FormattedMessage id="developmental.goals" />,
       render: (
         <>
           {devGoals.length > 0 ? (
@@ -35,6 +34,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
           )}
         </>
       ),
+      title: <FormattedMessage id="developmental.goals" />,
     },
   ];
   return (
@@ -61,12 +61,6 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
 };
 
 LearningDevelopmentView.propTypes = {
-  devGoals: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-    })
-  ),
   devAttachments: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -77,11 +71,17 @@ LearningDevelopmentView.propTypes = {
       url: PropTypes.string,
     })
   ),
+  devGoals: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ),
 };
 
 LearningDevelopmentView.defaultProps = {
-  devGoals: [],
   devAttachments: [],
+  devGoals: [],
 };
 
 export default LearningDevelopmentView;

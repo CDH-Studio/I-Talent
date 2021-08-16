@@ -150,10 +150,10 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => (
 );
 
 PrivacyModalView.propTypes = {
-  showModal: PropTypes.bool.isRequired,
-  handleOk: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
+  handleOk: PropTypes.func.isRequired,
   locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
+  showModal: PropTypes.bool.isRequired,
 };
 
 export default PrivacyModalView;

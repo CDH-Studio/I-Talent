@@ -60,20 +60,20 @@ const PrimaryInfoForm = ({ formType }) => {
   useEffect(() => {
     setEmploymentEquityOptions([
       {
-        value: "WOMEN",
         label: intl.formatMessage({ id: "employment.equity.group.woman" }),
+        value: "WOMEN",
       },
       {
-        value: "INDIGENOUS",
         label: intl.formatMessage({ id: "employment.equity.group.indigenous" }),
+        value: "INDIGENOUS",
       },
       {
-        value: "DISABILITY",
         label: intl.formatMessage({ id: "employment.equity.group.disability" }),
+        value: "DISABILITY",
       },
       {
-        value: "MINORITY",
         label: intl.formatMessage({ id: "employment.equity.group.minority" }),
+        value: "MINORITY",
       },
     ]);
   }, [intl]);

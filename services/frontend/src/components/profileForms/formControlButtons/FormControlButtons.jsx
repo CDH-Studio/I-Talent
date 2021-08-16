@@ -30,13 +30,13 @@ const FormControlButtons = ({
 );
 
 FormControlButtons.propTypes = {
-  formType: PropTypes.oneOf(["edit", "create"]).isRequired,
-  onSave: PropTypes.func.isRequired,
-  onSaveAndNext: PropTypes.func,
-  onSaveAndFinish: PropTypes.func.isRequired,
-  onReset: PropTypes.func.isRequired,
-  onFinish: PropTypes.func.isRequired,
   fieldsChanged: PropTypes.bool.isRequired,
+  formType: PropTypes.oneOf(["edit", "create"]).isRequired,
+  onFinish: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onSaveAndFinish: PropTypes.func.isRequired,
+  onSaveAndNext: PropTypes.func,
   visibleCards: PropTypes.objectOf(
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,

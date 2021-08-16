@@ -61,17 +61,17 @@ const EmploymentDataFormView = ({
 
   /* Component Rules for form fields */
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="rules.required" />,
+    maxChar1000: {
+      max: 1000,
+      message: <FormattedMessage id="rules.max" values={{ max: 1000 }} />,
     },
     maxChar50: {
       max: 50,
       message: <FormattedMessage id="rules.max" values={{ max: 50 }} />,
     },
-    maxChar1000: {
-      max: 1000,
-      message: <FormattedMessage id="rules.max" values={{ max: 1000 }} />,
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
   };
 
@@ -124,8 +124,8 @@ const EmploymentDataFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -144,14 +144,14 @@ const EmploymentDataFormView = ({
   const getInitialValues = ({ profile }) => {
     if (profile) {
       return {
+        actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
         description: profile.description,
         groupLevelId: profile.groupLevel ? profile.groupLevel.id : undefined,
-        tenureId: profile.tenure ? profile.tenure.id : undefined,
+        manager: profile.manager,
         securityClearanceId: profile.securityClearance
           ? profile.securityClearance.id
           : undefined,
-        manager: profile.manager,
-        actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
+        tenureId: profile.tenure ? profile.tenure.id : undefined,
       };
     }
     return {};
@@ -216,8 +216,8 @@ const EmploymentDataFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -241,8 +241,8 @@ const EmploymentDataFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -281,8 +281,8 @@ const EmploymentDataFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -553,21 +553,21 @@ const EmploymentDataFormView = ({
 EmploymentDataFormView.propTypes = {
   classificationOptions: KeyTitleOptionsPropType,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  history: HistoryPropType.isRequired,
+  intl: IntlPropType,
   load: PropTypes.bool.isRequired,
   profileInfo: ProfileInfoPropType,
   securityOptions: KeyTitleOptionsPropType,
   substantiveOptions: KeyTitleOptionsPropType,
-  intl: IntlPropType,
-  history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {
   classificationOptions: [],
+  intl: null,
+  profileInfo: null,
   securityOptions: [],
   substantiveOptions: [],
-  profileInfo: null,
-  intl: null,
 };
 
 export default injectIntl(EmploymentDataFormView);

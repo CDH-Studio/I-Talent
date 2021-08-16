@@ -22,7 +22,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
       itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item>
-          <Descriptions column={{ xs: 1, sm: 2, xxl: 3 }} size="small">
+          <Descriptions column={{ sm: 2, xs: 1, xxl: 3 }} size="small">
             <Descriptions.Item
               label={
                 <Text strong>

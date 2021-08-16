@@ -25,16 +25,16 @@ dayjs.extend(localeData);
 dayjs.extend(localizedFormat);
 
 const i18nConfigBuilder = (locale) => ({
-  messages: locale === "ENGLISH" ? messagesEn : messagesFr,
   formats: {
     number: {
       CAD: {
-        style: "currency",
         currency: "USD",
         currencyDisplay: "symbol",
+        style: "currency",
       },
     },
   },
+  messages: locale === "ENGLISH" ? messagesEn : messagesFr,
 });
 
 const IntelProv = ({ children }) => {

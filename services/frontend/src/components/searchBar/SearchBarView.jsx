@@ -107,7 +107,7 @@ const SearchBarView = ({
           <Col className="p-0" span={24}>
             <Title level={2} style={{ fontSize: "1.3em" }}>
               <SettingOutlined
-                style={{ marginRight: "4px", color: "#3CBAB3" }}
+                style={{ color: "#3CBAB3", marginRight: "4px" }}
               />
               <FormattedMessage id="advanced.search" />
             </Title>
@@ -291,7 +291,7 @@ const SearchBarView = ({
           <img
             alt="I-Talent Logo"
             src={logo}
-            style={{ width: "80%", maxWidth: "370px" }}
+            style={{ maxWidth: "370px", width: "80%" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}
           {getBasicSearchForm(!expandAdvancedSearch)}
@@ -326,6 +326,7 @@ const SearchBarView = ({
 };
 
 SearchBarView.propTypes = {
+  anyMentorSkills: PropTypes.bool.isRequired,
   branchOptions: PropTypes.arrayOf(
     PropTypes.PropTypes.shape({
       label: PropTypes.string,
@@ -338,6 +339,8 @@ SearchBarView.propTypes = {
       value: PropTypes.string,
     })
   ).isRequired,
+  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   locationOptions: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -350,9 +353,6 @@ SearchBarView.propTypes = {
       value: PropTypes.string,
     })
   ).isRequired,
-  handleSearch: PropTypes.func.isRequired,
-  anyMentorSkills: PropTypes.bool.isRequired,
-  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
 export default SearchBarView;

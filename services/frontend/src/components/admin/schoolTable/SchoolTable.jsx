@@ -67,10 +67,10 @@ const SchoolTable = ({ intl }) => {
   // Handles addition of a school
   const handleSubmitAdd = async (values) => {
     await axios.post(`api/option/school`, {
-      en: values.addSchoolEn,
-      fr: values.addSchoolFr,
       abbrCountry: values.addSchoolCountry.toUpperCase(),
       abbrProvince: values.addSchoolProvince.toUpperCase(),
+      en: values.addSchoolEn,
+      fr: values.addSchoolFr,
     });
 
     getSchools();
@@ -79,11 +79,11 @@ const SchoolTable = ({ intl }) => {
   // Handles the update/edit of a school
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/school`, {
-      id,
-      en: values.editSchoolEn,
-      fr: values.editSchoolFr,
       abbrCountry: values.editSchoolCountry.toUpperCase(),
       abbrProvince: values.editSchoolProvince.toUpperCase(),
+      en: values.editSchoolEn,
+      fr: values.editSchoolFr,
+      id,
     });
 
     getSchools();
@@ -111,10 +111,10 @@ const SchoolTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {

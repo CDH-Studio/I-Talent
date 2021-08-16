@@ -59,13 +59,13 @@ const AppLayoutView = ({
 };
 
 AppLayoutView.propTypes = {
-  displaySideBar: PropTypes.bool.isRequired,
-  sideBarWidth: PropTypes.number.isRequired,
-  sideBarContent: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
-  loading: PropTypes.bool.isRequired,
-  displaySearch: PropTypes.bool.isRequired,
   displayLogo: PropTypes.bool.isRequired,
+  displaySearch: PropTypes.bool.isRequired,
+  displaySideBar: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  sideBarContent: PropTypes.node.isRequired,
+  sideBarWidth: PropTypes.number.isRequired,
 };
 
 export default AppLayoutView;

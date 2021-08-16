@@ -8,9 +8,9 @@ OrgTree.propTypes = {
   data: PropTypes.shape({
     organizations: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string,
         key: PropTypes.string,
         tier: PropTypes.number,
+        title: PropTypes.string,
       })
     ),
   }).isRequired,

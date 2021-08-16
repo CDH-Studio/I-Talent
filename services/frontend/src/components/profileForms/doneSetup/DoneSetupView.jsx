@@ -83,9 +83,9 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
         {load ? (
           <Descriptions
             bordered
-            column={{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
+            column={{ lg: 1, md: 1, sm: 1, xl: 1, xs: 1, xxl: 2 }}
             size="small"
-            style={{ width: "80%", margin: "auto", marginBottom: "2rem" }}
+            style={{ margin: "auto", marginBottom: "2rem", width: "80%" }}
             title={intl.formatMessage({ id: "current.visibility.setting" })}
           >
             {visibilityItems.map((item) => (
@@ -138,10 +138,10 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
 };
 
 DoneSetupView.propTypes = {
-  userId: PropTypes.string.isRequired,
-  load: PropTypes.bool.isRequired,
-  visibilityItems: PropTypes.objectOf(PropTypes.object).isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  load: PropTypes.bool.isRequired,
+  userId: PropTypes.string.isRequired,
+  visibilityItems: PropTypes.objectOf(PropTypes.object).isRequired,
 };
 
 export default DoneSetupView;

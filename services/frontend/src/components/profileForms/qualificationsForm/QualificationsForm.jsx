@@ -61,21 +61,14 @@ const QualificationsForm = ({ formType }) => {
         ]) => {
           setProfileInfo(profileQuery.data);
           setOptions({
-            diplomas: diplomasQuery.data,
-            schools: schoolsQuery.data,
             attachmentNamesEdu: attachmentNamesEduQuery.data,
             attachmentNamesExp: attachmentNamesExpQuery.data,
+            diplomas: diplomasQuery.data,
+            schools: schoolsQuery.data,
           });
           if (profileQuery.data) {
             setInitialValues({
               educations: profileQuery.data.educations.map((i) => ({
-                id: i.id,
-                schoolId: i.school.id,
-                diplomaId: i.diploma.id,
-                startDate: i.startDate ? dayjs(i.startDate) : undefined,
-                endDate: i.endDate ? dayjs(i.endDate) : undefined,
-                ongoingDate: i.ongoingDate,
-                description: i.description,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
                       id: link.id,
@@ -83,15 +76,15 @@ const QualificationsForm = ({ formType }) => {
                       url: link.url,
                     }))
                   : undefined,
+                description: i.description,
+                diplomaId: i.diploma.id,
+                endDate: i.endDate ? dayjs(i.endDate) : undefined,
+                id: i.id,
+                ongoingDate: i.ongoingDate,
+                schoolId: i.school.id,
+                startDate: i.startDate ? dayjs(i.startDate) : undefined,
               })),
               experiences: profileQuery.data.experiences.map((i) => ({
-                id: i.id,
-                jobTitle: i.jobTitle,
-                organization: i.organization,
-                description: i.description,
-                startDate: i.startDate ? dayjs(i.startDate) : undefined,
-                endDate: i.endDate ? dayjs(i.endDate) : undefined,
-                ongoingDate: i.ongoingDate,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
                       id: link.id,
@@ -99,7 +92,14 @@ const QualificationsForm = ({ formType }) => {
                       url: link.url,
                     }))
                   : undefined,
+                description: i.description,
+                endDate: i.endDate ? dayjs(i.endDate) : undefined,
+                id: i.id,
+                jobTitle: i.jobTitle,
+                ongoingDate: i.ongoingDate,
+                organization: i.organization,
                 projects: i.projects,
+                startDate: i.startDate ? dayjs(i.startDate) : undefined,
               })),
             });
           }

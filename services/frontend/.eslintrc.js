@@ -15,7 +15,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["prettier", "react-hooks", "simple-import-sort"],
+  plugins: ["prettier", "react-hooks", "simple-import-sort", "sort-keys-fix"],
   rules: {
     "react-hooks/exhaustive-deps": "warn",
     "react/react-in-jsx-scope": "off",
@@ -24,5 +24,6 @@ module.exports = {
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
+    "sort-keys-fix/sort-keys-fix": "error",
   },
 };
