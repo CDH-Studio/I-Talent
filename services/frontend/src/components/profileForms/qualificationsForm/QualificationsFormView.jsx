@@ -1,35 +1,34 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { PlusOutlined } from "@ant-design/icons";
 import {
-  Row,
+  Button,
   Col,
-  Skeleton,
   Divider,
   Form,
-  Button,
-  Tabs,
   notification,
+  Row,
+  Skeleton,
+  Tabs,
 } from "antd";
-
-import { PlusOutlined } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
-import { pickBy, size, identity, isEqual, filter } from "lodash";
+import { filter, identity, isEqual, pickBy, size } from "lodash";
 import PropTypes from "prop-types";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
 import handleError from "../../../functions/handleError";
-import ExperienceForm from "./experienceForm/ExperienceForm";
-import EducationForm from "./educationForm/EducationForm";
-import FormTitle from "../formTitle/FormTitle";
-import FormSubTitle from "../formSubTitle/FormSubTitle";
-import FormControlButton from "../formControlButtons/FormControlButtons";
-import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
-  ProfileInfoPropType,
   HistoryPropType,
   KeyNameOptionsPropType,
   KeyTitleOptionsPropType,
+  ProfileInfoPropType,
 } from "../../../utils/customPropTypes";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import FormControlButton from "../formControlButtons/FormControlButtons";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import FormTitle from "../formTitle/FormTitle";
+import EducationForm from "./educationForm/EducationForm";
+import ExperienceForm from "./experienceForm/ExperienceForm";
 
 import "./QualificationsFormView.less";
 

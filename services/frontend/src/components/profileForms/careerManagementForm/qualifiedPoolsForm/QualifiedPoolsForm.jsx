@@ -1,10 +1,10 @@
 import PropTypes from "prop-types";
-import QualifiedPoolsFormView from "./QualifiedPoolsFormView";
 import {
-  FormInstancePropType,
   FieldPropType,
+  FormInstancePropType,
   KeyTitleOptionsPropType,
 } from "../../../../utils/customPropTypes";
+import QualifiedPoolsFormView from "./QualifiedPoolsFormView";
 
 const QualifiedPoolsForm = ({
   form,

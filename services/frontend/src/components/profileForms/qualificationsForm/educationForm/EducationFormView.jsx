@@ -1,33 +1,33 @@
 import {
-  Row,
-  Col,
-  Typography,
-  Form,
-  Button,
-  Tooltip,
-  Input,
-  Checkbox,
-} from "antd";
-import {
+  CloseCircleOutlined,
   FormOutlined,
   PlusOutlined,
-  CloseCircleOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
-import PropTypes from "prop-types";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Tooltip,
+  Typography,
+} from "antd";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 import { useState } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
 import {
   FieldPropType,
   FormInstancePropType,
-  KeyTitleOptionsPropType,
   IntlPropType,
   KeyNameOptionsPropType,
+  KeyTitleOptionsPropType,
 } from "../../../../utils/customPropTypes";
-import LinkAttachment from "../../linkAttachment/LinkAttachment";
-import DatePickerField from "../../../formItems/DatePickerField";
-import CustomDropdown from "../../../formItems/CustomDropdown";
 import Fieldset from "../../../fieldset/Fieldset";
+import CustomDropdown from "../../../formItems/CustomDropdown";
+import DatePickerField from "../../../formItems/DatePickerField";
+import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 import "./EducationFormView.less";
 
