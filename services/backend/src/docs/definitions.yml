@@ -60,7 +60,7 @@ definitions:
       - FRENCH
   IdQuery:
     name: id
-    in: query
+    in: path
     description: UUID of the user
     required: true
     type: string
