@@ -477,7 +477,12 @@ const CareerManagementFormView = ({
                               key={field.fieldKey}
                               fieldElement={field}
                               removeElement={remove}
-                              nameOptions={attachmentOptions}
+                              attachmentNamesOptions={attachmentOptions}
+                              attachmentNameDefault={form.getFieldValue([
+                                "developmentalGoalsAttachments",
+                                field.fieldKey,
+                                "nameId",
+                              ])}
                             />
                           ))}
                           <Form.Item>
