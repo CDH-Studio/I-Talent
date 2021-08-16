@@ -1,15 +1,16 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import {
-  persistReducer,
-  persistStore,
   FLUSH,
-  REHYDRATE,
   PAUSE,
   PERSIST,
+  persistReducer,
+  persistStore,
   PURGE,
   REGISTER,
+  REHYDRATE,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+
 import rootReducer from "./slices";
 
 const persistConfig = {

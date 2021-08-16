@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
-import { Row, Col, List, Empty, Avatar, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Col, Empty, List, Row, Typography } from "antd";
+import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 

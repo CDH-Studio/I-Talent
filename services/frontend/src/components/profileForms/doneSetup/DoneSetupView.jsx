@@ -1,15 +1,16 @@
-import { Link } from "react-router-dom";
-import { Typography, Button, Descriptions, Tag, Skeleton } from "antd";
+import "./DoneSetupView.less";
+
 import {
-  SearchOutlined,
-  UserOutlined,
   CheckCircleOutlined,
   EditOutlined,
+  SearchOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
+import { Button, Descriptions, Skeleton, Tag, Typography } from "antd";
 import PropTypes from "prop-types";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router";
-import "./DoneSetupView.less";
+import { Link } from "react-router-dom";
 
 const { Paragraph } = Typography;
 

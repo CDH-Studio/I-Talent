@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import CardVisibilityToggleView from "./CardVisibilityToggleView";
 
 const CardVisibilityToggle = ({ visibleCards, cardName, type, ariaLabel }) => (

@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import AdminLayoutView from "./AdminLayoutView";
+
 import availableTypes from "./adminLayoutTypes";
+import AdminLayoutView from "./AdminLayoutView";
 
 /**
  *  AdminLayout(props)

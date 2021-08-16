@@ -1,11 +1,12 @@
-import { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import useAxios from "../utils/useAxios";
-import handleError from "../functions/handleError";
-import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
+import { useSelector } from "react-redux";
+
 import ErrorProfilePage from "../components/errorResult/errorProfilePage";
+import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
+import handleError from "../functions/handleError";
+import useAxios from "../utils/useAxios";
 
 const Profile = ({ history, match }) => {
   const intl = useIntl();

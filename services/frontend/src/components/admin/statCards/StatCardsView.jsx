@@ -6,10 +6,11 @@ import {
   UsergroupAddOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { Card, Col, Row, Statistic } from "antd";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { Card, Row, Col, Statistic } from "antd";
 import { FormattedMessage, injectIntl } from "react-intl";
+
 import { IntlPropType } from "../../../utils/customPropTypes";
 
 /**

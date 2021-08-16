@@ -1,10 +1,11 @@
 import { combineReducers } from "redux";
-import settings from "./settingsSlice";
-import errors from "./errorsSlice";
-import user from "./userSlice";
-import stats from "./statsSlice";
+
 import admin from "./adminSlice";
+import errors from "./errorsSlice";
+import settings from "./settingsSlice";
 import state from "./stateSlice";
+import stats from "./statsSlice";
+import user from "./userSlice";
 
 export default combineReducers({
   settings,

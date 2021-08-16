@@ -1,8 +1,9 @@
-import { FormattedMessage } from "react-intl";
 import { AreaChartOutlined } from "@ant-design/icons";
-import AppLayout from "../appLayout/AppLayout";
-import Header from "../../header/Header";
+import { FormattedMessage } from "react-intl";
+
 import DashboardGraphs from "../../admin/dashboardGraphs/DashboardGraphs";
+import Header from "../../header/Header";
+import AppLayout from "../appLayout/AppLayout";
 
 const StatsLayoutView = () => (
   <AppLayout>

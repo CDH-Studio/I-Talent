@@ -1,6 +1,7 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useKeycloak } from "@react-keycloak/web";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import { setIsPrivacyAccepted } from "../../redux/slices/userSlice";
 import PrivacyModalView from "./PrivacyModalView";
 

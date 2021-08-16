@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
 import queryString from "query-string";
-import { useHistory } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import useAxios from "../../utils/useAxios";
+import { useHistory } from "react-router-dom";
+
 import handleError from "../../functions/handleError";
+import useAxios from "../../utils/useAxios";
 import SearchBarView from "./SearchBarView";
 
 const SearchBar = () => {

@@ -1,8 +1,9 @@
-import { Row, Col, Avatar, List, Empty, Tag } from "antd";
-import { BankOutlined, LinkOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
-import PropTypes from "prop-types";
 import "./EducationView.less";
+
+import { BankOutlined, LinkOutlined } from "@ant-design/icons";
+import { Avatar, Col, Empty, List, Row, Tag } from "antd";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
 
 const EducationView = ({ educationInfo }) => {
   const generateDescriptionBody = (text) => {

@@ -1,9 +1,9 @@
-import PropTypes from "prop-types";
-import { PageHeader, Tooltip } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import { useIntl } from "react-intl";
-
 import "./HeaderView.less";
+
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { PageHeader, Tooltip } from "antd";
+import PropTypes from "prop-types";
+import { useIntl } from "react-intl";
 
 const HeaderView = ({ title, icon, subtitle, extra, backBtn }) => {
   const intl = useIntl();

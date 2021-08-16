@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import SideNavView from "./SideNavView";
 
 const SideNav = ({ displaySideBar, siderWidth, sideBarContent, loading }) => (

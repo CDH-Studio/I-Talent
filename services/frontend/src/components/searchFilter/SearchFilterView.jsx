@@ -1,19 +1,21 @@
-import { useEffect } from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage, useIntl } from "react-intl";
+import "./SearchFilterView.less";
+
+import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import {
-  Form,
   Button,
+  Checkbox,
+  Form,
   Input,
   Switch,
-  Typography,
-  Checkbox,
   TreeSelect,
+  Typography,
 } from "antd";
-import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+
 import { IdDescriptionPropType } from "../../utils/customPropTypes";
 import CustomDropdown from "../formItems/CustomDropdown";
-import "./SearchFilterView.less";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;

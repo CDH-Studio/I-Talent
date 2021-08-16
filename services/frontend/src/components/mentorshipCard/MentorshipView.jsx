@@ -1,7 +1,7 @@
-import { Fragment } from "react";
-import PropTypes from "prop-types";
-import { Tag, Empty, Row, Col } from "antd";
 import { TagTwoTone } from "@ant-design/icons";
+import { Col, Empty, Row, Tag } from "antd";
+import PropTypes from "prop-types";
+import { Fragment } from "react";
 import { FormattedMessage } from "react-intl";
 
 const MentorshipView = ({ mentoringCategories, mentoring }) => {

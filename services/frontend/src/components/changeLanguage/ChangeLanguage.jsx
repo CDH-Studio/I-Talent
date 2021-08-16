@@ -1,10 +1,11 @@
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import PropTypes from "prop-types";
-import ChangeLanguageView from "./ChangeLanguageView";
+
+import handleError from "../../functions/handleError";
 import { setLocale } from "../../redux/slices/settingsSlice";
 import useAxios from "../../utils/useAxios";
-import handleError from "../../functions/handleError";
+import ChangeLanguageView from "./ChangeLanguageView";
 
 const ChangeLanguage = ({ className }) => {
   const userID = useSelector((state) => state.user.id);

@@ -1,14 +1,15 @@
-import { Row, Col, Form, Button, Input, Divider } from "antd";
+import "./LinkAttachmentView.less";
+
 import { CloseCircleOutlined, PaperClipOutlined } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PropTypes from "prop-types";
+import { FormattedMessage, useIntl } from "react-intl";
+
 import {
   FieldPropType,
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
 import CustomDropdown from "../../formItems/CustomDropdown";
-
-import "./LinkAttachmentView.less";
 
 const Rules = {
   required: {

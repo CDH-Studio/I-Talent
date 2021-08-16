@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import HeaderView from "./HeaderView";
 
 const Header = ({ title, icon, extra, subtitle, backBtn }) => (

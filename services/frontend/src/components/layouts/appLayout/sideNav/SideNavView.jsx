@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
-import { Layout, Skeleton } from "antd";
 import "./SideNavView.less";
+
+import { Layout, Skeleton } from "antd";
+import PropTypes from "prop-types";
 
 const { Sider } = Layout;
 

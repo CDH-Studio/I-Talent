@@ -1,19 +1,21 @@
-import { useState, useCallback, useEffect } from "react";
-import { notification } from "antd";
+import "./CardVisibilityToggleView.less";
+
 import {
   EyeInvisibleOutlined,
-  TeamOutlined,
   EyeOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useHistory, useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { notification } from "antd";
 import PropTypes from "prop-types";
-import "./CardVisibilityToggleView.less";
-import AlertDialog from "../modal/AlertDialog";
-import useAxios from "../../utils/useAxios";
+import { useCallback, useEffect, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router";
+
 import handleError from "../../functions/handleError";
+import useAxios from "../../utils/useAxios";
 import CustomDropdown from "../formItems/CustomDropdown";
+import AlertDialog from "../modal/AlertDialog";
 
 const CardVisibilityToggleView = ({
   cardName,

@@ -1,4 +1,5 @@
 import Keycloak from "keycloak-js";
+
 import config from "../utils/runtimeConfig";
 
 const keycloakConfig = {
@@ -18,4 +19,4 @@ const initKeycloakConfig = {
 
 const keycloak = new Keycloak(keycloakConfig);
 
-export { keycloak, initKeycloakConfig };
+export { initKeycloakConfig,keycloak };

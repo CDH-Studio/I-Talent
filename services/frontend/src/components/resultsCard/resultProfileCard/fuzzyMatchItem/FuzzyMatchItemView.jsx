@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
 import { Typography } from "antd";
 import { indexOf } from "lodash";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
 
 const { Text } = Typography;
 

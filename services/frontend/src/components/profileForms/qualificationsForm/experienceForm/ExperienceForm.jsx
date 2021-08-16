@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import ExperienceFormView from "./ExperienceFormView";
 
 import {
   FieldPropType,
   FormInstancePropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
+import ExperienceFormView from "./ExperienceFormView";
 
 /**
  *  ExperienceForm(props)

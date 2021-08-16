@@ -1,9 +1,10 @@
 import PropTypes from "prop-types";
-import LinkAttachmentView from "./LinkAttachmentView";
+
 import {
   FieldPropType,
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
+import LinkAttachmentView from "./LinkAttachmentView";
 
 const LinkAttachment = ({
   fieldElement,

@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
+
 import handleError from "../../../functions/handleError";
-import CompetencyTableView from "./CompetencyTableView";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import {
-  setAdminCompetenciesLoading,
   setAdminCompetencies,
+  setAdminCompetenciesLoading,
 } from "../../../redux/slices/adminSlice";
+import { IntlPropType } from "../../../utils/customPropTypes";
+import useAxios from "../../../utils/useAxios";
+import CompetencyTableView from "./CompetencyTableView";
 
 /**
  *  CompetencyTable(props)

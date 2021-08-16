@@ -1,5 +1,6 @@
 import { Result, Row } from "antd";
 import PropTypes from "prop-types";
+
 import AppLayout from "../layouts/appLayout/AppLayout";
 
 const ErrorResultView = ({ status, title, subTitle, extra }) => (

@@ -1,9 +1,10 @@
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import PropTypes from "prop-types";
-import EmploymentEquityView from "./EmploymentEquityView";
-import ProfileCards from "../profileCards/ProfileCards";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
+import EmploymentEquityView from "./EmploymentEquityView";
 
 const EmploymentEquity = ({ data, editableCardBool }) => {
   const [employmentEquityData, setEmploymentEquityData] = useState([]);

@@ -120,9 +120,9 @@ export {
   HistoryPropType,
   IdDescriptionPropType,
   IntlPropType,
+  KeyNameOptionsPropType,
   KeyTextOptionsPropType,
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
   StylesPropType,
-  KeyNameOptionsPropType,
 };

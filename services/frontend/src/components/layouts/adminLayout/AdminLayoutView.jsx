@@ -1,18 +1,18 @@
-import { useHistory } from "react-router-dom";
-import { Menu } from "antd";
-
 import {
-  DashboardOutlined,
-  SolutionOutlined,
   AppstoreAddOutlined,
-  ToolOutlined,
-  FlagOutlined,
-  TrophyOutlined,
   BankFilled,
   BugOutlined,
+  DashboardOutlined,
+  FlagOutlined,
+  SolutionOutlined,
+  ToolOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { Menu } from "antd";
 import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
+import { useHistory } from "react-router-dom";
+
 import AppLayout from "../appLayout/AppLayout";
 import availableTypes from "./adminLayoutTypes";
 

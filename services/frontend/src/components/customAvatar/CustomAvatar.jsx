@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+
 import CustomAvatarView from "./CustomAvatarView";
 
 const CustomAvatar = ({ style, hidden }) => {

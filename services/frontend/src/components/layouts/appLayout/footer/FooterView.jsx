@@ -1,8 +1,10 @@
-import { FormattedMessage } from "react-intl";
 import "./FooterView.less";
-import { Layout, Typography } from "antd";
+
 import { useKeycloak } from "@react-keycloak/web";
+import { Layout, Typography } from "antd";
+import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
+
 import config from "../../../../utils/runtimeConfig";
 import ReportBug from "../../../reportBug/ReportBug";
 

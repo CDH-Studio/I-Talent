@@ -1,8 +1,9 @@
-import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
-import OfficialLanguageView from "./OfficialLanguageView";
+import { FormattedMessage, useIntl } from "react-intl";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import OfficialLanguageView from "./OfficialLanguageView";
 
 const OfficialLanguage = ({ data, editableCardBool }) => {
   const intl = useIntl();

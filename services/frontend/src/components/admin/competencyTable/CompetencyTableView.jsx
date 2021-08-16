@@ -1,29 +1,29 @@
-/* eslint-disable no-shadow */
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-  Modal,
-  Popconfirm,
-  Form,
-  notification,
-} from "antd";
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  SearchOutlined,
   DatabaseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
-import { useIntl, FormattedMessage } from "react-intl";
-import { useSelector } from "react-redux";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Row,
+  Table,
+} from "antd";
 import { sortBy } from "lodash";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import Highlighter from "react-highlight-words";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
+
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 
@@ -49,7 +49,7 @@ const CompetencyTableView = ({
   const [modalType, setModalType] = useState("");
   const [editVisible, setEditVisible] = useState(false);
   const [addVisible, setAddVisible] = useState(false);
-  const [record, setRecord] = useState({});
+  const [recordState, setRecordState] = useState({});
   const [fields, setFields] = useState([{}]);
   const [sortedData, setSortedData] = useState([]);
 
@@ -181,7 +181,7 @@ const CompetencyTableView = ({
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
-      setRecord(null);
+      setRecordState(null);
     } else if (modalType === "add") {
       setAddVisible(false);
     }
@@ -204,7 +204,7 @@ const CompetencyTableView = ({
   /* handles render of "Edit Competency" modal */
   const handleEditModal = (record) => {
     setEditVisible(true);
-    setRecord(record);
+    setRecordState(record);
     setModalType("edit");
   };
 
@@ -292,7 +292,7 @@ const CompetencyTableView = ({
         editForm
           .validateFields()
           .then(async (values) => {
-            await handleSubmitEdit(values, record.id);
+            await handleSubmitEdit(values, recordState.id);
             editForm.resetFields();
             handleOk();
           })

@@ -1,5 +1,5 @@
-import { Modal } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
 import { createIntl, createIntlCache } from "react-intl";
 
 import messagesEn from "../i18n/en_CA.json";

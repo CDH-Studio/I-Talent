@@ -1,20 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
-import { Route, Redirect, Switch } from "react-router-dom";
 import { useKeycloak } from "@react-keycloak/web";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import useAxios from "../utils/useAxios";
+import { Redirect, Route, Switch } from "react-router-dom";
+
+import AppLayout from "../components/layouts/appLayout/AppLayout";
 import {
-  AdminDashboard,
-  AdminUser,
-  AdminSkill,
+  AdminBugs,
   AdminCategory,
   AdminCompetency,
+  AdminDashboard,
   AdminDiploma,
   AdminSchool,
-  AdminBugs,
+  AdminSkill,
+  AdminUser,
 } from "../pages/admin";
-import AppLayout from "../components/layouts/appLayout/AppLayout";
 import login from "../utils/login";
+import useAxios from "../utils/useAxios";
 
 const Admin = () => {
   const [authenticated, setAuthenticated] = useState(false);

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import AppLayoutView from "./AppLayoutView";
 
 const AppLayout = ({

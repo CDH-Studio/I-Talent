@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
-import { Alert } from "antd";
 import { EyeInvisibleOutlined, LockOutlined } from "@ant-design/icons";
+import { Alert } from "antd";
+import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
+
 import config from "../../utils/runtimeConfig";
 
 const { drupalSite } = config;

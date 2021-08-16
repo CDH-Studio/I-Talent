@@ -1,19 +1,21 @@
-import { Typography, Button, Modal, Col, Row } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
-import PropTypes from "prop-types";
-import {
-  UserOutlined,
-  UserAddOutlined,
-  RocketOutlined,
-  LoadingOutlined,
-  ExclamationCircleOutlined,
-} from "@ant-design/icons";
-import { useSelector } from "react-redux";
-import useAxios from "../../../utils/useAxios";
-import { IntlPropType, HistoryPropType } from "../../../utils/customPropTypes";
-import handleError from "../../../functions/handleError";
-import config from "../../../utils/runtimeConfig";
 import "./WelcomeView.less";
+
+import {
+  ExclamationCircleOutlined,
+  LoadingOutlined,
+  RocketOutlined,
+  UserAddOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { Button, Col, Modal, Row, Typography } from "antd";
+import PropTypes from "prop-types";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { useSelector } from "react-redux";
+
+import handleError from "../../../functions/handleError";
+import { HistoryPropType, IntlPropType } from "../../../utils/customPropTypes";
+import config from "../../../utils/runtimeConfig";
+import useAxios from "../../../utils/useAxios";
 
 const { backendAddress } = config;
 const { Title, Paragraph } = Typography;

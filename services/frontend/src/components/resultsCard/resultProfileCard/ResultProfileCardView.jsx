@@ -1,34 +1,36 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
-import { FormattedMessage, useIntl } from "react-intl";
+import "./ResultProfileCardView.less";
+
 import {
-  Row,
-  Col,
-  Tag,
-  Card,
-  Avatar,
-  Typography,
-  Badge,
-  Tooltip,
-  Button,
-  Modal,
-  List,
-} from "antd";
-import {
+  BranchesOutlined,
+  EditOutlined,
+  EnvironmentOutlined,
+  EyeInvisibleOutlined,
+  FileSearchOutlined,
+  LockOutlined,
+  TeamOutlined,
   UserAddOutlined,
   UserDeleteOutlined,
-  TeamOutlined,
-  EditOutlined,
-  LockOutlined,
-  EyeInvisibleOutlined,
-  BranchesOutlined,
-  EnvironmentOutlined,
-  FileSearchOutlined,
 } from "@ant-design/icons";
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  Col,
+  List,
+  Modal,
+  Row,
+  Tag,
+  Tooltip,
+  Typography,
+} from "antd";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useHistory } from "react-router-dom";
+
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import FuzzyMatchItem from "./fuzzyMatchItem/FuzzyMatchItem";
-import "./ResultProfileCardView.less";
 
 const { Meta } = Card;
 const { Text } = Typography;

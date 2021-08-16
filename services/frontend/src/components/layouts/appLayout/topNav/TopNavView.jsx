@@ -1,28 +1,30 @@
-import { useState, useEffect } from "react";
-import { Layout, Dropdown, Menu, Button, Input, Row, Typography } from "antd";
+import "./TopNavView.less";
+
 import {
+  AreaChartOutlined,
+  DashboardOutlined,
   DownOutlined,
   EditOutlined,
-  LogoutOutlined,
-  UserOutlined,
-  DashboardOutlined,
-  MenuOutlined,
   HomeOutlined,
-  AreaChartOutlined,
-  SettingOutlined,
+  LogoutOutlined,
+  MenuOutlined,
   SearchOutlined,
+  SettingOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
+import { Button, Dropdown, Input, Layout, Menu, Row, Typography } from "antd";
+import PropTypes from "prop-types";
+import queryString from "query-string";
+import { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import queryString from "query-string";
 import { Link } from "react-router-dom";
+
+import Logo from "../../../../assets/I-talent-logo-light.png";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
-import Logo from "../../../../assets/I-talent-logo-light.png";
-import "./TopNavView.less";
 
 const { Header } = Layout;
 const { Text } = Typography;

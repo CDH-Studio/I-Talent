@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
-import ExFeederView from "./ExFeederView";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import ExFeederView from "./ExFeederView";
 
 const ExFeeder = ({ data, editableCardBool }) => {
   const intl = useIntl();

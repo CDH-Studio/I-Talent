@@ -1,5 +1,6 @@
-import { Row, Col, List } from "antd";
+import { Col, List, Row } from "antd";
 import { FormattedMessage } from "react-intl";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const EmployeeSummaryView = ({ data }) => {

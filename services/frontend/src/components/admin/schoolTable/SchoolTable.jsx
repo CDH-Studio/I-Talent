@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
-import { IntlPropType } from "../../../utils/customPropTypes";
-import SchoolTableView from "./SchoolTableView";
+
 import handleError from "../../../functions/handleError";
 import {
   setAdminSchools,
   setAdminSchoolsLoading,
 } from "../../../redux/slices/adminSlice";
+import { IntlPropType } from "../../../utils/customPropTypes";
+import useAxios from "../../../utils/useAxios";
+import SchoolTableView from "./SchoolTableView";
 
 /**
  *  SchoolTable(props)

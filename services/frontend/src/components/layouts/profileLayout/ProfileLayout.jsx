@@ -1,7 +1,7 @@
 import propTypes from "prop-types";
-import ProfileLayoutView from "./ProfileLayoutView";
 
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
+import ProfileLayoutView from "./ProfileLayoutView";
 
 const ProfileLayout = ({
   data,

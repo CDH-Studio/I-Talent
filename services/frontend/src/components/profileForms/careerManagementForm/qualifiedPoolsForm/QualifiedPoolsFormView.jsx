@@ -1,15 +1,26 @@
+import "./QualifiedPoolsFormView.less";
+
 import { CloseCircleOutlined, FormOutlined } from "@ant-design/icons";
-import { Button, Col, Form, Input, Row, Tooltip, Typography } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Row,
+  Select,
+  Tooltip,
+  Typography,
+} from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage, injectIntl, useIntl } from "react-intl";
+
+import filterOption from "../../../../functions/filterSelectInput";
 import {
   FieldPropType,
   FormInstancePropType,
   KeyTitleOptionsPropType,
 } from "../../../../utils/customPropTypes";
 import CustomDropdown from "../../../formItems/CustomDropdown";
-
-import "./QualifiedPoolsFormView.less";
 
 const { Title } = Typography;
 

@@ -1,7 +1,8 @@
+import { Card, Col, Row } from "antd";
 import PropTypes from "prop-types";
-import { Card, Row, Col } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
 import Chart from "react-chartjs-2";
+import { FormattedMessage, injectIntl } from "react-intl";
+
 import { IntlPropType } from "../../../utils/customPropTypes";
 
 const chartColors = ["#6295f9", "#60daac", "#657799", "#f6c02a", "#e96c5c"];

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import FormSubTitleView from "./FormSubTitleView";
 
 const FormSubTitle = ({ title, popoverMessage, extra }) => (

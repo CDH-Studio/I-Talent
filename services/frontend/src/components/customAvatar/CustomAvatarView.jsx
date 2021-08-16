@@ -1,6 +1,6 @@
+import { EyeInvisibleOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { PropTypes } from "prop-types";
-import { EyeInvisibleOutlined } from "@ant-design/icons";
 
 const CustomAvatarView = ({ color, style, initials, hidden }) => {
   const styles = {

@@ -1,28 +1,29 @@
-import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
 import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-  Modal,
-  Popconfirm,
-  Form,
-  notification,
-} from "antd";
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  SearchOutlined,
   DatabaseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Row,
+  Table,
+} from "antd";
+import { sortBy } from "lodash";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash";
 import { useHistory } from "react-router";
+
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 

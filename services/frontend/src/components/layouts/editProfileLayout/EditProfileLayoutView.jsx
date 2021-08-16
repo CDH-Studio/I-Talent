@@ -1,31 +1,33 @@
-import { Menu, Card } from "antd";
+import "./EditProfileLayoutView.less";
+
 import {
-  TagsOutlined,
   CompassOutlined,
-  GlobalOutlined,
-  SolutionOutlined,
-  TrophyOutlined,
-  ProjectOutlined,
   EditOutlined,
+  GlobalOutlined,
+  ProjectOutlined,
+  SolutionOutlined,
+  TagsOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
+import { Card, Menu } from "antd";
 import PropTypes from "prop-types";
-import { Redirect } from "react-router";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import AppLayout from "../appLayout/AppLayout";
+import { Redirect } from "react-router";
+
 import { HistoryPropType } from "../../../utils/customPropTypes";
+import Header from "../../header/Header";
 import {
+  CareerManagementForm,
+  DoneSetup,
   EmploymentDataForm,
   LangProficiencyForm,
   PrimaryInfoForm,
-  TalentForm,
-  CareerManagementForm,
   QualificationsForm,
-  DoneSetup,
+  TalentForm,
 } from "../../profileForms";
-import Header from "../../header/Header";
-import "./EditProfileLayoutView.less";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
+import AppLayout from "../appLayout/AppLayout";
 
 /*
  *  EditProfileLayoutView(props)

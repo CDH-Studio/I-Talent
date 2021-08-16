@@ -1,6 +1,6 @@
-import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
-import { setLocale } from "../redux/slices/settingsSlice";
 import store from "../redux";
+import { setLocale } from "../redux/slices/settingsSlice";
+import { setUser, setUserIsAdmin } from "../redux/slices/userSlice";
 
 const createUser = async (userInfo, axios) =>
   axios.post("api/user", {

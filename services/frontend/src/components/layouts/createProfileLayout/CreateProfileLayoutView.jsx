@@ -1,22 +1,23 @@
-import { Steps, Card } from "antd";
+import "./CreateProfileLayoutView.less";
+
 import { UserAddOutlined } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useHistory, Redirect } from "react-router-dom";
+import { Card, Steps } from "antd";
 import PropTypes from "prop-types";
-import AppLayout from "../appLayout/AppLayout";
+import { FormattedMessage, useIntl } from "react-intl";
+import { Redirect, useHistory } from "react-router-dom";
+
+import Header from "../../header/Header";
 import {
-  Welcome,
+  CareerManagementForm,
+  DoneSetup,
   EmploymentDataForm,
   LangProficiencyForm,
   PrimaryInfoForm,
-  TalentForm,
-  CareerManagementForm,
   QualificationsForm,
-  DoneSetup,
+  TalentForm,
+  Welcome,
 } from "../../profileForms";
-import Header from "../../header/Header";
-
-import "./CreateProfileLayoutView.less";
+import AppLayout from "../appLayout/AppLayout";
 
 const { Step } = Steps;
 

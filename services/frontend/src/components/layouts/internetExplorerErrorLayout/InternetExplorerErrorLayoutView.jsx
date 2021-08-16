@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
-import { Layout, Row, Col, Button, Result, Divider, Card } from "antd";
 import { IeOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Divider, Layout, Result, Row } from "antd";
+import PropTypes from "prop-types";
+
 import logo from "../../../assets/I-talent-logo-light.png";
 
 const { Header } = Layout;

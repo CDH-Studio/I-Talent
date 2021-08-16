@@ -1,32 +1,34 @@
+import "./ExperienceFormView.less";
+
 import {
-  Row,
-  Col,
-  Typography,
-  Form,
-  Button,
-  Checkbox,
-  Input,
-  Tooltip,
-} from "antd";
-import PropTypes from "prop-types";
-import {
+  CloseCircleOutlined,
   FormOutlined,
   PlusOutlined,
-  CloseCircleOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Tooltip,
+  Typography,
+} from "antd";
+import PropTypes from "prop-types";
 import { useState } from "react";
-import "./ExperienceFormView.less";
-import LinkAttachment from "../../linkAttachment/LinkAttachment";
-import DatePickerField from "../../../formItems/DatePickerField";
-import Fieldset from "../../../fieldset/Fieldset";
-import CustomDropdown from "../../../formItems/CustomDropdown";
+import { FormattedMessage, injectIntl } from "react-intl";
+
 import {
   FieldPropType,
   FormInstancePropType,
   IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
+import Fieldset from "../../../fieldset/Fieldset";
+import CustomDropdown from "../../../formItems/CustomDropdown";
+import DatePickerField from "../../../formItems/DatePickerField";
+import LinkAttachment from "../../linkAttachment/LinkAttachment";
 
 const { Title } = Typography;
 /**

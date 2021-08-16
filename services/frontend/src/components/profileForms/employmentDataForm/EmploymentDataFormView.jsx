@@ -1,36 +1,37 @@
-import { useState, useEffect } from "react";
+import "./EmploymentDataFormView.less";
+
 import {
-  Row,
   Col,
-  Skeleton,
   Divider,
   Form,
   Input,
-  Switch,
   notification,
+  Row,
+  Skeleton,
+  Switch,
 } from "antd";
+import { identity, isEqual, pickBy } from "lodash";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy } from "lodash";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
-import CustomDropdown from "../../formItems/CustomDropdown";
-import Fieldset from "../../fieldset/Fieldset";
-import useAxios from "../../../utils/useAxios";
+
+import handleError from "../../../functions/handleError";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
+  HistoryPropType,
+  IntlPropType,
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  IntlPropType,
-  HistoryPropType,
 } from "../../../utils/customPropTypes";
-import handleError from "../../../functions/handleError";
+import useAxios from "../../../utils/useAxios";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import Fieldset from "../../fieldset/Fieldset";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
-
-import "./EmploymentDataFormView.less";
+import FormTitle from "../formTitle/FormTitle";
 
 /**
  *  EmploymentDataFormView(props)

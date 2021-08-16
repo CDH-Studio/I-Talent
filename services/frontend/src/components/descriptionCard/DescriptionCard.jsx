@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
+
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import DescriptionCardView from "./DescriptionCardView";
-import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const DescriptionCard = ({ data, editableCardBool }) => {
   const intl = useIntl();

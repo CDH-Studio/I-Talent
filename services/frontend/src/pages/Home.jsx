@@ -1,8 +1,9 @@
-import { useEffect } from "react";
 import { Row } from "antd";
+import { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import SearchBar from "../components/searchBar/SearchBar";
+
 import AppLayout from "../components/layouts/appLayout/AppLayout";
+import SearchBar from "../components/searchBar/SearchBar";
 
 const Home = () => {
   const intl = useIntl();

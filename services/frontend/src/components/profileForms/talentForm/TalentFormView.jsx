@@ -1,34 +1,36 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import "./TalentFormView.less";
+
 import {
-  Row,
   Col,
-  Skeleton,
-  Typography,
   Divider,
   Form,
-  Switch,
-  TreeSelect,
-  Tabs,
   notification,
+  Row,
+  Skeleton,
+  Switch,
+  Tabs,
+  TreeSelect,
+  Typography,
 } from "antd";
-import { FormattedMessage, useIntl } from "react-intl";
-import { pickBy, isEmpty, identity, isEqual } from "lodash";
+import { identity, isEmpty, isEqual, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useHistory, Prompt } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import useAxios from "../../../utils/useAxios";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { Prompt, useHistory } from "react-router-dom";
+
+import handleError from "../../../functions/handleError";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
 } from "../../../utils/customPropTypes";
-import handleError from "../../../functions/handleError";
+import useAxios from "../../../utils/useAxios";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import FormControlButton from "../formControlButtons/FormControlButtons";
-import FormTitle from "../formTitle/FormTitle";
-import FormSubTitle from "../formSubTitle/FormSubTitle";
 import CustomDropdown from "../../formItems/CustomDropdown";
-import "./TalentFormView.less";
+import FormControlButton from "../formControlButtons/FormControlButtons";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import FormTitle from "../formTitle/FormTitle";
 
 const { Text } = Typography;
 const { SHOW_CHILD } = TreeSelect;

@@ -1,26 +1,28 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { FormattedMessage, useIntl } from "react-intl";
+import "./SearchBarView.less";
+
 import {
-  Typography,
-  Row,
-  Col,
-  Button,
-  Form,
-  Input,
-  Switch,
-  Checkbox,
-  TreeSelect,
-} from "antd";
-import {
+  DoubleRightOutlined,
   SearchOutlined,
   SettingOutlined,
-  DoubleRightOutlined,
 } from "@ant-design/icons";
-import CustomDropdown from "../formItems/CustomDropdown";
-import Fieldset from "../fieldset/Fieldset";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Switch,
+  TreeSelect,
+  Typography,
+} from "antd";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+
 import logo from "../../assets/I-talent-logo.png";
-import "./SearchBarView.less";
+import Fieldset from "../fieldset/Fieldset";
+import CustomDropdown from "../formItems/CustomDropdown";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Title } = Typography;

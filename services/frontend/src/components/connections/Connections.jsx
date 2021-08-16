@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
-import ConnectionsView from "./ConnectionsView";
+
 import ProfileCards from "../profileCards/ProfileCards";
+import ConnectionsView from "./ConnectionsView";
 
 const connections = ({ data }) => {
   const intl = useIntl();

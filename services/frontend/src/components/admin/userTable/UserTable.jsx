@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
 import dayjs from "dayjs";
+import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Prompt, useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
-import UserTableView from "./UserTableView";
+
 import handleError from "../../../functions/handleError";
 import {
   setAdminUsers,
   setAdminUsersLoading,
 } from "../../../redux/slices/adminSlice";
+import useAxios from "../../../utils/useAxios";
+import UserTableView from "./UserTableView";
 
 /**
  *  UserTable(props)

@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { Button } from "antd";
-import { Redirect } from "react-router-dom";
-import { FormattedMessage } from "react-intl";
 import { HomeOutlined, UserOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
+import { Button } from "antd";
 import PropTypes from "prop-types";
+import { useState } from "react";
+import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+
 import ErrorResultView from "./errorResultView";
 
 const ErrorProfilePage = ({ titleId, subtitleId }) => {

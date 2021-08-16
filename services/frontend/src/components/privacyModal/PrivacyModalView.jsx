@@ -1,9 +1,11 @@
-import PropTypes from "prop-types";
-import { Modal, Button } from "antd";
-import { LockOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
-import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 import "./PrivacyModalView.less";
+
+import { CheckOutlined, CloseOutlined, LockOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
+
+import ChangeLanguage from "../changeLanguage/ChangeLanguage";
 
 const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => (
   <Modal

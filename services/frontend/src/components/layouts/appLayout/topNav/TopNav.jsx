@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+
 import TopNavView from "./TopNavView";
 
 const TopNav = ({ loading, displayLogo, displaySearch }) => {

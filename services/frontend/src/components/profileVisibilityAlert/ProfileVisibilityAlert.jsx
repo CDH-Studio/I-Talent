@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
+import PropTypes from "prop-types";
+
 import ProfileVisibilityAlertView from "./ProfileVisibilityAlertView";
 
 const ProfileVisibilityAlert = ({

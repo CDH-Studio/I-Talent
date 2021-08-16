@@ -15,13 +15,14 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: "module",
   },
-  plugins: ["prettier", "react-hooks"],
+  plugins: ["prettier", "react-hooks", "simple-import-sort"],
   rules: {
     "react-hooks/exhaustive-deps": "warn",
     "react/react-in-jsx-scope": "off",
     "react/destructuring-assignment": "off",
     "react/jsx-sort-props": "error",
     "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
-    "sort-imports": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
   },
 };

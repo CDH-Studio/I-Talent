@@ -1,41 +1,43 @@
-import { useState } from "react";
-import { FormattedMessage } from "react-intl";
+import "./BasicInfoView.less";
+
 import {
-  MailOutlined,
-  PhoneOutlined,
-  MobileOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
-  DownOutlined,
-  TeamOutlined,
-  UserDeleteOutlined,
-  UserAddOutlined,
-  InfoCircleOutlined,
   ApartmentOutlined,
+  DownOutlined,
+  EnvironmentOutlined,
+  InfoCircleOutlined,
+  MailOutlined,
+  MobileOutlined,
+  PhoneOutlined,
+  TeamOutlined,
+  UserAddOutlined,
+  UserDeleteOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import PropTypes from "prop-types";
 import {
-  Row,
-  Col,
-  Card,
   // Dropdown,
   Avatar,
-  List,
-  Typography,
   Button,
+  Card,
+  Col,
+  List,
+  Modal,
+  Popover,
+  Row,
   // Menu,
   Tag,
-  Popover,
-  Modal,
+  Typography,
 } from "antd";
-import { useParams } from "react-router";
-import { useSelector } from "react-redux";
 import { kebabCase } from "lodash";
-import OrgTree from "../orgTree/OrgTree";
-import config from "../../utils/runtimeConfig";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import config from "../../utils/runtimeConfig";
 import EditCardButton from "../editCardButton/EditCardButton";
-import "./BasicInfoView.less";
+import OrgTree from "../orgTree/OrgTree";
 
 const { Text, Title } = Typography;
 

@@ -1,38 +1,39 @@
-import PropTypes from "prop-types";
-import {
-  Table,
-  Button,
-  Row,
-  Col,
-  Input,
-  Select,
-  notification,
-  Popconfirm,
-  Popover,
-  Tag,
-  Typography,
-} from "antd";
+import "./UserTableView.less";
+
 import {
   CheckCircleOutlined,
+  DatabaseOutlined,
+  DeleteOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
   InfoCircleOutlined,
   SearchOutlined,
   TeamOutlined,
-  DeleteOutlined,
-  DatabaseOutlined,
-  EyeInvisibleOutlined,
-  EyeOutlined,
 } from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Input,
+  notification,
+  Popconfirm,
+  Popover,
+  Row,
+  Select,
+  Table,
+  Tag,
+  Typography,
+} from "antd";
 import dayjs from "dayjs";
+import { uniq } from "lodash";
+import PropTypes from "prop-types";
 import Highlighter from "react-highlight-words";
-import { useIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { uniq } from "lodash";
 
 import handleError from "../../../functions/handleError";
-import Header from "../../header/Header";
 import config from "../../../utils/runtimeConfig";
-import "./UserTableView.less";
+import Header from "../../header/Header";
 
 const { Text } = Typography;
 

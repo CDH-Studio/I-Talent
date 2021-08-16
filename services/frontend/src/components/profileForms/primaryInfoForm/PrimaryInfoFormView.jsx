@@ -1,46 +1,48 @@
-import { useState } from "react";
+import "./PrimaryInfoFormView.less";
+
 import {
-  Row,
+  InfoCircleOutlined,
+  LinkOutlined,
+  SyncOutlined,
+} from "@ant-design/icons";
+import { useKeycloak } from "@react-keycloak/web";
+import {
+  Button,
   Col,
-  Skeleton,
   Divider,
   Form,
   Input,
-  Button,
   notification,
   Popover,
+  Row,
+  Skeleton,
 } from "antd";
-import {
-  LinkOutlined,
-  InfoCircleOutlined,
-  SyncOutlined,
-} from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
-import { pickBy, identity, isEqual } from "lodash";
+import { identity, isEqual, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { isMobilePhone } from "validator";
+import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
-import { useKeycloak } from "@react-keycloak/web";
-import useAxios from "../../../utils/useAxios";
-import CustomDropdown from "../../formItems/CustomDropdown";
-import Fieldset from "../../fieldset/Fieldset";
-import {
-  IdDescriptionPropType,
-  ProfileInfoPropType,
-  HistoryPropType,
-  KeyTitleOptionsPropType,
-} from "../../../utils/customPropTypes";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import { isMobilePhone } from "validator";
+
 import store from "../../../redux";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { setUserSignupStep } from "../../../redux/slices/userSlice";
-import FormControlButton from "../formControlButtons/FormControlButtons";
-import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
-import FormTitle from "../formTitle/FormTitle";
-import FormSubTitle from "../formSubTitle/FormSubTitle";
+import {
+  HistoryPropType,
+  IdDescriptionPropType,
+  KeyTitleOptionsPropType,
+  ProfileInfoPropType,
+} from "../../../utils/customPropTypes";
 import login from "../../../utils/login";
-import "./PrimaryInfoFormView.less";
+import useAxios from "../../../utils/useAxios";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import Fieldset from "../../fieldset/Fieldset";
+import CustomDropdown from "../../formItems/CustomDropdown";
+import FormControlButton from "../formControlButtons/FormControlButtons";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import FormTitle from "../formTitle/FormTitle";
+import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 
 const PrimaryInfoFormView = ({
   locationOptions,

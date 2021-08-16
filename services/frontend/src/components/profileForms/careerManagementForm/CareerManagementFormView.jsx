@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+import "./CareerManagementFormView.less";
+
+>>>>>>> sort import statments
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -7,6 +12,10 @@ import {
   Form,
   notification,
   Row,
+<<<<<<< HEAD
+=======
+  Select,
+>>>>>>> sort import statments
   Skeleton,
   Tabs,
   TreeSelect,
@@ -17,6 +26,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
+<<<<<<< HEAD
+=======
+
+import filterOption from "../../../functions/filterSelectInput";
+>>>>>>> sort import statments
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
@@ -28,7 +42,10 @@ import {
 import useAxios from "../../../utils/useAxios";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import Fieldset from "../../fieldset/Fieldset";
+<<<<<<< HEAD
 import CustomDropdown from "../../formItems/CustomDropdown";
+=======
+>>>>>>> sort import statments
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormTitle from "../formTitle/FormTitle";

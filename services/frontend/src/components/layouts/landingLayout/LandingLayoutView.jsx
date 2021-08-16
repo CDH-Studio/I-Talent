@@ -1,11 +1,13 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
-import { Row, Col, Typography, Button } from "antd";
-import { LockFilled, UnlockFilled } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
-import { useKeycloak } from "@react-keycloak/web";
-import AppLayout from "../appLayout/AppLayout";
 import "./LandingLayoutView.less";
+
+import { LockFilled, UnlockFilled } from "@ant-design/icons";
+import { useKeycloak } from "@react-keycloak/web";
+import { Button, Col, Row, Typography } from "antd";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { FormattedMessage } from "react-intl";
+
+import AppLayout from "../appLayout/AppLayout";
 
 const { Text, Title } = Typography;
 

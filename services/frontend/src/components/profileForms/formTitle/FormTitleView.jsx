@@ -1,8 +1,8 @@
+import "./FormTitleView.less";
+
+import { Typography } from "antd";
 import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import { Typography } from "antd";
-
-import "./FormTitleView.less";
 
 const { Title, Text } = Typography;
 

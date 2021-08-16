@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
 import queryString from "query-string";
-import { useHistory } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
+import handleError from "../../functions/handleError";
 import useAxios from "../../utils/useAxios";
 import SearchFilterView from "./SearchFilterView";
-import handleError from "../../functions/handleError";
 
 const SearchFilter = () => {
   const [skillOptions, setSkillOptions] = useState([]);

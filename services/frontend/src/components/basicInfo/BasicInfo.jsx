@@ -1,12 +1,13 @@
 import {
-  LinkedinOutlined,
   GithubOutlined,
+  LinkedinOutlined,
   LinkOutlined,
   MailOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import BasicInfoView from "./BasicInfoView";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import BasicInfoView from "./BasicInfoView";
 
 const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
   const getButtonLinks = () => {

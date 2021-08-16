@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
+import handleError from "../../../functions/handleError";
 import useAxios from "../../../utils/useAxios";
 import LangProficiencyFormView from "./LangProficiencyFormView";
-import handleError from "../../../functions/handleError";
 
 /**
  *  LangProficiencyForm(props)

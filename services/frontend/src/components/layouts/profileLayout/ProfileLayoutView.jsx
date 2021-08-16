@@ -1,48 +1,49 @@
-import { useEffect } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import "./ProfileLayoutView.less";
+
+import {
+  PrinterOutlined,
+  RiseOutlined,
+  TagsTwoTone,
+  TeamOutlined,
+  TrophyOutlined,
+} from "@ant-design/icons";
 import {
   Anchor,
-  Typography,
-  Row,
+  Button,
   Col,
   notification,
+  Row,
   Tooltip,
-  Button,
+  Typography,
 } from "antd";
-import {
-  TagsTwoTone,
-  RiseOutlined,
-  TrophyOutlined,
-  TeamOutlined,
-  PrinterOutlined,
-} from "@ant-design/icons";
-import PropTypes from "prop-types";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
-import AppLayout from "../appLayout/AppLayout";
+
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import BasicInfo from "../../basicInfo/BasicInfo";
-import Header from "../../header/Header";
-import Skills from "../../skillsCard/Skills";
-import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
-import Mentorship from "../../mentorshipCard/Mentorship";
-import Competencies from "../../competenciesCard/Competencies";
-import DescriptionCard from "../../descriptionCard/DescriptionCard";
-import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
-import TalentManagement from "../../talentManagement/TalentManagement";
-import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
-import QualifiedPools from "../../qualifiedPools/QualifiedPools";
-import Experience from "../../experience/Experience";
-import Education from "../../education/Education";
+import Competencies from "../../competenciesCard/Competencies";
 import Connections from "../../connections/Connections";
+import DescriptionCard from "../../descriptionCard/DescriptionCard";
+import Education from "../../education/Education";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
+import ErrorProfilePage from "../../errorResult/errorProfilePage";
+import ExFeeder from "../../exFeeder/ExFeeder";
+import Experience from "../../experience/Experience";
+import Header from "../../header/Header";
+import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
+import Mentorship from "../../mentorshipCard/Mentorship";
+import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
-
-import "./ProfileLayoutView.less";
+import QualifiedPools from "../../qualifiedPools/QualifiedPools";
+import Skills from "../../skillsCard/Skills";
+import TalentManagement from "../../talentManagement/TalentManagement";
+import AppLayout from "../appLayout/AppLayout";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;

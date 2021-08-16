@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
-import EmployeeSummaryView from "./EmployeeSummaryView";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import EmployeeSummaryView from "./EmployeeSummaryView";
 
 const EmployeeSummary = ({ data, editableCardBool }) => {
   const intl = useIntl();

@@ -1,11 +1,13 @@
-import { FormattedMessage } from "react-intl";
+import "./ExFeederView.less";
+
 import {
   CheckCircleOutlined,
-  WarningOutlined,
   EyeInvisibleOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
+import { FormattedMessage } from "react-intl";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import "./ExFeederView.less";
 
 const ExFeederView = ({ data }) => {
   if (data.exFeeder) {

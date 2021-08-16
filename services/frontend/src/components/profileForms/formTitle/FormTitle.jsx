@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import FormTitleView from "./FormTitleView";
 
 const FormTitle = ({ title, formType, stepNumber, fieldsChanged, extra }) => (

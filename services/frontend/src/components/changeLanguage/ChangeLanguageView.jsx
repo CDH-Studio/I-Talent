@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import { GlobalOutlined } from "@ant-design/icons";
 import { Button } from "antd";
+import PropTypes from "prop-types";
 import { FormattedMessage, useIntl } from "react-intl";
 
 const ChangeLanguageView = ({ className, handleLanguageChange }) => {

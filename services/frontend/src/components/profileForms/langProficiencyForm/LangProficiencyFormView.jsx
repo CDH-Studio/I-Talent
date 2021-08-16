@@ -1,32 +1,34 @@
-import { useState, useEffect } from "react";
+import "./LangProficiencyFormView.less";
+
 import {
-  Row,
   Col,
-  Skeleton,
-  Typography,
   Divider,
   Form,
-  Switch,
   notification,
+  Row,
+  Skeleton,
+  Switch,
+  Typography,
 } from "antd";
-import { FormattedMessage, useIntl } from "react-intl";
 import { identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
+
+import handleError from "../../../functions/handleError";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
+  HistoryPropType,
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  HistoryPropType,
 } from "../../../utils/customPropTypes";
-import CustomDropdown from "../../formItems/CustomDropdown";
-import Fieldset from "../../fieldset/Fieldset";
-import handleError from "../../../functions/handleError";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import Fieldset from "../../fieldset/Fieldset";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
-import "./LangProficiencyFormView.less";
 
 const { Text } = Typography;
 

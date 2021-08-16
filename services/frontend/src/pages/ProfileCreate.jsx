@@ -1,10 +1,11 @@
-import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { useIntl } from "react-intl";
-import useAxios from "../utils/useAxios";
+import { useDispatch, useSelector } from "react-redux";
+
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
 import { setUserSignupStep } from "../redux/slices/userSlice";
+import useAxios from "../utils/useAxios";
 
 const ProfileCreate = ({ step }) => {
   const axios = useAxios();

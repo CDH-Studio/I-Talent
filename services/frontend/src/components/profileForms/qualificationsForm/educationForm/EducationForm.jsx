@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
-import EducationFormView from "./EducationFormView";
+
 import {
   FieldPropType,
   FormInstancePropType,
-  KeyTitleOptionsPropType,
   KeyNameOptionsPropType,
+  KeyTitleOptionsPropType,
 } from "../../../../utils/customPropTypes";
+import EducationFormView from "./EducationFormView";
 
 const EducationForm = ({
   form,

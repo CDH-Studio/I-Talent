@@ -1,9 +1,10 @@
-import { Tree, Typography } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import "./OrgTreeView.less";
+
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { Tree, Typography } from "antd";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 
 const { Text } = Typography;
 

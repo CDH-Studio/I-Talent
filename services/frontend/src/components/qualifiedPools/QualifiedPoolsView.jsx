@@ -1,9 +1,9 @@
-import { FormattedMessage } from "react-intl";
-import PropTypes from "prop-types";
-import { List, Empty, Descriptions, Typography } from "antd";
-import { LinkOutlined } from "@ant-design/icons";
-
 import "./QualifiedPoolsView.less";
+
+import { LinkOutlined } from "@ant-design/icons";
+import { Descriptions, Empty, List, Typography } from "antd";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
 
 const { Link, Text } = Typography;
 

@@ -1,24 +1,24 @@
-import { useState } from "react";
+import { DatabaseOutlined, EditOutlined } from "@ant-design/icons";
 import {
-  Table,
-  Tag,
   Button,
+  Form,
   Input,
   Modal,
-  Form,
-  Radio,
   notification,
+  Radio,
+  Table,
+  Tag,
 } from "antd";
-import { FormattedMessage, useIntl } from "react-intl";
-import { Link, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
-import dayjs from "dayjs";
-import { EditOutlined, DatabaseOutlined } from "@ant-design/icons";
-import PropTypes from "prop-types";
-
 import TextArea from "antd/lib/input/TextArea";
-import Header from "../../header/Header";
+import dayjs from "dayjs";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+
 import handleError from "../../../functions/handleError";
+import Header from "../../header/Header";
 
 const tableColumns = (handleEdit) => [
   {

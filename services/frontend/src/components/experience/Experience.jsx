@@ -1,9 +1,10 @@
 import dayjs from "dayjs";
-import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
-import ExperienceView from "./ExperienceView";
+import { useIntl } from "react-intl";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import ExperienceView from "./ExperienceView";
 
 const Experience = ({ data, editableCardBool }) => {
   const intl = useIntl();

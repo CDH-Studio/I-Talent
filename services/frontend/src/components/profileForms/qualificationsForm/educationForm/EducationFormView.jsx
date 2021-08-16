@@ -1,3 +1,5 @@
+import "./EducationFormView.less";
+
 import {
   CloseCircleOutlined,
   FormOutlined,
@@ -17,6 +19,7 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
+
 import {
   FieldPropType,
   FormInstancePropType,
@@ -28,8 +31,6 @@ import Fieldset from "../../../fieldset/Fieldset";
 import CustomDropdown from "../../../formItems/CustomDropdown";
 import DatePickerField from "../../../formItems/DatePickerField";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
-
-import "./EducationFormView.less";
 
 const { Title } = Typography;
 

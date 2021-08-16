@@ -1,34 +1,34 @@
 /* eslint-disable no-shadow */
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-  Modal,
-  Popconfirm,
-  Form,
-  Select,
-  notification,
-} from "antd";
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  SearchOutlined,
   DatabaseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
-import Highlighter from "react-highlight-words";
-import { useIntl, FormattedMessage } from "react-intl";
-import { useSelector } from "react-redux";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Row,
+  Select,
+  Table,
+} from "antd";
 import { sortBy } from "lodash";
-
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import Highlighter from "react-highlight-words";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
+
+import filterOption from "../../../functions/filterSelectInput";
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
-import filterOption from "../../../functions/filterSelectInput";
 
 /**
  *  SkillTableView(props)

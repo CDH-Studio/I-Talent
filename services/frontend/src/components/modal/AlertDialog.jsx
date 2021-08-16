@@ -5,8 +5,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
-import PropTypes from "prop-types";
 import { Button } from "antd";
+import PropTypes from "prop-types";
 
 const AlertDialog = ({
   title,

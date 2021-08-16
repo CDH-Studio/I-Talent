@@ -1,14 +1,15 @@
-import { FormattedMessage, useIntl } from "react-intl";
-import { Card, List, Button, Modal, Switch, Tooltip } from "antd";
 import {
   DeleteOutlined,
-  EyeInvisibleFilled,
   EyeFilled,
+  EyeInvisibleFilled,
   SettingOutlined,
 } from "@ant-design/icons";
+import { Button, Card, List, Modal, Switch, Tooltip } from "antd";
 import PropTypes from "prop-types";
-import AppLayout from "../appLayout/AppLayout";
+import { FormattedMessage, useIntl } from "react-intl";
+
 import Header from "../../header/Header";
+import AppLayout from "../appLayout/AppLayout";
 
 const SettingsLayoutView = ({
   deleteCurrentUser,

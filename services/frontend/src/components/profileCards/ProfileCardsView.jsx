@@ -1,11 +1,11 @@
-import PropTypes from "prop-types";
-import { Card, Col, Row, Typography, Tooltip } from "antd";
-import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
+import { Card, Col, Row, Tooltip, Typography } from "antd";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
+import { FormattedMessage } from "react-intl";
 
-import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
 import CardVisibilityStatus from "../cardVisibilityStatus/CardVisibilityStatus";
+import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
 import EditCardButton from "../editCardButton/EditCardButton";
 
 const { Text } = Typography;
