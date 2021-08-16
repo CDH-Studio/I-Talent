@@ -1,41 +1,42 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { PlusOutlined } from "@ant-design/icons";
 import {
-  Row,
+  Button,
+  Checkbox,
   Col,
-  Skeleton,
   Divider,
   Form,
-  Select,
-  Checkbox,
-  TreeSelect,
-  Tabs,
   notification,
-  Button,
+  Row,
+  Select,
+  Skeleton,
+  Tabs,
+  TreeSelect,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
+import { identity, isEqual, isNil, omitBy, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { pickBy, identity, isEqual, isNil, omitBy } from "lodash";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
-import useAxios from "../../../utils/useAxios";
+import filterOption from "../../../functions/filterSelectInput";
+import handleError from "../../../functions/handleError";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
-  KeyTitleOptionsPropType,
-  ProfileInfoPropType,
   HistoryPropType,
   KeyNameOptionsPropType,
+  KeyTitleOptionsPropType,
+  ProfileInfoPropType,
 } from "../../../utils/customPropTypes";
-import handleError from "../../../functions/handleError";
+import useAxios from "../../../utils/useAxios";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
+import Fieldset from "../../fieldset/Fieldset";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./CareerManagementFormView.less";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import FormTitle from "../formTitle/FormTitle";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
-import FormTitle from "../formTitle/FormTitle";
-import FormSubTitle from "../formSubTitle/FormSubTitle";
-import Fieldset from "../../fieldset/Fieldset";
+
+import "./CareerManagementFormView.less";
 
 const { Option } = Select;
 const { SHOW_CHILD } = TreeSelect;
@@ -544,6 +545,7 @@ const CareerManagementFormView = ({
                         {fields.map((field) => (
                           <QualifiedPoolsForm
                             key={field.fieldKey}
+                            form={form}
                             fieldElement={field}
                             removeElement={remove}
                             savedQualifiedPools={savedQualifiedPools}

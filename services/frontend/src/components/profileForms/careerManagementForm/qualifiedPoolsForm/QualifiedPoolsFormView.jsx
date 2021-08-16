@@ -1,28 +1,16 @@
-import {
-  Row,
-  Col,
-  Typography,
-  Form,
-  Select,
-  Button,
-  Tooltip,
-  Input,
-} from "antd";
-
-import { FormOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import { FormattedMessage, injectIntl, useIntl } from "react-intl";
+import { CloseCircleOutlined, FormOutlined } from "@ant-design/icons";
+import { Button, Col, Form, Input, Row, Tooltip, Typography } from "antd";
 import PropTypes from "prop-types";
-
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   FieldPropType,
+  FormInstancePropType,
   KeyTitleOptionsPropType,
-  // IntlPropType,
 } from "../../../../utils/customPropTypes";
-import filterOption from "../../../../functions/filterSelectInput";
+import CustomDropdown from "../../../formItems/CustomDropdown";
 
 import "./QualifiedPoolsFormView.less";
 
-const { Option } = Select;
 const { Title } = Typography;
 
 /**
@@ -32,6 +20,7 @@ const { Title } = Typography;
  *  It contains classification, job title, selection process number and link to job poster.
  */
 const QualifiedPoolsFormView = ({
+  form,
   fieldElement,
   removeElement,
   savedQualifiedPools,
@@ -86,16 +75,19 @@ const QualifiedPoolsFormView = ({
             label={<FormattedMessage id="classification" />}
             rules={[Rules.required]}
           >
-            <Select
-              showSearch
-              placeholder={<FormattedMessage id="search" />}
-              allowClear
-              filterOption={filterOption}
-            >
-              {classificationOptions.map((value) => (
-                <Option key={value.id}>{value.name}</Option>
-              ))}
-            </Select>
+            <CustomDropdown
+              ariaLabel={intl.formatMessage({
+                id: "classification",
+              })}
+              initialValueId={form.getFieldValue([
+                "qualifiedPools",
+                fieldElement.fieldKey,
+                "classificationId",
+              ])}
+              placeholderText={<FormattedMessage id="select" />}
+              options={classificationOptions}
+              isRequired
+            />
           </Form.Item>
         </Col>
 
@@ -153,6 +145,7 @@ const QualifiedPoolsFormView = ({
 };
 
 QualifiedPoolsFormView.propTypes = {
+  form: FormInstancePropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   savedQualifiedPools: PropTypes.arrayOf(
@@ -165,4 +158,4 @@ QualifiedPoolsFormView.propTypes = {
   classificationOptions: KeyTitleOptionsPropType.isRequired,
 };
 
-export default injectIntl(QualifiedPoolsFormView);
+export default QualifiedPoolsFormView;
