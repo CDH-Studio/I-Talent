@@ -1,43 +1,42 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { PlusOutlined } from "@ant-design/icons";
 import {
-  Row,
+  Button,
+  Checkbox,
   Col,
-  Skeleton,
   Divider,
   Form,
-  Select,
-  Checkbox,
-  TreeSelect,
-  Tabs,
   notification,
-  Button,
+  Row,
+  Skeleton,
+  Tabs,
+  TreeSelect,
 } from "antd";
-import { PlusOutlined } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
+import { identity, isEqual, isNil, omitBy, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { pickBy, identity, isEqual, isNil, omitBy } from "lodash";
-import { useSelector, useDispatch } from "react-redux";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
-import useAxios from "../../../utils/useAxios";
+import handleError from "../../../functions/handleError";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
-  KeyTitleOptionsPropType,
-  ProfileInfoPropType,
   HistoryPropType,
   KeyNameOptionsPropType,
+  KeyTitleOptionsPropType,
+  ProfileInfoPropType,
 } from "../../../utils/customPropTypes";
-import handleError from "../../../functions/handleError";
+import useAxios from "../../../utils/useAxios";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import filterOption from "../../../functions/filterSelectInput";
+import Fieldset from "../../fieldset/Fieldset";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import "./CareerManagementFormView.less";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import FormTitle from "../formTitle/FormTitle";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
-import FormTitle from "../formTitle/FormTitle";
-import FormSubTitle from "../formSubTitle/FormSubTitle";
-import Fieldset from "../../fieldset/Fieldset";
 
-const { Option } = Select;
+import "./CareerManagementFormView.less";
+
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
@@ -477,7 +476,12 @@ const CareerManagementFormView = ({
                               key={field.fieldKey}
                               fieldElement={field}
                               removeElement={remove}
-                              nameOptions={attachmentOptions}
+                              attachmentNamesOptions={attachmentOptions}
+                              attachmentNameDefault={form.getFieldValue([
+                                "developmentalGoalsAttachments",
+                                field.fieldKey,
+                                "nameId",
+                              ])}
                             />
                           ))}
                           <Form.Item>
@@ -539,6 +543,7 @@ const CareerManagementFormView = ({
                         {fields.map((field) => (
                           <QualifiedPoolsForm
                             key={field.fieldKey}
+                            form={form}
                             fieldElement={field}
                             removeElement={remove}
                             savedQualifiedPools={savedQualifiedPools}
@@ -590,18 +595,15 @@ const CareerManagementFormView = ({
                     name="interestedInRemote"
                     label={<FormattedMessage id="edit.interested.in.remote" />}
                   >
-                    <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
-                      allowClear
-                      filterOption={filterOption}
-                    >
-                      {interestedInRemoteOptions.map(({ key, value, text }) => (
-                        <Option key={key} value={value}>
-                          {text}
-                        </Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "edit.interested.in.remote",
+                      })}
+                      initialValueId={form.getFieldValue("interestedInRemote")}
+                      placeholderText={<FormattedMessage id="select" />}
+                      isSearchable={false}
+                      options={interestedInRemoteOptions}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -616,18 +618,16 @@ const CareerManagementFormView = ({
                       <FormattedMessage id="edit.willing.to.relocate.to" />
                     }
                   >
-                    <Select
-                      mode="multiple"
-                      style={{ width: "100%" }}
-                      placeholder={<FormattedMessage id="search" />}
-                      filterOption={filterOption}
-                    >
-                      {relocationOptions.map((value) => (
-                        <Option
-                          key={value.id}
-                        >{`${value.city}, ${value.province}`}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "edit.willing.to.relocate.to",
+                      })}
+                      initialValueId={form.getFieldValue("relocationLocations")}
+                      placeholderText={<FormattedMessage id="type.to.search" />}
+                      isSearchable
+                      options={relocationOptions}
+                      isMulti
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -639,16 +639,15 @@ const CareerManagementFormView = ({
                     name="lookingForANewJobId"
                     label={<FormattedMessage id="edit.looking.for.new.job" />}
                   >
-                    <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
-                      allowClear
-                      filterOption={filterOption}
-                    >
-                      {lookingForNewJobOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "edit.looking.for.new.job",
+                      })}
+                      initialValueId={form.getFieldValue("lookingForANewJobId")}
+                      placeholderText={<FormattedMessage id="select" />}
+                      isSearchable={false}
+                      options={lookingForNewJobOptions}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -704,16 +703,15 @@ const CareerManagementFormView = ({
                     name="careerMobilityId"
                     label={<FormattedMessage id="career.mobility" />}
                   >
-                    <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
-                      allowClear
-                      filterOption={filterOption}
-                    >
-                      {careerMobilityOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "career.mobility",
+                      })}
+                      initialValueId={form.getFieldValue("careerMobilityId")}
+                      placeholderText={<FormattedMessage id="select" />}
+                      isSearchable={false}
+                      options={careerMobilityOptions}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -725,16 +723,17 @@ const CareerManagementFormView = ({
                     name="talentMatrixResultId"
                     label={<FormattedMessage id="talent.matrix.result" />}
                   >
-                    <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
-                      allowClear
-                      filterOption={filterOption}
-                    >
-                      {talentMatrixResultOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "talent.matrix.result",
+                      })}
+                      initialValueId={form.getFieldValue(
+                        "talentMatrixResultId"
+                      )}
+                      placeholderText={<FormattedMessage id="select" />}
+                      options={talentMatrixResultOptions}
+                      isSearchable={false}
+                    />
                   </Form.Item>
                 </Col>
               </Row>

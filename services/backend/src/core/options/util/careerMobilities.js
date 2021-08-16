@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getCareerMobilities(request, response) {
@@ -17,15 +16,12 @@ async function getCareerMobilities(request, response) {
     },
   });
 
-  const careerMobility = _.sortBy(
-    careerMobilityQuery.map((i) => ({
-      id: i.opCareerMobilityId,
-      description: i.description,
-    })),
-    "description"
-  );
+  const responseData = careerMobilityQuery.map((i) => ({
+    value: i.opCareerMobilityId,
+    label: i.description,
+  }));
 
-  response.status(200).json(careerMobility);
+  response.status(200).json(responseData);
 }
 
 module.exports = {

@@ -1,13 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
 import { sortBy } from "lodash";
 import PropTypes from "prop-types";
+import { useCallback, useEffect, useState } from "react";
+import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { useIntl } from "react-intl";
-import useAxios from "../../../utils/useAxios";
-
-import CareerManagementFormView from "./CareerManagementFormView";
 import handleError from "../../../functions/handleError";
+import useAxios from "../../../utils/useAxios";
+import CareerManagementFormView from "./CareerManagementFormView";
 
 /**
  *  Career Management Form(props)
@@ -108,13 +107,11 @@ const CareerManagementForm = ({ formType }) => {
   const getInterestedInRemoteOptions = useCallback(() => {
     const options = [
       {
-        key: "true",
-        text: locale === "ENGLISH" ? "Yes" : "Oui",
+        label: locale === "ENGLISH" ? "Yes" : "Oui",
         value: true,
       },
       {
-        key: "false",
-        text: locale === "ENGLISH" ? "No" : "Non",
+        label: locale === "ENGLISH" ? "No" : "Non",
         value: false,
       },
     ];

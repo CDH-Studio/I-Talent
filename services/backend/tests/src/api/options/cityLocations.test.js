@@ -22,11 +22,6 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            opRelocationLocationId: 1,
-            province: "Quebec",
-            city: "Gatineau",
-          },
-          {
             opRelocationLocationId: 2,
             province: "Ontario",
             city: "Ottawa",
@@ -36,22 +31,24 @@ describe(`GET ${path}`, () => {
             province: "Ontario",
             city: "Toronto",
           },
+          {
+            opRelocationLocationId: 1,
+            province: "Quebec",
+            city: "Gatineau",
+          },
         ],
         [
           {
-            id: 2,
-            province: "Ontario",
-            city: "Ottawa",
+            value: 2,
+            label: "Ottawa, Ontario",
           },
           {
-            id: 3,
-            province: "Ontario",
-            city: "Toronto",
+            value: 3,
+            label: "Toronto, Ontario",
           },
           {
-            id: 1,
-            province: "Quebec",
-            city: "Gatineau",
+            value: 1,
+            label: "Gatineau, Quebec",
           },
         ],
       ],
@@ -66,9 +63,8 @@ describe(`GET ${path}`, () => {
         ],
         [
           {
-            id: 4,
-            province: "Ontario",
-            city: "Ottawa",
+            value: 4,
+            label: "Ottawa, Ontario",
           },
         ],
       ],

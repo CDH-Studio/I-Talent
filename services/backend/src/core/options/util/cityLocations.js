@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const prisma = require("../../../database");
 
 async function getCityLocations(request, response) {
@@ -18,16 +17,14 @@ async function getCityLocations(request, response) {
     },
   });
 
-  const locations = _.orderBy(
-    locationsQuery.map(({ province, city, opRelocationLocationId }) => ({
-      id: opRelocationLocationId,
-      city,
-      province,
-    })),
-    ["province", "city"]
+  const responseData = locationsQuery.map(
+    ({ province, city, opRelocationLocationId }) => ({
+      value: opRelocationLocationId,
+      label: `${city}, ${province}`,
+    })
   );
 
-  response.status(200).json(locations);
+  response.status(200).json(responseData);
 }
 
 module.exports = {
