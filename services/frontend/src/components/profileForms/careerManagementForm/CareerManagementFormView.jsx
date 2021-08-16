@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 import "./CareerManagementFormView.less";
 
->>>>>>> sort import statments
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -12,10 +9,6 @@ import {
   Form,
   notification,
   Row,
-<<<<<<< HEAD
-=======
-  Select,
->>>>>>> sort import statments
   Skeleton,
   Tabs,
   TreeSelect,
@@ -26,11 +19,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
-<<<<<<< HEAD
-=======
-
-import filterOption from "../../../functions/filterSelectInput";
->>>>>>> sort import statments
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
@@ -42,17 +30,12 @@ import {
 import useAxios from "../../../utils/useAxios";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import Fieldset from "../../fieldset/Fieldset";
-<<<<<<< HEAD
 import CustomDropdown from "../../formItems/CustomDropdown";
-=======
->>>>>>> sort import statments
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormTitle from "../formTitle/FormTitle";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
-
-import "./CareerManagementFormView.less";
 
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
@@ -492,7 +475,6 @@ const CareerManagementFormView = ({
                             <LinkAttachment
                               key={field.fieldKey}
                               fieldElement={field}
-<<<<<<< HEAD
                               removeElement={remove}
                               attachmentNamesOptions={attachmentOptions}
                               attachmentNameDefault={form.getFieldValue([
@@ -500,10 +482,6 @@ const CareerManagementFormView = ({
                                 field.fieldKey,
                                 "nameId",
                               ])}
-=======
-                              nameOptions={attachmentOptions}
-                              removeElement={remove}
->>>>>>> sort props
                             />
                           ))}
                           <Form.Item>
@@ -565,11 +543,8 @@ const CareerManagementFormView = ({
                         {fields.map((field) => (
                           <QualifiedPoolsForm
                             key={field.fieldKey}
-<<<<<<< HEAD
                             form={form}
-=======
                             classificationOptions={classificationOptions}
->>>>>>> sort props
                             fieldElement={field}
                             removeElement={remove}
                             savedQualifiedPools={savedQualifiedPools}
@@ -620,7 +595,6 @@ const CareerManagementFormView = ({
                     label={<FormattedMessage id="edit.interested.in.remote" />}
                     name="interestedInRemote"
                   >
-<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.interested.in.remote",
@@ -630,20 +604,6 @@ const CareerManagementFormView = ({
                       isSearchable={false}
                       options={interestedInRemoteOptions}
                     />
-=======
-                    <Select
-                      allowClear
-                      filterOption={filterOption}
-                      placeholder={<FormattedMessage id="search" />}
-                      showSearch
-                    >
-                      {interestedInRemoteOptions.map(({ key, value, text }) => (
-                        <Option key={key} value={value}>
-                          {text}
-                        </Option>
-                      ))}
-                    </Select>
->>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
@@ -658,7 +618,6 @@ const CareerManagementFormView = ({
                     }
                     name="relocationLocations"
                   >
-<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.willing.to.relocate.to",
@@ -669,20 +628,6 @@ const CareerManagementFormView = ({
                       options={relocationOptions}
                       isMulti
                     />
-=======
-                    <Select
-                      filterOption={filterOption}
-                      mode="multiple"
-                      placeholder={<FormattedMessage id="search" />}
-                      style={{ width: "100%" }}
-                    >
-                      {relocationOptions.map((value) => (
-                        <Option
-                          key={value.id}
-                        >{`${value.city}, ${value.province}`}</Option>
-                      ))}
-                    </Select>
->>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
@@ -694,7 +639,6 @@ const CareerManagementFormView = ({
                     label={<FormattedMessage id="edit.looking.for.new.job" />}
                     name="lookingForANewJobId"
                   >
-<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.looking.for.new.job",
@@ -704,18 +648,6 @@ const CareerManagementFormView = ({
                       isSearchable={false}
                       options={lookingForNewJobOptions}
                     />
-=======
-                    <Select
-                      allowClear
-                      filterOption={filterOption}
-                      placeholder={<FormattedMessage id="search" />}
-                      showSearch
-                    >
-                      {lookingForNewJobOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
->>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
@@ -771,7 +703,6 @@ const CareerManagementFormView = ({
                     label={<FormattedMessage id="career.mobility" />}
                     name="careerMobilityId"
                   >
-<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "career.mobility",
@@ -781,18 +712,6 @@ const CareerManagementFormView = ({
                       isSearchable={false}
                       options={careerMobilityOptions}
                     />
-=======
-                    <Select
-                      allowClear
-                      filterOption={filterOption}
-                      placeholder={<FormattedMessage id="search" />}
-                      showSearch
-                    >
-                      {careerMobilityOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
->>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
@@ -804,7 +723,6 @@ const CareerManagementFormView = ({
                     label={<FormattedMessage id="talent.matrix.result" />}
                     name="talentMatrixResultId"
                   >
-<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "talent.matrix.result",
@@ -816,18 +734,6 @@ const CareerManagementFormView = ({
                       options={talentMatrixResultOptions}
                       isSearchable={false}
                     />
-=======
-                    <Select
-                      allowClear
-                      filterOption={filterOption}
-                      placeholder={<FormattedMessage id="search" />}
-                      showSearch
-                    >
-                      {talentMatrixResultOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
->>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
