@@ -7,7 +7,6 @@ import {
   Form,
   notification,
   Row,
-  Select,
   Skeleton,
   Tabs,
   TreeSelect,
@@ -18,7 +17,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
-import filterOption from "../../../functions/filterSelectInput";
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
@@ -39,7 +37,6 @@ import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 
 import "./CareerManagementFormView.less";
 
-const { Option } = Select;
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
@@ -602,9 +599,7 @@ const CareerManagementFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "edit.interested.in.remote",
                       })}
-                      initialValueId={form.getFieldValue([
-                        "interestedInRemote",
-                      ])}
+                      initialValueId={form.getFieldValue("interestedInRemote")}
                       placeholderText={<FormattedMessage id="select" />}
                       isSearchable={false}
                       options={interestedInRemoteOptions}
@@ -627,9 +622,7 @@ const CareerManagementFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "edit.willing.to.relocate.to",
                       })}
-                      initialValueId={form.getFieldValue([
-                        "relocationLocations",
-                      ])}
+                      initialValueId={form.getFieldValue("relocationLocations")}
                       placeholderText={<FormattedMessage id="type.to.search" />}
                       isSearchable
                       options={relocationOptions}
@@ -650,9 +643,7 @@ const CareerManagementFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "edit.looking.for.new.job",
                       })}
-                      initialValueId={form.getFieldValue([
-                        "lookingForANewJobId",
-                      ])}
+                      initialValueId={form.getFieldValue("lookingForANewJobId")}
                       placeholderText={<FormattedMessage id="select" />}
                       isSearchable={false}
                       options={lookingForNewJobOptions}
@@ -712,16 +703,15 @@ const CareerManagementFormView = ({
                     name="careerMobilityId"
                     label={<FormattedMessage id="career.mobility" />}
                   >
-                    <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
-                      allowClear
-                      filterOption={filterOption}
-                    >
-                      {careerMobilityOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "career.mobility",
+                      })}
+                      initialValueId={form.getFieldValue("careerMobilityId")}
+                      placeholderText={<FormattedMessage id="select" />}
+                      isSearchable={false}
+                      options={careerMobilityOptions}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -733,16 +723,17 @@ const CareerManagementFormView = ({
                     name="talentMatrixResultId"
                     label={<FormattedMessage id="talent.matrix.result" />}
                   >
-                    <Select
-                      showSearch
-                      placeholder={<FormattedMessage id="search" />}
-                      allowClear
-                      filterOption={filterOption}
-                    >
-                      {talentMatrixResultOptions.map((value) => (
-                        <Option key={value.id}>{value.description}</Option>
-                      ))}
-                    </Select>
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "talent.matrix.result",
+                      })}
+                      initialValueId={form.getFieldValue(
+                        "talentMatrixResultId"
+                      )}
+                      placeholderText={<FormattedMessage id="select" />}
+                      options={talentMatrixResultOptions}
+                      isSearchable={false}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
