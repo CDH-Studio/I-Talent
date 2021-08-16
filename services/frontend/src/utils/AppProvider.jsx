@@ -1,6 +1,10 @@
 import "dayjs/locale/en-ca";
 import "dayjs/locale/fr-ca";
 
+import { useEffect, useState } from "react";
+import { IntlProvider } from "react-intl";
+import { Provider, useSelector } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import { ConfigProvider } from "antd";
 import enUS from "antd/es/locale/en_US";
@@ -9,10 +13,6 @@ import dayjs from "dayjs";
 import localeData from "dayjs/plugin/localeData";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { IntlProvider } from "react-intl";
-import { Provider, useSelector } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 
 import { initKeycloakConfig, keycloak } from "../auth/keycloak";

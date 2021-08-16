@@ -1,7 +1,7 @@
-import { Card, Col, Row } from "antd";
-import PropTypes from "prop-types";
 import Chart from "react-chartjs-2";
 import { FormattedMessage, injectIntl } from "react-intl";
+import { Card, Col, Row } from "antd";
+import PropTypes from "prop-types";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 

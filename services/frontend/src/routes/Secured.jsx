@@ -1,8 +1,8 @@
-import { useKeycloak } from "@react-keycloak/web";
-import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
+import PropTypes from "prop-types";
 
 import ErrorNumber from "../components/errorResult/errorNumber";
 import AppLayout from "../components/layouts/appLayout/AppLayout";

@@ -1,6 +1,6 @@
-import "./FieldsetView.less";
-
 import PropTypes from "prop-types";
+
+import "./FieldsetView.less";
 
 const Fieldset = ({ children, title }) => (
   <fieldset className="fieldset mt-1">

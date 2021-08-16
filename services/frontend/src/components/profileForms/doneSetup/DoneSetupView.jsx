@@ -1,5 +1,6 @@
-import "./DoneSetupView.less";
-
+import { FormattedMessage, useIntl } from "react-intl";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import {
   CheckCircleOutlined,
   EditOutlined,
@@ -8,9 +9,8 @@ import {
 } from "@ant-design/icons";
 import { Button, Descriptions, Skeleton, Tag, Typography } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
+
+import "./DoneSetupView.less";
 
 const { Paragraph } = Typography;
 

@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import ErrorProfilePage from "../components/errorResult/errorProfilePage";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";

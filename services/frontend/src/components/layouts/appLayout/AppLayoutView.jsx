@@ -1,14 +1,14 @@
-import "./AppLayoutView.less";
-
-import { Card, Layout, Skeleton } from "antd";
-import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { useSelector } from "react-redux";
+import { Card, Layout, Skeleton } from "antd";
+import PropTypes from "prop-types";
 
 import Footer from "./footer/Footer";
 import SideNav from "./sideNav/SideNav";
 import SkipToContent from "./skipToContent/SkipToContent";
 import TopNav from "./topNav/TopNav";
+
+import "./AppLayoutView.less";
 
 const { Content } = Layout;
 

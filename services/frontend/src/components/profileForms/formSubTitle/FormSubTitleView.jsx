@@ -1,8 +1,8 @@
-import "./FormSubTitleView.less";
-
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Popover, Row, Typography } from "antd";
 import PropTypes from "prop-types";
+
+import "./FormSubTitleView.less";
 
 const { Title } = Typography;
 

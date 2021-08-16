@@ -1,8 +1,8 @@
-import queryString from "query-string";
 import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import queryString from "query-string";
 
 import handleError from "../../functions/handleError";
 import useAxios from "../../utils/useAxios";

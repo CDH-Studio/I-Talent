@@ -1,6 +1,6 @@
+import { FormattedMessage } from "react-intl";
 import { Col, List, Row } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   const generateFirstLanguage = (dataSource) => (

@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import CreateProfileLayout from "../components/layouts/createProfileLayout/CreateProfileLayout";
 import { setUserSignupStep } from "../redux/slices/userSlice";

@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
 import { useHistory } from "react-router";
+import PropTypes from "prop-types";
 
 import EditCardButtonView from "./EditCardButtonView";
 

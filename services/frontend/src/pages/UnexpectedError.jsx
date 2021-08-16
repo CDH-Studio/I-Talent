@@ -1,13 +1,13 @@
+import { useState } from "react";
+import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import {
   ExclamationCircleOutlined,
   HomeOutlined,
   ReloadOutlined,
 } from "@ant-design/icons";
 import { Button, Col, List, Row } from "antd";
-import { useState } from "react";
-import { FormattedMessage } from "react-intl";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 
 import ErrorResultView from "../components/errorResult/errorResultView";
 

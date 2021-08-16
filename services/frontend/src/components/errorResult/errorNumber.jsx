@@ -1,9 +1,9 @@
-import { HomeOutlined } from "@ant-design/icons";
-import { Button } from "antd";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { Redirect } from "react-router-dom";
+import { HomeOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import PropTypes from "prop-types";
 
 import ErrorResultView from "./errorResultView";
 

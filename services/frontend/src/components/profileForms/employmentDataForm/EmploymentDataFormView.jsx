@@ -1,5 +1,7 @@
-import "./EmploymentDataFormView.less";
-
+import { useEffect, useState } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { Prompt } from "react-router";
 import {
   Col,
   Divider,
@@ -12,10 +14,6 @@ import {
 } from "antd";
 import { identity, isEqual, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
-import { Prompt } from "react-router";
 
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -32,6 +30,8 @@ import CustomDropdown from "../../formItems/CustomDropdown";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormTitle from "../formTitle/FormTitle";
+
+import "./EmploymentDataFormView.less";
 
 /**
  *  EmploymentDataFormView(props)

@@ -1,10 +1,8 @@
-import "./CreateProfileLayoutView.less";
-
+import { FormattedMessage, useIntl } from "react-intl";
+import { Redirect, useHistory } from "react-router-dom";
 import { UserAddOutlined } from "@ant-design/icons";
 import { Card, Steps } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage, useIntl } from "react-intl";
-import { Redirect, useHistory } from "react-router-dom";
 
 import Header from "../../header/Header";
 import {
@@ -18,6 +16,8 @@ import {
   Welcome,
 } from "../../profileForms";
 import AppLayout from "../appLayout/AppLayout";
+
+import "./CreateProfileLayoutView.less";
 
 const { Step } = Steps;
 

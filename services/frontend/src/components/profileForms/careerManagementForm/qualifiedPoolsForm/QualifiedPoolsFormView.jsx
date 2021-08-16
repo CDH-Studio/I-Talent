@@ -1,9 +1,7 @@
-import "./QualifiedPoolsFormView.less";
-
+import { FormattedMessage, useIntl } from "react-intl";
 import { CloseCircleOutlined, FormOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, Row, Tooltip, Typography } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage, useIntl } from "react-intl";
 
 import {
   FieldPropType,
@@ -11,6 +9,8 @@ import {
   KeyTitleOptionsPropType,
 } from "../../../../utils/customPropTypes";
 import CustomDropdown from "../../../formItems/CustomDropdown";
+
+import "./QualifiedPoolsFormView.less";
 
 const { Title } = Typography;
 

@@ -1,7 +1,7 @@
+import { FormattedMessage } from "react-intl";
 import { LinkOutlined } from "@ant-design/icons";
 import { Col, Empty, List, Row, Tag } from "antd";
 import { PropTypes } from "prop-types";
-import { FormattedMessage } from "react-intl";
 
 const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
   const getUrl = (item) =>

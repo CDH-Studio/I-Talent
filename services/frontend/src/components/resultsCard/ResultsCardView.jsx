@@ -1,14 +1,14 @@
-import "./ResultsCardView.less";
-
+import { FormattedMessage } from "react-intl";
 import { Card, Col, Empty, Result, Row, Skeleton, Spin } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
 
 import prepareInfo from "../../functions/prepareInfo";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import Header from "../header/Header";
 import EmptyImage from "./online_team_meeting_.svg";
 import ResultsProfileCard from "./resultProfileCard/ResultProfileCard";
+
+import "./ResultsCardView.less";
 
 const ResultsCardView = ({
   results,

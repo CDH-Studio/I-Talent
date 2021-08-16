@@ -1,10 +1,10 @@
-import { HomeOutlined, UserOutlined } from "@ant-design/icons";
-import { Button } from "antd";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { HomeOutlined, UserOutlined } from "@ant-design/icons";
+import { Button } from "antd";
+import PropTypes from "prop-types";
 
 import ErrorResultView from "./errorResultView";
 

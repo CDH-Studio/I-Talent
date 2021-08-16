@@ -1,5 +1,5 @@
-import { Col, List, Row } from "antd";
 import { FormattedMessage } from "react-intl";
+import { Col, List, Row } from "antd";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 

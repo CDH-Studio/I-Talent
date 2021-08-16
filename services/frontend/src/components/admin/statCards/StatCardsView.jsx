@@ -1,3 +1,4 @@
+import { FormattedMessage, injectIntl } from "react-intl";
 import {
   EyeInvisibleFilled,
   RiseOutlined,
@@ -9,7 +10,6 @@ import {
 import { Card, Col, Row, Statistic } from "antd";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { FormattedMessage, injectIntl } from "react-intl";
 
 import { IntlPropType } from "../../../utils/customPropTypes";
 

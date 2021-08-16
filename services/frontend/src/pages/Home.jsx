@@ -1,6 +1,6 @@
-import { Row } from "antd";
 import { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Row } from "antd";
 
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import SearchBar from "../components/searchBar/SearchBar";

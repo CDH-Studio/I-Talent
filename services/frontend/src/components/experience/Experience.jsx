@@ -1,6 +1,6 @@
+import { useIntl } from "react-intl";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { useIntl } from "react-intl";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";

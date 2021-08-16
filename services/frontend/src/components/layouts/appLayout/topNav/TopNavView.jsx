@@ -1,5 +1,8 @@
-import "./TopNavView.less";
-
+import { useEffect, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import {
   AreaChartOutlined,
   DashboardOutlined,
@@ -16,15 +19,12 @@ import { useKeycloak } from "@react-keycloak/web";
 import { Button, Dropdown, Input, Layout, Menu, Row, Typography } from "antd";
 import PropTypes from "prop-types";
 import queryString from "query-string";
-import { useEffect, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
 
 import Logo from "../../../../assets/I-talent-logo-light.png";
 import ChangeLanguage from "../../../changeLanguage/ChangeLanguage";
 import CustomAvatar from "../../../customAvatar/CustomAvatar";
+
+import "./TopNavView.less";
 
 const { Header } = Layout;
 const { Text } = Typography;

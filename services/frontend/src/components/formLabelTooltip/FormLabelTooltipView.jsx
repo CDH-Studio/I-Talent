@@ -1,8 +1,8 @@
-import "./FormLabelTooltipView.less";
-
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import PropTypes from "prop-types";
+
+import "./FormLabelTooltipView.less";
 
 const FormLabelTooltipView = ({ labelText, tooltipText }) => (
   <div style={{ display: "inline", marginRight: "10px" }}>

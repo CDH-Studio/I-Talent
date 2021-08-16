@@ -1,13 +1,13 @@
-import "./LandingLayoutView.less";
-
+import { useState } from "react";
+import { FormattedMessage } from "react-intl";
 import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { useKeycloak } from "@react-keycloak/web";
 import { Button, Col, Row, Typography } from "antd";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { FormattedMessage } from "react-intl";
 
 import AppLayout from "../appLayout/AppLayout";
+
+import "./LandingLayoutView.less";
 
 const { Text, Title } = Typography;
 

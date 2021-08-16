@@ -1,3 +1,5 @@
+import { FormattedMessage } from "react-intl";
+import { useHistory } from "react-router-dom";
 import {
   AppstoreAddOutlined,
   BankFilled,
@@ -10,8 +12,6 @@ import {
 } from "@ant-design/icons";
 import { Menu } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
-import { useHistory } from "react-router-dom";
 
 import AppLayout from "../appLayout/AppLayout";
 import availableTypes from "./adminLayoutTypes";

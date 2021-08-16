@@ -1,5 +1,5 @@
-import "./SearchBarView.less";
-
+import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   DoubleRightOutlined,
   SearchOutlined,
@@ -17,12 +17,12 @@ import {
   Typography,
 } from "antd";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
 
 import logo from "../../assets/I-talent-logo.png";
 import Fieldset from "../fieldset/Fieldset";
 import CustomDropdown from "../formItems/CustomDropdown";
+
+import "./SearchBarView.less";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Title } = Typography;

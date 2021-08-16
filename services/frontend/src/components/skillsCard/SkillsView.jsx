@@ -1,8 +1,8 @@
+import { Fragment } from "react";
+import { FormattedMessage } from "react-intl";
 import { TagTwoTone } from "@ant-design/icons";
 import { Col, Empty, Row, Tag } from "antd";
 import PropTypes from "prop-types";
-import { Fragment } from "react";
-import { FormattedMessage } from "react-intl";
 
 const SkillsView = ({ categoriesSkills, skills }) => {
   if (skills.length > 0)

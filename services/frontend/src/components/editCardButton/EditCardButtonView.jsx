@@ -1,9 +1,9 @@
-import "./EditCardButtonView.less";
-
+import { FormattedMessage } from "react-intl";
 import { EditOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+
+import "./EditCardButtonView.less";
 
 const EditCardButtonView = ({ redirectToEdit }) => (
   <Tooltip placement="top" title={<FormattedMessage id="edit" />}>

@@ -1,5 +1,7 @@
-import "./LangProficiencyFormView.less";
-
+import { useEffect, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch } from "react-redux";
+import { Prompt } from "react-router";
 import {
   Col,
   Divider,
@@ -12,10 +14,6 @@ import {
 } from "antd";
 import { identity, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch } from "react-redux";
-import { Prompt } from "react-router";
 
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -29,6 +27,8 @@ import Fieldset from "../../fieldset/Fieldset";
 import CustomDropdown from "../../formItems/CustomDropdown";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormTitle from "../formTitle/FormTitle";
+
+import "./LangProficiencyFormView.less";
 
 const { Text } = Typography;
 

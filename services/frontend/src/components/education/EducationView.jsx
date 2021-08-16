@@ -1,9 +1,9 @@
-import "./EducationView.less";
-
+import { FormattedMessage } from "react-intl";
 import { BankOutlined, LinkOutlined } from "@ant-design/icons";
 import { Avatar, Col, Empty, List, Row, Tag } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+
+import "./EducationView.less";
 
 const EducationView = ({ educationInfo }) => {
   const generateDescriptionBody = (text) => {

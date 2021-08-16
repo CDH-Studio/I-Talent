@@ -1,5 +1,6 @@
-import "./ProfileLayoutView.less";
-
+import { useEffect } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch } from "react-redux";
 import {
   PrinterOutlined,
   RiseOutlined,
@@ -18,9 +19,6 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch } from "react-redux";
 
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
@@ -44,6 +42,8 @@ import QualifiedPools from "../../qualifiedPools/QualifiedPools";
 import Skills from "../../skillsCard/Skills";
 import TalentManagement from "../../talentManagement/TalentManagement";
 import AppLayout from "../appLayout/AppLayout";
+
+import "./ProfileLayoutView.less";
 
 const { Link } = Anchor;
 const { Title, Text } = Typography;

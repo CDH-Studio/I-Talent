@@ -1,5 +1,5 @@
-import "./WelcomeView.less";
-
+import { FormattedMessage, injectIntl } from "react-intl";
+import { useSelector } from "react-redux";
 import {
   ExclamationCircleOutlined,
   LoadingOutlined,
@@ -9,13 +9,13 @@ import {
 } from "@ant-design/icons";
 import { Button, Col, Modal, Row, Typography } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { useSelector } from "react-redux";
 
 import handleError from "../../../functions/handleError";
 import { HistoryPropType, IntlPropType } from "../../../utils/customPropTypes";
 import config from "../../../utils/runtimeConfig";
 import useAxios from "../../../utils/useAxios";
+
+import "./WelcomeView.less";
 
 const { backendAddress } = config;
 const { Title, Paragraph } = Typography;

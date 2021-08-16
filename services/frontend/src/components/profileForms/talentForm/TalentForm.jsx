@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import handleError from "../../../functions/handleError";
 import useAxios from "../../../utils/useAxios";

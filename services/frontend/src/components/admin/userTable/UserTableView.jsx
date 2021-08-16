@@ -1,5 +1,7 @@
-import "./UserTableView.less";
-
+import Highlighter from "react-highlight-words";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import {
   CheckCircleOutlined,
   DatabaseOutlined,
@@ -26,14 +28,12 @@ import {
 import dayjs from "dayjs";
 import { uniq } from "lodash";
 import PropTypes from "prop-types";
-import Highlighter from "react-highlight-words";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
 
 import handleError from "../../../functions/handleError";
 import config from "../../../utils/runtimeConfig";
 import Header from "../../header/Header";
+
+import "./UserTableView.less";
 
 const { Text } = Typography;
 

@@ -1,5 +1,5 @@
-import "./SearchFilterView.less";
-
+import { useEffect } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
 import { ReloadOutlined, SettingOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -11,11 +11,11 @@ import {
   Typography,
 } from "antd";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
 
 import { IdDescriptionPropType } from "../../utils/customPropTypes";
 import CustomDropdown from "../formItems/CustomDropdown";
+
+import "./SearchFilterView.less";
 
 const { SHOW_CHILD } = TreeSelect;
 const { Title, Text } = Typography;

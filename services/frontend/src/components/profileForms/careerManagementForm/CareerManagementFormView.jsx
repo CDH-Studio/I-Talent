@@ -1,5 +1,7 @@
-import "./CareerManagementFormView.less";
-
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { Prompt } from "react-router";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -15,10 +17,6 @@ import {
 } from "antd";
 import { identity, isEqual, isNil, omitBy, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
-import { Prompt } from "react-router";
 
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -37,6 +35,8 @@ import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormTitle from "../formTitle/FormTitle";
 import LinkAttachment from "../linkAttachment/LinkAttachment";
 import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
+
+import "./CareerManagementFormView.less";
 
 const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;

@@ -1,8 +1,8 @@
-import { useKeycloak } from "@react-keycloak/web";
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
+import { useKeycloak } from "@react-keycloak/web";
+import PropTypes from "prop-types";
 
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import LandingLayout from "../components/layouts/landingLayout/LandingLayout";

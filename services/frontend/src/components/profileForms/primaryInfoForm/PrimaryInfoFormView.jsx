@@ -1,5 +1,7 @@
-import "./PrimaryInfoFormView.less";
-
+import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { Prompt } from "react-router";
 import {
   InfoCircleOutlined,
   LinkOutlined,
@@ -19,10 +21,6 @@ import {
 } from "antd";
 import { identity, isEqual, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
-import { Prompt } from "react-router";
 import { isMobilePhone } from "validator";
 
 import store from "../../../redux";
@@ -43,6 +41,8 @@ import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormTitle from "../formTitle/FormTitle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
+
+import "./PrimaryInfoFormView.less";
 
 const PrimaryInfoFormView = ({
   locationOptions,

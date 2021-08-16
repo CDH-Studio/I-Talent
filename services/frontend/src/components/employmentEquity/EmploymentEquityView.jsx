@@ -1,8 +1,8 @@
-import "./EmploymentEquityView.less";
-
+import { FormattedMessage } from "react-intl";
 import { Empty, List, Row, Tag } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+
+import "./EmploymentEquityView.less";
 
 const EmploymentEquityView = ({ groups }) => {
   if (groups.length > 0) {

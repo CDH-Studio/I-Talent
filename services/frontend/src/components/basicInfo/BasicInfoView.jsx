@@ -1,5 +1,7 @@
-import "./BasicInfoView.less";
-
+import { useState } from "react";
+import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import {
   ApartmentOutlined,
   DownOutlined,
@@ -29,15 +31,13 @@ import {
 } from "antd";
 import { kebabCase } from "lodash";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { FormattedMessage } from "react-intl";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import config from "../../utils/runtimeConfig";
 import EditCardButton from "../editCardButton/EditCardButton";
 import OrgTree from "../orgTree/OrgTree";
+
+import "./BasicInfoView.less";
 
 const { Text, Title } = Typography;
 

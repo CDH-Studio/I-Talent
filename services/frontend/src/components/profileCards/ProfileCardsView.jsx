@@ -1,8 +1,8 @@
+import { FormattedMessage } from "react-intl";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Tooltip, Typography } from "antd";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
 
 import CardVisibilityStatus from "../cardVisibilityStatus/CardVisibilityStatus";
 import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
@@ -15,7 +15,6 @@ const ProfileCardsView = ({
   titleString,
   id,
   children,
-  style,
   editableCardBool,
   displayExtraHeaderContent,
   visibility,
@@ -129,7 +128,7 @@ const ProfileCardsView = ({
       <Card
         extra={generateExtraMenu()}
         id={id}
-        style={(style, grayedOut)}
+        style={grayedOut}
         title={
           <>
             {titleString}
@@ -164,7 +163,6 @@ ProfileCardsView.propTypes = {
   editableCardBool: PropTypes.bool,
   id: PropTypes.string.isRequired,
   lastUpdated: PropTypes.string,
-  style: PropTypes.objectOf(PropTypes.string),
   titleString: PropTypes.node.isRequired,
   visibility: PropTypes.oneOfType([
     PropTypes.bool,
@@ -184,7 +182,6 @@ ProfileCardsView.defaultProps = {
   editUrl: null,
   editableCardBool: false,
   lastUpdated: null,
-  style: undefined,
   visibility: null,
   visibleCards: {},
 };

@@ -1,7 +1,7 @@
-import { useKeycloak } from "@react-keycloak/web";
 import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router";
+import { useKeycloak } from "@react-keycloak/web";
 
 import AppLayout from "../components/layouts/appLayout/AppLayout";
 import { clearUser } from "../redux/slices/userSlice";

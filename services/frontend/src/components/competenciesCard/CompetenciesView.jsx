@@ -1,6 +1,6 @@
+import { FormattedMessage } from "react-intl";
 import { Empty, List, Row, Tag } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
 
 const CompetenciesView = ({ competencies }) => {
   /**

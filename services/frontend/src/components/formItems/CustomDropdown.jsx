@@ -1,9 +1,9 @@
-import { InfoCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
+import { InfoCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
 
 import antdStyles from "../../styling/antdTheme";
 

@@ -1,5 +1,4 @@
-import "./FormControlButtonsView.less";
-
+import { FormattedMessage } from "react-intl";
 import {
   CheckOutlined,
   ClearOutlined,
@@ -8,7 +7,8 @@ import {
 } from "@ant-design/icons";
 import { Button, Col, Row } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+
+import "./FormControlButtonsView.less";
 
 const FormControlButtonsView = ({
   edit,

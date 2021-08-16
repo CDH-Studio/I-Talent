@@ -1,12 +1,12 @@
-import "./FooterView.less";
-
-import { useKeycloak } from "@react-keycloak/web";
-import { Layout, Typography } from "antd";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
+import { useKeycloak } from "@react-keycloak/web";
+import { Layout, Typography } from "antd";
 
 import config from "../../../../utils/runtimeConfig";
 import ReportBug from "../../../reportBug/ReportBug";
+
+import "./FooterView.less";
 
 const { drupalSite } = config;
 const { Footer } = Layout;

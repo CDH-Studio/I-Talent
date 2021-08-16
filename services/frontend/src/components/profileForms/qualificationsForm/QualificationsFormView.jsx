@@ -1,5 +1,7 @@
-import "./QualificationsFormView.less";
-
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch } from "react-redux";
+import { Prompt } from "react-router";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -13,10 +15,6 @@ import {
 } from "antd";
 import { filter, identity, isEqual, pickBy, size } from "lodash";
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch } from "react-redux";
-import { Prompt } from "react-router";
 
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -32,6 +30,8 @@ import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormTitle from "../formTitle/FormTitle";
 import EducationForm from "./educationForm/EducationForm";
 import ExperienceForm from "./experienceForm/ExperienceForm";
+
+import "./QualificationsFormView.less";
 
 const { TabPane } = Tabs;
 

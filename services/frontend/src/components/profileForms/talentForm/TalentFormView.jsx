@@ -1,5 +1,7 @@
-import "./TalentFormView.less";
-
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { Prompt, useHistory } from "react-router-dom";
 import {
   Col,
   Divider,
@@ -14,10 +16,6 @@ import {
 } from "antd";
 import { identity, isEmpty, isEqual, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
-import { Prompt, useHistory } from "react-router-dom";
 
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
@@ -31,6 +29,8 @@ import CustomDropdown from "../../formItems/CustomDropdown";
 import FormControlButton from "../formControlButtons/FormControlButtons";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
 import FormTitle from "../formTitle/FormTitle";
+
+import "./TalentFormView.less";
 
 const { Text } = Typography;
 const { SHOW_CHILD } = TreeSelect;

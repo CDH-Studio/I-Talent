@@ -1,3 +1,4 @@
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   DeleteOutlined,
   EyeFilled,
@@ -6,7 +7,6 @@ import {
 } from "@ant-design/icons";
 import { Button, Card, List, Modal, Switch, Tooltip } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage, useIntl } from "react-intl";
 
 import Header from "../../header/Header";
 import AppLayout from "../appLayout/AppLayout";

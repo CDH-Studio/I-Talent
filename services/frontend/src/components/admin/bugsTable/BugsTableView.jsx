@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import { DatabaseOutlined, EditOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -12,10 +16,6 @@ import {
 import TextArea from "antd/lib/input/TextArea";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
 
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";

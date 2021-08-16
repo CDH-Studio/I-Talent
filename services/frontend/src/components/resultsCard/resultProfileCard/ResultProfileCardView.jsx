@@ -1,5 +1,6 @@
-import "./ResultProfileCardView.less";
-
+import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useHistory } from "react-router-dom";
 import {
   BranchesOutlined,
   EditOutlined,
@@ -25,12 +26,11 @@ import {
   Typography,
 } from "antd";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useHistory } from "react-router-dom";
 
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import FuzzyMatchItem from "./fuzzyMatchItem/FuzzyMatchItem";
+
+import "./ResultProfileCardView.less";
 
 const { Meta } = Card;
 const { Text } = Typography;

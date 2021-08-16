@@ -1,3 +1,8 @@
+import { useEffect, useState } from "react";
+import Highlighter from "react-highlight-words";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import {
   DatabaseOutlined,
   DeleteOutlined,
@@ -18,11 +23,6 @@ import {
 } from "antd";
 import { sortBy } from "lodash";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import Highlighter from "react-highlight-words";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router";
 
 import handleError from "../../../functions/handleError";
 import { IntlPropType } from "../../../utils/customPropTypes";

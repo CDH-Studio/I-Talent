@@ -1,5 +1,5 @@
-import "./ExperienceFormView.less";
-
+import { useState } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
 import {
   CloseCircleOutlined,
   FormOutlined,
@@ -16,8 +16,6 @@ import {
   Typography,
 } from "antd";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
 
 import {
   FieldPropType,
@@ -29,6 +27,8 @@ import Fieldset from "../../../fieldset/Fieldset";
 import CustomDropdown from "../../../formItems/CustomDropdown";
 import DatePickerField from "../../../formItems/DatePickerField";
 import LinkAttachment from "../../linkAttachment/LinkAttachment";
+
+import "./ExperienceFormView.less";
 
 const { Title } = Typography;
 /**

@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
+import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";

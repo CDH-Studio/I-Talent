@@ -1,5 +1,6 @@
-import "./EditProfileLayoutView.less";
-
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router";
 import {
   CompassOutlined,
   EditOutlined,
@@ -11,9 +12,6 @@ import {
 } from "@ant-design/icons";
 import { Card, Menu } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useSelector } from "react-redux";
-import { Redirect } from "react-router";
 
 import { HistoryPropType } from "../../../utils/customPropTypes";
 import Header from "../../header/Header";
@@ -28,6 +26,8 @@ import {
 } from "../../profileForms";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 import AppLayout from "../appLayout/AppLayout";
+
+import "./EditProfileLayoutView.less";
 
 /*
  *  EditProfileLayoutView(props)

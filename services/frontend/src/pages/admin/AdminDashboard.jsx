@@ -1,9 +1,9 @@
-import { AreaChartOutlined } from "@ant-design/icons";
-import { Col, Row } from "antd";
 import { useCallback, useEffect } from "react";
 import { FormattedMessage, injectIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { AreaChartOutlined } from "@ant-design/icons";
+import { Col, Row } from "antd";
 
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
 import StatCards from "../../components/admin/statCards/StatCards";

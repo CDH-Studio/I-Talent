@@ -1,7 +1,7 @@
-import { map, property } from "lodash";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { map, property } from "lodash";
 
 import handleError from "../../functions/handleError";
 import useAxios from "../../utils/useAxios";
