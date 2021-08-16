@@ -8,22 +8,22 @@ const ChangeLanguageView = ({ className, handleLanguageChange }) => {
 
   return (
     <Button
+      aria-label={intl.formatMessage({ id: "language.change" })}
+      className={className}
       ghost="true"
-      type="default"
-      tabIndex={0}
       onClick={handleLanguageChange}
       style={{
         textTransform: "uppercase",
         color: "#454545",
         borderColor: "#454545",
       }}
-      aria-label={intl.formatMessage({ id: "language.change" })}
-      className={className}
+      tabIndex={0}
+      type="default"
     >
-      <GlobalOutlined id="admin" className="mr-2" />
+      <GlobalOutlined className="mr-2" id="admin" />
       <FormattedMessage
-        style={{ textTransform: "capitalize" }}
         id="lang.code"
+        style={{ textTransform: "capitalize" }}
       />
     </Button>
   );

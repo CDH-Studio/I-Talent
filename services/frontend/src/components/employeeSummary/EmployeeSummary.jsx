@@ -9,12 +9,12 @@ const EmployeeSummary = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "employment.status" })}
       cardName="info"
-      id="card-profile-employee-summary"
-      editUrl="/profile/edit/employment"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/employment"
+      id="card-profile-employee-summary"
+      titleString={intl.formatMessage({ id: "employment.status" })}
       visibility={data.visibleCards.info}
     >
       <EmployeeSummaryView data={data} />

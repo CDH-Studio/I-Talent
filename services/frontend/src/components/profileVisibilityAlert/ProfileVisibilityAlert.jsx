@@ -12,9 +12,9 @@ const ProfileVisibilityAlert = ({
   return (
     <ProfileVisibilityAlertView
       canViewHiddenProfiles={keycloak.hasResourceRole("view-private-profile")}
-      isUsersProfile={isUsersProfile}
       isProfileHidden={isProfileHidden}
       isProfileInactive={isProfileInactive}
+      isUsersProfile={isUsersProfile}
     />
   );
 };

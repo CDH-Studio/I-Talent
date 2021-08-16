@@ -4,9 +4,9 @@ import SideNavView from "./SideNavView";
 const SideNav = ({ displaySideBar, siderWidth, sideBarContent, loading }) => (
   <SideNavView
     displaySideBar={displaySideBar}
-    siderWidth={siderWidth}
-    sideBarContent={sideBarContent}
     loading={loading}
+    sideBarContent={sideBarContent}
+    siderWidth={siderWidth}
   />
 );
 

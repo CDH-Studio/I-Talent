@@ -71,16 +71,16 @@ const tableColumns = (handleEdit) => [
     onFilter: (value, record) => record.location === value,
     render: (record) => (
       <>
-        <Tag visible={record.location === "HOME"} color="magenta">
+        <Tag color="magenta" visible={record.location === "HOME"}>
           <FormattedMessage id="home" />
         </Tag>
-        <Tag visible={record.location === "SEARCH"} color="geekblue">
+        <Tag color="geekblue" visible={record.location === "SEARCH"}>
           <FormattedMessage id="search" />
         </Tag>
-        <Tag visible={record.location === "PROFILE"} color="green">
+        <Tag color="green" visible={record.location === "PROFILE"}>
           <FormattedMessage id="profile" />
         </Tag>
-        <Tag visible={record.location === "FORMS"} color="orange">
+        <Tag color="orange" visible={record.location === "FORMS"}>
           <FormattedMessage id="bugs.location.forms" />
         </Tag>
       </>
@@ -105,13 +105,13 @@ const tableColumns = (handleEdit) => [
     onFilter: (value, record) => record.status === value,
     render: (record) => (
       <>
-        <Tag visible={record.status === "DUPLICATE"} color="orange">
+        <Tag color="orange" visible={record.status === "DUPLICATE"}>
           <FormattedMessage id="bugs.status.duplicate" />
         </Tag>
-        <Tag visible={record.status === "RESOLVED"} color="magenta">
+        <Tag color="magenta" visible={record.status === "RESOLVED"}>
           <FormattedMessage id="bugs.status.resolved" />
         </Tag>
-        <Tag visible={record.status === "UNRESOLVED"} color="geekblue">
+        <Tag color="geekblue" visible={record.status === "UNRESOLVED"}>
           <FormattedMessage id="bugs.status.unresolved" />
         </Tag>
       </>
@@ -124,9 +124,9 @@ const tableColumns = (handleEdit) => [
     render: (value) =>
       value ? (
         <a
-          target="_blank"
-          rel="noopener noreferrer"
           href={`https://github.com/CDH-Studio/I-Talent/issues/${value}`}
+          rel="noopener noreferrer"
+          target="_blank"
         >
           #{value}
         </a>
@@ -141,10 +141,10 @@ const tableColumns = (handleEdit) => [
     width: 70,
     render: (record) => (
       <Button
-        type="primary"
-        shape="circle"
         icon={<EditOutlined />}
         onClick={() => handleEdit(record)}
+        shape="circle"
+        type="primary"
       />
     ),
   },
@@ -265,15 +265,12 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
   return (
     <>
       <Header
-        title={<FormattedMessage id="user.reported.bugs" />}
         icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="user.reported.bugs" />}
       />
       <Table
-        size="large"
         columns={tableColumns(handleEdit)}
         dataSource={data}
-        loading={loading}
-        scroll={{ x: 1200 }}
         expandable={{
           rowExpandable: () => true,
           expandRowByClick: true,
@@ -287,46 +284,49 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
             </p>
           ),
         }}
+        loading={loading}
+        scroll={{ x: 1200 }}
+        size="large"
       />
       <Modal
-        visible={visible}
         okText={<FormattedMessage id="save" />}
         onCancel={() => setVisible(false)}
         onOk={updateBugReport}
         title={<FormattedMessage id="edit.bugs" />}
+        visible={visible}
       >
         <Form form={form} layout="vertical">
           <Form.Item
-            name="status"
             label={<FormattedMessage id="bugs.status" />}
+            name="status"
             rules={[Rules.required]}
           >
             <Radio.Group
+              buttonStyle="solid"
               options={statusOptions}
               optionType="button"
-              buttonStyle="solid"
             />
           </Form.Item>
           <Form.Item
-            name="location"
             label={<FormattedMessage id="location" />}
+            name="location"
             rules={[Rules.required]}
           >
             <Radio.Group
+              buttonStyle="solid"
               options={locationOptions}
               optionType="button"
-              buttonStyle="solid"
             />
           </Form.Item>
           <Form.Item
-            name="githubIssue"
             label={<FormattedMessage id="github.issue.number" />}
+            name="githubIssue"
           >
             <Input type="number" />
           </Form.Item>
           <Form.Item
-            name="description"
             label={<FormattedMessage id="description" />}
+            name="description"
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />

@@ -347,26 +347,22 @@ const PrimaryInfoFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="prim-content">
-        <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
+        <GedsUpdateModal profile={profileInfo} visibility={gedsModalVisible} />
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
           <FormTitle
-            title={<FormattedMessage id="primary.contact.information" />}
-            formType={formType}
-            stepNumber={2}
-            fieldsChanged={fieldsChanged}
             extra={
               <>
                 {formType === "edit" && (
                   <Button
+                    aria-label={intl.formatMessage({ id: "geds.sync.button" })}
                     onClick={() => {
                       setGedsModalVisible(true);
                     }}
-                    aria-label={intl.formatMessage({ id: "geds.sync.button" })}
                   >
                     <SyncOutlined />
                     <span>
@@ -376,36 +372,40 @@ const PrimaryInfoFormView = ({
                 )}
               </>
             }
+            fieldsChanged={fieldsChanged}
+            formType={formType}
+            stepNumber={2}
+            title={<FormattedMessage id="primary.contact.information" />}
           />
         </Row>
 
         <Divider className="prim-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="basicForm"
+          form={form}
           initialValues={
             savedValues || getInitialValues({ profile: profileInfo })
           }
           layout="vertical"
-          form={form}
+          name="basicForm"
           onValuesChange={checkIfFormValuesChanged}
         >
           {/* Form Row One */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="firstName"
                 label={<FormattedMessage id="first.name" />}
+                name="firstName"
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
                 <Input aria-required="true" />
               </Form.Item>
             </Col>
 
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="lastName"
                 label={<FormattedMessage id="last.name" />}
+                name="lastName"
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
                 <Input aria-required="true" />
@@ -414,15 +414,13 @@ const PrimaryInfoFormView = ({
           </Row>
           {/* Form Row Two */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="jobTitle"
                 label={
                   <>
                     <FormattedMessage id="job.title" />
                     <div className="prim-popoverStyleCareer">
                       <Popover
-                        trigger={["focus", "click"]}
                         content={
                           <div className="prim-popoverStyle">
                             <FormattedMessage id="job.title.tooltip" />
@@ -430,27 +428,29 @@ const PrimaryInfoFormView = ({
                         }
                         id="job-title-popover"
                         role="button"
+                        trigger={["focus", "click"]}
                       >
                         <InfoCircleOutlined
-                          tabIndex={0}
                           aria-describedby="job-title-popover"
                           aria-label={intl.formatMessage({
                             id: "job.title.popover.arialabel",
                           })}
+                          tabIndex={0}
                         />
                       </Popover>
                     </div>
                   </>
                 }
+                name="jobTitle"
                 rules={[Rules.maxChar50]}
               >
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="email"
                 label={<FormattedMessage id="email" />}
+                name="email"
                 rules={[Rules.emailFormat, Rules.maxChar50]}
               >
                 <Input disabled />
@@ -459,53 +459,53 @@ const PrimaryInfoFormView = ({
           </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="pri"
                 extra={
                   <div className="prim-popoverStyle" id="pri-extra-info">
                     <FormattedMessage id="pri.private" />
                   </div>
                 }
                 label={<FormattedMessage id="pri" />}
+                name="pri"
                 rules={[Rules.required, Rules.priFormat]}
               >
                 <Input aria-describedby="pri-extra-info" aria-required="true" />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="locationId"
                 label={<FormattedMessage id="location" />}
+                name="locationId"
                 rules={[Rules.required, Rules.maxChar50]}
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({ id: "location" })}
-                  isRequired
-                  placeholderText={<FormattedMessage id="search" />}
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).locationId
                   }
+                  isRequired
                   options={locationOptions}
+                  placeholderText={<FormattedMessage id="search" />}
                 />
               </Form.Item>
             </Col>
           </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="telephone"
                 label={<FormattedMessage id="profile.telephone" />}
+                name="telephone"
                 rules={Rules.telephoneFormat}
               >
                 <Input />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="cellphone"
                 label={<FormattedMessage id="work.cellphone" />}
+                name="cellphone"
                 rules={Rules.telephoneFormat}
               >
                 <Input />
@@ -516,8 +516,8 @@ const PrimaryInfoFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item
-                name="teams"
                 label={<FormattedMessage id="employee.work.unit" />}
+                name="teams"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -526,9 +526,9 @@ const PrimaryInfoFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).teams
                   }
-                  placeholderText={<FormattedMessage id="press.enter.to.add" />}
                   isCreatable
                   isMulti
+                  placeholderText={<FormattedMessage id="press.enter.to.add" />}
                 />
               </Form.Item>
             </Col>
@@ -545,47 +545,47 @@ const PrimaryInfoFormView = ({
             >
               <Col span={24}>
                 <Form.Item
-                  name="gcconnex"
                   label={<FormattedMessage id="gcconnex.username" />}
+                  name="gcconnex"
                   rules={[Rules.maxChar100]}
                 >
                   <Input
+                    addonBefore="https://gcconnex.gc.ca/profile/"
                     aria-label={`${intl.formatMessage({
                       id: "gcconnex.username",
                     })} https://gcconnex.gc.ca/profile/`}
-                    addonBefore="https://gcconnex.gc.ca/profile/"
                     placeholder={intl.formatMessage({ id: "username" })}
                   />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item
-                  name="linkedin"
                   label={<FormattedMessage id="linkedin.username" />}
+                  name="linkedin"
                   rules={[Rules.maxChar100]}
                 >
                   <Input
+                    addonBefore="https://linkedin.com/in/"
+                    aria-describedby="linkedin-field-info"
                     aria-label={`${intl.formatMessage({
                       id: "linkedin.username",
                     })} https://linkedin.com/in/`}
-                    addonBefore="https://linkedin.com/in/"
-                    aria-describedby="linkedin-field-info"
                     placeholder={intl.formatMessage({ id: "username" })}
                   />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item
-                  name="github"
                   label={<FormattedMessage id="github.username" />}
+                  name="github"
                   rules={[Rules.maxChar100]}
                 >
                   <Input
+                    addonBefore="https://github.com/"
+                    aria-describedby="github-field-info"
                     aria-label={`${intl.formatMessage({
                       id: "github.username",
                     })} https://github.com/`}
-                    addonBefore="https://github.com/"
-                    aria-describedby="github-field-info"
                     placeholder={intl.formatMessage({ id: "username" })}
                   />
                 </Form.Item>
@@ -595,17 +595,17 @@ const PrimaryInfoFormView = ({
 
           <Divider className="prim-headerDiv" />
           <FormSubTitle
-            title={<FormattedMessage id="employment.equity.groups" />}
             extra={
               <CardVisibilityToggle
-                visibleCards={profileInfo.visibleCards}
-                cardName="employmentEquityGroup"
-                type="form"
                 ariaLabel={intl.formatMessage({
                   id: "employment.equity.groups",
                 })}
+                cardName="employmentEquityGroup"
+                type="form"
+                visibleCards={profileInfo.visibleCards}
               />
             }
+            title={<FormattedMessage id="employment.equity.groups" />}
           />
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
@@ -618,22 +618,22 @@ const PrimaryInfoFormView = ({
                     getInitialValues({ profile: profileInfo })
                       .employmentEquityGroups
                   }
-                  placeholderText={<FormattedMessage id="select" />}
-                  options={employmentEquityOptions}
-                  isSearchable={false}
                   isMulti
+                  isSearchable={false}
+                  options={employmentEquityOptions}
+                  placeholderText={<FormattedMessage id="select" />}
                 />
               </Form.Item>
             </Col>
           </Row>
           <FormControlButton
-            formType={formType}
-            onSave={onSave}
-            onSaveAndNext={onSaveAndNext}
-            onSaveAndFinish={onSaveAndFinish}
-            onReset={onReset}
-            onFinish={onFinish}
             fieldsChanged={fieldsChanged}
+            formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
+            onSave={onSave}
+            onSaveAndFinish={onSaveAndFinish}
+            onSaveAndNext={onSaveAndNext}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>

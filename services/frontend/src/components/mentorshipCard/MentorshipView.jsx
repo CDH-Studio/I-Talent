@@ -12,14 +12,14 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
           <Fragment key={mentoringCategory.val}>
             <Row align="middle">
               <Col>
-                <TagTwoTone twoToneColor="#3CBAB3" className="mr-1" />
+                <TagTwoTone className="mr-1" twoToneColor="#3CBAB3" />
               </Col>
               <Col>{mentoringCategory.val}:</Col>
             </Row>
             <Row>
               <Col>
                 {mentoring[mentoringCategory.index].val.map((mentor) => (
-                  <Tag color="#00605e" key={mentor}>
+                  <Tag key={mentor} color="#00605e">
                     {mentor}
                   </Tag>
                 ))}
@@ -31,8 +31,8 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
 
   return (
     <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
       description={<FormattedMessage id="mentorship.empty" />}
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
 };

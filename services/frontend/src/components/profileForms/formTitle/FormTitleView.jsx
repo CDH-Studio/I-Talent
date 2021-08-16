@@ -16,7 +16,7 @@ const FormTitleView = ({
   if (formType === "create") {
     return (
       <>
-        <Title level={2} className="profileForm-title">
+        <Title className="profileForm-title" level={2}>
           {stepNumber}. {title}
         </Title>
         {extra && <div className="profileForm-extra">{extra}</div>}
@@ -25,7 +25,7 @@ const FormTitleView = ({
   }
   return (
     <>
-      <Title level={2} className="profileForm-title">
+      <Title className="profileForm-title" level={2}>
         {title}
         {fieldsChanged && (
           <Text className="profileForm-unsavedText">

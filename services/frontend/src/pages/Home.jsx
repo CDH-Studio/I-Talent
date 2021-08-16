@@ -12,7 +12,7 @@ const Home = () => {
   }, [intl]);
 
   return (
-    <AppLayout displaySideBar={false} displayLogo={false} displaySearch={false}>
+    <AppLayout displayLogo={false} displaySearch={false} displaySideBar={false}>
       <h1 className="hidden">
         <FormattedMessage id="home" />
       </h1>

@@ -31,8 +31,8 @@ const ChangeLanguage = ({ className }) => {
 
   return (
     <ChangeLanguageView
-      handleLanguageChange={handleLanguageChange}
       className={className}
+      handleLanguageChange={handleLanguageChange}
     />
   );
 };

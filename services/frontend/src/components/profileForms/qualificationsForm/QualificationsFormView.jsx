@@ -338,60 +338,60 @@ const QualificationsFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="qual-content">
         {/* get form title */}
         <FormTitle
-          title={<FormattedMessage id="employee.qualifications" />}
+          fieldsChanged={fieldsChanged}
           formType={formType}
           stepNumber={6}
-          fieldsChanged={fieldsChanged}
+          title={<FormattedMessage id="employee.qualifications" />}
         />
 
         <Divider className="qual-headerDiv" />
         {/* Create form with initial values */}
         <Form
-          name="QualificationForm"
           form={form}
           initialValues={savedValues || initialValues}
           layout="vertical"
-          onValuesChange={checkIfFormValuesChanged}
+          name="QualificationForm"
           onFieldsChange={onFieldsChange}
+          onValuesChange={checkIfFormValuesChanged}
         >
           <Tabs
-            type="card"
             activeKey={tabs[selectedTab]}
             onChange={onTabChange}
+            type="card"
           >
             <TabPane
+              key="education"
               tab={getTabTitle({
                 message: <FormattedMessage id="education" />,
                 errorBool: tabErrorsBool.educations,
               })}
-              key="education"
             >
               <FormSubTitle
-                title={<FormattedMessage id="education" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="education"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "education",
                     })}
+                    cardName="education"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="education" />}
               />
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
-                  xs={24}
-                  md={24}
                   lg={24}
+                  md={24}
                   xl={24}
+                  xs={24}
                 >
                   <Form.List name="educations">
                     {(fields, { add, remove }) => (
@@ -399,21 +399,21 @@ const QualificationsFormView = ({
                         {fields.map((field) => (
                           <EducationForm
                             key={field.fieldKey}
-                            form={form}
-                            fieldElement={field}
-                            removeElement={remove}
-                            diplomaOptions={options.diplomas}
-                            schoolOptions={options.schools}
                             attachmentNames={options.attachmentNamesEdu}
+                            diplomaOptions={options.diplomas}
+                            fieldElement={field}
+                            form={form}
+                            removeElement={remove}
+                            schoolOptions={options.schools}
                           />
                         ))}
                         <Form.Item>
                           {/* add education field button */}
                           <Button
-                            type="dashed"
                             disabled={fields.length === 3}
                             onClick={() => add()}
                             style={{ width: "100%" }}
+                            type="dashed"
                           >
                             <PlusOutlined />
                             <FormattedMessage id="add" />
@@ -426,33 +426,33 @@ const QualificationsFormView = ({
               </Row>
             </TabPane>
             <TabPane
+              key="experience"
               tab={getTabTitle({
                 message: <FormattedMessage id="experience" />,
                 errorBool: tabErrorsBool.experiences,
               })}
-              key="experience"
             >
               <FormSubTitle
-                title={<FormattedMessage id="experience.most.recent" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="experience"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "experience",
                     })}
+                    cardName="experience"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="experience.most.recent" />}
               />
               {/* Form Row One: Remote Work */}
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
-                  xs={24}
-                  md={24}
                   lg={24}
+                  md={24}
                   xl={24}
+                  xs={24}
                 >
                   <Form.List name="experiences">
                     {(fields, { add, remove }) => (
@@ -461,20 +461,20 @@ const QualificationsFormView = ({
                         {fields.map((field) => (
                           <ExperienceForm
                             key={field.fieldKey}
-                            form={form}
-                            fieldElement={field}
-                            removeElement={remove}
                             attachmentNames={options.attachmentNamesExp}
                             checkIfFormValuesChanged={checkIfFormValuesChanged}
+                            fieldElement={field}
+                            form={form}
+                            removeElement={remove}
                           />
                         ))}
                         <Form.Item>
                           {/* add education field button */}
                           <Button
-                            type="dashed"
                             disabled={fields.length === 3}
                             onClick={() => add()}
                             style={{ width: "100%" }}
+                            type="dashed"
                           >
                             <PlusOutlined />
                             <FormattedMessage id="add" />
@@ -488,13 +488,13 @@ const QualificationsFormView = ({
             </TabPane>
           </Tabs>
           <FormControlButton
+            fieldsChanged={fieldsChanged}
             formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
             onSave={onSave}
             onSaveAndFinish={onSaveAndFinish}
             onSaveAndNext={onSaveAndNext}
-            onReset={onReset}
-            onFinish={onFinish}
-            fieldsChanged={fieldsChanged}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>

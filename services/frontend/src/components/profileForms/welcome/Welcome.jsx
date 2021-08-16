@@ -72,10 +72,10 @@ const Welcome = () => {
   return (
     <WelcomeView
       gedsProfiles={gedsProfiles}
-      load={load}
-      userId={id}
       history={history}
+      load={load}
       skipProfileCreation={skipProfileCreation}
+      userId={id}
     />
   );
 };

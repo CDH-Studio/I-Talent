@@ -27,11 +27,11 @@ const PrivacyModal = () => {
 
   return (
     <PrivacyModalView
-      showModal={!isPrivacyAccepted && keycloak && keycloak.authenticated}
-      handleOk={handleOk}
       handleCancel={handleCancel}
+      handleOk={handleOk}
       keycloak={keycloak}
       locale={locale}
+      showModal={!isPrivacyAccepted && keycloak && keycloak.authenticated}
     />
   );
 };

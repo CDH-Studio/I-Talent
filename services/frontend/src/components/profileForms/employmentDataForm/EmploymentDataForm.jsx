@@ -58,16 +58,16 @@ const EmploymentDataForm = ({ formType }) => {
 
   return (
     <EmploymentDataFormView
-      substantiveOptions={substantiveOptions}
-      classificationOptions={classificationOptions}
-      securityOptions={securityOptions}
-      profileInfo={profileInfo}
-      formType={formType}
-      locale={locale}
-      load={load}
-      history={history}
-      handleDescriptionChange={handleDescriptionChange}
       charsLeft={charsLeft}
+      classificationOptions={classificationOptions}
+      formType={formType}
+      handleDescriptionChange={handleDescriptionChange}
+      history={history}
+      load={load}
+      locale={locale}
+      profileInfo={profileInfo}
+      securityOptions={securityOptions}
+      substantiveOptions={substantiveOptions}
       userId={id}
     />
   );

@@ -429,20 +429,9 @@ const CustomDropdown = ({
       {isCreatable ? (
         <CreatableSelect
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
-          placeholder={placeholderText}
+          className={className}
           defaultValue={mapInitialValueCreatable(initialValueId)}
-          onChange={(selectValues) =>
-            onSelectedValueChange(selectValues, isMulti, true)
-          }
           formatCreateLabel={formatCreateLabelCreatable}
-          noOptionsMessage={(typedInputValue) =>
-            generateNoOptionsMessageCreatable(
-              typedInputValue,
-              selectedOptions,
-              isMulti,
-              maxSelectedOptions
-            )
-          }
           isMulti
           isValidNewOption={(userTypedValue, selectValues) =>
             isValidInputCreatable(
@@ -452,21 +441,37 @@ const CustomDropdown = ({
               maxSelectedOptions
             )
           }
+          noOptionsMessage={(typedInputValue) =>
+            generateNoOptionsMessageCreatable(
+              typedInputValue,
+              selectedOptions,
+              isMulti,
+              maxSelectedOptions
+            )
+          }
+          onChange={(selectValues) =>
+            onSelectedValueChange(selectValues, isMulti, true)
+          }
+          placeholder={placeholderText}
           styles={customStyles}
           theme={customTheme}
-          className={className}
         />
       ) : (
         <Select
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
+          blurInputOnSelect={false}
+          className={className}
+          closeMenuOnSelect={!isMulti}
           defaultValue={mapInitialValue(options, initialValueId)}
-          value={mapInitialValue(options, inputValue || selectedOptions)}
-          options={generateSelectOptions(
-            options,
-            selectedOptions,
-            isMulti,
-            maxSelectedOptions
-          )}
+          formatOptionLabel={formatOptionLabel}
+          isClearable={isClearable}
+          isDisabled={isDisabled}
+          isMulti={isMulti}
+          isOptionDisabled={() =>
+            isOptionsDisabled(selectedOptions, isMulti, maxSelectedOptions)
+          }
+          isSearchable={isSearchable}
+          menuPortalTarget={document.body}
           noOptionsMessage={() =>
             generateNoOptionsMessage(
               selectedOptions,
@@ -474,24 +479,19 @@ const CustomDropdown = ({
               maxSelectedOptions
             )
           }
-          placeholder={placeholderText}
           onChange={(selectValues) =>
             onSelectedValueChange(selectValues, isMulti, false)
           }
-          isMulti={isMulti}
-          isSearchable={isSearchable}
-          isClearable={isClearable}
-          isDisabled={isDisabled}
-          closeMenuOnSelect={!isMulti}
-          blurInputOnSelect={false}
-          isOptionDisabled={() =>
-            isOptionsDisabled(selectedOptions, isMulti, maxSelectedOptions)
-          }
+          options={generateSelectOptions(
+            options,
+            selectedOptions,
+            isMulti,
+            maxSelectedOptions
+          )}
+          placeholder={placeholderText}
           styles={customStyles}
           theme={customTheme}
-          className={className}
-          formatOptionLabel={formatOptionLabel}
-          menuPortalTarget={document.body}
+          value={mapInitialValue(options, inputValue || selectedOptions)}
         />
       )}
     </>

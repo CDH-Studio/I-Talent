@@ -5,8 +5,8 @@ import SearchFilter from "../../searchFilter/SearchFilter";
 const ResultLayoutView = () => (
   <AppLayout
     displaySideBar
-    sideBarWidth={400}
     sideBarContent={<SearchFilter />}
+    sideBarWidth={400}
   >
     <ResultsCard />
   </AppLayout>

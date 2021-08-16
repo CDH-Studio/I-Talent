@@ -7,10 +7,10 @@ const TopNav = ({ loading, displayLogo, displaySearch }) => {
 
   return (
     <TopNavView
-      isAdmin={isAdmin}
-      loading={loading}
       displayLogo={displayLogo}
       displaySearch={displaySearch}
+      isAdmin={isAdmin}
+      loading={loading}
     />
   );
 };

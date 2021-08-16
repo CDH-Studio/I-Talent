@@ -117,13 +117,13 @@ const SearchBar = () => {
 
   return (
     <SearchBarView
+      anyMentorSkills={anyMentorSkills}
+      branchOptions={branchOptions}
+      classOptions={classOptions}
+      handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
+      handleSearch={handleSearch}
       locationOptions={locationOptions}
       skillOptions={skillOptions}
-      classOptions={classOptions}
-      branchOptions={branchOptions}
-      handleSearch={handleSearch}
-      anyMentorSkills={anyMentorSkills}
-      handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
     />
   );
 };

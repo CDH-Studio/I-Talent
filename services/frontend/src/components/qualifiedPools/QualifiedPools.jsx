@@ -28,12 +28,12 @@ const QualifiedPools = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "qualified.pools" })}
       cardName="qualifiedPools"
-      id="card-profile-qualified-pools"
-      editUrl="/profile/edit/career-management?tab=qualified-pools"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/career-management?tab=qualified-pools"
+      id="card-profile-qualified-pools"
+      titleString={intl.formatMessage({ id: "qualified.pools" })}
       visibility={data.visibleCards.qualifiedPools}
     >
       <QualifiedPoolsView qualifiedPoolsInfo={getQualifiedPoolsInfo(data)} />

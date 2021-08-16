@@ -45,7 +45,7 @@ const SearchFilterView = ({
 
   return (
     <div className="search-searchSideBar">
-      <Title level={2} className="search-searchHeader">
+      <Title className="search-searchHeader" level={2}>
         <SettingOutlined className="search-searchHeaderIcon" />
         <FormattedMessage id="search.filters" />
       </Title>
@@ -53,19 +53,19 @@ const SearchFilterView = ({
         <FormattedMessage id="sidebar.search.description" />
       </Text>
       <Form
+        className="search-form"
         form={form}
         layout="vertical"
         onFinish={onFinish}
-        className="search-form"
         onKeyPress={(e) => {
           if (e.key === "Enter") e.preventDefault();
         }}
       >
         {/* name */}
         <Form.Item
+          className="search-w100"
           label={intl.formatMessage({ id: "name" })}
           name="name"
-          className="search-w100"
         >
           <Input
             className="search-w100"
@@ -83,14 +83,14 @@ const SearchFilterView = ({
             ariaLabel={intl.formatMessage({
               id: "classification",
             })}
-            placeholderText={<FormattedMessage id="type.to.search" />}
-            options={classOptions}
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.classifications
             }
-            isSearchable
             isMulti
+            isSearchable
             maxSelectedOptions={3}
+            options={classOptions}
+            placeholderText={<FormattedMessage id="type.to.search" />}
           />
         </Form.Item>
 
@@ -104,14 +104,14 @@ const SearchFilterView = ({
             ariaLabel={intl.formatMessage({
               id: "location",
             })}
-            placeholderText={<FormattedMessage id="type.to.search" />}
-            options={locationOptions}
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.locations
             }
-            isSearchable
             isMulti
+            isSearchable
             maxSelectedOptions={3}
+            options={locationOptions}
+            placeholderText={<FormattedMessage id="type.to.search" />}
           />
         </Form.Item>
 
@@ -125,14 +125,14 @@ const SearchFilterView = ({
             ariaLabel={intl.formatMessage({
               id: "branch",
             })}
-            placeholderText={<FormattedMessage id="type.to.search" />}
-            options={branchOptions}
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.branches
             }
-            isSearchable
             isMulti
+            isSearchable
             maxSelectedOptions={3}
+            options={branchOptions}
+            placeholderText={<FormattedMessage id="type.to.search" />}
           />
         </Form.Item>
 
@@ -143,16 +143,16 @@ const SearchFilterView = ({
           name="skills"
         >
           <TreeSelect
+            aria-autocomplete="none"
             className="search-w100"
-            treeData={skillOptions}
-            treeCheckable
-            treeNodeFilterProp="title"
+            maxTagCount={3}
+            mode="multiple"
+            placeholder={<FormattedMessage id="type.to.search" />}
             showCheckedStrategy={SHOW_CHILD}
             showSearch
-            mode="multiple"
-            maxTagCount={3}
-            aria-autocomplete="none"
-            placeholder={<FormattedMessage id="type.to.search" />}
+            treeCheckable
+            treeData={skillOptions}
+            treeNodeFilterProp="title"
           />
         </Form.Item>
 
@@ -163,17 +163,17 @@ const SearchFilterView = ({
           name="mentorSkills"
         >
           <TreeSelect
+            aria-autocomplete="none"
             className="search-w100"
-            treeData={skillOptions}
-            treeCheckable
-            treeNodeFilterProp="title"
+            disabled={anyMentorSkills}
+            maxTagCount={3}
+            mode="multiple"
+            placeholder={<FormattedMessage id="type.to.search" />}
             showCheckedStrategy={SHOW_CHILD}
             showSearch
-            mode="multiple"
-            maxTagCount={3}
-            disabled={anyMentorSkills}
-            aria-autocomplete="none"
-            placeholder={<FormattedMessage id="type.to.search" />}
+            treeCheckable
+            treeData={skillOptions}
+            treeNodeFilterProp="title"
           />
         </Form.Item>
         <Form.Item
@@ -192,20 +192,20 @@ const SearchFilterView = ({
         {/* exFeeder */}
         <Form.Item
           className="search-w100"
-          name="exFeeder"
           label={intl.formatMessage({ id: "search.filter.exfeeder" })}
+          name="exFeeder"
           valuePropName="checked"
         >
           <Switch
-            role="switch"
             aria-label={intl.formatMessage({ id: "search.filter.exfeeder" })}
+            role="switch"
           />
         </Form.Item>
         <Button
           className="search-w100"
+          htmlType="submit"
           size="large"
           type="primary"
-          htmlType="submit"
         >
           <ReloadOutlined className="mr-1" />
           <FormattedMessage id="search" />

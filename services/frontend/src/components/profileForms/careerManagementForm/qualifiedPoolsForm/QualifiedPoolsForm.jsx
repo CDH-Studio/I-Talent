@@ -15,10 +15,10 @@ const QualifiedPoolsForm = ({
 }) => (
   <QualifiedPoolsFormView
     form={form}
+    classificationOptions={classificationOptions}
     fieldElement={fieldElement}
     removeElement={removeElement}
     savedQualifiedPools={savedQualifiedPools}
-    classificationOptions={classificationOptions}
   />
 );
 

@@ -12,10 +12,10 @@ const LinkAttachment = ({
   attachmentNameDefault,
 }) => (
   <LinkAttachmentView
+    attachmentNameDefault={attachmentNameDefault}
+    attachmentNamesOptions={attachmentNamesOptions}
     fieldElement={fieldElement}
     removeElement={removeElement}
-    attachmentNamesOptions={attachmentNamesOptions}
-    attachmentNameDefault={attachmentNameDefault}
   />
 );
 

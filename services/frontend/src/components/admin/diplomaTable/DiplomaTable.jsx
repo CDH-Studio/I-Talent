@@ -130,15 +130,15 @@ const DiplomaTable = ({ intl }) => {
 
   return (
     <DiplomaTableView
-      handleSearch={handleSearch}
       handleReset={handleReset}
+      handleSearch={handleSearch}
       handleSubmitAdd={handleSubmitAdd}
-      handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
-      selectedRowKeys={selectedRowKeys}
+      handleSubmitEdit={handleSubmitEdit}
+      rowSelection={rowSelection}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      rowSelection={rowSelection}
+      selectedRowKeys={selectedRowKeys}
     />
   );
 };

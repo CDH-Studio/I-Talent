@@ -101,22 +101,22 @@ const SkillTableView = ({
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
           style={{ width: 188, marginBottom: 8, display: "block" }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
           style={{ width: 90, marginRight: 8 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -142,9 +142,9 @@ const SkillTableView = ({
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
+          autoEscape
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
-          autoEscape
           textToHighlight={text.toString()}
         />
       ) : (
@@ -211,22 +211,22 @@ const SkillTableView = ({
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="delete.skill" />}
-      okText={<FormattedMessage id="delete" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={selectedRowKeys.length === 0}
+      okText={<FormattedMessage id="delete" />}
+      onCancel={() => {
+        popUpCancel();
+      }}
       onConfirm={() => {
         handleSubmitDelete()
           .then(popUpSuccesss)
           .catch((error) => handleError(error, "message", history));
       }}
-      onCancel={() => {
-        popUpCancel();
-      }}
-      disabled={selectedRowKeys.length === 0}
       overlayStyle={{ maxWidth: 350 }}
+      placement="left"
+      title={<FormattedMessage id="delete.skill" />}
     >
-      <Button disabled={selectedRowKeys.length === 0} danger>
+      <Button danger disabled={selectedRowKeys.length === 0}>
         <DeleteOutlined />
         <span>
           <FormattedMessage id="delete" />
@@ -238,10 +238,12 @@ const SkillTableView = ({
   /* Renders "Edit Skill" modal */
   const editSkillButton = () => (
     <Modal
-      visible={editVisible}
-      title={<FormattedMessage id="edit.skill" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         editForm
           .validateFields()
@@ -256,23 +258,21 @@ const SkillTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        editForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="edit.skill" />}
+      visible={editVisible}
     >
       <Form
-        form={editForm}
-        name="editSkill"
-        layout="vertical"
         fields={fields}
+        form={editForm}
+        layout="vertical"
+        name="editSkill"
         onFieldsChange={() => {
           setFields([{}]);
         }}
       >
         <Form.Item
-          name="editSkillEn"
           label={<FormattedMessage id="language.english" />}
+          name="editSkillEn"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -281,8 +281,8 @@ const SkillTableView = ({
           />
         </Form.Item>
         <Form.Item
-          name="editSkillFr"
           label={<FormattedMessage id="language.french" />}
+          name="editSkillFr"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -291,20 +291,20 @@ const SkillTableView = ({
           />
         </Form.Item>
         <Form.Item
-          name="editSkillCategoryId"
           label={<FormattedMessage id="category" />}
+          name="editSkillCategoryId"
         >
           <Select
-            showSearch
+            filterOption={filterOption}
             placeholder={`${intl.formatMessage({
               id: "select",
             })} ${intl.formatMessage({
               id: "category",
             })}`}
-            filterOption={filterOption}
+            showSearch
           >
             {categories.data.map((category) => (
-              <Option value={category.id} key={category.id}>
+              <Option key={category.id} value={category.id}>
                 {category[locale === "ENGLISH" ? "en" : "fr"]}
               </Option>
             ))}
@@ -364,8 +364,6 @@ const SkillTableView = ({
       render: (record) => (
         <div>
           <Button
-            type="primary"
-            shape="circle"
             icon={<EditOutlined />}
             onClick={() => {
               setFields([
@@ -378,6 +376,8 @@ const SkillTableView = ({
               ]);
               handleEditModal(record);
             }}
+            shape="circle"
+            type="primary"
           />
         </div>
       ),
@@ -387,10 +387,12 @@ const SkillTableView = ({
   /* Renders "Add Skill" modal */
   const addSkillButton = () => (
     <Modal
-      visible={addVisible}
-      title={<FormattedMessage id="add.skill" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         addForm
           .validateFields()
@@ -405,15 +407,13 @@ const SkillTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        addForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="add.skill" />}
+      visible={addVisible}
     >
-      <Form form={addForm} name="addSkill" layout="vertical">
+      <Form form={addForm} layout="vertical" name="addSkill">
         <Form.Item
-          name="addSkillEn"
           label={<FormattedMessage id="language.english" />}
+          name="addSkillEn"
           rules={[
             {
               required: true,
@@ -422,15 +422,15 @@ const SkillTableView = ({
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.english.term",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addSkillFr"
           label={<FormattedMessage id="language.french" />}
+          name="addSkillFr"
           rules={[
             {
               required: true,
@@ -439,15 +439,15 @@ const SkillTableView = ({
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.french.term",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addSkillCategory"
           label={<FormattedMessage id="category" />}
+          name="addSkillCategory"
           rules={[
             {
               required: true,
@@ -458,16 +458,16 @@ const SkillTableView = ({
           ]}
         >
           <Select
-            showSearch
+            filterOption={filterOption}
             placeholder={`${intl.formatMessage({
               id: "select",
             })} ${intl.formatMessage({
               id: "category",
             })}`}
-            filterOption={filterOption}
+            showSearch
           >
             {categories.data.map((category) => (
-              <Option value={category.id} key={category.id}>
+              <Option key={category.id} value={category.id}>
                 {category[locale === "ENGLISH" ? "en" : "fr"]}
               </Option>
             ))}
@@ -482,12 +482,10 @@ const SkillTableView = ({
       {addSkillButton()}
       {editSkillButton()}
       <Header
-        title={<FormattedMessage id="skills" />}
-        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" onClick={handleAddModal}>
+            <Button onClick={handleAddModal} type="primary">
               <PlusCircleOutlined />
               <span>
                 <FormattedMessage id="add" />
@@ -495,14 +493,16 @@ const SkillTableView = ({
             </Button>
           </>
         }
+        icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="skills" />}
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            rowSelection={rowSelection}
             columns={skillTableColumns()}
             dataSource={data}
             loading={skills.loading || categories.loading}
+            rowSelection={rowSelection}
             scroll={{ x: 800 }}
           />
         </Col>

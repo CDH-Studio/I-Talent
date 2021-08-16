@@ -103,8 +103,8 @@ const Profile = ({ history, match }) => {
   if (userDoesNotExist) {
     return (
       <ErrorProfilePage
-        titleId="profile.not.found"
         subtitleId="profile.not.found.description"
+        titleId="profile.not.found"
       />
     );
   }
@@ -112,18 +112,18 @@ const Profile = ({ history, match }) => {
   if (userIsHidden) {
     return (
       <ErrorProfilePage
-        titleId="hidden.profile"
         subtitleId="hidden.profile.description"
+        titleId="hidden.profile"
       />
     );
   }
 
   return (
     <ProfileLayout
-      data={data}
-      connectionStatus={connectionData}
-      isUsersProfile={id === userID}
       changeConnection={changeConnection}
+      connectionStatus={connectionData}
+      data={data}
+      isUsersProfile={id === userID}
       loading={loading}
       savedFormContent={savedFormContent}
     />

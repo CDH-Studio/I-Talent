@@ -397,74 +397,74 @@ const CareerManagementFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="pgf-content">
         {/* get form title */}
         <FormTitle
-          title={<FormattedMessage id="employee.growth.interests" />}
+          fieldsChanged={fieldsChanged}
           formType={formType}
           stepNumber={7}
-          fieldsChanged={fieldsChanged}
+          title={<FormattedMessage id="employee.growth.interests" />}
         />
         <Divider className="pgf-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="PersonalGrowth"
           form={form}
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
-          onValuesChange={checkIfFormValuesChanged}
+          name="PersonalGrowth"
           onFieldsChange={onFieldsChange}
+          onValuesChange={checkIfFormValuesChanged}
         >
           <Tabs
-            type="card"
             activeKey={tabs[selectedTab]}
             onChange={onTabChange}
+            type="card"
           >
             {/* ===== Developmental Goals Tab ===== */}
             <TabPane
+              key="learning-development"
               tab={getTabTitle({
                 message: <FormattedMessage id="learning.development" />,
                 errorBool: tabErrorsBool.developmentalGoalsAttachments,
               })}
-              key="learning-development"
             >
               <FormSubTitle
-                title={<FormattedMessage id="developmental.goals" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="developmentalGoals"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "developmental.goals",
                     })}
+                    cardName="developmentalGoals"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="developmental.goals" />}
               />
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
                     className="custom-bubble-select-style"
-                    name="developmentalGoals"
                     label={<FormattedMessage id="developmental.goals" />}
+                    name="developmentalGoals"
                   >
                     <TreeSelect
                       className="custom-bubble-select-style"
-                      treeData={developmentalGoalOptions}
-                      treeCheckable
-                      showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="search" />}
-                      treeNodeFilterProp="title"
-                      showSearch
                       maxTagCount={15}
+                      placeholder={<FormattedMessage id="search" />}
+                      showCheckedStrategy={SHOW_CHILD}
+                      showSearch
+                      treeCheckable
+                      treeData={developmentalGoalOptions}
+                      treeNodeFilterProp="title"
                     />
                   </Form.Item>
                 </Col>
 
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Fieldset
                     title={<FormattedMessage id="supporting.document" />}
                   >
@@ -475,6 +475,7 @@ const CareerManagementFormView = ({
                             <LinkAttachment
                               key={field.fieldKey}
                               fieldElement={field}
+<<<<<<< HEAD
                               removeElement={remove}
                               attachmentNamesOptions={attachmentOptions}
                               attachmentNameDefault={form.getFieldValue([
@@ -482,20 +483,24 @@ const CareerManagementFormView = ({
                                 field.fieldKey,
                                 "nameId",
                               ])}
+=======
+                              nameOptions={attachmentOptions}
+                              removeElement={remove}
+>>>>>>> sort props
                             />
                           ))}
                           <Form.Item>
                             <Button
-                              type="dashed"
-                              onClick={() => add()}
                               disabled={fields.length === 6}
+                              onClick={() => add()}
                               style={{
                                 width: "100%",
                               }}
+                              type="dashed"
                             >
                               <PlusOutlined
-                                className="mr-1"
                                 aria-hidden="true"
+                                className="mr-1"
                               />
                               <FormattedMessage id="supporting.document.add" />
                             </Button>
@@ -510,32 +515,32 @@ const CareerManagementFormView = ({
 
             {/* ===== Qualified Pools Tab ===== */}
             <TabPane
+              key="qualified-pools"
               tab={getTabTitle({
                 message: <FormattedMessage id="qualified.pools" />,
                 errorBool: tabErrorsBool.qualifiedPools,
               })}
-              key="qualified-pools"
             >
               <FormSubTitle
-                title={<FormattedMessage id="qualified.pools" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="qualifiedPools"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "qualified.pools",
                     })}
+                    cardName="qualifiedPools"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="qualified.pools" />}
               />
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
-                  xs={24}
-                  md={24}
                   lg={24}
+                  md={24}
                   xl={24}
+                  xs={24}
                 >
                   <Form.List name="qualifiedPools">
                     {(fields, { add, remove }) => (
@@ -543,20 +548,23 @@ const CareerManagementFormView = ({
                         {fields.map((field) => (
                           <QualifiedPoolsForm
                             key={field.fieldKey}
+<<<<<<< HEAD
                             form={form}
+=======
+                            classificationOptions={classificationOptions}
+>>>>>>> sort props
                             fieldElement={field}
                             removeElement={remove}
                             savedQualifiedPools={savedQualifiedPools}
-                            classificationOptions={classificationOptions}
                           />
                         ))}
                         <Form.Item>
                           {/* add qualified pools field button */}
                           <Button
-                            type="dashed"
                             disabled={fields.length === 3}
                             onClick={() => add()}
                             style={{ width: "100%" }}
+                            type="dashed"
                           >
                             <PlusOutlined />
                             <FormattedMessage id="add" />
@@ -571,30 +579,31 @@ const CareerManagementFormView = ({
 
             {/* ===== Job Mobility Tab ===== */}
             <TabPane
+              key="career-interests"
               tab={getTabTitle({
                 message: <FormattedMessage id="career.interests" />,
               })}
-              key="career-interests"
             >
               <FormSubTitle
-                title={<FormattedMessage id="career.interests" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="careerInterests"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "career.interests",
                     })}
+                    cardName="careerInterests"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="career.interests" />}
               />
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
-                    name="interestedInRemote"
                     label={<FormattedMessage id="edit.interested.in.remote" />}
+                    name="interestedInRemote"
                   >
+<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.interested.in.remote",
@@ -604,20 +613,35 @@ const CareerManagementFormView = ({
                       isSearchable={false}
                       options={interestedInRemoteOptions}
                     />
+=======
+                    <Select
+                      allowClear
+                      filterOption={filterOption}
+                      placeholder={<FormattedMessage id="search" />}
+                      showSearch
+                    >
+                      {interestedInRemoteOptions.map(({ key, value, text }) => (
+                        <Option key={key} value={value}>
+                          {text}
+                        </Option>
+                      ))}
+                    </Select>
+>>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
 
               {/* Form Row Two: Relocation */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
                     className="custom-bubble-select-style"
-                    name="relocationLocations"
                     label={
                       <FormattedMessage id="edit.willing.to.relocate.to" />
                     }
+                    name="relocationLocations"
                   >
+<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.willing.to.relocate.to",
@@ -628,17 +652,32 @@ const CareerManagementFormView = ({
                       options={relocationOptions}
                       isMulti
                     />
+=======
+                    <Select
+                      filterOption={filterOption}
+                      mode="multiple"
+                      placeholder={<FormattedMessage id="search" />}
+                      style={{ width: "100%" }}
+                    >
+                      {relocationOptions.map((value) => (
+                        <Option
+                          key={value.id}
+                        >{`${value.city}, ${value.province}`}</Option>
+                      ))}
+                    </Select>
+>>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
 
               {/* Form Row Three: new job */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
-                    name="lookingForANewJobId"
                     label={<FormattedMessage id="edit.looking.for.new.job" />}
+                    name="lookingForANewJobId"
                   >
+<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.looking.for.new.job",
@@ -648,6 +687,18 @@ const CareerManagementFormView = ({
                       isSearchable={false}
                       options={lookingForNewJobOptions}
                     />
+=======
+                    <Select
+                      allowClear
+                      filterOption={filterOption}
+                      placeholder={<FormattedMessage id="search" />}
+                      showSearch
+                    >
+                      {lookingForNewJobOptions.map((value) => (
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
+                    </Select>
+>>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
@@ -655,54 +706,55 @@ const CareerManagementFormView = ({
 
             {/* ===== Talent Management Tab ===== */}
             <TabPane
+              key="talent-management"
               tab={getTabTitle({
                 message: <FormattedMessage id="talent.management" />,
               })}
-              key="talent-management"
             >
               <FormSubTitle
-                title={<FormattedMessage id="talent.management" />}
+                extra={
+                  <CardVisibilityToggle
+                    ariaLabel={intl.formatMessage({
+                      id: "talent.management",
+                    })}
+                    cardName="talentManagement"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
+                  />
+                }
                 popoverMessage={
                   <>
                     <FormattedMessage id="talent.management.tooltip" />
                     {locale === "ENGLISH" ? (
                       <a
-                        target="_blank"
-                        rel="noopener noreferrer"
                         href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
+                        rel="noopener noreferrer"
+                        target="_blank"
                       >
                         <FormattedMessage id="talent.management.link" />
                       </a>
                     ) : (
                       <a
-                        target="_blank"
-                        rel="noopener noreferrer"
                         href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                        rel="noopener noreferrer"
+                        target="_blank"
                       >
                         <FormattedMessage id="talent.management.link" />
                       </a>
                     )}
                   </>
                 }
-                extra={
-                  <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="talentManagement"
-                    type="form"
-                    ariaLabel={intl.formatMessage({
-                      id: "talent.management",
-                    })}
-                  />
-                }
+                title={<FormattedMessage id="talent.management" />}
               />
 
               {/* Form Row Three: career mobility */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
-                    name="careerMobilityId"
                     label={<FormattedMessage id="career.mobility" />}
+                    name="careerMobilityId"
                   >
+<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "career.mobility",
@@ -712,17 +764,30 @@ const CareerManagementFormView = ({
                       isSearchable={false}
                       options={careerMobilityOptions}
                     />
+=======
+                    <Select
+                      allowClear
+                      filterOption={filterOption}
+                      placeholder={<FormattedMessage id="search" />}
+                      showSearch
+                    >
+                      {careerMobilityOptions.map((value) => (
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
+                    </Select>
+>>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
 
               {/* Form Row Three: talent matrix */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
-                    name="talentMatrixResultId"
                     label={<FormattedMessage id="talent.matrix.result" />}
+                    name="talentMatrixResultId"
                   >
+<<<<<<< HEAD
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "talent.matrix.result",
@@ -734,6 +799,18 @@ const CareerManagementFormView = ({
                       options={talentMatrixResultOptions}
                       isSearchable={false}
                     />
+=======
+                    <Select
+                      allowClear
+                      filterOption={filterOption}
+                      placeholder={<FormattedMessage id="search" />}
+                      showSearch
+                    >
+                      {talentMatrixResultOptions.map((value) => (
+                        <Option key={value.id}>{value.description}</Option>
+                      ))}
+                    </Select>
+>>>>>>> sort props
                   </Form.Item>
                 </Col>
               </Row>
@@ -741,24 +818,24 @@ const CareerManagementFormView = ({
 
             {/* ===== Talent Management Tab ===== */}
             <TabPane
+              key="ex-feeder"
               tab={getTabTitle({
                 message: <FormattedMessage id="ex.feeder" />,
               })}
-              key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
               <FormSubTitle
-                title={<FormattedMessage id="ex.feeder" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="exFeeder"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "ex.feeder",
                     })}
+                    cardName="exFeeder"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="ex.feeder" />}
               />
               <Row className="pgf-exFeeder" justify="space-between">
                 <Col className="gutter-row">
@@ -772,13 +849,13 @@ const CareerManagementFormView = ({
             </TabPane>
           </Tabs>
           <FormControlButton
+            fieldsChanged={fieldsChanged}
             formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
             onSave={onSave}
             onSaveAndFinish={onSaveAndFinish}
             onSaveAndNext={selectedTab < MAXTAB ? onSaveAndNext : null}
-            onReset={onReset}
-            onFinish={onFinish}
-            fieldsChanged={fieldsChanged}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>

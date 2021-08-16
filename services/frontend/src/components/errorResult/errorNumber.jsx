@@ -18,9 +18,6 @@ const ErrorNumber = ({ error }) => {
 
   return (
     <ErrorResultView
-      status={error}
-      title={error}
-      subTitle={<FormattedMessage id={`error.${error}.subtitle`} />}
       extra={
         <Button onClick={handleClick} type="primary">
           <HomeOutlined />
@@ -29,6 +26,9 @@ const ErrorNumber = ({ error }) => {
           </span>
         </Button>
       }
+      status={error}
+      subTitle={<FormattedMessage id={`error.${error}.subtitle`} />}
+      title={error}
     />
   );
 };

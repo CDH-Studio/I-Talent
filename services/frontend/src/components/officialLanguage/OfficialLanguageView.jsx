@@ -5,11 +5,11 @@ import { FormattedMessage } from "react-intl";
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   const generateFirstLanguage = (dataSource) => (
     <List
-      itemLayout="horizontal"
       dataSource={dataSource}
+      itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item>
-          <List.Item.Meta title={item.title} description={item.description} />
+          <List.Item.Meta description={item.description} title={item.title} />
         </List.Item>
       )}
     />
@@ -17,12 +17,11 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
 
   const generateSecondLanguageData = () => (
     <List
-      grid={{ column: 3 }}
       dataSource={secondLanguageInfo}
+      grid={{ column: 3 }}
       renderItem={(i) => (
         <List.Item>
           <List.Item.Meta
-            title={<FormattedMessage id={i.titleId} />}
             description={
               i.level ? (
                 <>
@@ -32,6 +31,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
                 "-"
               )
             }
+            title={<FormattedMessage id={i.titleId} />}
           />
         </List.Item>
       )}
@@ -41,7 +41,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   return (
     <>
       <Row>
-        <Col xs={24} lg={12}>
+        <Col lg={12} xs={24}>
           {generateFirstLanguage(firstLanguageInfo)}
         </Col>
       </Row>

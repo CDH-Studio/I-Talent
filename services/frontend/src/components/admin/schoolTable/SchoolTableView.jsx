@@ -84,22 +84,22 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
           style={{ width: 188, marginBottom: 8, display: "block" }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
           style={{ width: 90, marginRight: 8 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -143,9 +143,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         if (searchedColumn === dataIndex) {
           return (
             <Highlighter
+              autoEscape
               highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
               searchWords={[searchText]}
-              autoEscape
               textToHighlight={text || "-"}
             />
           );
@@ -183,22 +183,22 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="delete.school" />}
-      okText={<FormattedMessage id="delete" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={selectedRowKeys.length === 0}
+      okText={<FormattedMessage id="delete" />}
+      onCancel={() => {
+        popUpCancel();
+      }}
       onConfirm={() => {
         handleSubmitDelete()
           .then(popUpSuccesss)
           .catch((error) => handleError(error, "message", history));
       }}
-      onCancel={() => {
-        popUpCancel();
-      }}
-      disabled={selectedRowKeys.length === 0}
       overlayStyle={{ maxWidth: 350 }}
+      placement="left"
+      title={<FormattedMessage id="delete.school" />}
     >
-      <Button disabled={selectedRowKeys.length === 0} danger>
+      <Button danger disabled={selectedRowKeys.length === 0}>
         <DeleteOutlined />
         <span>
           <FormattedMessage id="delete" />
@@ -248,10 +248,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   /* Renders "Add School" modal */
   const addSchoolModal = () => (
     <Modal
-      visible={addVisible}
-      title={<FormattedMessage id="add.school" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         addForm
           .validateFields()
@@ -266,15 +268,13 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             }
           });
       }}
-      onCancel={() => {
-        addForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="add.school" />}
+      visible={addVisible}
     >
-      <Form form={addForm} name="addSchool" layout="vertical">
+      <Form form={addForm} layout="vertical" name="addSchool">
         <Form.Item
-          name="addSchoolEn"
           label={<FormattedMessage id="language.english" />}
+          name="addSchoolEn"
           rules={[
             {
               required: true,
@@ -283,15 +283,15 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.school.name",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addSchoolFr"
           label={<FormattedMessage id="language.french" />}
+          name="addSchoolFr"
           rules={[
             {
               required: true,
@@ -300,15 +300,15 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.school.name",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addSchoolProvince"
           label={<FormattedMessage id="province.state.limit" />}
+          name="addSchoolProvince"
           rules={[
             {
               required: true,
@@ -322,16 +322,16 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           ]}
         >
           <Input
+            allowClear
+            maxLength={2}
             placeholder={intl.formatMessage({
               id: "add.school.state",
             })}
-            maxLength={2}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addSchoolCountry"
           label={<FormattedMessage id="country.limit" />}
+          name="addSchoolCountry"
           rules={[
             {
               required: true,
@@ -345,11 +345,11 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           ]}
         >
           <Input
+            allowClear
+            maxLength={3}
             placeholder={intl.formatMessage({
               id: "add.school.country",
             })}
-            maxLength={3}
-            allowClear
           />
         </Form.Item>
       </Form>
@@ -359,10 +359,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   /* Renders "Edit School" modal */
   const editSchoolModal = () => (
     <Modal
-      visible={editVisible}
-      title={<FormattedMessage id="edit.school" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         editForm
           .validateFields()
@@ -377,23 +379,21 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             }
           });
       }}
-      onCancel={() => {
-        editForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="edit.school" />}
+      visible={editVisible}
     >
       <Form
-        form={editForm}
-        name="editSchool"
-        layout="vertical"
         fields={fields}
+        form={editForm}
+        layout="vertical"
+        name="editSchool"
         onFieldsChange={() => {
           setFields([{}]);
         }}
       >
         <Form.Item
-          name="editSchoolEn"
           label={<FormattedMessage id="language.english" />}
+          name="editSchoolEn"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -402,8 +402,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           />
         </Form.Item>
         <Form.Item
-          name="editSchoolFr"
           label={<FormattedMessage id="language.french" />}
+          name="editSchoolFr"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -412,25 +412,25 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           />
         </Form.Item>
         <Form.Item
-          name="editSchoolProvince"
           label={<FormattedMessage id="province.state.limit" />}
+          name="editSchoolProvince"
         >
           <Input
+            maxLength={2}
             placeholder={intl.formatMessage({
               id: "add.school.state",
             })}
-            maxLength={2}
           />
         </Form.Item>
         <Form.Item
-          name="editSchoolCountry"
           label={<FormattedMessage id="country.limit" />}
+          name="editSchoolCountry"
         >
           <Input
+            maxLength={3}
             placeholder={intl.formatMessage({
               id: "add.school.state",
             })}
-            maxLength={3}
           />
         </Form.Item>
       </Form>
@@ -517,8 +517,6 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       render: (item) => (
         <div>
           <Button
-            type="primary"
-            shape="circle"
             icon={<EditOutlined />}
             onClick={() => {
               setFields([
@@ -529,6 +527,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
               ]);
               handleEditModal(item);
             }}
+            shape="circle"
+            type="primary"
           />
         </div>
       ),
@@ -540,12 +540,10 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       {addSchoolModal()}
       {editSchoolModal()}
       <Header
-        title={<FormattedMessage id="schools" />}
-        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" onClick={handleAddModal}>
+            <Button onClick={handleAddModal} type="primary">
               <PlusCircleOutlined />
               <span>
                 <FormattedMessage id="add" />
@@ -553,14 +551,16 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             </Button>
           </>
         }
+        icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="schools" />}
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            rowSelection={rowSelection}
             columns={schoolsTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            rowSelection={rowSelection}
             scroll={{ x: 700 }}
           />
         </Col>

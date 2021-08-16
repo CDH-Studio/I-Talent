@@ -160,15 +160,15 @@ const TalentForm = ({ formType }) => {
 
   return (
     <TalentFormView
-      profileInfo={profileInfo}
-      skillOptions={skillOptions}
       competencyOptions={competencyOptions}
-      savedCompetencies={savedCompetencies}
-      savedSkills={savedSkills}
-      savedMentorshipSkills={savedMentorshipSkills}
-      formType={formType}
       currentTab={currentTab}
+      formType={formType}
       load={load}
+      profileInfo={profileInfo}
+      savedCompetencies={savedCompetencies}
+      savedMentorshipSkills={savedMentorshipSkills}
+      savedSkills={savedSkills}
+      skillOptions={skillOptions}
       userId={id}
     />
   );

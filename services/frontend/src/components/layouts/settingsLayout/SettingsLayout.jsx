@@ -37,8 +37,8 @@ const SettingsLayout = () => {
   return (
     <SettingsLayoutView
       deleteCurrentUser={deleteCurrentUser}
-      setProfileVisibility={setProfileVisibility}
       profileStatus={status}
+      setProfileVisibility={setProfileVisibility}
     />
   );
 };

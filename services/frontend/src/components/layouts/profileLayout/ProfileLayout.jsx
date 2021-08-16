@@ -12,10 +12,10 @@ const ProfileLayout = ({
   savedFormContent,
 }) => (
   <ProfileLayoutView
-    data={data}
-    connectionStatus={connectionStatus}
-    isUsersProfile={isUsersProfile}
     changeConnection={changeConnection}
+    connectionStatus={connectionStatus}
+    data={data}
+    isUsersProfile={isUsersProfile}
     loading={loading}
     savedFormContent={savedFormContent}
   />

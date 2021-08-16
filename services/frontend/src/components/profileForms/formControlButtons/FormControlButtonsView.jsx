@@ -69,30 +69,30 @@ const FormControlButtonsView = ({
     );
 
   return (
-    <Row gutter={[24, 14]} className="fcb-container">
-      <Col xs={24} md={24} lg={18} xl={18}>
+    <Row className="fcb-container" gutter={[24, 14]}>
+      <Col lg={18} md={24} xl={18} xs={24}>
         {(edit || onSaveAndNext) && (
           <Button
             className="fcb-finishAndSaveBtn"
-            onClick={create ? onSaveAndFinish : onSave}
-            htmlType="submit"
             disabled={edit && !fieldsChanged}
+            htmlType="submit"
+            onClick={create ? onSaveAndFinish : onSave}
           >
             {firstButtonContent()}
           </Button>
         )}
         <Button
           className="fcb-finishAndSaveBtn"
-          htmlType="button"
-          onClick={onReset}
           danger
           disabled={!fieldsChanged}
+          htmlType="button"
+          onClick={onReset}
         >
           <ClearOutlined aria-hidden="true" className="mr-2" />
           <FormattedMessage id="clear.changes" />
         </Button>
       </Col>
-      <Col xs={24} md={24} lg={6} xl={6}>
+      <Col lg={6} md={24} xl={6} xs={24}>
         <Button
           className="fcb-saveBtn"
           htmlType="submit"

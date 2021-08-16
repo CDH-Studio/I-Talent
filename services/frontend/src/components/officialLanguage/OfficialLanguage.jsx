@@ -59,12 +59,12 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "official.languages" })}
       cardName="officialLanguage"
-      id="card-profile-official-language"
-      editUrl="/profile/edit/language-proficiency"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/language-proficiency"
+      id="card-profile-official-language"
+      titleString={intl.formatMessage({ id: "official.languages" })}
       visibility={data.visibleCards.officialLanguage}
     >
       <OfficialLanguageView

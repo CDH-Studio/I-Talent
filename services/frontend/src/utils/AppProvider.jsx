@@ -47,9 +47,9 @@ const IntelProv = ({ children }) => {
 
   return (
     <IntlProvider
+      formats={i18nConfig.formats}
       locale={locale === "ENGLISH" ? "en" : "fr"}
       messages={i18nConfig.messages}
-      formats={i18nConfig.formats}
     >
       <ConfigProvider locale={locale === "ENGLISH" ? enUS : frFR}>
         {children}

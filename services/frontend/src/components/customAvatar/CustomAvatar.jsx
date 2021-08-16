@@ -7,10 +7,10 @@ const CustomAvatar = ({ style, hidden }) => {
 
   return (
     <CustomAvatarView
-      initials={initials}
       color={avatarColor}
-      style={style}
       hidden={hidden}
+      initials={initials}
+      style={style}
     />
   );
 };

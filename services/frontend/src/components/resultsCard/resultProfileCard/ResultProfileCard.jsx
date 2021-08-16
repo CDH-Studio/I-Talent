@@ -11,11 +11,11 @@ const ResultProfileCard = ({
   removeConnection,
 }) => (
   <ResultProfileCardView
-    profile={profile}
     key={key}
+    addConnection={addConnection}
     isConnection={isConnection}
     loggedInUserId={loggedInUserId}
-    addConnection={addConnection}
+    profile={profile}
     removeConnection={removeConnection}
   />
 );

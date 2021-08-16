@@ -90,8 +90,8 @@ const AdminDashboard = ({ intl }) => {
   return (
     <AdminLayout displaySideBar type="dashboard">
       <Header
-        title={<FormattedMessage id="admin.dashboard.title" />}
         icon={<AreaChartOutlined />}
+        title={<FormattedMessage id="admin.dashboard.title" />}
       />
       <Row gutter={[15, 15]} type="flex">
         <Col span={24}>

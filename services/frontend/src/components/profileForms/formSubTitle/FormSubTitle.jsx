@@ -3,9 +3,9 @@ import FormSubTitleView from "./FormSubTitleView";
 
 const FormSubTitle = ({ title, popoverMessage, extra }) => (
   <FormSubTitleView
-    title={title}
-    popoverMessage={popoverMessage}
     extra={extra}
+    popoverMessage={popoverMessage}
+    title={title}
   />
 );
 

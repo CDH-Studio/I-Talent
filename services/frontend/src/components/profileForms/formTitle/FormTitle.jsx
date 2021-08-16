@@ -3,11 +3,11 @@ import FormTitleView from "./FormTitleView";
 
 const FormTitle = ({ title, formType, stepNumber, fieldsChanged, extra }) => (
   <FormTitleView
-    title={title}
+    extra={extra}
+    fieldsChanged={fieldsChanged}
     formType={formType}
     stepNumber={stepNumber}
-    fieldsChanged={fieldsChanged}
-    extra={extra}
+    title={title}
   />
 );
 

@@ -29,7 +29,7 @@ const ProfileCreate = ({ step }) => {
     })} | I-Talent`;
   }, [intl]);
 
-  return <CreateProfileLayout step={step} highestStep={signupStep} />;
+  return <CreateProfileLayout highestStep={signupStep} step={step} />;
 };
 
 ProfileCreate.propTypes = {

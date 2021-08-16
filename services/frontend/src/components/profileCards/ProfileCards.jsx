@@ -15,15 +15,15 @@ const ProfileCards = ({
   lastUpdated,
 }) => (
   <ProfileCardsView
-    titleString={titleString}
-    editUrl={editUrl}
     cardName={cardName}
-    id={id}
+    displayExtraHeaderContent={displayExtraHeaderContent}
     editableCardBool={editableCardBool}
+    editUrl={editUrl}
+    id={id}
+    lastUpdated={lastUpdated}
+    titleString={titleString}
     visibility={visibility}
     visibleCards={data.visibleCards}
-    lastUpdated={lastUpdated}
-    displayExtraHeaderContent={displayExtraHeaderContent}
   >
     {visibility ? children : null}
   </ProfileCardsView>

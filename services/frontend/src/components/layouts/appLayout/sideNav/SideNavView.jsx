@@ -13,10 +13,10 @@ const SideNavView = ({
   if (displaySideBar) {
     return (
       <Sider
-        width={siderWidth}
-        className="app-sider"
         breakpoint="lg"
+        className="app-sider"
         collapsedWidth="0"
+        width={siderWidth}
         zeroWidthTriggerStyle={{ backgroundColor: "#192e2f", bottom: "64px" }}
       >
         {/* render content of side bar */}

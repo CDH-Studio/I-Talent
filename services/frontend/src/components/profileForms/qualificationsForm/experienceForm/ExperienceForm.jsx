@@ -21,11 +21,11 @@ const ExperienceForm = ({
   attachmentNames,
 }) => (
   <ExperienceFormView
-    form={form}
-    fieldElement={fieldElement}
-    removeElement={removeElement}
-    checkIfFormValuesChanged={checkIfFormValuesChanged}
     attachmentNames={attachmentNames}
+    checkIfFormValuesChanged={checkIfFormValuesChanged}
+    fieldElement={fieldElement}
+    form={form}
+    removeElement={removeElement}
   />
 );
 

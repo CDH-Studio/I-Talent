@@ -73,16 +73,16 @@ const ProfileLayoutView = ({
   }, [savedFormContent, dispatch, intl]);
 
   const displayAllProfileCards = () => (
-    <Row gutter={[15, 15]} className="print">
+    <Row className="print" gutter={[15, 15]}>
       {/* Summary */}
-      <Col xs={24} xl={14}>
+      <Col xl={14} xs={24}>
         <BasicInfo
-          data={data}
-          connectionStatus={connectionStatus}
           changeConnection={changeConnection}
+          connectionStatus={connectionStatus}
+          data={data}
         />
       </Col>
-      <Col xs={24} xl={10}>
+      <Col xl={10} xs={24}>
         <Row gutter={[0, 15]}>
           <Col span={24}>
             <EmployeeSummary data={data} editableCardBool={isUsersProfile} />
@@ -102,11 +102,11 @@ const ProfileLayoutView = ({
 
       {/** ********** Skills and competencies *********** */}
       <Title
-        level={2}
         className="sectionHeader hide-for-print"
         id="divider-skills-and-comp"
+        level={2}
       >
-        <TagsTwoTone twoToneColor="#3CBAB3" className="sectionIcon" />
+        <TagsTwoTone className="sectionIcon" twoToneColor="#3CBAB3" />
         <FormattedMessage id="skills.and.competencies" />
       </Title>
       <Col span={24}>
@@ -121,11 +121,11 @@ const ProfileLayoutView = ({
 
       {/** ********** Qualifications *********** */}
       <Title
-        level={2}
         className="sectionHeader hide-for-print"
         id="divider-qualifications"
+        level={2}
       >
-        <TrophyOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
+        <TrophyOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
         <FormattedMessage id="employee.qualifications" />
       </Title>
       <Col span={24}>
@@ -137,23 +137,23 @@ const ProfileLayoutView = ({
 
       {/** ********** Personal Growth *********** */}
       <Title
-        level={2}
         className="sectionHeader hide-for-print"
         id="divider-employee-growth"
+        level={2}
       >
-        <RiseOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
+        <RiseOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
         <FormattedMessage id="employee.growth.interests" />
       </Title>
       <Col span={24}>
-        <LearningDevelopment editableCardBool={isUsersProfile} data={data} />
+        <LearningDevelopment data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
         <QualifiedPools data={data} editableCardBool={isUsersProfile} />
       </Col>
-      <Col xs={24} xl={12}>
+      <Col xl={12} xs={24}>
         <TalentManagement data={data} editableCardBool={isUsersProfile} />
       </Col>
-      <Col xs={24} xl={12}>
+      <Col xl={12} xs={24}>
         <CareerInterests data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
@@ -164,14 +164,14 @@ const ProfileLayoutView = ({
       {isUsersProfile && (
         <>
           <Title
-            level={2}
             className="sectionHeader hide-for-print"
             id="divider-privateGroup"
+            level={2}
           >
-            <TeamOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
+            <TeamOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
             <FormattedMessage id="connections" />
           </Title>
-          <Col span={24} className="hide-for-print">
+          <Col className="hide-for-print" span={24}>
             <Connections data={data} />
           </Col>
         </>
@@ -180,12 +180,12 @@ const ProfileLayoutView = ({
   );
   const generateProfileSidebarContent = () => (
     <Row justify="center">
-      <Col flex={1} offset={1} className="app-sideBarRow">
+      <Col className="app-sideBarRow" flex={1} offset={1}>
         <Anchor offsetTop={80}>
           <Link
             href="#card-profile-basic-info"
             title={
-              <Text strong className="sideBarText">
+              <Text className="sideBarText" strong>
                 <FormattedMessage id="basic.employee.information" />
               </Text>
             }
@@ -235,7 +235,7 @@ const ProfileLayoutView = ({
           <Link
             href="#divider-skills-and-comp"
             title={
-              <Text strong className="sideBarText">
+              <Text className="sideBarText" strong>
                 <FormattedMessage id="skills.and.competencies" />
               </Text>
             }
@@ -268,7 +268,7 @@ const ProfileLayoutView = ({
           <Link
             href="#divider-qualifications"
             title={
-              <Text strong className="sideBarText">
+              <Text className="sideBarText" strong>
                 <FormattedMessage id="employee.qualifications" />
               </Text>
             }
@@ -293,7 +293,7 @@ const ProfileLayoutView = ({
           <Link
             href="#divider-employee-growth"
             title={
-              <Text strong className="sideBarText">
+              <Text className="sideBarText" strong>
                 <FormattedMessage id="employee.growth.interests" />
               </Text>
             }
@@ -343,7 +343,7 @@ const ProfileLayoutView = ({
             <Link
               href="#divider-privateGroup"
               title={
-                <Text strong className="sideBarText">
+                <Text className="sideBarText" strong>
                   <FormattedMessage id="connections" />
                 </Text>
               }
@@ -365,41 +365,41 @@ const ProfileLayoutView = ({
 
   return (
     <AppLayout
-      sideBarContent={generateProfileSidebarContent()}
       displaySideBar
       loading={loading}
+      sideBarContent={generateProfileSidebarContent()}
     >
       <ProfileVisibilityAlert
-        isUsersProfile={isUsersProfile}
         isProfileHidden={
           data && data.status && ["HIDDEN"].includes(data.status)
         }
         isProfileInactive={
           data && data.status && ["INACTIVE"].includes(data.status)
         }
+        isUsersProfile={isUsersProfile}
       />
       <Header
-        title={
-          <FormattedMessage id={isUsersProfile ? "my.profile" : "profile"} />
+        backBtn
+        extra={
+          <Button onClick={() => window.print()} shape="circle" type="primary">
+            <PrinterOutlined />
+          </Button>
         }
         subtitle={
           <Tooltip title={<FormattedMessage id="last.modified.date" />}>
             {data && dayjs(data.updatedAt).format("LL")}
           </Tooltip>
         }
-        extra={
-          <Button type="primary" shape="circle" onClick={() => window.print()}>
-            <PrinterOutlined />
-          </Button>
+        title={
+          <FormattedMessage id={isUsersProfile ? "my.profile" : "profile"} />
         }
-        backBtn
       />
       {data ? (
         displayAllProfileCards()
       ) : (
         <ErrorProfilePage
-          titleId="profile.not.found"
           subtitleId="profile.not.found.description"
+          titleId="profile.not.found"
         />
       )}
     </AppLayout>

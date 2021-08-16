@@ -23,6 +23,7 @@ const SettingsLayoutView = ({
       description: <FormattedMessage id="profile.visibility.description" />,
       extra: (
         <Tooltip
+          placement="topRight"
           title={() => {
             switch (profileStatus) {
               case "INACTIVE":
@@ -33,14 +34,13 @@ const SettingsLayoutView = ({
                 return intl.formatMessage({ id: "settings.hidden.toggle" });
             }
           }}
-          placement="topRight"
         >
           <Switch
             checkedChildren={<EyeFilled />}
-            unCheckedChildren={<EyeInvisibleFilled />}
-            onChange={setProfileVisibility}
             defaultChecked={profileStatus === "ACTIVE"}
             disabled={profileStatus === "INACTIVE"}
+            onChange={setProfileVisibility}
+            unCheckedChildren={<EyeInvisibleFilled />}
           />
         </Tooltip>
       ),
@@ -77,16 +77,16 @@ const SettingsLayoutView = ({
   return (
     <AppLayout>
       <Header
-        title={<FormattedMessage id="settings" />}
         icon={<SettingOutlined />}
+        title={<FormattedMessage id="settings" />}
       />
       <Card>
         <List
-          itemLayout="horizontal"
           dataSource={listData}
+          itemLayout="horizontal"
           renderItem={({ title, description, extra }) => (
             <List.Item extra={extra}>
-              <List.Item.Meta title={title} description={description} />
+              <List.Item.Meta description={description} title={title} />
             </List.Item>
           )}
         />

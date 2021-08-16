@@ -110,15 +110,15 @@ const QualificationsForm = ({ formType }) => {
 
   return (
     <QualificationsFormView
-      profileInfo={profileInfo}
-      initialValues={initialValues}
-      formType={formType}
       currentTab={currentTab}
-      load={load}
+      formType={formType}
       history={history}
-      userId={id}
+      initialValues={initialValues}
+      load={load}
       options={options}
+      profileInfo={profileInfo}
       saveDataToDB={saveDataToDB}
+      userId={id}
     />
   );
 };

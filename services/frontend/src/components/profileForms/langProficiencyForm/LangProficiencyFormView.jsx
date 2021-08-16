@@ -280,31 +280,31 @@ const LangProficiencyFormView = ({
 
   const getSecondLangRows = ({ name, label, statusName }) => (
     <Row gutter={24}>
-      <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+      <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
         <Form.Item
-          name={name}
-          label={<FormattedMessage id={label} />}
-          rules={[Rules.required]}
           aria-required="true"
+          label={<FormattedMessage id={label} />}
+          name={name}
+          rules={[Rules.required]}
         >
           <CustomDropdown
             ariaLabel={intl.formatMessage({
               id: label,
             })}
-            placeholderText={<FormattedMessage id="select" />}
-            initialValueId={getInitialValues({ profile: profileInfo })[name]} // TODO: need to figure out how ot get value using "name"
-            options={proficiencyOptions}
+            initialValueId={getInitialValues({ profile: profileInfo })[name]}
+            isRequired // TODO: need to figure out how ot get value using "name"
             isSearchable={false}
-            isRequired
+            options={proficiencyOptions}
+            placeholderText={<FormattedMessage id="select" />}
           />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+      <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
         <Form.Item
-          name={statusName}
-          label={<FormattedMessage id="lang.status" />}
-          rules={[Rules.required]}
           aria-required="true"
+          label={<FormattedMessage id="lang.status" />}
+          name={statusName}
+          rules={[Rules.required]}
         >
           <CustomDropdown
             ariaLabel={`${intl.formatMessage({
@@ -312,13 +312,13 @@ const LangProficiencyFormView = ({
             })}: ${intl.formatMessage({
               id: "lang.status",
             })}`}
-            placeholderText={<FormattedMessage id="select" />}
             initialValueId={
               getInitialValues({ profile: profileInfo })[statusName]
             }
-            options={statusOptions}
-            isSearchable={false}
             isRequired
+            isSearchable={false}
+            options={statusOptions}
+            placeholderText={<FormattedMessage id="select" />}
           />
         </Form.Item>
       </Col>
@@ -387,59 +387,59 @@ const LangProficiencyFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="lang-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -9 }}>
           <FormTitle
-            title={<FormattedMessage id="official.languages" />}
-            formType={formType}
-            stepNumber={4}
-            fieldsChanged={fieldsChanged}
             extra={
               <div style={{ marginTop: -5 }}>
                 <CardVisibilityToggle
-                  visibleCards={profileInfo.visibleCards}
-                  cardName="officialLanguage"
-                  type="form"
                   ariaLabel={intl.formatMessage({
                     id: "official.languages",
                   })}
+                  cardName="officialLanguage"
+                  type="form"
+                  visibleCards={profileInfo.visibleCards}
                 />
               </div>
             }
+            fieldsChanged={fieldsChanged}
+            formType={formType}
+            stepNumber={4}
+            title={<FormattedMessage id="official.languages" />}
           />
         </Row>
         <Divider className="lang-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="basicForm"
           form={form}
           initialValues={
             savedValues || getInitialValues({ profile: profileInfo })
           }
           layout="vertical"
+          name="basicForm"
           onValuesChange={updateIfFormValuesChanged}
         >
           {/* Form Row One */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
               <Form.Item
-                name="firstLanguage"
                 label={<FormattedMessage id="first.official.language" />}
+                name="firstLanguage"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
                     id: "first.official.language",
                   })}
-                  placeholderText={<FormattedMessage id="select" />}
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).firstLanguage
                   }
-                  options={languageOptions}
                   isSearchable={false}
+                  options={languageOptions}
+                  placeholderText={<FormattedMessage id="select" />}
                 />
               </Form.Item>
             </Col>
@@ -454,8 +454,8 @@ const LangProficiencyFormView = ({
                   </Text>
                   <Switch
                     checked={displaySecondLangForm}
-                    onChange={toggleSecLangForm}
                     className="ml-2 mb-1"
+                    onChange={toggleSecLangForm}
                   />
                 </>
               }
@@ -467,13 +467,13 @@ const LangProficiencyFormView = ({
           </Row>
           {/* Form Row Five: Submit button */}
           <FormControlButton
-            formType={formType}
-            onSave={() => onSave(1)}
-            onSaveAndNext={() => onSave(2)}
-            onSaveAndFinish={() => onSave(3)}
-            onReset={onReset}
-            onFinish={onFinish}
             fieldsChanged={fieldsChanged}
+            formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
+            onSave={() => onSave(1)}
+            onSaveAndFinish={() => onSave(3)}
+            onSaveAndNext={() => onSave(2)}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>

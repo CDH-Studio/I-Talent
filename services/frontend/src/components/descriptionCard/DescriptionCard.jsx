@@ -9,12 +9,12 @@ const DescriptionCard = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "about.me" })}
       cardName="description"
-      id="card-profile-description"
-      editUrl="/profile/edit/employment"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/employment"
+      id="card-profile-description"
+      titleString={intl.formatMessage({ id: "about.me" })}
       visibility={data.visibleCards.description}
     >
       <DescriptionCardView data={data.description} />

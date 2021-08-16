@@ -9,12 +9,12 @@ const TalentManagement = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "talent.management" })}
       cardName="talentManagement"
-      id="card-profile-talent-management"
-      editUrl="/profile/edit/career-management?tab=talent-management"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/career-management?tab=talent-management"
+      id="card-profile-talent-management"
+      titleString={intl.formatMessage({ id: "talent.management" })}
       visibility={data.visibleCards.talentManagement}
     >
       <TalentManagementView data={data} />

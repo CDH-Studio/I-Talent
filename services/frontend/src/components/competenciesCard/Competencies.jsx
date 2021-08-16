@@ -9,14 +9,14 @@ const Competencies = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "competencies" })}
       cardName="competencies"
-      id="card-profile-competency"
-      editUrl="/profile/edit/talent?tab=competencies"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.competencies}
+      editUrl="/profile/edit/talent?tab=competencies"
+      id="card-profile-competency"
       lastUpdated={data.competenciesUpdatedAt}
+      titleString={intl.formatMessage({ id: "competencies" })}
+      visibility={data.visibleCards.competencies}
     >
       <CompetenciesView competencies={data.competencies} />
     </ProfileCards>

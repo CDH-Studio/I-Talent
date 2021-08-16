@@ -30,11 +30,11 @@ const EmployeeSummaryView = ({ data }) => {
 
   const list = (dataSource) => (
     <List
-      itemLayout="horizontal"
       dataSource={dataSource}
+      itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item>
-          <List.Item.Meta title={item.title} description={item.description} />
+          <List.Item.Meta description={item.description} title={item.title} />
         </List.Item>
       )}
     />

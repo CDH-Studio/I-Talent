@@ -34,7 +34,7 @@ const CareerInterestsView = ({
         render: (
           <div style={{ marginTop: 7 }}>
             {relocationLocations.map(({ id, city, province }) => (
-              <Tag color="#727272" key={id}>
+              <Tag key={id} color="#727272">
                 {city}, {province}
               </Tag>
             ))}
@@ -50,12 +50,12 @@ const CareerInterestsView = ({
     <Row>
       <Col span={24}>
         <List
-          itemLayout="horizontal"
           dataSource={getCareerInterestsInfo()}
+          itemLayout="horizontal"
           renderItem={({ title, description, render }) => (
             <List.Item>
               <Col span={24}>
-                <List.Item.Meta title={title} description={description} />
+                <List.Item.Meta description={description} title={title} />
                 {render}
               </Col>
             </List.Item>

@@ -158,15 +158,15 @@ const SearchFilter = () => {
 
   return (
     <SearchFilterView
-      history={history}
-      skillOptions={skillOptions}
-      branchOptions={branchOptions}
-      locationOptions={locationOptions}
-      classOptions={classOptions}
-      handleSearch={handleSearch}
-      urlSearchFieldValues={urlSearchFieldValues}
       anyMentorSkills={anyMentorSkills}
+      branchOptions={branchOptions}
+      classOptions={classOptions}
       handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
+      handleSearch={handleSearch}
+      history={history}
+      locationOptions={locationOptions}
+      skillOptions={skillOptions}
+      urlSearchFieldValues={urlSearchFieldValues}
     />
   );
 };

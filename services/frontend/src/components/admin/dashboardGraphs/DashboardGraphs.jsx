@@ -37,10 +37,10 @@ const DashboardGraphs = () => {
 
   return (
     <DashboardGraphsView
-      topFiveSkills={topFive.skills}
+      monthlyGrowth={graphicalData}
       topFiveCompetencies={topFive.competencies}
       topFiveDevelopmentalGoals={topFive.developmentalGoals}
-      monthlyGrowth={graphicalData}
+      topFiveSkills={topFive.skills}
     />
   );
 };

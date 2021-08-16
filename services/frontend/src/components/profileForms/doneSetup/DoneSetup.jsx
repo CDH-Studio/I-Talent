@@ -118,10 +118,10 @@ const DoneSetup = ({ formType }) => {
 
   return (
     <DoneSetupView
-      userId={id}
-      load={load}
-      visibilityItems={visibilityItems}
       formType={formType}
+      load={load}
+      userId={id}
+      visibilityItems={visibilityItems}
     />
   );
 };

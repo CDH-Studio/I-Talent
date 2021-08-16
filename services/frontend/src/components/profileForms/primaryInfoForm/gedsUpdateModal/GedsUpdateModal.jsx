@@ -20,7 +20,7 @@ const GedsUpdateModal = ({ visibility }) => {
   };
 
   return (
-    <GedsUpdateModalView visibility={visibility} saveDataToDB={saveDataToDB} />
+    <GedsUpdateModalView saveDataToDB={saveDataToDB} visibility={visibility} />
   );
 };
 

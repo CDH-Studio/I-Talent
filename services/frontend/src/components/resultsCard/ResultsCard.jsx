@@ -88,14 +88,14 @@ const ResultsCard = () => {
 
   return (
     <ResultsCardView
-      results={results}
-      locale={locale}
+      addConnection={addConnection}
+      connections={connections}
       emptyQuery={emptyQuery}
       loading={!results && !emptyQuery}
+      locale={locale}
       loggedInUserId={id}
-      connections={connections}
-      addConnection={addConnection}
       removeConnection={removeConnection}
+      results={results}
     />
   );
 };

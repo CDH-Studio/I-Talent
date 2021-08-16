@@ -80,22 +80,22 @@ const CategoryTableView = ({
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
           style={{ width: 188, marginBottom: 8, display: "block" }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
           style={{ width: 90, marginRight: 8 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -121,9 +121,9 @@ const CategoryTableView = ({
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
+          autoEscape
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
-          autoEscape
           textToHighlight={text.toString()}
         />
       ) : (
@@ -197,10 +197,12 @@ const CategoryTableView = ({
   /* Renders "Add Category" modal */
   const addCategoryButton = () => (
     <Modal
-      visible={addVisible}
-      title={<FormattedMessage id="add.category" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         addForm
           .validateFields()
@@ -215,15 +217,13 @@ const CategoryTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        addForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="add.category" />}
+      visible={addVisible}
     >
-      <Form form={addForm} name="addCategory" layout="vertical">
+      <Form form={addForm} layout="vertical" name="addCategory">
         <Form.Item
-          name="addCategoryEn"
           label={<FormattedMessage id="language.english" />}
+          name="addCategoryEn"
           rules={[
             {
               required: true,
@@ -232,15 +232,15 @@ const CategoryTableView = ({
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.english.term",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addCategoryFr"
           label={<FormattedMessage id="language.french" />}
+          name="addCategoryFr"
           rules={[
             {
               required: true,
@@ -249,10 +249,10 @@ const CategoryTableView = ({
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.french.term",
             })}
-            allowClear
           />
         </Form.Item>
       </Form>
@@ -262,10 +262,12 @@ const CategoryTableView = ({
   /* Renders "Edit Category" modal */
   const editCategoryButton = () => (
     <Modal
-      visible={editVisible}
-      title={<FormattedMessage id="edit.category" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         editForm
           .validateFields()
@@ -280,23 +282,21 @@ const CategoryTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        editForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="edit.category" />}
+      visible={editVisible}
     >
       <Form
-        form={editForm}
-        name="editCategory"
-        layout="vertical"
         fields={fields}
+        form={editForm}
+        layout="vertical"
+        name="editCategory"
         onFieldsChange={() => {
           setFields([{}]);
         }}
       >
         <Form.Item
-          name="editCategoryEn"
           label={<FormattedMessage id="language.english" />}
+          name="editCategoryEn"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -305,8 +305,8 @@ const CategoryTableView = ({
           />
         </Form.Item>
         <Form.Item
-          name="editCategoryFr"
           label={<FormattedMessage id="language.french" />}
+          name="editCategoryFr"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -321,18 +321,18 @@ const CategoryTableView = ({
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="delete.category" />}
-      okText={<FormattedMessage id="delete" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={selectedRowKeys.length === 0}
+      okText={<FormattedMessage id="delete" />}
+      onCancel={popUpCancel}
       onConfirm={() => {
         checkDelete().catch((error) => handleError(error, "message", history));
       }}
-      onCancel={popUpCancel}
-      disabled={selectedRowKeys.length === 0}
       overlayStyle={{ maxWidth: 350 }}
+      placement="left"
+      title={<FormattedMessage id="delete.category" />}
     >
-      <Button disabled={selectedRowKeys.length === 0} danger>
+      <Button danger disabled={selectedRowKeys.length === 0}>
         <DeleteOutlined />
         <span>
           <FormattedMessage id="delete" />
@@ -379,8 +379,6 @@ const CategoryTableView = ({
       render: (record) => (
         <div>
           <Button
-            type="primary"
-            shape="circle"
             icon={<EditOutlined />}
             onClick={() => {
               setFields([
@@ -389,6 +387,8 @@ const CategoryTableView = ({
               ]);
               handleEditModal(record);
             }}
+            shape="circle"
+            type="primary"
           />
         </div>
       ),
@@ -400,12 +400,10 @@ const CategoryTableView = ({
       {addCategoryButton()}
       {editCategoryButton()}
       <Header
-        title={<FormattedMessage id="skill.categories.table" />}
-        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" onClick={handleAddModal}>
+            <Button onClick={handleAddModal} type="primary">
               <PlusCircleOutlined />
               <span>
                 <FormattedMessage id="add" />
@@ -413,14 +411,16 @@ const CategoryTableView = ({
             </Button>
           </>
         }
+        icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="skill.categories.table" />}
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            rowSelection={rowSelection}
             columns={categoryTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            rowSelection={rowSelection}
             scroll={{ x: 500 }}
           />
         </Col>

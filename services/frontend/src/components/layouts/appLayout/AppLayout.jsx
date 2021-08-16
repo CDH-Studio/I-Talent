@@ -11,12 +11,12 @@ const AppLayout = ({
   displaySearch,
 }) => (
   <AppLayoutView
-    displaySideBar={displaySideBar}
-    sideBarWidth={sideBarWidth}
-    sideBarContent={sideBarContent}
-    loading={loading}
     displayLogo={displayLogo}
     displaySearch={displaySearch}
+    displaySideBar={displaySideBar}
+    loading={loading}
+    sideBarContent={sideBarContent}
+    sideBarWidth={sideBarWidth}
   >
     {children}
   </AppLayoutView>

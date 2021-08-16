@@ -41,9 +41,9 @@ const QualifiedPoolsFormView = ({
 
   return (
     <div className="pool-formItem">
-      <Row gutter={24} className="gutter-row titleRow">
-        <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
-          <Title level={4} className="entryTitle">
+      <Row className="gutter-row titleRow" gutter={24}>
+        <Col className="titleCol" lg={24} md={24} xl={24} xs={24}>
+          <Title className="entryTitle" level={4}>
             <Row align="middle" justify="space-between">
               <Col>
                 <FormOutlined className="formItemIcon" />
@@ -52,27 +52,27 @@ const QualifiedPoolsFormView = ({
               </Col>
               <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
                 <Button
-                  type="link"
-                  shape="circle"
+                  className="deleteButton"
                   icon={<CloseCircleOutlined />}
                   onClick={() => {
                     removeElement(fieldElement.name);
                   }}
+                  shape="circle"
                   size="small"
-                  className="deleteButton"
+                  type="link"
                 />
               </Tooltip>
             </Row>
           </Title>
         </Col>
       </Row>
-      <Row gutter={24} className="gutter-row contentRow">
-        <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+      <Row className="gutter-row contentRow" gutter={24}>
+        <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
           {/* Classification Dropdown */}
           <Form.Item
-            name={[fieldElement.name, "classificationId"]}
             fieldKey={[fieldElement.fieldKey, "classificationId"]}
             label={<FormattedMessage id="classification" />}
+            name={[fieldElement.name, "classificationId"]}
             rules={[Rules.required]}
           >
             <CustomDropdown
@@ -91,11 +91,11 @@ const QualifiedPoolsFormView = ({
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
           <Form.Item
-            name={[fieldElement.name, "jobTitle"]}
             fieldKey={[fieldElement.fieldKey, "jobTitle"]}
             label={<FormattedMessage id="job.title.department" />}
+            name={[fieldElement.name, "jobTitle"]}
             rules={[Rules.required]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
@@ -110,12 +110,12 @@ const QualifiedPoolsFormView = ({
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
           <Form.Item
-            name={[fieldElement.name, "jobPosterLink"]}
-            label={<FormattedMessage id="qualified.pools.job.poster.link" />}
-            rules={[Rules.url]}
             fieldKey={[fieldElement.fieldKey, "jobPosterLink"]}
+            label={<FormattedMessage id="qualified.pools.job.poster.link" />}
+            name={[fieldElement.name, "jobPosterLink"]}
+            rules={[Rules.url]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
               savedQualifiedPools[fieldElement.fieldKey].description
@@ -124,13 +124,13 @@ const QualifiedPoolsFormView = ({
             <Input />
           </Form.Item>
         </Col>
-        <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
           <Form.Item
-            name={[fieldElement.name, "selectionProcessNumber"]}
             fieldKey={[fieldElement.fieldKey, "selectionProcessNumber"]}
             label={
               <FormattedMessage id="qualified.pools.selection.process.number" />
             }
+            name={[fieldElement.name, "selectionProcessNumber"]}
             value={
               savedQualifiedPools[fieldElement.fieldKey] &&
               savedQualifiedPools[fieldElement.fieldKey].description

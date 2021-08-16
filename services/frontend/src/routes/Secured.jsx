@@ -99,7 +99,7 @@ const Secured = ({ location }) => {
         <Route
           path="/profile/:id?"
           render={({ match, history }) => (
-            <Profile match={match} history={history} />
+            <Profile history={history} match={match} />
           )}
         />
         <Route

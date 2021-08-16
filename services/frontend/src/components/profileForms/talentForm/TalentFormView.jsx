@@ -488,27 +488,27 @@ const TalentFormView = ({
         <div>
           {/* Select Mentorship Skills */}
           <Row gutter={24} style={{ marginTop: "10px" }}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
               <Form.Item
-                name="mentorshipSkills"
-                label={<FormattedMessage id="mentorship.skills" />}
-                rules={[Rules.required]}
                 extra={
                   selectedSkills.length === 0 ? (
                     <FormattedMessage id="mentorship.skills.empty" />
                   ) : undefined
                 }
+                label={<FormattedMessage id="mentorship.skills" />}
+                name="mentorshipSkills"
+                rules={[Rules.required]}
               >
                 <TreeSelect
                   className="custom-bubble-select-style"
-                  treeData={selectedSkills}
-                  treeCheckable
-                  showCheckedStrategy={SHOW_CHILD}
-                  placeholder={<FormattedMessage id="search" />}
-                  treeNodeFilterProp="title"
-                  showSearch
-                  maxTagCount={15}
                   disabled={!selectedSkills.length > 0}
+                  maxTagCount={15}
+                  placeholder={<FormattedMessage id="search" />}
+                  showCheckedStrategy={SHOW_CHILD}
+                  showSearch
+                  treeCheckable
+                  treeData={selectedSkills}
+                  treeNodeFilterProp="title"
                 />
               </Form.Item>
             </Col>
@@ -566,100 +566,100 @@ const TalentFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="tal-content">
         <FormTitle
-          title={<FormattedMessage id="skills.and.competencies" />}
+          fieldsChanged={fieldsChanged}
           formType={formType}
           stepNumber={5}
-          fieldsChanged={fieldsChanged}
+          title={<FormattedMessage id="skills.and.competencies" />}
         />
         <Divider className="tal-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="basicForm"
           form={form}
           initialValues={savedValues || getInitialValues()}
           layout="vertical"
-          onValuesChange={updateIfFormValuesChanged}
+          name="basicForm"
           onFieldsChange={onFieldsChange}
+          onValuesChange={updateIfFormValuesChanged}
         >
           <Tabs
-            type="card"
             activeKey={tabs[selectedTab]}
             onChange={onTabChange}
+            type="card"
           >
             <TabPane
+              key="skills"
               tab={getTabTitle({
                 message: <FormattedMessage id="skills" />,
                 errorBool: tabErrorsBool.skills,
               })}
-              key="skills"
             >
               {/* Form Row Two: skills */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <FormSubTitle
-                    title={<FormattedMessage id="skills" />}
                     extra={
                       <CardVisibilityToggle
-                        visibleCards={profileInfo.visibleCards}
-                        cardName="skills"
-                        type="form"
                         ariaLabel={intl.formatMessage({
                           id: "skills",
                         })}
+                        cardName="skills"
+                        type="form"
+                        visibleCards={profileInfo.visibleCards}
                       />
                     }
+                    title={<FormattedMessage id="skills" />}
                   />
                   <Form.Item name="skills">
                     <TreeSelect
                       className="custom-bubble-select-style"
-                      treeData={skillOptions}
-                      onChange={onChangeSkills}
-                      treeCheckable
-                      showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="search" />}
-                      treeNodeFilterProp="title"
-                      showSearch
                       maxTagCount={15}
+                      onChange={onChangeSkills}
+                      placeholder={<FormattedMessage id="search" />}
+                      showCheckedStrategy={SHOW_CHILD}
+                      showSearch
+                      treeCheckable
+                      treeData={skillOptions}
+                      treeNodeFilterProp="title"
                     />
                   </Form.Item>
                 </Col>
               </Row>
             </TabPane>
             <TabPane
+              key="mentorship"
               tab={getTabTitle({
                 message: <FormattedMessage id="mentorship.skills" />,
                 errorBool: tabErrorsBool.mentorshipSkills,
               })}
-              key="mentorship"
             >
               {/* Form Row Two: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" span={24}>
                   <FormSubTitle
-                    title={<FormattedMessage id="mentorship.skills" />}
                     extra={
                       <CardVisibilityToggle
-                        visibleCards={profileInfo.visibleCards}
-                        cardName="mentorshipSkills"
-                        type="form"
                         ariaLabel={intl.formatMessage({
                           id: "mentorship.skills",
                         })}
+                        cardName="mentorshipSkills"
+                        type="form"
+                        visibleCards={profileInfo.visibleCards}
                       />
                     }
+                    title={<FormattedMessage id="mentorship.skills" />}
                   />
                   <Text>
                     <FormattedMessage id="mentorship.availability" />
                   </Text>
                   <Switch
                     checked={displayMentorshipForm}
-                    onChange={toggleMentorshipForm}
                     className="tal-mentorshipToggle"
+                    onChange={toggleMentorshipForm}
                   />
 
                   {getMentorshipForm(displayMentorshipForm)}
@@ -667,27 +667,27 @@ const TalentFormView = ({
               </Row>
             </TabPane>
             <TabPane
+              key="competencies"
               tab={getTabTitle({
                 message: <FormattedMessage id="competencies" />,
                 errorBool: tabErrorsBool.competencies,
               })}
-              key="competencies"
             >
               {/* Form Row Three: competencies */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <FormSubTitle
-                    title={<FormattedMessage id="competencies" />}
                     extra={
                       <CardVisibilityToggle
-                        visibleCards={profileInfo.visibleCards}
-                        cardName="competencies"
-                        type="form"
                         ariaLabel={intl.formatMessage({
                           id: "competencies",
                         })}
+                        cardName="competencies"
+                        type="form"
+                        visibleCards={profileInfo.visibleCards}
                       />
                     }
+                    title={<FormattedMessage id="competencies" />}
                   />
                   <Form.Item name="competencies">
                     <CustomDropdown
@@ -697,10 +697,10 @@ const TalentFormView = ({
                       initialValueId={
                         getInitialValues({ profile: profileInfo }).competencies
                       }
-                      placeholderText={<FormattedMessage id="type.to.search" />}
-                      options={competencyOptions}
-                      isSearchable
                       isMulti
+                      isSearchable
+                      options={competencyOptions}
+                      placeholderText={<FormattedMessage id="type.to.search" />}
                     />
                   </Form.Item>
                 </Col>
@@ -709,13 +709,13 @@ const TalentFormView = ({
           </Tabs>
 
           <FormControlButton
-            formType={formType}
-            onSave={onSave}
-            onSaveAndNext={onSaveAndNext}
-            onSaveAndFinish={onSaveAndFinish}
-            onReset={onReset}
-            onFinish={onFinish}
             fieldsChanged={fieldsChanged}
+            formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
+            onSave={onSave}
+            onSaveAndFinish={onSaveAndFinish}
+            onSaveAndNext={onSaveAndNext}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>

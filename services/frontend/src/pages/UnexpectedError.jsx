@@ -22,14 +22,11 @@ const UnexpectedError = () => {
 
   return (
     <ErrorResultView
-      status="500"
-      title={<FormattedMessage id="unexpected.error" />}
-      subTitle={<FormattedMessage id="something.went.wrong" />}
       extra={
         <Col>
-          <Row justify="center" gutter={[10, 10]}>
+          <Row gutter={[10, 10]} justify="center">
             <Col>
-              <Button type="primary" onClick={history.goBack}>
+              <Button onClick={history.goBack} type="primary">
                 <ReloadOutlined />
                 <span>
                   <FormattedMessage id="error.retry" />
@@ -59,22 +56,25 @@ const UnexpectedError = () => {
             {showError && (
               <List
                 dataSource={errors}
-                style={styles.list}
                 renderItem={(item) => (
                   <List.Item>
                     <List.Item.Meta
-                      title={item.title}
                       description={item.description.map((val) => (
                         <p style={styles.errorDescription}>{val}</p>
                       ))}
+                      title={item.title}
                     />
                   </List.Item>
                 )}
+                style={styles.list}
               />
             )}
           </Row>
         </Col>
       }
+      status="500"
+      subTitle={<FormattedMessage id="something.went.wrong" />}
+      title={<FormattedMessage id="unexpected.error" />}
     />
   );
 };

@@ -12,7 +12,7 @@ const SkillsView = ({ categoriesSkills, skills }) => {
           <Fragment key={categorySkill.val}>
             <Row align="middle">
               <Col>
-                <TagTwoTone twoToneColor="#3CBAB3" className="mr-1" />
+                <TagTwoTone className="mr-1" twoToneColor="#3CBAB3" />
               </Col>
               <Col>{categorySkill.val}:</Col>
             </Row>
@@ -31,8 +31,8 @@ const SkillsView = ({ categoriesSkills, skills }) => {
 
   return (
     <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
       description={<FormattedMessage id="skills.empty" />}
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
 };

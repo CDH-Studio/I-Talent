@@ -79,14 +79,14 @@ const PrimaryInfoForm = ({ formType }) => {
 
   return (
     <PrimaryInfoFormView
-      locationOptions={locationOptions}
-      profileInfo={profileInfo}
-      load={load}
-      formType={formType}
-      history={history}
-      userId={id}
       email={email}
       employmentEquityOptions={employmentEquityOptions}
+      formType={formType}
+      history={history}
+      load={load}
+      locationOptions={locationOptions}
+      profileInfo={profileInfo}
+      userId={id}
     />
   );
 };

@@ -79,58 +79,58 @@ const DashboardGraphsView = ({
   return (
     <>
       <Row gutter={[15, 15]}>
-        <Col xs={24} sm={24} md={12} xl={8}>
+        <Col md={12} sm={24} xl={8} xs={24}>
           <Card
-            title={<FormattedMessage id="dashboard.popular.skills" />}
-            loading={topFiveSkills.length === 0}
             bodyStyle={{ height: graphHeight }}
+            loading={topFiveSkills.length === 0}
+            title={<FormattedMessage id="dashboard.popular.skills" />}
           >
             <Chart
-              type="bar"
               data={barGraphData(topFiveSkills, "skills")}
               options={options}
+              type="bar"
             />
           </Card>
         </Col>
-        <Col xs={24} sm={24} md={12} xl={8}>
+        <Col md={12} sm={24} xl={8} xs={24}>
           <Card
-            title={<FormattedMessage id="dashboard.popular.competencies" />}
-            loading={topFiveCompetencies.length === 0}
             bodyStyle={{ height: graphHeight }}
+            loading={topFiveCompetencies.length === 0}
+            title={<FormattedMessage id="dashboard.popular.competencies" />}
           >
             <Chart
-              type="bar"
               data={barGraphData(topFiveCompetencies, "competencies")}
               options={options}
+              type="bar"
             />
           </Card>
         </Col>
-        <Col xs={24} sm={24} md={12} xl={8}>
+        <Col md={12} sm={24} xl={8} xs={24}>
           <Card
+            bodyStyle={{ height: graphHeight }}
+            loading={topFiveDevelopmentalGoals.length === 0}
             title={
               <FormattedMessage id="dashboard.popular.development.goals" />
             }
-            loading={topFiveDevelopmentalGoals.length === 0}
-            bodyStyle={{ height: graphHeight }}
           >
             <Chart
-              type="bar"
               data={barGraphData(
                 topFiveDevelopmentalGoals,
                 "development.goals"
               )}
               options={options}
+              type="bar"
             />
           </Card>
         </Col>
         {monthlyGrowth && (
-          <Col span={24} md={12} xl={24}>
+          <Col md={12} span={24} xl={24}>
             <Card
-              title={<FormattedMessage id="growth.rate.by.month" />}
-              loading={monthlyGrowth.length === 0}
               bodyStyle={{ height: graphHeight }}
+              loading={monthlyGrowth.length === 0}
+              title={<FormattedMessage id="growth.rate.by.month" />}
             >
-              <Chart type="line" data={monthlyGrowthData} options={options} />
+              <Chart data={monthlyGrowthData} options={options} type="line" />
             </Card>
           </Col>
         )}

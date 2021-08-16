@@ -226,28 +226,28 @@ const CareerManagementForm = ({ formType }) => {
 
   return (
     <CareerManagementFormView
-      profileInfo={profileInfo}
-      developmentalGoalOptions={developmentalGoalOptions}
-      savedDevelopmentalGoals={savedDevelopmentalGoals}
-      savedAttachments={savedAttachments}
-      interestedInRemoteOptions={interestedInRemoteOptions}
-      relocationOptions={relocationOptions}
-      savedRelocationLocations={savedRelocationLocations}
-      lookingForNewJobOptions={lookingForNewJobOptions}
-      savedLookingForNewJob={savedLookingForNewJob}
-      careerMobilityOptions={careerMobilityOptions}
-      savedCareerMobility={savedCareerMobility}
-      talentMatrixResultOptions={talentMatrixResultOptions}
-      savedTalentMatrixResult={savedTalentMatrixResult}
-      savedExFeederBool={savedExFeederBool}
-      classificationOptions={classificationOptions}
-      savedQualifiedPools={savedQualifiedPools}
-      formType={formType}
-      currentTab={currentTab}
-      load={load}
-      history={history}
-      userId={id}
       attachmentOptions={attachmentOptions}
+      careerMobilityOptions={careerMobilityOptions}
+      classificationOptions={classificationOptions}
+      currentTab={currentTab}
+      developmentalGoalOptions={developmentalGoalOptions}
+      formType={formType}
+      history={history}
+      interestedInRemoteOptions={interestedInRemoteOptions}
+      load={load}
+      lookingForNewJobOptions={lookingForNewJobOptions}
+      profileInfo={profileInfo}
+      relocationOptions={relocationOptions}
+      savedAttachments={savedAttachments}
+      savedCareerMobility={savedCareerMobility}
+      savedDevelopmentalGoals={savedDevelopmentalGoals}
+      savedExFeederBool={savedExFeederBool}
+      savedLookingForNewJob={savedLookingForNewJob}
+      savedQualifiedPools={savedQualifiedPools}
+      savedRelocationLocations={savedRelocationLocations}
+      savedTalentMatrixResult={savedTalentMatrixResult}
+      talentMatrixResultOptions={talentMatrixResultOptions}
+      userId={id}
     />
   );
 };

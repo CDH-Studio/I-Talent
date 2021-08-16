@@ -51,16 +51,16 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
 
   return (
     <BasicInfoView
-      data={data}
-      name={name}
       avatar={{
         acr: data.nameInitials,
         color: data.avatarColor,
       }}
-      jobTitle={data.jobTitle}
       buttonLinks={getButtonLinks()}
-      connectionStatus={connectionStatus}
       changeConnection={changeConnection}
+      connectionStatus={connectionStatus}
+      data={data}
+      jobTitle={data.jobTitle}
+      name={name}
     />
   );
 };

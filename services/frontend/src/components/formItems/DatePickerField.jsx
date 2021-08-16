@@ -103,23 +103,23 @@ const DatePickerField = ({
       <MuiPickersUtilsProvider utils={DayJSUtils}>
         <KeyboardDatePicker
           autoOk="true"
-          variant="inline"
-          openTo="year"
-          views={viewOptions}
+          className={classes.root}
+          disabled={disableInput}
           emptyLabel={placeholderText}
           format={formatDate}
-          className={classes.root}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
           InputProps={{
             disableUnderline: true,
           }}
-          value={selectedDate}
-          onChange={(event) => onDateChange(event)}
-          minDate={getMinDate()}
+          KeyboardButtonProps={{
+            "aria-label": "change date",
+          }}
           maxDate={getMaxDate()}
-          disabled={disableInput}
+          minDate={getMinDate()}
+          onChange={(event) => onDateChange(event)}
+          openTo="year"
+          value={selectedDate}
+          variant="inline"
+          views={viewOptions}
         />
       </MuiPickersUtilsProvider>
     </ThemeProvider>

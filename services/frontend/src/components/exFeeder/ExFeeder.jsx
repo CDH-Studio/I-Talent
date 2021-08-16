@@ -9,12 +9,12 @@ const ExFeeder = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "ex.feeder" })}
       cardName="exFeeder"
-      editUrl="/profile/edit/career-management?tab=ex-feeder"
-      id="card-profile-ex-feeder"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/career-management?tab=ex-feeder"
+      id="card-profile-ex-feeder"
+      titleString={intl.formatMessage({ id: "ex.feeder" })}
       visibility={data.visibleCards.exFeeder}
     >
       <ExFeederView data={data} />

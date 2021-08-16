@@ -151,19 +151,19 @@ const UserTable = () => {
   return (
     <>
       <Prompt
-        when={modifiedStatus}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={modifiedStatus}
       />
       <UserTableView
-        searchText={searchText}
-        searchedColumn={searchedColumn}
         handleApply={handleApply}
         handleDropdownChange={handleDropdownChange}
-        profileStatusValue={profileStatusValue}
-        handleSearch={handleSearch}
         handleReset={handleReset}
-        modifiedStatus={modifiedStatus}
+        handleSearch={handleSearch}
         handleSubmitDelete={handleSubmitDelete}
+        modifiedStatus={modifiedStatus}
+        profileStatusValue={profileStatusValue}
+        searchedColumn={searchedColumn}
+        searchText={searchText}
       />
     </>
   );

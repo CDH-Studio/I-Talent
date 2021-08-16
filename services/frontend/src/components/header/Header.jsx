@@ -3,11 +3,11 @@ import HeaderView from "./HeaderView";
 
 const Header = ({ title, icon, extra, subtitle, backBtn }) => (
   <HeaderView
-    title={title}
-    icon={icon}
-    extra={extra}
-    subtitle={subtitle}
     backBtn={backBtn}
+    extra={extra}
+    icon={icon}
+    subtitle={subtitle}
+    title={title}
   />
 );
 

@@ -9,17 +9,17 @@ const CareerInterests = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "career.interests" })}
       cardName="careerInterests"
-      id="card-profile-career-interests"
-      editUrl="/profile/edit/career-management?tab=career-interests"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/career-management?tab=career-interests"
+      id="card-profile-career-interests"
+      titleString={intl.formatMessage({ id: "career.interests" })}
       visibility={data.visibleCards.careerInterests}
     >
       <CareerInterestsView
-        lookingJob={data.lookingJob}
         interestedInRemote={data.interestedInRemote}
+        lookingJob={data.lookingJob}
         relocationLocations={data.relocationLocations}
       />
     </ProfileCards>

@@ -16,12 +16,12 @@ const EducationForm = ({
   attachmentNames,
 }) => (
   <EducationFormView
-    form={form}
-    fieldElement={fieldElement}
-    removeElement={removeElement}
-    diplomaOptions={diplomaOptions}
-    schoolOptions={schoolOptions}
     attachmentNames={attachmentNames}
+    diplomaOptions={diplomaOptions}
+    fieldElement={fieldElement}
+    form={form}
+    removeElement={removeElement}
+    schoolOptions={schoolOptions}
   />
 );
 

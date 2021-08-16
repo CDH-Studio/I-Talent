@@ -139,9 +139,8 @@ const ResultProfileCardView = ({
     if (user.id !== loggedInUserId) {
       return (
         <Button
-          tabIndex={0}
-          type="link"
           block
+          className="result-card-button"
           icon={
             isConnection ? (
               <UserDeleteOutlined className="result-card-button-icon" />
@@ -158,7 +157,8 @@ const ResultProfileCardView = ({
               addConnection(user.id);
             }
           }}
-          className="result-card-button"
+          tabIndex={0}
+          type="link"
         >
           {isConnection ? (
             <FormattedMessage id="remove.connection" />
@@ -170,15 +170,15 @@ const ResultProfileCardView = ({
     }
     return (
       <Button
-        tabIndex={0}
-        type="link"
         block
+        className="result-card-button"
         icon={<EditOutlined className="result-card-button-icon" />}
         onClick={(e) => {
           e.stopPropagation();
           history.push("/profile/edit/primary-info");
         }}
-        className="result-card-button"
+        tabIndex={0}
+        type="link"
       >
         <FormattedMessage id="edit.profile" />
       </Button>
@@ -254,34 +254,34 @@ const ResultProfileCardView = ({
 
   return (
     <>
-      <Col span={24} xxl={12} key={key}>
+      <Col key={key} span={24} xxl={12}>
         <Badge.Ribbon
+          color={isConnection ? "#192E2F" : "#1D807B"}
           style={{ padding: 0 }}
           text={getActionRibbonBtn({ user: profile })}
-          color={isConnection ? "#192E2F" : "#1D807B"}
         >
           <Card
-            tabIndex={0}
-            className="result-card"
-            hoverable
-            bordered
-            onClick={() => history.push(`/profile/${profile.id}`)}
-            onKeyPress={(e) => handleKeyPress(e, profile.id)}
             actions={getCardFooter({ user: profile })}
             bodyStyle={{ padding: "23px", flex: 1, flexBasis: "auto" }}
+            bordered
+            className="result-card"
+            hoverable
+            onClick={() => history.push(`/profile/${profile.id}`)}
+            onKeyPress={(e) => handleKeyPress(e, profile.id)}
+            tabIndex={0}
           >
             <Row>
               <Col span={24}>
                 <Row>
                   <Meta
-                    className="result-card-meta"
                     avatar={getUserAvatar({ user: profile })}
-                    title={getCardTitle({ user: profile })}
+                    className="result-card-meta"
                     description={
                       <p className="result-card-small-p">
                         {getUserSubtitle({ user: profile })}
                       </p>
                     }
+                    title={getCardTitle({ user: profile })}
                   />
                 </Row>
               </Col>
@@ -290,7 +290,7 @@ const ResultProfileCardView = ({
                 {profile.totalSkillsCount > 0 ? (
                   <span>
                     {profile.skills.map(({ id, name }) => (
-                      <Tag className="result-card-tag" key={id}>
+                      <Tag key={id} className="result-card-tag">
                         {name}
                       </Tag>
                     ))}
@@ -310,20 +310,20 @@ const ResultProfileCardView = ({
 
             {profile.matches && (
               <Button
-                role="button"
                 aria-label={ariaLabels[0]}
                 aria-pressed="false"
-                tabIndex={0}
-                shape="circle"
-                icon={<FileSearchOutlined />}
-                size="medium"
                 className="fuzzy-match-modal-btn"
+                icon={<FileSearchOutlined />}
                 onClick={(e) => {
                   showModal(e);
                 }}
                 onKeyPress={(e) => {
                   showModal(e);
                 }}
+                role="button"
+                shape="circle"
+                size="medium"
+                tabIndex={0}
               />
             )}
           </Card>
@@ -332,17 +332,17 @@ const ResultProfileCardView = ({
 
       {/* render fuzzy search match modal */}
       <Modal
-        title={<FormattedMessage id="search.fuzzy.results" />}
-        width={700}
-        visible={searchMatchVisibility}
-        onCancel={handleCancel}
         footer={[
-          <Button type="primary" onClick={handleCancel}>
+          <Button onClick={handleCancel} type="primary">
             Ok
           </Button>,
         ]}
+        onCancel={handleCancel}
+        title={<FormattedMessage id="search.fuzzy.results" />}
+        visible={searchMatchVisibility}
+        width={700}
       >
-        <Text strong className="match-modal-description">
+        <Text className="match-modal-description" strong>
           <FileSearchOutlined />
           <FormattedMessage
             id="search.fuzzy.description"
@@ -352,7 +352,6 @@ const ResultProfileCardView = ({
           />
         </Text>
         <List
-          size="small"
           className="match-term-list"
           dataSource={profile.matches}
           renderItem={(item) => (
@@ -363,6 +362,7 @@ const ResultProfileCardView = ({
               />
             </List.Item>
           )}
+          size="small"
         />
       </Modal>
     </>

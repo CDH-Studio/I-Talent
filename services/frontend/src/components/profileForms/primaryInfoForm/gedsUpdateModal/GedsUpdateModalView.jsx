@@ -230,8 +230,11 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       align: "center",
       render: (text, record) => (
         <Button
-          type="primary"
-          size="small"
+          aria-label={
+            isEqual(record.savedValue, record.gedsValue)
+              ? intl.formatMessage({ id: "geds.update.synced" })
+              : intl.formatMessage({ id: "geds.update.sync" })
+          }
           disabled={isEqual(record.savedValue, record.gedsValue)}
           icon={
             isEqual(record.savedValue, record.gedsValue) ? (
@@ -241,11 +244,8 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
-          aria-label={
-            isEqual(record.savedValue, record.gedsValue)
-              ? intl.formatMessage({ id: "geds.update.synced" })
-              : intl.formatMessage({ id: "geds.update.sync" })
-          }
+          size="small"
+          type="primary"
         >
           <span>
             {isEqual(record.savedValue, record.gedsValue) ? (
@@ -280,16 +280,16 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 
   return (
     <Modal
-      title={<FormattedMessage id="geds.sync.button" />}
-      visible={visibility}
-      width={900}
-      onOk={onDone}
-      onCancel={onDone}
       footer={[
-        <Button key="submit" type="primary" onClick={onDone}>
+        <Button key="submit" onClick={onDone} type="primary">
           <FormattedMessage id="geds.update.finish" />
         </Button>,
       ]}
+      onCancel={onDone}
+      onOk={onDone}
+      title={<FormattedMessage id="geds.sync.button" />}
+      visible={visibility}
+      width={900}
     >
       {errorCaught ? (
         <Result
@@ -303,14 +303,14 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             values={{
               instructionUrl: (
                 <a
-                  target="_blank"
-                  rel="noopener noreferrer"
                   href={
                     locale === "ENGLISH"
                       ? "http://icweb.ic.gc.ca/eic/site/029.nsf/eng/00172.html"
                       : "http://icweb.ic.gc.ca/eic/site/029.nsf/fra/00172.html"
                   }
+                  rel="noopener noreferrer"
                   tabIndex="0"
+                  target="_blank"
                 >
                   <FormattedMessage id="geds.edit.info.link" />
                 </a>
@@ -318,12 +318,12 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             }}
           />
           <Table
+            className="mt-4"
             columns={columns}
             dataSource={tableData}
+            loading={!tableData || tableLoading}
             pagination={false}
             size="small"
-            loading={!tableData || tableLoading}
-            className="mt-4"
           />
         </>
       )}

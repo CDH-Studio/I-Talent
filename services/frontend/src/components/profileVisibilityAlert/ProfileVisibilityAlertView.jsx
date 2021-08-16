@@ -36,6 +36,8 @@ const ProfileVisibilityAlertView = ({
 
   return messageId ? (
     <Alert
+      className="mb-2"
+      icon={isProfileHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
       message={
         <FormattedMessage
           id={messageId}
@@ -43,9 +45,9 @@ const ProfileVisibilityAlertView = ({
             b: (chunks) => <strong>{chunks}</strong>,
             helpUrl: (
               <a
-                target="_blank"
-                rel="noopener noreferrer"
                 href={`${drupalSite}${locale === "ENGLISH" ? "en" : "fr"}help`}
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <FormattedMessage id="footer.contact.link" />
               </a>
@@ -53,10 +55,8 @@ const ProfileVisibilityAlertView = ({
           }}
         />
       }
-      type={isProfileHidden ? "warning" : "error"}
       showIcon
-      className="mb-2"
-      icon={isProfileHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
+      type={isProfileHidden ? "warning" : "error"}
     />
   ) : null;
 };

@@ -317,8 +317,8 @@ const EmploymentDataFormView = ({
     if (expandMentorshipForm) {
       return (
         <Form.Item
-          name="actingLevelId"
           label={<FormattedMessage id="acting" />}
+          name="actingLevelId"
           rules={[Rules.required]}
         >
           <CustomDropdown
@@ -328,10 +328,10 @@ const EmploymentDataFormView = ({
             initialValueId={
               getInitialValues({ profile: profileInfo }).actingLevelId
             }
-            placeholderText={<FormattedMessage id="type.to.search" />}
-            options={classificationOptions}
-            isSearchable
             isRequired
+            isSearchable
+            options={classificationOptions}
+            placeholderText={<FormattedMessage id="type.to.search" />}
           />
         </Form.Item>
       );
@@ -375,48 +375,48 @@ const EmploymentDataFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="employment-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
           <FormTitle
-            title={<FormattedMessage id="employment.status" />}
-            formType={formType}
-            stepNumber={3}
-            fieldsChanged={fieldsChanged}
             extra={
               <div style={{ marginTop: -5 }}>
                 <CardVisibilityToggle
-                  visibleCards={profileInfo.visibleCards}
-                  cardName="info"
-                  type="form"
                   ariaLabel={intl.formatMessage({
                     id: "employment.status",
                   })}
+                  cardName="info"
+                  type="form"
+                  visibleCards={profileInfo.visibleCards}
                 />
               </div>
             }
+            fieldsChanged={fieldsChanged}
+            formType={formType}
+            stepNumber={3}
+            title={<FormattedMessage id="employment.status" />}
           />
         </Row>
         <Divider className="employment-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="basicForm"
           form={form}
           initialValues={
             savedValues || getInitialValues({ profile: profileInfo })
           }
           layout="vertical"
+          name="basicForm"
           onValuesChange={updateIfFormValuesChanged}
         >
           {/* Form Row One */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="tenureId"
                 label={<FormattedMessage id="profile.substantive" />}
+                name="tenureId"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -425,17 +425,17 @@ const EmploymentDataFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).tenureId
                   }
-                  placeholderText={<FormattedMessage id="select" />}
-                  options={substantiveOptions}
                   isSearchable={false}
+                  options={substantiveOptions}
+                  placeholderText={<FormattedMessage id="select" />}
                 />
               </Form.Item>
             </Col>
 
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="groupLevelId"
                 label={<FormattedMessage id="classification" />}
+                name="groupLevelId"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -444,19 +444,19 @@ const EmploymentDataFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).groupLevelId
                   }
-                  placeholderText={<FormattedMessage id="type.to.search" />}
-                  options={classificationOptions}
                   isSearchable
+                  options={classificationOptions}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
                 />
               </Form.Item>
             </Col>
           </Row>
           {/* Form Row Two */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
               <Form.Item
-                name="securityClearanceId"
                 label={<FormattedMessage id="profile.security" />}
+                name="securityClearanceId"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -466,9 +466,9 @@ const EmploymentDataFormView = ({
                     getInitialValues({ profile: profileInfo })
                       .securityClearanceId
                   }
-                  placeholderText={<FormattedMessage id="select" />}
-                  options={securityOptions}
                   isSearchable={false}
+                  options={securityOptions}
+                  placeholderText={<FormattedMessage id="select" />}
                 />
               </Form.Item>
             </Col>
@@ -478,8 +478,8 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item
-                name="manager"
                 label={<FormattedMessage id="employee.manager" />}
+                name="manager"
                 rules={[Rules.maxChar50]}
               >
                 <Input />
@@ -495,8 +495,8 @@ const EmploymentDataFormView = ({
                   <FormattedMessage id="presently.acting" />
                   <Switch
                     checked={displayActingRoleForm}
-                    onChange={toggleTempRoleForm}
                     className="ml-2 mb-1"
+                    onChange={toggleTempRoleForm}
                   />
                 </>
               }
@@ -508,17 +508,17 @@ const EmploymentDataFormView = ({
           <Divider className="employment-headerDiv" />
 
           <FormSubTitle
-            title={<FormattedMessage id="about.me" />}
             extra={
               <CardVisibilityToggle
-                visibleCards={profileInfo.visibleCards}
-                cardName="description"
-                type="form"
                 ariaLabel={intl.formatMessage({
                   id: "about.me",
                 })}
+                cardName="description"
+                type="form"
+                visibleCards={profileInfo.visibleCards}
               />
             }
+            title={<FormattedMessage id="about.me" />}
           />
 
           <Row gutter={24}>
@@ -526,21 +526,21 @@ const EmploymentDataFormView = ({
               <Form.Item name="description">
                 <Input.TextArea
                   aria-label={intl.formatMessage({ id: "about.me" })}
-                  showCount
                   maxLength={1000}
+                  showCount
                 />
               </Form.Item>
             </Col>
           </Row>
 
           <FormControlButton
-            formType={formType}
-            onSave={onSave}
-            onSaveAndNext={onSaveAndNext}
-            onSaveAndFinish={onSaveAndFinish}
-            onReset={onReset}
-            onFinish={onFinish}
             fieldsChanged={fieldsChanged}
+            formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
+            onSave={onSave}
+            onSaveAndFinish={onSaveAndFinish}
+            onSaveAndNext={onSaveAndNext}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>

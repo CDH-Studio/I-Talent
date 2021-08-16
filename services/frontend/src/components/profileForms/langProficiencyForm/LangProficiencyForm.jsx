@@ -147,15 +147,15 @@ const LangProficiencyForm = ({ formType }) => {
 
   return (
     <LangProficiencyFormView
-      languageOptions={languageOptions}
-      proficiencyOptions={proficiencyOptions}
-      statusOptions={statusOptions}
-      profileInfo={profileInfo}
       formType={formType}
-      load={load}
       history={history}
-      userId={id}
+      languageOptions={languageOptions}
+      load={load}
+      proficiencyOptions={proficiencyOptions}
+      profileInfo={profileInfo}
       saveDataToDB={saveDataToDB}
+      statusOptions={statusOptions}
+      userId={id}
     />
   );
 };

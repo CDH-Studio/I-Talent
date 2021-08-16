@@ -13,9 +13,9 @@ const { Text } = Typography;
 const footerObject = (value, messageId, lang) => (
   <a
     className="link"
-    target="_blank"
-    rel="noopener noreferrer"
     href={`${drupalSite}${lang}/${value}`}
+    rel="noopener noreferrer"
+    target="_blank"
   >
     <FormattedMessage id={messageId} />
   </a>

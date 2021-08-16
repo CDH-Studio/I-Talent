@@ -112,41 +112,41 @@ const CardVisibilityToggleView = ({
     {
       value: "PUBLIC",
       label: intl.formatMessage({ id: "visibility.card.public" }),
-      icon: <EyeOutlined className="mr-1" aria-hidden="true" />,
+      icon: <EyeOutlined aria-hidden="true" className="mr-1" />,
     },
     {
       value: "CONNECTIONS",
       label: intl.formatMessage({ id: "connections" }),
-      icon: <TeamOutlined className="mr-1" aria-hidden="true" />,
+      icon: <TeamOutlined aria-hidden="true" className="mr-1" />,
     },
     {
       value: "PRIVATE",
       label: intl.formatMessage({ id: "visibility.card.private" }),
-      icon: <EyeInvisibleOutlined className="mr-1" aria-hidden="true" />,
+      icon: <EyeInvisibleOutlined aria-hidden="true" className="mr-1" />,
     },
   ];
 
   return (
     <>
       <CustomDropdown
-        inputValue={status}
-        className="visibilitySelector"
-        isClearable={false}
-        options={generateOptions()}
-        onChange={handleSelect}
         ariaLabel={`${ariaLabel} ${intl.formatMessage({
           id: "visibility.selector",
         })}`}
+        className="visibilitySelector"
+        inputValue={status}
+        isClearable={false}
         isSearchable={false}
+        onChange={handleSelect}
+        options={generateOptions()}
       />
       <AlertDialog
-        title={<FormattedMessage id="visibility.card.title" />}
         body={<FormattedMessage id={`visibility.${type}.show.confirm`} />}
-        isOpen={modalVisibility}
-        onOk={handleVisibilityPublicOk}
-        onCancel={handleVisibilityPublicCancel}
-        okText={<FormattedMessage id="yes" />}
         cancelText={<FormattedMessage id="no" />}
+        isOpen={modalVisibility}
+        okText={<FormattedMessage id="yes" />}
+        onCancel={handleVisibilityPublicCancel}
+        onOk={handleVisibilityPublicOk}
+        title={<FormattedMessage id="visibility.card.title" />}
       />
     </>
   );

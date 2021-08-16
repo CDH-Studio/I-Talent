@@ -17,14 +17,14 @@ const FormControlButtons = ({
   visibleCards,
 }) => (
   <FormControlButtonsView
-    edit={formType === "edit"}
     create={formType === "create"}
-    onSave={onSave}
-    onSaveAndNext={onSaveAndNext}
-    onSaveAndFinish={onSaveAndFinish}
-    onReset={onReset}
-    onFinish={onFinish}
+    edit={formType === "edit"}
     fieldsChanged={fieldsChanged}
+    onFinish={onFinish}
+    onReset={onReset}
+    onSave={onSave}
+    onSaveAndFinish={onSaveAndFinish}
+    onSaveAndNext={onSaveAndNext}
     visibleCards={visibleCards}
   />
 );

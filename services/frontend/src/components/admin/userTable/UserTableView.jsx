@@ -80,22 +80,22 @@ const UserTableView = ({
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
           style={{ width: 188, marginBottom: 8, display: "block" }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
           style={{ width: 90, marginRight: 8 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -122,9 +122,9 @@ const UserTableView = ({
       const view =
         searchedColumn === dataIndex ? (
           <Highlighter
+            autoEscape
             highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
             searchWords={[searchText]}
-            autoEscape
             textToHighlight={text.toString()}
           />
         ) : (
@@ -144,12 +144,12 @@ const UserTableView = ({
     <div>
       <Select
         defaultValue={profileStatusValue(status)}
-        style={{ width: 120 }}
         onChange={(value) => {
           const user = data.find(({ key }) => key === id);
           const valueToBeSaved = value === user.status ? undefined : value;
           handleDropdownChange(valueToBeSaved, id);
         }}
+        style={{ width: 120 }}
       >
         <Option key="active" value="ACTIVE">
           <FormattedMessage id="active" />
@@ -182,21 +182,21 @@ const UserTableView = ({
   /* Renders the apply button and confirmation prompt */
   const applyButton = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="update.confirm" />}
-      okText={<FormattedMessage id="update" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={!modifiedStatus}
+      okText={<FormattedMessage id="update" />}
+      onCancel={() => {
+        popUpCancel();
+      }}
       onConfirm={() => {
         handleApply()
           .then(popUpSuccesss)
           .catch((error) => handleError(error, "message", history));
       }}
-      onCancel={() => {
-        popUpCancel();
-      }}
-      disabled={!modifiedStatus}
+      placement="left"
+      title={<FormattedMessage id="update.confirm" />}
     >
-      <Button type="primary" disabled={!modifiedStatus}>
+      <Button disabled={!modifiedStatus} type="primary">
         <CheckCircleOutlined />
         <span>
           <FormattedMessage id="save" />
@@ -297,13 +297,13 @@ const UserTableView = ({
       onFilter: (value, record) => record[value],
       render: (record) => (
         <>
-          <Tag visible={record.isAdmin} color="magenta">
+          <Tag color="magenta" visible={record.isAdmin}>
             <FormattedMessage id="admin" />
           </Tag>
-          <Tag visible={record.isManager} color="geekblue">
+          <Tag color="geekblue" visible={record.isManager}>
             <FormattedMessage id="admin.roles.manager" />
           </Tag>
-          <Tag visible={!record.isManager && !record.isAdmin} color="green">
+          <Tag color="green" visible={!record.isManager && !record.isAdmin}>
             <FormattedMessage id="admin.roles.standard" />
           </Tag>
         </>
@@ -369,21 +369,21 @@ const UserTableView = ({
       width: 80,
       render: (record) => (
         <Popconfirm
-          placement="left"
-          title={<FormattedMessage id="delete.user" />}
-          okText={<FormattedMessage id="delete" />}
           cancelText={<FormattedMessage id="cancel" />}
+          okText={<FormattedMessage id="delete" />}
+          onCancel={() => {
+            popUpCancel();
+          }}
           onConfirm={() => {
             handleSubmitDelete(record.key)
               .then(popUpSuccesss)
               .catch((error) => handleError(error, "message", history));
           }}
-          onCancel={() => {
-            popUpCancel();
-          }}
           overlayStyle={{ maxWidth: 350 }}
+          placement="left"
+          title={<FormattedMessage id="delete.user" />}
         >
-          <Button shape="circle" icon={<DeleteOutlined />} danger />
+          <Button danger icon={<DeleteOutlined />} shape="circle" />
         </Popconfirm>
       ),
     },
@@ -392,24 +392,11 @@ const UserTableView = ({
   return (
     <>
       <Header
-        title={
-          <>
-            <FormattedMessage id="users.table" />
-            {modifiedStatus && (
-              <Text className="userTable-unsavedText">
-                <FormattedMessage id="form.unsaved" />
-              </Text>
-            )}
-          </>
-        }
-        icon={<DatabaseOutlined />}
         extra={
           <Row align="middle">
             {applyButton()}
             {keycloakButton()}
             <Popover
-              trigger={["focus", "hover"]}
-              placement="topRight"
               content={
                 <div className="popoverStyle">
                   <FormattedMessage
@@ -421,12 +408,25 @@ const UserTableView = ({
                   />
                 </div>
               }
+              placement="topRight"
+              trigger={["focus", "hover"]}
             >
               <div className="adminInfo">
                 <InfoCircleOutlined tabIndex={0} />
               </div>
             </Popover>
           </Row>
+        }
+        icon={<DatabaseOutlined />}
+        title={
+          <>
+            <FormattedMessage id="users.table" />
+            {modifiedStatus && (
+              <Text className="userTable-unsavedText">
+                <FormattedMessage id="form.unsaved" />
+              </Text>
+            )}
+          </>
         }
       />
       <Row gutter={[0, 8]}>
@@ -435,10 +435,10 @@ const UserTableView = ({
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
-            scroll={{ x: 900 }}
             pagination={{
               hideOnSinglePage: true,
             }}
+            scroll={{ x: 900 }}
           />
         </Col>
       </Row>

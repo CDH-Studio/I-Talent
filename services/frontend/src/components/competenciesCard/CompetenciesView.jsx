@@ -14,7 +14,7 @@ const CompetenciesView = ({ competencies }) => {
       <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
         <List>
           {competencies.map(({ id, name }) => (
-            <Tag color="#00605e" key={id}>
+            <Tag key={id} color="#00605e">
               {name}
             </Tag>
           ))}
@@ -24,8 +24,8 @@ const CompetenciesView = ({ competencies }) => {
   }
   return (
     <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
       description={<FormattedMessage id="competencies.empty" />}
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
 };

@@ -178,8 +178,8 @@ const WelcomeView = ({
 
   return (
     <Col className="welcome-content">
-      <Title level={2} className="welcome">
-        <RocketOutlined className="mr-1" rotate="45" aria-hidden="true" />
+      <Title className="welcome" level={2}>
+        <RocketOutlined aria-hidden="true" className="mr-1" rotate="45" />
         <FormattedMessage id="welcome" />
       </Title>
       <Row justify="center">
@@ -194,7 +194,7 @@ const WelcomeView = ({
       </Row>
       {generateGedsProfileList()}
       <div className="skipButton">
-        <Button type="text" onClick={showSkipModal}>
+        <Button onClick={showSkipModal} type="text">
           <FormattedMessage id="setup.welcome.skip" />
         </Button>
       </div>

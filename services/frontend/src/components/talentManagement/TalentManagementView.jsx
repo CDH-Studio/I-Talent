@@ -21,15 +21,15 @@ const TalentManagementView = ({ data }) => {
 
   return (
     <Row>
-      <Col xs={24} lg={24}>
+      <Col lg={24} xs={24}>
         <List
-          itemLayout="horizontal"
           dataSource={getTalentManagementDatasource()}
+          itemLayout="horizontal"
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
-                title={item.title}
                 description={item.description}
+                title={item.title}
               />
             </List.Item>
           )}

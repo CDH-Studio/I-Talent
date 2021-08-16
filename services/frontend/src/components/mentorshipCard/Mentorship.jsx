@@ -69,14 +69,14 @@ const Mentorship = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "mentorship.skills" })}
       cardName="mentorshipSkills"
-      id="card-profile-mentorship-skills"
-      editUrl="/profile/edit/talent?tab=mentorship"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.mentorshipSkills}
+      editUrl="/profile/edit/talent?tab=mentorship"
+      id="card-profile-mentorship-skills"
       lastUpdated={data.mentorshipSkillsUpdatedAt}
+      titleString={intl.formatMessage({ id: "mentorship.skills" })}
+      visibility={data.visibleCards.mentorshipSkills}
     >
       <MentorshipView
         mentoring={setUpMentorshipSkills()}

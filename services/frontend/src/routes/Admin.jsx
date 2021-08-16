@@ -39,7 +39,7 @@ const Admin = () => {
   }, [getInfo, keycloak]);
 
   if (!authenticated) {
-    return <AppLayout loading displaySideBar />;
+    return <AppLayout displaySideBar loading />;
   }
 
   if (signupStep !== 8) {

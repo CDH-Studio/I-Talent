@@ -103,9 +103,9 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    */
   const createProfileStep = ({ titleId, descriptions, disabled }) => (
     <Step
-      title={<FormattedMessage id={titleId} />}
       description={createDescription(descriptions)}
       disabled={disabled}
+      title={<FormattedMessage id={titleId} />}
     />
   );
 
@@ -118,13 +118,13 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
     return (
       <div style={{ margin: "20px 25px" }}>
         <Steps
-          direction="vertical"
-          size="small"
+          aria-label={intl.formatMessage({ id: "create.profile.side.nav" })}
           current={stepInt}
+          direction="vertical"
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
           role="navigation"
-          aria-label={intl.formatMessage({ id: "create.profile.side.nav" })}
+          size="small"
         >
           {createProfileStep({
             titleId: "welcome",
@@ -187,13 +187,13 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
 
   return (
     <AppLayout
-      sideBarContent={sideBarContent}
-      displaySideBar
       displaySearch={false}
+      displaySideBar
+      sideBarContent={sideBarContent}
     >
       <Header
-        title={<FormattedMessage id="create.profile" />}
         icon={<UserAddOutlined />}
+        title={<FormattedMessage id="create.profile" />}
       />
       <Card className="edit-profile-card">{form}</Card>
     </AppLayout>

@@ -26,68 +26,68 @@ const StatCardsView = ({
   intl,
 }) => (
   <Row gutter={[15, 15]} type="flex">
-    <Col xs={12} sm={8} xl={4}>
-      <Card style={{ height: "100%" }} loading={countUsers === "-"}>
+    <Col sm={8} xl={4} xs={12}>
+      <Card loading={countUsers === "-"} style={{ height: "100%" }}>
         <Statistic
+          prefix={<TeamOutlined />}
           title={<FormattedMessage id="dashboard.total.users" />}
           value={countUsers}
           valueStyle={{ color: "#3f8600" }}
-          prefix={<TeamOutlined />}
         />
       </Card>
     </Col>
-    <Col xs={12} sm={8} xl={4}>
-      <Card style={{ height: "100%" }} loading={countInactiveUsers === "-"}>
+    <Col sm={8} xl={4} xs={12}>
+      <Card loading={countInactiveUsers === "-"} style={{ height: "100%" }}>
         <Statistic
+          prefix={<UserOutlined />}
           title={<FormattedMessage id="dashboard.inactive.users" />}
           value={countInactiveUsers}
           valueStyle={{ color: "#515052" }}
-          prefix={<UserOutlined />}
         />
       </Card>
     </Col>
-    <Col xs={12} sm={8} xl={4}>
-      <Card style={{ height: "100%" }} loading={countHiddenUsers === "-"}>
+    <Col sm={8} xl={4} xs={12}>
+      <Card loading={countHiddenUsers === "-"} style={{ height: "100%" }}>
         <Statistic
+          prefix={<EyeInvisibleFilled />}
           title={<FormattedMessage id="flagged.profiles" />}
           value={countHiddenUsers}
           valueStyle={{ color: "#cf1322" }}
-          prefix={<EyeInvisibleFilled />}
         />
       </Card>
     </Col>
-    <Col xs={12} sm={8} xl={4}>
-      <Card style={{ height: "100%" }} loading={countExFeederUsers === "-"}>
+    <Col sm={8} xl={4} xs={12}>
+      <Card loading={countExFeederUsers === "-"} style={{ height: "100%" }}>
         <Statistic
+          prefix={<SolutionOutlined />}
           title={<FormattedMessage id="total.ex.feeders" />}
           value={countExFeederUsers}
           valueStyle={{ color: "#82A7A6" }}
-          prefix={<SolutionOutlined />}
         />
       </Card>
     </Col>
-    <Col xs={12} sm={8} xl={4}>
-      <Card style={{ height: "100%" }} loading={newUsers === "-"}>
+    <Col sm={8} xl={4} xs={12}>
+      <Card loading={newUsers === "-"} style={{ height: "100%" }}>
         <Statistic
+          prefix={<UsergroupAddOutlined />}
           title={`${intl.formatMessage({
             id: "dashboard.monthly.added",
           })} - ${dayjs().format("MMMM")}`}
           value={newUsers}
           valueStyle={{ color: "#CD8FD6" }}
-          prefix={<UsergroupAddOutlined />}
         />
       </Card>
     </Col>
-    <Col xs={12} sm={8} xl={4}>
-      <Card style={{ height: "100%" }} loading={growthRatePrevMonth === "-"}>
+    <Col sm={8} xl={4} xs={12}>
+      <Card loading={growthRatePrevMonth === "-"} style={{ height: "100%" }}>
         <Statistic
+          prefix={<RiseOutlined />}
+          suffix="%"
           title={`${intl.formatMessage({
             id: "growth.rate.percentage",
           })} - ${dayjs().format("MMMM")}`}
           value={growthRatePrevMonth}
           valueStyle={{ color: "#FF934F" }}
-          prefix={<RiseOutlined />}
-          suffix="%"
         />
       </Card>
     </Col>

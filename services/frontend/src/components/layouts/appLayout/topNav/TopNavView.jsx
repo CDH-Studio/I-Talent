@@ -56,19 +56,19 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
    */
   const menu = (isDropdown, optionalStartMenuItems) => (
     <Menu
-      tabIndex={-1}
       className={isDropdown ? "dropDownMenu" : "hamburgerMenu"}
+      tabIndex={-1}
     >
       {optionalStartMenuItems}
       <Menu.Item key="profile_menu" className="dropDownItem">
         <Link to={`/profile/${id}`}>
-          <UserOutlined className="mr-2" aria-hidden="true" />
+          <UserOutlined aria-hidden="true" className="mr-2" />
           <FormattedMessage id="my.profile" />
         </Link>
       </Menu.Item>
       <Menu.Item key="edit_menu" className="dropDownItem">
         <Link to="/profile/edit/primary-info">
-          <EditOutlined className="mr-2" aria-hidden="true" />
+          <EditOutlined aria-hidden="true" className="mr-2" />
           <FormattedMessage id="edit.profile" />
         </Link>
       </Menu.Item>
@@ -76,7 +76,7 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
       {isAdmin && (
         <Menu.Item key="admin_menu" className="dropDownItem">
           <Link to="/admin/dashboard">
-            <DashboardOutlined className="mr-2" aria-hidden="true" />
+            <DashboardOutlined aria-hidden="true" className="mr-2" />
             <FormattedMessage id="admin" />
           </Link>
         </Menu.Item>
@@ -84,21 +84,21 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
       {!isAdmin && (
         <Menu.Item key="stats_menu" className="dropDownItem">
           <Link to="/statistics">
-            <AreaChartOutlined className="mr-2" aria-hidden="true" />
+            <AreaChartOutlined aria-hidden="true" className="mr-2" />
             <FormattedMessage id="stats.view" />
           </Link>
         </Menu.Item>
       )}
       <Menu.Item key="settings_menu" className="dropDownItem">
         <Link to="/settings">
-          <SettingOutlined className="mr-2" aria-hidden="true" />
+          <SettingOutlined aria-hidden="true" className="mr-2" />
           <FormattedMessage id="settings" />
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="logout_menu" className="dropDownItem">
         <Link to="/logout">
-          <LogoutOutlined className="mr-2" aria-hidden="true" />
+          <LogoutOutlined aria-hidden="true" className="mr-2" />
           <FormattedMessage id="sign.out" />
         </Link>
       </Menu.Item>
@@ -116,36 +116,36 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
     if (userName) {
       return (
         <Dropdown
-          overlay={() => menu(true)}
-          placement="bottomCenter"
-          trigger={["click"]}
           getPopupContainer={(triggerNode) => triggerNode.parentNode}
           onVisibleChange={() => {
             setProfileMenuIsExpanded((prev) => !prev);
           }}
+          overlay={() => menu(true)}
+          placement="bottomCenter"
+          trigger={["click"]}
         >
           <Button
-            type="link"
-            className="nav-dropDownButton ant-dropdown-link"
+            aria-expanded={profileMenuIsExpanded ? "true" : "false"}
+            aria-haspopup="true"
             aria-label={intl.formatMessage({
               id: "profile.navigation.dropdown",
             })}
-            aria-haspopup="true"
-            aria-expanded={profileMenuIsExpanded ? "true" : "false"}
+            className="nav-dropDownButton ant-dropdown-link"
+            type="link"
           >
             <CustomAvatar
+              hidden={status === "HIDDEN" || status === "INACTIVE"}
               style={{
                 marginRight: 8,
                 height: "35px",
                 width: "35px",
                 lineHeight: "35px",
               }}
-              hidden={status === "HIDDEN" || status === "INACTIVE"}
             />
-            <Text id="nav-dropDownButton-name" ellipsis>
+            <Text ellipsis id="nav-dropDownButton-name">
               {shortenName(firstName, lastName)}
             </Text>
-            <DownOutlined className="dropDownArrow" aria-hidden="true" />
+            <DownOutlined aria-hidden="true" className="dropDownArrow" />
           </Button>
         </Dropdown>
       );
@@ -173,6 +173,17 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
     windowWidth > 800 && (
       <Input.Search
         className="searchInput"
+        enterButton={
+          <>
+            <SearchOutlined aria-hidden="true" className="mr-1" />
+            <FormattedMessage id="search" />
+          </>
+        }
+        onChange={(e) => setSearchValue(e.target.value)}
+        onSearch={search}
+        placeholder={intl.formatMessage({
+          id: "search",
+        })}
         style={{
           width: "30%",
           minWidth: windowWidth > 920 ? 400 : undefined,
@@ -180,17 +191,6 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
           margin: "0 20px",
         }}
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
-        enterButton={
-          <>
-            <SearchOutlined className="mr-1" aria-hidden="true" />
-            <FormattedMessage id="search" />
-          </>
-        }
-        onSearch={search}
-        placeholder={intl.formatMessage({
-          id: "search",
-        })}
       />
     );
 
@@ -226,14 +226,14 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
   const hamburgerButton = (userName) => {
     if (userName) {
       return (
-        <Button type="default" onClick={toggleHamburgerMenu}>
+        <Button onClick={toggleHamburgerMenu} type="default">
           <MenuOutlined />
         </Button>
       );
     }
 
     return (
-      <Button type="primary" href="/" onClick={() => keycloak.login()}>
+      <Button href="/" onClick={() => keycloak.login()} type="primary">
         <FormattedMessage id="sign.in" />
       </Button>
     );
@@ -262,14 +262,14 @@ const TopNavView = ({ isAdmin, loading, displaySearch, displayLogo }) => {
       <div role="banner">
         <Header className="header">
           <Row
+            align="middle"
             className="aroundNavContent"
             justify="space-between"
-            align="middle"
           >
             <Row align="middle">
               {displayLogo && (
                 <Link tabIndex={0} to="/">
-                  <img src={Logo} alt="I-Talent Logo" className="navBrand" />
+                  <img alt="I-Talent Logo" className="navBrand" src={Logo} />
                 </Link>
               )}
             </Row>

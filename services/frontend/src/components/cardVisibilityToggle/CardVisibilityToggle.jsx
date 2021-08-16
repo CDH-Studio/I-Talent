@@ -3,10 +3,10 @@ import CardVisibilityToggleView from "./CardVisibilityToggleView";
 
 const CardVisibilityToggle = ({ visibleCards, cardName, type, ariaLabel }) => (
   <CardVisibilityToggleView
+    ariaLabel={ariaLabel}
     cardName={cardName}
     type={type}
     visibleCards={visibleCards}
-    ariaLabel={ariaLabel}
   />
 );
 

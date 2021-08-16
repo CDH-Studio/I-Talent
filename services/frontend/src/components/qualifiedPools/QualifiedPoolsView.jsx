@@ -11,19 +11,18 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
   if (qualifiedPoolsInfo.length === 0) {
     return (
       <Empty
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
         description={<FormattedMessage id="qualified.empty" />}
+        image={Empty.PRESENTED_IMAGE_SIMPLE}
       />
     );
   }
   return (
     <List
-      size="small"
-      itemLayout="horizontal"
       dataSource={qualifiedPoolsInfo}
+      itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item>
-          <Descriptions size="small" column={{ xs: 1, sm: 2, xxl: 3 }}>
+          <Descriptions column={{ xs: 1, sm: 2, xxl: 3 }} size="small">
             <Descriptions.Item
               label={
                 <Text strong>
@@ -51,6 +50,7 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
           </Descriptions>
         </List.Item>
       )}
+      size="small"
     />
   );
 };

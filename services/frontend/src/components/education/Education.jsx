@@ -68,14 +68,14 @@ const Education = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "education" })}
       cardName="education"
-      id="card-profile-education"
-      editUrl="/profile/edit/qualifications?tab=education"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.education}
+      editUrl="/profile/edit/qualifications?tab=education"
+      id="card-profile-education"
       lastUpdated={data.educationsUpdatedAt}
+      titleString={intl.formatMessage({ id: "education" })}
+      visibility={data.visibleCards.education}
     >
       <EducationView educationInfo={getEducationInfo(data)} />
     </ProfileCards>

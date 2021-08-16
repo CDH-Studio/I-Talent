@@ -74,14 +74,14 @@ const Experience = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "experience" })}
       cardName="experience"
-      id="card-profile-experience"
-      editUrl="/profile/edit/qualifications?tab=experience"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.experience}
+      editUrl="/profile/edit/qualifications?tab=experience"
+      id="card-profile-experience"
       lastUpdated={data.experiencesUpdatedAt}
+      titleString={intl.formatMessage({ id: "experience" })}
+      visibility={data.visibleCards.experience}
     >
       <ExperienceView experienceInfo={getExperienceInfo(data)} />
     </ProfileCards>

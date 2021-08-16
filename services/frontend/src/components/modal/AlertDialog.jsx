@@ -19,9 +19,9 @@ const AlertDialog = ({
 }) => (
   <div>
     <Dialog
-      open={isOpen}
-      aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      aria-labelledby="alert-dialog-title"
+      open={isOpen}
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
@@ -31,7 +31,7 @@ const AlertDialog = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel}>{cancelText}</Button>
-        <Button onClick={onOk} type="primary" autoFocus>
+        <Button autoFocus onClick={onOk} type="primary">
           {okText}
         </Button>
       </DialogActions>

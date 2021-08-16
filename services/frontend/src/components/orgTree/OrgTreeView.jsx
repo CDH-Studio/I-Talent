@@ -38,11 +38,11 @@ const OrgTreeView = ({ data }) => {
     const treeData = [genTreeBranch(data.organizations)];
     return (
       <Tree
-        showIcon
         defaultExpandAll
         defaultExpandParent
-        treeData={treeData}
         selectable={false}
+        showIcon
+        treeData={treeData}
       />
     );
   }
