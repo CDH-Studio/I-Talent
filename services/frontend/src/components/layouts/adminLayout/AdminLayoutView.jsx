@@ -1,18 +1,18 @@
+import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
-import { Menu } from "antd";
-
 import {
-  DashboardOutlined,
-  SolutionOutlined,
   AppstoreAddOutlined,
-  ToolOutlined,
-  FlagOutlined,
-  TrophyOutlined,
   BankFilled,
   BugOutlined,
+  DashboardOutlined,
+  FlagOutlined,
+  SolutionOutlined,
+  ToolOutlined,
+  TrophyOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage } from "react-intl";
+import { Menu } from "antd";
 import PropTypes from "prop-types";
+
 import AppLayout from "../appLayout/AppLayout";
 import availableTypes from "./adminLayoutTypes";
 
@@ -77,16 +77,16 @@ const AdminLayoutView = ({ type, displaySideBar, children }) => {
   );
 
   return (
-    <AppLayout sideBarContent={sideBarContent} displaySideBar={displaySideBar}>
+    <AppLayout displaySideBar={displaySideBar} sideBarContent={sideBarContent}>
       {children}
     </AppLayout>
   );
 };
 
 AdminLayoutView.propTypes = {
+  children: PropTypes.node.isRequired,
   displaySideBar: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(availableTypes).isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default AdminLayoutView;

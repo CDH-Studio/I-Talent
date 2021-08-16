@@ -2,55 +2,31 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  id: undefined,
   avatarColor: undefined,
-  initials: undefined,
-  firstName: undefined,
-  LastName: undefined,
-  name: undefined,
   email: undefined,
+  firstName: undefined,
+  id: undefined,
+  initials: undefined,
   isAdmin: false,
-  status: "ACTIVE",
-  signupStep: 1,
   isPrivacyAccepted: false,
+  lastName: undefined,
+  name: undefined,
+  signupStep: 1,
+  status: "ACTIVE",
 };
 
 const userSlice = createSlice({
-  name: "user",
   initialState,
+  name: "user",
   reducers: {
-    setUserId(state, action) {
-      state.id = action.payload;
-    },
-    setUserAvatarColor(state, action) {
-      state.avatarColor = action.payload;
-    },
-    setUserInitials(state, action) {
-      state.initials = action.payload;
-    },
-    setUserFirstName(state, action) {
-      state.firstName = action.payload;
-    },
-    setUseLastName(state, action) {
-      state.lastName = action.payload;
-    },
-    setUserName(state, action) {
-      state.name = action.payload;
-    },
-    setUserEmail(state, action) {
-      state.email = action.payload;
-    },
-    setUserIsAdmin(state, action) {
-      state.isAdmin = action.payload;
-    },
-    setUserStatus(state, action) {
-      state.status = action.payload;
-    },
-    setUserSignupStep(state, action) {
-      state.signupStep = action.payload;
+    clearUser() {
+      return initialState;
     },
     setIsPrivacyAccepted(state, action) {
       state.isPrivacyAccepted = action.payload;
+    },
+    setUseLastName(state, action) {
+      state.lastName = action.payload;
     },
     setUser(state, action) {
       const {
@@ -67,19 +43,43 @@ const userSlice = createSlice({
 
       return {
         ...state,
-        id: id || state.id,
         avatarColor: avatarColor || state.avatarColor,
-        initials: initials || state.initials,
+        email: email || state.email,
         firstName: firstName || state.firstName,
+        id: id || state.id,
+        initials: initials || state.initials,
         lastName: lastName || state.lastName,
         name: name || state.name,
-        email: email || state.email,
-        status: status || state.status,
         signupStep: signupStep || state.signupStep,
+        status: status || state.status,
       };
     },
-    clearUser() {
-      return initialState;
+    setUserAvatarColor(state, action) {
+      state.avatarColor = action.payload;
+    },
+    setUserEmail(state, action) {
+      state.email = action.payload;
+    },
+    setUserFirstName(state, action) {
+      state.firstName = action.payload;
+    },
+    setUserId(state, action) {
+      state.id = action.payload;
+    },
+    setUserInitials(state, action) {
+      state.initials = action.payload;
+    },
+    setUserIsAdmin(state, action) {
+      state.isAdmin = action.payload;
+    },
+    setUserName(state, action) {
+      state.name = action.payload;
+    },
+    setUserSignupStep(state, action) {
+      state.signupStep = action.payload;
+    },
+    setUserStatus(state, action) {
+      state.status = action.payload;
     },
   },
 });

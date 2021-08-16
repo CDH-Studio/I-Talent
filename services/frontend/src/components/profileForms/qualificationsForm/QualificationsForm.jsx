@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { useHistory, useLocation } from "react-router-dom";
-import QualificationsFormView from "./QualificationsFormView";
-import useAxios from "../../../utils/useAxios";
+
 import handleError from "../../../functions/handleError";
+import useAxios from "../../../utils/useAxios";
+import QualificationsFormView from "./QualificationsFormView";
 
 /**
  *  QualificationsForm
@@ -60,21 +61,14 @@ const QualificationsForm = ({ formType }) => {
         ]) => {
           setProfileInfo(profileQuery.data);
           setOptions({
-            diplomas: diplomasQuery.data,
-            schools: schoolsQuery.data,
             attachmentNamesEdu: attachmentNamesEduQuery.data,
             attachmentNamesExp: attachmentNamesExpQuery.data,
+            diplomas: diplomasQuery.data,
+            schools: schoolsQuery.data,
           });
           if (profileQuery.data) {
             setInitialValues({
               educations: profileQuery.data.educations.map((i) => ({
-                id: i.id,
-                schoolId: i.school.id,
-                diplomaId: i.diploma.id,
-                startDate: i.startDate ? dayjs(i.startDate) : undefined,
-                endDate: i.endDate ? dayjs(i.endDate) : undefined,
-                ongoingDate: i.ongoingDate,
-                description: i.description,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
                       id: link.id,
@@ -82,15 +76,15 @@ const QualificationsForm = ({ formType }) => {
                       url: link.url,
                     }))
                   : undefined,
+                description: i.description,
+                diplomaId: i.diploma.id,
+                endDate: i.endDate ? dayjs(i.endDate) : undefined,
+                id: i.id,
+                ongoingDate: i.ongoingDate,
+                schoolId: i.school.id,
+                startDate: i.startDate ? dayjs(i.startDate) : undefined,
               })),
               experiences: profileQuery.data.experiences.map((i) => ({
-                id: i.id,
-                jobTitle: i.jobTitle,
-                organization: i.organization,
-                description: i.description,
-                startDate: i.startDate ? dayjs(i.startDate) : undefined,
-                endDate: i.endDate ? dayjs(i.endDate) : undefined,
-                ongoingDate: i.ongoingDate,
                 attachmentLinks: i.attachmentLinks
                   ? i.attachmentLinks.map((link) => ({
                       id: link.id,
@@ -98,7 +92,14 @@ const QualificationsForm = ({ formType }) => {
                       url: link.url,
                     }))
                   : undefined,
+                description: i.description,
+                endDate: i.endDate ? dayjs(i.endDate) : undefined,
+                id: i.id,
+                jobTitle: i.jobTitle,
+                ongoingDate: i.ongoingDate,
+                organization: i.organization,
                 projects: i.projects,
+                startDate: i.startDate ? dayjs(i.startDate) : undefined,
               })),
             });
           }
@@ -110,15 +111,15 @@ const QualificationsForm = ({ formType }) => {
 
   return (
     <QualificationsFormView
-      profileInfo={profileInfo}
-      initialValues={initialValues}
-      formType={formType}
       currentTab={currentTab}
-      load={load}
+      formType={formType}
       history={history}
-      userId={id}
+      initialValues={initialValues}
+      load={load}
       options={options}
+      profileInfo={profileInfo}
       saveDataToDB={saveDataToDB}
+      userId={id}
     />
   );
 };

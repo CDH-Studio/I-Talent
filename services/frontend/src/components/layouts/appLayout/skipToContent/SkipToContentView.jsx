@@ -1,6 +1,7 @@
+import { FormattedMessage } from "react-intl";
 import { Button } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage } from "react-intl";
+
 import "./SkipToContentView.less";
 
 const SkipToContentView = ({ contentId }) => (

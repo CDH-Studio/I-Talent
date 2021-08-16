@@ -1,8 +1,9 @@
 import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
-import OfficialLanguageView from "./OfficialLanguageView";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import OfficialLanguageView from "./OfficialLanguageView";
 
 const OfficialLanguage = ({ data, editableCardBool }) => {
   const intl = useIntl();
@@ -17,8 +18,8 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
     }
 
     const firstLanguage = {
-      title: <FormattedMessage id="first.official.language" />,
       description,
+      title: <FormattedMessage id="first.official.language" />,
     };
     return [firstLanguage];
   };
@@ -59,12 +60,12 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "official.languages" })}
       cardName="officialLanguage"
-      id="card-profile-official-language"
-      editUrl="/profile/edit/language-proficiency"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/language-proficiency"
+      id="card-profile-official-language"
+      titleString={intl.formatMessage({ id: "official.languages" })}
       visibility={data.visibleCards.officialLanguage}
     >
       <OfficialLanguageView

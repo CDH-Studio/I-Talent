@@ -1,37 +1,38 @@
-import PropTypes from "prop-types";
-import {
-  Table,
-  Button,
-  Row,
-  Col,
-  Input,
-  Select,
-  notification,
-  Popconfirm,
-  Popover,
-  Tag,
-  Typography,
-} from "antd";
+import Highlighter from "react-highlight-words";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import {
   CheckCircleOutlined,
+  DatabaseOutlined,
+  DeleteOutlined,
+  EyeInvisibleOutlined,
+  EyeOutlined,
   InfoCircleOutlined,
   SearchOutlined,
   TeamOutlined,
-  DeleteOutlined,
-  DatabaseOutlined,
-  EyeInvisibleOutlined,
-  EyeOutlined,
 } from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Input,
+  notification,
+  Popconfirm,
+  Popover,
+  Row,
+  Select,
+  Table,
+  Tag,
+  Typography,
+} from "antd";
 import dayjs from "dayjs";
-import Highlighter from "react-highlight-words";
-import { useIntl, FormattedMessage } from "react-intl";
-import { useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
 import { uniq } from "lodash";
+import PropTypes from "prop-types";
 
 import handleError from "../../../functions/handleError";
-import Header from "../../header/Header";
 import config from "../../../utils/runtimeConfig";
+import Header from "../../header/Header";
+
 import "./UserTableView.less";
 
 const { Text } = Typography;
@@ -80,22 +81,22 @@ const UserTableView = ({
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -122,9 +123,9 @@ const UserTableView = ({
       const view =
         searchedColumn === dataIndex ? (
           <Highlighter
+            autoEscape
             highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
             searchWords={[searchText]}
-            autoEscape
             textToHighlight={text.toString()}
           />
         ) : (
@@ -144,12 +145,12 @@ const UserTableView = ({
     <div>
       <Select
         defaultValue={profileStatusValue(status)}
-        style={{ width: 120 }}
         onChange={(value) => {
           const user = data.find(({ key }) => key === id);
           const valueToBeSaved = value === user.status ? undefined : value;
           handleDropdownChange(valueToBeSaved, id);
         }}
+        style={{ width: 120 }}
       >
         <Option key="active" value="ACTIVE">
           <FormattedMessage id="active" />
@@ -182,21 +183,21 @@ const UserTableView = ({
   /* Renders the apply button and confirmation prompt */
   const applyButton = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="update.confirm" />}
-      okText={<FormattedMessage id="update" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={!modifiedStatus}
+      okText={<FormattedMessage id="update" />}
+      onCancel={() => {
+        popUpCancel();
+      }}
       onConfirm={() => {
         handleApply()
           .then(popUpSuccesss)
           .catch((error) => handleError(error, "message", history));
       }}
-      onCancel={() => {
-        popUpCancel();
-      }}
-      disabled={!modifiedStatus}
+      placement="left"
+      title={<FormattedMessage id="update.confirm" />}
     >
-      <Button type="primary" disabled={!modifiedStatus}>
+      <Button disabled={!modifiedStatus} type="primary">
         <CheckCircleOutlined />
         <span>
           <FormattedMessage id="save" />
@@ -221,11 +222,11 @@ const UserTableView = ({
   // Consult: Ant Design table components for further clarification
   const userTableColumns = () => [
     {
-      title: <FormattedMessage id="name" />,
       dataIndex: "fullName",
       key: "name",
-      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
       sortDirections: ["descend"],
+      sorter: (a, b) => a.fullName.localeCompare(b.fullName),
+      title: <FormattedMessage id="name" />,
       ...getColumnSearchProps(
         "fullName",
         intl.formatMessage({
@@ -235,10 +236,10 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="job.title" />,
       dataIndex: "jobTitle",
       key: "jobTitle",
       sorter: (a, b) => a.jobTitle.localeCompare(b.jobTitle),
+      title: <FormattedMessage id="job.title" />,
       ...getColumnSearchProps(
         "jobTitle",
         intl.formatMessage({
@@ -247,11 +248,11 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="registered" />,
       dataIndex: "formatCreatedAt",
       key: "registered",
       sorter: (a, b) =>
         dayjs(a.formatCreatedAt).unix() - dayjs(b.formatCreatedAt).unix(),
+      title: <FormattedMessage id="registered" />,
       ...getColumnSearchProps(
         "formatCreatedAt",
         intl.formatMessage({
@@ -260,11 +261,11 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="last.updated" />,
       dataIndex: "formatUpdatedAt",
       key: "updated",
       sorter: (a, b) =>
         dayjs(a.formatUpdatedAt).unix() - dayjs(b.formatUpdatedAt).unix(),
+      title: <FormattedMessage id="last.updated" />,
       ...getColumnSearchProps(
         "formatUpdatedAt",
         intl.formatMessage({
@@ -273,17 +274,16 @@ const UserTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="tenure" />,
       dataIndex: "tenure",
-      key: "tenure",
       filters: uniq(data.map((i) => i.tenure)).map((i) => ({
         text: i,
         value: i,
       })),
+      key: "tenure",
       onFilter: (value, record) => record.tenure === value,
+      title: <FormattedMessage id="tenure" />,
     },
     {
-      title: <FormattedMessage id="admin.roles" />,
       filters: [
         {
           text: <FormattedMessage id="admin" />,
@@ -297,22 +297,20 @@ const UserTableView = ({
       onFilter: (value, record) => record[value],
       render: (record) => (
         <>
-          <Tag visible={record.isAdmin} color="magenta">
+          <Tag color="magenta" visible={record.isAdmin}>
             <FormattedMessage id="admin" />
           </Tag>
-          <Tag visible={record.isManager} color="geekblue">
+          <Tag color="geekblue" visible={record.isManager}>
             <FormattedMessage id="admin.roles.manager" />
           </Tag>
-          <Tag visible={!record.isManager && !record.isAdmin} color="green">
+          <Tag color="green" visible={!record.isManager && !record.isAdmin}>
             <FormattedMessage id="admin.roles.standard" />
           </Tag>
         </>
       ),
+      title: <FormattedMessage id="admin.roles" />,
     },
     {
-      title: <FormattedMessage id="profile.status" />,
-      fixed: "right",
-      width: 150,
       filters: [
         {
           text: <FormattedMessage id="active" />,
@@ -323,6 +321,7 @@ const UserTableView = ({
           value: "INACTIVE",
         },
       ],
+      fixed: "right",
       onFilter: (value, record) =>
         value === "ACTIVE"
           ? record.status === value || record.status === "HIDDEN"
@@ -332,11 +331,10 @@ const UserTableView = ({
           record.key,
           record.status === "HIDDEN" ? "ACTIVE" : record.status
         ),
+      title: <FormattedMessage id="profile.status" />,
+      width: 150,
     },
     {
-      title: <FormattedMessage id="profile.visibility" />,
-      fixed: "right",
-      width: 150,
       filters: [
         {
           text: <FormattedMessage id="visible" />,
@@ -347,6 +345,7 @@ const UserTableView = ({
           value: "HIDDEN",
         },
       ],
+      fixed: "right",
       onFilter: (value, record) =>
         value === "VISIBLE"
           ? record.status === "ACTIVE"
@@ -361,55 +360,44 @@ const UserTableView = ({
             <EyeOutlined />
           </div>
         ),
+      title: <FormattedMessage id="profile.visibility" />,
+      width: 150,
     },
 
     {
-      title: <FormattedMessage id="delete" />,
       fixed: "right",
-      width: 80,
       render: (record) => (
         <Popconfirm
-          placement="left"
-          title={<FormattedMessage id="delete.user" />}
-          okText={<FormattedMessage id="delete" />}
           cancelText={<FormattedMessage id="cancel" />}
+          okText={<FormattedMessage id="delete" />}
+          onCancel={() => {
+            popUpCancel();
+          }}
           onConfirm={() => {
             handleSubmitDelete(record.key)
               .then(popUpSuccesss)
               .catch((error) => handleError(error, "message", history));
           }}
-          onCancel={() => {
-            popUpCancel();
-          }}
           overlayStyle={{ maxWidth: 350 }}
+          placement="left"
+          title={<FormattedMessage id="delete.user" />}
         >
-          <Button shape="circle" icon={<DeleteOutlined />} danger />
+          <Button danger icon={<DeleteOutlined />} shape="circle" />
         </Popconfirm>
       ),
+      title: <FormattedMessage id="delete" />,
+      width: 80,
     },
   ];
 
   return (
     <>
       <Header
-        title={
-          <>
-            <FormattedMessage id="users.table" />
-            {modifiedStatus && (
-              <Text className="userTable-unsavedText">
-                <FormattedMessage id="form.unsaved" />
-              </Text>
-            )}
-          </>
-        }
-        icon={<DatabaseOutlined />}
         extra={
           <Row align="middle">
             {applyButton()}
             {keycloakButton()}
             <Popover
-              trigger={["focus", "hover"]}
-              placement="topRight"
               content={
                 <div className="popoverStyle">
                   <FormattedMessage
@@ -421,12 +409,25 @@ const UserTableView = ({
                   />
                 </div>
               }
+              placement="topRight"
+              trigger={["focus", "hover"]}
             >
               <div className="adminInfo">
                 <InfoCircleOutlined tabIndex={0} />
               </div>
             </Popover>
           </Row>
+        }
+        icon={<DatabaseOutlined />}
+        title={
+          <>
+            <FormattedMessage id="users.table" />
+            {modifiedStatus && (
+              <Text className="userTable-unsavedText">
+                <FormattedMessage id="form.unsaved" />
+              </Text>
+            )}
+          </>
         }
       />
       <Row gutter={[0, 8]}>
@@ -435,10 +436,10 @@ const UserTableView = ({
             columns={userTableColumns()}
             dataSource={data}
             loading={loading && locale !== dataLocale}
-            scroll={{ x: 900 }}
             pagination={{
               hideOnSinglePage: true,
             }}
+            scroll={{ x: 900 }}
           />
         </Col>
       </Row>
@@ -447,15 +448,15 @@ const UserTableView = ({
 };
 
 UserTableView.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
-  handleReset: PropTypes.func.isRequired,
   handleApply: PropTypes.func.isRequired,
-  handleSubmitDelete: PropTypes.func.isRequired,
   handleDropdownChange: PropTypes.func.isRequired,
-  profileStatusValue: PropTypes.func.isRequired,
-  searchedColumn: PropTypes.string.isRequired,
-  searchText: PropTypes.string.isRequired,
+  handleReset: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
+  handleSubmitDelete: PropTypes.func.isRequired,
   modifiedStatus: PropTypes.bool.isRequired,
+  profileStatusValue: PropTypes.func.isRequired,
+  searchText: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
 };
 
 export default UserTableView;

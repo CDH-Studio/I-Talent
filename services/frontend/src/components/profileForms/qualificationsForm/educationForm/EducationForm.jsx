@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
-import EducationFormView from "./EducationFormView";
+
 import {
   FieldPropType,
   FormInstancePropType,
-  KeyTitleOptionsPropType,
   KeyNameOptionsPropType,
+  KeyTitleOptionsPropType,
 } from "../../../../utils/customPropTypes";
+import EducationFormView from "./EducationFormView";
 
 const EducationForm = ({
   form,
@@ -16,22 +17,22 @@ const EducationForm = ({
   attachmentNames,
 }) => (
   <EducationFormView
-    form={form}
-    fieldElement={fieldElement}
-    removeElement={removeElement}
-    diplomaOptions={diplomaOptions}
-    schoolOptions={schoolOptions}
     attachmentNames={attachmentNames}
+    diplomaOptions={diplomaOptions}
+    fieldElement={fieldElement}
+    form={form}
+    removeElement={removeElement}
+    schoolOptions={schoolOptions}
   />
 );
 
 EducationForm.propTypes = {
-  form: FormInstancePropType.isRequired,
-  fieldElement: FieldPropType.isRequired,
-  removeElement: PropTypes.func.isRequired,
-  diplomaOptions: KeyTitleOptionsPropType.isRequired,
-  schoolOptions: KeyTitleOptionsPropType.isRequired,
   attachmentNames: KeyNameOptionsPropType.isRequired,
+  diplomaOptions: KeyTitleOptionsPropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
+  schoolOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 export default EducationForm;

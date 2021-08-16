@@ -1,34 +1,35 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { Prompt } from "react-router";
 import {
-  Row,
   Col,
-  Skeleton,
   Divider,
   Form,
   Input,
-  Switch,
   notification,
+  Row,
+  Skeleton,
+  Switch,
 } from "antd";
+import { identity, isEqual, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { isEqual, identity, pickBy } from "lodash";
-import { useSelector, useDispatch } from "react-redux";
-import { Prompt } from "react-router";
-import CustomDropdown from "../../formItems/CustomDropdown";
-import Fieldset from "../../fieldset/Fieldset";
-import useAxios from "../../../utils/useAxios";
+
+import handleError from "../../../functions/handleError";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
+  HistoryPropType,
+  IntlPropType,
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
-  IntlPropType,
-  HistoryPropType,
 } from "../../../utils/customPropTypes";
-import handleError from "../../../functions/handleError";
+import useAxios from "../../../utils/useAxios";
 import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+import Fieldset from "../../fieldset/Fieldset";
+import CustomDropdown from "../../formItems/CustomDropdown";
 import FormControlButton from "../formControlButtons/FormControlButtons";
-import FormTitle from "../formTitle/FormTitle";
 import FormSubTitle from "../formSubTitle/FormSubTitle";
+import FormTitle from "../formTitle/FormTitle";
 
 import "./EmploymentDataFormView.less";
 
@@ -60,17 +61,17 @@ const EmploymentDataFormView = ({
 
   /* Component Rules for form fields */
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="rules.required" />,
+    maxChar1000: {
+      max: 1000,
+      message: <FormattedMessage id="rules.max" values={{ max: 1000 }} />,
     },
     maxChar50: {
       max: 50,
       message: <FormattedMessage id="rules.max" values={{ max: 50 }} />,
     },
-    maxChar1000: {
-      max: 1000,
-      message: <FormattedMessage id="rules.max" values={{ max: 1000 }} />,
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
   };
 
@@ -123,8 +124,8 @@ const EmploymentDataFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -143,14 +144,14 @@ const EmploymentDataFormView = ({
   const getInitialValues = ({ profile }) => {
     if (profile) {
       return {
+        actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
         description: profile.description,
         groupLevelId: profile.groupLevel ? profile.groupLevel.id : undefined,
-        tenureId: profile.tenure ? profile.tenure.id : undefined,
+        manager: profile.manager,
         securityClearanceId: profile.securityClearance
           ? profile.securityClearance.id
           : undefined,
-        manager: profile.manager,
-        actingLevelId: profile.actingLevel ? profile.actingLevel.id : undefined,
+        tenureId: profile.tenure ? profile.tenure.id : undefined,
       };
     }
     return {};
@@ -215,8 +216,8 @@ const EmploymentDataFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -240,8 +241,8 @@ const EmploymentDataFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -280,8 +281,8 @@ const EmploymentDataFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -317,8 +318,8 @@ const EmploymentDataFormView = ({
     if (expandMentorshipForm) {
       return (
         <Form.Item
-          name="actingLevelId"
           label={<FormattedMessage id="acting" />}
+          name="actingLevelId"
           rules={[Rules.required]}
         >
           <CustomDropdown
@@ -328,10 +329,10 @@ const EmploymentDataFormView = ({
             initialValueId={
               getInitialValues({ profile: profileInfo }).actingLevelId
             }
-            placeholderText={<FormattedMessage id="type.to.search" />}
-            options={classificationOptions}
-            isSearchable
             isRequired
+            isSearchable
+            options={classificationOptions}
+            placeholderText={<FormattedMessage id="type.to.search" />}
           />
         </Form.Item>
       );
@@ -375,48 +376,48 @@ const EmploymentDataFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="employment-content">
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
           <FormTitle
-            title={<FormattedMessage id="employment.status" />}
-            formType={formType}
-            stepNumber={3}
-            fieldsChanged={fieldsChanged}
             extra={
               <div style={{ marginTop: -5 }}>
                 <CardVisibilityToggle
-                  visibleCards={profileInfo.visibleCards}
-                  cardName="info"
-                  type="form"
                   ariaLabel={intl.formatMessage({
                     id: "employment.status",
                   })}
+                  cardName="info"
+                  type="form"
+                  visibleCards={profileInfo.visibleCards}
                 />
               </div>
             }
+            fieldsChanged={fieldsChanged}
+            formType={formType}
+            stepNumber={3}
+            title={<FormattedMessage id="employment.status" />}
           />
         </Row>
         <Divider className="employment-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="basicForm"
           form={form}
           initialValues={
             savedValues || getInitialValues({ profile: profileInfo })
           }
           layout="vertical"
+          name="basicForm"
           onValuesChange={updateIfFormValuesChanged}
         >
           {/* Form Row One */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="tenureId"
                 label={<FormattedMessage id="profile.substantive" />}
+                name="tenureId"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -425,17 +426,17 @@ const EmploymentDataFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).tenureId
                   }
-                  placeholderText={<FormattedMessage id="select" />}
-                  options={substantiveOptions}
                   isSearchable={false}
+                  options={substantiveOptions}
+                  placeholderText={<FormattedMessage id="select" />}
                 />
               </Form.Item>
             </Col>
 
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="groupLevelId"
                 label={<FormattedMessage id="classification" />}
+                name="groupLevelId"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -444,19 +445,19 @@ const EmploymentDataFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).groupLevelId
                   }
-                  placeholderText={<FormattedMessage id="type.to.search" />}
-                  options={classificationOptions}
                   isSearchable
+                  options={classificationOptions}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
                 />
               </Form.Item>
             </Col>
           </Row>
           {/* Form Row Two */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+            <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
               <Form.Item
-                name="securityClearanceId"
                 label={<FormattedMessage id="profile.security" />}
+                name="securityClearanceId"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -466,9 +467,9 @@ const EmploymentDataFormView = ({
                     getInitialValues({ profile: profileInfo })
                       .securityClearanceId
                   }
-                  placeholderText={<FormattedMessage id="select" />}
-                  options={securityOptions}
                   isSearchable={false}
+                  options={securityOptions}
+                  placeholderText={<FormattedMessage id="select" />}
                 />
               </Form.Item>
             </Col>
@@ -478,8 +479,8 @@ const EmploymentDataFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item
-                name="manager"
                 label={<FormattedMessage id="employee.manager" />}
+                name="manager"
                 rules={[Rules.maxChar50]}
               >
                 <Input />
@@ -495,8 +496,8 @@ const EmploymentDataFormView = ({
                   <FormattedMessage id="presently.acting" />
                   <Switch
                     checked={displayActingRoleForm}
-                    onChange={toggleTempRoleForm}
                     className="ml-2 mb-1"
+                    onChange={toggleTempRoleForm}
                   />
                 </>
               }
@@ -508,17 +509,17 @@ const EmploymentDataFormView = ({
           <Divider className="employment-headerDiv" />
 
           <FormSubTitle
-            title={<FormattedMessage id="about.me" />}
             extra={
               <CardVisibilityToggle
-                visibleCards={profileInfo.visibleCards}
-                cardName="description"
-                type="form"
                 ariaLabel={intl.formatMessage({
                   id: "about.me",
                 })}
+                cardName="description"
+                type="form"
+                visibleCards={profileInfo.visibleCards}
               />
             }
+            title={<FormattedMessage id="about.me" />}
           />
 
           <Row gutter={24}>
@@ -526,21 +527,21 @@ const EmploymentDataFormView = ({
               <Form.Item name="description">
                 <Input.TextArea
                   aria-label={intl.formatMessage({ id: "about.me" })}
-                  showCount
                   maxLength={1000}
+                  showCount
                 />
               </Form.Item>
             </Col>
           </Row>
 
           <FormControlButton
-            formType={formType}
-            onSave={onSave}
-            onSaveAndNext={onSaveAndNext}
-            onSaveAndFinish={onSaveAndFinish}
-            onReset={onReset}
-            onFinish={onFinish}
             fieldsChanged={fieldsChanged}
+            formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
+            onSave={onSave}
+            onSaveAndFinish={onSaveAndFinish}
+            onSaveAndNext={onSaveAndNext}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>
@@ -552,21 +553,21 @@ const EmploymentDataFormView = ({
 EmploymentDataFormView.propTypes = {
   classificationOptions: KeyTitleOptionsPropType,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  history: HistoryPropType.isRequired,
+  intl: IntlPropType,
   load: PropTypes.bool.isRequired,
   profileInfo: ProfileInfoPropType,
   securityOptions: KeyTitleOptionsPropType,
   substantiveOptions: KeyTitleOptionsPropType,
-  intl: IntlPropType,
-  history: HistoryPropType.isRequired,
   userId: PropTypes.string.isRequired,
 };
 
 EmploymentDataFormView.defaultProps = {
   classificationOptions: [],
+  intl: null,
+  profileInfo: null,
   securityOptions: [],
   substantiveOptions: [],
-  profileInfo: null,
-  intl: null,
 };
 
 export default injectIntl(EmploymentDataFormView);

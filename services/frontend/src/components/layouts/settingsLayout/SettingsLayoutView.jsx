@@ -1,14 +1,15 @@
 import { FormattedMessage, useIntl } from "react-intl";
-import { Card, List, Button, Modal, Switch, Tooltip } from "antd";
 import {
   DeleteOutlined,
-  EyeInvisibleFilled,
   EyeFilled,
+  EyeInvisibleFilled,
   SettingOutlined,
 } from "@ant-design/icons";
+import { Button, Card, List, Modal, Switch, Tooltip } from "antd";
 import PropTypes from "prop-types";
-import AppLayout from "../appLayout/AppLayout";
+
 import Header from "../../header/Header";
+import AppLayout from "../appLayout/AppLayout";
 
 const SettingsLayoutView = ({
   deleteCurrentUser,
@@ -19,10 +20,10 @@ const SettingsLayoutView = ({
 
   const listData = [
     {
-      title: <FormattedMessage id="profile.visibility" />,
       description: <FormattedMessage id="profile.visibility.description" />,
       extra: (
         <Tooltip
+          placement="topRight"
           title={() => {
             switch (profileStatus) {
               case "INACTIVE":
@@ -33,20 +34,19 @@ const SettingsLayoutView = ({
                 return intl.formatMessage({ id: "settings.hidden.toggle" });
             }
           }}
-          placement="topRight"
         >
           <Switch
             checkedChildren={<EyeFilled />}
-            unCheckedChildren={<EyeInvisibleFilled />}
-            onChange={setProfileVisibility}
             defaultChecked={profileStatus === "ACTIVE"}
             disabled={profileStatus === "INACTIVE"}
+            onChange={setProfileVisibility}
+            unCheckedChildren={<EyeInvisibleFilled />}
           />
         </Tooltip>
       ),
+      title: <FormattedMessage id="profile.visibility" />,
     },
     {
-      title: <FormattedMessage id="permanently.delete.account" />,
       description: <FormattedMessage id="delete.account.description" />,
       extra: (
         <Button
@@ -54,15 +54,15 @@ const SettingsLayoutView = ({
           icon={<DeleteOutlined />}
           onClick={() => {
             Modal.confirm({
-              title: intl.formatMessage({ id: "settings.delete.modal.title" }),
+              autoFocusButton: null,
+              cancelText: intl.formatMessage({ id: "no" }),
               content: intl.formatMessage({
                 id: "settings.delete.modal.content",
               }),
               okText: intl.formatMessage({ id: "yes" }),
               okType: "danger",
-              cancelText: intl.formatMessage({ id: "no" }),
-              autoFocusButton: null,
               onOk: deleteCurrentUser,
+              title: intl.formatMessage({ id: "settings.delete.modal.title" }),
             });
           }}
         >
@@ -71,22 +71,23 @@ const SettingsLayoutView = ({
           </span>
         </Button>
       ),
+      title: <FormattedMessage id="permanently.delete.account" />,
     },
   ];
 
   return (
     <AppLayout>
       <Header
-        title={<FormattedMessage id="settings" />}
         icon={<SettingOutlined />}
+        title={<FormattedMessage id="settings" />}
       />
       <Card>
         <List
-          itemLayout="horizontal"
           dataSource={listData}
+          itemLayout="horizontal"
           renderItem={({ title, description, extra }) => (
             <List.Item extra={extra}>
-              <List.Item.Meta title={title} description={description} />
+              <List.Item.Meta description={description} title={title} />
             </List.Item>
           )}
         />
@@ -97,8 +98,8 @@ const SettingsLayoutView = ({
 
 SettingsLayoutView.propTypes = {
   deleteCurrentUser: PropTypes.func.isRequired,
-  setProfileVisibility: PropTypes.func.isRequired,
   profileStatus: PropTypes.oneOf(["ACTIVE", "INACTIVE", "HIDDEN"]).isRequired,
+  setProfileVisibility: PropTypes.func.isRequired,
 };
 
 export default SettingsLayoutView;

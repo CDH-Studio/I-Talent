@@ -1,14 +1,15 @@
+import { FormattedMessage, useIntl } from "react-intl";
+import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { Typography, Button, Descriptions, Tag, Skeleton } from "antd";
 import {
-  SearchOutlined,
-  UserOutlined,
   CheckCircleOutlined,
   EditOutlined,
+  SearchOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
+import { Button, Descriptions, Skeleton, Tag, Typography } from "antd";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router";
+
 import "./DoneSetupView.less";
 
 const { Paragraph } = Typography;
@@ -52,8 +53,8 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
             <tr>
               <td className="success-icon-col">
                 <CheckCircleOutlined
-                  className="success-icon"
                   aria-hidden="true"
+                  className="success-icon"
                 />
               </td>
               <td className="success-message-col">
@@ -81,24 +82,24 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
         </Paragraph>
         {load ? (
           <Descriptions
-            title={intl.formatMessage({ id: "current.visibility.setting" })}
-            column={{ xxl: 2, xl: 1, lg: 1, md: 1, sm: 1, xs: 1 }}
-            size="small"
             bordered
-            style={{ width: "80%", margin: "auto", marginBottom: "2rem" }}
+            column={{ lg: 1, md: 1, sm: 1, xl: 1, xs: 1, xxl: 2 }}
+            size="small"
+            style={{ margin: "auto", marginBottom: "2rem", width: "80%" }}
+            title={intl.formatMessage({ id: "current.visibility.setting" })}
           >
             {visibilityItems.map((item) => (
               <Descriptions.Item
                 label={
                   <Link
-                    to={item.url}
                     aria-label={` ${intl.formatMessage({
                       id: "edit",
                     })} ${intl.formatMessage({
                       id: item.label,
                     })}`}
+                    to={item.url}
                   >
-                    <EditOutlined className="mr-1" aria-hidden="true" />
+                    <EditOutlined aria-hidden="true" className="mr-1" />
                     <FormattedMessage id={item.label} />
                   </Link>
                 }
@@ -112,21 +113,21 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
         )}
       </div>
       <Button
-        icon={<SearchOutlined />}
-        size="large"
         className="mx-3 my-2"
+        icon={<SearchOutlined />}
         onClick={() => history.push(`/`)}
+        size="large"
       >
         <span>
           <FormattedMessage id="search.profiles" />
         </span>
       </Button>
       <Button
+        className="mx-3 my-2"
         icon={<UserOutlined />}
+        onClick={() => history.push(`/profile/${userId}`)}
         size="large"
         type="primary"
-        className="mx-3 my-2"
-        onClick={() => history.push(`/profile/${userId}`)}
       >
         <span>
           <FormattedMessage id="view.profile" />
@@ -137,10 +138,10 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
 };
 
 DoneSetupView.propTypes = {
-  userId: PropTypes.string.isRequired,
-  load: PropTypes.bool.isRequired,
-  visibilityItems: PropTypes.objectOf(PropTypes.object).isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  load: PropTypes.bool.isRequired,
+  userId: PropTypes.string.isRequired,
+  visibilityItems: PropTypes.objectOf(PropTypes.object).isRequired,
 };
 
 export default DoneSetupView;

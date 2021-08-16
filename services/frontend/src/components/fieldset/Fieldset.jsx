@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import FieldsetView from "./FieldsetView";
 
 const Fieldset = ({ children, title }) => (

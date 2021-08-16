@@ -1,40 +1,41 @@
-import { Row, Col, List } from "antd";
 import { FormattedMessage } from "react-intl";
+import { Col, List, Row } from "antd";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const EmployeeSummaryView = ({ data }) => {
   const left = [
     {
-      title: <FormattedMessage id="classification" />,
       description: data.groupLevel ? data.groupLevel.name : "-",
+      title: <FormattedMessage id="classification" />,
     },
     {
-      title: <FormattedMessage id="profile.substantive" />,
       description:
         data.tenure && data.tenure.description ? data.tenure.description : "-",
+      title: <FormattedMessage id="profile.substantive" />,
     },
   ];
 
   const right = [
     {
-      title: <FormattedMessage id="acting" />,
       description: data.actingLevel ? data.actingLevel.name : "-",
+      title: <FormattedMessage id="acting" />,
     },
     {
-      title: <FormattedMessage id="profile.security" />,
       description: data.securityClearance
         ? data.securityClearance.description
         : "-",
+      title: <FormattedMessage id="profile.security" />,
     },
   ];
 
   const list = (dataSource) => (
     <List
-      itemLayout="horizontal"
       dataSource={dataSource}
+      itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item>
-          <List.Item.Meta title={item.title} description={item.description} />
+          <List.Item.Meta description={item.description} title={item.title} />
         </List.Item>
       )}
     />

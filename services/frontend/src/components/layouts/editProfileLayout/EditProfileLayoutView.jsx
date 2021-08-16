@@ -1,31 +1,33 @@
-import { Menu, Card } from "antd";
-import {
-  TagsOutlined,
-  CompassOutlined,
-  GlobalOutlined,
-  SolutionOutlined,
-  TrophyOutlined,
-  ProjectOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
-import PropTypes from "prop-types";
-import { Redirect } from "react-router";
 import { useSelector } from "react-redux";
-import AppLayout from "../appLayout/AppLayout";
-import { HistoryPropType } from "../../../utils/customPropTypes";
+import { Redirect } from "react-router";
 import {
+  CompassOutlined,
+  EditOutlined,
+  GlobalOutlined,
+  ProjectOutlined,
+  SolutionOutlined,
+  TagsOutlined,
+  TrophyOutlined,
+} from "@ant-design/icons";
+import { Card, Menu } from "antd";
+import PropTypes from "prop-types";
+
+import { HistoryPropType } from "../../../utils/customPropTypes";
+import Header from "../../header/Header";
+import {
+  CareerManagementForm,
+  DoneSetup,
   EmploymentDataForm,
   LangProficiencyForm,
   PrimaryInfoForm,
-  TalentForm,
-  CareerManagementForm,
   QualificationsForm,
-  DoneSetup,
+  TalentForm,
 } from "../../profileForms";
-import Header from "../../header/Header";
-import "./EditProfileLayoutView.less";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
+import AppLayout from "../appLayout/AppLayout";
+
+import "./EditProfileLayoutView.less";
 
 /*
  *  EditProfileLayoutView(props)
@@ -78,14 +80,14 @@ const EditProfileLayoutView = ({ formStep, history }) => {
    */
   const getSideBarContent = (step) => (
     <Menu
-      onClick={redirectToForm}
-      selectedKeys={step}
       aria-label={intl.formatMessage({ id: "edit.profile.side.nav" })}
+      onClick={redirectToForm}
       role="menu"
+      selectedKeys={step}
     >
-      <Menu.Item tabIndex={0} key="primary-info" className="menu-item">
+      <Menu.Item key="primary-info" className="menu-item" tabIndex={0}>
         <div className="menu-item-header">
-          <SolutionOutlined className="mr-1" aria-hidden="true" />
+          <SolutionOutlined aria-hidden="true" className="mr-1" />
           <strong>
             <FormattedMessage id="primary.contact.information" />
           </strong>
@@ -102,9 +104,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </li>
         </ul>
       </Menu.Item>
-      <Menu.Item tabIndex={0} key="employment" className="menu-item">
+      <Menu.Item key="employment" className="menu-item" tabIndex={0}>
         <div className="menu-item-header">
-          <CompassOutlined className="mr-1" aria-hidden="true" />
+          <CompassOutlined aria-hidden="true" className="mr-1" />
           <strong>
             <FormattedMessage id="employment.status" />
           </strong>
@@ -118,9 +120,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </li>
         </ul>
       </Menu.Item>
-      <Menu.Item tabIndex={0} key="language-proficiency" className="menu-item">
+      <Menu.Item key="language-proficiency" className="menu-item" tabIndex={0}>
         <div className="menu-item-header">
-          <GlobalOutlined className="mr-1" aria-hidden="true" />
+          <GlobalOutlined aria-hidden="true" className="mr-1" />
           <strong>
             <FormattedMessage id="official.languages" />
           </strong>
@@ -134,9 +136,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </li>
         </ul>
       </Menu.Item>
-      <Menu.Item tabIndex={0} key="talent" className="menu-item">
+      <Menu.Item key="talent" className="menu-item" tabIndex={0}>
         <div className="menu-item-header">
-          <TagsOutlined className="mr-1" aria-hidden="true" />
+          <TagsOutlined aria-hidden="true" className="mr-1" />
           <strong>
             <FormattedMessage id="skills.and.competencies" />
           </strong>
@@ -153,9 +155,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </li>
         </ul>
       </Menu.Item>
-      <Menu.Item tabIndex={0} key="qualifications" className="menu-item">
+      <Menu.Item key="qualifications" className="menu-item" tabIndex={0}>
         <div className="menu-item-header">
-          <TrophyOutlined className="mr-1" aria-hidden="true" />
+          <TrophyOutlined aria-hidden="true" className="mr-1" />
           <strong>
             <FormattedMessage id="employee.qualifications" />
           </strong>
@@ -169,9 +171,9 @@ const EditProfileLayoutView = ({ formStep, history }) => {
           </li>
         </ul>
       </Menu.Item>
-      <Menu.Item tabIndex="0" key="career-management" className="menu-item">
+      <Menu.Item key="career-management" className="menu-item" tabIndex="0">
         <div className="menu-item-header">
-          <ProjectOutlined className="mr-1" aria-hidden="true" />
+          <ProjectOutlined aria-hidden="true" className="mr-1" />
           <strong>
             <FormattedMessage id="employee.growth.interests" />
           </strong>
@@ -203,15 +205,15 @@ const EditProfileLayoutView = ({ formStep, history }) => {
   const form = profileFormSelect(formStep);
 
   return (
-    <AppLayout sideBarContent={sideBarContent} displaySideBar>
+    <AppLayout displaySideBar sideBarContent={sideBarContent}>
       <ProfileVisibilityAlert
-        isUsersProfile
         isProfileHidden={status === "HIDDEN"}
         isProfileInactive={status === "INACTIVE"}
+        isUsersProfile
       />
       <Header
-        title={<FormattedMessage id="edit.profile" />}
         icon={<EditOutlined />}
+        title={<FormattedMessage id="edit.profile" />}
       />
 
       <Card className="edit-profile-card">{form}</Card>

@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
 import {
   CloseCircleOutlined,
   FormOutlined,
@@ -15,8 +17,7 @@ import {
 } from "antd";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+
 import {
   FieldPropType,
   FormInstancePropType,
@@ -49,13 +50,13 @@ const EducationFormView = ({
   attachmentNames,
 }) => {
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="rules.required" />,
-    },
     maxChar1500: {
       max: 1500,
       message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
+    },
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
   };
 
@@ -89,9 +90,9 @@ const EducationFormView = ({
 
   return (
     <div className="education-formItem">
-      <Row gutter={24} className="gutter-row titleRow">
-        <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
-          <Title level={4} className="entryTitle">
+      <Row className="gutter-row titleRow" gutter={24}>
+        <Col className="titleCol" lg={24} md={24} xl={24} xs={24}>
+          <Title className="entryTitle" level={4}>
             <Row align="middle" justify="space-between">
               <Col>
                 <FormOutlined className="formItemIcon" />
@@ -100,27 +101,27 @@ const EducationFormView = ({
               </Col>
               <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
                 <Button
-                  type="link"
-                  shape="circle"
+                  className="deleteButton"
                   icon={<CloseCircleOutlined />}
                   onClick={() => {
                     removeElement(fieldElement.name);
                   }}
+                  shape="circle"
                   size="small"
-                  className="deleteButton"
+                  type="link"
                 />
               </Tooltip>
             </Row>
           </Title>
         </Col>
       </Row>
-      <Row gutter={24} className="gutter-row contentRow">
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      <Row className="gutter-row contentRow" gutter={24}>
+        <Col className="gutter-row" lg={12} md={24} xl={12} xs={24}>
           {/* Diploma Dropdown */}
           <Form.Item
-            name={[fieldElement.name, "diplomaId"]}
             fieldKey={[fieldElement.fieldKey, "diplomaId"]}
             label={<FormattedMessage id="diploma" />}
+            name={[fieldElement.name, "diplomaId"]}
             rules={[Rules.required]}
           >
             <CustomDropdown
@@ -132,20 +133,20 @@ const EducationFormView = ({
                 fieldElement.fieldKey,
                 "diplomaId",
               ])}
-              placeholderText={<FormattedMessage id="type.to.search" />}
-              options={diplomaOptions}
-              isSearchable
               isRequired
+              isSearchable
+              options={diplomaOptions}
+              placeholderText={<FormattedMessage id="type.to.search" />}
             />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={24} xl={12} xs={24}>
           {/* School Dropdown */}
           <Form.Item
-            name={[fieldElement.name, "schoolId"]}
             fieldKey={[fieldElement.fieldKey, "schoolId"]}
             label={<FormattedMessage id="school" />}
+            name={[fieldElement.name, "schoolId"]}
             rules={[Rules.required]}
           >
             <CustomDropdown
@@ -157,20 +158,20 @@ const EducationFormView = ({
                 fieldElement.fieldKey,
                 "schoolId",
               ])}
-              placeholderText={<FormattedMessage id="type.to.search" />}
-              options={schoolOptions}
-              isSearchable
               isRequired
+              isSearchable
+              options={schoolOptions}
+              placeholderText={<FormattedMessage id="type.to.search" />}
             />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={24} xl={12} xs={24}>
           {/* Start Date */}
           <Form.Item
-            name={[fieldElement.name, "startDate"]}
             fieldKey={[fieldElement.fieldKey, "startDate"]}
             label={<FormattedMessage id="item.start.date" />}
+            name={[fieldElement.name, "startDate"]}
             shouldUpdate={(prevValues, curValues) => {
               if (prevValues !== curValues) {
                 changeDisabledEnd(
@@ -191,22 +192,22 @@ const EducationFormView = ({
             }}
           >
             <DatePickerField
-              viewOptions={["year", "month"]}
-              placeholderText={intl.formatMessage({
-                id: "select.month",
-              })}
-              formatDate="YYYY-MM"
               defaultDate={form.getFieldValue([
                 "educations",
                 fieldElement.fieldKey,
                 "startDate",
               ])}
               disableWhen={{ maxDate: disabledStartDates }}
+              formatDate="YYYY-MM"
+              placeholderText={intl.formatMessage({
+                id: "select.month",
+              })}
+              viewOptions={["year", "month"]}
             />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={24} xl={12} xs={24}>
           <Form.Item
             noStyle
             shouldUpdate={(prevValues, currentValues) => {
@@ -236,9 +237,9 @@ const EducationFormView = ({
                 <>
                   {/* End Date */}
                   <Form.Item
-                    name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
                     label={<FormattedMessage id="item.end.date" />}
+                    name={[fieldElement.name, "endDate"]}
                     shouldUpdate={(prevValues, curValues) => {
                       if (prevValues !== curValues) {
                         changeDisabledEnd(
@@ -260,29 +261,29 @@ const EducationFormView = ({
                   >
                     {!disableEndDate && (
                       <DatePickerField
-                        viewOptions={["year", "month"]}
-                        placeholderText={intl.formatMessage({
-                          id: "select.month",
-                        })}
-                        formatDate="YYYY-MM"
                         defaultDate={form.getFieldValue([
                           "educations",
                           fieldElement.fieldKey,
                           "endDate",
                         ])}
                         disableWhen={{ minDate: disabledEndDates }}
+                        formatDate="YYYY-MM"
+                        placeholderText={intl.formatMessage({
+                          id: "select.month",
+                        })}
+                        viewOptions={["year", "month"]}
                       />
                     )}
                   </Form.Item>
                   {/* Checkbox if event is on-going */}
                   <Form.Item
-                    style={{
-                      marginTop: disableEndDate ? "-45px" : "-15px",
-                      marginBottom: disableEndDate ? "35px" : "15px",
-                    }}
-                    name={[fieldElement.name, "ongoingDate"]}
                     fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
                     initialValue={false}
+                    name={[fieldElement.name, "ongoingDate"]}
+                    style={{
+                      marginBottom: disableEndDate ? "35px" : "15px",
+                      marginTop: disableEndDate ? "-45px" : "-15px",
+                    }}
                     valuePropName="checked"
                   >
                     <Checkbox>
@@ -297,30 +298,27 @@ const EducationFormView = ({
 
         <Col className="gutter-row descriptionRow" span={24}>
           <Form.Item
-            name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
             label={<FormattedMessage id="description" />}
+            name={[fieldElement.name, "description"]}
           >
-            <Input.TextArea showCount maxLength={1500} />
+            <Input.TextArea maxLength={1500} showCount />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
           <Fieldset
             title={<FormattedMessage id="attachment.links.education" />}
           >
             <Form.List
-              name={[fieldElement.name, "attachmentLinks"]}
               fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
+              name={[fieldElement.name, "attachmentLinks"]}
             >
               {(fields, { add, remove }) => (
                 <div>
                   {fields.map((field) => (
                     <LinkAttachment
                       key={field.fieldKey}
-                      fieldElement={field}
-                      removeElement={remove}
-                      attachmentNamesOptions={attachmentNames}
                       attachmentNameDefault={form.getFieldValue([
                         "educations",
                         fieldElement.fieldKey,
@@ -328,16 +326,19 @@ const EducationFormView = ({
                         field.fieldKey,
                         "nameId",
                       ])}
+                      attachmentNamesOptions={attachmentNames}
+                      fieldElement={field}
+                      removeElement={remove}
                     />
                   ))}
                   <Form.Item>
                     <Button
-                      type="default"
-                      onClick={() => add()}
                       disabled={fields.length === 3}
+                      onClick={() => add()}
                       style={{ width: "100%" }}
+                      type="default"
                     >
-                      <PlusOutlined className="mr-1" aria-hidden="true" />
+                      <PlusOutlined aria-hidden="true" className="mr-1" />
                       <FormattedMessage id="attachment.links.education.add" />
                     </Button>
                   </Form.Item>
@@ -352,28 +353,28 @@ const EducationFormView = ({
 };
 
 DatePickerField.propTypes = {
-  onChange: PropTypes.func,
-  placeholderText: PropTypes.string.isRequired,
   defaultDate: PropTypes.instanceOf(Object),
-  viewOptions: PropTypes.arrayOf(String),
   disableWhen: PropTypes.instanceOf(Object),
   formatDate: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  placeholderText: PropTypes.string.isRequired,
+  viewOptions: PropTypes.arrayOf(String),
 };
 
 EducationFormView.propTypes = {
-  form: FormInstancePropType.isRequired,
+  attachmentNames: KeyNameOptionsPropType.isRequired,
+  diplomaOptions: KeyTitleOptionsPropType,
   fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
+  intl: IntlPropType,
   removeElement: PropTypes.func.isRequired,
   schoolOptions: KeyTitleOptionsPropType,
-  diplomaOptions: KeyTitleOptionsPropType,
-  intl: IntlPropType,
-  attachmentNames: KeyNameOptionsPropType.isRequired,
 };
 
 EducationFormView.defaultProps = {
-  schoolOptions: undefined,
   diplomaOptions: undefined,
   intl: undefined,
+  schoolOptions: undefined,
 };
 
 export default injectIntl(EducationFormView);

@@ -1,5 +1,6 @@
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
+
 import EditCardButtonView from "./EditCardButtonView";
 
 const EditCardButton = ({ editUrl }) => {

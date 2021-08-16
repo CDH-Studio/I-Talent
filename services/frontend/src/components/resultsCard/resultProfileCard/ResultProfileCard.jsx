@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import ResultProfileCardView from "./ResultProfileCardView";
+
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
+import ResultProfileCardView from "./ResultProfileCardView";
 
 const ResultProfileCard = ({
   profile,
@@ -11,21 +12,21 @@ const ResultProfileCard = ({
   removeConnection,
 }) => (
   <ResultProfileCardView
-    profile={profile}
     key={key}
+    addConnection={addConnection}
     isConnection={isConnection}
     loggedInUserId={loggedInUserId}
-    addConnection={addConnection}
+    profile={profile}
     removeConnection={removeConnection}
   />
 );
 
 ResultProfileCard.propTypes = {
-  profile: ProfileInfoPropType.isRequired,
-  key: PropTypes.string.isRequired,
-  isConnection: PropTypes.bool.isRequired,
-  loggedInUserId: PropTypes.string.isRequired,
   addConnection: PropTypes.func.isRequired,
+  isConnection: PropTypes.bool.isRequired,
+  key: PropTypes.string.isRequired,
+  loggedInUserId: PropTypes.string.isRequired,
+  profile: ProfileInfoPropType.isRequired,
   removeConnection: PropTypes.func.isRequired,
 };
 

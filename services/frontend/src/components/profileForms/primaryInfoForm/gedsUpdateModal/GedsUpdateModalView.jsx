@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import { Modal, Table, Button, Result } from "antd";
-import { SyncOutlined, CheckOutlined } from "@ant-design/icons";
+import { useCallback, useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { CheckOutlined, SyncOutlined } from "@ant-design/icons";
+import { Button, Modal, Result, Table } from "antd";
 import { isEqual } from "lodash";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+
 import useAxios from "../../../../utils/useAxios";
 
 /**
@@ -14,34 +15,37 @@ import useAxios from "../../../../utils/useAxios";
  */
 const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   {
+    gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
+    gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
     key: "1",
+    paramName: "firstName",
     rowName: <FormattedMessage id="first.name" />,
     savedLabel: savedProfile.firstName ? savedProfile.firstName : "-",
     savedValue: savedProfile.firstName ? savedProfile.firstName : "-",
-    gedsLabel: gedsProfile.firstName ? gedsProfile.firstName : "-",
-    gedsValue: gedsProfile.firstName ? gedsProfile.firstName : "-",
-    paramName: "firstName",
   },
   {
+    gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
+    gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
     key: "2",
+    paramName: "lastName",
     rowName: <FormattedMessage id="last.name" />,
     savedLabel: savedProfile.lastName ? savedProfile.lastName : "-",
     savedValue: savedProfile.lastName ? savedProfile.lastName : "-",
-    gedsLabel: gedsProfile.lastName ? gedsProfile.lastName : "-",
-    gedsValue: gedsProfile.lastName ? gedsProfile.lastName : "-",
-    paramName: "lastName",
   },
   {
+    gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
+    gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
     key: "3",
+    paramName: "telephone",
     rowName: <FormattedMessage id="profile.telephone" />,
     savedLabel: savedProfile.telephone ? savedProfile.telephone : "-",
     savedValue: savedProfile.telephone ? savedProfile.telephone : "-",
-    gedsLabel: gedsProfile.telephone ? gedsProfile.telephone : "-",
-    gedsValue: gedsProfile.telephone ? gedsProfile.telephone : "-",
-    paramName: "telephone",
   },
   {
+    gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
+    gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
     key: "4",
+    paramName: "location",
     rowName: <FormattedMessage id="location" />,
     savedLabel: savedProfile.officeLocation
       ? `${savedProfile.officeLocation.streetNumber} ${savedProfile.officeLocation.streetName}, ${savedProfile.officeLocation.city}`
@@ -49,37 +53,26 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
     savedValue: savedProfile.officeLocation
       ? savedProfile.officeLocation.id
       : "-",
-    gedsLabel: gedsProfile.locationName ? gedsProfile.locationName : "-",
-    gedsValue: gedsProfile.locationId ? gedsProfile.locationId : "-",
-    paramName: "location",
   },
   {
+    gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
+    gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
     key: "5",
+    paramName: "jobTitle",
     rowName: <FormattedMessage id="job.title" />,
     savedLabel: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
     savedValue: savedProfile.jobTitle ? savedProfile.jobTitle : "-",
-    gedsLabel: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
-    gedsValue: gedsProfile.jobTitle ? gedsProfile.jobTitle[locale] : "-",
-    paramName: "jobTitle",
   },
   {
+    gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
+    gedsValue: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
     key: "6",
+    paramName: "branch",
     rowName: <FormattedMessage id="branch" />,
     savedLabel: savedProfile.branch ? gedsProfile.branch[locale] : "-",
     savedValue: savedProfile.branch ? gedsProfile.branch[locale] : "-",
-    gedsLabel: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
-    gedsValue: gedsProfile.branch ? gedsProfile.branch[locale] : "-",
-    paramName: "branch",
   },
   {
-    key: "7",
-    rowName: <FormattedMessage id="profile.org.tree" />,
-    savedLabel: savedProfile.organizations
-      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
-      : "-",
-    savedValue: savedProfile.organizations
-      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
-      : "-",
     gedsLabel: gedsProfile.organizations
       ? gedsProfile.organizations[gedsProfile.organizations.length - 1].title[
           locale
@@ -90,7 +83,15 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
           locale
         ]
       : "-",
+    key: "7",
     paramName: "organization",
+    rowName: <FormattedMessage id="profile.org.tree" />,
+    savedLabel: savedProfile.organizations
+      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
+      : "-",
+    savedValue: savedProfile.organizations
+      ? savedProfile.organizations[savedProfile.organizations.length - 1].title
+      : "-",
   },
 ];
 
@@ -129,9 +130,9 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 
       setTableData(
         generateTableData({
-          savedProfile: profileResult.data,
           gedsProfile: gedsResult.data,
           locale,
+          savedProfile: profileResult.data,
         })
       );
     } catch (error) {
@@ -204,34 +205,37 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
    */
   const columns = [
     {
-      title: "",
       dataIndex: "rowName",
+      ellipsis: true,
       key: "rowName",
       render: (text) => <strong>{text}</strong>,
+      title: "",
       width: "20%",
-      ellipsis: true,
     },
     {
-      title: <FormattedMessage id="geds.update.saved" />,
       dataIndex: "savedLabel",
+      ellipsis: true,
       key: "saved",
+      title: <FormattedMessage id="geds.update.saved" />,
       width: "30%",
-      ellipsis: true,
     },
     {
-      title: <FormattedMessage id="geds.update.geds" />,
       dataIndex: "gedsLabel",
-      key: "geds",
-      width: "30%",
       ellipsis: true,
+      key: "geds",
+      title: <FormattedMessage id="geds.update.geds" />,
+      width: "30%",
     },
     {
-      key: "action",
       align: "center",
+      key: "action",
       render: (text, record) => (
         <Button
-          type="primary"
-          size="small"
+          aria-label={
+            isEqual(record.savedValue, record.gedsValue)
+              ? intl.formatMessage({ id: "geds.update.synced" })
+              : intl.formatMessage({ id: "geds.update.sync" })
+          }
           disabled={isEqual(record.savedValue, record.gedsValue)}
           icon={
             isEqual(record.savedValue, record.gedsValue) ? (
@@ -241,11 +245,8 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             )
           }
           onClick={() => syncGedsButtonAction({ paramName: record.paramName })}
-          aria-label={
-            isEqual(record.savedValue, record.gedsValue)
-              ? intl.formatMessage({ id: "geds.update.synced" })
-              : intl.formatMessage({ id: "geds.update.sync" })
-          }
+          size="small"
+          type="primary"
         >
           <span>
             {isEqual(record.savedValue, record.gedsValue) ? (
@@ -280,16 +281,16 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 
   return (
     <Modal
-      title={<FormattedMessage id="geds.sync.button" />}
-      visible={visibility}
-      width={900}
-      onOk={onDone}
-      onCancel={onDone}
       footer={[
-        <Button key="submit" type="primary" onClick={onDone}>
+        <Button key="submit" onClick={onDone} type="primary">
           <FormattedMessage id="geds.update.finish" />
         </Button>,
       ]}
+      onCancel={onDone}
+      onOk={onDone}
+      title={<FormattedMessage id="geds.sync.button" />}
+      visible={visibility}
+      width={900}
     >
       {errorCaught ? (
         <Result
@@ -303,14 +304,14 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             values={{
               instructionUrl: (
                 <a
-                  target="_blank"
-                  rel="noopener noreferrer"
                   href={
                     locale === "ENGLISH"
                       ? "http://icweb.ic.gc.ca/eic/site/029.nsf/eng/00172.html"
                       : "http://icweb.ic.gc.ca/eic/site/029.nsf/fra/00172.html"
                   }
+                  rel="noopener noreferrer"
                   tabIndex="0"
+                  target="_blank"
                 >
                   <FormattedMessage id="geds.edit.info.link" />
                 </a>
@@ -318,12 +319,12 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
             }}
           />
           <Table
+            className="mt-4"
             columns={columns}
             dataSource={tableData}
+            loading={!tableData || tableLoading}
             pagination={false}
             size="small"
-            loading={!tableData || tableLoading}
-            className="mt-4"
           />
         </>
       )}
@@ -332,8 +333,8 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
 };
 
 GedsUpdateModalView.propTypes = {
-  visibility: PropTypes.bool.isRequired,
   saveDataToDB: PropTypes.func.isRequired,
+  visibility: PropTypes.bool.isRequired,
 };
 
 export default GedsUpdateModalView;

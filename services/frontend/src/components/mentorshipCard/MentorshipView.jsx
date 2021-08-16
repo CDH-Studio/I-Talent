@@ -1,8 +1,8 @@
 import { Fragment } from "react";
-import PropTypes from "prop-types";
-import { Tag, Empty, Row, Col } from "antd";
-import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import { TagTwoTone } from "@ant-design/icons";
+import { Col, Empty, Row, Tag } from "antd";
+import PropTypes from "prop-types";
 
 const MentorshipView = ({ mentoringCategories, mentoring }) => {
   if (mentoring.length > 0)
@@ -12,14 +12,14 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
           <Fragment key={mentoringCategory.val}>
             <Row align="middle">
               <Col>
-                <TagTwoTone twoToneColor="#3CBAB3" className="mr-1" />
+                <TagTwoTone className="mr-1" twoToneColor="#3CBAB3" />
               </Col>
               <Col>{mentoringCategory.val}:</Col>
             </Row>
             <Row>
               <Col>
                 {mentoring[mentoringCategory.index].val.map((mentor) => (
-                  <Tag color="#00605e" key={mentor}>
+                  <Tag key={mentor} color="#00605e">
                     {mentor}
                   </Tag>
                 ))}
@@ -31,14 +31,14 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
 
   return (
     <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
       description={<FormattedMessage id="mentorship.empty" />}
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
 };
 
 MentorshipView.propTypes = {
-  mentoringCategories: PropTypes.oneOfType([
+  mentoring: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(
       PropTypes.shape({
@@ -47,7 +47,7 @@ MentorshipView.propTypes = {
       })
     ),
   ]),
-  mentoring: PropTypes.oneOfType([
+  mentoringCategories: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.string),
     PropTypes.arrayOf(
       PropTypes.shape({
@@ -59,8 +59,8 @@ MentorshipView.propTypes = {
 };
 
 MentorshipView.defaultProps = {
-  mentoringCategories: undefined,
   mentoring: undefined,
+  mentoringCategories: undefined,
 };
 
 export default MentorshipView;

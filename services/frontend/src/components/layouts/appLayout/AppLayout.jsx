@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import AppLayoutView from "./AppLayoutView";
 
 const AppLayout = ({
@@ -11,12 +12,12 @@ const AppLayout = ({
   displaySearch,
 }) => (
   <AppLayoutView
-    displaySideBar={displaySideBar}
-    sideBarWidth={sideBarWidth}
-    sideBarContent={sideBarContent}
-    loading={loading}
     displayLogo={displayLogo}
     displaySearch={displaySearch}
+    displaySideBar={displaySideBar}
+    loading={loading}
+    sideBarContent={sideBarContent}
+    sideBarWidth={sideBarWidth}
   >
     {children}
   </AppLayoutView>
@@ -24,22 +25,22 @@ const AppLayout = ({
 
 AppLayout.propTypes = {
   children: PropTypes.node,
-  displaySideBar: PropTypes.bool,
-  sideBarWidth: PropTypes.number,
-  sideBarContent: PropTypes.node,
-  loading: PropTypes.bool,
-  displaySearch: PropTypes.bool,
   displayLogo: PropTypes.bool,
+  displaySearch: PropTypes.bool,
+  displaySideBar: PropTypes.bool,
+  loading: PropTypes.bool,
+  sideBarContent: PropTypes.node,
+  sideBarWidth: PropTypes.number,
 };
 
 AppLayout.defaultProps = {
   children: false,
-  displaySideBar: false,
-  sideBarWidth: 300,
-  sideBarContent: "",
-  loading: false,
   displayLogo: true,
   displaySearch: true,
+  displaySideBar: false,
+  loading: false,
+  sideBarContent: "",
+  sideBarWidth: 300,
 };
 
 export default AppLayout;

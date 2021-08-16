@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+
 import StatCardsView from "./StatCardsView";
 
 /**
@@ -10,12 +11,12 @@ const StatCards = () => {
   const { count, growthRate } = useSelector((state) => state.stats);
   return (
     <StatCardsView
-      countUsers={count.users}
+      countExFeederUsers={count.exFeederUsers}
       countHiddenUsers={count.hiddenUsers}
       countInactiveUsers={count.inactiveUsers}
-      countExFeederUsers={count.exFeederUsers}
-      newUsers={growthRate.month.currentMonthNewUserCount}
+      countUsers={count.users}
       growthRatePrevMonth={growthRate.month.growthRateFromPreviousMonth}
+      newUsers={growthRate.month.currentMonthNewUserCount}
     />
   );
 };

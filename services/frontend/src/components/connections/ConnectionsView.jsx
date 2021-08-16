@@ -1,8 +1,8 @@
-import PropTypes from "prop-types";
-import { Row, Col, List, Empty, Avatar, Typography } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
+import { UserOutlined } from "@ant-design/icons";
+import { Avatar, Col, Empty, List, Row, Typography } from "antd";
+import PropTypes from "prop-types";
 
 const { Text } = Typography;
 
@@ -10,26 +10,25 @@ const ConnectionsView = ({ connections }) => {
   if (connections.length > 0) {
     return (
       <Row>
-        <Col xs={24} lg={24}>
+        <Col lg={24} xs={24}>
           <FormattedMessage id="connections.usage.info" />
           <List
-            size="small"
-            itemLayout="horizontal"
-            dataSource={connections}
             className="mt-2"
+            dataSource={connections}
+            itemLayout="horizontal"
             renderItem={(item) => (
               <List.Item key={item.id}>
                 <div className="d-flex">
-                  <Link to={`/profile/${item.id}`} className="d-flex">
+                  <Link className="d-flex" to={`/profile/${item.id}`}>
                     <Avatar
-                      icon={<UserOutlined aria-hidden="true" />}
                       className="mr-2 mt-1"
+                      icon={<UserOutlined aria-hidden="true" />}
                     />
                     <div>
-                      <Text strong className="d-block">
+                      <Text className="d-block" strong>
                         {item.firstName} {item.lastName}
                       </Text>
-                      <Text type="secondary" className="d-block">
+                      <Text className="d-block" type="secondary">
                         {item.email}
                       </Text>
                     </div>
@@ -37,6 +36,7 @@ const ConnectionsView = ({ connections }) => {
                 </div>
               </List.Item>
             )}
+            size="small"
           />
         </Col>
       </Row>
@@ -44,8 +44,8 @@ const ConnectionsView = ({ connections }) => {
   }
   return (
     <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
       description={<FormattedMessage id="connections.usage.info" />}
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
 };

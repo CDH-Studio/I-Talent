@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
 import { useKeycloak } from "@react-keycloak/web";
+import PropTypes from "prop-types";
+
 import ProfileVisibilityAlertView from "./ProfileVisibilityAlertView";
 
 const ProfileVisibilityAlert = ({
@@ -12,17 +13,17 @@ const ProfileVisibilityAlert = ({
   return (
     <ProfileVisibilityAlertView
       canViewHiddenProfiles={keycloak.hasResourceRole("view-private-profile")}
-      isUsersProfile={isUsersProfile}
       isProfileHidden={isProfileHidden}
       isProfileInactive={isProfileInactive}
+      isUsersProfile={isUsersProfile}
     />
   );
 };
 
 ProfileVisibilityAlert.propTypes = {
-  isUsersProfile: PropTypes.bool.isRequired,
   isProfileHidden: PropTypes.bool.isRequired,
   isProfileInactive: PropTypes.bool.isRequired,
+  isUsersProfile: PropTypes.bool.isRequired,
 };
 
 export default ProfileVisibilityAlert;

@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
 import { Layout, Skeleton } from "antd";
+import PropTypes from "prop-types";
+
 import "./SideNavView.less";
 
 const { Sider } = Layout;
@@ -13,10 +14,10 @@ const SideNavView = ({
   if (displaySideBar) {
     return (
       <Sider
-        width={siderWidth}
-        className="app-sider"
         breakpoint="lg"
+        className="app-sider"
         collapsedWidth="0"
+        width={siderWidth}
         zeroWidthTriggerStyle={{ backgroundColor: "#192e2f", bottom: "64px" }}
       >
         {/* render content of side bar */}
@@ -35,9 +36,9 @@ const SideNavView = ({
 
 SideNavView.propTypes = {
   displaySideBar: PropTypes.bool.isRequired,
-  siderWidth: PropTypes.number.isRequired,
-  sideBarContent: PropTypes.node.isRequired,
   loading: PropTypes.bool.isRequired,
+  sideBarContent: PropTypes.node.isRequired,
+  siderWidth: PropTypes.number.isRequired,
 };
 
 export default SideNavView;

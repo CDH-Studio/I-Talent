@@ -1,23 +1,23 @@
-import LandingPage from "./LandingPage";
 import Home from "./Home";
-import Results from "./Results";
-import Profile from "./Profile";
-import ProfileEdit from "./ProfileEdit";
-import ProfileCreate from "./ProfileCreate";
+import LandingPage from "./LandingPage";
 import Logout from "./Logout";
-import UnexpectedError from "./UnexpectedError";
-import Stats from "./Stats";
+import Profile from "./Profile";
+import ProfileCreate from "./ProfileCreate";
+import ProfileEdit from "./ProfileEdit";
+import Results from "./Results";
 import Settings from "./Settings";
+import Stats from "./Stats";
+import UnexpectedError from "./UnexpectedError";
 
 export {
-  Logout,
-  LandingPage,
   Home,
-  Results,
+  LandingPage,
+  Logout,
   Profile,
-  ProfileEdit,
   ProfileCreate,
-  UnexpectedError,
-  Stats,
+  ProfileEdit,
+  Results,
   Settings,
+  Stats,
+  UnexpectedError,
 };

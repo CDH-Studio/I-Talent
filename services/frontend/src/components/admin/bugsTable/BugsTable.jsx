@@ -1,15 +1,15 @@
 import { useCallback, useEffect } from "react";
-import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
-
+import { useHistory } from "react-router";
 import dayjs from "dayjs";
-import BugsTableView from "./BugsTableView";
+
+import handleError from "../../../functions/handleError";
 import {
   setAdminBugs,
   setAdminBugsLoading,
 } from "../../../redux/slices/adminSlice";
 import useAxios from "../../../utils/useAxios";
-import handleError from "../../../functions/handleError";
+import BugsTableView from "./BugsTableView";
 
 const BugsTable = () => {
   const axios = useAxios();
@@ -35,11 +35,11 @@ const BugsTable = () => {
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((bug) => ({
         ...bug,
-        key: bug.id,
         createdAt: dayjs(bug.createdAt).format("lll"),
+        key: bug.id,
         updatedAt: dayjs(bug.updatedAt).format("lll"),
-        userName: bug.user.name,
         userId: bug.user.id,
+        userName: bug.user.name,
       }));
 
       dispatch(setAdminBugs(formattedData));

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Button } from "antd";
-import { Redirect } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
+import { Redirect } from "react-router-dom";
 import { HomeOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 import PropTypes from "prop-types";
+
 import ErrorResultView from "./errorResultView";
 
 const ErrorNumber = ({ error }) => {
@@ -18,9 +19,6 @@ const ErrorNumber = ({ error }) => {
 
   return (
     <ErrorResultView
-      status={error}
-      title={error}
-      subTitle={<FormattedMessage id={`error.${error}.subtitle`} />}
       extra={
         <Button onClick={handleClick} type="primary">
           <HomeOutlined />
@@ -29,6 +27,9 @@ const ErrorNumber = ({ error }) => {
           </span>
         </Button>
       }
+      status={error}
+      subTitle={<FormattedMessage id={`error.${error}.subtitle`} />}
+      title={error}
     />
   );
 };

@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
 import TopNavView from "./TopNavView";
 
 const TopNav = ({ loading, displayLogo, displaySearch }) => {
@@ -7,23 +8,23 @@ const TopNav = ({ loading, displayLogo, displaySearch }) => {
 
   return (
     <TopNavView
-      isAdmin={isAdmin}
-      loading={loading}
       displayLogo={displayLogo}
       displaySearch={displaySearch}
+      isAdmin={isAdmin}
+      loading={loading}
     />
   );
 };
 
 TopNav.propTypes = {
-  loading: PropTypes.bool.isRequired,
-  displaySearch: PropTypes.bool,
   displayLogo: PropTypes.bool,
+  displaySearch: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
 };
 
 TopNav.defaultProps = {
-  displaySearch: true,
   displayLogo: true,
+  displaySearch: true,
 };
 
 export default TopNav;

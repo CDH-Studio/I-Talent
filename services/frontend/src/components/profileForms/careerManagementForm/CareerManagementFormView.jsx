@@ -1,3 +1,7 @@
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { Prompt } from "react-router";
 import { PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -13,10 +17,7 @@ import {
 } from "antd";
 import { identity, isEqual, isNil, omitBy, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useDispatch, useSelector } from "react-redux";
-import { Prompt } from "react-router";
+
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
@@ -136,8 +137,8 @@ const CareerManagementFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -154,18 +155,18 @@ const CareerManagementFormView = ({
   const getInitialValues = (profile) => {
     if (profile) {
       return {
+        careerMobilityId: savedCareerMobility,
         developmentalGoals: savedDevelopmentalGoals,
         developmentalGoalsAttachments: savedAttachments,
+        exFeeder: savedExFeederBool,
         interestedInRemote:
           profile.interestedInRemote === null
             ? undefined
             : profile.interestedInRemote,
-        relocationLocations: savedRelocationLocations,
         lookingForANewJobId: savedLookingForNewJob,
-        careerMobilityId: savedCareerMobility,
-        talentMatrixResultId: savedTalentMatrixResult,
-        exFeeder: savedExFeederBool,
         qualifiedPools: savedQualifiedPools,
+        relocationLocations: savedRelocationLocations,
+        talentMatrixResultId: savedTalentMatrixResult,
       };
     }
     return {};
@@ -269,8 +270,8 @@ const CareerManagementFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -294,8 +295,8 @@ const CareerManagementFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -335,8 +336,8 @@ const CareerManagementFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -397,74 +398,74 @@ const CareerManagementFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="pgf-content">
         {/* get form title */}
         <FormTitle
-          title={<FormattedMessage id="employee.growth.interests" />}
+          fieldsChanged={fieldsChanged}
           formType={formType}
           stepNumber={7}
-          fieldsChanged={fieldsChanged}
+          title={<FormattedMessage id="employee.growth.interests" />}
         />
         <Divider className="pgf-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="PersonalGrowth"
           form={form}
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
-          onValuesChange={checkIfFormValuesChanged}
+          name="PersonalGrowth"
           onFieldsChange={onFieldsChange}
+          onValuesChange={checkIfFormValuesChanged}
         >
           <Tabs
-            type="card"
             activeKey={tabs[selectedTab]}
             onChange={onTabChange}
+            type="card"
           >
             {/* ===== Developmental Goals Tab ===== */}
             <TabPane
-              tab={getTabTitle({
-                message: <FormattedMessage id="learning.development" />,
-                errorBool: tabErrorsBool.developmentalGoalsAttachments,
-              })}
               key="learning-development"
+              tab={getTabTitle({
+                errorBool: tabErrorsBool.developmentalGoalsAttachments,
+                message: <FormattedMessage id="learning.development" />,
+              })}
             >
               <FormSubTitle
-                title={<FormattedMessage id="developmental.goals" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="developmentalGoals"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "developmental.goals",
                     })}
+                    cardName="developmentalGoals"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="developmental.goals" />}
               />
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
                     className="custom-bubble-select-style"
-                    name="developmentalGoals"
                     label={<FormattedMessage id="developmental.goals" />}
+                    name="developmentalGoals"
                   >
                     <TreeSelect
                       className="custom-bubble-select-style"
-                      treeData={developmentalGoalOptions}
-                      treeCheckable
-                      showCheckedStrategy={SHOW_CHILD}
-                      placeholder={<FormattedMessage id="search" />}
-                      treeNodeFilterProp="title"
-                      showSearch
                       maxTagCount={15}
+                      placeholder={<FormattedMessage id="search" />}
+                      showCheckedStrategy={SHOW_CHILD}
+                      showSearch
+                      treeCheckable
+                      treeData={developmentalGoalOptions}
+                      treeNodeFilterProp="title"
                     />
                   </Form.Item>
                 </Col>
 
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Fieldset
                     title={<FormattedMessage id="supporting.document" />}
                   >
@@ -474,28 +475,28 @@ const CareerManagementFormView = ({
                           {fields.map((field) => (
                             <LinkAttachment
                               key={field.fieldKey}
-                              fieldElement={field}
-                              removeElement={remove}
-                              attachmentNamesOptions={attachmentOptions}
                               attachmentNameDefault={form.getFieldValue([
                                 "developmentalGoalsAttachments",
                                 field.fieldKey,
                                 "nameId",
                               ])}
+                              attachmentNamesOptions={attachmentOptions}
+                              fieldElement={field}
+                              removeElement={remove}
                             />
                           ))}
                           <Form.Item>
                             <Button
-                              type="dashed"
-                              onClick={() => add()}
                               disabled={fields.length === 6}
+                              onClick={() => add()}
                               style={{
                                 width: "100%",
                               }}
+                              type="dashed"
                             >
                               <PlusOutlined
-                                className="mr-1"
                                 aria-hidden="true"
+                                className="mr-1"
                               />
                               <FormattedMessage id="supporting.document.add" />
                             </Button>
@@ -510,32 +511,32 @@ const CareerManagementFormView = ({
 
             {/* ===== Qualified Pools Tab ===== */}
             <TabPane
-              tab={getTabTitle({
-                message: <FormattedMessage id="qualified.pools" />,
-                errorBool: tabErrorsBool.qualifiedPools,
-              })}
               key="qualified-pools"
+              tab={getTabTitle({
+                errorBool: tabErrorsBool.qualifiedPools,
+                message: <FormattedMessage id="qualified.pools" />,
+              })}
             >
               <FormSubTitle
-                title={<FormattedMessage id="qualified.pools" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="qualifiedPools"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "qualified.pools",
                     })}
+                    cardName="qualifiedPools"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="qualified.pools" />}
               />
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
-                  xs={24}
-                  md={24}
                   lg={24}
+                  md={24}
                   xl={24}
+                  xs={24}
                 >
                   <Form.List name="qualifiedPools">
                     {(fields, { add, remove }) => (
@@ -543,20 +544,20 @@ const CareerManagementFormView = ({
                         {fields.map((field) => (
                           <QualifiedPoolsForm
                             key={field.fieldKey}
-                            form={form}
+                            classificationOptions={classificationOptions}
                             fieldElement={field}
+                            form={form}
                             removeElement={remove}
                             savedQualifiedPools={savedQualifiedPools}
-                            classificationOptions={classificationOptions}
                           />
                         ))}
                         <Form.Item>
                           {/* add qualified pools field button */}
                           <Button
-                            type="dashed"
                             disabled={fields.length === 3}
                             onClick={() => add()}
                             style={{ width: "100%" }}
+                            type="dashed"
                           >
                             <PlusOutlined />
                             <FormattedMessage id="add" />
@@ -571,38 +572,38 @@ const CareerManagementFormView = ({
 
             {/* ===== Job Mobility Tab ===== */}
             <TabPane
+              key="career-interests"
               tab={getTabTitle({
                 message: <FormattedMessage id="career.interests" />,
               })}
-              key="career-interests"
             >
               <FormSubTitle
-                title={<FormattedMessage id="career.interests" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="careerInterests"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "career.interests",
                     })}
+                    cardName="careerInterests"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="career.interests" />}
               />
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
-                    name="interestedInRemote"
                     label={<FormattedMessage id="edit.interested.in.remote" />}
+                    name="interestedInRemote"
                   >
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.interested.in.remote",
                       })}
                       initialValueId={form.getFieldValue("interestedInRemote")}
-                      placeholderText={<FormattedMessage id="select" />}
                       isSearchable={false}
                       options={interestedInRemoteOptions}
+                      placeholderText={<FormattedMessage id="select" />}
                     />
                   </Form.Item>
                 </Col>
@@ -610,23 +611,23 @@ const CareerManagementFormView = ({
 
               {/* Form Row Two: Relocation */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
                     className="custom-bubble-select-style"
-                    name="relocationLocations"
                     label={
                       <FormattedMessage id="edit.willing.to.relocate.to" />
                     }
+                    name="relocationLocations"
                   >
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.willing.to.relocate.to",
                       })}
                       initialValueId={form.getFieldValue("relocationLocations")}
-                      placeholderText={<FormattedMessage id="type.to.search" />}
+                      isMulti
                       isSearchable
                       options={relocationOptions}
-                      isMulti
+                      placeholderText={<FormattedMessage id="type.to.search" />}
                     />
                   </Form.Item>
                 </Col>
@@ -634,19 +635,19 @@ const CareerManagementFormView = ({
 
               {/* Form Row Three: new job */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
-                    name="lookingForANewJobId"
                     label={<FormattedMessage id="edit.looking.for.new.job" />}
+                    name="lookingForANewJobId"
                   >
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "edit.looking.for.new.job",
                       })}
                       initialValueId={form.getFieldValue("lookingForANewJobId")}
-                      placeholderText={<FormattedMessage id="select" />}
                       isSearchable={false}
                       options={lookingForNewJobOptions}
+                      placeholderText={<FormattedMessage id="select" />}
                     />
                   </Form.Item>
                 </Col>
@@ -655,62 +656,62 @@ const CareerManagementFormView = ({
 
             {/* ===== Talent Management Tab ===== */}
             <TabPane
+              key="talent-management"
               tab={getTabTitle({
                 message: <FormattedMessage id="talent.management" />,
               })}
-              key="talent-management"
             >
               <FormSubTitle
-                title={<FormattedMessage id="talent.management" />}
+                extra={
+                  <CardVisibilityToggle
+                    ariaLabel={intl.formatMessage({
+                      id: "talent.management",
+                    })}
+                    cardName="talentManagement"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
+                  />
+                }
                 popoverMessage={
                   <>
                     <FormattedMessage id="talent.management.tooltip" />
                     {locale === "ENGLISH" ? (
                       <a
-                        target="_blank"
-                        rel="noopener noreferrer"
                         href="http://icweb.ic.gc.ca/eic/site/078.nsf/eng/h_00075.html"
+                        rel="noopener noreferrer"
+                        target="_blank"
                       >
                         <FormattedMessage id="talent.management.link" />
                       </a>
                     ) : (
                       <a
-                        target="_blank"
-                        rel="noopener noreferrer"
                         href="http://icweb.ic.gc.ca/eic/site/078.nsf/fra/h_00075.html"
+                        rel="noopener noreferrer"
+                        target="_blank"
                       >
                         <FormattedMessage id="talent.management.link" />
                       </a>
                     )}
                   </>
                 }
-                extra={
-                  <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="talentManagement"
-                    type="form"
-                    ariaLabel={intl.formatMessage({
-                      id: "talent.management",
-                    })}
-                  />
-                }
+                title={<FormattedMessage id="talent.management" />}
               />
 
               {/* Form Row Three: career mobility */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
-                    name="careerMobilityId"
                     label={<FormattedMessage id="career.mobility" />}
+                    name="careerMobilityId"
                   >
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
                         id: "career.mobility",
                       })}
                       initialValueId={form.getFieldValue("careerMobilityId")}
-                      placeholderText={<FormattedMessage id="select" />}
                       isSearchable={false}
                       options={careerMobilityOptions}
+                      placeholderText={<FormattedMessage id="select" />}
                     />
                   </Form.Item>
                 </Col>
@@ -718,10 +719,10 @@ const CareerManagementFormView = ({
 
               {/* Form Row Three: talent matrix */}
               <Row gutter={24}>
-                <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+                <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
-                    name="talentMatrixResultId"
                     label={<FormattedMessage id="talent.matrix.result" />}
+                    name="talentMatrixResultId"
                   >
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
@@ -730,9 +731,9 @@ const CareerManagementFormView = ({
                       initialValueId={form.getFieldValue(
                         "talentMatrixResultId"
                       )}
-                      placeholderText={<FormattedMessage id="select" />}
-                      options={talentMatrixResultOptions}
                       isSearchable={false}
+                      options={talentMatrixResultOptions}
+                      placeholderText={<FormattedMessage id="select" />}
                     />
                   </Form.Item>
                 </Col>
@@ -741,24 +742,24 @@ const CareerManagementFormView = ({
 
             {/* ===== Talent Management Tab ===== */}
             <TabPane
+              key="ex-feeder"
               tab={getTabTitle({
                 message: <FormattedMessage id="ex.feeder" />,
               })}
-              key="ex-feeder"
             >
               {/* Form Row Three: ex feeder */}
               <FormSubTitle
-                title={<FormattedMessage id="ex.feeder" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="exFeeder"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "ex.feeder",
                     })}
+                    cardName="exFeeder"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="ex.feeder" />}
               />
               <Row className="pgf-exFeeder" justify="space-between">
                 <Col className="gutter-row">
@@ -772,13 +773,13 @@ const CareerManagementFormView = ({
             </TabPane>
           </Tabs>
           <FormControlButton
+            fieldsChanged={fieldsChanged}
             formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
             onSave={onSave}
             onSaveAndFinish={onSaveAndFinish}
             onSaveAndNext={selectedTab < MAXTAB ? onSaveAndNext : null}
-            onReset={onReset}
-            onFinish={onFinish}
-            fieldsChanged={fieldsChanged}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>
@@ -788,43 +789,26 @@ const CareerManagementFormView = ({
 };
 
 CareerManagementFormView.propTypes = {
-  profileInfo: ProfileInfoPropType,
+  attachmentOptions: KeyNameOptionsPropType.isRequired,
+  careerMobilityOptions: KeyTitleOptionsPropType,
+  classificationOptions: KeyNameOptionsPropType,
+  currentTab: PropTypes.string,
   developmentalGoalOptions: KeyTitleOptionsPropType,
-  savedDevelopmentalGoals: PropTypes.arrayOf(PropTypes.string),
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  history: HistoryPropType.isRequired,
   interestedInRemoteOptions: PropTypes.arrayOf(
     PropTypes.shape({ key: PropTypes.string, text: PropTypes.string })
   ),
+  load: PropTypes.bool.isRequired,
+  lookingForNewJobOptions: KeyTitleOptionsPropType,
+  profileInfo: ProfileInfoPropType,
   relocationOptions: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
       city: PropTypes.string,
+      id: PropTypes.string,
       province: PropTypes.string,
     })
   ),
-  savedRelocationLocations: PropTypes.arrayOf(PropTypes.string),
-  lookingForNewJobOptions: KeyTitleOptionsPropType,
-  savedLookingForNewJob: PropTypes.string,
-  careerMobilityOptions: KeyTitleOptionsPropType,
-  savedCareerMobility: PropTypes.string,
-  talentMatrixResultOptions: KeyTitleOptionsPropType,
-  savedTalentMatrixResult: PropTypes.string,
-  savedExFeederBool: PropTypes.bool,
-  classificationOptions: KeyNameOptionsPropType,
-  savedQualifiedPools: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      classificationId: PropTypes.string,
-      jobTitle: PropTypes.string,
-      selectionProcessNumber: PropTypes.string,
-      jobPosterLink: PropTypes.string,
-    })
-  ),
-  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string,
-  load: PropTypes.bool.isRequired,
-  history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
-  attachmentOptions: KeyNameOptionsPropType.isRequired,
   savedAttachments: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -832,26 +816,43 @@ CareerManagementFormView.propTypes = {
       url: PropTypes.string,
     })
   ),
+  savedCareerMobility: PropTypes.string,
+  savedDevelopmentalGoals: PropTypes.arrayOf(PropTypes.string),
+  savedExFeederBool: PropTypes.bool,
+  savedLookingForNewJob: PropTypes.string,
+  savedQualifiedPools: PropTypes.arrayOf(
+    PropTypes.shape({
+      classificationId: PropTypes.string,
+      id: PropTypes.string,
+      jobPosterLink: PropTypes.string,
+      jobTitle: PropTypes.string,
+      selectionProcessNumber: PropTypes.string,
+    })
+  ),
+  savedRelocationLocations: PropTypes.arrayOf(PropTypes.string),
+  savedTalentMatrixResult: PropTypes.string,
+  talentMatrixResultOptions: KeyTitleOptionsPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 CareerManagementFormView.defaultProps = {
-  currentTab: null,
   careerMobilityOptions: [],
+  classificationOptions: [],
+  currentTab: null,
   developmentalGoalOptions: [],
   interestedInRemoteOptions: [],
   lookingForNewJobOptions: [],
-  classificationOptions: [],
   profileInfo: null,
   relocationOptions: [],
+  savedAttachments: undefined,
   savedCareerMobility: undefined,
   savedDevelopmentalGoals: [],
   savedExFeederBool: undefined,
   savedLookingForNewJob: undefined,
+  savedQualifiedPools: undefined,
   savedRelocationLocations: [],
   savedTalentMatrixResult: undefined,
-  savedQualifiedPools: undefined,
   talentMatrixResultOptions: [],
-  savedAttachments: undefined,
 };
 
 export default CareerManagementFormView;

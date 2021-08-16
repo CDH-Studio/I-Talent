@@ -17,26 +17,26 @@ const FormControlButtons = ({
   visibleCards,
 }) => (
   <FormControlButtonsView
-    edit={formType === "edit"}
     create={formType === "create"}
-    onSave={onSave}
-    onSaveAndNext={onSaveAndNext}
-    onSaveAndFinish={onSaveAndFinish}
-    onReset={onReset}
-    onFinish={onFinish}
+    edit={formType === "edit"}
     fieldsChanged={fieldsChanged}
+    onFinish={onFinish}
+    onReset={onReset}
+    onSave={onSave}
+    onSaveAndFinish={onSaveAndFinish}
+    onSaveAndNext={onSaveAndNext}
     visibleCards={visibleCards}
   />
 );
 
 FormControlButtons.propTypes = {
-  formType: PropTypes.oneOf(["edit", "create"]).isRequired,
-  onSave: PropTypes.func.isRequired,
-  onSaveAndNext: PropTypes.func,
-  onSaveAndFinish: PropTypes.func.isRequired,
-  onReset: PropTypes.func.isRequired,
-  onFinish: PropTypes.func.isRequired,
   fieldsChanged: PropTypes.bool.isRequired,
+  formType: PropTypes.oneOf(["edit", "create"]).isRequired,
+  onFinish: PropTypes.func.isRequired,
+  onReset: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onSaveAndFinish: PropTypes.func.isRequired,
+  onSaveAndNext: PropTypes.func,
   visibleCards: PropTypes.objectOf(
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,

@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import {
   FieldPropType,
   FormInstancePropType,
@@ -14,28 +15,28 @@ const QualifiedPoolsForm = ({
   classificationOptions,
 }) => (
   <QualifiedPoolsFormView
-    form={form}
+    classificationOptions={classificationOptions}
     fieldElement={fieldElement}
+    form={form}
     removeElement={removeElement}
     savedQualifiedPools={savedQualifiedPools}
-    classificationOptions={classificationOptions}
   />
 );
 
 QualifiedPoolsForm.propTypes = {
-  form: FormInstancePropType.isRequired,
+  classificationOptions: KeyTitleOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   savedQualifiedPools: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
       classificationId: PropTypes.string,
+      id: PropTypes.string,
+      jobPosterLink: PropTypes.string,
       jobTitle: PropTypes.string,
       selectionProcessNumber: PropTypes.string,
-      jobPosterLink: PropTypes.string,
     })
   ).isRequired,
-  classificationOptions: KeyTitleOptionsPropType.isRequired,
 };
 
 export default QualifiedPoolsForm;

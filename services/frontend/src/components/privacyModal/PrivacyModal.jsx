@@ -1,6 +1,7 @@
-import { useSelector, useDispatch } from "react-redux";
-import { useKeycloak } from "@react-keycloak/web";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
+
 import { setIsPrivacyAccepted } from "../../redux/slices/userSlice";
 import PrivacyModalView from "./PrivacyModalView";
 
@@ -27,11 +28,11 @@ const PrivacyModal = () => {
 
   return (
     <PrivacyModalView
-      showModal={!isPrivacyAccepted && keycloak && keycloak.authenticated}
-      handleOk={handleOk}
       handleCancel={handleCancel}
+      handleOk={handleOk}
       keycloak={keycloak}
       locale={locale}
+      showModal={!isPrivacyAccepted && keycloak && keycloak.authenticated}
     />
   );
 };

@@ -1,22 +1,23 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
+import PropTypes from "prop-types";
+
+import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import CompetenciesView from "./CompetenciesView";
-import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const Competencies = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "competencies" })}
       cardName="competencies"
-      id="card-profile-competency"
-      editUrl="/profile/edit/talent?tab=competencies"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.competencies}
+      editUrl="/profile/edit/talent?tab=competencies"
+      id="card-profile-competency"
       lastUpdated={data.competenciesUpdatedAt}
+      titleString={intl.formatMessage({ id: "competencies" })}
+      visibility={data.visibleCards.competencies}
     >
       <CompetenciesView competencies={data.competencies} />
     </ProfileCards>

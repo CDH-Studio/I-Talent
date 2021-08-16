@@ -1,40 +1,42 @@
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import {
-  MailOutlined,
-  PhoneOutlined,
-  MobileOutlined,
-  EnvironmentOutlined,
-  UserOutlined,
-  DownOutlined,
-  TeamOutlined,
-  UserDeleteOutlined,
-  UserAddOutlined,
-  InfoCircleOutlined,
   ApartmentOutlined,
+  DownOutlined,
+  EnvironmentOutlined,
+  InfoCircleOutlined,
+  MailOutlined,
+  MobileOutlined,
+  PhoneOutlined,
+  TeamOutlined,
+  UserAddOutlined,
+  UserDeleteOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
-import PropTypes from "prop-types";
 import {
-  Row,
-  Col,
-  Card,
   // Dropdown,
   Avatar,
-  List,
-  Typography,
   Button,
+  Card,
+  Col,
+  List,
+  Modal,
+  Popover,
+  Row,
   // Menu,
   Tag,
-  Popover,
-  Modal,
+  Typography,
 } from "antd";
-import { useParams } from "react-router";
-import { useSelector } from "react-redux";
 import { kebabCase } from "lodash";
-import OrgTree from "../orgTree/OrgTree";
-import config from "../../utils/runtimeConfig";
+import PropTypes from "prop-types";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import config from "../../utils/runtimeConfig";
 import EditCardButton from "../editCardButton/EditCardButton";
+import OrgTree from "../orgTree/OrgTree";
+
 import "./BasicInfoView.less";
 
 const { Text, Title } = Typography;
@@ -63,14 +65,14 @@ const BasicInfoView = ({
    * This includes: avatar, name, position
    */
   const generateProfileHeader = () => (
-    <Row type="flex" className="profileHeaderRow">
+    <Row className="profileHeaderRow" type="flex">
       <Col
-        xs={0}
-        md={5}
-        lg={4}
-        xxl={3}
         align="center"
         className="hide-for-print"
+        lg={4}
+        md={5}
+        xs={0}
+        xxl={3}
       >
         <Avatar
           className="profileHeaderRow-avatar"
@@ -81,12 +83,12 @@ const BasicInfoView = ({
         </Avatar>
       </Col>
       <Col
-        xs={18}
-        md={15}
         lg={17}
-        xl={16}
-        xxl={18}
+        md={15}
         style={{ padding: "11px 0px" }}
+        xl={16}
+        xs={18}
+        xxl={18}
       >
         <Title className="profileHeaderRow-name" ellipsis={{ tooltip: name }}>
           {name}
@@ -94,25 +96,24 @@ const BasicInfoView = ({
         <Text className="profileHeaderRow-job-tile">{jobTitle}</Text>
       </Col>
       {urlID === userID ? (
-        <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
+        <Col className="hide-for-print" lg={3} md={4} xl={4} xs={5} xxl={3}>
           <EditCardButton editUrl="/profile/edit/primary-info" floatRight />
         </Col>
       ) : (
-        <Col xs={5} md={4} lg={3} xl={4} xxl={3} className="hide-for-print">
-          <Row type="flex" align="middle">
+        <Col className="hide-for-print" lg={3} md={4} xl={4} xs={5} xxl={3}>
+          <Row align="middle" type="flex">
             <Popover
-              trigger={["focus", "hover"]}
               content={
                 connectionStatus ? (
                   <div className="popContent">
                     <FormattedMessage id="connections.tooltip.remove.connection" />
                     <a
                       className="link"
-                      target="_blank"
-                      rel="noopener noreferrer"
                       href={`${drupalSite}${
                         locale === "ENGLISH" ? "en" : "fr"
                       }help`}
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                       <FormattedMessage id="footer.contact.link" />
                     </a>
@@ -122,30 +123,31 @@ const BasicInfoView = ({
                     <FormattedMessage id="connections.tooltip.add.connection" />
                     <a
                       className="link"
-                      target="_blank"
-                      rel="noopener noreferrer"
                       href={`${drupalSite}${
                         locale === "ENGLISH" ? "en" : "fr"
                       }help`}
+                      rel="noopener noreferrer"
+                      target="_blank"
                     >
                       <FormattedMessage id="footer.contact.link" />
                     </a>
                   </div>
                 )
               }
+              trigger={["focus", "hover"]}
             >
               <InfoCircleOutlined tabIndex={0} />
             </Popover>
             <Button
-              tabIndex={0}
-              type={connectionStatus ? "default" : "primary"}
-              shape="circle"
-              size="large"
               icon={
                 connectionStatus ? <UserDeleteOutlined /> : <UserAddOutlined />
               }
               onClick={changeConnection}
+              shape="circle"
+              size="large"
               style={{ marginLeft: 10 }}
+              tabIndex={0}
+              type={connectionStatus ? "default" : "primary"}
             />
           </Row>
         </Col>
@@ -161,16 +163,16 @@ const BasicInfoView = ({
    */
   const generateInfoList = (dataSource) => (
     <List
-      itemLayout="horizontal"
       dataSource={dataSource}
+      itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item>
           <List.Item.Meta
             avatar={
-              <Avatar className="info-avatar" size={48} icon={item.icon} />
+              <Avatar className="info-avatar" icon={item.icon} size={48} />
             }
-            title={item.title}
             description={item.description}
+            title={item.title}
           />
         </List.Item>
       )}
@@ -185,33 +187,33 @@ const BasicInfoView = ({
    */
   const getContactInfo = () => {
     const email = {
-      icon: <MailOutlined />,
-      title: <FormattedMessage id="email" />,
       description: data.email ? (
         <Text
-          id="profile-email"
           copyable
           ellipsis={{
             tooltip: data.email,
           }}
+          id="profile-email"
         >
           {data.email}
         </Text>
       ) : (
         "-"
       ),
+      icon: <MailOutlined />,
+      title: <FormattedMessage id="email" />,
     };
 
     const tel = {
+      description: data.telephone ? data.telephone : "-",
       icon: <PhoneOutlined />,
       title: <FormattedMessage id="profile.telephone" />,
-      description: data.telephone ? data.telephone : "-",
     };
 
     const cel = {
+      description: data.cellphone ? data.cellphone : "-",
       icon: <MobileOutlined />,
       title: <FormattedMessage id="work.cellphone" />,
-      description: data.cellphone ? data.cellphone : "-",
     };
 
     return [email, tel, cel];
@@ -225,8 +227,6 @@ const BasicInfoView = ({
    */
   const getWorkInfo = () => {
     const branch = {
-      icon: <ApartmentOutlined />,
-      title: <FormattedMessage id="profile.org.tree" />,
       description: data.branch ? (
         <>
           <Button className="orgButton" onClick={() => setIsModalVisible(true)}>
@@ -234,6 +234,10 @@ const BasicInfoView = ({
             <span>{data.branch}</span>
           </Button>
           <Modal
+            cancelText={<FormattedMessage id="close" />}
+            closable={false}
+            okButtonProps={{ style: { display: "none" } }}
+            onCancel={() => setIsModalVisible(false)}
             title={
               <>
                 <ApartmentOutlined />{" "}
@@ -243,10 +247,6 @@ const BasicInfoView = ({
               </>
             }
             visible={isModalVisible}
-            closable={false}
-            cancelText={<FormattedMessage id="close" />}
-            onCancel={() => setIsModalVisible(false)}
-            okButtonProps={{ style: { display: "none" } }}
           >
             <OrgTree data={data} />
           </Modal>
@@ -254,21 +254,23 @@ const BasicInfoView = ({
       ) : (
         <FormattedMessage id="not.specified" />
       ),
+      icon: <ApartmentOutlined />,
+      title: <FormattedMessage id="profile.org.tree" />,
     };
 
     const location = data.officeLocation;
     const address = {
-      icon: <EnvironmentOutlined />,
-      title: <FormattedMessage id="working.address" />,
       description: location
         ? `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
         : "-",
+      icon: <EnvironmentOutlined />,
+      title: <FormattedMessage id="working.address" />,
     };
 
     const manager = {
+      description: data.manager ? data.manager : "-",
       icon: <UserOutlined />,
       title: <FormattedMessage id="employee.manager" />,
-      description: data.manager ? data.manager : "-",
     };
 
     return [branch, address, manager];
@@ -280,13 +282,11 @@ const BasicInfoView = ({
    */
   const generateTeamInfo = () => {
     const teams = {
-      icon: <TeamOutlined />,
-      title: <FormattedMessage id="employee.work.unit" />,
       description:
         data.teams && data.teams.length ? (
           <List>
             {Object.values(data.teams).map((item) => (
-              <Tag color="#727272" key={kebabCase(item)}>
+              <Tag key={kebabCase(item)} color="#727272">
                 {item}
               </Tag>
             ))}
@@ -294,6 +294,8 @@ const BasicInfoView = ({
         ) : (
           "-"
         ),
+      icon: <TeamOutlined />,
+      title: <FormattedMessage id="employee.work.unit" />,
     };
 
     return [teams];
@@ -311,12 +313,12 @@ const BasicInfoView = ({
       return (
         <Button
           block
-          type="link"
-          target="_blank"
-          rel="noopener noreferrer"
-          icon={button.icon}
-          href={button.url}
           className="hide-for-print"
+          href={button.url}
+          icon={button.icon}
+          rel="noopener noreferrer"
+          target="_blank"
+          type="link"
         >
           <FormattedMessage id={button.textId} />
         </Button>
@@ -327,13 +329,13 @@ const BasicInfoView = ({
   };
 
   return (
-    <Card id="card-profile-basic-info" actions={generateActions()}>
+    <Card actions={generateActions()} id="card-profile-basic-info">
       {generateProfileHeader()}
       <Row>
-        <Col xs={24} lg={12}>
+        <Col lg={12} xs={24}>
           {generateInfoList(getContactInfo())}
         </Col>
-        <Col xs={24} lg={12}>
+        <Col lg={12} xs={24}>
           {generateInfoList(getWorkInfo())}
         </Col>
       </Row>
@@ -345,16 +347,16 @@ const BasicInfoView = ({
 };
 
 BasicInfoView.propTypes = {
-  data: ProfileInfoPropType.isRequired,
-  name: PropTypes.string.isRequired,
   avatar: PropTypes.shape({
     acr: PropTypes.string,
     color: PropTypes.string,
   }).isRequired,
-  jobTitle: PropTypes.string,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
-  connectionStatus: PropTypes.bool.isRequired,
   changeConnection: PropTypes.func.isRequired,
+  connectionStatus: PropTypes.bool.isRequired,
+  data: ProfileInfoPropType.isRequired,
+  jobTitle: PropTypes.string,
+  name: PropTypes.string.isRequired,
 };
 
 BasicInfoView.defaultProps = {

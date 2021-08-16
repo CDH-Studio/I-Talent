@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
 import { Typography } from "antd";
+import PropTypes from "prop-types";
 
 import "./FormTitleView.less";
 
@@ -16,7 +16,7 @@ const FormTitleView = ({
   if (formType === "create") {
     return (
       <>
-        <Title level={2} className="profileForm-title">
+        <Title className="profileForm-title" level={2}>
           {stepNumber}. {title}
         </Title>
         {extra && <div className="profileForm-extra">{extra}</div>}
@@ -25,7 +25,7 @@ const FormTitleView = ({
   }
   return (
     <>
-      <Title level={2} className="profileForm-title">
+      <Title className="profileForm-title" level={2}>
         {title}
         {fieldsChanged && (
           <Text className="profileForm-unsavedText">
@@ -39,17 +39,17 @@ const FormTitleView = ({
 };
 
 FormTitleView.propTypes = {
-  title: PropTypes.node.isRequired,
+  extra: PropTypes.node,
+  fieldsChanged: PropTypes.bool,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   stepNumber: PropTypes.number,
-  fieldsChanged: PropTypes.bool,
-  extra: PropTypes.node,
+  title: PropTypes.node.isRequired,
 };
 
 FormTitleView.defaultProps = {
-  stepNumber: null,
-  fieldsChanged: false,
   extra: null,
+  fieldsChanged: false,
+  stepNumber: null,
 };
 
 export default FormTitleView;

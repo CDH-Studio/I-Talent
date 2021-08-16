@@ -1,29 +1,29 @@
-/* eslint-disable no-shadow */
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-  Modal,
-  Popconfirm,
-  Form,
-  notification,
-} from "antd";
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  SearchOutlined,
-  DatabaseOutlined,
-} from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { useIntl, FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash";
 import { useHistory } from "react-router";
+import {
+  DatabaseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Row,
+  Table,
+} from "antd";
+import { sortBy } from "lodash";
+import PropTypes from "prop-types";
+
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 
@@ -49,7 +49,7 @@ const CompetencyTableView = ({
   const [modalType, setModalType] = useState("");
   const [editVisible, setEditVisible] = useState(false);
   const [addVisible, setAddVisible] = useState(false);
-  const [record, setRecord] = useState({});
+  const [recordState, setRecordState] = useState({});
   const [fields, setFields] = useState([{}]);
   const [sortedData, setSortedData] = useState([]);
 
@@ -80,22 +80,22 @@ const CompetencyTableView = ({
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -121,9 +121,9 @@ const CompetencyTableView = ({
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
+          autoEscape
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
-          autoEscape
           textToHighlight={text.toString()}
         />
       ) : (
@@ -152,22 +152,22 @@ const CompetencyTableView = ({
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="delete.competency" />}
-      okText={<FormattedMessage id="delete" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={selectedRowKeys.length === 0}
+      okText={<FormattedMessage id="delete" />}
+      onCancel={() => {
+        popUpCancel();
+      }}
       onConfirm={() => {
         handleSubmitDelete()
           .then(popUpSuccesss)
           .catch((error) => handleError(error, "message", history));
       }}
-      onCancel={() => {
-        popUpCancel();
-      }}
-      disabled={selectedRowKeys.length === 0}
       overlayStyle={{ maxWidth: 350 }}
+      placement="left"
+      title={<FormattedMessage id="delete.competency" />}
     >
-      <Button disabled={selectedRowKeys.length === 0} danger>
+      <Button danger disabled={selectedRowKeys.length === 0}>
         <DeleteOutlined />
         <span>
           <FormattedMessage id="delete" />
@@ -181,7 +181,7 @@ const CompetencyTableView = ({
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
-      setRecord(null);
+      setRecordState(null);
     } else if (modalType === "add") {
       setAddVisible(false);
     }
@@ -204,7 +204,7 @@ const CompetencyTableView = ({
   /* handles render of "Edit Competency" modal */
   const handleEditModal = (record) => {
     setEditVisible(true);
-    setRecord(record);
+    setRecordState(record);
     setModalType("edit");
   };
 
@@ -217,10 +217,12 @@ const CompetencyTableView = ({
   /* Renders "Add Competency" modal */
   const addCompetencyModal = () => (
     <Modal
-      visible={addVisible}
-      title={<FormattedMessage id="add.competency" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
       onOk={async () => {
         addForm
           .validateFields()
@@ -235,44 +237,42 @@ const CompetencyTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        addForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="add.competency" />}
+      visible={addVisible}
     >
-      <Form form={addForm} name="addCompetency" layout="vertical">
+      <Form form={addForm} layout="vertical" name="addCompetency">
         <Form.Item
-          name="addCompetencyEn"
           label={<FormattedMessage id="language.english" />}
+          name="addCompetencyEn"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.english.term",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addCompetencyFr"
           label={<FormattedMessage id="language.french" />}
+          name="addCompetencyFr"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.french.term",
             })}
-            allowClear
           />
         </Form.Item>
       </Form>
@@ -282,15 +282,17 @@ const CompetencyTableView = ({
   /* Renders "Edit Competency" modal */
   const editCompetencyModal = () => (
     <Modal
-      visible={editVisible}
-      title={<FormattedMessage id="edit.competency" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
       onOk={async () => {
         editForm
           .validateFields()
           .then(async (values) => {
-            await handleSubmitEdit(values, record.id);
+            await handleSubmitEdit(values, recordState.id);
             editForm.resetFields();
             handleOk();
           })
@@ -300,23 +302,21 @@ const CompetencyTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        editForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="edit.competency" />}
+      visible={editVisible}
     >
       <Form
-        form={editForm}
-        name="editCompetency"
-        layout="vertical"
         fields={fields}
+        form={editForm}
+        layout="vertical"
+        name="editCompetency"
         onFieldsChange={() => {
           setFields([{}]);
         }}
       >
         <Form.Item
-          name="editCompetencyEn"
           label={<FormattedMessage id="language.english" />}
+          name="editCompetencyEn"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -325,8 +325,8 @@ const CompetencyTableView = ({
           />
         </Form.Item>
         <Form.Item
-          name="editCompetencyFr"
           label={<FormattedMessage id="language.french" />}
+          name="editCompetencyFr"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -343,11 +343,11 @@ const CompetencyTableView = ({
   // Consult: Ant Design table components for further clarification
   const competencyTableColumns = () => [
     {
-      title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.en.localeCompare(b.en),
+      title: <FormattedMessage id="language.english" />,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -356,11 +356,11 @@ const CompetencyTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
+      title: <FormattedMessage id="language.french" />,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({
@@ -369,15 +369,11 @@ const CompetencyTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="edit" />,
-      key: "edit",
       fixed: "right",
-      width: 70,
+      key: "edit",
       render: (record) => (
         <div>
           <Button
-            type="primary"
-            shape="circle"
             icon={<EditOutlined />}
             onClick={() => {
               setFields([
@@ -386,9 +382,13 @@ const CompetencyTableView = ({
               ]);
               handleEditModal(record);
             }}
+            shape="circle"
+            type="primary"
           />
         </div>
       ),
+      title: <FormattedMessage id="edit" />,
+      width: 70,
     },
   ];
 
@@ -397,12 +397,10 @@ const CompetencyTableView = ({
       {addCompetencyModal()}
       {editCompetencyModal()}
       <Header
-        title={<FormattedMessage id="competencies" />}
-        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" onClick={handleAddModal}>
+            <Button onClick={handleAddModal} type="primary">
               <PlusCircleOutlined />
               <span>
                 <FormattedMessage id="add" />
@@ -410,14 +408,16 @@ const CompetencyTableView = ({
             </Button>
           </>
         }
+        icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="competencies" />}
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            rowSelection={rowSelection}
             columns={competencyTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            rowSelection={rowSelection}
             scroll={{ x: 500 }}
           />
         </Col>
@@ -427,15 +427,15 @@ const CompetencyTableView = ({
 };
 
 CompetencyTableView.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
-  handleSubmitEdit: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
-  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
-  searchedColumn: PropTypes.string.isRequired,
-  searchText: PropTypes.string.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any).isRequired,
+  searchText: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 export default CompetencyTableView;

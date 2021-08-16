@@ -1,6 +1,6 @@
-import { Modal } from "antd";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { createIntl, createIntlCache } from "react-intl";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
 
 import messagesEn from "../i18n/en_CA.json";
 import messagesFr from "../i18n/fr_CA.json";
@@ -18,21 +18,21 @@ const getUserConfirmation = (_content, callback) => {
   }
 
   Modal.confirm({
-    title: intl.formatMessage({
-      id: "form.unsaved.alert.title",
-    }),
+    cancelText: intl.formatMessage({ id: "no" }),
     content: intl.formatMessage({
       id: "form.unsaved.alert.content",
     }),
     icon: <ExclamationCircleOutlined />,
-    onOk: () => {
-      callback(true);
-    },
+    okText: intl.formatMessage({ id: "yes" }),
     onCancel: () => {
       callback(false);
     },
-    okText: intl.formatMessage({ id: "yes" }),
-    cancelText: intl.formatMessage({ id: "no" }),
+    onOk: () => {
+      callback(true);
+    },
+    title: intl.formatMessage({
+      id: "form.unsaved.alert.title",
+    }),
   });
 };
 

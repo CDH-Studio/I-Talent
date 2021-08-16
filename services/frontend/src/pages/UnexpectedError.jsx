@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { Button, List, Col, Row } from "antd";
-import { useSelector } from "react-redux";
 import { FormattedMessage } from "react-intl";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
+  ExclamationCircleOutlined,
   HomeOutlined,
   ReloadOutlined,
-  ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import { Button, Col, List, Row } from "antd";
+
 import ErrorResultView from "../components/errorResult/errorResultView";
 
 const styles = {
-  list: { width: "100%", marginTop: "1em", textAlign: "left", maxWidth: 700 },
   errorDescription: { marginBottom: 0 },
+  list: { marginTop: "1em", maxWidth: 700, textAlign: "left", width: "100%" },
 };
 
 const UnexpectedError = () => {
@@ -22,14 +23,11 @@ const UnexpectedError = () => {
 
   return (
     <ErrorResultView
-      status="500"
-      title={<FormattedMessage id="unexpected.error" />}
-      subTitle={<FormattedMessage id="something.went.wrong" />}
       extra={
         <Col>
-          <Row justify="center" gutter={[10, 10]}>
+          <Row gutter={[10, 10]} justify="center">
             <Col>
-              <Button type="primary" onClick={history.goBack}>
+              <Button onClick={history.goBack} type="primary">
                 <ReloadOutlined />
                 <span>
                   <FormattedMessage id="error.retry" />
@@ -59,22 +57,25 @@ const UnexpectedError = () => {
             {showError && (
               <List
                 dataSource={errors}
-                style={styles.list}
                 renderItem={(item) => (
                   <List.Item>
                     <List.Item.Meta
-                      title={item.title}
                       description={item.description.map((val) => (
                         <p style={styles.errorDescription}>{val}</p>
                       ))}
+                      title={item.title}
                     />
                   </List.Item>
                 )}
+                style={styles.list}
               />
             )}
           </Row>
         </Col>
       }
+      status="500"
+      subTitle={<FormattedMessage id="something.went.wrong" />}
+      title={<FormattedMessage id="unexpected.error" />}
     />
   );
 };

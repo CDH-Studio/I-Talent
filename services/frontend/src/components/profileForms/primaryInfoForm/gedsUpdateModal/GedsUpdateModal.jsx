@@ -1,7 +1,8 @@
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import GedsUpdateModalView from "./GedsUpdateModalView";
+import PropTypes from "prop-types";
+
 import useAxios from "../../../../utils/useAxios";
+import GedsUpdateModalView from "./GedsUpdateModalView";
 
 const GedsUpdateModal = ({ visibility }) => {
   const axios = useAxios();
@@ -20,7 +21,7 @@ const GedsUpdateModal = ({ visibility }) => {
   };
 
   return (
-    <GedsUpdateModalView visibility={visibility} saveDataToDB={saveDataToDB} />
+    <GedsUpdateModalView saveDataToDB={saveDataToDB} visibility={visibility} />
   );
 };
 

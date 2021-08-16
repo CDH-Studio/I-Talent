@@ -1,10 +1,12 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
-import { Row, Col, Typography, Button } from "antd";
-import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import { LockFilled, UnlockFilled } from "@ant-design/icons";
 import { useKeycloak } from "@react-keycloak/web";
+import { Button, Col, Row, Typography } from "antd";
+import PropTypes from "prop-types";
+
 import AppLayout from "../appLayout/AppLayout";
+
 import "./LandingLayoutView.less";
 
 const { Text, Title } = Typography;
@@ -27,22 +29,22 @@ const LandingLayoutView = ({ backgroundImage }) => {
   };
 
   return (
-    <AppLayout displaySideBar={false} displaySearch={false}>
+    <AppLayout displaySearch={false} displaySideBar={false}>
       <Row className="landing-container" justify="center">
         <h1 className="hidden">
           <FormattedMessage id="sign.in" />
         </h1>
         <Row
           align="middle"
-          justify="center"
           className="landing-content"
           gutter={24}
+          justify="center"
         >
-          <Col xs={20} sm={15} md={14} xl={16} className="landing-picture">
-            <img src={backgroundImage} alt="I-Talent Landing" />
+          <Col className="landing-picture" md={14} sm={15} xl={16} xs={20}>
+            <img alt="I-Talent Landing" src={backgroundImage} />
           </Col>
-          <Col xs={24} sm={24} md={10} xl={8}>
-            <Title level={1} className="landing-title">
+          <Col md={10} sm={24} xl={8} xs={24}>
+            <Title className="landing-title" level={1}>
               <FormattedMessage id="welcome" />
             </Title>
             <Text className="landing-text">
@@ -52,13 +54,13 @@ const LandingLayoutView = ({ backgroundImage }) => {
               <FormattedMessage id="landing.call.to.action" />
             </Text>
             <Button
-              type="primary"
-              onClick={() => keycloak.login()}
-              size="large"
               className="landing-sign-in-button"
+              icon={hover ? <UnlockFilled /> : <LockFilled />}
+              onClick={() => keycloak.login()}
               onMouseEnter={toggleHover}
               onMouseLeave={toggleHover}
-              icon={hover ? <UnlockFilled /> : <LockFilled />}
+              size="large"
+              type="primary"
             >
               <span>
                 <strong>

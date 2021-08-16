@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
+import handleError from "../../../functions/handleError";
 import useAxios from "../../../utils/useAxios";
 import WelcomeView from "./WelcomeView";
-import handleError from "../../../functions/handleError";
 
 /**
  *  Welcome(props)
@@ -72,10 +73,10 @@ const Welcome = () => {
   return (
     <WelcomeView
       gedsProfiles={gedsProfiles}
-      load={load}
-      userId={id}
       history={history}
+      load={load}
       skipProfileCreation={skipProfileCreation}
+      userId={id}
     />
   );
 };

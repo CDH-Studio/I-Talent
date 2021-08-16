@@ -1,9 +1,10 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
+import { FormattedMessage, useIntl } from "react-intl";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
-import { PlusCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
+import { InfoCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import PropTypes from "prop-types";
+
 import antdStyles from "../../styling/antdTheme";
 
 const CustomDropdown = ({
@@ -95,8 +96,8 @@ const CustomDropdown = ({
   const mapInitialValueCreatable = (savedValues) =>
     savedValues &&
     savedValues.map((Id) => ({
-      value: Id,
       label: Id,
+      value: Id,
     }));
 
   /**
@@ -330,68 +331,52 @@ const CustomDropdown = ({
    *
    */
   const customStyles = {
+    clearIndicator: (provided) => ({
+      ...provided,
+      paddingBottom: 0,
+      paddingTop: 0,
+    }),
     control: (provided, state) => ({
       ...provided,
       background: "#fff",
       borderColor: state.isFocused || state.active ? "#087472" : "#d9d9d9",
-      minHeight: "30px",
       boxShadow:
         state.isFocused || state.active
           ? "0px 0px 0px 2px rgb(8 116 114 / 50%)"
           : "none",
-    }),
-    valueContainer: (provided) => ({
-      ...provided,
       minHeight: "30px",
-      padding: "0 11px",
     }),
-    menuPortal: (provided) => ({
+    dropdownIndicator: (provided) => ({
       ...provided,
-      zIndex: 999,
-    }),
-    menu: (provided) => ({
-      ...provided,
-      marginTop: "3px",
-    }),
-    input: (provided) => ({
-      ...provided,
-      margin: "0px",
-    }),
-    placeholder: (provided) => ({
-      ...provided,
-      margin: "0px",
+      paddingBottom: 0,
+      paddingTop: 0,
     }),
     indicatorsContainer: (provided) => ({
       ...provided,
       height: "auto",
     }),
-    dropdownIndicator: (provided) => ({
+    input: (provided) => ({
       ...provided,
-      paddingTop: 0,
-      paddingBottom: 0,
+      margin: "0px",
     }),
-    clearIndicator: (provided) => ({
+    menu: (provided) => ({
       ...provided,
-      paddingTop: 0,
-      paddingBottom: 0,
+      marginTop: "3px",
     }),
-    option: (provided) => ({
+    menuPortal: (provided) => ({
       ...provided,
-      height: "32px",
-      padding: "0 11px",
-      lineHeight: "32px",
-      overflow: "hidden",
+      zIndex: 999,
     }),
     multiValue: (provided) => ({
       ...provided,
       backgroundColor: antdStyles["@primary-color-2"],
-      borderStyle: "solid",
       borderColor: antdStyles["@primary-color"],
-      color: antdStyles["@primary-color"],
-      borderWidth: "1px",
       borderRadius: "1rem",
-      padding: "0 0 0 5px",
+      borderStyle: "solid",
+      borderWidth: "1px",
+      color: antdStyles["@primary-color"],
       margin: "3px 6px 3px 0",
+      padding: "0 0 0 5px",
     }),
     multiValueLabel: (provided) => ({
       ...provided,
@@ -406,6 +391,22 @@ const CustomDropdown = ({
       ...provided,
       color: antdStyles["@text-color-secondary"],
     }),
+    option: (provided) => ({
+      ...provided,
+      height: "32px",
+      lineHeight: "32px",
+      overflow: "hidden",
+      padding: "0 11px",
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      margin: "0px",
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      minHeight: "30px",
+      padding: "0 11px",
+    }),
   };
 
   /**
@@ -418,9 +419,9 @@ const CustomDropdown = ({
     borderRadius: "5px",
     colors: {
       ...theme.colors,
-      primary50: antdStyles["@primary-color-2"],
-      primary25: antdStyles["@primary-color-2"],
       primary: antdStyles["@primary-color-1"],
+      primary25: antdStyles["@primary-color-2"],
+      primary50: antdStyles["@primary-color-2"],
     },
   });
 
@@ -429,20 +430,9 @@ const CustomDropdown = ({
       {isCreatable ? (
         <CreatableSelect
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
-          placeholder={placeholderText}
+          className={className}
           defaultValue={mapInitialValueCreatable(initialValueId)}
-          onChange={(selectValues) =>
-            onSelectedValueChange(selectValues, isMulti, true)
-          }
           formatCreateLabel={formatCreateLabelCreatable}
-          noOptionsMessage={(typedInputValue) =>
-            generateNoOptionsMessageCreatable(
-              typedInputValue,
-              selectedOptions,
-              isMulti,
-              maxSelectedOptions
-            )
-          }
           isMulti
           isValidNewOption={(userTypedValue, selectValues) =>
             isValidInputCreatable(
@@ -452,21 +442,37 @@ const CustomDropdown = ({
               maxSelectedOptions
             )
           }
+          noOptionsMessage={(typedInputValue) =>
+            generateNoOptionsMessageCreatable(
+              typedInputValue,
+              selectedOptions,
+              isMulti,
+              maxSelectedOptions
+            )
+          }
+          onChange={(selectValues) =>
+            onSelectedValueChange(selectValues, isMulti, true)
+          }
+          placeholder={placeholderText}
           styles={customStyles}
           theme={customTheme}
-          className={className}
         />
       ) : (
         <Select
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
+          blurInputOnSelect={false}
+          className={className}
+          closeMenuOnSelect={!isMulti}
           defaultValue={mapInitialValue(options, initialValueId)}
-          value={mapInitialValue(options, inputValue || selectedOptions)}
-          options={generateSelectOptions(
-            options,
-            selectedOptions,
-            isMulti,
-            maxSelectedOptions
-          )}
+          formatOptionLabel={formatOptionLabel}
+          isClearable={isClearable}
+          isDisabled={isDisabled}
+          isMulti={isMulti}
+          isOptionDisabled={() =>
+            isOptionsDisabled(selectedOptions, isMulti, maxSelectedOptions)
+          }
+          isSearchable={isSearchable}
+          menuPortalTarget={document.body}
           noOptionsMessage={() =>
             generateNoOptionsMessage(
               selectedOptions,
@@ -474,24 +480,19 @@ const CustomDropdown = ({
               maxSelectedOptions
             )
           }
-          placeholder={placeholderText}
           onChange={(selectValues) =>
             onSelectedValueChange(selectValues, isMulti, false)
           }
-          isMulti={isMulti}
-          isSearchable={isSearchable}
-          isClearable={isClearable}
-          isDisabled={isDisabled}
-          closeMenuOnSelect={!isMulti}
-          blurInputOnSelect={false}
-          isOptionDisabled={() =>
-            isOptionsDisabled(selectedOptions, isMulti, maxSelectedOptions)
-          }
+          options={generateSelectOptions(
+            options,
+            selectedOptions,
+            isMulti,
+            maxSelectedOptions
+          )}
+          placeholder={placeholderText}
           styles={customStyles}
           theme={customTheme}
-          className={className}
-          formatOptionLabel={formatOptionLabel}
-          menuPortalTarget={document.body}
+          value={mapInitialValue(options, inputValue || selectedOptions)}
         />
       )}
     </>
@@ -500,11 +501,7 @@ const CustomDropdown = ({
 
 CustomDropdown.propTypes = {
   ariaLabel: PropTypes.string,
-  onChange: PropTypes.func,
-  placeholderText: PropTypes.node,
-  options: PropTypes.arrayOf(PropTypes.object),
-  isMulti: PropTypes.bool,
-  isSearchable: PropTypes.bool,
+  className: PropTypes.string,
   initialValueId: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
@@ -513,29 +510,33 @@ CustomDropdown.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]),
-  isDisabled: PropTypes.bool,
   isClearable: PropTypes.bool,
-  isRequired: PropTypes.bool,
   isCreatable: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  isMulti: PropTypes.bool,
+  isRequired: PropTypes.bool,
+  isSearchable: PropTypes.bool,
   maxSelectedOptions: PropTypes.number,
-  className: PropTypes.string,
+  onChange: PropTypes.func,
+  options: PropTypes.arrayOf(PropTypes.object),
+  placeholderText: PropTypes.node,
 };
 
 CustomDropdown.defaultProps = {
-  options: undefined,
   ariaLabel: "",
-  placeholderText: "Select...",
-  onChange: null,
-  isMulti: false,
+  className: "",
   initialValueId: "",
   inputValue: undefined,
-  isSearchable: true,
-  isDisabled: false,
   isClearable: true,
-  isRequired: false,
   isCreatable: false,
+  isDisabled: false,
+  isMulti: false,
+  isRequired: false,
+  isSearchable: true,
   maxSelectedOptions: undefined,
-  className: "",
+  onChange: null,
+  options: undefined,
+  placeholderText: "Select...",
 };
 
 export default CustomDropdown;

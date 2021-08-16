@@ -1,10 +1,12 @@
 import { FormattedMessage } from "react-intl";
-import "./FooterView.less";
-import { Layout, Typography } from "antd";
-import { useKeycloak } from "@react-keycloak/web";
 import { useSelector } from "react-redux";
+import { useKeycloak } from "@react-keycloak/web";
+import { Layout, Typography } from "antd";
+
 import config from "../../../../utils/runtimeConfig";
 import ReportBug from "../../../reportBug/ReportBug";
+
+import "./FooterView.less";
 
 const { drupalSite } = config;
 const { Footer } = Layout;
@@ -13,9 +15,9 @@ const { Text } = Typography;
 const footerObject = (value, messageId, lang) => (
   <a
     className="link"
-    target="_blank"
-    rel="noopener noreferrer"
     href={`${drupalSite}${lang}/${value}`}
+    rel="noopener noreferrer"
+    target="_blank"
   >
     <FormattedMessage id={messageId} />
   </a>

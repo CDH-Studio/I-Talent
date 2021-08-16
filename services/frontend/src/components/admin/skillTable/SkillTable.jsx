@@ -1,17 +1,18 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
+
 import handleError from "../../../functions/handleError";
-import SkillTableView from "./SkillTableView";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import {
-  setAdminCategoriesLoading,
   setAdminCategories,
+  setAdminCategoriesLoading,
   setAdminSkills,
   setAdminSkillsLoading,
 } from "../../../redux/slices/adminSlice";
+import { IntlPropType } from "../../../utils/customPropTypes";
+import useAxios from "../../../utils/useAxios";
+import SkillTableView from "./SkillTableView";
 
 /**
  *  SkillTable(props)
@@ -72,9 +73,9 @@ const SkillTable = ({ intl }) => {
   // Handles addition of a skill
   const handleSubmitAdd = async (values) => {
     await axios.post(`api/option/skill`, {
+      categoryId: values.addSkillCategory,
       en: values.addSkillEn,
       fr: values.addSkillFr,
-      categoryId: values.addSkillCategory,
     });
     getBackendInfo();
   };
@@ -82,10 +83,10 @@ const SkillTable = ({ intl }) => {
   // Handles the update/edit of a skill
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/skill`, {
-      id,
+      categoryId: values.editSkillCategoryId,
       en: values.editSkillEn,
       fr: values.editSkillFr,
-      categoryId: values.editSkillCategoryId,
+      id,
     });
     getBackendInfo();
   };
@@ -111,10 +112,10 @@ const SkillTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {
@@ -135,15 +136,15 @@ const SkillTable = ({ intl }) => {
 
   return (
     <SkillTableView
-      handleSearch={handleSearch}
       handleReset={handleReset}
+      handleSearch={handleSearch}
       handleSubmitAdd={handleSubmitAdd}
-      handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
-      selectedRowKeys={selectedRowKeys}
+      handleSubmitEdit={handleSubmitEdit}
+      rowSelection={rowSelection}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      rowSelection={rowSelection}
+      selectedRowKeys={selectedRowKeys}
     />
   );
 };

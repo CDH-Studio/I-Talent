@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
 import CustomAvatarView from "./CustomAvatarView";
 
 const CustomAvatar = ({ style, hidden }) => {
@@ -7,19 +8,19 @@ const CustomAvatar = ({ style, hidden }) => {
 
   return (
     <CustomAvatarView
-      initials={initials}
       color={avatarColor}
-      style={style}
       hidden={hidden}
+      initials={initials}
+      style={style}
     />
   );
 };
 
 CustomAvatar.propTypes = {
+  hidden: PropTypes.bool,
   style: PropTypes.objectOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   ).isRequired,
-  hidden: PropTypes.bool,
 };
 
 CustomAvatar.defaultProps = {

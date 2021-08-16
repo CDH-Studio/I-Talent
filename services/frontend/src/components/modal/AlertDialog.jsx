@@ -5,8 +5,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
-import PropTypes from "prop-types";
 import { Button } from "antd";
+import PropTypes from "prop-types";
 
 const AlertDialog = ({
   title,
@@ -19,9 +19,9 @@ const AlertDialog = ({
 }) => (
   <div>
     <Dialog
-      open={isOpen}
-      aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
+      aria-labelledby="alert-dialog-title"
+      open={isOpen}
     >
       <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
       <DialogContent>
@@ -31,7 +31,7 @@ const AlertDialog = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={onCancel}>{cancelText}</Button>
-        <Button onClick={onOk} type="primary" autoFocus>
+        <Button autoFocus onClick={onOk} type="primary">
           {okText}
         </Button>
       </DialogActions>
@@ -40,13 +40,13 @@ const AlertDialog = ({
 );
 
 AlertDialog.propTypes = {
-  title: PropTypes.element.isRequired,
   body: PropTypes.element.isRequired,
-  isOpen: PropTypes.bool.isRequired,
-  onOk: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  okText: PropTypes.element.isRequired,
   cancelText: PropTypes.element.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  okText: PropTypes.element.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onOk: PropTypes.func.isRequired,
+  title: PropTypes.element.isRequired,
 };
 
 export default AlertDialog;
