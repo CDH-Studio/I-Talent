@@ -342,23 +342,6 @@ const TalentFormView = ({
       });
   };
 
-  /*
-   * On Reset
-   *
-   * reset form fields to state when page was loaded
-   */
-  const onReset = () => {
-    // reset form fields
-    form.resetFields();
-    // reset mentorship toggle switch
-    setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-    notification.info({
-      message: intl.formatMessage({ id: "form.clear" }),
-    });
-    updateIfFormValuesChanged();
-    setTabErrorsBool([]);
-  };
-
   /**
    * Get Tab Title
    * @param {Object} tabTitleInfo - tab title info.
@@ -480,10 +463,34 @@ const TalentFormView = ({
   };
 
   /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
+  const onReset = () => {
+    // reset form fields
+    form.resetFields();
+    const generatedSelectedSkills = generateMentorshipOptions(
+      skillOptions,
+      form.getFieldsValue().mentorshipSkills || savedSkills
+    );
+
+    setSelectedSkills(generatedSelectedSkills);
+    // reset mentorship toggle switch
+    setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
+    notification.info({
+      message: intl.formatMessage({ id: "form.clear" }),
+    });
+    updateIfFormValuesChanged();
+    setTabErrorsBool([]);
+  };
+
+  /*
    * Get mentorship form
    *
    * Get mentorship role form based on if the form switch is toggled
    */
+
   const getMentorshipForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
