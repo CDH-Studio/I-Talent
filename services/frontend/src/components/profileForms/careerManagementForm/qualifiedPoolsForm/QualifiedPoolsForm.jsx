@@ -15,18 +15,18 @@ const QualifiedPoolsForm = ({
   classificationOptions,
 }) => (
   <QualifiedPoolsFormView
-    form={form}
     classificationOptions={classificationOptions}
     fieldElement={fieldElement}
+    form={form}
     removeElement={removeElement}
     savedQualifiedPools={savedQualifiedPools}
   />
 );
 
 QualifiedPoolsForm.propTypes = {
-  form: FormInstancePropType.isRequired,
   classificationOptions: KeyTitleOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   savedQualifiedPools: PropTypes.arrayOf(
     PropTypes.shape({

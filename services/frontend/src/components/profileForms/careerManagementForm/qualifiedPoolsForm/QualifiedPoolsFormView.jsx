@@ -1,20 +1,10 @@
 import "./QualifiedPoolsFormView.less";
 
 import { CloseCircleOutlined, FormOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-  Tooltip,
-  Typography,
-} from "antd";
+import { Button, Col, Form, Input, Row, Tooltip, Typography } from "antd";
 import PropTypes from "prop-types";
-import { FormattedMessage, injectIntl, useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
-import filterOption from "../../../../functions/filterSelectInput";
 import {
   FieldPropType,
   FormInstancePropType,
@@ -95,9 +85,9 @@ const QualifiedPoolsFormView = ({
                 fieldElement.fieldKey,
                 "classificationId",
               ])}
-              placeholderText={<FormattedMessage id="select" />}
-              options={classificationOptions}
               isRequired
+              options={classificationOptions}
+              placeholderText={<FormattedMessage id="select" />}
             />
           </Form.Item>
         </Col>
@@ -156,9 +146,9 @@ const QualifiedPoolsFormView = ({
 };
 
 QualifiedPoolsFormView.propTypes = {
-  form: FormInstancePropType.isRequired,
   classificationOptions: KeyTitleOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
   removeElement: PropTypes.func.isRequired,
   savedQualifiedPools: PropTypes.arrayOf(
     PropTypes.shape({

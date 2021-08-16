@@ -19,6 +19,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
+
 import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
@@ -474,14 +475,14 @@ const CareerManagementFormView = ({
                           {fields.map((field) => (
                             <LinkAttachment
                               key={field.fieldKey}
-                              fieldElement={field}
-                              removeElement={remove}
-                              attachmentNamesOptions={attachmentOptions}
                               attachmentNameDefault={form.getFieldValue([
                                 "developmentalGoalsAttachments",
                                 field.fieldKey,
                                 "nameId",
                               ])}
+                              attachmentNamesOptions={attachmentOptions}
+                              fieldElement={field}
+                              removeElement={remove}
                             />
                           ))}
                           <Form.Item>
@@ -543,9 +544,9 @@ const CareerManagementFormView = ({
                         {fields.map((field) => (
                           <QualifiedPoolsForm
                             key={field.fieldKey}
-                            form={form}
                             classificationOptions={classificationOptions}
                             fieldElement={field}
+                            form={form}
                             removeElement={remove}
                             savedQualifiedPools={savedQualifiedPools}
                           />
@@ -600,9 +601,9 @@ const CareerManagementFormView = ({
                         id: "edit.interested.in.remote",
                       })}
                       initialValueId={form.getFieldValue("interestedInRemote")}
-                      placeholderText={<FormattedMessage id="select" />}
                       isSearchable={false}
                       options={interestedInRemoteOptions}
+                      placeholderText={<FormattedMessage id="select" />}
                     />
                   </Form.Item>
                 </Col>
@@ -623,10 +624,10 @@ const CareerManagementFormView = ({
                         id: "edit.willing.to.relocate.to",
                       })}
                       initialValueId={form.getFieldValue("relocationLocations")}
-                      placeholderText={<FormattedMessage id="type.to.search" />}
+                      isMulti
                       isSearchable
                       options={relocationOptions}
-                      isMulti
+                      placeholderText={<FormattedMessage id="type.to.search" />}
                     />
                   </Form.Item>
                 </Col>
@@ -644,9 +645,9 @@ const CareerManagementFormView = ({
                         id: "edit.looking.for.new.job",
                       })}
                       initialValueId={form.getFieldValue("lookingForANewJobId")}
-                      placeholderText={<FormattedMessage id="select" />}
                       isSearchable={false}
                       options={lookingForNewJobOptions}
+                      placeholderText={<FormattedMessage id="select" />}
                     />
                   </Form.Item>
                 </Col>
@@ -708,9 +709,9 @@ const CareerManagementFormView = ({
                         id: "career.mobility",
                       })}
                       initialValueId={form.getFieldValue("careerMobilityId")}
-                      placeholderText={<FormattedMessage id="select" />}
                       isSearchable={false}
                       options={careerMobilityOptions}
+                      placeholderText={<FormattedMessage id="select" />}
                     />
                   </Form.Item>
                 </Col>
@@ -730,9 +731,9 @@ const CareerManagementFormView = ({
                       initialValueId={form.getFieldValue(
                         "talentMatrixResultId"
                       )}
-                      placeholderText={<FormattedMessage id="select" />}
-                      options={talentMatrixResultOptions}
                       isSearchable={false}
+                      options={talentMatrixResultOptions}
+                      placeholderText={<FormattedMessage id="select" />}
                     />
                   </Form.Item>
                 </Col>
