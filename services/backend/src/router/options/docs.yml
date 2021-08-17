@@ -151,7 +151,8 @@
       - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
-        $ref: "#/definitions/IdDescriptionArray"
+        schema:
+          $ref: "#/definitions/ValueLabelArray"
       403:
         $ref: "#/definitions/403"
       422:
@@ -192,7 +193,8 @@
       - $ref: "#/definitions/LanguageQuery"
     responses:
       200:
-        $ref: "#/definitions/IdDescriptionArray"
+        schema:
+          $ref: "#/definitions/ValueLabelArray"
       403:
         $ref: "#/definitions/403"
       422:
