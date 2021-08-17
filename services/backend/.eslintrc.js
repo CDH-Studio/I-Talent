@@ -25,6 +25,5 @@ module.exports = {
     "prefer-const": "off",
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    // "sort-keys-fix/sort-keys-fix": "error",
   },
 };
