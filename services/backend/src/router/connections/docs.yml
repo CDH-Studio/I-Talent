@@ -1,11 +1,11 @@
-/api/connection/{id}:
+/api/connections/{id}:
   get:
     summary: Checks if the user is a connection
     produces:
       - application/json
     parameters:
       - $ref: "#/definitions/IdQuery"
-    response:
+    responses:
       200:
         schema:
           $ref: "#/definitions/GetConnection"
