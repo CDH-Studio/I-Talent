@@ -1,45 +1,47 @@
 import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
+import { Prompt } from "react-router";
 import {
-  Row,
+  InfoCircleOutlined,
+  LinkOutlined,
+  SyncOutlined,
+} from "@ant-design/icons";
+import { useKeycloak } from "@react-keycloak/web";
+import {
+  Button,
   Col,
-  Skeleton,
   Divider,
   Form,
   Input,
-  Button,
   notification,
   Popover,
+  Row,
+  Skeleton,
 } from "antd";
-import {
-  LinkOutlined,
-  InfoCircleOutlined,
-  SyncOutlined,
-} from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
-import { pickBy, identity, isEqual } from "lodash";
+import { identity, isEqual, pickBy } from "lodash";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
 import { isMobilePhone } from "validator";
-import { Prompt } from "react-router";
-import { useKeycloak } from "@react-keycloak/web";
-import useAxios from "../../../utils/useAxios";
-import CustomDropdown from "../../formItems/CustomDropdown";
-import Fieldset from "../../fieldset/Fieldset";
-import {
-  IdDescriptionPropType,
-  ProfileInfoPropType,
-  HistoryPropType,
-  KeyTitleOptionsPropType,
-} from "../../../utils/customPropTypes";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
+
 import store from "../../../redux";
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { setUserSignupStep } from "../../../redux/slices/userSlice";
-import FormControlButton from "../formControlButtons/FormControlButtons";
-import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
-import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
-import FormTitle from "../formTitle/FormTitle";
-import FormSubTitle from "../formSubTitle/FormSubTitle";
+import {
+  HistoryPropType,
+  IdDescriptionPropType,
+  KeyTitleOptionsPropType,
+  ProfileInfoPropType,
+} from "../../../utils/customPropTypes";
 import login from "../../../utils/login";
+import useAxios from "../../../utils/useAxios";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import Fieldset from "../../fieldset/Fieldset";
+import CustomDropdown from "../../formItems/CustomDropdown";
+import FormControlButton from "../formControlButtons/FormControlButtons";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import FormTitle from "../formTitle/FormTitle";
+import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
+
 import "./PrimaryInfoFormView.less";
 
 const PrimaryInfoFormView = ({
@@ -65,22 +67,35 @@ const PrimaryInfoFormView = ({
 
   /* Component Rules for form fields */
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="rules.required" />,
-    },
-    maxChar50: {
-      max: 50,
-      message: <FormattedMessage id="rules.max" values={{ max: 50 }} />,
+    emailFormat: {
+      message: <FormattedMessage id="rules.email" />,
+      pattern: /\S+@\S+\.ca/i,
     },
     maxChar100: {
       max: 100,
       message: <FormattedMessage id="rules.max" values={{ max: 100 }} />,
     },
+    maxChar50: {
+      max: 50,
+      message: <FormattedMessage id="rules.max" values={{ max: 50 }} />,
+    },
+    nameFormat: {
+      message: <FormattedMessage id="rules.name" />,
+      pattern:
+        /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+(-|\s)[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
+    },
+    priFormat: {
+      message: <FormattedMessage id="rules.valid.pri" />,
+      pattern: /(?=^[0-9]{8}$)(?=^(?!.*(\w)\1{1,}).+$)/,
+    },
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
+    },
     telephoneFormat: [
       {
-        pattern: /^\d{3}-\d{3}-\d{4}$/i,
         message: <FormattedMessage id="rules.phone.number" />,
+        pattern: /^\d{3}-\d{3}-\d{4}$/i,
       },
       {
         validator(rule, value) {
@@ -94,19 +109,6 @@ const PrimaryInfoFormView = ({
         },
       },
     ],
-    emailFormat: {
-      pattern: /\S+@\S+\.ca/i,
-      message: <FormattedMessage id="rules.email" />,
-    },
-    nameFormat: {
-      pattern:
-        /^[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+$|^([a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+(-|\s)[a-zA-ZàâäèéêëîïôœùûüÿçÀÂÄÈÉÊËÎÏÔŒÙÛÜŸÇ]+)*$/,
-      message: <FormattedMessage id="rules.name" />,
-    },
-    priFormat: {
-      pattern: /(?=^[0-9]{8}$)(?=^(?!.*(\w)\1{1,}).+$)/,
-      message: <FormattedMessage id="rules.valid.pri" />,
-    },
   };
 
   /**
@@ -138,14 +140,14 @@ const PrimaryInfoFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
         notification.warning({
-          message: intl.formatMessage({ id: "edit.save.problem" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.problem" }),
         });
         break;
     }
@@ -158,21 +160,21 @@ const PrimaryInfoFormView = ({
   const getInitialValues = ({ profile }) => {
     if (profile) {
       return {
-        firstName: profile.firstName,
-        lastName: profile.lastName,
-        telephone: profile.telephone,
-        jobTitle: profile.jobTitle,
         cellphone: profile.cellphone,
-        pri: profile.pri,
         email: profile.email,
+        employmentEquityGroups: profile.employmentEquityGroups,
+        firstName: profile.firstName,
+        gcconnex: profile.gcconnex,
+        github: profile.github,
+        jobTitle: profile.jobTitle,
+        lastName: profile.lastName,
+        linkedin: profile.linkedin,
         locationId: profile.officeLocation
           ? profile.officeLocation.id
           : undefined,
+        pri: profile.pri,
         teams: profile.teams,
-        gcconnex: profile.gcconnex,
-        linkedin: profile.linkedin,
-        github: profile.github,
-        employmentEquityGroups: profile.employmentEquityGroups,
+        telephone: profile.telephone,
       };
     }
     return { email };
@@ -239,8 +241,8 @@ const PrimaryInfoFormView = ({
           });
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -268,8 +270,8 @@ const PrimaryInfoFormView = ({
           });
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -313,8 +315,8 @@ const PrimaryInfoFormView = ({
           });
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getErrorMessages(),
+            type: "error",
           });
         }
       });
@@ -347,26 +349,22 @@ const PrimaryInfoFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="prim-content">
-        <GedsUpdateModal visibility={gedsModalVisible} profile={profileInfo} />
+        <GedsUpdateModal profile={profileInfo} visibility={gedsModalVisible} />
         {/* get form title */}
         <Row justify="space-between" style={{ marginBottom: -5 }}>
           <FormTitle
-            title={<FormattedMessage id="primary.contact.information" />}
-            formType={formType}
-            stepNumber={2}
-            fieldsChanged={fieldsChanged}
             extra={
               <>
                 {formType === "edit" && (
                   <Button
+                    aria-label={intl.formatMessage({ id: "geds.sync.button" })}
                     onClick={() => {
                       setGedsModalVisible(true);
                     }}
-                    aria-label={intl.formatMessage({ id: "geds.sync.button" })}
                   >
                     <SyncOutlined />
                     <span>
@@ -376,36 +374,40 @@ const PrimaryInfoFormView = ({
                 )}
               </>
             }
+            fieldsChanged={fieldsChanged}
+            formType={formType}
+            stepNumber={2}
+            title={<FormattedMessage id="primary.contact.information" />}
           />
         </Row>
 
         <Divider className="prim-headerDiv" />
         {/* Create for with initial values */}
         <Form
-          name="basicForm"
+          form={form}
           initialValues={
             savedValues || getInitialValues({ profile: profileInfo })
           }
           layout="vertical"
-          form={form}
+          name="basicForm"
           onValuesChange={checkIfFormValuesChanged}
         >
           {/* Form Row One */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="firstName"
                 label={<FormattedMessage id="first.name" />}
+                name="firstName"
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
                 <Input aria-required="true" />
               </Form.Item>
             </Col>
 
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="lastName"
                 label={<FormattedMessage id="last.name" />}
+                name="lastName"
                 rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
               >
                 <Input aria-required="true" />
@@ -414,15 +416,13 @@ const PrimaryInfoFormView = ({
           </Row>
           {/* Form Row Two */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="jobTitle"
                 label={
                   <>
                     <FormattedMessage id="job.title" />
                     <div className="prim-popoverStyleCareer">
                       <Popover
-                        trigger={["focus", "click"]}
                         content={
                           <div className="prim-popoverStyle">
                             <FormattedMessage id="job.title.tooltip" />
@@ -430,27 +430,29 @@ const PrimaryInfoFormView = ({
                         }
                         id="job-title-popover"
                         role="button"
+                        trigger={["focus", "click"]}
                       >
                         <InfoCircleOutlined
-                          tabIndex={0}
                           aria-describedby="job-title-popover"
                           aria-label={intl.formatMessage({
                             id: "job.title.popover.arialabel",
                           })}
+                          tabIndex={0}
                         />
                       </Popover>
                     </div>
                   </>
                 }
+                name="jobTitle"
                 rules={[Rules.maxChar50]}
               >
                 <Input disabled />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="email"
                 label={<FormattedMessage id="email" />}
+                name="email"
                 rules={[Rules.emailFormat, Rules.maxChar50]}
               >
                 <Input disabled />
@@ -459,53 +461,53 @@ const PrimaryInfoFormView = ({
           </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="pri"
                 extra={
                   <div className="prim-popoverStyle" id="pri-extra-info">
                     <FormattedMessage id="pri.private" />
                   </div>
                 }
                 label={<FormattedMessage id="pri" />}
+                name="pri"
                 rules={[Rules.required, Rules.priFormat]}
               >
                 <Input aria-describedby="pri-extra-info" aria-required="true" />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="locationId"
                 label={<FormattedMessage id="location" />}
+                name="locationId"
                 rules={[Rules.required, Rules.maxChar50]}
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({ id: "location" })}
-                  isRequired
-                  placeholderText={<FormattedMessage id="search" />}
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).locationId
                   }
+                  isRequired
                   options={locationOptions}
+                  placeholderText={<FormattedMessage id="search" />}
                 />
               </Form.Item>
             </Col>
           </Row>
           {/* Form Row Three */}
           <Row gutter={24}>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="telephone"
                 label={<FormattedMessage id="profile.telephone" />}
+                name="telephone"
                 rules={Rules.telephoneFormat}
               >
                 <Input />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" xs={24} md={12} lg={12} xl={12}>
+            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
-                name="cellphone"
                 label={<FormattedMessage id="work.cellphone" />}
+                name="cellphone"
                 rules={Rules.telephoneFormat}
               >
                 <Input />
@@ -516,8 +518,8 @@ const PrimaryInfoFormView = ({
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item
-                name="teams"
                 label={<FormattedMessage id="employee.work.unit" />}
+                name="teams"
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({
@@ -526,9 +528,9 @@ const PrimaryInfoFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).teams
                   }
-                  placeholderText={<FormattedMessage id="select" />}
                   isCreatable
                   isMulti
+                  placeholderText={<FormattedMessage id="press.enter.to.add" />}
                 />
               </Form.Item>
             </Col>
@@ -539,53 +541,53 @@ const PrimaryInfoFormView = ({
               title={
                 <>
                   <LinkOutlined aria-hidden="true" className="mr-1" />
-                  <FormattedMessage id="setup.link.profiles" />{" "}
+                  <FormattedMessage id="setup.link.profiles" />
                 </>
               }
             >
               <Col span={24}>
                 <Form.Item
-                  name="gcconnex"
                   label={<FormattedMessage id="gcconnex.username" />}
+                  name="gcconnex"
                   rules={[Rules.maxChar100]}
                 >
                   <Input
+                    addonBefore="https://gcconnex.gc.ca/profile/"
                     aria-label={`${intl.formatMessage({
                       id: "gcconnex.username",
                     })} https://gcconnex.gc.ca/profile/`}
-                    addonBefore="https://gcconnex.gc.ca/profile/"
                     placeholder={intl.formatMessage({ id: "username" })}
                   />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item
-                  name="linkedin"
                   label={<FormattedMessage id="linkedin.username" />}
+                  name="linkedin"
                   rules={[Rules.maxChar100]}
                 >
                   <Input
+                    addonBefore="https://linkedin.com/in/"
+                    aria-describedby="linkedin-field-info"
                     aria-label={`${intl.formatMessage({
                       id: "linkedin.username",
                     })} https://linkedin.com/in/`}
-                    addonBefore="https://linkedin.com/in/"
-                    aria-describedby="linkedin-field-info"
                     placeholder={intl.formatMessage({ id: "username" })}
                   />
                 </Form.Item>
               </Col>
               <Col span={24}>
                 <Form.Item
-                  name="github"
                   label={<FormattedMessage id="github.username" />}
+                  name="github"
                   rules={[Rules.maxChar100]}
                 >
                   <Input
+                    addonBefore="https://github.com/"
+                    aria-describedby="github-field-info"
                     aria-label={`${intl.formatMessage({
                       id: "github.username",
                     })} https://github.com/`}
-                    addonBefore="https://github.com/"
-                    aria-describedby="github-field-info"
                     placeholder={intl.formatMessage({ id: "username" })}
                   />
                 </Form.Item>
@@ -595,17 +597,17 @@ const PrimaryInfoFormView = ({
 
           <Divider className="prim-headerDiv" />
           <FormSubTitle
-            title={<FormattedMessage id="employment.equity.groups" />}
             extra={
               <CardVisibilityToggle
-                visibleCards={profileInfo.visibleCards}
-                cardName="employmentEquityGroup"
-                type="form"
                 ariaLabel={intl.formatMessage({
                   id: "employment.equity.groups",
                 })}
+                cardName="employmentEquityGroup"
+                type="form"
+                visibleCards={profileInfo.visibleCards}
               />
             }
+            title={<FormattedMessage id="employment.equity.groups" />}
           />
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
@@ -618,22 +620,22 @@ const PrimaryInfoFormView = ({
                     getInitialValues({ profile: profileInfo })
                       .employmentEquityGroups
                   }
-                  placeholderText={<FormattedMessage id="select" />}
-                  options={employmentEquityOptions}
-                  isSearchable={false}
                   isMulti
+                  isSearchable={false}
+                  options={employmentEquityOptions}
+                  placeholderText={<FormattedMessage id="select" />}
                 />
               </Form.Item>
             </Col>
           </Row>
           <FormControlButton
-            formType={formType}
-            onSave={onSave}
-            onSaveAndNext={onSaveAndNext}
-            onSaveAndFinish={onSaveAndFinish}
-            onReset={onReset}
-            onFinish={onFinish}
             fieldsChanged={fieldsChanged}
+            formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
+            onSave={onSave}
+            onSaveAndFinish={onSaveAndFinish}
+            onSaveAndNext={onSaveAndNext}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>
@@ -643,14 +645,14 @@ const PrimaryInfoFormView = ({
 };
 
 PrimaryInfoFormView.propTypes = {
-  locationOptions: IdDescriptionPropType,
-  profileInfo: ProfileInfoPropType,
-  load: PropTypes.bool.isRequired,
-  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  history: HistoryPropType.isRequired,
-  userId: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   employmentEquityOptions: KeyTitleOptionsPropType.isRequired,
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  history: HistoryPropType.isRequired,
+  load: PropTypes.bool.isRequired,
+  locationOptions: IdDescriptionPropType,
+  profileInfo: ProfileInfoPropType,
+  userId: PropTypes.string.isRequired,
 };
 
 PrimaryInfoFormView.defaultProps = {

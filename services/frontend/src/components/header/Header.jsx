@@ -1,29 +1,30 @@
 import PropTypes from "prop-types";
+
 import HeaderView from "./HeaderView";
 
 const Header = ({ title, icon, extra, subtitle, backBtn }) => (
   <HeaderView
-    title={title}
-    icon={icon}
-    extra={extra}
-    subtitle={subtitle}
     backBtn={backBtn}
+    extra={extra}
+    icon={icon}
+    subtitle={subtitle}
+    title={title}
   />
 );
 
 Header.propTypes = {
-  title: PropTypes.node.isRequired,
-  subtitle: PropTypes.node,
+  backBtn: PropTypes.bool,
   extra: PropTypes.node,
   icon: PropTypes.node,
-  backBtn: PropTypes.bool,
+  subtitle: PropTypes.node,
+  title: PropTypes.node.isRequired,
 };
 
 Header.defaultProps = {
-  extra: " ",
-  subtitle: " ",
-  icon: " ",
   backBtn: false,
+  extra: " ",
+  icon: " ",
+  subtitle: " ",
 };
 
 export default Header;

@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
+
+import handleError from "../../../functions/handleError";
 import useAxios from "../../../utils/useAxios";
 import PrimaryInfoFormView from "./PrimaryInfoFormView";
-import handleError from "../../../functions/handleError";
 
 const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
@@ -59,34 +60,34 @@ const PrimaryInfoForm = ({ formType }) => {
   useEffect(() => {
     setEmploymentEquityOptions([
       {
-        value: "WOMEN",
         label: intl.formatMessage({ id: "employment.equity.group.woman" }),
+        value: "WOMEN",
       },
       {
-        value: "INDIGENOUS",
         label: intl.formatMessage({ id: "employment.equity.group.indigenous" }),
+        value: "INDIGENOUS",
       },
       {
-        value: "DISABILITY",
         label: intl.formatMessage({ id: "employment.equity.group.disability" }),
+        value: "DISABILITY",
       },
       {
-        value: "MINORITY",
         label: intl.formatMessage({ id: "employment.equity.group.minority" }),
+        value: "MINORITY",
       },
     ]);
   }, [intl]);
 
   return (
     <PrimaryInfoFormView
-      locationOptions={locationOptions}
-      profileInfo={profileInfo}
-      load={load}
-      formType={formType}
-      history={history}
-      userId={id}
       email={email}
       employmentEquityOptions={employmentEquityOptions}
+      formType={formType}
+      history={history}
+      load={load}
+      locationOptions={locationOptions}
+      profileInfo={profileInfo}
+      userId={id}
     />
   );
 };

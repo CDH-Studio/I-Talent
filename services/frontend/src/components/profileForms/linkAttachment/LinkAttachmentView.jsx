@@ -1,97 +1,100 @@
-import { Row, Col, Form, Select, Button, Input, Divider } from "antd";
-import { CloseCircleOutlined, PaperClipOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
+import { CloseCircleOutlined, PaperClipOutlined } from "@ant-design/icons";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PropTypes from "prop-types";
+
 import {
   FieldPropType,
   KeyNameOptionsPropType,
 } from "../../../utils/customPropTypes";
-import "./LinkAttachmentView.less";
+import CustomDropdown from "../../formItems/CustomDropdown";
 
-const { Option } = Select;
+import "./LinkAttachmentView.less";
 
 const Rules = {
   required: {
-    required: true,
     message: <FormattedMessage id="rules.required" />,
+    required: true,
   },
   url: {
-    type: "url",
     message: <FormattedMessage id="rules.url" />,
+    type: "url",
   },
 };
 
-const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
+const LinkAttachmentView = ({
+  fieldElement,
+  removeElement,
+  attachmentNamesOptions,
+  attachmentNameDefault,
+}) => {
   const intl = useIntl();
   return (
-    <Row span={24} gutter={12} className="my-1">
+    <Row className="my-1" gutter={12} span={24}>
       {fieldElement.name !== 0 && <Divider className="mt-0 mb-2" />}
       <Col span={24}>
-        <PaperClipOutlined className="mr-1" aria-hidden="true" />
+        <PaperClipOutlined aria-hidden="true" className="mr-1" />
         {`${intl.formatMessage({ id: "document" })}: ${fieldElement.name + 1}`}
         <Button
-          icon={
-            <CloseCircleOutlined className="deleted mr-1" aria-hidden="true" />
-          }
-          onClick={() => {
-            removeElement(fieldElement.name);
-          }}
-          size="small"
-          className="deleteAttachmentButton"
-          type="primary"
           aria-label={`${intl.formatMessage({
             id: "delete",
           })} ${intl.formatMessage({ id: "document" })} ${
             fieldElement.name + 1
           }`}
+          className="deleteAttachmentButton"
+          icon={
+            <CloseCircleOutlined aria-hidden="true" className="deleted mr-1" />
+          }
+          onClick={() => {
+            removeElement(fieldElement.name);
+          }}
+          size="small"
+          type="primary"
         >
           <FormattedMessage id="delete" />
         </Button>
       </Col>
 
-      <Col className="gutter-row" xs={24} lg={5}>
+      <Col className="gutter-row" lg={8} xs={24}>
         <Form.Item
-          rules={[Rules.required]}
           className="formItem"
-          name={[fieldElement.name, "nameId"]}
           fieldKey={[fieldElement.fieldKey, "nameId"]}
           label={<FormattedMessage id="type" />}
+          name={[fieldElement.name, "nameId"]}
+          rules={[Rules.required]}
         >
-          <Select
-            optionFilterProp="children"
-            placeholder={<FormattedMessage id="select" />}
-            dropdownMatchSelectWidth={false}
-            aria-required="true"
-            aria-label={` ${intl.formatMessage({ id: "document" })} ${
+          <CustomDropdown
+            ariaLabel={` ${intl.formatMessage({ id: "document" })} ${
               fieldElement.name + 1
             } ${intl.formatMessage({
               id: "type",
             })} `}
-          >
-            {nameOptions.map((value) => (
-              <Option key={value.id}>{value.name}</Option>
-            ))}
-          </Select>
+            initialValueId={attachmentNameDefault}
+            isRequired
+            isSearchable={false}
+            options={attachmentNamesOptions}
+            placeholderText={<FormattedMessage id="select" />}
+          />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" xs={24} lg={19}>
+      <Col className="gutter-row" lg={16} xs={24}>
         <Form.Item
-          name={[fieldElement.name, "url"]}
-          fieldKey={[fieldElement.fieldKey, "url"]}
           className="formItem"
-          rules={[Rules.required, Rules.url]}
+          fieldKey={[fieldElement.fieldKey, "url"]}
           label={<FormattedMessage id="link.to.document" />}
+          name={[fieldElement.name, "url"]}
+          rules={[Rules.required, Rules.url]}
         >
           <Input
-            placeholder={intl.formatMessage({
-              id: "attachment.placeholder",
-            })}
-            aria-required="true"
             aria-label={` ${intl.formatMessage({ id: "document" })} ${
               fieldElement.name + 1
             } ${intl.formatMessage({
               id: "link.to.document",
             })} `}
+            aria-required="true"
+            placeholder={intl.formatMessage({
+              id: "attachment.placeholder",
+            })}
           />
         </Form.Item>
       </Col>
@@ -100,9 +103,10 @@ const LinkAttachmentView = ({ fieldElement, removeElement, nameOptions }) => {
 };
 
 LinkAttachmentView.propTypes = {
+  attachmentNameDefault: PropTypes.string.isRequired,
+  attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
-  nameOptions: KeyNameOptionsPropType.isRequired,
 };
 
 export default LinkAttachmentView;

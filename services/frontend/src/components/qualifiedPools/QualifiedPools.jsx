@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
-import QualifiedPoolsView from "./QualifiedPoolsView";
-import ProfileCards from "../profileCards/ProfileCards";
+import PropTypes from "prop-types";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
+import QualifiedPoolsView from "./QualifiedPoolsView";
 
 const QualifiedPools = ({ data, editableCardBool }) => {
   const intl = useIntl();
@@ -19,21 +20,21 @@ const QualifiedPools = ({ data, editableCardBool }) => {
         jobPosterLink,
       }) => ({
         classification: classification.name,
+        jobPosterLink,
         jobTitle,
         selectionProcessNumber,
-        jobPosterLink,
       })
     );
   };
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "qualified.pools" })}
       cardName="qualifiedPools"
-      id="card-profile-qualified-pools"
-      editUrl="/profile/edit/career-management?tab=qualified-pools"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/career-management?tab=qualified-pools"
+      id="card-profile-qualified-pools"
+      titleString={intl.formatMessage({ id: "qualified.pools" })}
       visibility={data.visibleCards.qualifiedPools}
     >
       <QualifiedPoolsView qualifiedPoolsInfo={getQualifiedPoolsInfo(data)} />

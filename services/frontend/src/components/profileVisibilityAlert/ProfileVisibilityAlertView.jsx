@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
-import { Alert } from "antd";
-import { EyeInvisibleOutlined, LockOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
+import { EyeInvisibleOutlined, LockOutlined } from "@ant-design/icons";
+import { Alert } from "antd";
+import PropTypes from "prop-types";
+
 import config from "../../utils/runtimeConfig";
 
 const { drupalSite } = config;
@@ -36,16 +37,18 @@ const ProfileVisibilityAlertView = ({
 
   return messageId ? (
     <Alert
+      className="mb-2"
+      icon={isProfileHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
       message={
         <FormattedMessage
           id={messageId}
           values={{
-            b: (chunks) => <b>{chunks}</b>,
+            b: (chunks) => <strong>{chunks}</strong>,
             helpUrl: (
               <a
-                target="_blank"
-                rel="noopener noreferrer"
                 href={`${drupalSite}${locale === "ENGLISH" ? "en" : "fr"}help`}
+                rel="noopener noreferrer"
+                target="_blank"
               >
                 <FormattedMessage id="footer.contact.link" />
               </a>
@@ -53,19 +56,17 @@ const ProfileVisibilityAlertView = ({
           }}
         />
       }
-      type={isProfileHidden ? "warning" : "error"}
       showIcon
-      className="mb-2"
-      icon={isProfileHidden ? <EyeInvisibleOutlined /> : <LockOutlined />}
+      type={isProfileHidden ? "warning" : "error"}
     />
   ) : null;
 };
 
 ProfileVisibilityAlertView.propTypes = {
   canViewHiddenProfiles: PropTypes.bool.isRequired,
-  isUsersProfile: PropTypes.bool.isRequired,
   isProfileHidden: PropTypes.bool.isRequired,
   isProfileInactive: PropTypes.bool.isRequired,
+  isUsersProfile: PropTypes.bool.isRequired,
 };
 
 export default ProfileVisibilityAlertView;

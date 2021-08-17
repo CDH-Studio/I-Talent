@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
-import { List, Tag, Row, Empty } from "antd";
 import { FormattedMessage } from "react-intl";
+import { Empty, List, Row, Tag } from "antd";
+import PropTypes from "prop-types";
+
 import "./EmploymentEquityView.less";
 
 const EmploymentEquityView = ({ groups }) => {
@@ -9,7 +10,7 @@ const EmploymentEquityView = ({ groups }) => {
       <Row className="listRow">
         <List>
           {groups.map(({ key, text }) => (
-            <Tag color="#727272" key={key}>
+            <Tag key={key} color="#727272">
               {text}
             </Tag>
           ))}
@@ -19,9 +20,9 @@ const EmploymentEquityView = ({ groups }) => {
   }
   return (
     <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
-      description={<FormattedMessage id="employment.equity.empty" />}
       className="empty"
+      description={<FormattedMessage id="employment.equity.empty" />}
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
 };

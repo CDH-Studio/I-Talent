@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
-import { IntlPropType } from "../../../utils/customPropTypes";
-import SchoolTableView from "./SchoolTableView";
+
 import handleError from "../../../functions/handleError";
 import {
   setAdminSchools,
   setAdminSchoolsLoading,
 } from "../../../redux/slices/adminSlice";
+import { IntlPropType } from "../../../utils/customPropTypes";
+import useAxios from "../../../utils/useAxios";
+import SchoolTableView from "./SchoolTableView";
 
 /**
  *  SchoolTable(props)
@@ -66,10 +67,10 @@ const SchoolTable = ({ intl }) => {
   // Handles addition of a school
   const handleSubmitAdd = async (values) => {
     await axios.post(`api/option/school`, {
-      en: values.addSchoolEn,
-      fr: values.addSchoolFr,
       abbrCountry: values.addSchoolCountry.toUpperCase(),
       abbrProvince: values.addSchoolProvince.toUpperCase(),
+      en: values.addSchoolEn,
+      fr: values.addSchoolFr,
     });
 
     getSchools();
@@ -78,11 +79,11 @@ const SchoolTable = ({ intl }) => {
   // Handles the update/edit of a school
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/school`, {
-      id,
-      en: values.editSchoolEn,
-      fr: values.editSchoolFr,
       abbrCountry: values.editSchoolCountry.toUpperCase(),
       abbrProvince: values.editSchoolProvince.toUpperCase(),
+      en: values.editSchoolEn,
+      fr: values.editSchoolFr,
+      id,
     });
 
     getSchools();
@@ -110,10 +111,10 @@ const SchoolTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {
@@ -134,15 +135,15 @@ const SchoolTable = ({ intl }) => {
 
   return (
     <SchoolTableView
-      handleSearch={handleSearch}
       handleReset={handleReset}
+      handleSearch={handleSearch}
       handleSubmitAdd={handleSubmitAdd}
-      handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
-      selectedRowKeys={selectedRowKeys}
+      handleSubmitEdit={handleSubmitEdit}
+      rowSelection={rowSelection}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      rowSelection={rowSelection}
+      selectedRowKeys={selectedRowKeys}
     />
   );
 };

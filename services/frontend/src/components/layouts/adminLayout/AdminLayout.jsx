@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import AdminLayoutView from "./AdminLayoutView";
+
 import availableTypes from "./adminLayoutTypes";
+import AdminLayoutView from "./AdminLayoutView";
 
 /**
  *  AdminLayout(props)
@@ -13,9 +14,9 @@ const AdminLayout = ({ displaySideBar, type, children }) => (
 );
 
 AdminLayout.propTypes = {
+  children: PropTypes.node.isRequired,
   displaySideBar: PropTypes.bool.isRequired,
   type: PropTypes.oneOf(availableTypes).isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default AdminLayout;

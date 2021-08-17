@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import queryString from "query-string";
-import { useHistory } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import useAxios from "../../utils/useAxios";
+import { useHistory } from "react-router-dom";
+import queryString from "query-string";
+
 import handleError from "../../functions/handleError";
+import useAxios from "../../utils/useAxios";
 import SearchBarView from "./SearchBarView";
 
 const SearchBar = () => {
@@ -36,20 +37,20 @@ const SearchBar = () => {
       skillsResults.data.forEach((skill) => {
         if (skill.categoryId === category.id) {
           children.push({
+            key: skill.id,
             title: `${category.name}: ${skill.name}`,
             value: skill.id,
-            key: skill.id,
           });
         }
       });
 
       return {
+        checkable: false,
+        children,
+        disableCheckbox: true,
+        selectable: false,
         title: category.name,
         value: category.id,
-        children,
-        selectable: false,
-        checkable: false,
-        disableCheckbox: true,
       };
     });
 
@@ -117,13 +118,13 @@ const SearchBar = () => {
 
   return (
     <SearchBarView
+      anyMentorSkills={anyMentorSkills}
+      branchOptions={branchOptions}
+      classOptions={classOptions}
+      handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
+      handleSearch={handleSearch}
       locationOptions={locationOptions}
       skillOptions={skillOptions}
-      classOptions={classOptions}
-      branchOptions={branchOptions}
-      handleSearch={handleSearch}
-      anyMentorSkills={anyMentorSkills}
-      handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
     />
   );
 };

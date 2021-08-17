@@ -1,5 +1,5 @@
-import PropTypes from "prop-types";
 import { Descriptions } from "antd";
+import PropTypes from "prop-types";
 
 const DescriptionCardView = ({ data }) => (
   <Descriptions.Item>{data}</Descriptions.Item>

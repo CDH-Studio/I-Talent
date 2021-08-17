@@ -6,8 +6,8 @@ const initialState = {
 };
 
 const stateSlice = createSlice({
-  name: "state",
   initialState,
+  name: "state",
   reducers: {
     setSavedFormContent(state, action) {
       state.savedFormContent = action.payload;

@@ -1,11 +1,9 @@
 import { notification } from "antd";
 
-import { addError } from "../redux/slices/errorsSlice";
-import store from "../redux";
-
 import enIntlMessages from "../i18n/en_CA.json";
 import frIntlMessages from "../i18n/fr_CA.json";
-
+import store from "../redux";
+import { addError } from "../redux/slices/errorsSlice";
 import config from "../utils/runtimeConfig";
 
 const { enableErrorRedirect } = config;

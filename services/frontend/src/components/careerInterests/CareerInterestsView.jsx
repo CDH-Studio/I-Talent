@@ -1,6 +1,6 @@
 import { FormattedMessage } from "react-intl";
+import { Col, List, Row, Tag } from "antd";
 import PropTypes from "prop-types";
-import { Row, Col, List, Tag } from "antd";
 
 const CareerInterestsView = ({
   interestedInRemote,
@@ -19,27 +19,27 @@ const CareerInterestsView = ({
 
     items.push(
       {
-        title: <FormattedMessage id="interested.in.remote" />,
         description,
+        title: <FormattedMessage id="interested.in.remote" />,
       },
       {
-        title: <FormattedMessage id="looking.for.new.job" />,
         description: (lookingJob && lookingJob.description) || "-",
+        title: <FormattedMessage id="looking.for.new.job" />,
       }
     );
 
     if (relocationLocations && relocationLocations.length > 0) {
       items.push({
-        title: <FormattedMessage id="willing.to.relocate.to" />,
         render: (
           <div style={{ marginTop: 7 }}>
             {relocationLocations.map(({ id, city, province }) => (
-              <Tag color="#727272" key={id}>
+              <Tag key={id} color="#727272">
                 {city}, {province}
               </Tag>
             ))}
           </div>
         ),
+        title: <FormattedMessage id="willing.to.relocate.to" />,
       });
     }
 
@@ -50,12 +50,12 @@ const CareerInterestsView = ({
     <Row>
       <Col span={24}>
         <List
-          itemLayout="horizontal"
           dataSource={getCareerInterestsInfo()}
+          itemLayout="horizontal"
           renderItem={({ title, description, render }) => (
             <List.Item>
               <Col span={24}>
-                <List.Item.Meta title={title} description={description} />
+                <List.Item.Meta description={description} title={title} />
                 {render}
               </Col>
             </List.Item>
@@ -73,8 +73,8 @@ CareerInterestsView.propTypes = {
   }),
   relocationLocations: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
       city: PropTypes.string,
+      id: PropTypes.string,
       province: PropTypes.string,
     })
   ),

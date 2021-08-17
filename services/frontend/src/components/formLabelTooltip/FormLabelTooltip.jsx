@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import FormLabelTooltipView from "./FormLabelTooltipView";
 
 const FormLabelTooltip = ({ labelText, tooltipText }) => (

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
+
 import EditProfileLayout from "../components/layouts/editProfileLayout/EditProfileLayout";
 
 const ProfileEdit = ({ match }) => {

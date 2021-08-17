@@ -1,18 +1,18 @@
-import PropTypes from "prop-types";
-import { Row, Typography, Popover } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
+import { Popover, Row, Typography } from "antd";
+import PropTypes from "prop-types";
 
 import "./FormSubTitleView.less";
 
 const { Title } = Typography;
 
 const FormSubTitleView = ({ title, popoverMessage, extra }) => (
-  <Row justify="space-between" className="profileForm-section" align="middle">
-    <Title level={3} className="profileForm-subtitle">
+  <Row align="middle" className="profileForm-section" justify="space-between">
+    <Title className="profileForm-subtitle" level={3}>
       <Row>
         {title}
         {popoverMessage && (
-          <Popover trigger={["focus", "hover"]} content={popoverMessage}>
+          <Popover content={popoverMessage} trigger={["focus", "hover"]}>
             <div className="pgf-infoIcon">
               <InfoCircleOutlined tabIndex={0} />
             </div>
@@ -25,14 +25,14 @@ const FormSubTitleView = ({ title, popoverMessage, extra }) => (
 );
 
 FormSubTitleView.propTypes = {
-  title: PropTypes.node.isRequired,
-  popoverMessage: PropTypes.node,
   extra: PropTypes.node,
+  popoverMessage: PropTypes.node,
+  title: PropTypes.node.isRequired,
 };
 
 FormSubTitleView.defaultProps = {
-  popoverMessage: null,
   extra: null,
+  popoverMessage: null,
 };
 
 export default FormSubTitleView;

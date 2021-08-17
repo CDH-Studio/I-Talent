@@ -1,12 +1,29 @@
-import PropTypes from "prop-types";
-import { Modal, Button } from "antd";
-import { LockOutlined, CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import { CheckOutlined, CloseOutlined, LockOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
+import PropTypes from "prop-types";
+
 import ChangeLanguage from "../changeLanguage/ChangeLanguage";
+
 import "./PrivacyModalView.less";
 
 const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => (
   <Modal
+    closable={false}
+    footer={
+      <>
+        <ChangeLanguage className="privacyModalChangeLangBtn" />
+        <Button onClick={handleCancel}>
+          <CloseOutlined aria-hidden="true" className="ModalbBtnIcon" />
+          <FormattedMessage id="privacy.modal.decline" />
+        </Button>
+        <Button onClick={handleOk}>
+          <CheckOutlined aria-hidden="true" className="ModalbBtnIcon" />
+          <FormattedMessage id="privacy.modal.accept" />
+        </Button>
+      </>
+    }
+    maskClosable={false}
     title={
       <>
         <LockOutlined aria-hidden="true" className="mr-1" />
@@ -14,22 +31,7 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => (
       </>
     }
     visible={showModal}
-    closable={false}
-    maskClosable={false}
     width={600}
-    footer={
-      <>
-        <ChangeLanguage className="privacyModalChangeLangBtn" />
-        <Button onClick={handleCancel}>
-          <CloseOutlined className="ModalbBtnIcon" aria-hidden="true" />
-          <FormattedMessage id="privacy.modal.decline" />
-        </Button>
-        <Button onClick={handleOk}>
-          <CheckOutlined className="ModalbBtnIcon" aria-hidden="true" />
-          <FormattedMessage id="privacy.modal.accept" />
-        </Button>
-      </>
-    }
   >
     <div className="privacyModalContent">
       {locale === "ENGLISH" ? (
@@ -148,10 +150,10 @@ const PrivacyModalView = ({ handleOk, handleCancel, showModal, locale }) => (
 );
 
 PrivacyModalView.propTypes = {
-  showModal: PropTypes.bool.isRequired,
-  handleOk: PropTypes.func.isRequired,
   handleCancel: PropTypes.func.isRequired,
+  handleOk: PropTypes.func.isRequired,
   locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
+  showModal: PropTypes.bool.isRequired,
 };
 
 export default PrivacyModalView;

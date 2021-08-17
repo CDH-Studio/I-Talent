@@ -380,12 +380,12 @@ async function validate() {
 }
 
 module.exports = {
-  findDuplicateTranslations,
-  findUnusedTranslations,
-  findMismatchedTranslations,
   checkTransKeysOrder,
+  findDuplicateTranslations,
+  findMismatchedTranslations,
   findMissingTranslations,
-  getFileContent,
   findMissingValuesInIgnoredFile,
+  findUnusedTranslations,
+  getFileContent,
   validate,
 };

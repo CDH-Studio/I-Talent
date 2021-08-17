@@ -1,19 +1,21 @@
-import { useState, useCallback, useEffect } from "react";
-import { notification } from "antd";
+import { useCallback, useEffect, useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router";
 import {
   EyeInvisibleOutlined,
-  TeamOutlined,
   EyeOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, useIntl } from "react-intl";
-import { useHistory, useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { notification } from "antd";
 import PropTypes from "prop-types";
-import "./CardVisibilityToggleView.less";
-import AlertDialog from "../modal/AlertDialog";
-import useAxios from "../../utils/useAxios";
+
 import handleError from "../../functions/handleError";
+import useAxios from "../../utils/useAxios";
 import CustomDropdown from "../formItems/CustomDropdown";
+import AlertDialog from "../modal/AlertDialog";
+
+import "./CardVisibilityToggleView.less";
 
 const CardVisibilityToggleView = ({
   cardName,
@@ -45,11 +47,11 @@ const CardVisibilityToggleView = ({
    */
   const openNotification = () => {
     notification.success({
-      message: intl.formatMessage({
-        id: "visibility.confirmation.title",
-      }),
       description: intl.formatMessage({
         id: "visibility.confirmation.message",
+      }),
+      message: intl.formatMessage({
+        id: "visibility.confirmation.title",
       }),
       placement: "topRight",
     });
@@ -110,55 +112,55 @@ const CardVisibilityToggleView = ({
 
   const generateOptions = () => [
     {
-      value: "PUBLIC",
+      icon: <EyeOutlined aria-hidden="true" className="mr-1" />,
       label: intl.formatMessage({ id: "visibility.card.public" }),
-      icon: <EyeOutlined className="mr-1" aria-hidden="true" />,
+      value: "PUBLIC",
     },
     {
-      value: "CONNECTIONS",
+      icon: <TeamOutlined aria-hidden="true" className="mr-1" />,
       label: intl.formatMessage({ id: "connections" }),
-      icon: <TeamOutlined className="mr-1" aria-hidden="true" />,
+      value: "CONNECTIONS",
     },
     {
-      value: "PRIVATE",
+      icon: <EyeInvisibleOutlined aria-hidden="true" className="mr-1" />,
       label: intl.formatMessage({ id: "visibility.card.private" }),
-      icon: <EyeInvisibleOutlined className="mr-1" aria-hidden="true" />,
+      value: "PRIVATE",
     },
   ];
 
   return (
     <>
       <CustomDropdown
-        inputValue={status}
-        className="visibilitySelector"
-        isClearable={false}
-        options={generateOptions()}
-        onChange={handleSelect}
         ariaLabel={`${ariaLabel} ${intl.formatMessage({
           id: "visibility.selector",
         })}`}
+        className="visibilitySelector"
+        inputValue={status}
+        isClearable={false}
         isSearchable={false}
+        onChange={handleSelect}
+        options={generateOptions()}
       />
       <AlertDialog
-        title={<FormattedMessage id="visibility.card.title" />}
         body={<FormattedMessage id={`visibility.${type}.show.confirm`} />}
-        isOpen={modalVisibility}
-        onOk={handleVisibilityPublicOk}
-        onCancel={handleVisibilityPublicCancel}
-        okText={<FormattedMessage id="yes" />}
         cancelText={<FormattedMessage id="no" />}
+        isOpen={modalVisibility}
+        okText={<FormattedMessage id="yes" />}
+        onCancel={handleVisibilityPublicCancel}
+        onOk={handleVisibilityPublicOk}
+        title={<FormattedMessage id="visibility.card.title" />}
       />
     </>
   );
 };
 
 CardVisibilityToggleView.propTypes = {
+  ariaLabel: PropTypes.string.isRequired,
+  cardName: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["form", "card"]).isRequired,
   visibleCards: PropTypes.objectOf(
     PropTypes.oneOf(["PRIVATE", "CONNECTIONS", "PUBLIC"])
   ).isRequired,
-  cardName: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["form", "card"]).isRequired,
-  ariaLabel: PropTypes.string.isRequired,
 };
 
 export default CardVisibilityToggleView;

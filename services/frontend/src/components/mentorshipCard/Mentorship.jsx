@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
+import PropTypes from "prop-types";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import MentorshipView from "./MentorshipView";
 import ProfileCards from "../profileCards/ProfileCards";
+import MentorshipView from "./MentorshipView";
 
 const Mentorship = ({ data, editableCardBool }) => {
   const intl = useIntl();
@@ -69,14 +70,14 @@ const Mentorship = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "mentorship.skills" })}
       cardName="mentorshipSkills"
-      id="card-profile-mentorship-skills"
-      editUrl="/profile/edit/talent?tab=skills"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.mentorshipSkills}
+      editUrl="/profile/edit/talent?tab=skills"
+      id="card-profile-mentorship-skills"
       lastUpdated={data.mentorshipSkillsUpdatedAt}
+      titleString={intl.formatMessage({ id: "mentorship.skills" })}
+      visibility={data.visibleCards.mentorshipSkills}
     >
       <MentorshipView
         mentoring={setUpMentorshipSkills()}

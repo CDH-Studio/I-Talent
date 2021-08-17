@@ -18,13 +18,10 @@ async function getTalentMatrixResults(request, response) {
       },
     });
 
-  const talentMatrixResults = _.sortBy(
-    talentMatrixResultsQuery.map((i) => ({
-      id: i.opTalentMatrixResultId,
-      description: i.description,
-    })),
-    "description"
-  );
+  const talentMatrixResults = talentMatrixResultsQuery.map((i) => ({
+    value: i.opTalentMatrixResultId,
+    label: i.description,
+  }));
 
   response.status(200).json(talentMatrixResults);
 }

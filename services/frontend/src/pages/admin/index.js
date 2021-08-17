@@ -1,19 +1,19 @@
-import AdminDashboard from "./AdminDashboard";
-import AdminUser from "./AdminUser";
-import AdminSkill from "./AdminSkill";
+import AdminBugs from "./AdminBugs";
 import AdminCategory from "./AdminCategory";
 import AdminCompetency from "./AdminCompetency";
+import AdminDashboard from "./AdminDashboard";
 import AdminDiploma from "./AdminDiploma";
 import AdminSchool from "./AdminSchool";
-import AdminBugs from "./AdminBugs";
+import AdminSkill from "./AdminSkill";
+import AdminUser from "./AdminUser";
 
 export {
-  AdminDashboard,
-  AdminUser,
-  AdminSkill,
+  AdminBugs,
   AdminCategory,
   AdminCompetency,
+  AdminDashboard,
   AdminDiploma,
   AdminSchool,
-  AdminBugs,
+  AdminSkill,
+  AdminUser,
 };

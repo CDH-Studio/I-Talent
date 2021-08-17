@@ -1,35 +1,35 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
-import {
-  Row,
-  Col,
-  Skeleton,
-  Divider,
-  Form,
-  Button,
-  Tabs,
-  notification,
-} from "antd";
-
-import { PlusOutlined } from "@ant-design/icons";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { pickBy, size, identity, isEqual, filter } from "lodash";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
+import { PlusOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Divider,
+  Form,
+  notification,
+  Row,
+  Skeleton,
+  Tabs,
+} from "antd";
+import { filter, identity, isEqual, pickBy, size } from "lodash";
+import PropTypes from "prop-types";
+
 import handleError from "../../../functions/handleError";
-import ExperienceForm from "./experienceForm/ExperienceForm";
-import EducationForm from "./educationForm/EducationForm";
-import FormTitle from "../formTitle/FormTitle";
-import FormSubTitle from "../formSubTitle/FormSubTitleView";
-import FormControlButton from "../formControlButtons/FormControlButtons";
-import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
-  ProfileInfoPropType,
   HistoryPropType,
   KeyNameOptionsPropType,
   KeyTitleOptionsPropType,
+  ProfileInfoPropType,
 } from "../../../utils/customPropTypes";
+import CardVisibilityToggle from "../../cardVisibilityToggle/CardVisibilityToggle";
+import FormControlButton from "../formControlButtons/FormControlButtons";
+import FormSubTitle from "../formSubTitle/FormSubTitle";
+import FormTitle from "../formTitle/FormTitle";
+import EducationForm from "./educationForm/EducationForm";
+import ExperienceForm from "./experienceForm/ExperienceForm";
 
 import "./QualificationsFormView.less";
 
@@ -74,8 +74,8 @@ const QualificationsFormView = ({
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -212,8 +212,8 @@ const QualificationsFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -242,8 +242,8 @@ const QualificationsFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -278,8 +278,8 @@ const QualificationsFormView = ({
           handleError(error, "message", history);
         } else {
           openNotificationWithIcon({
-            type: "error",
             description: getAllValidationErrorMessages(findErrorTabs()),
+            type: "error",
           });
         }
       });
@@ -339,60 +339,60 @@ const QualificationsFormView = ({
   return (
     <>
       <Prompt
-        when={fieldsChanged}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={fieldsChanged}
       />
       <div className="qual-content">
         {/* get form title */}
         <FormTitle
-          title={<FormattedMessage id="employee.qualifications" />}
+          fieldsChanged={fieldsChanged}
           formType={formType}
           stepNumber={6}
-          fieldsChanged={fieldsChanged}
+          title={<FormattedMessage id="employee.qualifications" />}
         />
 
         <Divider className="qual-headerDiv" />
         {/* Create form with initial values */}
         <Form
-          name="QualificationForm"
           form={form}
           initialValues={savedValues || initialValues}
           layout="vertical"
-          onValuesChange={checkIfFormValuesChanged}
+          name="QualificationForm"
           onFieldsChange={onFieldsChange}
+          onValuesChange={checkIfFormValuesChanged}
         >
           <Tabs
-            type="card"
             activeKey={tabs[selectedTab]}
             onChange={onTabChange}
+            type="card"
           >
             <TabPane
-              tab={getTabTitle({
-                message: <FormattedMessage id="education" />,
-                errorBool: tabErrorsBool.educations,
-              })}
               key="education"
+              tab={getTabTitle({
+                errorBool: tabErrorsBool.educations,
+                message: <FormattedMessage id="education" />,
+              })}
             >
               <FormSubTitle
-                title={<FormattedMessage id="education" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="education"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "education",
                     })}
+                    cardName="education"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="education" />}
               />
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
-                  xs={24}
-                  md={24}
                   lg={24}
+                  md={24}
                   xl={24}
+                  xs={24}
                 >
                   <Form.List name="educations">
                     {(fields, { add, remove }) => (
@@ -400,21 +400,21 @@ const QualificationsFormView = ({
                         {fields.map((field) => (
                           <EducationForm
                             key={field.fieldKey}
-                            form={form}
-                            fieldElement={field}
-                            removeElement={remove}
-                            diplomaOptions={options.diplomas}
-                            schoolOptions={options.schools}
                             attachmentNames={options.attachmentNamesEdu}
+                            diplomaOptions={options.diplomas}
+                            fieldElement={field}
+                            form={form}
+                            removeElement={remove}
+                            schoolOptions={options.schools}
                           />
                         ))}
                         <Form.Item>
                           {/* add education field button */}
                           <Button
-                            type="dashed"
                             disabled={fields.length === 3}
                             onClick={() => add()}
                             style={{ width: "100%" }}
+                            type="dashed"
                           >
                             <PlusOutlined />
                             <FormattedMessage id="add" />
@@ -427,33 +427,33 @@ const QualificationsFormView = ({
               </Row>
             </TabPane>
             <TabPane
-              tab={getTabTitle({
-                message: <FormattedMessage id="experience" />,
-                errorBool: tabErrorsBool.experiences,
-              })}
               key="experience"
+              tab={getTabTitle({
+                errorBool: tabErrorsBool.experiences,
+                message: <FormattedMessage id="experience" />,
+              })}
             >
               <FormSubTitle
-                title={<FormattedMessage id="experience" />}
                 extra={
                   <CardVisibilityToggle
-                    visibleCards={profileInfo.visibleCards}
-                    cardName="experience"
-                    type="form"
                     ariaLabel={intl.formatMessage({
                       id: "experience",
                     })}
+                    cardName="experience"
+                    type="form"
+                    visibleCards={profileInfo.visibleCards}
                   />
                 }
+                title={<FormattedMessage id="experience.most.recent" />}
               />
               {/* Form Row One: Remote Work */}
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
-                  xs={24}
-                  md={24}
                   lg={24}
+                  md={24}
                   xl={24}
+                  xs={24}
                 >
                   <Form.List name="experiences">
                     {(fields, { add, remove }) => (
@@ -462,20 +462,20 @@ const QualificationsFormView = ({
                         {fields.map((field) => (
                           <ExperienceForm
                             key={field.fieldKey}
-                            form={form}
-                            fieldElement={field}
-                            removeElement={remove}
                             attachmentNames={options.attachmentNamesExp}
                             checkIfFormValuesChanged={checkIfFormValuesChanged}
+                            fieldElement={field}
+                            form={form}
+                            removeElement={remove}
                           />
                         ))}
                         <Form.Item>
                           {/* add education field button */}
                           <Button
-                            type="dashed"
                             disabled={fields.length === 3}
                             onClick={() => add()}
                             style={{ width: "100%" }}
+                            type="dashed"
                           >
                             <PlusOutlined />
                             <FormattedMessage id="add" />
@@ -489,13 +489,13 @@ const QualificationsFormView = ({
             </TabPane>
           </Tabs>
           <FormControlButton
+            fieldsChanged={fieldsChanged}
             formType={formType}
+            onFinish={onFinish}
+            onReset={onReset}
             onSave={onSave}
             onSaveAndFinish={onSaveAndFinish}
             onSaveAndNext={onSaveAndNext}
-            onReset={onReset}
-            onFinish={onFinish}
-            fieldsChanged={fieldsChanged}
             visibleCards={profileInfo.visibleCards}
           />
         </Form>
@@ -505,14 +505,16 @@ const QualificationsFormView = ({
 };
 
 QualificationsFormView.propTypes = {
-  profileInfo: ProfileInfoPropType,
+  currentTab: PropTypes.string,
+  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
+  history: HistoryPropType.isRequired,
   initialValues: PropTypes.shape({
     educations: PropTypes.arrayOf(
       PropTypes.shape({
         diploma: PropTypes.string,
         endDate: PropTypes.oneOfType([PropTypes.object]),
-        startDate: PropTypes.oneOfType([PropTypes.object]),
         school: PropTypes.string,
+        startDate: PropTypes.oneOfType([PropTypes.object]),
       })
     ),
     experiences: PropTypes.arrayOf(
@@ -525,24 +527,22 @@ QualificationsFormView.propTypes = {
       })
     ),
   }),
-  formType: PropTypes.oneOf(["create", "edit"]).isRequired,
-  currentTab: PropTypes.string,
   load: PropTypes.bool.isRequired,
-  history: HistoryPropType.isRequired,
   options: PropTypes.shape({
-    diplomas: KeyTitleOptionsPropType,
-    schools: KeyTitleOptionsPropType,
     attachmentNamesEdu: KeyNameOptionsPropType,
     attachmentNamesExp: KeyNameOptionsPropType,
+    diplomas: KeyTitleOptionsPropType,
+    schools: KeyTitleOptionsPropType,
   }),
+  profileInfo: ProfileInfoPropType,
   saveDataToDB: PropTypes.func.isRequired,
 };
 
 QualificationsFormView.defaultProps = {
   currentTab: null,
-  profileInfo: null,
   initialValues: undefined,
   options: undefined,
+  profileInfo: null,
 };
 
 export default QualificationsFormView;

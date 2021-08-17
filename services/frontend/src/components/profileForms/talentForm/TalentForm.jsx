@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
+
+import handleError from "../../../functions/handleError";
 import useAxios from "../../../utils/useAxios";
 import TalentFormView from "./TalentFormView";
-import handleError from "../../../functions/handleError";
 
 /**
  *  LangProficiencyForm(props)
@@ -69,20 +70,20 @@ const TalentForm = ({ formType }) => {
       skillsResults.data.forEach((skill) => {
         if (skill.categoryId === category.id) {
           children.push({
+            key: skill.id,
             title: `${category.name}: ${skill.name}`,
             value: skill.id,
-            key: skill.id,
           });
         }
       });
 
       return {
+        checkable: false,
+        children,
+        disableCheckbox: true,
+        selectable: false,
         title: category.name,
         value: category.id,
-        children,
-        selectable: false,
-        checkable: false,
-        disableCheckbox: true,
       };
     });
 
@@ -160,15 +161,15 @@ const TalentForm = ({ formType }) => {
 
   return (
     <TalentFormView
-      profileInfo={profileInfo}
-      skillOptions={skillOptions}
       competencyOptions={competencyOptions}
-      savedCompetencies={savedCompetencies}
-      savedSkills={savedSkills}
-      savedMentorshipSkills={savedMentorshipSkills}
-      formType={formType}
       currentTab={currentTab}
+      formType={formType}
       load={load}
+      profileInfo={profileInfo}
+      savedCompetencies={savedCompetencies}
+      savedMentorshipSkills={savedMentorshipSkills}
+      savedSkills={savedSkills}
+      skillOptions={skillOptions}
       userId={id}
     />
   );

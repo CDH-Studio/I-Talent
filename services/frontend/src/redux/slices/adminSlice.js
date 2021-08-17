@@ -2,7 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  users: {
+  bugs: {
     data: [],
     loading: true,
   },
@@ -14,10 +14,6 @@ const initialState = {
     data: [],
     loading: true,
   },
-  skills: {
-    data: [],
-    loading: true,
-  },
   diplomas: {
     data: [],
     loading: true,
@@ -26,26 +22,31 @@ const initialState = {
     data: [],
     loading: true,
   },
-  bugs: {
+  skills: {
+    data: [],
+    loading: true,
+  },
+  users: {
     data: [],
     loading: true,
   },
 };
 
 const adminSlice = createSlice({
-  name: "admin",
   initialState,
+  name: "admin",
   reducers: {
-    setAdminUsers(state, action) {
-      const { data, locale } = action.payload;
-      state.users = {
-        data,
-        locale,
+    clearAdmin() {
+      return initialState;
+    },
+    setAdminBugs(state, action) {
+      state.bugs = {
+        data: action.payload,
         loading: false,
       };
     },
-    setAdminUsersLoading(state, action) {
-      state.users.loading = action.payload;
+    setAdminBugsLoading(state, action) {
+      state.bugs.loading = action.payload;
     },
     setAdminCategories(state, action) {
       state.categories = {
@@ -65,15 +66,6 @@ const adminSlice = createSlice({
     setAdminCompetenciesLoading(state, action) {
       state.competencies.loading = action.payload;
     },
-    setAdminSkills(state, action) {
-      state.skills = {
-        data: action.payload,
-        loading: false,
-      };
-    },
-    setAdminSkillsLoading(state, action) {
-      state.skills.loading = action.payload;
-    },
     setAdminDiplomas(state, action) {
       state.diplomas = {
         data: action.payload,
@@ -92,17 +84,25 @@ const adminSlice = createSlice({
     setAdminSchoolsLoading(state, action) {
       state.schools.loading = action.payload;
     },
-    setAdminBugs(state, action) {
-      state.bugs = {
+    setAdminSkills(state, action) {
+      state.skills = {
         data: action.payload,
         loading: false,
       };
     },
-    setAdminBugsLoading(state, action) {
-      state.bugs.loading = action.payload;
+    setAdminSkillsLoading(state, action) {
+      state.skills.loading = action.payload;
     },
-    clearAdmin() {
-      return initialState;
+    setAdminUsers(state, action) {
+      const { data, locale } = action.payload;
+      state.users = {
+        data,
+        loading: false,
+        locale,
+      };
+    },
+    setAdminUsersLoading(state, action) {
+      state.users.loading = action.payload;
     },
   },
 });

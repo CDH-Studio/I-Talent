@@ -1,28 +1,29 @@
-import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
-import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-  Modal,
-  Popconfirm,
-  Form,
-  notification,
-} from "antd";
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  SearchOutlined,
-  DatabaseOutlined,
-} from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash";
 import { useHistory } from "react-router";
+import {
+  DatabaseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Row,
+  Table,
+} from "antd";
+import { sortBy } from "lodash";
+import PropTypes from "prop-types";
+
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 
@@ -79,22 +80,22 @@ const DiplomaTableView = ({
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -123,9 +124,9 @@ const DiplomaTableView = ({
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
+          autoEscape
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
-          autoEscape
           textToHighlight={text.toString()}
         />
       ) : (
@@ -154,22 +155,22 @@ const DiplomaTableView = ({
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="delete.diploma" />}
-      okText={<FormattedMessage id="delete" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={selectedRowKeys.length === 0}
+      okText={<FormattedMessage id="delete" />}
+      onCancel={() => {
+        popUpCancel();
+      }}
       onConfirm={() => {
         handleSubmitDelete()
           .then(popUpSuccesss)
           .catch((error) => handleError(error, "message", history));
       }}
-      onCancel={() => {
-        popUpCancel();
-      }}
-      disabled={selectedRowKeys.length === 0}
       overlayStyle={{ maxWidth: 350 }}
+      placement="left"
+      title={<FormattedMessage id="delete.diploma" />}
     >
-      <Button disabled={selectedRowKeys.length === 0} danger>
+      <Button danger disabled={selectedRowKeys.length === 0}>
         <DeleteOutlined />
         <span>
           <FormattedMessage id="delete" />
@@ -219,10 +220,12 @@ const DiplomaTableView = ({
   /* Renders "Add Diploma" modal */
   const addDiplomaModal = () => (
     <Modal
-      visible={addVisible}
-      title={<FormattedMessage id="add.diploma" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         addForm
           .validateFields()
@@ -237,44 +240,42 @@ const DiplomaTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        addForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="add.diploma" />}
+      visible={addVisible}
     >
-      <Form form={addForm} name="addDiploma" layout="vertical">
+      <Form form={addForm} layout="vertical" name="addDiploma">
         <Form.Item
-          name="addDiplomaEn"
           label={<FormattedMessage id="language.english" />}
+          name="addDiplomaEn"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.english.term",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addDiplomaFr"
           label={<FormattedMessage id="language.french" />}
+          name="addDiplomaFr"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.french.term",
             })}
-            allowClear
           />
         </Form.Item>
       </Form>
@@ -284,10 +285,12 @@ const DiplomaTableView = ({
   /* Renders "Edit Diploma" modal */
   const editDiplomaModal = () => (
     <Modal
-      visible={editVisible}
-      title={<FormattedMessage id="edit.diploma" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         editForm
           .validateFields()
@@ -302,23 +305,21 @@ const DiplomaTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        editForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="edit.diploma" />}
+      visible={editVisible}
     >
       <Form
-        form={editForm}
-        name="editDiploma"
-        layout="vertical"
         fields={fields}
+        form={editForm}
+        layout="vertical"
+        name="editDiploma"
         onFieldsChange={() => {
           setFields([{}]);
         }}
       >
         <Form.Item
-          name="editDiplomaEn"
           label={<FormattedMessage id="language.english" />}
+          name="editDiplomaEn"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -327,8 +328,8 @@ const DiplomaTableView = ({
           />
         </Form.Item>
         <Form.Item
-          name="editDiplomaFr"
           label={<FormattedMessage id="language.french" />}
+          name="editDiplomaFr"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -345,11 +346,11 @@ const DiplomaTableView = ({
   // Consult: Ant Design table components for further clarification
   const diplomaTableColumns = () => [
     {
-      title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.en.localeCompare(b.en),
+      title: <FormattedMessage id="language.english" />,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -358,11 +359,11 @@ const DiplomaTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
+      title: <FormattedMessage id="language.french" />,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({
@@ -371,15 +372,11 @@ const DiplomaTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="edit" />,
-      key: "edit",
       fixed: "right",
-      width: 70,
+      key: "edit",
       render: (item) => (
         <div>
           <Button
-            type="primary"
-            shape="circle"
             icon={<EditOutlined />}
             onClick={() => {
               setFields([
@@ -388,9 +385,13 @@ const DiplomaTableView = ({
               ]);
               handleEditModal(item);
             }}
+            shape="circle"
+            type="primary"
           />
         </div>
       ),
+      title: <FormattedMessage id="edit" />,
+      width: 70,
     },
   ];
 
@@ -399,12 +400,10 @@ const DiplomaTableView = ({
       {addDiplomaModal()}
       {editDiplomaModal()}
       <Header
-        title={<FormattedMessage id="diplomas" />}
-        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" onClick={handleAddModal}>
+            <Button onClick={handleAddModal} type="primary">
               <PlusCircleOutlined />
               <span>
                 <FormattedMessage id="add" />
@@ -412,14 +411,16 @@ const DiplomaTableView = ({
             </Button>
           </>
         }
+        icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="diplomas" />}
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            rowSelection={rowSelection}
             columns={diplomaTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            rowSelection={rowSelection}
             scroll={{ x: 500 }}
           />
         </Col>

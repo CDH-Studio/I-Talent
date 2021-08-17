@@ -1,11 +1,13 @@
-import PropTypes from "prop-types";
 import { FormattedMessage } from "react-intl";
-import { Row, Col, Card, Empty, Skeleton, Spin, Result } from "antd";
+import { Card, Col, Empty, Result, Row, Skeleton, Spin } from "antd";
+import PropTypes from "prop-types";
+
+import prepareInfo from "../../functions/prepareInfo";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import Header from "../header/Header";
-import prepareInfo from "../../functions/prepareInfo";
 import EmptyImage from "./online_team_meeting_.svg";
 import ResultsProfileCard from "./resultProfileCard/ResultProfileCard";
+
 import "./ResultsCardView.less";
 
 const ResultsCardView = ({
@@ -42,9 +44,9 @@ const ResultsCardView = ({
     if (emptyQuery) {
       return (
         <Result
-          icon={<img src={EmptyImage} height={200} alt="Empty results page" />}
-          title={<FormattedMessage id="search.empty.query.title" />}
+          icon={<img alt="Empty results page" height={200} src={EmptyImage} />}
           subTitle={<FormattedMessage id="search.empty.query.subtitle" />}
+          title={<FormattedMessage id="search.empty.query.title" />}
         />
       );
     }
@@ -58,11 +60,11 @@ const ResultsCardView = ({
       const isConnection = connections.includes(person.id);
       return (
         <ResultsProfileCard
-          profile={person}
           key={person.id}
+          addConnection={addConnection}
           isConnection={isConnection}
           loggedInUserId={loggedInUserId}
-          addConnection={addConnection}
+          profile={person}
           removeConnection={removeConnection}
         />
       );
@@ -74,18 +76,18 @@ const ResultsCardView = ({
    *
    */
   const getLoadingAnimation = () => (
-    <Row gutter={[16, 16]} type="flex" justify="left">
+    <Row gutter={[16, 16]} justify="left" type="flex">
       <Col span={24} xxl={12}>
         <Card>
           <Skeleton active />
         </Card>
       </Col>
-      <Col span={24} xxl={12} style={{ opacity: "50%" }}>
+      <Col span={24} style={{ opacity: "50%" }} xxl={12}>
         <Card>
           <Skeleton active />
         </Card>
       </Col>
-      <Col span={24} xxl={12} style={{ opacity: "30%" }}>
+      <Col span={24} style={{ opacity: "30%" }} xxl={12}>
         <Card>
           <Skeleton active />
         </Card>
@@ -96,17 +98,17 @@ const ResultsCardView = ({
   return (
     <>
       <Header
-        title={<FormattedMessage id="results.title" />}
-        subtitle={getResultCount({ isLoading: loading, count: results.length })}
         backBtn
+        subtitle={getResultCount({ count: results.length, isLoading: loading })}
+        title={<FormattedMessage id="results.title" />}
       />
       <div className="res-container">
         {loading && getLoadingAnimation()}
         <Row
-          gutter={[16, 16]}
-          type="flex"
-          justify="left"
           align={results.length === 0 ? "center" : undefined}
+          gutter={[16, 16]}
+          justify="left"
+          type="flex"
         >
           {!loading && renderResultCards(results)}
         </Row>
@@ -116,14 +118,14 @@ const ResultsCardView = ({
 };
 
 ResultsCardView.propTypes = {
-  results: PropTypes.arrayOf(ProfileInfoPropType),
-  locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
+  addConnection: PropTypes.func.isRequired,
+  connections: PropTypes.arrayOf(PropTypes.string).isRequired,
   emptyQuery: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
+  locale: PropTypes.oneOf(["FRENCH", "ENGLISH"]).isRequired,
   loggedInUserId: PropTypes.string.isRequired,
-  connections: PropTypes.arrayOf(PropTypes.string).isRequired,
-  addConnection: PropTypes.func.isRequired,
   removeConnection: PropTypes.func.isRequired,
+  results: PropTypes.arrayOf(ProfileInfoPropType),
 };
 
 ResultsCardView.defaultProps = {

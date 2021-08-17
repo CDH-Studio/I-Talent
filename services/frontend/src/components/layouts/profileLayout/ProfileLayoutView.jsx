@@ -1,49 +1,47 @@
 import { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { useDispatch } from "react-redux";
+import {
+  PrinterOutlined,
+  RiseOutlined,
+  TagsTwoTone,
+  TeamOutlined,
+  TrophyOutlined,
+} from "@ant-design/icons";
 import {
   Anchor,
-  Typography,
-  Row,
+  Button,
   Col,
   notification,
-  Popover,
+  Row,
   Tooltip,
-  Button,
+  Typography,
 } from "antd";
-import {
-  TagsTwoTone,
-  RiseOutlined,
-  TrophyOutlined,
-  TeamOutlined,
-  InfoCircleOutlined,
-  PrinterOutlined,
-} from "@ant-design/icons";
-import PropTypes from "prop-types";
 import dayjs from "dayjs";
-import { useDispatch, useSelector } from "react-redux";
-import AppLayout from "../appLayout/AppLayout";
+import PropTypes from "prop-types";
+
+import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import BasicInfo from "../../basicInfo/BasicInfo";
-import Header from "../../header/Header";
-import Skills from "../../skillsCard/Skills";
-import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
-import Mentorship from "../../mentorshipCard/Mentorship";
-import Competencies from "../../competenciesCard/Competencies";
-import DescriptionCard from "../../descriptionCard/DescriptionCard";
-import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
-import TalentManagement from "../../talentManagement/TalentManagement";
-import ExFeeder from "../../exFeeder/ExFeeder";
 import CareerInterests from "../../careerInterests/CareerInterests";
-import QualifiedPools from "../../qualifiedPools/QualifiedPools";
-import Experience from "../../experience/Experience";
-import Education from "../../education/Education";
+import Competencies from "../../competenciesCard/Competencies";
 import Connections from "../../connections/Connections";
+import DescriptionCard from "../../descriptionCard/DescriptionCard";
+import Education from "../../education/Education";
 import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
-import { setSavedFormContent } from "../../../redux/slices/stateSlice";
-import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
-import config from "../../../utils/runtimeConfig";
+import ErrorProfilePage from "../../errorResult/errorProfilePage";
+import ExFeeder from "../../exFeeder/ExFeeder";
+import Experience from "../../experience/Experience";
+import Header from "../../header/Header";
+import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
+import Mentorship from "../../mentorshipCard/Mentorship";
+import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
+import QualifiedPools from "../../qualifiedPools/QualifiedPools";
+import Skills from "../../skillsCard/Skills";
+import TalentManagement from "../../talentManagement/TalentManagement";
+import AppLayout from "../appLayout/AppLayout";
 
 import "./ProfileLayoutView.less";
 
@@ -60,8 +58,6 @@ const ProfileLayoutView = ({
 }) => {
   const intl = useIntl();
   const dispatch = useDispatch();
-  const locale = useSelector((state) => state.settings.locale);
-  const { drupalSite } = config;
 
   useEffect(() => {
     if (savedFormContent === false) {
@@ -78,16 +74,16 @@ const ProfileLayoutView = ({
   }, [savedFormContent, dispatch, intl]);
 
   const displayAllProfileCards = () => (
-    <Row gutter={[15, 15]} className="print">
+    <Row className="print" gutter={[15, 15]}>
       {/* Summary */}
-      <Col xs={24} xl={14}>
+      <Col xl={14} xs={24}>
         <BasicInfo
-          data={data}
-          connectionStatus={connectionStatus}
           changeConnection={changeConnection}
+          connectionStatus={connectionStatus}
+          data={data}
         />
       </Col>
-      <Col xs={24} xl={10}>
+      <Col xl={10} xs={24}>
         <Row gutter={[0, 15]}>
           <Col span={24}>
             <EmployeeSummary data={data} editableCardBool={isUsersProfile} />
@@ -107,11 +103,11 @@ const ProfileLayoutView = ({
 
       {/** ********** Skills and competencies *********** */}
       <Title
-        level={2}
         className="sectionHeader hide-for-print"
         id="divider-skills-and-comp"
+        level={2}
       >
-        <TagsTwoTone twoToneColor="#3CBAB3" className="sectionIcon" />
+        <TagsTwoTone className="sectionIcon" twoToneColor="#3CBAB3" />
         <FormattedMessage id="skills.and.competencies" />
       </Title>
       <Col span={24}>
@@ -126,11 +122,11 @@ const ProfileLayoutView = ({
 
       {/** ********** Qualifications *********** */}
       <Title
-        level={2}
         className="sectionHeader hide-for-print"
         id="divider-qualifications"
+        level={2}
       >
-        <TrophyOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
+        <TrophyOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
         <FormattedMessage id="employee.qualifications" />
       </Title>
       <Col span={24}>
@@ -142,23 +138,23 @@ const ProfileLayoutView = ({
 
       {/** ********** Personal Growth *********** */}
       <Title
-        level={2}
         className="sectionHeader hide-for-print"
         id="divider-employee-growth"
+        level={2}
       >
-        <RiseOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
+        <RiseOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
         <FormattedMessage id="employee.growth.interests" />
       </Title>
       <Col span={24}>
-        <LearningDevelopment editableCardBool={isUsersProfile} data={data} />
+        <LearningDevelopment data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
         <QualifiedPools data={data} editableCardBool={isUsersProfile} />
       </Col>
-      <Col xs={24} xl={12}>
+      <Col xl={12} xs={24}>
         <TalentManagement data={data} editableCardBool={isUsersProfile} />
       </Col>
-      <Col xs={24} xl={12}>
+      <Col xl={12} xs={24}>
         <CareerInterests data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
@@ -169,42 +165,14 @@ const ProfileLayoutView = ({
       {isUsersProfile && (
         <>
           <Title
-            level={2}
             className="sectionHeader hide-for-print"
             id="divider-privateGroup"
+            level={2}
           >
-            <TeamOutlined twoToneColor="#3CBAB3" className="sectionIcon" />
+            <TeamOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
             <FormattedMessage id="connections" />
-            <div className="privateGroupInfo">
-              <Popover
-                trigger={["focus", "hover"]}
-                content={
-                  <div className="popContent">
-                    <FormattedMessage
-                      id="connections.tooltip.header"
-                      values={{
-                        helpUrl: (
-                          <a
-                            className="link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={`${drupalSite}${
-                              locale === "ENGLISH" ? "en" : "fr"
-                            }help`}
-                          >
-                            <FormattedMessage id="footer.contact.link" />
-                          </a>
-                        ),
-                      }}
-                    />
-                  </div>
-                }
-              >
-                <InfoCircleOutlined tabIndex={0} />
-              </Popover>
-            </div>
           </Title>
-          <Col span={24} className="hide-for-print">
+          <Col className="hide-for-print" span={24}>
             <Connections data={data} />
           </Col>
         </>
@@ -213,12 +181,12 @@ const ProfileLayoutView = ({
   );
   const generateProfileSidebarContent = () => (
     <Row justify="center">
-      <Col flex={1} offset={1} className="app-sideBarRow">
+      <Col className="app-sideBarRow" flex={1} offset={1}>
         <Anchor offsetTop={80}>
           <Link
             href="#card-profile-basic-info"
             title={
-              <Text strong className="sideBarText">
+              <Text className="sideBarText" strong>
                 <FormattedMessage id="basic.employee.information" />
               </Text>
             }
@@ -268,7 +236,7 @@ const ProfileLayoutView = ({
           <Link
             href="#divider-skills-and-comp"
             title={
-              <Text strong className="sideBarText">
+              <Text className="sideBarText" strong>
                 <FormattedMessage id="skills.and.competencies" />
               </Text>
             }
@@ -301,7 +269,7 @@ const ProfileLayoutView = ({
           <Link
             href="#divider-qualifications"
             title={
-              <Text strong className="sideBarText">
+              <Text className="sideBarText" strong>
                 <FormattedMessage id="employee.qualifications" />
               </Text>
             }
@@ -326,7 +294,7 @@ const ProfileLayoutView = ({
           <Link
             href="#divider-employee-growth"
             title={
-              <Text strong className="sideBarText">
+              <Text className="sideBarText" strong>
                 <FormattedMessage id="employee.growth.interests" />
               </Text>
             }
@@ -376,7 +344,7 @@ const ProfileLayoutView = ({
             <Link
               href="#divider-privateGroup"
               title={
-                <Text strong className="sideBarText">
+                <Text className="sideBarText" strong>
                   <FormattedMessage id="connections" />
                 </Text>
               }
@@ -398,41 +366,41 @@ const ProfileLayoutView = ({
 
   return (
     <AppLayout
-      sideBarContent={generateProfileSidebarContent()}
       displaySideBar
       loading={loading}
+      sideBarContent={generateProfileSidebarContent()}
     >
       <ProfileVisibilityAlert
-        isUsersProfile={isUsersProfile}
         isProfileHidden={
           data && data.status && ["HIDDEN"].includes(data.status)
         }
         isProfileInactive={
           data && data.status && ["INACTIVE"].includes(data.status)
         }
+        isUsersProfile={isUsersProfile}
       />
       <Header
-        title={
-          <FormattedMessage id={isUsersProfile ? "my.profile" : "profile"} />
+        backBtn
+        extra={
+          <Button onClick={() => window.print()} shape="circle" type="primary">
+            <PrinterOutlined />
+          </Button>
         }
         subtitle={
           <Tooltip title={<FormattedMessage id="last.modified.date" />}>
             {data && dayjs(data.updatedAt).format("LL")}
           </Tooltip>
         }
-        extra={
-          <Button type="primary" shape="circle" onClick={() => window.print()}>
-            <PrinterOutlined />
-          </Button>
+        title={
+          <FormattedMessage id={isUsersProfile ? "my.profile" : "profile"} />
         }
-        backBtn
       />
       {data ? (
         displayAllProfileCards()
       ) : (
         <ErrorProfilePage
-          titleId="profile.not.found"
           subtitleId="profile.not.found.description"
+          titleId="profile.not.found"
         />
       )}
     </AppLayout>
@@ -440,20 +408,20 @@ const ProfileLayoutView = ({
 };
 
 ProfileLayoutView.propTypes = {
-  data: ProfileInfoPropType,
-  loading: PropTypes.bool,
-  connectionStatus: PropTypes.bool,
-  isUsersProfile: PropTypes.bool,
   changeConnection: PropTypes.func,
+  connectionStatus: PropTypes.bool,
+  data: ProfileInfoPropType,
+  isUsersProfile: PropTypes.bool,
+  loading: PropTypes.bool,
   savedFormContent: PropTypes.bool,
 };
 
 ProfileLayoutView.defaultProps = {
-  data: null,
-  loading: null,
-  connectionStatus: null,
-  isUsersProfile: null,
   changeConnection: null,
+  connectionStatus: null,
+  data: null,
+  isUsersProfile: null,
+  loading: null,
   savedFormContent: undefined,
 };
 

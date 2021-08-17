@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
+
 import handleError from "../../../functions/handleError";
-import CompetencyTableView from "./CompetencyTableView";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import {
-  setAdminCompetenciesLoading,
   setAdminCompetencies,
+  setAdminCompetenciesLoading,
 } from "../../../redux/slices/adminSlice";
+import { IntlPropType } from "../../../utils/customPropTypes";
+import useAxios from "../../../utils/useAxios";
+import CompetencyTableView from "./CompetencyTableView";
 
 /**
  *  CompetencyTable(props)
@@ -76,9 +77,9 @@ const CompetencyTable = ({ intl }) => {
   // Handles the update/edit of a competency
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/competency`, {
-      id,
       en: values.editCompetencyEn,
       fr: values.editCompetencyFr,
+      id,
     });
 
     getCompetencies();
@@ -99,10 +100,10 @@ const CompetencyTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (_selectedRowKeys) => {
       setSelectedRowKeys(_selectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {
@@ -123,15 +124,15 @@ const CompetencyTable = ({ intl }) => {
 
   return (
     <CompetencyTableView
-      handleSearch={handleSearch}
       handleReset={handleReset}
+      handleSearch={handleSearch}
       handleSubmitAdd={handleSubmitAdd}
-      handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
-      selectedRowKeys={selectedRowKeys}
+      handleSubmitEdit={handleSubmitEdit}
+      rowSelection={rowSelection}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      rowSelection={rowSelection}
+      selectedRowKeys={selectedRowKeys}
     />
   );
 };

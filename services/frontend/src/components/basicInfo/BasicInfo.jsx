@@ -1,12 +1,13 @@
 import {
-  LinkedinOutlined,
   GithubOutlined,
+  LinkedinOutlined,
   LinkOutlined,
   MailOutlined,
 } from "@ant-design/icons";
 import PropTypes from "prop-types";
-import BasicInfoView from "./BasicInfoView";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import BasicInfoView from "./BasicInfoView";
 
 const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
   const getButtonLinks = () => {
@@ -14,33 +15,33 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
 
     const buttonLinks = {
       email: {
+        icon: <MailOutlined className="mr-1" />,
         textId: "email",
         url: `mailto:${email}`,
-        icon: <MailOutlined className="mr-1" />,
       },
     };
 
     if (linkedin) {
       buttonLinks.linkedin = {
+        icon: <LinkedinOutlined className="mr-1" />,
         textId: "linkedin",
         url: `https://linkedin.com/in/${linkedin}`,
-        icon: <LinkedinOutlined className="mr-1" />,
       };
     }
 
     if (github) {
       buttonLinks.github = {
+        icon: <GithubOutlined className="mr-1" />,
         textId: "github",
         url: `https://github.com/${github}`,
-        icon: <GithubOutlined className="mr-1" />,
       };
     }
 
     if (gcconnex) {
       buttonLinks.gcconnex = {
+        icon: <LinkOutlined className="mr-1" />,
         textId: "gcconnex",
         url: `https://gcconnex.gc.ca/profile/${gcconnex}`,
-        icon: <LinkOutlined className="mr-1" />,
       };
     }
 
@@ -51,24 +52,24 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
 
   return (
     <BasicInfoView
-      data={data}
-      name={name}
       avatar={{
         acr: data.nameInitials,
         color: data.avatarColor,
       }}
-      jobTitle={data.jobTitle}
       buttonLinks={getButtonLinks()}
-      connectionStatus={connectionStatus}
       changeConnection={changeConnection}
+      connectionStatus={connectionStatus}
+      data={data}
+      jobTitle={data.jobTitle}
+      name={name}
     />
   );
 };
 
 BasicInfo.propTypes = {
-  data: ProfileInfoPropType.isRequired,
-  connectionStatus: PropTypes.bool.isRequired,
   changeConnection: PropTypes.func.isRequired,
+  connectionStatus: PropTypes.bool.isRequired,
+  data: ProfileInfoPropType.isRequired,
 };
 
 export default BasicInfo;

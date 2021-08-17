@@ -1,30 +1,31 @@
-import { useState, useEffect } from "react";
-import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-  Modal,
-  Popconfirm,
-  Form,
-  notification,
-} from "antd";
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  SearchOutlined,
-  DatabaseOutlined,
-} from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { injectIntl, FormattedMessage } from "react-intl";
-import PropTypes from "prop-types";
+import { FormattedMessage, injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash";
 import { useHistory } from "react-router";
-import { IntlPropType } from "../../../utils/customPropTypes";
+import {
+  DatabaseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Row,
+  Table,
+} from "antd";
+import { sortBy } from "lodash";
+import PropTypes from "prop-types";
+
 import handleError from "../../../functions/handleError";
+import { IntlPropType } from "../../../utils/customPropTypes";
 import Header from "../../header/Header";
 
 /**
@@ -84,22 +85,22 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -143,9 +144,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
         if (searchedColumn === dataIndex) {
           return (
             <Highlighter
+              autoEscape
               highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
               searchWords={[searchText]}
-              autoEscape
               textToHighlight={text || "-"}
             />
           );
@@ -183,22 +184,22 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="delete.school" />}
-      okText={<FormattedMessage id="delete" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={selectedRowKeys.length === 0}
+      okText={<FormattedMessage id="delete" />}
+      onCancel={() => {
+        popUpCancel();
+      }}
       onConfirm={() => {
         handleSubmitDelete()
           .then(popUpSuccesss)
           .catch((error) => handleError(error, "message", history));
       }}
-      onCancel={() => {
-        popUpCancel();
-      }}
-      disabled={selectedRowKeys.length === 0}
       overlayStyle={{ maxWidth: 350 }}
+      placement="left"
+      title={<FormattedMessage id="delete.school" />}
     >
-      <Button disabled={selectedRowKeys.length === 0} danger>
+      <Button danger disabled={selectedRowKeys.length === 0}>
         <DeleteOutlined />
         <span>
           <FormattedMessage id="delete" />
@@ -248,10 +249,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   /* Renders "Add School" modal */
   const addSchoolModal = () => (
     <Modal
-      visible={addVisible}
-      title={<FormattedMessage id="add.school" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         addForm
           .validateFields()
@@ -266,90 +269,88 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             }
           });
       }}
-      onCancel={() => {
-        addForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="add.school" />}
+      visible={addVisible}
     >
-      <Form form={addForm} name="addSchool" layout="vertical">
+      <Form form={addForm} layout="vertical" name="addSchool">
         <Form.Item
-          name="addSchoolEn"
           label={<FormattedMessage id="language.english" />}
+          name="addSchoolEn"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.name" />,
+              required: true,
             },
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.school.name",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addSchoolFr"
           label={<FormattedMessage id="language.french" />}
+          name="addSchoolFr"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.name" />,
+              required: true,
             },
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.school.name",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addSchoolProvince"
           label={<FormattedMessage id="province.state.limit" />}
+          name="addSchoolProvince"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.location" />,
+              required: true,
             },
             {
-              min: 2,
               max: 2,
               message: <FormattedMessage id="validate.length.2" />,
+              min: 2,
             },
           ]}
         >
           <Input
+            allowClear
+            maxLength={2}
             placeholder={intl.formatMessage({
               id: "add.school.state",
             })}
-            maxLength={2}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addSchoolCountry"
           label={<FormattedMessage id="country.limit" />}
+          name="addSchoolCountry"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.country" />,
+              required: true,
             },
             {
-              min: 3,
               max: 3,
               message: <FormattedMessage id="validate.length.3" />,
+              min: 3,
             },
           ]}
         >
           <Input
+            allowClear
+            maxLength={3}
             placeholder={intl.formatMessage({
               id: "add.school.country",
             })}
-            maxLength={3}
-            allowClear
           />
         </Form.Item>
       </Form>
@@ -359,10 +360,12 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   /* Renders "Edit School" modal */
   const editSchoolModal = () => (
     <Modal
-      visible={editVisible}
-      title={<FormattedMessage id="edit.school" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         editForm
           .validateFields()
@@ -377,23 +380,21 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             }
           });
       }}
-      onCancel={() => {
-        editForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="edit.school" />}
+      visible={editVisible}
     >
       <Form
-        form={editForm}
-        name="editSchool"
-        layout="vertical"
         fields={fields}
+        form={editForm}
+        layout="vertical"
+        name="editSchool"
         onFieldsChange={() => {
           setFields([{}]);
         }}
       >
         <Form.Item
-          name="editSchoolEn"
           label={<FormattedMessage id="language.english" />}
+          name="editSchoolEn"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -402,8 +403,8 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           />
         </Form.Item>
         <Form.Item
-          name="editSchoolFr"
           label={<FormattedMessage id="language.french" />}
+          name="editSchoolFr"
         >
           <Input
             placeholder={intl.formatMessage({
@@ -412,25 +413,25 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
           />
         </Form.Item>
         <Form.Item
-          name="editSchoolProvince"
           label={<FormattedMessage id="province.state.limit" />}
+          name="editSchoolProvince"
         >
           <Input
+            maxLength={2}
             placeholder={intl.formatMessage({
               id: "add.school.state",
             })}
-            maxLength={2}
           />
         </Form.Item>
         <Form.Item
-          name="editSchoolCountry"
           label={<FormattedMessage id="country.limit" />}
+          name="editSchoolCountry"
         >
           <Input
+            maxLength={3}
             placeholder={intl.formatMessage({
               id: "add.school.state",
             })}
-            maxLength={3}
           />
         </Form.Item>
       </Form>
@@ -442,9 +443,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
   // Consult: Ant Design table components for further clarification
   const schoolsTableColumns = () => [
     {
-      title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
+      sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
       sorter: (a, b) => {
         if (!a.en) {
           return 1;
@@ -455,7 +456,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
         return a.en.localeCompare(b.en);
       },
-      sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
+      title: <FormattedMessage id="language.english" />,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -464,9 +465,9 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
+      sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
       sorter: (a, b) => {
         if (!a.fr) {
           return 1;
@@ -477,7 +478,7 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 
         return a.fr.localeCompare(b.fr);
       },
-      sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
+      title: <FormattedMessage id="language.french" />,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({
@@ -486,10 +487,10 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="province.state" />,
       dataIndex: "abbrProvince",
       key: "schoolState",
       sorter: (a, b) => a.abbrProvince.localeCompare(b.abbrProvince),
+      title: <FormattedMessage id="province.state" />,
       ...getColumnSearchProps(
         "abbrProvince",
         intl.formatMessage({
@@ -498,10 +499,10 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="country" />,
       dataIndex: "abbrCountry",
       key: "schoolCountry",
       sorter: (a, b) => a.abbrCountry.localeCompare(b.abbrCountry),
+      title: <FormattedMessage id="country" />,
       ...getColumnSearchProps(
         "abbrCountry",
         intl.formatMessage({
@@ -510,15 +511,11 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       ),
     },
     {
-      title: <FormattedMessage id="edit" />,
-      key: "edit",
       fixed: "right",
-      width: 70,
+      key: "edit",
       render: (item) => (
         <div>
           <Button
-            type="primary"
-            shape="circle"
             icon={<EditOutlined />}
             onClick={() => {
               setFields([
@@ -529,9 +526,13 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
               ]);
               handleEditModal(item);
             }}
+            shape="circle"
+            type="primary"
           />
         </div>
       ),
+      title: <FormattedMessage id="edit" />,
+      width: 70,
     },
   ];
 
@@ -540,12 +541,10 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
       {addSchoolModal()}
       {editSchoolModal()}
       <Header
-        title={<FormattedMessage id="schools" />}
-        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" onClick={handleAddModal}>
+            <Button onClick={handleAddModal} type="primary">
               <PlusCircleOutlined />
               <span>
                 <FormattedMessage id="add" />
@@ -553,14 +552,16 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
             </Button>
           </>
         }
+        icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="schools" />}
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            rowSelection={rowSelection}
             columns={schoolsTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            rowSelection={rowSelection}
             scroll={{ x: 700 }}
           />
         </Col>
@@ -570,16 +571,16 @@ setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
 };
 
 SchoolTableView.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
-  handleSubmitEdit: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
   intl: IntlPropType,
-  selectedRowKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
-  searchedColumn: PropTypes.string.isRequired,
-  searchText: PropTypes.string.isRequired,
   rowSelection: PropTypes.shape({ onChange: PropTypes.func }).isRequired,
+  searchText: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 SchoolTableView.defaultProps = {

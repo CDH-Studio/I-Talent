@@ -1,11 +1,12 @@
-import { useEffect, useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useIntl } from "react-intl";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+
 import StatsLayout from "../components/layouts/statsLayout/StatsLayout";
-import useAxios from "../utils/useAxios";
-import { setTopFive } from "../redux/slices/statsSlice";
 import handleError from "../functions/handleError";
+import { setTopFive } from "../redux/slices/statsSlice";
+import useAxios from "../utils/useAxios";
 
 const Stats = () => {
   const { locale } = useSelector((state) => state.settings);
@@ -19,8 +20,8 @@ const Stats = () => {
       dispatch(
         setTopFive({
           competencies: [],
-          skills: [],
           developmentalGoals: [],
+          skills: [],
         })
       );
       const [topFiveCompetencies, topFiveSkills, topFiveDevelopmentalGoals] =
@@ -32,8 +33,8 @@ const Stats = () => {
       dispatch(
         setTopFive({
           competencies: topFiveCompetencies.data,
-          skills: topFiveSkills.data,
           developmentalGoals: topFiveDevelopmentalGoals.data,
+          skills: topFiveSkills.data,
         })
       );
     } catch (error) {

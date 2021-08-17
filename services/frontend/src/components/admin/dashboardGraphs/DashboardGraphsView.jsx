@@ -1,7 +1,8 @@
-import PropTypes from "prop-types";
-import { Card, Row, Col } from "antd";
-import { FormattedMessage, injectIntl } from "react-intl";
 import Chart from "react-chartjs-2";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { Card, Col, Row } from "antd";
+import PropTypes from "prop-types";
+
 import { IntlPropType } from "../../../utils/customPropTypes";
 
 const chartColors = ["#6295f9", "#60daac", "#657799", "#f6c02a", "#e96c5c"];
@@ -22,8 +23,8 @@ const DashboardGraphsView = ({
   intl,
 }) => {
   const options = {
-    responsive: true,
     maintainAspectRatio: false,
+    responsive: true,
     scales: {
       xAxes: [
         {
@@ -32,15 +33,15 @@ const DashboardGraphsView = ({
       ],
       yAxes: [
         {
-          ticks: {
-            stepSize: 1,
-            beginAtZero: true,
-          },
           scaleLabel: {
             display: true,
             labelString: intl.formatMessage({
               id: "dashboard.number.of.occurrences",
             }),
+          },
+          ticks: {
+            beginAtZero: true,
+            stepSize: 1,
           },
         },
       ],
@@ -48,27 +49,27 @@ const DashboardGraphsView = ({
   };
 
   const barGraphData = (data, type) => ({
-    labels: [intl.formatMessage({ id: `dashboard.popular.${type}` })],
     datasets: data
       ? data.map((element, index) => ({
-          data: [element.count],
           backgroundColor: chartColors[index],
-          label: element.name,
           barPercentage: 0.8,
+          data: [element.count],
+          label: element.name,
         }))
       : [],
+    labels: [intl.formatMessage({ id: `dashboard.popular.${type}` })],
   });
 
   const monthlyGrowthData = {
     datasets: [
       {
-        label: intl.formatMessage({
-          id: "dashboard.number.of.occurrences",
-        }),
+        backgroundColor: "rgb(8, 116, 114)",
         data: monthlyGrowth
           ? monthlyGrowth.map((element) => element.count)
           : [],
-        backgroundColor: "rgb(8, 116, 114)",
+        label: intl.formatMessage({
+          id: "dashboard.number.of.occurrences",
+        }),
       },
     ],
     labels: monthlyGrowth
@@ -79,58 +80,58 @@ const DashboardGraphsView = ({
   return (
     <>
       <Row gutter={[15, 15]}>
-        <Col xs={24} sm={24} md={12} xl={8}>
+        <Col md={12} sm={24} xl={8} xs={24}>
           <Card
-            title={<FormattedMessage id="dashboard.popular.skills" />}
-            loading={topFiveSkills.length === 0}
             bodyStyle={{ height: graphHeight }}
+            loading={topFiveSkills.length === 0}
+            title={<FormattedMessage id="dashboard.popular.skills" />}
           >
             <Chart
-              type="bar"
               data={barGraphData(topFiveSkills, "skills")}
               options={options}
+              type="bar"
             />
           </Card>
         </Col>
-        <Col xs={24} sm={24} md={12} xl={8}>
+        <Col md={12} sm={24} xl={8} xs={24}>
           <Card
-            title={<FormattedMessage id="dashboard.popular.competencies" />}
-            loading={topFiveCompetencies.length === 0}
             bodyStyle={{ height: graphHeight }}
+            loading={topFiveCompetencies.length === 0}
+            title={<FormattedMessage id="dashboard.popular.competencies" />}
           >
             <Chart
-              type="bar"
               data={barGraphData(topFiveCompetencies, "competencies")}
               options={options}
+              type="bar"
             />
           </Card>
         </Col>
-        <Col xs={24} sm={24} md={12} xl={8}>
+        <Col md={12} sm={24} xl={8} xs={24}>
           <Card
+            bodyStyle={{ height: graphHeight }}
+            loading={topFiveDevelopmentalGoals.length === 0}
             title={
               <FormattedMessage id="dashboard.popular.development.goals" />
             }
-            loading={topFiveDevelopmentalGoals.length === 0}
-            bodyStyle={{ height: graphHeight }}
           >
             <Chart
-              type="bar"
               data={barGraphData(
                 topFiveDevelopmentalGoals,
                 "development.goals"
               )}
               options={options}
+              type="bar"
             />
           </Card>
         </Col>
         {monthlyGrowth && (
-          <Col span={24} md={12} xl={24}>
+          <Col md={12} span={24} xl={24}>
             <Card
-              title={<FormattedMessage id="growth.rate.by.month" />}
-              loading={monthlyGrowth.length === 0}
               bodyStyle={{ height: graphHeight }}
+              loading={monthlyGrowth.length === 0}
+              title={<FormattedMessage id="growth.rate.by.month" />}
             >
-              <Chart type="line" data={monthlyGrowthData} options={options} />
+              <Chart data={monthlyGrowthData} options={options} type="line" />
             </Card>
           </Col>
         )}
@@ -140,32 +141,32 @@ const DashboardGraphsView = ({
 };
 
 DashboardGraphsView.propTypes = {
-  topFiveSkills: PropTypes.arrayOf(
+  intl: IntlPropType,
+  monthlyGrowth: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
       count: PropTypes.number,
+      monthName: PropTypes.string,
+      year: PropTypes.string,
     })
-  ).isRequired,
+  ),
   topFiveCompetencies: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
       count: PropTypes.number,
+      name: PropTypes.string,
     })
   ).isRequired,
   topFiveDevelopmentalGoals: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string,
       count: PropTypes.number,
+      name: PropTypes.string,
     })
   ).isRequired,
-  monthlyGrowth: PropTypes.arrayOf(
+  topFiveSkills: PropTypes.arrayOf(
     PropTypes.shape({
-      year: PropTypes.string,
       count: PropTypes.number,
-      monthName: PropTypes.string,
+      name: PropTypes.string,
     })
-  ),
-  intl: IntlPropType,
+  ).isRequired,
 };
 
 DashboardGraphsView.defaultProps = {

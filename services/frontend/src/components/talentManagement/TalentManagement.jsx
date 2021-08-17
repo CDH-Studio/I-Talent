@@ -1,20 +1,21 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
-import TalentManagementView from "./TalentManagementView";
+import PropTypes from "prop-types";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import TalentManagementView from "./TalentManagementView";
 
 const TalentManagement = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "talent.management" })}
       cardName="talentManagement"
-      id="card-profile-talent-management"
-      editUrl="/profile/edit/career-management?tab=talent-management"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/career-management?tab=talent-management"
+      id="card-profile-talent-management"
+      titleString={intl.formatMessage({ id: "talent.management" })}
       visibility={data.visibleCards.talentManagement}
     >
       <TalentManagementView data={data} />
