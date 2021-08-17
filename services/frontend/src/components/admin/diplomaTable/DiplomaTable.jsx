@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { injectIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
@@ -8,7 +8,6 @@ import {
   setAdminDiplomas,
   setAdminDiplomasLoading,
 } from "../../../redux/slices/adminSlice";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import useAxios from "../../../utils/useAxios";
 import DiplomaTableView from "./DiplomaTableView";
 
@@ -17,12 +16,13 @@ import DiplomaTableView from "./DiplomaTableView";
  *  Controller for the DiplomaTableView.
  *  It gathers the required data for rendering the component.
  */
-const DiplomaTable = ({ intl }) => {
+const DiplomaTable = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
   const history = useHistory();
+  const intl = useIntl();
 
   const dispatch = useDispatch();
 
@@ -144,12 +144,4 @@ const DiplomaTable = ({ intl }) => {
   );
 };
 
-DiplomaTable.propTypes = {
-  intl: IntlPropType,
-};
-
-DiplomaTable.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(DiplomaTable);
+export default DiplomaTable;

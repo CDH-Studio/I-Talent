@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   CloseCircleOutlined,
   FormOutlined,
@@ -21,7 +21,6 @@ import PropTypes from "prop-types";
 import {
   FieldPropType,
   FormInstancePropType,
-  IntlPropType,
   KeyNameOptionsPropType,
   KeyTitleOptionsPropType,
 } from "../../../../utils/customPropTypes";
@@ -46,9 +45,10 @@ const EducationFormView = ({
   removeElement,
   diplomaOptions,
   schoolOptions,
-  intl,
   attachmentNames,
 }) => {
+  const intl = useIntl();
+
   const Rules = {
     maxChar1500: {
       max: 1500,
@@ -366,15 +366,13 @@ EducationFormView.propTypes = {
   diplomaOptions: KeyTitleOptionsPropType,
   fieldElement: FieldPropType.isRequired,
   form: FormInstancePropType.isRequired,
-  intl: IntlPropType,
   removeElement: PropTypes.func.isRequired,
   schoolOptions: KeyTitleOptionsPropType,
 };
 
 EducationFormView.defaultProps = {
   diplomaOptions: undefined,
-  intl: undefined,
   schoolOptions: undefined,
 };
 
-export default injectIntl(EducationFormView);
+export default EducationFormView;

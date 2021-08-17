@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { injectIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
@@ -8,7 +8,6 @@ import {
   setAdminCategories,
   setAdminCategoriesLoading,
 } from "../../../redux/slices/adminSlice";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import useAxios from "../../../utils/useAxios";
 import CategoryTableView from "./CategoryTableView";
 
@@ -17,13 +16,14 @@ import CategoryTableView from "./CategoryTableView";
  *  Controller for the CategoryTableView.
  *  It gathers the required data for rendering the component.
  */
-const CategoryTable = ({ intl }) => {
+const CategoryTable = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
   const dispatch = useDispatch();
   const history = useHistory();
+  const intl = useIntl();
 
   // Fetches the category information
   const getCategories = useCallback(async () => {
@@ -144,12 +144,4 @@ const CategoryTable = ({ intl }) => {
   );
 };
 
-CategoryTable.propTypes = {
-  intl: IntlPropType,
-};
-
-CategoryTable.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(CategoryTable);
+export default CategoryTable;

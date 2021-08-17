@@ -1,9 +1,7 @@
 import Chart from "react-chartjs-2";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { Card, Col, Row } from "antd";
 import PropTypes from "prop-types";
-
-import { IntlPropType } from "../../../utils/customPropTypes";
 
 const chartColors = ["#6295f9", "#60daac", "#657799", "#f6c02a", "#e96c5c"];
 const graphHeight = 500;
@@ -20,8 +18,9 @@ const DashboardGraphsView = ({
   topFiveCompetencies,
   topFiveDevelopmentalGoals,
   monthlyGrowth,
-  intl,
 }) => {
+  const intl = useIntl();
+
   const options = {
     maintainAspectRatio: false,
     responsive: true,
@@ -141,7 +140,6 @@ const DashboardGraphsView = ({
 };
 
 DashboardGraphsView.propTypes = {
-  intl: IntlPropType,
   monthlyGrowth: PropTypes.arrayOf(
     PropTypes.shape({
       count: PropTypes.number,
@@ -170,8 +168,7 @@ DashboardGraphsView.propTypes = {
 };
 
 DashboardGraphsView.defaultProps = {
-  intl: undefined,
   monthlyGrowth: null,
 };
 
-export default injectIntl(DashboardGraphsView);
+export default DashboardGraphsView;
