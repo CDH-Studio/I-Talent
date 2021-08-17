@@ -487,7 +487,6 @@ const TalentFormView = ({
    *
    * Get mentorship role form based on if the form switch is toggled
    */
-
   const getMentorshipForm = (expandMentorshipForm) => {
     if (expandMentorshipForm) {
       return (
@@ -604,7 +603,7 @@ const TalentFormView = ({
                 message: <FormattedMessage id="skills" />,
               })}
             >
-              {/* Form Row Two: skills */}
+              {/* Form Row One: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <FormSubTitle
@@ -638,7 +637,7 @@ const TalentFormView = ({
 
               <Divider className="prim-headerDiv" />
 
-              {/* Form Row Two: skills */}
+              {/* Form Row Two: mentorship */}
               <Row gutter={24}>
                 <Col className="gutter-row" span={24}>
                   <FormSubTitle
