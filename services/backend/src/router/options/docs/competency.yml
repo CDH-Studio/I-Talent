@@ -1,116 +1,121 @@
+---
 /api/option/competencies:
-  get:
-    summary: Get every competency option from the database
-    produces:
-      - application/json
-    parameters:
-      - $ref: "#/definitions/LanguageQuery"
-    responses:
-      200:
-        schema:
-          $ref: "#/definitions/IdNameArray"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.competency]
   delete:
-    summary: Delete multiple competency options
     description: __WARNING__ - this also deletes the competencies and associated developmental goals from the user and deletes its translation entries
-    produces:
-      - application/json
     parameters:
       - $ref: "#/definitions/DeleteManyIds"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.competency]
-
-/api/option/competency:
-  post:
-    summary: Create a new competency option
     produces:
       - application/json
-    parameters:
-      - $ref: "#/definitions/CreateOption"
     responses:
-      200:
+      "200":
         $ref: "#/definitions/200"
-      403:
+      "403":
         $ref: "#/definitions/403"
-      409:
-        $ref: "#/definitions/409"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [option.competency]
-  put:
-    summary: Update an existing competency option
+    summary: Delete multiple competency options
+    tags:
+      - option.competency
+  get:
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
     produces:
       - application/json
-    parameters:
-      - $ref: "#/definitions/UpdateOption"
     responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
+      "200":
+        schema:
+          $ref: "#/definitions/IdNameArray"
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [option.competency]
-  delete:
-    summary: Delete a specific category option
-    description: __WARNING__ - this also deletes the competency and associated developmental goal from the user and deletes its translation entries
-    produces:
-      - application/json
-    parameters:
-      - $ref: "#/definitions/DeleteOption"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.competency]
-
+    summary: Get every competency option from the database
+    tags:
+      - option.competency
 /api/option/competenciesAllLang:
   get:
-    summary: Get every competency option from the database in both languages
     produces:
       - application/json
     responses:
-      200:
+      "200":
         $ref: "#/definitions/IdEnFrArray"
-      403:
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [option.competency]
+    summary: Get every competency option from the database in both languages
+    tags:
+      - option.competency
+/api/option/competency:
+  delete:
+    description: __WARNING__ - this also deletes the competency and associated developmental goal from the user and deletes its translation entries
+    parameters:
+      - $ref: "#/definitions/DeleteOption"
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Delete a specific category option
+    tags:
+      - option.competency
+  post:
+    parameters:
+      - $ref: "#/definitions/CreateOption"
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "409":
+        $ref: "#/definitions/409"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Create a new competency option
+    tags:
+      - option.competency
+  put:
+    parameters:
+      - $ref: "#/definitions/UpdateOption"
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Update an existing competency option
+    tags:
+      - option.competency

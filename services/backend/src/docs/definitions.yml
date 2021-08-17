@@ -1,36 +1,429 @@
+---
 definitions:
+  "200":
+    description: Success
+  "403":
+    description: Request not authenticated with keycloak or user does not have access to certain information
+  "404":
+    description: Request processed, but specified item was not found
+  "409":
+    description: Request not processed due to entry already existing
+  "422":
+    description: Request does not satisfy the parameters validation
+  "500":
+    description: Server error, either related to the database or server framework
   BugsLocationEnum:
-    type: string
     enum:
       - HOME
       - PROFILE
       - SEARCH
       - FORMS
-  BugsStatusEnum:
     type: string
+  BugsStatusEnum:
     enum:
       - UNRESOLVED
       - RESOLVED
       - DUPLICATE
-  LanguageEnum:
     type: string
+  CardVisibilityStatusEnum:
+    enum:
+      - PRIVATE
+      - PUBLIC
+      - CONNECTIONS
+    type: string
+  CountResponse:
+    schema:
+      type: number
+  CreateOption:
+    description: English and french translations for the option
+    in: body
+    name: body
+    required: true
+    schema:
+      properties:
+        en:
+          type: string
+        fr:
+          type: string
+      required:
+        - en
+        - fr
+      type: object
+  DeleteManyIds:
+    description: An array of UUIDs to be deleted
+    in: body
+    name: body
+    required: true
+    schema:
+      properties:
+        ids:
+          $ref: "#/definitions/IdArray"
+      required:
+        - ids
+      type: object
+  DeleteOption:
+    description: UUID of the option to be deleted
+    in: body
+    name: body
+    required: true
+    schema:
+      properties:
+        id:
+          format: uuid
+          type: string
+      required:
+        - id
+      type: object
+  Educations:
+    items:
+      properties:
+        description:
+          type: string
+        diplomaId:
+          format: uuid
+          type: string
+        endDate:
+          format: date-time
+          type: string
+        ongoing:
+          type: boolean
+        schoolId:
+          format: uuid
+          type: string
+        startDate:
+          format: date-time
+          type: string
+      required:
+        - startDate
+        - endDate
+        - diplomaId
+        - schoolId
+      type: object
+    type: array
+  Experiences:
+    items:
+      properties:
+        description:
+          type: string
+        endDate:
+          format: date-time
+          type: string
+        jobTitle:
+          type: string
+        ongoing:
+          type: boolean
+        organization:
+          type: string
+        startDate:
+          format: date-time
+          type: string
+      required:
+        - startDate
+        - endDate
+        - jobTitle
+        - organization
+        - description
+      type: object
+    type: array
+  GetProfile:
+    properties:
+      avatarColor:
+        type: string
+      branch:
+        type: string
+      careerMobility:
+        $ref: "#/definitions/IdDescription"
+      cellphone:
+        type: string
+      competencies:
+        $ref: "#/definitions/IdNameArray"
+      competenciesUpdatedAt:
+        format: date-time
+        type: string
+      description:
+        type: string
+      developmentalGoals:
+        $ref: "#/definitions/IdNameArray"
+      developmentalGoalsUpdatedAt:
+        format: date-time
+        type: string
+      educations:
+        items:
+          properties:
+            diploma:
+              properties:
+                description:
+                  type: string
+                id:
+                  format: uuid
+                  type: string
+              type: object
+            endDate:
+              format: date-time
+              type: string
+            id:
+              format: uuid
+              type: string
+            ongoing:
+              type: boolean
+            school:
+              properties:
+                country:
+                  type: string
+                id:
+                  format: uuid
+                  type: string
+                name:
+                  type: string
+                province:
+                  type: string
+              type: object
+            startDate:
+              format: date-time
+              type: string
+          type: object
+        type: array
+      educationsUpdatedAt:
+        format: date-time
+        type: string
+      email:
+        format: email
+        type: string
+      exFeeder:
+        type: boolean
+      experiences:
+        items:
+          properties:
+            description:
+              type: string
+            endDate:
+              format: date-time
+              type: string
+            id:
+              format: uuid
+              type: string
+            jobTitle:
+              type: string
+            ongoing:
+              type: boolean
+            organization:
+              type: string
+            startDate:
+              format: date-time
+              type: string
+          type: object
+        type: array
+      experiencesUpdatedAt:
+        format: date-time
+        type: string
+      firstLanguage:
+        $ref: "#/definitions/LanguageEnum"
+      firstName:
+        type: string
+      gcconnex:
+        type: string
+      github:
+        type: string
+      id:
+        format: uuid
+        type: string
+      interestedInRemote:
+        type: boolean
+      jobTitle:
+        type: string
+      lastName:
+        type: string
+      linkedin:
+        type: string
+      lookingJob:
+        $ref: "#/definitions/IdDescription"
+      manager:
+        type: string
+      mentorshipSkills:
+        items:
+          properties:
+            category:
+              type: string
+            categoryId:
+              format: uuid
+              type: string
+            id:
+              format: uuid
+              type: string
+            name:
+              type: string
+          type: object
+        type: array
+      mentorshipSkillsUpdatedAt:
+        format: date-time
+        type: string
+      name:
+        type: string
+      nameInitials:
+        type: string
+      officeLocation:
+        properties:
+          city:
+            type: string
+          country:
+            type: string
+          id:
+            format: uuid
+            type: string
+          postalCode:
+            type: string
+          province:
+            type: string
+          streetName:
+            type: string
+          streetNumber:
+            type: number
+        type: object
+      preferredLanguage:
+        $ref: "#/definitions/LanguageEnum"
+      pri:
+        type: string
+      projects:
+        items:
+          type: string
+        type: array
+      qualifiedPools:
+        $ref: "#/definitions/QualifiedPools"
+      relocationLocations:
+        items:
+          properties:
+            city:
+              type: string
+            id:
+              format: uuid
+              type: string
+            province:
+              type: string
+          type: object
+        type: array
+      secondLangProfs:
+        items:
+          properties:
+            id:
+              format: uuid
+              type: string
+            level:
+              $ref: "#/definitions/ProficiencyLevelEnum"
+            proficiency:
+              $ref: "#/definitions/ProficiencyEnum"
+            status:
+              type: string
+          type: object
+        type: array
+      secondLanguage:
+        $ref: "#/definitions/LanguageEnum"
+      securityClearance:
+        $ref: "#/definitions/IdDescription"
+      skills:
+        items:
+          properties:
+            category:
+              type: string
+            categoryId:
+              format: uuid
+              type: string
+            id:
+              format: uuid
+              type: string
+            name:
+              type: string
+          type: object
+        type: array
+      skillsUpdatedAt:
+        format: date-time
+        type: string
+      status:
+        $ref: "#/definitions/UserStatusEnum"
+      talentMatrixResult:
+        $ref: "#/definitions/IdDescription"
+      team:
+        type: string
+      telephone:
+        type: string
+      tenure:
+        $ref: "#/definitions/IdDescription"
+      updatedAt:
+        format: date-time
+        type: string
+      visibleCards:
+        $ref: "#/definitions/VisibleCards"
+    type: object
+  IdArray:
+    items:
+      format: uuid
+      type: string
+    type: array
+  IdDescription:
+    properties:
+      description:
+        type: string
+      id:
+        format: uuid
+        type: string
+    type: object
+  IdDescriptionArray:
+    schema:
+      items:
+        $ref: "#/definitions/IdDescription"
+      type: array
+  IdEnFrArray:
+    schema:
+      items:
+        properties:
+          en:
+            type: string
+          fr:
+            type: string
+          id:
+            format: uuid
+            type: string
+        type: object
+      type: array
+  IdName:
+    properties:
+      id:
+        format: uuid
+        type: string
+      name:
+        type: string
+    type: object
+  IdNameArray:
+    items:
+      $ref: "#/definitions/IdName"
+    type: array
+  IdQuery:
+    description: UUID of the user
+    format: uuid
+    in: query
+    name: id
+    required: true
+    type: string
+  LanguageEnum:
     enum:
       - ENGLISH
       - FRENCH
-  UserStatusEnum:
     type: string
+  LanguageQuery:
+    description: The language which the data will be returned
     enum:
-      - ACTIVE
-      - INACTIVE
-      - HIDDEN
-  ProficiencyEnum:
+      - ENGLISH
+      - FRENCH
+    in: query
+    name: language
+    required: true
     type: string
+  ProficiencyEnum:
     enum:
       - ORAL
       - READING
       - WRITING
-  ProficiencyLevelEnum:
     type: string
+  ProficiencyLevelEnum:
     enum:
       - A
       - B
@@ -38,225 +431,191 @@ definitions:
       - E
       - X
       - NA
-  TypeQuery:
-    name: type
     type: string
-    in: query
-    description: The type of attachment names
-  CardVisibilityStatusEnum:
-    type: string
-    enum:
-      - PRIVATE
-      - PUBLIC
-      - CONNECTIONS
-  LanguageQuery:
-    name: language
-    in: query
-    description: The language which the data will be returned
-    required: true
-    type: string
-    enum:
-      - ENGLISH
-      - FRENCH
-  IdQuery:
-    name: id
-    in: query
-    description: UUID of the user
-    required: true
-    type: string
-    format: uuid
-  UUIDArray:
-    type: array
+  QualifiedPools:
     items:
-      type: string
-      format: uuid
-  StringArray:
+      properties:
+        classification:
+          type: string
+        jobPosterLink:
+          type: string
+        jobTitle:
+          type: string
+        selectionProcessNumber:
+          type: string
+      type: object
     type: array
-    items:
-      type: string
-  IdDescription:
-    type: object
-    properties:
-      id:
-        type: string
-        format: uuid
-      description:
-        type: string
-  IdDescriptionArray:
-    schema:
-      type: array
-      items:
-        $ref: "#/definitions/IdDescription"
-  IdName:
-    type: object
-    properties:
-      id:
-        type: string
-        format: uuid
-      name:
-        type: string
-  IdNameArray:
-    type: array
-    items:
-      $ref: "#/definitions/IdName"
-  IdEnFrArray:
-    schema:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          en:
-            type: string
-          fr:
-            type: string
-  IdArray:
-    type: array
-    items:
-      type: string
-      format: uuid
-  DeleteManyIds:
-    name: body
-    in: body
-    description: An array of UUIDs to be deleted
-    required: true
-    schema:
-      type: object
-      required: [ids]
-      properties:
-        ids:
-          $ref: "#/definitions/IdArray"
-  CreateOption:
-    name: body
-    in: body
-    description: English and french translations for the option
-    required: true
-    schema:
-      type: object
-      required: [en, fr]
-      properties:
-        en:
-          type: string
-        fr:
-          type: string
-  UpdateOption:
-    name: body
-    in: body
-    description: English and french translations for the option and its UUID
-    required: true
-    schema:
-      type: object
-      required: [id, en, fr]
-      properties:
-        id:
-          type: string
-          format: uuid
-        en:
-          type: string
-        fr:
-          type: string
-  DeleteOption:
-    name: body
-    in: body
-    description: UUID of the option to be deleted
-    required: true
-    schema:
-      type: object
-      required: [id]
-      properties:
-        id:
-          type: string
-          format: uuid
-  TopFiveResponse:
-    schema:
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          count:
-            type: number
   SearchResponse:
     schema:
-      type: array
       items:
-        type: object
         properties:
-          id:
-            type: string
-            format: uuid
-          firstName:
-            type: string
-          lastName:
-            type: string
           avatarColor:
+            type: string
+          branch:
+            type: string
+          firstName:
             type: string
           groupLevel:
             $ref: "#/definitions/IdName"
-          nameInitials:
+          id:
+            format: uuid
             type: string
           isConnection:
             type: boolean
-          branch:
-            type: string
           jobTitle:
             type: string
+          lastName:
+            type: string
+          nameInitials:
+            type: string
+          officeLocation:
+            properties:
+              city:
+                type: string
+              id:
+                format: uuid
+                type: string
+              province:
+                type: string
+              streetName:
+                type: string
+              streetNumber:
+                type: number
+            type: object
           resultSkills:
             $ref: "#/definitions/IdNameArray"
           totalResultSkills:
             type: number
-          officeLocation:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              streetNumber:
-                type: number
-              city:
-                type: string
-              streetName:
-                type: string
-              province:
-                type: string
+        type: object
+      type: array
+  SecondLangProfs:
+    items:
+      properties:
+        level:
+          $ref: "#/definitions/ProficiencyLevelEnum"
+        proficiency:
+          $ref: "#/definitions/ProficiencyEnum"
+        status:
+          type: string
+      required:
+        - proficiency
+        - level
+        - status
+      type: object
+    type: array
+  StringArray:
+    items:
+      type: string
+    type: array
+  TopFiveResponse:
+    schema:
+      items:
+        properties:
+          count:
+            type: number
+          name:
+            type: string
+        type: object
+      type: array
+  TypeQuery:
+    description: The type of attachment names
+    in: query
+    name: type
+    type: string
+  UUIDArray:
+    items:
+      format: uuid
+      type: string
+    type: array
+  UpdateOption:
+    description: English and french translations for the option and its UUID
+    in: body
+    name: body
+    required: true
+    schema:
+      properties:
+        en:
+          type: string
+        fr:
+          type: string
+        id:
+          format: uuid
+          type: string
+      required:
+        - id
+        - en
+        - fr
+      type: object
   UserResponse:
     schema:
-      type: object
       properties:
-        id:
+        avatarColor:
           type: string
-          format: uuid
-        name:
+        createdAt:
+          format: date-time
           type: string
         email:
-          type: string
           format: email
-        status:
-          $ref: "#/definitions/UserStatusEnum"
-        avatarColor:
           type: string
         firstName:
           type: string
+        id:
+          format: uuid
+          type: string
         lastName:
           type: string
-        createdAt:
+        name:
           type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-        signupStep:
-          type: number
         nameInitials:
           type: string
-  CountResponse:
-    schema:
-      type: number
+        signupStep:
+          type: number
+        status:
+          $ref: "#/definitions/UserStatusEnum"
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+  UserStatusEnum:
+    enum:
+      - ACTIVE
+      - INACTIVE
+      - HIDDEN
+    type: string
   VisibleCards:
-    type: object
+    properties:
+      careerInterests:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      competencies:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      description:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      developmentalGoals:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      education:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      employmentEquityGroup:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      exFeeder:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      experience:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      info:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      manager:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      mentorshipSkills:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      officialLanguage:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      projects:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      qualifiedPools:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      skills:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
+      talentManagement:
+        $ref: "#/definitions/CardVisibilityStatusEnum"
     required:
       - manager
       - info
@@ -272,353 +631,4 @@ definitions:
       - mentorshipSkills
       - exFeeder
       - employmentEquityGroup
-    properties:
-      manager:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      info:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      talentManagement:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      officialLanguage:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      skills:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      competencies:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      developmentalGoals:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      description:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      education:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      experience:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      projects:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      careerInterests:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      mentorshipSkills:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      exFeeder:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      employmentEquityGroup:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      qualifiedPools:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-  Educations:
-    type: array
-    items:
-      type: object
-      required:
-        - startDate
-        - endDate
-        - diplomaId
-        - schoolId
-      properties:
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        ongoing:
-          type: boolean
-        diplomaId:
-          type: string
-          format: uuid
-        schoolId:
-          type: string
-          format: uuid
-        description:
-          type: string
-  Experiences:
-    type: array
-    items:
-      type: object
-      required:
-        - startDate
-        - endDate
-        - jobTitle
-        - organization
-        - description
-      properties:
-        startDate:
-          type: string
-          format: date-time
-        endDate:
-          type: string
-          format: date-time
-        ongoing:
-          type: boolean
-        jobTitle:
-          type: string
-        organization:
-          type: string
-        description:
-          type: string
-  SecondLangProfs:
-    type: array
-    items:
-      type: object
-      required: [proficiency, level, status]
-      properties:
-        proficiency:
-          $ref: "#/definitions/ProficiencyEnum"
-        level:
-          $ref: "#/definitions/ProficiencyLevelEnum"
-        status:
-          type: string
-  QualifiedPools:
-    type: array
-    items:
-      type: object
-      properties:
-        jobTitle:
-          type: string
-        selectionProcessNumber:
-          type: string
-        jobPosterLink:
-          type: string
-        classification:
-          type: string
-  GetProfile:
     type: object
-    properties:
-      id:
-        type: string
-        format: uuid
-      updatedAt:
-        type: string
-        format: date-time
-      name:
-        type: string
-      firstName:
-        type: string
-      lastName:
-        type: string
-      avatarColor:
-        type: string
-      email:
-        type: string
-        format: email
-      telephone:
-        type: string
-      cellphone:
-        type: string
-      pri:
-        type: string
-      team:
-        type: string
-      manager:
-        type: string
-      description:
-        type: string
-      firstLanguage:
-        $ref: "#/definitions/LanguageEnum"
-      secondLanguage:
-        $ref: "#/definitions/LanguageEnum"
-      preferredLanguage:
-        $ref: "#/definitions/LanguageEnum"
-      linkedin:
-        type: string
-      github:
-        type: string
-      gcconnex:
-        type: string
-      exFeeder:
-        type: boolean
-      interestedInRemote:
-        type: boolean
-      status:
-        $ref: "#/definitions/UserStatusEnum"
-      projects:
-        type: array
-        items:
-          type: string
-      skills:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-            name:
-              type: string
-            categoryId:
-              type: string
-              format: uuid
-            category:
-              type: string
-      mentorshipSkills:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-            name:
-              type: string
-            categoryId:
-              type: string
-              format: uuid
-            category:
-              type: string
-      competencies:
-        $ref: "#/definitions/IdNameArray"
-      developmentalGoals:
-        $ref: "#/definitions/IdNameArray"
-      educations:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-            startDate:
-              type: string
-              format: date-time
-            endDate:
-              type: string
-              format: date-time
-            ongoing:
-              type: boolean
-            diploma:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                description:
-                  type: string
-            school:
-              type: object
-              properties:
-                id:
-                  type: string
-                  format: uuid
-                country:
-                  type: string
-                province:
-                  type: string
-                name:
-                  type: string
-      experiences:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-            startDate:
-              type: string
-              format: date-time
-            endDate:
-              type: string
-              format: date-time
-            ongoing:
-              type: boolean
-            description:
-              type: string
-            jobTitle:
-              type: string
-            organization:
-              type: string
-      securityClearance:
-        $ref: "#/definitions/IdDescription"
-      lookingJob:
-        $ref: "#/definitions/IdDescription"
-      tenure:
-        $ref: "#/definitions/IdDescription"
-      careerMobility:
-        $ref: "#/definitions/IdDescription"
-      jobTitle:
-        type: string
-      branch:
-        type: string
-      talentMatrixResult:
-        $ref: "#/definitions/IdDescription"
-      officeLocation:
-        type: object
-        properties:
-          id:
-            type: string
-            format: uuid
-          postalCode:
-            type: string
-          streetNumber:
-            type: number
-          city:
-            type: string
-          country:
-            type: string
-          streetName:
-            type: string
-          province:
-            type: string
-      relocationLocations:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-            city:
-              type: string
-            province:
-              type: string
-      secondLangProfs:
-        type: array
-        items:
-          type: object
-          properties:
-            id:
-              type: string
-              format: uuid
-            status:
-              type: string
-            proficiency:
-              $ref: "#/definitions/ProficiencyEnum"
-            level:
-              $ref: "#/definitions/ProficiencyLevelEnum"
-      skillsUpdatedAt:
-        type: string
-        format: date-time
-      mentorshipSkillsUpdatedAt:
-        type: string
-        format: date-time
-      competenciesUpdatedAt:
-        type: string
-        format: date-time
-      developmentalGoalsUpdatedAt:
-        type: string
-        format: date-time
-      educationsUpdatedAt:
-        type: string
-        format: date-time
-      experiencesUpdatedAt:
-        type: string
-        format: date-time
-      qualifiedPools:
-        $ref: "#/definitions/QualifiedPools"
-      visibleCards:
-        $ref: "#/definitions/VisibleCards"
-      nameInitials:
-        type: string
-
-  200:
-    description: Success
-  403:
-    description: Request not authenticated with keycloak or user does not have access to certain information
-  404:
-    description: Request processed, but specified item was not found
-  409:
-    description: Request not processed due to entry already existing
-  422:
-    description: Request does not satisfy the parameters validation
-  500:
-    description: Server error, either related to the database or server framework
