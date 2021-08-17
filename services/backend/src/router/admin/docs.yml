@@ -1,70 +1,72 @@
-/api/admin/users:
-  get:
-    summary: Returns an array of users formatted for the admin dashboard
+---
+/api/admin/userStatuses:
+  put:
+    parameters:
+      - description: An object containing UUIDs as key and the user status, 'ACTIVE' or 'INACTIVE' or 'HIDDEN'
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            UUID:
+              $ref: "#/definitions/UserStatusEnum"
+          type: object
     produces:
       - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Batch update user statuses
+    tags:
+      - admin
+/api/admin/users:
+  get:
     parameters:
       - $ref: "#/definitions/LanguageQuery"
+    produces:
+      - application/json
     responses:
-      200:
+      "200":
         schema:
-          type: array
           items:
-            type: object
             properties:
-              id:
-                type: string
-                format: uuid
               createdAt:
-                type: string
                 format: date-time
-              updatedAt:
                 type: string
-                format: date-time
               firstName:
+                type: string
+              id:
+                format: uuid
+                type: string
+              jobTitle:
                 type: string
               lastName:
                 type: string
               status:
                 $ref: "#/definitions/UserStatusEnum"
-              jobTitle:
-                type: string
               tenure:
                 type: string
-      403:
+              updatedAt:
+                format: date-time
+                type: string
+            type: object
+          type: array
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [admin]
-
-/api/admin/userStatuses:
-  put:
-    summary: Batch update user statuses
-    produces:
-      - application/json
-    parameters:
-      - name: body
-        in: body
-        description: An object containing UUIDs as key and the user status, 'ACTIVE' or 'INACTIVE' or 'HIDDEN'
-        required: true
-        schema:
-          type: object
-          properties:
-            UUID:
-              $ref: "#/definitions/UserStatusEnum"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [admin]
+    summary: Returns an array of users formatted for the admin dashboard
+    tags:
+      - admin

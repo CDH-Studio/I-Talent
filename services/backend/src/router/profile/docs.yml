@@ -1,154 +1,157 @@
-/api/profile/{id}:
+---
+/api/profile/private/{id}:
   get:
-    summary: Public profile information (takes visibleCards into account)
-    produces:
-      - application/json
+    description: __Note:__ the id must match the id from the Keycloak request
     parameters:
       - $ref: "#/definitions/LanguageQuery"
       - $ref: "#/definitions/IdQuery"
+    produces:
+      - application/json
     responses:
-      200:
+      "200":
         schema:
           $ref: "#/definitions/GetProfile"
-      403:
+      "403":
         $ref: "#/definitions/403"
-      404:
-        $ref: "#/definitions/404"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [profile]
-  put:
-    summary: Update a user
-    produces:
-      - application/json
+    summary: All of the profile's information
+    tags:
+      - profile
+/api/profile/{id}:
+  get:
     parameters:
       - $ref: "#/definitions/LanguageQuery"
       - $ref: "#/definitions/IdQuery"
-      - name: body
-        in: body
-        description: Data used to update profile
+    produces:
+      - application/json
+    responses:
+      "200":
         schema:
-          type: object
+          $ref: "#/definitions/GetProfile"
+      "403":
+        $ref: "#/definitions/403"
+      "404":
+        $ref: "#/definitions/404"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Public profile information (takes visibleCards into account)
+    tags:
+      - profile
+  put:
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
+      - $ref: "#/definitions/IdQuery"
+      - description: Data used to update profile
+        in: body
+        name: body
+        schema:
           properties:
-            firstName:
+            actingLevelId:
+              format: uuid
               type: string
-            lastName:
+            avatarColor:
               type: string
-            team:
-              type: string
-            telephone:
+            careerMobilityId:
+              format: uuid
               type: string
             cellphone:
               type: string
-            linkedin:
-              type: string
-            github:
-              type: string
-            gcconnex:
-              type: string
-            manager:
-              type: string
-            firstLanguage:
-              $ref: "#/definitions/LanguageEnum"
-            secondLanguage:
-              $ref: "#/definitions/LanguageEnum"
-            preferredLanguage:
-              $ref: "#/definitions/LanguageEnum"
-            interestedInRemote:
-              type: boolean
-            exFeeder:
-              type: boolean
-            avatarColor:
-              type: string
-            status:
-              $ref: "#/definitions/UserStatusEnum"
-            signupStep:
-              type: number
-            projects:
-              $ref: "#/definitions/StringArray"
-            employmentEquityGroups:
-              $ref: "#/definitions/StringArray"
-            skills:
-              $ref: "#/definitions/UUIDArray"
-            mentorshipSkills:
-              $ref: "#/definitions/UUIDArray"
             competencies:
               $ref: "#/definitions/UUIDArray"
             developmentalGoals:
               $ref: "#/definitions/UUIDArray"
             educations:
               $ref: "#/definitions/Educations"
-            relocationLocations:
-              $ref: "#/definitions/UUIDArray"
+            employmentEquityGroups:
+              $ref: "#/definitions/StringArray"
+            employmentInfoId:
+              format: uuid
+              type: string
+            exFeeder:
+              type: boolean
             experiences:
               $ref: "#/definitions/Experiences"
+            firstLanguage:
+              $ref: "#/definitions/LanguageEnum"
+            firstName:
+              type: string
+            gcconnex:
+              type: string
+            github:
+              type: string
+            groupLevelId:
+              format: uuid
+              type: string
+            interestedInRemote:
+              type: boolean
+            lastName:
+              type: string
+            linkedin:
+              type: string
+            locationId:
+              format: uuid
+              type: string
+            lookingForANewJobId:
+              format: uuid
+              type: string
+            manager:
+              type: string
+            mentorshipSkills:
+              $ref: "#/definitions/UUIDArray"
+            preferredLanguage:
+              $ref: "#/definitions/LanguageEnum"
+            projects:
+              $ref: "#/definitions/StringArray"
+            relocationLocations:
+              $ref: "#/definitions/UUIDArray"
             secondLangProfs:
               $ref: "#/definitions/SecondLangProfs"
-            locationId:
-              type: string
-              format: uuid
-            careerMobilityId:
-              type: string
-              format: uuid
-            tenureId:
-              type: string
-              format: uuid
+            secondLanguage:
+              $ref: "#/definitions/LanguageEnum"
             securityClearanceId:
-              type: string
               format: uuid
-            lookingForANewJobId:
               type: string
-              format: uuid
+            signupStep:
+              type: number
+            skills:
+              $ref: "#/definitions/UUIDArray"
+            status:
+              $ref: "#/definitions/UserStatusEnum"
             talentMatrixResultId:
-              type: string
               format: uuid
-            groupLevelId:
               type: string
-              format: uuid
-            actingLevelId:
+            team:
               type: string
-              format: uuid
-            employmentInfoId:
+            telephone:
               type: string
+            tenureId:
               format: uuid
+              type: string
             visibleCards:
               $ref: "#/definitions/VisibleCards"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [profile]
-
-/api/profile/private/{id}:
-  get:
-    summary: All of the profile's information
-    description: __Note:__ the id must match the id from the Keycloak request
+          type: object
     produces:
       - application/json
-    parameters:
-      - $ref: "#/definitions/LanguageQuery"
-      - $ref: "#/definitions/IdQuery"
     responses:
-      200:
-        schema:
-          $ref: "#/definitions/GetProfile"
-      403:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [profile]
+    summary: Update a user
+    tags:
+      - profile
