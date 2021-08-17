@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
+
 import handleError from "../../../functions/handleError";
-import CategoryTableView from "./CategoryTableView";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import {
   setAdminCategories,
   setAdminCategoriesLoading,
 } from "../../../redux/slices/adminSlice";
+import { IntlPropType } from "../../../utils/customPropTypes";
+import useAxios from "../../../utils/useAxios";
+import CategoryTableView from "./CategoryTableView";
 
 /**
  *  CategoryTable(props)
@@ -73,9 +74,9 @@ const CategoryTable = ({ intl }) => {
   // Handles the update/edit of a category
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/category`, {
-      id,
       en: values.editCategoryEn,
       fr: values.editCategoryFr,
+      id,
     });
 
     getCategories();
@@ -106,10 +107,10 @@ const CategoryTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (_selectedRowKeys) => {
       onSelectChange(_selectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {
@@ -130,15 +131,15 @@ const CategoryTable = ({ intl }) => {
 
   return (
     <CategoryTableView
-      handleSearch={handleSearch}
       handleReset={handleReset}
+      handleSearch={handleSearch}
       handleSubmitAdd={handleSubmitAdd}
-      handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
-      selectedRowKeys={selectedRowKeys}
+      handleSubmitEdit={handleSubmitEdit}
+      rowSelection={rowSelection}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      rowSelection={rowSelection}
+      selectedRowKeys={selectedRowKeys}
     />
   );
 };

@@ -1,20 +1,21 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
-import EmployeeSummaryView from "./EmployeeSummaryView";
+import PropTypes from "prop-types";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import EmployeeSummaryView from "./EmployeeSummaryView";
 
 const EmployeeSummary = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "employment.status" })}
       cardName="info"
-      id="card-profile-employee-summary"
-      editUrl="/profile/edit/employment"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/employment"
+      id="card-profile-employee-summary"
+      titleString={intl.formatMessage({ id: "employment.status" })}
       visibility={data.visibleCards.info}
     >
       <EmployeeSummaryView data={data} />

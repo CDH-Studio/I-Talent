@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
-import EmploymentEquityView from "./EmploymentEquityView";
-import ProfileCards from "../profileCards/ProfileCards";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
+import EmploymentEquityView from "./EmploymentEquityView";
 
 const EmploymentEquity = ({ data, editableCardBool }) => {
   const [employmentEquityData, setEmploymentEquityData] = useState([]);
@@ -11,21 +12,21 @@ const EmploymentEquity = ({ data, editableCardBool }) => {
 
   useEffect(() => {
     const dataMapped = {
-      WOMEN: {
-        key: "WOMEN",
-        text: intl.formatMessage({ id: "employment.equity.group.woman" }),
+      DISABILITY: {
+        key: "DISABILITY",
+        text: intl.formatMessage({ id: "employment.equity.group.disability" }),
       },
       INDIGENOUS: {
         key: "INDIGENOUS",
         text: intl.formatMessage({ id: "employment.equity.group.indigenous" }),
       },
-      DISABILITY: {
-        key: "DISABILITY",
-        text: intl.formatMessage({ id: "employment.equity.group.disability" }),
-      },
       MINORITY: {
         key: "MINORITY",
         text: intl.formatMessage({ id: "employment.equity.group.minority" }),
+      },
+      WOMEN: {
+        key: "WOMEN",
+        text: intl.formatMessage({ id: "employment.equity.group.woman" }),
       },
     };
 
@@ -36,12 +37,12 @@ const EmploymentEquity = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "employment.equity.groups" })}
       cardName="employmentEquityGroup"
-      id="card-profile-employment-equity"
-      editUrl="/profile/edit/primary-info"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/primary-info"
+      id="card-profile-employment-equity"
+      titleString={intl.formatMessage({ id: "employment.equity.groups" })}
       visibility={data.visibleCards.employmentEquityGroup}
     >
       <EmploymentEquityView groups={employmentEquityData} />

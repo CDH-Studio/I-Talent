@@ -1,6 +1,7 @@
-import PropTypes from "prop-types";
-import { Tooltip } from "antd";
 import { InfoCircleOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
+import PropTypes from "prop-types";
+
 import "./FormLabelTooltipView.less";
 
 const FormLabelTooltipView = ({ labelText, tooltipText }) => (

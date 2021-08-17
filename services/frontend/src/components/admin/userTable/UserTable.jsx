@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
-import dayjs from "dayjs";
+import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Prompt, useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
-import UserTableView from "./UserTableView";
+import dayjs from "dayjs";
+
 import handleError from "../../../functions/handleError";
 import {
   setAdminUsers,
   setAdminUsersLoading,
 } from "../../../redux/slices/adminSlice";
+import useAxios from "../../../utils/useAxios";
+import UserTableView from "./UserTableView";
 
 /**
  *  UserTable(props)
@@ -41,16 +42,16 @@ const UserTable = () => {
 
       // Formats data from backend into viewable data for the table
       const formattedData = results[0].data.map((user) => ({
-        key: user.id,
-        profileLink: `/profile/${user.id}`,
-        fullName: `${user.firstName} ${user.lastName}`,
-        jobTitle: user.jobTitle || intl.formatMessage({ id: "none.specified" }),
-        tenure: user.tenure || intl.formatMessage({ id: "none.specified" }),
         formatCreatedAt: dayjs(user.createdAt).format("YYYY-MM-DD"),
         formatUpdatedAt: dayjs(user.updatedAt).format("YYYY-MM-DD"),
-        status: user.status,
+        fullName: `${user.firstName} ${user.lastName}`,
         isAdmin: results[1].data.admin.includes(user.id),
         isManager: results[1].data.manager.includes(user.id),
+        jobTitle: user.jobTitle || intl.formatMessage({ id: "none.specified" }),
+        key: user.id,
+        profileLink: `/profile/${user.id}`,
+        status: user.status,
+        tenure: user.tenure || intl.formatMessage({ id: "none.specified" }),
       }));
       dispatch(setAdminUsers({ data: formattedData, locale }));
     } catch (error) {
@@ -151,19 +152,19 @@ const UserTable = () => {
   return (
     <>
       <Prompt
-        when={modifiedStatus}
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
+        when={modifiedStatus}
       />
       <UserTableView
-        searchText={searchText}
-        searchedColumn={searchedColumn}
         handleApply={handleApply}
         handleDropdownChange={handleDropdownChange}
-        profileStatusValue={profileStatusValue}
-        handleSearch={handleSearch}
         handleReset={handleReset}
-        modifiedStatus={modifiedStatus}
+        handleSearch={handleSearch}
         handleSubmitDelete={handleSubmitDelete}
+        modifiedStatus={modifiedStatus}
+        profileStatusValue={profileStatusValue}
+        searchedColumn={searchedColumn}
+        searchText={searchText}
       />
     </>
   );

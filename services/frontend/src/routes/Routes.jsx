@@ -1,10 +1,11 @@
 import { Route, Switch } from "react-router-dom";
-import { LandingPage, UnexpectedError, Logout } from "../pages";
+
 import ErrorNumber from "../components/errorResult/errorNumber";
-import Admin from "./Admin";
-import Secured from "./Secured";
-import ScrollToTop from "./ScrollToTop";
 import PrivacyModal from "../components/privacyModal/PrivacyModal";
+import { LandingPage, Logout, UnexpectedError } from "../pages";
+import Admin from "./Admin";
+import ScrollToTop from "./ScrollToTop";
+import Secured from "./Secured";
 
 const Routes = () => (
   <>

@@ -1,10 +1,10 @@
+import { FormattedMessage } from "react-intl";
 import {
   EyeInvisibleOutlined,
-  TeamOutlined,
   EyeOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Tooltip } from "antd";
-import { FormattedMessage } from "react-intl";
 import PropTypes from "prop-types";
 
 const CardVisibilityStatusView = ({ visibilityStatus }) => {

@@ -1,9 +1,10 @@
-import dayjs from "dayjs";
 import { useIntl } from "react-intl";
+import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import ExperienceView from "./ExperienceView";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import ExperienceView from "./ExperienceView";
 
 const Experience = ({ data, editableCardBool }) => {
   const intl = useIntl();
@@ -55,11 +56,6 @@ const Experience = ({ data, editableCardBool }) => {
         attachmentLinks,
         projects,
       }) => ({
-        description,
-        duration: getExperienceDuration(startDate, endDate, ongoingDate),
-        icon: "solution",
-        jobTitle,
-        organization,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
               id: a.id,
@@ -67,6 +63,11 @@ const Experience = ({ data, editableCardBool }) => {
               url: a.url,
             }))
           : [],
+        description,
+        duration: getExperienceDuration(startDate, endDate, ongoingDate),
+        icon: "solution",
+        jobTitle,
+        organization,
         projects,
       })
     );
@@ -74,14 +75,14 @@ const Experience = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "experience" })}
       cardName="experience"
-      id="card-profile-experience"
-      editUrl="/profile/edit/qualifications?tab=experience"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.experience}
+      editUrl="/profile/edit/qualifications?tab=experience"
+      id="card-profile-experience"
       lastUpdated={data.experiencesUpdatedAt}
+      titleString={intl.formatMessage({ id: "experience" })}
+      visibility={data.visibleCards.experience}
     >
       <ExperienceView experienceInfo={getExperienceInfo(data)} />
     </ProfileCards>

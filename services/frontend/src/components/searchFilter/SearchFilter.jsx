@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
-import queryString from "query-string";
-import { useHistory } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import queryString from "query-string";
+
+import handleError from "../../functions/handleError";
 import useAxios from "../../utils/useAxios";
 import SearchFilterView from "./SearchFilterView";
-import handleError from "../../functions/handleError";
 
 const SearchFilter = () => {
   const [skillOptions, setSkillOptions] = useState([]);
@@ -14,11 +15,11 @@ const SearchFilter = () => {
   const [urlSearchFieldValues, setUrlSearchFieldValues] = useState({
     branches: [],
     classifications: [],
-    mentorSkills: [],
-    locations: [],
-    skills: [],
     exFeeder: false,
+    locations: [],
+    mentorSkills: [],
     name: "",
+    skills: [],
   });
   const [anyMentorSkills, setAnyMentorSkills] = useState(false);
   const axios = useAxios();
@@ -97,19 +98,19 @@ const SearchFilter = () => {
         skillsResults.data.forEach((skill) => {
           if (skill.categoryId === category.id) {
             children.push({
+              key: skill.id,
               title: `${category.name}: ${skill.name}`,
               value: skill.id,
-              key: skill.id,
             });
           }
         });
         return {
+          checkable: false,
+          children,
+          disableCheckbox: true,
+          selectable: false,
           title: category.name,
           value: category.id,
-          children,
-          selectable: false,
-          checkable: false,
-          disableCheckbox: true,
         };
       });
 
@@ -158,15 +159,15 @@ const SearchFilter = () => {
 
   return (
     <SearchFilterView
-      history={history}
-      skillOptions={skillOptions}
-      branchOptions={branchOptions}
-      locationOptions={locationOptions}
-      classOptions={classOptions}
-      handleSearch={handleSearch}
-      urlSearchFieldValues={urlSearchFieldValues}
       anyMentorSkills={anyMentorSkills}
+      branchOptions={branchOptions}
+      classOptions={classOptions}
       handleAnyMentorSkillsChange={handleAnyMentorSkillsChange}
+      handleSearch={handleSearch}
+      history={history}
+      locationOptions={locationOptions}
+      skillOptions={skillOptions}
+      urlSearchFieldValues={urlSearchFieldValues}
     />
   );
 };

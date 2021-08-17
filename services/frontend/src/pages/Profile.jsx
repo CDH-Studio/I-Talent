@@ -1,11 +1,12 @@
-import { useEffect, useState, useCallback } from "react";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
-import useAxios from "../utils/useAxios";
-import handleError from "../functions/handleError";
-import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
+import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
 import ErrorProfilePage from "../components/errorResult/errorProfilePage";
+import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
+import handleError from "../functions/handleError";
+import useAxios from "../utils/useAxios";
 
 const Profile = ({ history, match }) => {
   const intl = useIntl();
@@ -103,8 +104,8 @@ const Profile = ({ history, match }) => {
   if (userDoesNotExist) {
     return (
       <ErrorProfilePage
-        titleId="profile.not.found"
         subtitleId="profile.not.found.description"
+        titleId="profile.not.found"
       />
     );
   }
@@ -112,18 +113,18 @@ const Profile = ({ history, match }) => {
   if (userIsHidden) {
     return (
       <ErrorProfilePage
-        titleId="hidden.profile"
         subtitleId="hidden.profile.description"
+        titleId="hidden.profile"
       />
     );
   }
 
   return (
     <ProfileLayout
-      data={data}
-      connectionStatus={connectionData}
-      isUsersProfile={id === userID}
       changeConnection={changeConnection}
+      connectionStatus={connectionData}
+      data={data}
+      isUsersProfile={id === userID}
       loading={loading}
       savedFormContent={savedFormContent}
     />

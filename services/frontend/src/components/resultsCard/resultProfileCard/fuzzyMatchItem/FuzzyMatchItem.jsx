@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import FuzzyMatchItemView from "./FuzzyMatchItemView";
 
 const FuzzyMatchItem = ({ matchItemName, matchItemString }) => (

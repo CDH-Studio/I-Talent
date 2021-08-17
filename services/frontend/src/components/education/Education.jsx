@@ -1,9 +1,10 @@
+import { useIntl } from "react-intl";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
-import { useIntl } from "react-intl";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import EducationView from "./EducationView";
 import ProfileCards from "../profileCards/ProfileCards";
+import EducationView from "./EducationView";
 
 const Education = ({ data, editableCardBool }) => {
   const intl = useIntl();
@@ -51,10 +52,6 @@ const Education = ({ data, editableCardBool }) => {
         description,
         attachmentLinks,
       }) => ({
-        diploma: diploma.description,
-        school: school.name,
-        duration: getEducationDuration(startDate, endDate, ongoingDate),
-        description,
         attachmentLinks: attachmentLinks
           ? attachmentLinks.map((a) => ({
               id: a.id,
@@ -62,20 +59,24 @@ const Education = ({ data, editableCardBool }) => {
               url: a.url,
             }))
           : [],
+        description,
+        diploma: diploma.description,
+        duration: getEducationDuration(startDate, endDate, ongoingDate),
+        school: school.name,
       })
     );
   };
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "education" })}
       cardName="education"
-      id="card-profile-education"
-      editUrl="/profile/edit/qualifications?tab=education"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.education}
+      editUrl="/profile/edit/qualifications?tab=education"
+      id="card-profile-education"
       lastUpdated={data.educationsUpdatedAt}
+      titleString={intl.formatMessage({ id: "education" })}
+      visibility={data.visibleCards.education}
     >
       <EducationView educationInfo={getEducationInfo(data)} />
     </ProfileCards>

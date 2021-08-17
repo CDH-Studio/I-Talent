@@ -1,19 +1,19 @@
-import Welcome from "./welcome/Welcome";
-import PrimaryInfoForm from "./primaryInfoForm/PrimaryInfoForm";
+import CareerManagementForm from "./careerManagementForm/CareerManagementForm";
+import DoneSetup from "./doneSetup/DoneSetup";
 import EmploymentDataForm from "./employmentDataForm/EmploymentDataForm";
 import LangProficiencyForm from "./langProficiencyForm/LangProficiencyForm";
-import TalentForm from "./talentForm/TalentForm";
-import CareerManagementForm from "./careerManagementForm/CareerManagementForm";
+import PrimaryInfoForm from "./primaryInfoForm/PrimaryInfoForm";
 import QualificationsForm from "./qualificationsForm/QualificationsForm";
-import DoneSetup from "./doneSetup/DoneSetup";
+import TalentForm from "./talentForm/TalentForm";
+import Welcome from "./welcome/Welcome";
 
 export {
-  Welcome,
+  CareerManagementForm,
+  DoneSetup,
   EmploymentDataForm,
   LangProficiencyForm,
   PrimaryInfoForm,
-  TalentForm,
-  CareerManagementForm,
   QualificationsForm,
-  DoneSetup,
+  TalentForm,
+  Welcome,
 };

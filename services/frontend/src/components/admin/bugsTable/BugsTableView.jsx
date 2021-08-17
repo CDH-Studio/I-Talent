@@ -1,55 +1,54 @@
 import { useState } from "react";
+import { FormattedMessage, useIntl } from "react-intl";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { DatabaseOutlined, EditOutlined } from "@ant-design/icons";
 import {
-  Table,
-  Tag,
   Button,
+  Form,
   Input,
   Modal,
-  Form,
-  Radio,
   notification,
+  Radio,
+  Table,
+  Tag,
 } from "antd";
-import { FormattedMessage, useIntl } from "react-intl";
-import { Link, useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
+import TextArea from "antd/lib/input/TextArea";
 import dayjs from "dayjs";
-import { EditOutlined, DatabaseOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
-import TextArea from "antd/lib/input/TextArea";
-import Header from "../../header/Header";
 import handleError from "../../../functions/handleError";
+import Header from "../../header/Header";
 
 const tableColumns = (handleEdit) => [
   {
-    title: <FormattedMessage id="name" />,
     key: "user",
     render: (record) => (
       <Link to={`/profile/${record.userId}`}>{record.userName}</Link>
     ),
+    title: <FormattedMessage id="name" />,
   },
   {
-    title: <FormattedMessage id="created.at" />,
     dataIndex: "createdAt",
+    defaultSortOrder: "ascend",
     key: "createdAt",
     sortDirections: ["descend"],
-    defaultSortOrder: "ascend",
     sorter: (a, b) => dayjs(a.createdAt).unix() - dayjs(b.createdAt).unix(),
+    title: <FormattedMessage id="created.at" />,
   },
   {
-    title: <FormattedMessage id="last.updated" />,
     dataIndex: "updatedAt",
     key: "updatedAt",
     sorter: (a, b) => dayjs(a.updatedAt).unix() - dayjs(b.updatedAt).unix(),
+    title: <FormattedMessage id="last.updated" />,
   },
   {
-    title: <FormattedMessage id="application.version" />,
     dataIndex: "appVersion",
     key: "appVersion",
     render: (value) => value || "-",
+    title: <FormattedMessage id="application.version" />,
   },
   {
-    title: <FormattedMessage id="location" />,
     filters: [
       {
         text: <FormattedMessage id="home" />,
@@ -71,23 +70,23 @@ const tableColumns = (handleEdit) => [
     onFilter: (value, record) => record.location === value,
     render: (record) => (
       <>
-        <Tag visible={record.location === "HOME"} color="magenta">
+        <Tag color="magenta" visible={record.location === "HOME"}>
           <FormattedMessage id="home" />
         </Tag>
-        <Tag visible={record.location === "SEARCH"} color="geekblue">
+        <Tag color="geekblue" visible={record.location === "SEARCH"}>
           <FormattedMessage id="search" />
         </Tag>
-        <Tag visible={record.location === "PROFILE"} color="green">
+        <Tag color="green" visible={record.location === "PROFILE"}>
           <FormattedMessage id="profile" />
         </Tag>
-        <Tag visible={record.location === "FORMS"} color="orange">
+        <Tag color="orange" visible={record.location === "FORMS"}>
           <FormattedMessage id="bugs.location.forms" />
         </Tag>
       </>
     ),
+    title: <FormattedMessage id="location" />,
   },
   {
-    title: <FormattedMessage id="bugs.status" />,
     filters: [
       {
         text: <FormattedMessage id="bugs.status.duplicate" />,
@@ -105,59 +104,60 @@ const tableColumns = (handleEdit) => [
     onFilter: (value, record) => record.status === value,
     render: (record) => (
       <>
-        <Tag visible={record.status === "DUPLICATE"} color="orange">
+        <Tag color="orange" visible={record.status === "DUPLICATE"}>
           <FormattedMessage id="bugs.status.duplicate" />
         </Tag>
-        <Tag visible={record.status === "RESOLVED"} color="magenta">
+        <Tag color="magenta" visible={record.status === "RESOLVED"}>
           <FormattedMessage id="bugs.status.resolved" />
         </Tag>
-        <Tag visible={record.status === "UNRESOLVED"} color="geekblue">
+        <Tag color="geekblue" visible={record.status === "UNRESOLVED"}>
           <FormattedMessage id="bugs.status.unresolved" />
         </Tag>
       </>
     ),
+    title: <FormattedMessage id="bugs.status" />,
   },
   {
-    title: <FormattedMessage id="github.issue.link" />,
     dataIndex: "githubIssue",
     key: "githubIssue",
     render: (value) =>
       value ? (
         <a
-          target="_blank"
-          rel="noopener noreferrer"
           href={`https://github.com/CDH-Studio/I-Talent/issues/${value}`}
+          rel="noopener noreferrer"
+          target="_blank"
         >
           #{value}
         </a>
       ) : (
         "-"
       ),
+    title: <FormattedMessage id="github.issue.link" />,
   },
   {
-    title: <FormattedMessage id="edit" />,
-    key: "edit",
     fixed: "right",
-    width: 70,
+    key: "edit",
     render: (record) => (
       <Button
-        type="primary"
-        shape="circle"
         icon={<EditOutlined />}
         onClick={() => handleEdit(record)}
+        shape="circle"
+        type="primary"
       />
     ),
+    title: <FormattedMessage id="edit" />,
+    width: 70,
   },
 ];
 
 const Rules = {
-  required: {
-    required: true,
-    message: <FormattedMessage id="rules.required" />,
-  },
   maxChar500: {
     max: 500,
     message: <FormattedMessage id="rules.max" values={{ max: 500 }} />,
+  },
+  required: {
+    message: <FormattedMessage id="rules.required" />,
+    required: true,
   },
 };
 
@@ -220,8 +220,8 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -265,19 +265,15 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
   return (
     <>
       <Header
-        title={<FormattedMessage id="user.reported.bugs" />}
         icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="user.reported.bugs" />}
       />
       <Table
-        size="large"
         columns={tableColumns(handleEdit)}
         dataSource={data}
-        loading={loading}
-        scroll={{ x: 1200 }}
         expandable={{
-          rowExpandable: () => true,
-          expandRowByClick: true,
           defaultExpandAllRows: true,
+          expandRowByClick: true,
           expandedRowRender: (record) => (
             <p style={{ margin: 0 }}>
               <strong>
@@ -286,47 +282,51 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
               {record.description}
             </p>
           ),
+          rowExpandable: () => true,
         }}
+        loading={loading}
+        scroll={{ x: 1200 }}
+        size="large"
       />
       <Modal
-        visible={visible}
         okText={<FormattedMessage id="save" />}
         onCancel={() => setVisible(false)}
         onOk={updateBugReport}
         title={<FormattedMessage id="edit.bugs" />}
+        visible={visible}
       >
         <Form form={form} layout="vertical">
           <Form.Item
-            name="status"
             label={<FormattedMessage id="bugs.status" />}
+            name="status"
             rules={[Rules.required]}
           >
             <Radio.Group
+              buttonStyle="solid"
               options={statusOptions}
               optionType="button"
-              buttonStyle="solid"
             />
           </Form.Item>
           <Form.Item
-            name="location"
             label={<FormattedMessage id="location" />}
+            name="location"
             rules={[Rules.required]}
           >
             <Radio.Group
+              buttonStyle="solid"
               options={locationOptions}
               optionType="button"
-              buttonStyle="solid"
             />
           </Form.Item>
           <Form.Item
-            name="githubIssue"
             label={<FormattedMessage id="github.issue.number" />}
+            name="githubIssue"
           >
             <Input type="number" />
           </Form.Item>
           <Form.Item
-            name="description"
             label={<FormattedMessage id="description" />}
+            name="description"
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />

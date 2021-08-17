@@ -1,15 +1,16 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { injectIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import useAxios from "../../../utils/useAxios";
-import DiplomaTableView from "./DiplomaTableView";
+
 import handleError from "../../../functions/handleError";
 import {
   setAdminDiplomas,
   setAdminDiplomasLoading,
 } from "../../../redux/slices/adminSlice";
 import { IntlPropType } from "../../../utils/customPropTypes";
+import useAxios from "../../../utils/useAxios";
+import DiplomaTableView from "./DiplomaTableView";
 
 /**
  *  DiplomaTable(props)
@@ -76,9 +77,9 @@ const DiplomaTable = ({ intl }) => {
   // Handles the update/edit of a diploma
   const handleSubmitEdit = async (values, id) => {
     await axios.put(`api/option/diploma`, {
-      id,
       en: values.editDiplomaEn,
       fr: values.editDiplomaFr,
+      id,
     });
 
     getDiplomas();
@@ -106,10 +107,10 @@ const DiplomaTable = ({ intl }) => {
   // Handles row selection in the table
   // Consult: function taken from Ant Design table components (updated to functional)
   const rowSelection = {
+    fixed: "left",
     onChange: (modifiedSelectedRowKeys) => {
       onSelectChange(modifiedSelectedRowKeys);
     },
-    fixed: "left",
   };
 
   useEffect(() => {
@@ -130,15 +131,15 @@ const DiplomaTable = ({ intl }) => {
 
   return (
     <DiplomaTableView
-      handleSearch={handleSearch}
       handleReset={handleReset}
+      handleSearch={handleSearch}
       handleSubmitAdd={handleSubmitAdd}
-      handleSubmitEdit={handleSubmitEdit}
       handleSubmitDelete={handleSubmitDelete}
-      selectedRowKeys={selectedRowKeys}
+      handleSubmitEdit={handleSubmitEdit}
+      rowSelection={rowSelection}
       searchedColumn={searchedColumn}
       searchText={searchText}
-      rowSelection={rowSelection}
+      selectedRowKeys={selectedRowKeys}
     />
   );
 };

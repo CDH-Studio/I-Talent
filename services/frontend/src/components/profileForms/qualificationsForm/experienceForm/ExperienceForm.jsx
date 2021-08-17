@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import ExperienceFormView from "./ExperienceFormView";
 
 import {
   FieldPropType,
   FormInstancePropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
+import ExperienceFormView from "./ExperienceFormView";
 
 /**
  *  ExperienceForm(props)
@@ -21,20 +21,20 @@ const ExperienceForm = ({
   attachmentNames,
 }) => (
   <ExperienceFormView
-    form={form}
-    fieldElement={fieldElement}
-    removeElement={removeElement}
-    checkIfFormValuesChanged={checkIfFormValuesChanged}
     attachmentNames={attachmentNames}
+    checkIfFormValuesChanged={checkIfFormValuesChanged}
+    fieldElement={fieldElement}
+    form={form}
+    removeElement={removeElement}
   />
 );
 
 ExperienceForm.propTypes = {
-  form: FormInstancePropType.isRequired,
-  fieldElement: FieldPropType.isRequired,
-  removeElement: PropTypes.func.isRequired,
-  checkIfFormValuesChanged: PropTypes.func.isRequired,
   attachmentNames: KeyNameOptionsPropType.isRequired,
+  checkIfFormValuesChanged: PropTypes.func.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
+  removeElement: PropTypes.func.isRequired,
 };
 
 export default ExperienceForm;

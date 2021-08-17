@@ -17,15 +17,12 @@ async function getDiplomas(request, response) {
     },
   });
 
-  const diplomas = _.sortBy(
-    diplomasQuery.map((i) => ({
-      id: i.opDiplomaId,
-      description: i.description,
-    })),
-    "description"
-  );
+  const responseData = diplomasQuery.map((diploma) => ({
+    value: diploma.opDiplomaId,
+    label: diploma.description,
+  }));
 
-  response.status(200).json(diplomas);
+  response.status(200).json(responseData);
 }
 
 async function getDiplomasAllLang(request, response) {

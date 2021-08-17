@@ -1,5 +1,6 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
+import PropTypes from "prop-types";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import LearningDevelopmentView from "./LearningDevelopmentView";
@@ -9,18 +10,18 @@ const LearningDevelopment = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "learning.development" })}
       cardName="developmentalGoals"
-      id="card-profile-learning-development"
-      editUrl="/profile/edit/career-management?tab=learning-development"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.developmentalGoals}
+      editUrl="/profile/edit/career-management?tab=learning-development"
+      id="card-profile-learning-development"
       lastUpdated={data.developmentalGoalsUpdatedAt}
+      titleString={intl.formatMessage({ id: "learning.development" })}
+      visibility={data.visibleCards.developmentalGoals}
     >
       <LearningDevelopmentView
-        devGoals={data.developmentalGoals}
         devAttachments={data.developmentalGoalsAttachments}
+        devGoals={data.developmentalGoals}
       />
     </ProfileCards>
   );

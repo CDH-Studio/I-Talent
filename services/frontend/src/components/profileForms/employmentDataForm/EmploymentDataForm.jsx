@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import useAxios from "../../../utils/useAxios";
+import PropTypes from "prop-types";
+
 import handleError from "../../../functions/handleError";
+import useAxios from "../../../utils/useAxios";
 import EmploymentDataFormView from "./EmploymentDataFormView";
 
 /**
@@ -58,16 +59,16 @@ const EmploymentDataForm = ({ formType }) => {
 
   return (
     <EmploymentDataFormView
-      substantiveOptions={substantiveOptions}
-      classificationOptions={classificationOptions}
-      securityOptions={securityOptions}
-      profileInfo={profileInfo}
-      formType={formType}
-      locale={locale}
-      load={load}
-      history={history}
-      handleDescriptionChange={handleDescriptionChange}
       charsLeft={charsLeft}
+      classificationOptions={classificationOptions}
+      formType={formType}
+      handleDescriptionChange={handleDescriptionChange}
+      history={history}
+      load={load}
+      locale={locale}
+      profileInfo={profileInfo}
+      securityOptions={securityOptions}
+      substantiveOptions={substantiveOptions}
       userId={id}
     />
   );

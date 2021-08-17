@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
+
 import DashboardGraphsView from "./DashboardGraphsView";
 
 /**
@@ -24,9 +25,9 @@ const DashboardGraphs = () => {
       Object.keys(rate).forEach((year) => {
         Object.keys(rate[year]).forEach((month) => {
           data.push({
-            year,
-            monthName: shortMonthNames[month],
             count: rate[year][month],
+            monthName: shortMonthNames[month],
+            year,
           });
         });
       });
@@ -37,10 +38,10 @@ const DashboardGraphs = () => {
 
   return (
     <DashboardGraphsView
-      topFiveSkills={topFive.skills}
+      monthlyGrowth={graphicalData}
       topFiveCompetencies={topFive.competencies}
       topFiveDevelopmentalGoals={topFive.developmentalGoals}
-      monthlyGrowth={graphicalData}
+      topFiveSkills={topFive.skills}
     />
   );
 };

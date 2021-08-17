@@ -1,25 +1,26 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
-import CareerInterestsView from "./CareerInterestsView";
-import ProfileCards from "../profileCards/ProfileCards";
+import PropTypes from "prop-types";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import ProfileCards from "../profileCards/ProfileCards";
+import CareerInterestsView from "./CareerInterestsView";
 
 const CareerInterests = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "career.interests" })}
       cardName="careerInterests"
-      id="card-profile-career-interests"
-      editUrl="/profile/edit/career-management?tab=career-interests"
       data={data}
       editableCardBool={editableCardBool}
+      editUrl="/profile/edit/career-management?tab=career-interests"
+      id="card-profile-career-interests"
+      titleString={intl.formatMessage({ id: "career.interests" })}
       visibility={data.visibleCards.careerInterests}
     >
       <CareerInterestsView
-        lookingJob={data.lookingJob}
         interestedInRemote={data.interestedInRemote}
+        lookingJob={data.lookingJob}
         relocationLocations={data.relocationLocations}
       />
     </ProfileCards>

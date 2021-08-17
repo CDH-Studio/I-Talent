@@ -1,20 +1,21 @@
-import { Steps, Card } from "antd";
-import { UserAddOutlined } from "@ant-design/icons";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useHistory, Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
+import { UserAddOutlined } from "@ant-design/icons";
+import { Card, Steps } from "antd";
 import PropTypes from "prop-types";
-import AppLayout from "../appLayout/AppLayout";
+
+import Header from "../../header/Header";
 import {
-  Welcome,
+  CareerManagementForm,
+  DoneSetup,
   EmploymentDataForm,
   LangProficiencyForm,
   PrimaryInfoForm,
-  TalentForm,
-  CareerManagementForm,
   QualificationsForm,
-  DoneSetup,
+  TalentForm,
+  Welcome,
 } from "../../profileForms";
-import Header from "../../header/Header";
+import AppLayout from "../appLayout/AppLayout";
 
 import "./CreateProfileLayoutView.less";
 
@@ -103,9 +104,9 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
    */
   const createProfileStep = ({ titleId, descriptions, disabled }) => (
     <Step
-      title={<FormattedMessage id={titleId} />}
       description={createDescription(descriptions)}
       disabled={disabled}
+      title={<FormattedMessage id={titleId} />}
     />
   );
 
@@ -118,49 +119,48 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
     return (
       <div style={{ margin: "20px 25px" }}>
         <Steps
-          direction="vertical"
-          size="small"
+          aria-label={intl.formatMessage({ id: "create.profile.side.nav" })}
           current={stepInt}
+          direction="vertical"
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
           role="navigation"
-          aria-label={intl.formatMessage({ id: "create.profile.side.nav" })}
+          size="small"
         >
           {createProfileStep({
-            titleId: "welcome",
             descriptions: [],
             disabled: false,
+            titleId: "welcome",
           })}
           {createProfileStep({
-            titleId: "primary.contact.information",
             descriptions: ["general.profile.info", "employment.equity.groups"],
             disabled: false,
+            titleId: "primary.contact.information",
           })}
           {createProfileStep({
-            titleId: "employment.status",
             descriptions: ["current.position", "about.me"],
             disabled: highestStep < 3,
+            titleId: "employment.status",
           })}
           {createProfileStep({
-            titleId: "official.languages",
             descriptions: [
               "first.official.language",
               "second.official.language.results",
             ],
             disabled: highestStep < 3,
+            titleId: "official.languages",
           })}
           {createProfileStep({
-            titleId: "skills.and.competencies",
             descriptions: ["skills", "mentorship.skills", "competencies"],
             disabled: highestStep < 3,
+            titleId: "skills.and.competencies",
           })}
           {createProfileStep({
-            titleId: "employee.qualifications",
             descriptions: ["education", "experience"],
             disabled: highestStep < 3,
+            titleId: "employee.qualifications",
           })}
           {createProfileStep({
-            titleId: "employee.growth.interests",
             descriptions: [
               "developmental.goals",
               "qualified.pools",
@@ -169,11 +169,12 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
               "ex.feeder",
             ],
             disabled: highestStep < 3,
+            titleId: "employee.growth.interests",
           })}
           {createProfileStep({
-            titleId: "setup.done",
             descriptions: [],
             disabled: highestStep < 3,
+            titleId: "setup.done",
           })}
         </Steps>
       </div>
@@ -187,13 +188,13 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
 
   return (
     <AppLayout
-      sideBarContent={sideBarContent}
-      displaySideBar
       displaySearch={false}
+      displaySideBar
+      sideBarContent={sideBarContent}
     >
       <Header
-        title={<FormattedMessage id="create.profile" />}
         icon={<UserAddOutlined />}
+        title={<FormattedMessage id="create.profile" />}
       />
       <Card className="edit-profile-card">{form}</Card>
     </AppLayout>

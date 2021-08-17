@@ -22,18 +22,18 @@ describe(`GET ${path}`, () => {
       [
         "ENGLISH",
         [
-          { opDiplomaId: 1, description: "z" },
           { opDiplomaId: 2, description: "B" },
+          { opDiplomaId: 1, description: "z" },
         ],
         [
-          { id: 2, description: "B" },
-          { id: 1, description: "z" },
+          { value: 2, label: "B" },
+          { value: 1, label: "z" },
         ],
       ],
       [
         "FRENCH",
         [{ opDiplomaId: 3, description: "b" }],
-        [{ id: 3, description: "b" }],
+        [{ value: 3, label: "b" }],
       ],
     ];
 

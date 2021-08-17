@@ -1,18 +1,19 @@
-import { useState, useEffect, useCallback } from "react";
-import PropTypes from "prop-types";
-import { Route, Redirect, Switch } from "react-router-dom";
-import { useKeycloak } from "@react-keycloak/web";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  Results,
-  Profile,
-  ProfileEdit,
-  ProfileCreate,
-  Stats,
-  Settings,
-} from "../pages";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { useKeycloak } from "@react-keycloak/web";
+import PropTypes from "prop-types";
+
 import ErrorNumber from "../components/errorResult/errorNumber";
 import AppLayout from "../components/layouts/appLayout/AppLayout";
+import {
+  Profile,
+  ProfileCreate,
+  ProfileEdit,
+  Results,
+  Settings,
+  Stats,
+} from "../pages";
 import login from "../utils/login";
 import useAxios from "../utils/useAxios";
 
@@ -99,13 +100,13 @@ const Secured = ({ location }) => {
         <Route
           path="/profile/:id?"
           render={({ match, history }) => (
-            <Profile match={match} history={history} />
+            <Profile history={history} match={match} />
           )}
         />
         <Route
           path="/results"
           render={({ location: { search } }) => (
-            <Redirect to={{ search, pathname: "/results" }} />
+            <Redirect to={{ pathname: "/results", search }} />
           )}
         />
         <Route

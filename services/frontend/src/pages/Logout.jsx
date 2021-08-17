@@ -1,9 +1,10 @@
-import { useEffect, useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useKeycloak } from "@react-keycloak/web";
 import { Redirect } from "react-router";
-import { clearUser } from "../redux/slices/userSlice";
+import { useKeycloak } from "@react-keycloak/web";
+
 import AppLayout from "../components/layouts/appLayout/AppLayout";
+import { clearUser } from "../redux/slices/userSlice";
 
 const Logout = () => {
   const dispatch = useDispatch();

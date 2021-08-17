@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
 import { useIntl } from "react-intl";
-import SkillsView from "./SkillsView";
+import PropTypes from "prop-types";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
+import SkillsView from "./SkillsView";
 
 const Skills = ({ data, editableCardBool }) => {
   const intl = useIntl();
@@ -68,18 +69,18 @@ const Skills = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      titleString={intl.formatMessage({ id: "skills" })}
       cardName="skills"
-      id="card-profile-skills"
-      editUrl="/profile/edit/talent?tab=skills"
       data={data}
       editableCardBool={editableCardBool}
-      visibility={data.visibleCards.skills}
+      editUrl="/profile/edit/talent?tab=skills"
+      id="card-profile-skills"
       lastUpdated={data.skillsUpdatedAt}
+      titleString={intl.formatMessage({ id: "skills" })}
+      visibility={data.visibleCards.skills}
     >
       <SkillsView
-        skills={setUpSkills(data.skills)}
         categoriesSkills={setUpCategories(data.skills)}
+        skills={setUpSkills(data.skills)}
       />
     </ProfileCards>
   );

@@ -1,32 +1,34 @@
+import { useState } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
 import {
-  Row,
-  Col,
-  Typography,
-  Form,
-  Button,
-  Checkbox,
-  Input,
-  Tooltip,
-  Select,
-} from "antd";
-import PropTypes from "prop-types";
-import {
+  CloseCircleOutlined,
   FormOutlined,
   PlusOutlined,
-  CloseCircleOutlined,
 } from "@ant-design/icons";
-import { FormattedMessage, injectIntl } from "react-intl";
-import { useState } from "react";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Tooltip,
+  Typography,
+} from "antd";
+import PropTypes from "prop-types";
+
 import {
   FieldPropType,
   FormInstancePropType,
   IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
-import "./ExperienceFormView.less";
-import LinkAttachment from "../../linkAttachment/LinkAttachment";
-import DatePickerField from "../../../formItems/DatePickerField";
 import Fieldset from "../../../fieldset/Fieldset";
+import CustomDropdown from "../../../formItems/CustomDropdown";
+import DatePickerField from "../../../formItems/DatePickerField";
+import LinkAttachment from "../../linkAttachment/LinkAttachment";
+
+import "./ExperienceFormView.less";
 
 const { Title } = Typography;
 /**
@@ -43,17 +45,17 @@ const ExperienceFormView = ({
   intl,
 }) => {
   const Rules = {
-    required: {
-      required: true,
-      message: <FormattedMessage id="rules.required" />,
+    maxChar1500: {
+      max: 1500,
+      message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
     },
     maxChar60: {
       max: 60,
       message: <FormattedMessage id="rules.max" values={{ max: 60 }} />,
     },
-    maxChar1500: {
-      max: 1500,
-      message: <FormattedMessage id="rules.max" values={{ max: 1500 }} />,
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
     },
   };
 
@@ -87,10 +89,10 @@ const ExperienceFormView = ({
 
   return (
     <div className="experience-formItem">
-      <Row gutter={24} className="gutter-row titleRow">
-        <Col className="titleCol" xs={24} md={24} lg={24} xl={24}>
-          <Title level={4} className="entryTitle">
-            <Row justify="space-between" align="middle">
+      <Row className="gutter-row titleRow" gutter={24}>
+        <Col className="titleCol" lg={24} md={24} xl={24} xs={24}>
+          <Title className="entryTitle" level={4}>
+            <Row align="middle" justify="space-between">
               <Col>
                 <FormOutlined className="formItemIcon" />
                 <FormattedMessage id="experience" />
@@ -98,51 +100,51 @@ const ExperienceFormView = ({
               </Col>
               <Tooltip placement="top" title={<FormattedMessage id="delete" />}>
                 <Button
-                  type="link"
-                  shape="circle"
+                  className="deleteButton"
                   icon={<CloseCircleOutlined />}
                   onClick={() => {
                     removeElement(fieldElement.name);
                   }}
+                  shape="circle"
                   size="small"
-                  className="deleteButton"
+                  type="link"
                 />
               </Tooltip>
             </Row>
           </Title>
         </Col>
       </Row>
-      <Row gutter={24} className="gutter-row contentRow">
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+      <Row className="gutter-row contentRow" gutter={24}>
+        <Col className="gutter-row" lg={12} md={24} xl={12} xs={24}>
           {/* Job Title Field */}
           <Form.Item
-            name={[fieldElement.name, "jobTitle"]}
             fieldKey={[fieldElement.fieldKey, "jobTitle"]}
             label={<FormattedMessage id="job.title" />}
+            name={[fieldElement.name, "jobTitle"]}
             rules={[Rules.required, Rules.maxChar60]}
           >
             <Input />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={24} xl={12} xs={24}>
           {/* Company Name Field */}
           <Form.Item
-            name={[fieldElement.name, "organization"]}
             fieldKey={[fieldElement.fieldKey, "organization"]}
             label={<FormattedMessage id="company.or.gov.branch.name" />}
+            name={[fieldElement.name, "organization"]}
             rules={[Rules.required, Rules.maxChar60]}
           >
             <Input />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={24} xl={12} xs={24}>
           {/* Start Date */}
           <Form.Item
-            name={[fieldElement.name, "startDate"]}
             fieldKey={[fieldElement.fieldKey, "startDate"]}
             label={<FormattedMessage id="item.start.date" />}
+            name={[fieldElement.name, "startDate"]}
             rules={[Rules.required]}
             shouldUpdate={(prevValues, curValues) => {
               if (prevValues !== curValues) {
@@ -164,22 +166,22 @@ const ExperienceFormView = ({
             }}
           >
             <DatePickerField
-              viewOptions={["year", "month"]}
-              placeholderText={intl.formatMessage({
-                id: "select.month",
-              })}
-              formatDate="YYYY-MM"
               defaultDate={form.getFieldValue([
                 "experiences",
                 fieldElement.fieldKey,
                 "startDate",
               ])}
               disableWhen={{ maxDate: disabledStartDates }}
+              formatDate="YYYY-MM"
+              placeholderText={intl.formatMessage({
+                id: "select.month",
+              })}
+              viewOptions={["year", "month"]}
             />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={12} xl={12}>
+        <Col className="gutter-row" lg={12} md={24} xl={12} xs={24}>
           <Form.Item
             noStyle
             shouldUpdate={(prevValues, currentValues) => {
@@ -211,9 +213,9 @@ const ExperienceFormView = ({
                 <>
                   {/* End Date */}
                   <Form.Item
-                    name={[fieldElement.name, "endDate"]}
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
                     label={<FormattedMessage id="item.end.date" />}
+                    name={[fieldElement.name, "endDate"]}
                     rules={!disableEndDate ? [Rules.required] : undefined}
                     shouldUpdate={(prevValues, curValues) => {
                       if (prevValues !== curValues) {
@@ -236,30 +238,30 @@ const ExperienceFormView = ({
                   >
                     {!disableEndDate && (
                       <DatePickerField
-                        viewOptions={["year", "month"]}
-                        placeholderText={intl.formatMessage({
-                          id: "select.month",
-                        })}
-                        formatDate="YYYY-MM"
                         defaultDate={form.getFieldValue([
                           "experiences",
                           fieldElement.fieldKey,
                           "endDate",
                         ])}
                         disableWhen={{ minDate: disabledEndDates }}
+                        formatDate="YYYY-MM"
+                        placeholderText={intl.formatMessage({
+                          id: "select.month",
+                        })}
+                        viewOptions={["year", "month"]}
                       />
                     )}
                   </Form.Item>
 
                   {/* Checkbox if event is on-going */}
                   <Form.Item
-                    style={{
-                      marginTop: disableEndDate ? "-45px" : "-15px",
-                      marginBottom: disableEndDate ? "35px" : "15px",
-                    }}
-                    name={[fieldElement.name, "ongoingDate"]}
                     fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
                     initialValue={false}
+                    name={[fieldElement.name, "ongoingDate"]}
+                    style={{
+                      marginBottom: disableEndDate ? "35px" : "15px",
+                      marginTop: disableEndDate ? "-45px" : "-15px",
+                    }}
                     valuePropName="checked"
                   >
                     <Checkbox>
@@ -274,59 +276,73 @@ const ExperienceFormView = ({
 
         <Col className="gutter-row descriptionRow" span={24}>
           <Form.Item
-            name={[fieldElement.name, "description"]}
             fieldKey={[fieldElement.fieldKey, "description"]}
             label={<FormattedMessage id="description" />}
+            name={[fieldElement.name, "description"]}
           >
-            <Input.TextArea showCount maxLength={1500} />
+            <Input.TextArea maxLength={1500} showCount />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
           <Form.Item
-            mode="tags"
-            name={[fieldElement.name, "projects"]}
+            className="custom-bubble-select-style"
             fieldKey={[fieldElement.fieldKey, "projects"]}
             label={<FormattedMessage id="projects" />}
-            className="custom-bubble-select-style"
+            name={[fieldElement.name, "projects"]}
           >
-            <Select
-              mode="tags"
-              style={{ width: "100%" }}
-              placeholder={<FormattedMessage id="press.enter.to.add" />}
+            <CustomDropdown
+              ariaLabel={intl.formatMessage({
+                id: "projects",
+              })}
+              initialValueId={form.getFieldValue([
+                "experiences",
+                fieldElement.fieldKey,
+                "projects",
+              ])}
+              isCreatable
+              isMulti
+              placeholderText={<FormattedMessage id="press.enter.to.add" />}
             />
           </Form.Item>
         </Col>
 
-        <Col className="gutter-row" xs={24} md={24} lg={24} xl={24}>
+        <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
           <Fieldset
             title={<FormattedMessage id="attachment.links.employment" />}
           >
             <Form.List
-              name={[fieldElement.name, "attachmentLinks"]}
               fieldKey={[fieldElement.fieldKey, "attachmentLinks"]}
+              name={[fieldElement.name, "attachmentLinks"]}
             >
               {(fields, { add, remove }) => (
                 <div>
                   {fields.map((field) => (
                     <LinkAttachment
                       key={field.fieldKey}
-                      form={form}
+                      attachmentNameDefault={form.getFieldValue([
+                        "experiences",
+                        fieldElement.fieldKey,
+                        "attachmentLinks",
+                        field.fieldKey,
+                        "nameId",
+                      ])}
+                      attachmentNamesOptions={attachmentNames}
                       fieldElement={field}
+                      form={form}
                       removeElement={remove}
-                      nameOptions={attachmentNames}
                     />
                   ))}
                   <Form.Item>
                     <Button
-                      type="default"
+                      disabled={fields.length === 5}
                       onClick={() => {
                         add();
                       }}
-                      disabled={fields.length === 5}
                       style={{ width: "100%" }}
+                      type="default"
                     >
-                      <PlusOutlined className="mr-1" aria-hidden="true" />
+                      <PlusOutlined aria-hidden="true" className="mr-1" />
                       <FormattedMessage id="attachment.links.employment.add" />
                     </Button>
                   </Form.Item>
@@ -341,11 +357,11 @@ const ExperienceFormView = ({
 };
 
 ExperienceFormView.propTypes = {
-  form: FormInstancePropType.isRequired,
-  fieldElement: FieldPropType.isRequired,
-  removeElement: PropTypes.func.isRequired,
-  intl: IntlPropType,
   attachmentNames: KeyNameOptionsPropType.isRequired,
+  fieldElement: FieldPropType.isRequired,
+  form: FormInstancePropType.isRequired,
+  intl: IntlPropType,
+  removeElement: PropTypes.func.isRequired,
 };
 
 ExperienceFormView.defaultProps = {

@@ -1,10 +1,12 @@
 import { FormattedMessage } from "react-intl";
 import {
   CheckCircleOutlined,
-  WarningOutlined,
   EyeInvisibleOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+
 import "./ExFeederView.less";
 
 const ExFeederView = ({ data }) => {
@@ -12,8 +14,8 @@ const ExFeederView = ({ data }) => {
     return (
       <div className="ex-feeder-success">
         <CheckCircleOutlined
-          className="mr-2 ex-feeder-success-icon"
           aria-hidden="true"
+          className="mr-2 ex-feeder-success-icon"
         />
         <FormattedMessage id="profile.ex.feeder" />
       </div>
@@ -23,8 +25,8 @@ const ExFeederView = ({ data }) => {
     return (
       <div className="ex-feeder-negative">
         <WarningOutlined
-          className="mr-2 ex-feeder-negative-icon"
           aria-hidden="true"
+          className="mr-2 ex-feeder-negative-icon"
         />
         <FormattedMessage id="not.ex.feeder" />
       </div>
@@ -33,8 +35,8 @@ const ExFeederView = ({ data }) => {
   return (
     <div className="ex-feeder-negative">
       <EyeInvisibleOutlined
-        className="mr-2 ex-feeder-negative-icon"
         aria-hidden="true"
+        className="mr-2 ex-feeder-negative-icon"
       />
       <FormattedMessage id="private.ex.feeder" />
     </div>

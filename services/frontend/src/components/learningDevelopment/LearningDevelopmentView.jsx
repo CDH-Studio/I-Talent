@@ -1,13 +1,13 @@
-import { List, Tag, Row, Empty, Col } from "antd";
 import { FormattedMessage } from "react-intl";
-import { PropTypes } from "prop-types";
 import { LinkOutlined } from "@ant-design/icons";
+import { Col, Empty, List, Row, Tag } from "antd";
+import { PropTypes } from "prop-types";
 
 const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
   const getUrl = (item) =>
     item.map((i) => (
-      <a target="_blank" rel="noopener noreferrer" href={i.url}>
-        <Tag color="#727272" key={i.id} style={{ cursor: "pointer" }}>
+      <a href={i.url} rel="noopener noreferrer" target="_blank">
+        <Tag key={i.id} color="#727272" style={{ cursor: "pointer" }}>
           <LinkOutlined />
           <span>{i.name.name}</span>
         </Tag>
@@ -16,25 +16,25 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
 
   const dataSource = [
     {
-      title: <FormattedMessage id="developmental.goals" />,
       render: (
         <>
           {devGoals.length > 0 ? (
             <div style={{ marginTop: 7 }}>
               {Object.values(devGoals).map(({ name, id }) => (
-                <Tag color="#00605e" key={id}>
+                <Tag key={id} color="#00605e">
                   {name}
                 </Tag>
               ))}
             </div>
           ) : (
             <Empty
-              image={Empty.PRESENTED_IMAGE_SIMPLE}
               description={<FormattedMessage id="developmental.goals.empty" />}
+              image={Empty.PRESENTED_IMAGE_SIMPLE}
             />
           )}
         </>
       ),
+      title: <FormattedMessage id="developmental.goals" />,
     },
   ];
   return (
@@ -42,8 +42,8 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
       <Row>
         <Col span={24}>
           <List
-            itemLayout="horizontal"
             dataSource={dataSource}
+            itemLayout="horizontal"
             renderItem={({ title, render }) => (
               <List.Item>
                 <Col span={24}>
@@ -61,12 +61,6 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
 };
 
 LearningDevelopmentView.propTypes = {
-  devGoals: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-    })
-  ),
   devAttachments: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -77,11 +71,17 @@ LearningDevelopmentView.propTypes = {
       url: PropTypes.string,
     })
   ),
+  devGoals: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ),
 };
 
 LearningDevelopmentView.defaultProps = {
-  devGoals: [],
   devAttachments: [],
+  devGoals: [],
 };
 
 export default LearningDevelopmentView;

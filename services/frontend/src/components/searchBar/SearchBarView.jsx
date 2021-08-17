@@ -1,25 +1,27 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import { FormattedMessage, useIntl } from "react-intl";
 import {
-  Typography,
-  Row,
-  Col,
-  Button,
-  Form,
-  Input,
-  Switch,
-  Checkbox,
-  TreeSelect,
-} from "antd";
-import {
+  DoubleRightOutlined,
   SearchOutlined,
   SettingOutlined,
-  DoubleRightOutlined,
 } from "@ant-design/icons";
-import CustomDropdown from "../formItems/CustomDropdown";
-import Fieldset from "../fieldset/Fieldset";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Switch,
+  TreeSelect,
+  Typography,
+} from "antd";
+import PropTypes from "prop-types";
+
 import logo from "../../assets/I-talent-logo.png";
+import Fieldset from "../fieldset/Fieldset";
+import CustomDropdown from "../formItems/CustomDropdown";
+
 import "./SearchBarView.less";
 
 const { SHOW_CHILD } = TreeSelect;
@@ -72,21 +74,21 @@ const SearchBarView = ({
       <div>
         <div className="search-mainSearchField">{getBasicField()}</div>
         <Button
+          className="search-submitBtn"
+          htmlType="submit"
           size="large"
           type="primary"
-          htmlType="submit"
-          className="search-submitBtn"
         >
           <SearchOutlined aria-hidden="true" className="mr-1" />
           <FormattedMessage id="search" />
         </Button>
         <Button
-          ghost
-          size="large"
           className="search-clearBtn"
+          ghost
           onClick={() => {
             form.resetFields();
           }}
+          size="large"
         >
           <FormattedMessage id="clear.changes" />
         </Button>
@@ -102,10 +104,10 @@ const SearchBarView = ({
     return (
       <div>
         <Row style={{ padding: "20px 5% 0px 5%" }}>
-          <Col span={24} className="p-0">
+          <Col className="p-0" span={24}>
             <Title level={2} style={{ fontSize: "1.3em" }}>
               <SettingOutlined
-                style={{ marginRight: "4px", color: "#3CBAB3" }}
+                style={{ color: "#3CBAB3", marginRight: "4px" }}
               />
               <FormattedMessage id="advanced.search" />
             </Title>
@@ -121,10 +123,10 @@ const SearchBarView = ({
               {/* name field */}
               <Form.Item label={<FormattedMessage id="name" />} name="name">
                 <Input
-                  style={{ width: "100%" }}
                   placeholder={intl.formatMessage({
                     id: "search",
                   })}
+                  style={{ width: "100%" }}
                 />
               </Form.Item>
 
@@ -137,11 +139,11 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "location",
                   })}
-                  placeholderText={<FormattedMessage id="type.to.search" />}
-                  options={locationOptions}
-                  isSearchable
                   isMulti
+                  isSearchable
                   maxSelectedOptions={3}
+                  options={locationOptions}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
                 />
               </Form.Item>
 
@@ -154,11 +156,11 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "branch",
                   })}
-                  placeholderText={<FormattedMessage id="type.to.search" />}
-                  options={branchOptions}
-                  isSearchable
                   isMulti
+                  isSearchable
                   maxSelectedOptions={3}
+                  options={branchOptions}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
                 />
               </Form.Item>
 
@@ -171,11 +173,11 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "classification",
                   })}
-                  placeholderText={<FormattedMessage id="type.to.search" />}
-                  options={classOptions}
-                  isSearchable
                   isMulti
+                  isSearchable
                   maxSelectedOptions={3}
+                  options={classOptions}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
                 />
               </Form.Item>
             </Col>
@@ -191,13 +193,13 @@ const SearchBarView = ({
               <Form.Item label={<FormattedMessage id="skills" />} name="skills">
                 <TreeSelect
                   className="custom-bubble-select-style"
-                  treeData={skillOptions}
-                  treeCheckable
-                  showCheckedStrategy={SHOW_CHILD}
-                  placeholder={<FormattedMessage id="search" />}
-                  treeNodeFilterProp="title"
-                  showSearch
                   maxTagCount={15}
+                  placeholder={<FormattedMessage id="search" />}
+                  showCheckedStrategy={SHOW_CHILD}
+                  showSearch
+                  treeCheckable
+                  treeData={skillOptions}
+                  treeNodeFilterProp="title"
                 />
               </Form.Item>
             </Col>
@@ -211,8 +213,8 @@ const SearchBarView = ({
               <Form.Item
                 label={<FormattedMessage id="ex.feeder" />}
                 name="exFeeder"
-                valuePropName="checked"
                 style={{ marginBottom: "5px" }}
+                valuePropName="checked"
               >
                 <Switch />
               </Form.Item>
@@ -226,20 +228,20 @@ const SearchBarView = ({
             <Col span={24}>
               {/* Mentorship Skills field */}
               <Form.Item
+                className="mb-0"
                 label={<FormattedMessage id="mentorship.skills" />}
                 name="mentorSkills"
-                className="mb-0"
               >
                 <TreeSelect
                   className="custom-bubble-select-style"
-                  treeData={skillOptions}
-                  treeCheckable
-                  showCheckedStrategy={SHOW_CHILD}
-                  placeholder={<FormattedMessage id="search" />}
-                  treeNodeFilterProp="title"
-                  showSearch
-                  maxTagCount={15}
                   disabled={anyMentorSkills}
+                  maxTagCount={15}
+                  placeholder={<FormattedMessage id="search" />}
+                  showCheckedStrategy={SHOW_CHILD}
+                  showSearch
+                  treeCheckable
+                  treeData={skillOptions}
+                  treeNodeFilterProp="title"
                 />
               </Form.Item>
               <Form.Item name="anyMentorSkills" valuePropName="checked">
@@ -252,20 +254,20 @@ const SearchBarView = ({
         </Row>
         <div className="search-advancedSearchBtns">
           <Button
+            className="search-submitBtn"
+            htmlType="submit"
             size="large"
             type="primary"
-            htmlType="submit"
-            className="search-submitBtn"
           >
             <SearchOutlined aria-hidden="true" className="mr-1" />
             <FormattedMessage id="search" />
           </Button>
           <Button
-            size="large"
             className="search-clearBtn"
             onClick={() => {
               form.resetFields();
             }}
+            size="large"
           >
             <FormattedMessage id="clear.changes" />
           </Button>
@@ -276,10 +278,10 @@ const SearchBarView = ({
 
   return (
     <Form
-      form={form}
-      onFinish={onFinish}
       className="search-outerForm"
+      form={form}
       layout="vertical"
+      onFinish={onFinish}
       onKeyPress={(e) => {
         if (e.key === "Enter") e.preventDefault();
       }}
@@ -287,9 +289,9 @@ const SearchBarView = ({
       <div className="search-outerDiv">
         <div className="search-mainSearchDiv">
           <img
-            src={logo}
             alt="I-Talent Logo"
-            style={{ width: "80%", maxWidth: "370px" }}
+            src={logo}
+            style={{ maxWidth: "370px", width: "80%" }}
           />
           {/* Gets main basic search field and shows buttons beneath */}
           {getBasicSearchForm(!expandAdvancedSearch)}
@@ -297,19 +299,19 @@ const SearchBarView = ({
         <div className="search-advSearchCard">
           {/* expand advance search btn */}
           <Row>
-            <Col span={24} className="search-advFieldPlacement">
+            <Col className="search-advFieldPlacement" span={24}>
               <Button
-                type="link"
+                aria-expanded={expandAdvancedSearch}
                 onClick={toggle}
+                size="middle"
                 style={{ fontSize: 15 }}
                 tabIndex={0}
-                size="middle"
-                aria-expanded={expandAdvancedSearch}
+                type="link"
               >
                 <DoubleRightOutlined
-                  rotate={expandAdvancedSearch ? "270" : "90"}
-                  className="mr-2"
                   aria-hidden="true"
+                  className="mr-2"
+                  rotate={expandAdvancedSearch ? "270" : "90"}
                 />
                 <FormattedMessage id="advanced.search" />
               </Button>
@@ -324,6 +326,7 @@ const SearchBarView = ({
 };
 
 SearchBarView.propTypes = {
+  anyMentorSkills: PropTypes.bool.isRequired,
   branchOptions: PropTypes.arrayOf(
     PropTypes.PropTypes.shape({
       label: PropTypes.string,
@@ -336,6 +339,8 @@ SearchBarView.propTypes = {
       value: PropTypes.string,
     })
   ).isRequired,
+  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   locationOptions: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -348,9 +353,6 @@ SearchBarView.propTypes = {
       value: PropTypes.string,
     })
   ).isRequired,
-  handleSearch: PropTypes.func.isRequired,
-  anyMentorSkills: PropTypes.bool.isRequired,
-  handleAnyMentorSkillsChange: PropTypes.func.isRequired,
 };
 
 export default SearchBarView;

@@ -18,44 +18,35 @@ describe(`GET ${path}`, () => {
   });
 
   describe("when authenticated", () => {
-    const prismaQueryData = [
-      { id: 1, translations: [{ name: "z", language: "ENGLISH" }] },
-      {
-        id: 2,
-        translations: [
-          { name: "a", language: "ENGLISH" },
-          { name: "d", language: "FRENCH" },
-        ],
-      },
-      {
-        id: 3,
-        translations: [{ name: "c", language: "FRENCH" }],
-      },
-      {
-        id: 4,
-        translations: [],
-      },
-    ];
-
     const data = [
       [
         "ENGLISH",
-        prismaQueryData,
         [
-          { id: 4, name: "" },
-          { id: 2, name: "a" },
-          { id: 3, name: "c" },
-          { id: 1, name: "z" },
+          { opSchoolId: 4, name: "" },
+          { opSchoolId: 2, name: "a" },
+          { opSchoolId: 3, name: "c" },
+          { opSchoolId: 1, name: "z" },
+        ],
+        [
+          { value: 4, label: "" },
+          { value: 2, label: "a" },
+          { value: 3, label: "c" },
+          { value: 1, label: "z" },
         ],
       ],
       [
         "FRENCH",
-        prismaQueryData,
         [
-          { id: 4, name: "" },
-          { id: 3, name: "c" },
-          { id: 2, name: "d" },
-          { id: 1, name: "z" },
+          { opSchoolId: 4, name: "" },
+          { opSchoolId: 2, name: "c" },
+          { opSchoolId: 3, name: "d" },
+          { opSchoolId: 1, name: "z" },
+        ],
+        [
+          { value: 4, label: "" },
+          { value: 2, label: "c" },
+          { value: 3, label: "d" },
+          { value: 1, label: "z" },
         ],
       ],
     ];
@@ -64,7 +55,7 @@ describe(`GET ${path}`, () => {
       let res;
 
       beforeAll(async () => {
-        prisma.opSchool.findMany.mockResolvedValue(prismaData);
+        prisma.opTransSchool.findMany.mockResolvedValue(prismaData);
 
         res = await request(app)
           .get(`${path}?language=${language}`)
@@ -72,7 +63,7 @@ describe(`GET ${path}`, () => {
       });
 
       afterAll(() => {
-        prisma.opSchool.findMany.mockReset();
+        prisma.opTransSchool.findMany.mockReset();
       });
 
       test("should process request - 200", () => {
@@ -81,15 +72,16 @@ describe(`GET ${path}`, () => {
       });
 
       test("should call prisma with specified params", () => {
-        expect(prisma.opSchool.findMany).toHaveBeenCalledWith({
+        expect(prisma.opTransSchool.findMany).toHaveBeenCalledWith({
+          where: {
+            language,
+          },
           select: {
-            id: true,
-            translations: {
-              select: {
-                name: true,
-                language: true,
-              },
-            },
+            opSchoolId: true,
+            name: true,
+          },
+          orderBy: {
+            name: "asc",
           },
         });
       });
@@ -99,7 +91,7 @@ describe(`GET ${path}`, () => {
       });
 
       test("should trigger error if there's a database problem - 500", async () => {
-        prisma.opSchool.findMany.mockRejectedValue(new Error());
+        prisma.opTransSchool.findMany.mockRejectedValue(new Error());
 
         const dbRes = await request(app)
           .get(`${path}?language=${language}`)
@@ -108,9 +100,9 @@ describe(`GET ${path}`, () => {
         expect(dbRes.statusCode).toBe(500);
         expect(dbRes.text).toBe("Internal Server Error");
         expect(console.log).toHaveBeenCalled();
-        expect(prisma.opSchool.findMany).toHaveBeenCalled();
+        expect(prisma.opTransSchool.findMany).toHaveBeenCalled();
 
-        prisma.opSchool.findMany.mockReset();
+        prisma.opTransSchool.findMany.mockReset();
       });
     });
 

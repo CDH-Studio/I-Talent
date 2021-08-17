@@ -1,19 +1,20 @@
 import { FormattedMessage } from "react-intl";
-import { Row, Col, List } from "antd";
+import { Col, List, Row } from "antd";
+
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
 const TalentManagementView = ({ data }) => {
   const getTalentManagementDatasource = () => {
     const careerMobility = {
-      title: <FormattedMessage id="career.mobility" />,
       description: data.careerMobility ? data.careerMobility.description : "-",
+      title: <FormattedMessage id="career.mobility" />,
     };
 
     const talentMatrixResult = {
-      title: <FormattedMessage id="talent.matrix.result" />,
       description: data.talentMatrixResult
         ? data.talentMatrixResult.description
         : "-",
+      title: <FormattedMessage id="talent.matrix.result" />,
     };
 
     return [careerMobility, talentMatrixResult];
@@ -21,15 +22,15 @@ const TalentManagementView = ({ data }) => {
 
   return (
     <Row>
-      <Col xs={24} lg={24}>
+      <Col lg={24} xs={24}>
         <List
-          itemLayout="horizontal"
           dataSource={getTalentManagementDatasource()}
+          itemLayout="horizontal"
           renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
-                title={item.title}
                 description={item.description}
+                title={item.title}
               />
             </List.Item>
           )}

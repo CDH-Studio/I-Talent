@@ -22,22 +22,22 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            opTalentMatrixResultId: 1,
-            description: "z",
-          },
-          {
             opTalentMatrixResultId: 2,
             description: "B",
+          },
+          {
+            opTalentMatrixResultId: 1,
+            description: "z",
           },
         ],
         [
           {
-            id: 2,
-            description: "B",
+            value: 2,
+            label: "B",
           },
           {
-            id: 1,
-            description: "z",
+            value: 1,
+            label: "z",
           },
         ],
       ],
@@ -51,8 +51,8 @@ describe(`GET ${path}`, () => {
         ],
         [
           {
-            id: 3,
-            description: "b",
+            value: 3,
+            label: "b",
           },
         ],
       ],

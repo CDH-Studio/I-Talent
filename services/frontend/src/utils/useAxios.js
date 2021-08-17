@@ -1,6 +1,7 @@
-import axios from "axios";
-import { useKeycloak } from "@react-keycloak/web";
 import { useMemo } from "react";
+import { useKeycloak } from "@react-keycloak/web";
+import axios from "axios";
+
 import config from "./runtimeConfig";
 
 const useAxios = () => {
@@ -9,10 +10,10 @@ const useAxios = () => {
     () =>
       axios.create({
         baseURL: config.backendAddress,
-        timeout: 5000,
         headers: {
           Pragma: "no-cache",
         },
+        timeout: 5000,
       }),
     []
   );

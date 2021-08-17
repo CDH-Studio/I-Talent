@@ -1,13 +1,14 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
+import DayJSUtils from "@date-io/dayjs";
+import { createMuiTheme } from "@material-ui/core";
 import {
-  MuiPickersUtilsProvider,
   KeyboardDatePicker,
+  MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import { makeStyles, ThemeProvider } from "@material-ui/styles";
-import { createMuiTheme } from "@material-ui/core";
-import DayJSUtils from "@date-io/dayjs";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
+
 import antdStyles from "../../styling/antdTheme";
 
 const DatePickerField = ({
@@ -36,29 +37,29 @@ const DatePickerField = ({
 
   const useStyles = makeStyles(() => ({
     root: {
-      width: "100%",
-      "background-color": antdStyles["@layout-header-background"],
-      padding: "0px 0px 0px 0px",
-      "border-radius": antdStyles["@border-radius-base"],
-      "padding-left": "10px",
-      "-webkit-transition": "all 0.3s, height 0s",
-      transition: "all 0.3s, height 0s",
-      border: "1px solid #d9d9d9",
+      "& .MuiIconButton-root": {
+        "margin-right": "4px",
+        padding: "3px",
+      },
+      "& .MuiInputBase-root": {
+        "font-family": "inherit",
+        "font-size": "inherit",
+      },
+      "& .MuiSvgIcon-root": {
+        height: "20px",
+        width: "20px",
+      },
       "&:hover": {
         border: "1px solid #1d807b",
       },
-      "& .MuiInputBase-root": {
-        "font-size": "inherit",
-        "font-family": "inherit",
-      },
-      "& .MuiIconButton-root": {
-        padding: "3px",
-        "margin-right": "4px",
-      },
-      "& .MuiSvgIcon-root": {
-        width: "20px",
-        height: "20px",
-      },
+      "-webkit-transition": "all 0.3s, height 0s",
+      "background-color": antdStyles["@layout-header-background"],
+      border: "1px solid #d9d9d9",
+      "border-radius": antdStyles["@border-radius-base"],
+      padding: "0px 0px 0px 0px",
+      "padding-left": "10px",
+      transition: "all 0.3s, height 0s",
+      width: "100%",
     },
   }));
 
@@ -67,9 +68,9 @@ const DatePickerField = ({
   const materialTheme = createMuiTheme({
     palette: {
       primary: {
-        main: antdStyles["@primary-color"],
-        light: antdStyles["@primary-color"],
         dark: antdStyles["@primary-color"],
+        light: antdStyles["@primary-color"],
+        main: antdStyles["@primary-color"],
       },
     },
   });
@@ -103,23 +104,23 @@ const DatePickerField = ({
       <MuiPickersUtilsProvider utils={DayJSUtils}>
         <KeyboardDatePicker
           autoOk="true"
-          variant="inline"
-          openTo="year"
-          views={viewOptions}
+          className={classes.root}
+          disabled={disableInput}
           emptyLabel={placeholderText}
           format={formatDate}
-          className={classes.root}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
           InputProps={{
             disableUnderline: true,
           }}
-          value={selectedDate}
-          onChange={(event) => onDateChange(event)}
-          minDate={getMinDate()}
+          KeyboardButtonProps={{
+            "aria-label": "change date",
+          }}
           maxDate={getMaxDate()}
-          disabled={disableInput}
+          minDate={getMinDate()}
+          onChange={(event) => onDateChange(event)}
+          openTo="year"
+          value={selectedDate}
+          variant="inline"
+          views={viewOptions}
         />
       </MuiPickersUtilsProvider>
     </ThemeProvider>
@@ -127,21 +128,21 @@ const DatePickerField = ({
 };
 
 DatePickerField.propTypes = {
-  onChange: PropTypes.func,
-  placeholderText: PropTypes.string.isRequired,
   defaultDate: PropTypes.instanceOf(Object),
-  viewOptions: PropTypes.arrayOf(String),
+  disableInput: PropTypes.bool,
   disableWhen: PropTypes.instanceOf(Object),
   formatDate: PropTypes.string.isRequired,
-  disableInput: PropTypes.bool,
+  onChange: PropTypes.func,
+  placeholderText: PropTypes.string.isRequired,
+  viewOptions: PropTypes.arrayOf(String),
 };
 
 DatePickerField.defaultProps = {
   defaultDate: null,
+  disableInput: false,
+  disableWhen: null,
   onChange: null,
   viewOptions: ["date", "month", "year"],
-  disableWhen: null,
-  disableInput: false,
 };
 
 export default DatePickerField;

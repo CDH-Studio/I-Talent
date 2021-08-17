@@ -1,8 +1,8 @@
 import { Fragment } from "react";
-import PropTypes from "prop-types";
-import { Tag, Empty, Row, Col } from "antd";
-import { TagTwoTone } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
+import { TagTwoTone } from "@ant-design/icons";
+import { Col, Empty, Row, Tag } from "antd";
+import PropTypes from "prop-types";
 
 const SkillsView = ({ categoriesSkills, skills }) => {
   if (skills.length > 0)
@@ -12,7 +12,7 @@ const SkillsView = ({ categoriesSkills, skills }) => {
           <Fragment key={categorySkill.val}>
             <Row align="middle">
               <Col>
-                <TagTwoTone twoToneColor="#3CBAB3" className="mr-1" />
+                <TagTwoTone className="mr-1" twoToneColor="#3CBAB3" />
               </Col>
               <Col>{categorySkill.val}:</Col>
             </Row>
@@ -31,8 +31,8 @@ const SkillsView = ({ categoriesSkills, skills }) => {
 
   return (
     <Empty
-      image={Empty.PRESENTED_IMAGE_SIMPLE}
       description={<FormattedMessage id="skills.empty" />}
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
 };

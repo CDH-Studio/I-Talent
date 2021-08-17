@@ -1,9 +1,10 @@
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import { useSelector, useDispatch } from "react-redux";
-import SettingsLayoutView from "./SettingsLayoutView";
-import useAxios from "../../../utils/useAxios";
+
 import handleError from "../../../functions/handleError";
 import { setUserStatus } from "../../../redux/slices/userSlice";
+import useAxios from "../../../utils/useAxios";
+import SettingsLayoutView from "./SettingsLayoutView";
 
 const SettingsLayout = () => {
   const axios = useAxios();
@@ -37,8 +38,8 @@ const SettingsLayout = () => {
   return (
     <SettingsLayoutView
       deleteCurrentUser={deleteCurrentUser}
-      setProfileVisibility={setProfileVisibility}
       profileStatus={status}
+      setProfileVisibility={setProfileVisibility}
     />
   );
 };

@@ -1,29 +1,29 @@
-/* eslint-disable no-shadow */
-import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import {
-  Row,
-  Col,
-  Input,
-  Button,
-  Table,
-  Modal,
-  Popconfirm,
-  Form,
-  notification,
-} from "antd";
-import {
-  PlusCircleOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  SearchOutlined,
-  DatabaseOutlined,
-} from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
-import { sortBy } from "lodash";
 import { useHistory } from "react-router";
+import {
+  DatabaseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  PlusCircleOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Popconfirm,
+  Row,
+  Table,
+} from "antd";
+import { sortBy } from "lodash";
+import PropTypes from "prop-types";
+
 import handleError from "../../../functions/handleError";
 import Header from "../../header/Header";
 
@@ -49,7 +49,7 @@ const CategoryTableView = ({
   const [modalType, setModalType] = useState("");
   const [editVisible, setEditVisible] = useState(false);
   const [addVisible, setAddVisible] = useState(false);
-  const [record, setRecord] = useState({});
+  const [recordState, setRecordState] = useState({});
   const [fields, setFields] = useState([{}]);
   const [sortedData, setSortedData] = useState([]);
 
@@ -80,22 +80,22 @@ const CategoryTableView = ({
           ref={(node) => {
             searchInput = node;
           }}
-          placeholder={`${intl.formatMessage({
-            id: "search.for",
-          })} ${title}`}
-          value={selectedKeys[0]}
           onChange={(e) =>
             setSelectedKeys(e.target.value ? [e.target.value] : [])
           }
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
+          placeholder={`${intl.formatMessage({
+            id: "search.for",
+          })} ${title}`}
+          style={{ display: "block", marginBottom: 8, width: 188 }}
+          value={selectedKeys[0]}
         />
         <Button
-          type="primary"
-          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           icon={<SearchOutlined />}
+          onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
           size="small"
-          style={{ width: 90, marginRight: 8 }}
+          style={{ marginRight: 8, width: 90 }}
+          type="primary"
         >
           <FormattedMessage id="search" />
         </Button>
@@ -121,9 +121,9 @@ const CategoryTableView = ({
     render: (text) =>
       searchedColumn === dataIndex ? (
         <Highlighter
+          autoEscape
           highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
           searchWords={[searchText]}
-          autoEscape
           textToHighlight={text.toString()}
         />
       ) : (
@@ -161,7 +161,7 @@ const CategoryTableView = ({
   const handleOk = () => {
     if (modalType === "edit") {
       setEditVisible(false);
-      setRecord(null);
+      setRecordState(null);
     } else if (modalType === "add") {
       setAddVisible(false);
     }
@@ -184,7 +184,7 @@ const CategoryTableView = ({
   /* handles render of "Edit Category" modal */
   const handleEditModal = (record) => {
     setEditVisible(true);
-    setRecord(record);
+    setRecordState(record);
     setModalType("edit");
   };
 
@@ -197,10 +197,12 @@ const CategoryTableView = ({
   /* Renders "Add Category" modal */
   const addCategoryButton = () => (
     <Modal
-      visible={addVisible}
-      title={<FormattedMessage id="add.category" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        addForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         addForm
           .validateFields()
@@ -215,44 +217,42 @@ const CategoryTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        addForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="add.category" />}
+      visible={addVisible}
     >
-      <Form form={addForm} name="addCategory" layout="vertical">
+      <Form form={addForm} layout="vertical" name="addCategory">
         <Form.Item
-          name="addCategoryEn"
           label={<FormattedMessage id="language.english" />}
+          name="addCategoryEn"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.english.term",
             })}
-            allowClear
           />
         </Form.Item>
         <Form.Item
-          name="addCategoryFr"
           label={<FormattedMessage id="language.french" />}
+          name="addCategoryFr"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
           <Input
+            allowClear
             placeholder={intl.formatMessage({
               id: "add.french.term",
             })}
-            allowClear
           />
         </Form.Item>
       </Form>
@@ -262,15 +262,17 @@ const CategoryTableView = ({
   /* Renders "Edit Category" modal */
   const editCategoryButton = () => (
     <Modal
-      visible={editVisible}
-      title={<FormattedMessage id="edit.category" />}
-      okText={<FormattedMessage id="save" />}
       cancelText={<FormattedMessage id="cancel" />}
+      okText={<FormattedMessage id="save" />}
+      onCancel={() => {
+        editForm.resetFields();
+        handleCancel();
+      }}
       onOk={() => {
         editForm
           .validateFields()
           .then(async (values) => {
-            await handleSubmitEdit(values, record.id);
+            await handleSubmitEdit(values, recordState.id);
             editForm.resetFields();
             handleOk();
           })
@@ -280,27 +282,25 @@ const CategoryTableView = ({
             }
           });
       }}
-      onCancel={() => {
-        editForm.resetFields();
-        handleCancel();
-      }}
+      title={<FormattedMessage id="edit.category" />}
+      visible={editVisible}
     >
       <Form
-        form={editForm}
-        name="editCategory"
-        layout="vertical"
         fields={fields}
+        form={editForm}
+        layout="vertical"
+        name="editCategory"
         onFieldsChange={() => {
           setFields([{}]);
         }}
       >
         <Form.Item
-          name="editCategoryEn"
           label={<FormattedMessage id="language.english" />}
+          name="editCategoryEn"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
@@ -311,12 +311,12 @@ const CategoryTableView = ({
           />
         </Form.Item>
         <Form.Item
-          name="editCategoryFr"
           label={<FormattedMessage id="language.french" />}
+          name="editCategoryFr"
           rules={[
             {
-              required: true,
               message: <FormattedMessage id="validate.description" />,
+              required: true,
             },
           ]}
         >
@@ -333,18 +333,18 @@ const CategoryTableView = ({
   /* Renders the delete button and confirmation prompt */
   const deleteConfirm = () => (
     <Popconfirm
-      placement="left"
-      title={<FormattedMessage id="delete.category" />}
-      okText={<FormattedMessage id="delete" />}
       cancelText={<FormattedMessage id="cancel" />}
+      disabled={selectedRowKeys.length === 0}
+      okText={<FormattedMessage id="delete" />}
+      onCancel={popUpCancel}
       onConfirm={() => {
         checkDelete().catch((error) => handleError(error, "message", history));
       }}
-      onCancel={popUpCancel}
-      disabled={selectedRowKeys.length === 0}
       overlayStyle={{ maxWidth: 350 }}
+      placement="left"
+      title={<FormattedMessage id="delete.category" />}
     >
-      <Button disabled={selectedRowKeys.length === 0} danger>
+      <Button danger disabled={selectedRowKeys.length === 0}>
         <DeleteOutlined />
         <span>
           <FormattedMessage id="delete" />
@@ -358,11 +358,11 @@ const CategoryTableView = ({
   // Consult: Ant Design table components for further clarification
   const categoryTableColumns = () => [
     {
-      title: <FormattedMessage id="language.english" />,
       dataIndex: "en",
       key: "en",
-      sorter: (a, b) => a.en.localeCompare(b.en),
       sortDirections: locale === "ENGLISH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.en.localeCompare(b.en),
+      title: <FormattedMessage id="language.english" />,
       ...getColumnSearchProps(
         "en",
         intl.formatMessage({
@@ -371,11 +371,11 @@ const CategoryTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="language.french" />,
       dataIndex: "fr",
       key: "fr",
-      sorter: (a, b) => a.fr.localeCompare(b.fr),
       sortDirections: locale === "FRENCH" ? ["descend"] : undefined,
+      sorter: (a, b) => a.fr.localeCompare(b.fr),
+      title: <FormattedMessage id="language.french" />,
       ...getColumnSearchProps(
         "fr",
         intl.formatMessage({
@@ -384,15 +384,11 @@ const CategoryTableView = ({
       ),
     },
     {
-      title: <FormattedMessage id="edit" />,
-      key: "edit",
       fixed: "right",
-      width: 70,
+      key: "edit",
       render: (record) => (
         <div>
           <Button
-            type="primary"
-            shape="circle"
             icon={<EditOutlined />}
             onClick={() => {
               setFields([
@@ -401,9 +397,13 @@ const CategoryTableView = ({
               ]);
               handleEditModal(record);
             }}
+            shape="circle"
+            type="primary"
           />
         </div>
       ),
+      title: <FormattedMessage id="edit" />,
+      width: 70,
     },
   ];
 
@@ -412,12 +412,10 @@ const CategoryTableView = ({
       {addCategoryButton()}
       {editCategoryButton()}
       <Header
-        title={<FormattedMessage id="skill.categories" />}
-        icon={<DatabaseOutlined />}
         extra={
           <>
             {deleteConfirm()}
-            <Button type="primary" onClick={handleAddModal}>
+            <Button onClick={handleAddModal} type="primary">
               <PlusCircleOutlined />
               <span>
                 <FormattedMessage id="add" />
@@ -425,14 +423,16 @@ const CategoryTableView = ({
             </Button>
           </>
         }
+        icon={<DatabaseOutlined />}
+        title={<FormattedMessage id="skill.categories" />}
       />
       <Row gutter={[0, 8]}>
         <Col span={24}>
           <Table
-            rowSelection={rowSelection}
             columns={categoryTableColumns()}
             dataSource={sortedData}
             loading={loading}
+            rowSelection={rowSelection}
             scroll={{ x: 500 }}
           />
         </Col>
@@ -442,15 +442,15 @@ const CategoryTableView = ({
 };
 
 CategoryTableView.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
   handleReset: PropTypes.func.isRequired,
+  handleSearch: PropTypes.func.isRequired,
   handleSubmitAdd: PropTypes.func.isRequired,
-  handleSubmitEdit: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
-  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
-  searchedColumn: PropTypes.string.isRequired,
-  searchText: PropTypes.string.isRequired,
+  handleSubmitEdit: PropTypes.func.isRequired,
   rowSelection: PropTypes.objectOf(PropTypes.any),
+  searchText: PropTypes.string.isRequired,
+  searchedColumn: PropTypes.string.isRequired,
+  selectedRowKeys: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 CategoryTableView.defaultProps = {

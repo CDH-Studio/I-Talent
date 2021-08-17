@@ -1,8 +1,9 @@
-import { Tree, Typography } from "antd";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import { FormattedMessage } from "react-intl";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { Tree, Typography } from "antd";
+import PropTypes from "prop-types";
+
 import "./OrgTreeView.less";
 
 const { Text } = Typography;
@@ -23,8 +24,8 @@ const OrgTreeView = ({ data }) => {
     for (let i = 0; i < branchSize; i += 1) {
       const val = orgData[branchSize - i - 1];
       const object = {
-        title: titleString(val.title),
         key: val.id,
+        title: titleString(val.title),
       };
       if (retVal.length !== 0) {
         object.children = [retVal];
@@ -38,11 +39,11 @@ const OrgTreeView = ({ data }) => {
     const treeData = [genTreeBranch(data.organizations)];
     return (
       <Tree
-        showIcon
         defaultExpandAll
         defaultExpandParent
-        treeData={treeData}
         selectable={false}
+        showIcon
+        treeData={treeData}
       />
     );
   }
@@ -61,9 +62,9 @@ OrgTreeView.propTypes = {
   data: PropTypes.shape({
     organizations: PropTypes.arrayOf(
       PropTypes.shape({
-        title: PropTypes.string,
         key: PropTypes.string,
         tier: PropTypes.number,
+        title: PropTypes.string,
       })
     ),
   }).isRequired,

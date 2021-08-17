@@ -1,17 +1,18 @@
-import { useEffect, useCallback } from "react";
-import { Row, Col } from "antd";
-import { injectIntl, FormattedMessage } from "react-intl";
-import { useSelector, useDispatch } from "react-redux";
-import { AreaChartOutlined } from "@ant-design/icons";
+import { useCallback, useEffect } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
-import useAxios from "../../utils/useAxios";
-import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
-import StatCards from "../../components/admin/statCards/StatCards";
+import { AreaChartOutlined } from "@ant-design/icons";
+import { Col, Row } from "antd";
+
 import DashboardGraphs from "../../components/admin/dashboardGraphs/DashboardGraphs";
-import { IntlPropType } from "../../utils/customPropTypes";
+import StatCards from "../../components/admin/statCards/StatCards";
+import Header from "../../components/header/Header";
+import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import handleError from "../../functions/handleError";
 import { setInitialAdminData } from "../../redux/slices/statsSlice";
-import Header from "../../components/header/Header";
+import { IntlPropType } from "../../utils/customPropTypes";
+import useAxios from "../../utils/useAxios";
 
 /**
  *  AdminDashboard(props)
@@ -64,10 +65,10 @@ const AdminDashboard = ({ intl }) => {
       ]);
       dispatch(
         setInitialAdminData({
-          countUsers: users.data,
+          countExFeederUsers: exFeederUsers.data,
           countHiddenUsers: hiddenUsers.data,
           countInactiveUsers: inactiveUsers.data,
-          countExFeederUsers: exFeederUsers.data,
+          countUsers: users.data,
           growthRateByMonth: growthRateByMonth.data,
           growthRateByWeek: growthRateByWeek.data,
           topFiveCompetencies: topFiveCompetencies.data,
@@ -90,8 +91,8 @@ const AdminDashboard = ({ intl }) => {
   return (
     <AdminLayout displaySideBar type="dashboard">
       <Header
-        title={<FormattedMessage id="admin.dashboard.title" />}
         icon={<AreaChartOutlined />}
+        title={<FormattedMessage id="admin.dashboard.title" />}
       />
       <Row gutter={[15, 15]} type="flex">
         <Col span={24}>
