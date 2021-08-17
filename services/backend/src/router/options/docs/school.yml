@@ -1,147 +1,161 @@
-/api/option/schools:
-  get:
-    summary: Get every school option from the database
-    produces:
-      - application/json
-    parameters:
-      - $ref: "#/definitions/LanguageQuery"
-    responses:
-      200:
-        schema:
-          $ref: "#/definitions/IdNameArray"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.school]
-  delete:
-    summary: Delete multiple school options
-    description: __WARNING__ - this also removes the schools from educations and deletes its translation entries
-    produces:
-      - application/json
-    parameters:
-      - $ref: "#/definitions/DeleteManyIds"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.school]
-
+---
 /api/option/school:
-  post:
-    summary: Create a new school option
-    produces:
-      - application/json
-    parameters:
-      - name: body
-        in: body
-        description: School information
-        required: true
-        schema:
-          type: object
-          required: [abbrCountry, abbrProvince, en, fr]
-          properties:
-            abbrCountry:
-              type: string
-            abbrProvince:
-              type: string
-            en:
-              type: string
-            fr:
-              type: string
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.school]
-  put:
-    summary: Update an existing school option
-    produces:
-      - application/json
-    parameters:
-      - name: body
-        in: body
-        description: School information
-        required: true
-        schema:
-          type: object
-          required: [id, abbrCountry, abbrProvince, en, fr]
-          properties:
-            id:
-              type: string
-              format: uuid
-            abbrCountry:
-              type: string
-            abbrProvince:
-              type: string
-            en:
-              type: string
-            fr:
-              type: string
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.school]
   delete:
-    summary: Delete a specific school option
     description: __WARNING__ - this also removes the school from educations and deletes its translation entries
-    produces:
-      - application/json
     parameters:
       - $ref: "#/definitions/DeleteOption"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.school]
-
-/api/option/schoolsAllLang:
-  get:
-    summary: Get every school option from the database in both languages
     produces:
       - application/json
     responses:
-      200:
-        $ref: "#/definitions/IdEnFrArray"
-      403:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [option.school]
+    summary: Delete a specific school option
+    tags:
+      - option.school
+  post:
+    parameters:
+      - description: School information
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            abbrCountry:
+              type: string
+            abbrProvince:
+              type: string
+            en:
+              type: string
+            fr:
+              type: string
+          required:
+            - abbrCountry
+            - abbrProvince
+            - en
+            - fr
+          type: object
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Create a new school option
+    tags:
+      - option.school
+  put:
+    parameters:
+      - description: School information
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            abbrCountry:
+              type: string
+            abbrProvince:
+              type: string
+            en:
+              type: string
+            fr:
+              type: string
+            id:
+              format: uuid
+              type: string
+          required:
+            - id
+            - abbrCountry
+            - abbrProvince
+            - en
+            - fr
+          type: object
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Update an existing school option
+    tags:
+      - option.school
+/api/option/schools:
+  delete:
+    description: __WARNING__ - this also removes the schools from educations and deletes its translation entries
+    parameters:
+      - $ref: "#/definitions/DeleteManyIds"
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Delete multiple school options
+    tags:
+      - option.school
+  get:
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
+    produces:
+      - application/json
+    responses:
+      "200":
+        schema:
+          $ref: "#/definitions/IdNameArray"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Get every school option from the database
+    tags:
+      - option.school
+/api/option/schoolsAllLang:
+  get:
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/IdEnFrArray"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Get every school option from the database in both languages
+    tags:
+      - option.school

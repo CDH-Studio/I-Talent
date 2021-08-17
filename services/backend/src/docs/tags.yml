@@ -1,30 +1,31 @@
+---
 tags:
-  - name: geds
-    description: GEDS related endpoints
+  - description: GEDS related endpoints
     externalDocs:
       description: GEDS API documentation
       url: https://ssc-spc.api.canada.ca/en/detail?api=GEDS-SAGE
-  - name: option
-    description: Options with only GET requests
-  - name: option.category
-    description: CRUD - Skills category options
-  - name: option.competency
-    description: CRUD - Competency options
-  - name: option.diploma
-    description: CRUD - Diploma options
-  - name: option.school
-    description: CRUD - School options
-  - name: option.skill
-    description: CRUD - Skill options
-  - name: search
-    description: Search for profiles
-  - name: stats
-    description: Statistics for the admin dashboard
-  - name: admin
-    description: Specific admin endpoints (should be deprecated and merged with profile)
-  - name: user
-    description: Basic profile information (should be deprecated and merged with profile)
-  - name: profile
-    description: User's profile information
-  - name: bugs
-    description: Applciation bugs reported by users
+    name: geds
+  - description: Options with only GET requests
+    name: option
+  - description: CRUD - Skills category options
+    name: option.category
+  - description: CRUD - Competency options
+    name: option.competency
+  - description: CRUD - Diploma options
+    name: option.diploma
+  - description: CRUD - School options
+    name: option.school
+  - description: CRUD - Skill options
+    name: option.skill
+  - description: Search for profiles
+    name: search
+  - description: Statistics for the admin dashboard
+    name: stats
+  - description: Specific admin endpoints (should be deprecated and merged with profile)
+    name: admin
+  - description: Basic profile information (should be deprecated and merged with profile)
+    name: user
+  - description: User's profile information
+    name: profile
+  - description: Applciation bugs reported by users
+    name: bugs

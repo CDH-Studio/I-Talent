@@ -4,7 +4,7 @@ module.exports = {
     es2021: true,
   },
   extends: ["airbnb-base", "prettier", "plugin:jest/recommended"],
-  plugins: ["prettier", "jest"],
+  plugins: ["prettier", "jest", "simple-import-sort"],
   parserOptions: {
     ecmaVersion: 12,
     sourceType: "module",
@@ -23,5 +23,7 @@ module.exports = {
     "object-shorthand": "off",
     "class-methods-use-this": "off",
     "prefer-const": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
   },
 };
