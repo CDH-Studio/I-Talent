@@ -40,9 +40,9 @@ async function getCompetenciesAllLang(_request, response) {
 
   const competencies = _.orderBy(
     competenciesQuery.map((i) => ({
-      id: i.id,
       en: i.translations.find((j) => j.language === "ENGLISH").name,
       fr: i.translations.find((j) => j.language === "FRENCH").name,
+      id: i.id,
     })),
     ["en", "fr"]
   );

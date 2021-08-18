@@ -18,8 +18,8 @@ async function getDiplomas(request, response) {
   });
 
   const responseData = diplomasQuery.map((diploma) => ({
-    value: diploma.opDiplomaId,
     label: diploma.description,
+    value: diploma.opDiplomaId,
   }));
 
   response.status(200).json(responseData);

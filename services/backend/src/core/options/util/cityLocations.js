@@ -19,8 +19,8 @@ async function getCityLocations(request, response) {
 
   const responseData = locationsQuery.map(
     ({ province, city, opRelocationLocationId }) => ({
-      value: opRelocationLocationId,
       label: `${city}, ${province}`,
+      value: opRelocationLocationId,
     })
   );
 

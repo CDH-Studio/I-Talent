@@ -18,8 +18,8 @@ async function getSchools(request, response) {
   });
 
   const responseData = schoolsQuery.map((school) => ({
-    value: school.opSchoolId,
     label: school.name,
+    value: school.opSchoolId,
   }));
 
   response.status(200).json(responseData);

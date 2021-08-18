@@ -24,8 +24,8 @@ async function getBranches(request, response) {
   const branchesQueryUniq = _.sortedUniqBy(branchesQuery, "branch");
 
   const responseData = branchesQueryUniq.map((branch) => ({
-    value: branch.employmentInfo.id,
     label: branch.branch,
+    value: branch.employmentInfo.id,
   }));
 
   response.status(200).json(responseData);
