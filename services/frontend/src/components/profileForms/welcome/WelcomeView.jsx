@@ -1,4 +1,4 @@
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import {
   ExclamationCircleOutlined,
@@ -11,7 +11,7 @@ import { Button, Col, Modal, Row, Typography } from "antd";
 import PropTypes from "prop-types";
 
 import handleError from "../../../functions/handleError";
-import { HistoryPropType, IntlPropType } from "../../../utils/customPropTypes";
+import { HistoryPropType } from "../../../utils/customPropTypes";
 import config from "../../../utils/runtimeConfig";
 import useAxios from "../../../utils/useAxios";
 
@@ -22,7 +22,6 @@ const { Title, Paragraph } = Typography;
 
 const WelcomeView = ({
   gedsProfiles,
-  intl,
   load,
   userId,
   history,
@@ -31,6 +30,7 @@ const WelcomeView = ({
   // get current language code
   const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
+  const intl = useIntl();
 
   /**
    * Generate large square button for GEDS profiles
@@ -208,7 +208,6 @@ WelcomeView.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   gedsProfiles: PropTypes.object,
   history: HistoryPropType.isRequired,
-  intl: IntlPropType,
   load: PropTypes.bool.isRequired,
   skipProfileCreation: PropTypes.func.isRequired,
   userId: PropTypes.string.isRequired,
@@ -216,7 +215,6 @@ WelcomeView.propTypes = {
 
 WelcomeView.defaultProps = {
   gedsProfiles: undefined,
-  intl: undefined,
 };
 
-export default injectIntl(WelcomeView);
+export default WelcomeView;

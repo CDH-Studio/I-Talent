@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { AreaChartOutlined } from "@ant-design/icons";
@@ -11,7 +11,6 @@ import Header from "../../components/header/Header";
 import AdminLayout from "../../components/layouts/adminLayout/AdminLayout";
 import handleError from "../../functions/handleError";
 import { setInitialAdminData } from "../../redux/slices/statsSlice";
-import { IntlPropType } from "../../utils/customPropTypes";
 import useAxios from "../../utils/useAxios";
 
 /**
@@ -19,11 +18,12 @@ import useAxios from "../../utils/useAxios";
  *  Controller for StatCards and DashboardGraphs.
  *  It gathers the required data for rendering these components.
  */
-const AdminDashboard = ({ intl }) => {
+const AdminDashboard = () => {
   const { locale } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const axios = useAxios();
   const history = useHistory();
+  const intl = useIntl();
 
   // Get part of the title for the page
   const getDisplayType = useCallback(
@@ -106,12 +106,4 @@ const AdminDashboard = ({ intl }) => {
   );
 };
 
-AdminDashboard.propTypes = {
-  intl: IntlPropType,
-};
-
-AdminDashboard.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(AdminDashboard);
+export default AdminDashboard;

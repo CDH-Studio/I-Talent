@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Highlighter from "react-highlight-words";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import {
@@ -25,7 +25,6 @@ import { sortBy } from "lodash";
 import PropTypes from "prop-types";
 
 import handleError from "../../../functions/handleError";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import Header from "../../header/Header";
 
 /**
@@ -38,13 +37,13 @@ const SchoolTableView = ({
   handleSubmitAdd,
   handleSubmitEdit,
   handleSubmitDelete,
-  intl,
   selectedRowKeys,
   searchedColumn,
   searchText,
   rowSelection,
 }) => {
   const history = useHistory();
+  const intl = useIntl();
   const [addForm] = Form.useForm();
   const [editForm] = Form.useForm();
   const [modalType, setModalType] = useState("");
@@ -65,12 +64,6 @@ const SchoolTableView = ({
     }
   }, [locale, data]);
 
-  /*
-clearFilters: ƒ onReset()
-confirm: ƒ onConfirm()
-selectedKeys: ["uni"]
-setSelectedKeys: ƒ setSelectedKeys(selectedKeys)
-*/
   /* Allows for column search functionality */
   // Consult: function taken from Ant Design table components (updated to functional)
   const getColumnSearchProps = (dataIndex, title) => {
@@ -610,15 +603,10 @@ SchoolTableView.propTypes = {
   handleSubmitAdd: PropTypes.func.isRequired,
   handleSubmitDelete: PropTypes.func.isRequired,
   handleSubmitEdit: PropTypes.func.isRequired,
-  intl: IntlPropType,
   rowSelection: PropTypes.shape({ onChange: PropTypes.func }).isRequired,
   searchText: PropTypes.string.isRequired,
   searchedColumn: PropTypes.string.isRequired,
   selectedRowKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-SchoolTableView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(SchoolTableView);
+export default SchoolTableView;

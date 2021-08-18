@@ -1,170 +1,182 @@
-/api/option/skills:
-  get:
-    summary: Get every skill option from the database
-    produces:
-      - application/json
-    parameters:
-      - $ref: "#/definitions/LanguageQuery"
-    responses:
-      200:
-        schema:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                format: uuid
-              name:
-                type: string
-              categoryId:
-                type: string
-                format: uuid
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.skill]
-  delete:
-    summary: Delete multiple skill options
-    description: __WARNING__ - this also removes the skills, mentorship skills, and associated developmental goals from users and deletes its translation entries
-    produces:
-      - application/json
-    parameters:
-      - $ref: "#/definitions/DeleteManyIds"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.skill]
-
+---
 /api/option/skill:
-  post:
-    summary: Create a new skill option
-    produces:
-      - application/json
-    parameters:
-      - name: body
-        in: body
-        description: Skill information
-        required: true
-        schema:
-          type: object
-          required: [en, fr, categoryId]
-          properties:
-            en:
-              type: string
-            fr:
-              type: string
-            categoryId:
-              type: string
-              format: uuid
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.skill]
-  put:
-    summary: Update an existing skill option
-    produces:
-      - application/json
-    parameters:
-      - name: body
-        in: body
-        description: Skill information
-        required: true
-        schema:
-          type: object
-          required: [id, en, fr, categoryId]
-          properties:
-            id:
-              type: string
-              format: uuid
-            en:
-              type: string
-            fr:
-              type: string
-            categoryId:
-              type: string
-              format: uuid
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.skill]
   delete:
-    summary: Delete a specific skill option
     description: __WARNING__ - this also removes the skill, mentorship skill, and associated developmental goal from users and deletes its translation entries
-    produces:
-      - application/json
     parameters:
       - $ref: "#/definitions/DeleteOption"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [option.skill]
-
-/api/option/skillsAllLang:
-  get:
-    summary: Get every skill option from the database in both languages
     produces:
       - application/json
     responses:
-      200:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Delete a specific skill option
+    tags:
+      - option.skill
+  post:
+    parameters:
+      - description: Skill information
+        in: body
+        name: body
+        required: true
         schema:
-          type: array
+          properties:
+            categoryId:
+              format: uuid
+              type: string
+            en:
+              type: string
+            fr:
+              type: string
+          required:
+            - en
+            - fr
+            - categoryId
+          type: object
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Create a new skill option
+    tags:
+      - option.skill
+  put:
+    parameters:
+      - description: Skill information
+        in: body
+        name: body
+        required: true
+        schema:
+          properties:
+            categoryId:
+              format: uuid
+              type: string
+            en:
+              type: string
+            fr:
+              type: string
+            id:
+              format: uuid
+              type: string
+          required:
+            - id
+            - en
+            - fr
+            - categoryId
+          type: object
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Update an existing skill option
+    tags:
+      - option.skill
+/api/option/skills:
+  delete:
+    description: __WARNING__ - this also removes the skills, mentorship skills, and associated developmental goals from users and deletes its translation entries
+    parameters:
+      - $ref: "#/definitions/DeleteManyIds"
+    produces:
+      - application/json
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Delete multiple skill options
+    tags:
+      - option.skill
+  get:
+    parameters:
+      - $ref: "#/definitions/LanguageQuery"
+    produces:
+      - application/json
+    responses:
+      "200":
+        schema:
           items:
-            type: object
             properties:
-              id:
-                type: string
+              categoryId:
                 format: uuid
+                type: string
+              id:
+                format: uuid
+                type: string
+              name:
+                type: string
+            type: object
+          type: array
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Get every skill option from the database
+    tags:
+      - option.skill
+/api/option/skillsAllLang:
+  get:
+    produces:
+      - application/json
+    responses:
+      "200":
+        schema:
+          items:
+            properties:
+              categoryId:
+                format: uuid
+                type: string
               en:
                 type: string
               fr:
                 type: string
-              categoryId:
-                type: string
+              id:
                 format: uuid
-      403:
+                type: string
+            type: object
+          type: array
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [option.skill]
+    summary: Get every skill option from the database in both languages
+    tags:
+      - option.skill

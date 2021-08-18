@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { injectIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
@@ -10,7 +10,6 @@ import {
   setAdminSkills,
   setAdminSkillsLoading,
 } from "../../../redux/slices/adminSlice";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import useAxios from "../../../utils/useAxios";
 import SkillTableView from "./SkillTableView";
 
@@ -19,13 +18,14 @@ import SkillTableView from "./SkillTableView";
  *  Controller for the SkillTableView.
  *  It gathers the required data for rendering the component.
  */
-const SkillTable = ({ intl }) => {
+const SkillTable = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
   const history = useHistory();
   const dispatch = useDispatch();
+  const intl = useIntl();
 
   const getBackendInfo = useCallback(async () => {
     try {
@@ -149,12 +149,4 @@ const SkillTable = ({ intl }) => {
   );
 };
 
-SkillTable.propTypes = {
-  intl: IntlPropType,
-};
-
-SkillTable.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(SkillTable);
+export default SkillTable;
