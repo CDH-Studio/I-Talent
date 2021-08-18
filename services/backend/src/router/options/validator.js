@@ -1,4 +1,4 @@
-const { body, query, check } = require("express-validator");
+const { body, query } = require("express-validator");
 const { isUUID } = require("validator");
 
 const deleteManyValidator = [
