@@ -273,6 +273,12 @@ const SkillTableView = ({
         <Form.Item
           label={<FormattedMessage id="language.english" />}
           name="editSkillEn"
+          rules={[
+            {
+              message: <FormattedMessage id="validate.description" />,
+              required: true,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -283,6 +289,12 @@ const SkillTableView = ({
         <Form.Item
           label={<FormattedMessage id="language.french" />}
           name="editSkillFr"
+          rules={[
+            {
+              message: <FormattedMessage id="validate.description" />,
+              required: true,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -293,6 +305,14 @@ const SkillTableView = ({
         <Form.Item
           label={<FormattedMessage id="category" />}
           name="editSkillCategoryId"
+          rules={[
+            {
+              message: intl.formatMessage({
+                id: "validate.description",
+              }),
+              required: true,
+            },
+          ]}
         >
           <Select
             filterOption={filterOption}
@@ -416,7 +436,7 @@ const SkillTableView = ({
           name="addSkillEn"
           rules={[
             {
-              message: <FormattedMessage id="validate.country" />,
+              message: <FormattedMessage id="validate.description" />,
               required: true,
             },
           ]}
@@ -433,7 +453,7 @@ const SkillTableView = ({
           name="addSkillFr"
           rules={[
             {
-              message: <FormattedMessage id="validate.country" />,
+              message: <FormattedMessage id="validate.description" />,
               required: true,
             },
           ]}
@@ -451,7 +471,7 @@ const SkillTableView = ({
           rules={[
             {
               message: intl.formatMessage({
-                id: "validate.country",
+                id: "validate.description",
               }),
               required: true,
             },

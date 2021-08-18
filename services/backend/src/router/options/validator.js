@@ -13,8 +13,8 @@ const deleteManyValidator = [
 const deleteOneValidator = [body("id", "must be a UUID").trim().isUUID()];
 
 const createValidator = [
-  body("en").isString().trim(),
-  body("fr").isString().trim(),
+  body("en").notEmpty().isString().trim(),
+  body("fr").notEmpty().isString().trim(),
 ];
 const updateValidator = [
   ...createValidator,
