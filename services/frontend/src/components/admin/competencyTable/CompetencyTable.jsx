@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { injectIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
@@ -8,7 +8,6 @@ import {
   setAdminCompetencies,
   setAdminCompetenciesLoading,
 } from "../../../redux/slices/adminSlice";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import useAxios from "../../../utils/useAxios";
 import CompetencyTableView from "./CompetencyTableView";
 
@@ -17,13 +16,13 @@ import CompetencyTableView from "./CompetencyTableView";
  *  Controller for the CompetencyTableView.
  *  It gathers the required data for rendering the component.
  */
-const CompetencyTable = ({ intl }) => {
+const CompetencyTable = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
   const history = useHistory();
-
+  const intl = useIntl();
   const dispatch = useDispatch();
 
   // Fetches the competency information
@@ -137,12 +136,4 @@ const CompetencyTable = ({ intl }) => {
   );
 };
 
-CompetencyTable.propTypes = {
-  intl: IntlPropType,
-};
-
-CompetencyTable.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(CompetencyTable);
+export default CompetencyTable;
