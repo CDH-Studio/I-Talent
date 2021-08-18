@@ -388,6 +388,12 @@ const SchoolTableView = ({
         <Form.Item
           label={<FormattedMessage id="language.english" />}
           name="editSchoolEn"
+          rules={[
+            {
+              message: <FormattedMessage id="validate.name" />,
+              required: true,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -398,6 +404,12 @@ const SchoolTableView = ({
         <Form.Item
           label={<FormattedMessage id="language.french" />}
           name="editSchoolFr"
+          rules={[
+            {
+              message: <FormattedMessage id="validate.name" />,
+              required: true,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -408,6 +420,17 @@ const SchoolTableView = ({
         <Form.Item
           label={<FormattedMessage id="province.state.limit" />}
           name="editSchoolProvince"
+          rules={[
+            {
+              message: <FormattedMessage id="validate.location" />,
+              required: true,
+            },
+            {
+              max: 2,
+              message: <FormattedMessage id="validate.length.2" />,
+              min: 2,
+            },
+          ]}
         >
           <Input
             maxLength={2}
@@ -419,6 +442,17 @@ const SchoolTableView = ({
         <Form.Item
           label={<FormattedMessage id="country.limit" />}
           name="editSchoolCountry"
+          rules={[
+            {
+              message: <FormattedMessage id="validate.country" />,
+              required: true,
+            },
+            {
+              max: 3,
+              message: <FormattedMessage id="validate.length.3" />,
+              min: 3,
+            },
+          ]}
         >
           <Input
             maxLength={3}
