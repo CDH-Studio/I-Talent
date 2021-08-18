@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { injectIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 
@@ -8,7 +8,6 @@ import {
   setAdminSchools,
   setAdminSchoolsLoading,
 } from "../../../redux/slices/adminSlice";
-import { IntlPropType } from "../../../utils/customPropTypes";
 import useAxios from "../../../utils/useAxios";
 import SchoolTableView from "./SchoolTableView";
 
@@ -17,13 +16,13 @@ import SchoolTableView from "./SchoolTableView";
  *  Controller for the SchoolTableView.
  *  It gathers the required data for rendering the component.
  */
-const SchoolTable = ({ intl }) => {
+const SchoolTable = () => {
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const axios = useAxios();
   const history = useHistory();
-
+  const intl = useIntl();
   const dispatch = useDispatch();
 
   // Fetches the school information
@@ -148,12 +147,4 @@ const SchoolTable = ({ intl }) => {
   );
 };
 
-SchoolTable.propTypes = {
-  intl: IntlPropType,
-};
-
-SchoolTable.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(SchoolTable);
+export default SchoolTable;
