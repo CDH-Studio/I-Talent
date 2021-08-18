@@ -125,6 +125,11 @@ definitions:
         - description
       type: object
     type: array
+  GetConnection:
+    properties:
+      status:
+        type: boolean
+    type: object
   GetProfile:
     properties:
       avatarColor:
@@ -399,7 +404,7 @@ definitions:
   IdQuery:
     description: UUID of the user
     format: uuid
-    in: query
+    in: path
     name: id
     required: true
     type: string
@@ -582,6 +587,16 @@ definitions:
       - INACTIVE
       - HIDDEN
     type: string
+  ValueLabelArray:
+    items:
+      properties:
+        label:
+          type: string
+        value:
+          format: uuid
+          type: string
+      type: object
+    type: array
   VisibleCards:
     properties:
       careerInterests:
