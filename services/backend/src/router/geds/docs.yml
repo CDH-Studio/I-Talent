@@ -1,78 +1,80 @@
+---
 /api/profGen/{id}:
   get:
-    summary: Returns geds profile information
-    produces:
-      - application/json
     parameters:
       - $ref: "#/definitions/IdQuery"
+    produces:
+      - application/json
     responses:
-      200:
+      "200":
         schema:
-          type: object
           properties:
+            branchEn:
+              type: string
+            branchFr:
+              type: string
+            cellphone:
+              type: string
+            email:
+              format: email
+              type: string
             firstName:
               type: string
-            lastName:
-              type: string
             jobTitle:
-              type: object
               properties:
                 en:
                   type: string
                 fr:
                   type: string
-            email:
-              type: string
-              format: email
-            telephone:
-              type: string
-            cellphone:
-              type: string
-            branchEn:
-              type: string
-            branchFr:
-              type: string
-            organizations:
-              type: array
-              items:
-                type: object
-                properties:
-                  description:
-                    type: string
-                  tier:
-                    type: number
-                  addressInformation:
-                    type: object
-                    properties:
-                      country:
-                        type: string
-                      city:
-                        type: string
-                      postalCode:
-                        type: string
-                      streetNumber:
-                        type: number
-                      province:
-                        type: string
-                      streetName:
-                        type: string
-            location:
               type: object
+            lastName:
+              type: string
+            location:
               properties:
-                id:
-                  type: string
-                  format: uuid
                 description:
-                  type: object
                   properties:
                     en:
                       type: string
                     fr:
                       type: string
-      403:
+                  type: object
+                id:
+                  format: uuid
+                  type: string
+              type: object
+            organizations:
+              items:
+                properties:
+                  addressInformation:
+                    properties:
+                      city:
+                        type: string
+                      country:
+                        type: string
+                      postalCode:
+                        type: string
+                      province:
+                        type: string
+                      streetName:
+                        type: string
+                      streetNumber:
+                        type: number
+                    type: object
+                  description:
+                    type: string
+                  tier:
+                    type: number
+                type: object
+              type: array
+            telephone:
+              type: string
+          type: object
+      "403":
         $ref: "#/definitions/403"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [geds]
+    summary: Returns geds profile information
+    tags:
+      - geds

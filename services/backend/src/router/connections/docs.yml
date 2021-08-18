@@ -1,52 +1,56 @@
+---
 /api/connection/{id}:
+  delete:
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
+    summary: Remove a user as a connection
+    tags:
+      - connections
   get:
-    summary: Checks if the user is a connection
+    parameters:
+      - $ref: "#/definitions/IdQuery"
     produces:
       - application/json
-    parameters:
-      - $ref: "#/definitions/IdQuery"
     response:
-      200:
+      "200":
         schema:
           $ref: "#/definitions/GetConnection"
-      403:
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [connections]
+    summary: Checks if the user is a connection
+    tags:
+      - connections
   post:
+    parameters:
+      - $ref: "#/definitions/IdQuery"
+    responses:
+      "200":
+        $ref: "#/definitions/200"
+      "403":
+        $ref: "#/definitions/403"
+      "422":
+        $ref: "#/definitions/422"
+      "500":
+        $ref: "#/definitions/500"
+    security:
+      - Keycloak: []
     summary: Add a user as a connection
-    parameters:
-      - $ref: "#/definitions/IdQuery"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [connections]
-  delete:
-    summary: Remove a user as a connection
-    parameters:
-      - $ref: "#/definitions/IdQuery"
-    responses:
-      200:
-        $ref: "#/definitions/200"
-      403:
-        $ref: "#/definitions/403"
-      422:
-        $ref: "#/definitions/422"
-      500:
-        $ref: "#/definitions/500"
-    security:
-      - Keycloak: []
-    tags: [connections]
+    tags:
+      - connections

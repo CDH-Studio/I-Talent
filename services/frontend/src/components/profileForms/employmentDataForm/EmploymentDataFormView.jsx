@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
 import {
@@ -19,7 +19,6 @@ import handleError from "../../../functions/handleError";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import {
   HistoryPropType,
-  IntlPropType,
   KeyTitleOptionsPropType,
   ProfileInfoPropType,
 } from "../../../utils/customPropTypes";
@@ -45,11 +44,11 @@ const EmploymentDataFormView = ({
   profileInfo,
   securityOptions,
   substantiveOptions,
-  intl,
   history,
   userId,
 }) => {
   const axios = useAxios();
+  const intl = useIntl();
   const [form] = Form.useForm();
   const [displayActingRoleForm, setDisplayActingRoleForm] = useState(false);
   const [fieldsChanged, setFieldsChanged] = useState(false);
@@ -554,7 +553,6 @@ EmploymentDataFormView.propTypes = {
   classificationOptions: KeyTitleOptionsPropType,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   history: HistoryPropType.isRequired,
-  intl: IntlPropType,
   load: PropTypes.bool.isRequired,
   profileInfo: ProfileInfoPropType,
   securityOptions: KeyTitleOptionsPropType,
@@ -564,10 +562,9 @@ EmploymentDataFormView.propTypes = {
 
 EmploymentDataFormView.defaultProps = {
   classificationOptions: [],
-  intl: null,
   profileInfo: null,
   securityOptions: [],
   substantiveOptions: [],
 };
 
-export default injectIntl(EmploymentDataFormView);
+export default EmploymentDataFormView;

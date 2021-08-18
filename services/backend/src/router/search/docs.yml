@@ -1,78 +1,80 @@
+---
 /api/search/filters:
   get:
-    summary: Search users by filters
-    produces:
-      - application/json
     parameters:
       - $ref: "#/definitions/LanguageQuery"
-      - name: name
+      - description: Name of the user to be searched
         in: query
-        description: Name of the user to be searched
+        name: name
         type: string
-      - name: skills
+      - description: Array of skill UUIDs to be searched
         in: query
-        description: Array of skill UUIDs to be searched
-        type: array
         items:
-          type: string
           format: uuid
-      - name: branches
-        in: query
-        description: Array of branch names to be searched
+          type: string
+        name: skills
         type: array
+      - description: Array of branch names to be searched
+        in: query
         items:
           type: string
-      - name: locations
-        in: query
-        description: Array of office location UUIDs to be searched
+        name: branches
         type: array
+      - description: Array of office location UUIDs to be searched
+        in: query
         items:
-          type: string
           format: uuid
-      - name: classifications
-        in: query
-        description: Array of classification UUIDs to be searched
-        type: array
-        items:
           type: string
-          format: uuid
-      - name: exFeeder
+        name: locations
+        type: array
+      - description: Array of classification UUIDs to be searched
         in: query
-        description: Ex feeder boolean value to be searched
+        items:
+          format: uuid
+          type: string
+        name: classifications
+        type: array
+      - description: Ex feeder boolean value to be searched
+        in: query
+        name: exFeeder
         type: boolean
+    produces:
+      - application/json
     responses:
-      200:
+      "200":
         $ref: "#/definitions/SearchResponse"
-      403:
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [search]
-
+    summary: Search users by filters
+    tags:
+      - search
 /api/search/fuzzy:
   get:
-    summary: Search users by all their public fields
-    produces:
-      - application/json
     parameters:
       - $ref: "#/definitions/LanguageQuery"
-      - name: searchValue
+      - description: The value to be searched
         in: query
-        description: The value to be searched
+        name: searchValue
         type: string
+    produces:
+      - application/json
     responses:
-      200:
+      "200":
         $ref: "#/definitions/SearchResponse"
-      403:
+      "403":
         $ref: "#/definitions/403"
-      422:
+      "422":
         $ref: "#/definitions/422"
-      500:
+      "500":
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    tags: [search]
+    summary: Search users by all their public fields
+    tags:
+      - search

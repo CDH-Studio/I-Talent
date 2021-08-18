@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormattedMessage, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import {
   CloseCircleOutlined,
   FormOutlined,
@@ -20,7 +20,6 @@ import PropTypes from "prop-types";
 import {
   FieldPropType,
   FormInstancePropType,
-  IntlPropType,
   KeyNameOptionsPropType,
 } from "../../../../utils/customPropTypes";
 import Fieldset from "../../../fieldset/Fieldset";
@@ -42,8 +41,9 @@ const ExperienceFormView = ({
   fieldElement,
   removeElement,
   attachmentNames,
-  intl,
 }) => {
+  const intl = useIntl();
+
   const Rules = {
     maxChar1500: {
       max: 1500,
@@ -360,12 +360,7 @@ ExperienceFormView.propTypes = {
   attachmentNames: KeyNameOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   form: FormInstancePropType.isRequired,
-  intl: IntlPropType,
   removeElement: PropTypes.func.isRequired,
 };
 
-ExperienceFormView.defaultProps = {
-  intl: undefined,
-};
-
-export default injectIntl(ExperienceFormView);
+export default ExperienceFormView;

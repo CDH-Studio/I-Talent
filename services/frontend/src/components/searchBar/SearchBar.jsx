@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import { injectIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import queryString from "query-string";
@@ -129,4 +128,4 @@ const SearchBar = () => {
   );
 };
 
-export default injectIntl(SearchBar);
+export default SearchBar;
