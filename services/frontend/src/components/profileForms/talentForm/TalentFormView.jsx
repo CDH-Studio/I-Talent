@@ -68,10 +68,7 @@ const TalentFormView = ({
   const dispatch = useDispatch();
 
   /* Values for tabs */
-  const tabs = useMemo(
-    () => ({ 1: "skills", 2: "mentorship", 3: "competencies" }),
-    []
-  );
+  const tabs = useMemo(() => ({ 1: "skills", 3: "competencies" }), []);
   const MAXTAB = 3;
 
   /* Component Rules for form fields */
@@ -342,23 +339,6 @@ const TalentFormView = ({
       });
   };
 
-  /*
-   * On Reset
-   *
-   * reset form fields to state when page was loaded
-   */
-  const onReset = () => {
-    // reset form fields
-    form.resetFields();
-    // reset mentorship toggle switch
-    setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
-    notification.info({
-      message: intl.formatMessage({ id: "form.clear" }),
-    });
-    updateIfFormValuesChanged();
-    setTabErrorsBool([]);
-  };
-
   /**
    * Get Tab Title
    * @param {Object} tabTitleInfo - tab title info.
@@ -477,6 +457,29 @@ const TalentFormView = ({
    */
   const onTabChange = (activeTab) => {
     setSelectedTab(getTabValue(activeTab));
+  };
+
+  /*
+   * On Reset
+   *
+   * reset form fields to state when page was loaded
+   */
+  const onReset = () => {
+    // reset form fields
+    form.resetFields();
+    const generatedSelectedSkills = generateMentorshipOptions(
+      skillOptions,
+      form.getFieldsValue().mentorshipSkills || savedSkills
+    );
+
+    setSelectedSkills(generatedSelectedSkills);
+    // reset mentorship toggle switch
+    setDisplayMentorshipForm(savedMentorshipSkills.length > 0);
+    notification.info({
+      message: intl.formatMessage({ id: "form.clear" }),
+    });
+    updateIfFormValuesChanged();
+    setTabErrorsBool([]);
   };
 
   /*
@@ -600,7 +603,7 @@ const TalentFormView = ({
                 message: <FormattedMessage id="skills" />,
               })}
             >
-              {/* Form Row Two: skills */}
+              {/* Form Row One: skills */}
               <Row gutter={24}>
                 <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <FormSubTitle
@@ -631,15 +634,10 @@ const TalentFormView = ({
                   </Form.Item>
                 </Col>
               </Row>
-            </TabPane>
-            <TabPane
-              key="mentorship"
-              tab={getTabTitle({
-                errorBool: tabErrorsBool.mentorshipSkills,
-                message: <FormattedMessage id="mentorship.skills" />,
-              })}
-            >
-              {/* Form Row Two: skills */}
+
+              <Divider className="prim-headerDiv" />
+
+              {/* Form Row Two: mentorship */}
               <Row gutter={24}>
                 <Col className="gutter-row" span={24}>
                   <FormSubTitle
