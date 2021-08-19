@@ -11,7 +11,7 @@ module.exports = [
   },
   {
     en: "Publication list",
-    fr: "Liste des publicationsListe des publications",
+    fr: "Liste des publications",
     type: "Edu",
   },
 
