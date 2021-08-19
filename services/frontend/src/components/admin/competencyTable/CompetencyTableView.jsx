@@ -317,6 +317,12 @@ const CompetencyTableView = ({
         <Form.Item
           label={<FormattedMessage id="language.english" />}
           name="editCompetencyEn"
+          rules={[
+            {
+              message: <FormattedMessage id="validate.description" />,
+              required: true,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({
@@ -327,6 +333,12 @@ const CompetencyTableView = ({
         <Form.Item
           label={<FormattedMessage id="language.french" />}
           name="editCompetencyFr"
+          rules={[
+            {
+              message: <FormattedMessage id="validate.description" />,
+              required: true,
+            },
+          ]}
         >
           <Input
             placeholder={intl.formatMessage({

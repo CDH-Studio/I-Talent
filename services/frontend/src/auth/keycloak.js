@@ -19,4 +19,4 @@ const initKeycloakConfig = {
 
 const keycloak = new Keycloak(keycloakConfig);
 
-export { initKeycloakConfig,keycloak };
+export { initKeycloakConfig, keycloak };

@@ -46,25 +46,6 @@ const FormInstancePropType = PropTypes.shape({
   validateFields: PropTypes.func,
 });
 
-const IntlPropType = PropTypes.shape({
-  defaultLocale: PropTypes.string,
-  formatDate: PropTypes.func,
-  formatDateToParts: PropTypes.func,
-  formatDisplayName: PropTypes.func,
-  formatHTMLMessage: PropTypes.func,
-  formatList: PropTypes.func,
-  formatMessage: PropTypes.func,
-  formatNumber: PropTypes.func,
-  formatNumberToParts: PropTypes.func,
-  formatPlural: PropTypes.func,
-  formatRelativeTime: PropTypes.func,
-  formatTime: PropTypes.func,
-  formatTimeToParts: PropTypes.func,
-  locale: PropTypes.string,
-  onError: PropTypes.func,
-  textComponent: PropTypes.symbol,
-});
-
 const ProfileInfoPropType = PropTypes.shape({
   avatarColor: PropTypes.string,
   branch: PropTypes.string,
@@ -119,7 +100,6 @@ export {
   FormInstancePropType,
   HistoryPropType,
   IdDescriptionPropType,
-  IntlPropType,
   KeyNameOptionsPropType,
   KeyTextOptionsPropType,
   KeyTitleOptionsPropType,
