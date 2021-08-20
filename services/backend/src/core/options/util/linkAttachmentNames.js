@@ -21,8 +21,8 @@ async function getNames(request, response) {
     });
 
   const responseData = attachmentLinkNameQuery.map((attachmentLink) => ({
-    value: attachmentLink.opAttachmentLinkNameId,
     label: attachmentLink.name,
+    value: attachmentLink.opAttachmentLinkNameId,
   }));
 
   response.status(200).json(responseData);

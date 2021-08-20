@@ -1,5 +1,5 @@
 ---
-/api/user/{id}:
+/api/user/id:
   delete:
     parameters:
       - $ref: "#/definitions/IdQuery"
@@ -19,9 +19,9 @@
     summary: Deletes the specified user
     tags:
       - user
+
+/api/user:
   get:
-    parameters:
-      - $ref: "#/definitions/IdQuery"
     produces:
       - application/json
     responses:
@@ -35,13 +35,12 @@
         $ref: "#/definitions/500"
     security:
       - Keycloak: []
-    summary: Returns a specific user
+    summary: Returns current specific user
     tags:
       - user
   post:
     parameters:
-      - $ref: "#/definitions/IdQuery"
-      - description: User ID used to fetch the email from the database
+      - description: Information of the user created
         in: body
         name: body
         properties:

@@ -31,6 +31,20 @@ definitions:
       - PUBLIC
       - CONNECTIONS
     type: string
+  Connections:
+    items:
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        id:
+          format: uuid
+          type: string
+        lastName:
+          type: string
+      type: object
+    type: array
   CountResponse:
     schema:
       type: number
@@ -125,8 +139,15 @@ definitions:
         - description
       type: object
     type: array
+  GetConnection:
+    properties:
+      status:
+        type: boolean
+    type: object
   GetProfile:
     properties:
+      actingLevel:
+        $ref: "#/definitions/IdName"
       avatarColor:
         type: string
       branch:
@@ -140,16 +161,22 @@ definitions:
       competenciesUpdatedAt:
         format: date-time
         type: string
+      connections:
+        $ref: "#/definitions/Connections"
       description:
         type: string
       developmentalGoals:
         $ref: "#/definitions/IdNameArray"
+      developmentalGoalsAttachments:
+        $ref: "#/definitions/LinkAttachment"
       developmentalGoalsUpdatedAt:
         format: date-time
         type: string
       educations:
         items:
           properties:
+            attachmentLinks:
+              $ref: "#/definitions/LinkAttachment"
             diploma:
               properties:
                 description:
@@ -164,7 +191,7 @@ definitions:
             id:
               format: uuid
               type: string
-            ongoing:
+            ongoingDate:
               type: boolean
             school:
               properties:
@@ -189,11 +216,37 @@ definitions:
       email:
         format: email
         type: string
+      employmentEquityGroups:
+        items:
+          enum:
+            - INDIGENOUS
+            - DISABILITY
+            - MINORITY
+            - WOMEN
+          type: string
+        type: array
+      employmentInfo:
+        properties:
+          id:
+            format: uuid
+            type: string
+          translations:
+            items:
+              properties:
+                branch:
+                  type: string
+                jobTitle:
+                  type: string
+              type: object
+            type: array
+        type: object
       exFeeder:
         type: boolean
       experiences:
         items:
           properties:
+            attachmentLinks:
+              $ref: "#/definitions/LinkAttachment"
             description:
               type: string
             endDate:
@@ -211,6 +264,10 @@ definitions:
             startDate:
               format: date-time
               type: string
+            projects:
+              items:
+                type: string
+              type: array
           type: object
         type: array
       experiencesUpdatedAt:
@@ -224,6 +281,14 @@ definitions:
         type: string
       github:
         type: string
+      groupLevel:
+        properties:
+          id:
+            format: uuid
+            type: string
+          name:
+            type: string
+        type: object
       id:
         format: uuid
         type: string
@@ -279,14 +344,21 @@ definitions:
           streetNumber:
             type: number
         type: object
+      Organizations:
+        items:
+          properties:
+            tier:
+              type: integer
+            id:
+              type: string
+            title:
+              type: string
+          type: object
+        type: array
       preferredLanguage:
         $ref: "#/definitions/LanguageEnum"
       pri:
         type: string
-      projects:
-        items:
-          type: string
-        type: array
       qualifiedPools:
         $ref: "#/definitions/QualifiedPools"
       relocationLocations:
@@ -341,8 +413,10 @@ definitions:
         $ref: "#/definitions/UserStatusEnum"
       talentMatrixResult:
         $ref: "#/definitions/IdDescription"
-      team:
-        type: string
+      teams:
+        items:
+          type: string
+        type: array
       telephone:
         type: string
       tenure:
@@ -399,7 +473,7 @@ definitions:
   IdQuery:
     description: UUID of the user
     format: uuid
-    in: query
+    in: path
     name: id
     required: true
     type: string
@@ -417,6 +491,24 @@ definitions:
     name: language
     required: true
     type: string
+  LinkAttachment:
+    items:
+      properties:
+        id:
+          format: uuid
+          type: string
+        name:
+          properties:
+            id:
+              format: uuid
+              type: string
+            name:
+              type: string
+          type: object
+        url:
+          type: string
+      type: object
+    type: array
   ProficiencyEnum:
     enum:
       - ORAL
@@ -582,6 +674,16 @@ definitions:
       - INACTIVE
       - HIDDEN
     type: string
+  ValueLabelArray:
+    items:
+      properties:
+        label:
+          type: string
+        value:
+          format: uuid
+          type: string
+      type: object
+    type: array
   VisibleCards:
     properties:
       careerInterests:
@@ -602,13 +704,9 @@ definitions:
         $ref: "#/definitions/CardVisibilityStatusEnum"
       info:
         $ref: "#/definitions/CardVisibilityStatusEnum"
-      manager:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
       mentorshipSkills:
         $ref: "#/definitions/CardVisibilityStatusEnum"
       officialLanguage:
-        $ref: "#/definitions/CardVisibilityStatusEnum"
-      projects:
         $ref: "#/definitions/CardVisibilityStatusEnum"
       qualifiedPools:
         $ref: "#/definitions/CardVisibilityStatusEnum"

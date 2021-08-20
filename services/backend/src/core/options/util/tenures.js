@@ -17,8 +17,8 @@ async function getTenures(request, response) {
   });
 
   const tenures = tenuresQuery.map((tenure) => ({
-    value: tenure.opTenureId,
     label: tenure.name,
+    value: tenure.opTenureId,
   }));
 
   response.status(200).json(tenures);

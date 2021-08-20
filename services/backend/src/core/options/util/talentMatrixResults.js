@@ -18,8 +18,8 @@ async function getTalentMatrixResults(request, response) {
     });
 
   const talentMatrixResults = talentMatrixResultsQuery.map((i) => ({
-    value: i.opTalentMatrixResultId,
     label: i.description,
+    value: i.opTalentMatrixResultId,
   }));
 
   response.status(200).json(talentMatrixResults);

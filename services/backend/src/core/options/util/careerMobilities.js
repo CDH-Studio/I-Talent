@@ -17,8 +17,8 @@ async function getCareerMobilities(request, response) {
   });
 
   const responseData = careerMobilityQuery.map((i) => ({
-    value: i.opCareerMobilityId,
     label: i.description,
+    value: i.opCareerMobilityId,
   }));
 
   response.status(200).json(responseData);

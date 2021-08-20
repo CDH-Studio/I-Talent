@@ -43,9 +43,9 @@ async function getCategoriesAllLang(_request, response) {
 
   const categories = _.orderBy(
     categoriesQuery.map((i) => ({
-      id: i.id,
       en: i.translations.find((j) => j.language === "ENGLISH").name,
       fr: i.translations.find((j) => j.language === "FRENCH").name,
+      id: i.id,
     })),
     ["en", "fr"]
   );

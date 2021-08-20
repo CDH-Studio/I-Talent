@@ -89,7 +89,7 @@
     responses:
       "200":
         schema:
-          $ref: "#/definitions/IdNameArray"
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
