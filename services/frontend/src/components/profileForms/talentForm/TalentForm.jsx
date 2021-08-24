@@ -65,13 +65,13 @@ const TalentForm = ({ formType }) => {
 
     // Loop through all skill categories
     const dataTree = categoriesResult.data.map((category) => {
-      const children = [];
+      const options = [];
 
       skillsResults.data.forEach((skill) => {
         if (skill.categoryId === category.id) {
-          children.push({
+          options.push({
             key: skill.id,
-            title: `${category.name}: ${skill.name}`,
+            label: `${category.name}: ${skill.name}`,
             value: skill.id,
           });
         }
@@ -79,10 +79,10 @@ const TalentForm = ({ formType }) => {
 
       return {
         checkable: false,
-        children,
         disableCheckbox: true,
+        label: category.name,
+        options,
         selectable: false,
-        title: category.name,
         value: category.id,
       };
     });

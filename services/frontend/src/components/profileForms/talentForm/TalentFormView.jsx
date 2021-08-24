@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
@@ -368,13 +370,12 @@ const TalentFormView = ({
     for (let i = 0; i < fullSkillsOptionsList.length; i += 1) {
       let itemsFoundInCategory = 0;
       // iterate through all possible skills in each categories
-      for (let w = 0; w < fullSkillsOptionsList[i].children.length; w += 1) {
+      for (let w = 0; w < fullSkillsOptionsList[i].options.length; w += 1) {
         // iterate through selected skills
         for (let k = 0; k < selectedSkillValues.length; k += 1) {
           // if selected skill matches item in all skills list
           if (
-            fullSkillsOptionsList[i].children[w].value ===
-            selectedSkillValues[k]
+            fullSkillsOptionsList[i].options[w].value === selectedSkillValues[k]
           ) {
             itemsFoundInCategory += 1;
             // if first find in skill category save the category as parent
@@ -392,9 +393,9 @@ const TalentFormView = ({
             }
             // save skill as child in parent
             const child = {
-              key: fullSkillsOptionsList[i].children[w].value,
-              title: fullSkillsOptionsList[i].children[w].title,
-              value: fullSkillsOptionsList[i].children[w].value,
+              key: fullSkillsOptionsList[i].options[w].value,
+              title: fullSkillsOptionsList[i].options[w].title,
+              value: fullSkillsOptionsList[i].options[w].value,
             };
             dataTree[numbCategories - 1].children.push(child);
           }
@@ -430,6 +431,7 @@ const TalentFormView = ({
    * on change of skills field auto update mentorship options
    */
   const onChangeSkills = (skillsValues) => {
+    console.log({ skillsValues });
     // generate options for mentorship based on skills
     const selectedSkillsOnChangeSkills = generateMentorshipOptions(
       skillOptions,
@@ -458,6 +460,8 @@ const TalentFormView = ({
   const onTabChange = (activeTab) => {
     setSelectedTab(getTabValue(activeTab));
   };
+
+  console.log({ selectedSkills });
 
   /*
    * On Reset
@@ -504,7 +508,49 @@ const TalentFormView = ({
                 name="mentorshipSkills"
                 rules={[Rules.required]}
               >
-                <TreeSelect
+                <CustomDropdown
+                  isMulti
+                  ariaLabel={intl.formatMessage({
+                    id: "edit.interested.in.remote",
+                  })}
+                  initialValueId={form.getFieldValue("interestedInRemote")}
+                  isSearchable={false}
+                  options={[
+                    {
+                      label: "Partner",
+                      options: [
+                        {
+                          value: {
+                            id: "ABCDSC",
+                            value: "Partner1",
+                          },
+                          label: "Partner1",
+                        },
+                        {
+                          value: {
+                            id: "ABCDSC",
+                            value: "Partner2",
+                          },
+                          label: "Partner2",
+                        },
+                      ],
+                    },
+                    {
+                      label: "Study",
+                      options: [
+                        {
+                          value: {
+                            id: "ABCDSC123",
+                            value: "Study1",
+                          },
+                          label: "Study1",
+                        },
+                      ],
+                    },
+                  ]}
+                  placeholderText={<FormattedMessage id="select" />}
+                />
+                {/* <TreeSelect
                   className="custom-bubble-select-style"
                   disabled={!selectedSkills.length > 0}
                   maxTagCount={15}
@@ -514,7 +560,7 @@ const TalentFormView = ({
                   treeCheckable
                   treeData={selectedSkills}
                   treeNodeFilterProp="title"
-                />
+                /> */}
               </Form.Item>
             </Col>
           </Row>
@@ -567,6 +613,10 @@ const TalentFormView = ({
       </div>
     );
   }
+
+  const options = skillOptions[0].options;
+  console.log({ options });
+
   /* Once data had loaded display form */
   return (
     <>
@@ -620,7 +670,19 @@ const TalentFormView = ({
                     title={<FormattedMessage id="skills" />}
                   />
                   <Form.Item name="skills">
-                    <TreeSelect
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "edit.interested.in.remote",
+                      })}
+                      initialValueId={form.getFieldValue("skills")}
+                      isMulti //Toggle this to test
+                      isSearchable={false}
+                      onChange={onChangeSkills}
+                      options={skillOptions} //{skillOptiions} for grouped and {options} for not grouped
+                      placeholderText={<FormattedMessage id="select" />}
+                      showCheckedStrategy={SHOW_CHILD}
+                    />
+                    {/* <TreeSelect
                       className="custom-bubble-select-style"
                       maxTagCount={15}
                       onChange={onChangeSkills}
@@ -630,7 +692,7 @@ const TalentFormView = ({
                       treeCheckable
                       treeData={skillOptions}
                       treeNodeFilterProp="title"
-                    />
+                    /> */}
                   </Form.Item>
                 </Col>
               </Row>
