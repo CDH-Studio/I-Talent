@@ -22,10 +22,10 @@
     "snyk-protect": "snyk protect"
   },
   "dependencies": {
-    "@prisma/client": "^2.28.0",
+    "@prisma/client": "^2.29.1",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
-    "concurrently": "^6.2.0",
+    "concurrently": "^6.2.1",
     "connect-redis": "^6.0.0",
     "connect-timeout": "^1.9.0",
     "cors": "^2.8.5",
@@ -37,12 +37,12 @@
     "fuse.js": "^6.4.6",
     "helmet": "^4.6.0",
     "jest-mock-extended": "^2.0.1",
-    "keycloak-connect": "15.0.0",
+    "keycloak-connect": "15.0.2",
     "lodash": "^4.17.21",
     "moment": "2.29.1",
     "morgan": "^1.10.0",
     "redis": "^3.1.2",
-    "snyk": "^1.675.0",
+    "snyk": "^1.687.0",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
     "validator": "^13.6.0"
@@ -51,9 +51,9 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-import": "^2.24.1",
     "eslint-plugin-jest": "^24.4.0",
-    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "faker": "^5.5.3",
     "jest": "^27.0.6",
@@ -61,9 +61,9 @@
     "mockdate": "^3.0.5",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2",
-    "prisma": "^2.28.0",
+    "prisma": "^2.29.1",
     "redis-mock": "^0.56.3",
-    "supertest": "^6.1.4"
+    "supertest": "^6.1.6"
   },
   "snyk": true
 }
