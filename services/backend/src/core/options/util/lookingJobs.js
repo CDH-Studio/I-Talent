@@ -17,8 +17,8 @@ async function getLookingJobs(request, response) {
   });
 
   const responseData = lookingJobsQuery.map((i) => ({
-    value: i.opLookingJobId,
     label: i.description,
+    value: i.opLookingJobId,
   }));
   response.status(200).json(responseData);
 }

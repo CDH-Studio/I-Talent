@@ -24,6 +24,7 @@ module.exports = {
   competencies,
   developmentalGoals,
   diplomas,
+  linkAttachmentNames,
   locations,
   lookingJobs,
   schools,
@@ -31,5 +32,4 @@ module.exports = {
   skills,
   talentMatrixResults,
   tenures,
-  linkAttachmentNames,
 };

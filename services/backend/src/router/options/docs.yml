@@ -4,13 +4,12 @@
     parameters:
       - $ref: "#/definitions/LanguageQuery"
       - $ref: "#/definitions/TypeQuery"
-      - null
     produces:
       - application/json
     responses:
       "200":
         schema:
-          $ref: "#/definitions/IdNameArray"
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
@@ -31,7 +30,7 @@
     responses:
       "200":
         schema:
-          $ref: "#/definitions/StringArray"
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
@@ -51,7 +50,8 @@
       - application/json
     responses:
       "200":
-        $ref: "#/definitions/IdDescriptionArray"
+        schema:
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
@@ -72,17 +72,7 @@
     responses:
       "200":
         schema:
-          items:
-            properties:
-              city:
-                type: string
-              id:
-                format: uuid
-                type: string
-              province:
-                type: string
-            type: object
-          type: array
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
@@ -101,7 +91,7 @@
     responses:
       "200":
         schema:
-          $ref: "#/definitions/IdNameArray"
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "500":
@@ -153,21 +143,7 @@
     responses:
       "200":
         schema:
-          items:
-            properties:
-              city:
-                type: string
-              id:
-                format: uuid
-                type: string
-              province:
-                type: string
-              streetName:
-                type: string
-              streetNumber:
-                type: number
-            type: object
-          type: array
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
@@ -187,7 +163,8 @@
       - application/json
     responses:
       "200":
-        $ref: "#/definitions/IdDescriptionArray"
+        schema:
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
@@ -207,7 +184,8 @@
       - application/json
     responses:
       "200":
-        $ref: "#/definitions/IdDescriptionArray"
+        schema:
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
@@ -227,7 +205,8 @@
       - application/json
     responses:
       "200":
-        $ref: "#/definitions/IdDescriptionArray"
+        schema:
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":
@@ -248,7 +227,7 @@
     responses:
       "200":
         schema:
-          $ref: "#/definitions/IdNameArray"
+          $ref: "#/definitions/ValueLabelArray"
       "403":
         $ref: "#/definitions/403"
       "422":

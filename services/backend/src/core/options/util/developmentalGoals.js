@@ -41,9 +41,9 @@ async function getDevelopmentalGoals(request, response) {
   }));
 
   const skills = skillsQuery.map((i) => ({
+    categoryId: i.opSkill.categoryId,
     id: i.opSkill.id,
     name: i.name,
-    categoryId: i.opSkill.categoryId,
   }));
 
   const developmentalGoals = _.sortBy([...competencies, ...skills], "name");

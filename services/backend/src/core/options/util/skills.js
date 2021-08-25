@@ -24,9 +24,9 @@ async function getSkills(request, response) {
 
   const skills = _.sortBy(
     skillsQuery.map((i) => ({
+      categoryId: i.opSkill.categoryId,
       id: i.opSkill.id,
       name: i.name,
-      categoryId: i.opSkill.categoryId,
     })),
     "name"
   );
