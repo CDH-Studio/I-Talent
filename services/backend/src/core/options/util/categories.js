@@ -19,8 +19,8 @@ async function getCategories(request, response) {
 
   const categories = _.sortBy(
     categoriesQuery.map((i) => ({
-      id: i.opCategoryId,
-      name: i.name,
+      value: i.opCategoryId,
+      label: i.name,
     })),
     "name"
   );

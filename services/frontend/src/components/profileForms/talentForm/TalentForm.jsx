@@ -69,10 +69,10 @@ const TalentForm = ({ formType }) => {
       const options = [];
 
       skillsResults.data.forEach((skill) => {
-        if (skill.categoryId === category.id) {
+        if (skill.categoryId === category.value) {
           options.push({
-            label: `${category.name}: ${skill.name}`,
-            value: skill.id,
+            label: `${category.label}: ${skill.label}`,
+            value: skill.value,
           });
         }
       });

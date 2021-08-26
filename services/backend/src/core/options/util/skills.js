@@ -25,10 +25,10 @@ async function getSkills(request, response) {
   const skills = _.sortBy(
     skillsQuery.map((i) => ({
       categoryId: i.opSkill.categoryId,
-      id: i.opSkill.id,
-      name: i.name,
+      value: i.opSkill.id,
+      label: i.name,
     })),
-    "name"
+    "label"
   );
 
   response.status(200).json(skills);
