@@ -13,7 +13,6 @@ async function updateProfile(request, response) {
   const { language } = request.query;
 
   if (isKeycloakUser(request, id)) {
-    console.log(request.body);
     await updateProfileInfo(request, id, language);
     response.sendStatus(204);
   } else {
