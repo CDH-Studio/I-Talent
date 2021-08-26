@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +11,7 @@ import {
   Skeleton,
   Switch,
   Tabs,
-  TreeSelect,
+  // TreeSelect,
   Typography,
 } from "antd";
 import { identity, isEmpty, isEqual, pickBy } from "lodash";
@@ -35,7 +33,6 @@ import FormTitle from "../formTitle/FormTitle";
 import "./TalentFormView.less";
 
 const { Text } = Typography;
-const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
 /**
@@ -366,6 +363,7 @@ const TalentFormView = ({
   ) => {
     const dataTree = [];
     let numbCategories = 0;
+
     // iterate through all possible skill categories
     for (let i = 0; i < fullSkillsOptionsList.length; i += 1) {
       let itemsFoundInCategory = 0;
@@ -382,26 +380,22 @@ const TalentFormView = ({
             if (itemsFoundInCategory === 1) {
               numbCategories += 1;
               const parent = {
-                checkable: false,
-                children: [],
-                disableCheckbox: true,
-                selectable: false,
-                title: fullSkillsOptionsList[i].title,
-                value: fullSkillsOptionsList[i].value,
+                label: fullSkillsOptionsList[i].label,
+                options: [],
               };
               dataTree.push(parent);
             }
             // save skill as child in parent
             const child = {
-              key: fullSkillsOptionsList[i].options[w].value,
-              title: fullSkillsOptionsList[i].options[w].title,
+              label: fullSkillsOptionsList[i].options[w].label,
               value: fullSkillsOptionsList[i].options[w].value,
             };
-            dataTree[numbCategories - 1].children.push(child);
+            dataTree[numbCategories - 1].options.push(child);
           }
         }
       }
     }
+
     return dataTree;
   };
 
@@ -431,7 +425,6 @@ const TalentFormView = ({
    * on change of skills field auto update mentorship options
    */
   const onChangeSkills = (skillsValues) => {
-    console.log({ skillsValues });
     // generate options for mentorship based on skills
     const selectedSkillsOnChangeSkills = generateMentorshipOptions(
       skillOptions,
@@ -448,6 +441,7 @@ const TalentFormView = ({
     form.setFieldsValue({
       mentorshipSkills: validatedMentorshipSkills,
     });
+
     // Update states
     setSelectedSkills(selectedSkillsOnChangeSkills);
   };
@@ -460,8 +454,6 @@ const TalentFormView = ({
   const onTabChange = (activeTab) => {
     setSelectedTab(getTabValue(activeTab));
   };
-
-  console.log({ selectedSkills });
 
   /*
    * On Reset
@@ -509,58 +501,15 @@ const TalentFormView = ({
                 rules={[Rules.required]}
               >
                 <CustomDropdown
-                  isMulti
                   ariaLabel={intl.formatMessage({
-                    id: "edit.interested.in.remote",
+                    id: "mentorship.skills",
                   })}
-                  initialValueId={form.getFieldValue("interestedInRemote")}
-                  isSearchable={false}
-                  options={[
-                    {
-                      label: "Partner",
-                      options: [
-                        {
-                          value: {
-                            id: "ABCDSC",
-                            value: "Partner1",
-                          },
-                          label: "Partner1",
-                        },
-                        {
-                          value: {
-                            id: "ABCDSC",
-                            value: "Partner2",
-                          },
-                          label: "Partner2",
-                        },
-                      ],
-                    },
-                    {
-                      label: "Study",
-                      options: [
-                        {
-                          value: {
-                            id: "ABCDSC123",
-                            value: "Study1",
-                          },
-                          label: "Study1",
-                        },
-                      ],
-                    },
-                  ]}
-                  placeholderText={<FormattedMessage id="select" />}
+                  initialValueId={getInitialValues().mentorshipSkills}
+                  isGroupedOptions
+                  isMulti
+                  options={selectedSkills}
+                  placeholderText={<FormattedMessage id="search" />}
                 />
-                {/* <TreeSelect
-                  className="custom-bubble-select-style"
-                  disabled={!selectedSkills.length > 0}
-                  maxTagCount={15}
-                  placeholder={<FormattedMessage id="search" />}
-                  showCheckedStrategy={SHOW_CHILD}
-                  showSearch
-                  treeCheckable
-                  treeData={selectedSkills}
-                  treeNodeFilterProp="title"
-                /> */}
               </Form.Item>
             </Col>
           </Row>
@@ -613,9 +562,6 @@ const TalentFormView = ({
       </div>
     );
   }
-
-  const options = skillOptions[0].options;
-  console.log({ options });
 
   /* Once data had loaded display form */
   return (
@@ -672,27 +618,15 @@ const TalentFormView = ({
                   <Form.Item name="skills">
                     <CustomDropdown
                       ariaLabel={intl.formatMessage({
-                        id: "edit.interested.in.remote",
+                        id: "skills",
                       })}
-                      initialValueId={form.getFieldValue("skills")}
-                      isMulti //Toggle this to test
-                      isSearchable={false}
+                      initialValueId={getInitialValues().skills}
+                      isGroupedOptions
+                      isMulti
                       onChange={onChangeSkills}
-                      options={skillOptions} //{skillOptiions} for grouped and {options} for not grouped
-                      placeholderText={<FormattedMessage id="select" />}
-                      showCheckedStrategy={SHOW_CHILD}
+                      options={skillOptions}
+                      placeholderText={<FormattedMessage id="search" />}
                     />
-                    {/* <TreeSelect
-                      className="custom-bubble-select-style"
-                      maxTagCount={15}
-                      onChange={onChangeSkills}
-                      placeholder={<FormattedMessage id="search" />}
-                      showCheckedStrategy={SHOW_CHILD}
-                      showSearch
-                      treeCheckable
-                      treeData={skillOptions}
-                      treeNodeFilterProp="title"
-                    /> */}
                   </Form.Item>
                 </Col>
               </Row>
@@ -756,13 +690,10 @@ const TalentFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "competencies",
                       })}
-                      initialValueId={
-                        getInitialValues({ profile: profileInfo }).competencies
-                      }
+                      initialValueId={getInitialValues().competencies}
                       isMulti
-                      isSearchable
                       options={competencyOptions}
-                      placeholderText={<FormattedMessage id="type.to.search" />}
+                      placeholderText={<FormattedMessage id="search" />}
                     />
                   </Form.Item>
                 </Col>

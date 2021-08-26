@@ -36,6 +36,7 @@ const TalentForm = ({ formType }) => {
     const result = await axios.get(
       `api/profile/private/${id}?language=${locale}`
     );
+
     setProfileInfo(result.data);
   }, [axios, id, locale]);
 
@@ -70,7 +71,6 @@ const TalentForm = ({ formType }) => {
       skillsResults.data.forEach((skill) => {
         if (skill.categoryId === category.id) {
           options.push({
-            key: skill.id,
             label: `${category.name}: ${skill.name}`,
             value: skill.id,
           });
@@ -78,12 +78,8 @@ const TalentForm = ({ formType }) => {
       });
 
       return {
-        checkable: false,
-        disableCheckbox: true,
         label: category.name,
         options,
-        selectable: false,
-        value: category.id,
       };
     });
 
