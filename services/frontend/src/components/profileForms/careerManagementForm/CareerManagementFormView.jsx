@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
@@ -452,15 +453,17 @@ const CareerManagementFormView = ({
                     label={<FormattedMessage id="developmental.goals" />}
                     name="developmentalGoals"
                   >
-                    <TreeSelect
-                      className="custom-bubble-select-style"
-                      maxTagCount={15}
-                      placeholder={<FormattedMessage id="search" />}
-                      showCheckedStrategy={SHOW_CHILD}
-                      showSearch
-                      treeCheckable
-                      treeData={developmentalGoalOptions}
-                      treeNodeFilterProp="title"
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "developmental.goals",
+                      })}
+                      initialValueId={
+                        getInitialValues(profileInfo).developmentalGoals
+                      }
+                      isGroupedOptions
+                      isMulti
+                      options={developmentalGoalOptions}
+                      placeholderText={<FormattedMessage id="search" />}
                     />
                   </Form.Item>
                 </Col>

@@ -153,30 +153,30 @@ const CareerManagementForm = ({ formType }) => {
       // To handle the competencies category
       categoriesResult.data.push({
         id: undefined,
-        name: intl.formatMessage({ id: "competencies" }),
+        label: intl.formatMessage({ id: "competencies" }),
       });
 
       // Loop through all skill categories
       const dataTree = categoriesResult.data.map((category) => {
-        const children = [];
+        const options = [];
 
         devGoalsResults.data.forEach((devGoal) => {
           if (devGoal.categoryId === category.id) {
-            children.push({
+            options.push({
               key: devGoal.id,
-              title: `${category.name}: ${devGoal.name}`,
+              label: `${category.label}: ${devGoal.name}`,
               value: devGoal.id,
             });
           }
         });
 
         return {
-          children,
-          title: category.name,
-          value: category.id || category.name,
+          label: category.label,
+          options,
+          value: category.id || category.label,
         };
       });
-      setDevelopmentalGoalOptions(sortBy(dataTree, "title"));
+      setDevelopmentalGoalOptions(sortBy(dataTree, "label"));
 
       setLoad(true);
     } catch (error) {
