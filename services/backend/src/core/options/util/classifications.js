@@ -12,8 +12,8 @@ async function getClassifications(_request, response) {
   });
 
   const responseData = classificationsQuery.map((classification) => ({
-    value: classification.id,
     label: classification.name,
+    value: classification.id,
   }));
 
   response.status(200).json(responseData);

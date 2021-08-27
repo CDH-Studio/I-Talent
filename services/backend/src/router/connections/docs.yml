@@ -1,5 +1,5 @@
 ---
-/api/connection/{id}:
+/api/connections/{id}:
   delete:
     parameters:
       - $ref: "#/definitions/IdQuery"
@@ -22,7 +22,7 @@
       - $ref: "#/definitions/IdQuery"
     produces:
       - application/json
-    response:
+    responses:
       "200":
         schema:
           $ref: "#/definitions/GetConnection"

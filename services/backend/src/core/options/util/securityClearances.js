@@ -19,8 +19,8 @@ async function getSecurityClearances(request, response) {
 
   const securityClearances = securityClearancesQuery.map(
     (securityClearance) => ({
-      value: securityClearance.opSecurityClearanceId,
       label: securityClearance.description,
+      value: securityClearance.opSecurityClearanceId,
     })
   );
 
