@@ -1,7 +1,7 @@
 const _ = require("lodash");
 const prisma = require("../../../database");
 
-async function getCategories(request, response) {
+async function getSkillCategories(request, response) {
   const { language } = request.query;
 
   const categoriesQuery = await prisma.opTransCategory.findMany({
@@ -17,18 +17,15 @@ async function getCategories(request, response) {
     },
   });
 
-  const categories = _.sortBy(
-    categoriesQuery.map((i) => ({
-      value: i.opCategoryId,
-      label: i.name,
-    })),
-    "name"
-  );
+  const categories = categoriesQuery.map((i) => ({
+    value: i.opCategoryId,
+    label: i.name,
+  }));
 
   response.status(200).json(categories);
 }
 
-async function getCategoriesAllLang(_request, response) {
+async function getSkillCategoriesAllLang(_request, response) {
   const categoriesQuery = await prisma.opCategory.findMany({
     select: {
       id: true,
@@ -53,7 +50,7 @@ async function getCategoriesAllLang(_request, response) {
   response.status(200).json(categories);
 }
 
-async function createCategory(request, response) {
+async function createSkillCategory(request, response) {
   const { en, fr } = request.body;
 
   await prisma.opCategory.create({
@@ -76,7 +73,7 @@ async function createCategory(request, response) {
   response.sendStatus(201);
 }
 
-async function updateCategory(request, response) {
+async function updateSkillCategory(request, response) {
   const { id, en, fr } = request.body;
 
   await prisma.opCategory.update({
@@ -110,7 +107,7 @@ async function updateCategory(request, response) {
   response.sendStatus(204);
 }
 
-async function deleteCategories(request, response) {
+async function deleteSkillCategories(request, response) {
   const { ids } = request.body;
 
   if (ids.length < 1) {
@@ -192,9 +189,9 @@ async function deleteCategories(request, response) {
 }
 
 module.exports = {
-  getCategories,
-  getCategoriesAllLang,
-  createCategory,
-  updateCategory,
-  deleteCategories,
+  getSkillCategories,
+  getSkillCategoriesAllLang,
+  createSkillCategory,
+  updateSkillCategory,
+  deleteSkillCategories,
 };

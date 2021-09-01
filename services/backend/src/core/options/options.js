@@ -1,6 +1,6 @@
 const branches = require("./util/branches");
 const careerMobilities = require("./util/careerMobilities");
-const categories = require("./util/categories");
+const skillCategories = require("./util/skillCategories");
 const cityLocations = require("./util/cityLocations");
 const classifications = require("./util/classifications");
 const competencies = require("./util/competencies");
@@ -18,7 +18,7 @@ const linkAttachmentNames = require("./util/linkAttachmentNames");
 module.exports = {
   branches,
   careerMobilities,
-  categories,
+  skillCategories,
   cityLocations,
   classifications,
   competencies,
