@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +13,6 @@ import {
   Row,
   Skeleton,
   Tabs,
-  TreeSelect,
 } from "antd";
 import { identity, isEqual, isNil, omitBy, pickBy } from "lodash";
 import PropTypes from "prop-types";
@@ -39,7 +37,6 @@ import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 
 import "./CareerManagementFormView.less";
 
-const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
 /**
