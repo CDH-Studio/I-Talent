@@ -64,8 +64,6 @@ const TalentForm = ({ formType }) => {
       axios.get(`api/option/skills?language=${locale}`),
     ]);
 
-    console.log(categoriesResult);
-
     // Loop through all skill categories
     const dataTree = categoriesResult.data.map((category) => {
       const options = [];
@@ -84,7 +82,6 @@ const TalentForm = ({ formType }) => {
         options,
       };
     });
-    console.log("dataTree", dataTree);
 
     setSkillOptions(dataTree);
   }, [axios, locale]);
