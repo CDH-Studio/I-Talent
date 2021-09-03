@@ -90,5 +90,3 @@ client/
 
 # translation exports
 ExportedTranslations.csv
-services/frontend/.husky/README.md
-services/frontend/.husky/pre-commit

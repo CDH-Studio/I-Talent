@@ -48,8 +48,6 @@ async function getDevelopmentalGoals(request, response) {
 
   const developmentalGoals = _.sortBy([...competencies, ...skills], "label");
 
-  console.log(developmentalGoals);
-
   response.status(200).json(developmentalGoals);
 }
 
