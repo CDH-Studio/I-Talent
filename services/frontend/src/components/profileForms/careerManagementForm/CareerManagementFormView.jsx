@@ -444,6 +444,10 @@ const CareerManagementFormView = ({
                 title={<FormattedMessage id="developmental.goals" />}
               />
               <Row gutter={24}>
+                {console.log(
+                  "dev goals",
+                  getInitialValues(profileInfo).developmentalGoals
+                )}
                 <Col className="gutter-row" lg={24} md={24} xl={24} xs={24}>
                   <Form.Item
                     className="custom-bubble-select-style"

@@ -24,6 +24,8 @@ async function getLocations(request, response) {
     },
   });
 
+  console.log("locationsQuery", locationsQuery);
+
   const locations = _.orderBy(
     locationsQuery.map((i) => {
       const { streetName, province } = i;

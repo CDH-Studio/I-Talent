@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { sortBy } from "lodash";
+// import { sortBy } from "lodash";
 import PropTypes from "prop-types";
 
 import handleError from "../../../functions/handleError";
@@ -88,6 +88,7 @@ const CareerManagementForm = ({ formType }) => {
    * get saved Qualified Pools from profile
    */
   const getSavedQualifiedPools = () => {
+    console.log("what is goinf on here. code looks bad?????");
     const ll = {
       qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
         classificationId: i.classification.id,
@@ -163,7 +164,7 @@ const CareerManagementForm = ({ formType }) => {
         devGoalsResults.data.forEach((devGoal) => {
           if (devGoal.categoryId === category.id) {
             options.push({
-              key: devGoal.id,
+              // key: devGoal.id,
               label: `${category.label}: ${devGoal.name}`,
               value: devGoal.id,
             });
@@ -176,7 +177,8 @@ const CareerManagementForm = ({ formType }) => {
           value: category.id || category.label,
         };
       });
-      setDevelopmentalGoalOptions(sortBy(dataTree, "label"));
+
+      setDevelopmentalGoalOptions(dataTree);
 
       setLoad(true);
     } catch (error) {

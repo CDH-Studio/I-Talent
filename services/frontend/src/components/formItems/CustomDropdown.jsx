@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
@@ -26,6 +26,14 @@ const CustomDropdown = ({
 }) => {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState(initialValueId);
+
+  const FORMATTED_DROPDOWN_OPTIONS = useMemo(() => {
+    if (isGroupedOptions) {
+      return options.flatMap((option) => option.options);
+    }
+
+    return options;
+  }, [isGroupedOptions, options]);
 
   /**
    * Trigger the OnChange function passed into the component and update state
@@ -71,31 +79,64 @@ const CustomDropdown = ({
    * @return {Array.<{value:string, label:string}>} a list of save option objects
    *
    */
-  const mapInitialValue = (dropdownOptions, savedValues, isGrouped) => {
-    let FormattedDropdownOptions = dropdownOptions;
+  const mapInitialValue = (savedValues) => {
+    /* eslint-disable */
+    // let FORMATTED_DROPDOWN_OPTIONSz = options;
 
-    if (isGrouped) {
-      FormattedDropdownOptions = dropdownOptions.flatMap(
-        (dropdownOption) => dropdownOption.options
-      );
-    }
+    // // console.log(
+    // //   "dev goals is very slow. maybe we should imporvwe this performance nad see. it takes 268ms to render right now when drop down is clicked"
+    // // );
+    // if (true) {
+    //   FORMATTED_DROPDOWN_OPTIONSz = options.flatMap(
+    //     (dropdownOption) => dropdownOption.options
+    //   );
+    // }
+
+    console.log("FORMATTED_DROPDOWN_OPTIONS", FORMATTED_DROPDOWN_OPTIONS);
+    // console.log("FORMATTED_DROPDOWN_OPTIONSz", FORMATTED_DROPDOWN_OPTIONSz);
 
     if (isMulti) {
       const savedValuesArray = Array.isArray(savedValues)
         ? savedValues
         : [savedValues];
 
+      console.log("savedValuesArray", savedValuesArray);
+
+      console.log(
+        "mon",
+        savedValuesArray.map((value) =>
+          FORMATTED_DROPDOWN_OPTIONS.find(
+            (option) => option && option.value === value
+          )
+        )
+      );
+
       return savedValuesArray.map((value) =>
-        FormattedDropdownOptions.find(
+        FORMATTED_DROPDOWN_OPTIONS.find(
           (option) => option && option.value === value
         )
       );
     }
 
+    // console.log(
+    //   "vvv",
+    //   FORMATTED_DROPDOWN_OPTIONS.find((option) => option.value === savedValues)
+    // );
+
+    // console.log("savedValues", savedValues);
+    // console.log("initialValueId", initialValueId);
+
+    // console.log(
+    //   "vvv",
+    //   options.find((option) => option.value === savedValues)
+    // );
+
+    // return 1;
+
     return (
-      dropdownOptions &&
+      FORMATTED_DROPDOWN_OPTIONS &&
       savedValues &&
-      dropdownOptions.find((option) => option.value === savedValues)
+      FORMATTED_DROPDOWN_OPTIONS.find((option) => option.value === savedValues)
     );
   };
 
@@ -476,11 +517,7 @@ const CustomDropdown = ({
           blurInputOnSelect={false}
           className={className}
           closeMenuOnSelect={!isMulti}
-          defaultValue={mapInitialValue(
-            options,
-            initialValueId,
-            isGroupedOptions
-          )}
+          defaultValue={mapInitialValue(initialValueId)}
           formatOptionLabel={formatOptionLabel}
           isClearable={isClearable}
           isDisabled={isDisabled}
@@ -510,9 +547,9 @@ const CustomDropdown = ({
           styles={customStyles}
           theme={customTheme}
           value={mapInitialValue(
-            options,
-            inputValue || selectedOptions,
-            isGroupedOptions
+            inputValue || selectedOptions
+            // inputValue || selectedOptions,
+            // isGroupedOptions
           )}
         />
       )}
