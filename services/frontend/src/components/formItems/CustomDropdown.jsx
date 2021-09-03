@@ -80,21 +80,6 @@ const CustomDropdown = ({
    *
    */
   const mapInitialValue = (savedValues) => {
-    /* eslint-disable */
-    // let FORMATTED_DROPDOWN_OPTIONSz = options;
-
-    // // console.log(
-    // //   "dev goals is very slow. maybe we should imporvwe this performance nad see. it takes 268ms to render right now when drop down is clicked"
-    // // );
-    // if (true) {
-    //   FORMATTED_DROPDOWN_OPTIONSz = options.flatMap(
-    //     (dropdownOption) => dropdownOption.options
-    //   );
-    // }
-
-    console.log("FORMATTED_DROPDOWN_OPTIONS", FORMATTED_DROPDOWN_OPTIONS);
-    // console.log("FORMATTED_DROPDOWN_OPTIONSz", FORMATTED_DROPDOWN_OPTIONSz);
-
     if (isMulti) {
       const savedValuesArray = Array.isArray(savedValues)
         ? savedValues
@@ -106,21 +91,6 @@ const CustomDropdown = ({
         )
       );
     }
-
-    // console.log(
-    //   "vvv",
-    //   FORMATTED_DROPDOWN_OPTIONS.find((option) => option.value === savedValues)
-    // );
-
-    // console.log("savedValues", savedValues);
-    // console.log("initialValueId", initialValueId);
-
-    // console.log(
-    //   "vvv",
-    //   options.find((option) => option.value === savedValues)
-    // );
-
-    // return 1;
 
     return (
       FORMATTED_DROPDOWN_OPTIONS &&

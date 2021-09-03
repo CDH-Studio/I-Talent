@@ -24,7 +24,6 @@ const PrimaryInfoForm = ({ formType }) => {
   // Get possible locations for form drop down
   const getLocations = useCallback(async () => {
     const result = await axios.get(`api/option/locations?language=${locale}`);
-    console.log("result.data", result.data);
     setLocationOptions(result.data ? result.data : []);
   }, [axios, locale]);
 
@@ -78,8 +77,6 @@ const PrimaryInfoForm = ({ formType }) => {
       },
     ]);
   }, [intl]);
-
-  console.log("locationOptions", locationOptions);
 
   return (
     <PrimaryInfoFormView

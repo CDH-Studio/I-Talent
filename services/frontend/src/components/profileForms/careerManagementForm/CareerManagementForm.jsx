@@ -88,18 +88,19 @@ const CareerManagementForm = ({ formType }) => {
    * get saved Qualified Pools from profile
    */
   const getSavedQualifiedPools = () => {
-    console.log("what is goinf on here. code looks bad?????");
-    const ll = {
-      qualifiedPools: profileInfo.qualifiedPools.map((i) => ({
+    const qualifiedPools =
+      profileInfo.qualifiedPools &&
+      profileInfo.qualifiedPools.map((i) => ({
         classificationId: i.classification.id,
         id: i.id,
         jobPosterLink: i.jobPosterLink,
         jobTitle: i.jobTitle,
         selectionProcessNumber: i.selectionProcessNumber,
-      })),
-    };
-    if (profileInfo.qualifiedPools) setSavedQualifiedPools(ll.qualifiedPools);
+      }));
+
+    setSavedQualifiedPools(qualifiedPools);
   };
+
   /**
    * Get Interested In Remote Options
    *
@@ -119,18 +120,19 @@ const CareerManagementForm = ({ formType }) => {
     ];
     setInterestedInRemoteOptions(options);
   }, [locale]);
+
   const getBackendInfo = useCallback(async () => {
     try {
       const [
-        profile,
-        categoriesResult,
-        devGoalsResults,
-        relocation,
-        getAttachmentOptions,
-        getNewJobOptions,
-        getMobilityOptions,
-        getMatrixResultOptions,
-        getClassificationOptions,
+        profileResponse,
+        categoriesResultResponse,
+        devGoalsResultsResponse,
+        relocationResponse,
+        attachmentOptionsResponse,
+        getNewJobOptionsResponse,
+        mobilityOptionsResponse,
+        matrixResultOptionsResponse,
+        classificationOptionsResponse,
       ] = await Promise.all([
         axios.get(`api/profile/private/${id}?language=${locale}`),
         axios.get(`api/option/categories?language=${locale}`),
@@ -143,27 +145,25 @@ const CareerManagementForm = ({ formType }) => {
         axios.get(`api/option/classifications?language=${locale}`),
       ]);
 
-      setProfileInfo(profile.data);
-      setRelocationOptions(relocation.data);
-      setAttachmentOptions(getAttachmentOptions.data);
-      setLookingForNewJobOptions(getNewJobOptions.data);
-      setCareerMobilityOptions(getMobilityOptions.data);
-      setTalentMatrixResultOptions(getMatrixResultOptions.data);
-      setClassificationOptions(getClassificationOptions.data);
-
-      console.log("categoriesResult", categoriesResult);
+      setProfileInfo(profileResponse.data);
+      setRelocationOptions(relocationResponse.data);
+      setAttachmentOptions(attachmentOptionsResponse.data);
+      setLookingForNewJobOptions(getNewJobOptionsResponse.data);
+      setCareerMobilityOptions(mobilityOptionsResponse.data);
+      setTalentMatrixResultOptions(matrixResultOptionsResponse.data);
+      setClassificationOptions(classificationOptionsResponse.data);
 
       // To handle the competencies category
-      categoriesResult.data.push({
+      categoriesResultResponse.data.push({
         id: undefined,
         label: intl.formatMessage({ id: "competencies" }),
       });
 
       // Loop through all skill categories
-      const dataTree = categoriesResult.data.map((category) => {
+      const dataTree = categoriesResultResponse.data.map((category) => {
         const options = [];
 
-        devGoalsResults.data.forEach((devGoal) => {
+        devGoalsResultsResponse.data.forEach((devGoal) => {
           if (devGoal.categoryId === category.value) {
             options.push({
               label: `${category.label}: ${devGoal.label}`,
@@ -217,12 +217,10 @@ const CareerManagementForm = ({ formType }) => {
       );
       setSavedCareerMobility(careerMobility ? careerMobility.id : undefined);
       setSavedExFeederBool(exFeeder);
-      // setSavedQualifiedPools(qualifiedPools);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profileInfo]);
 
-  // useEffect when locale changes
   useEffect(() => {
     getInterestedInRemoteOptions();
     getBackendInfo();
