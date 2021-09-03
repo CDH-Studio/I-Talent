@@ -507,7 +507,7 @@ const TalentFormView = ({
                   isGroupedOptions
                   isMulti
                   options={selectedSkills}
-                  placeholderText={<FormattedMessage id="search" />}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
                 />
               </Form.Item>
             </Col>
@@ -624,7 +624,7 @@ const TalentFormView = ({
                       isMulti
                       onChange={onChangeSkills}
                       options={skillOptions}
-                      placeholderText={<FormattedMessage id="search" />}
+                      placeholderText={<FormattedMessage id="type.to.search" />}
                     />
                   </Form.Item>
                 </Col>

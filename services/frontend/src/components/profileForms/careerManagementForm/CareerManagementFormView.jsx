@@ -464,7 +464,7 @@ const CareerManagementFormView = ({
                       isGroupedOptions
                       isMulti
                       options={developmentalGoalOptions}
-                      placeholderText={<FormattedMessage id="search" />}
+                      placeholderText={<FormattedMessage id="type.to.search" />}
                     />
                   </Form.Item>
                 </Col>
