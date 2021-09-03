@@ -692,7 +692,7 @@ const TalentFormView = ({
                       initialValueId={getInitialValues().competencies}
                       isMulti
                       options={competencyOptions}
-                      placeholderText={<FormattedMessage id="search" />}
+                      placeholderText={<FormattedMessage id="type.to.search" />}
                     />
                   </Form.Item>
                 </Col>
