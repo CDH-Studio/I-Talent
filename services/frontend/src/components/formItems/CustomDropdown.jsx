@@ -100,17 +100,6 @@ const CustomDropdown = ({
         ? savedValues
         : [savedValues];
 
-      console.log("savedValuesArray", savedValuesArray);
-
-      console.log(
-        "mon",
-        savedValuesArray.map((value) =>
-          FORMATTED_DROPDOWN_OPTIONS.find(
-            (option) => option && option.value === value
-          )
-        )
-      );
-
       return savedValuesArray.map((value) =>
         FORMATTED_DROPDOWN_OPTIONS.find(
           (option) => option && option.value === value

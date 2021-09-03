@@ -151,6 +151,8 @@ const CareerManagementForm = ({ formType }) => {
       setTalentMatrixResultOptions(getMatrixResultOptions.data);
       setClassificationOptions(getClassificationOptions.data);
 
+      console.log("categoriesResult", categoriesResult);
+
       // To handle the competencies category
       categoriesResult.data.push({
         id: undefined,
@@ -162,11 +164,10 @@ const CareerManagementForm = ({ formType }) => {
         const options = [];
 
         devGoalsResults.data.forEach((devGoal) => {
-          if (devGoal.categoryId === category.id) {
+          if (devGoal.categoryId === category.value) {
             options.push({
-              // key: devGoal.id,
-              label: `${category.label}: ${devGoal.name}`,
-              value: devGoal.id,
+              label: `${category.label}: ${devGoal.label}`,
+              value: devGoal.value,
             });
           }
         });
@@ -174,7 +175,7 @@ const CareerManagementForm = ({ formType }) => {
         return {
           label: category.label,
           options,
-          value: category.id || category.label,
+          value: category.value || category.label,
         };
       });
 
