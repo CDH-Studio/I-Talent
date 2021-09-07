@@ -9,6 +9,7 @@ import antdStyles from "../../styling/antdTheme";
 
 const CustomDropdown = ({
   ariaLabel,
+  blurInputOnSelect,
   onChange,
   initialValueId,
   inputValue,
@@ -460,7 +461,7 @@ const CustomDropdown = ({
       ) : (
         <Select
           aria-label={generateAriaLabel(ariaLabel, isRequired)}
-          blurInputOnSelect={false}
+          blurInputOnSelect={blurInputOnSelect}
           className={className}
           closeMenuOnSelect={!isMulti}
           defaultValue={mapInitialValue(options, initialValueId)}
@@ -501,6 +502,7 @@ const CustomDropdown = ({
 
 CustomDropdown.propTypes = {
   ariaLabel: PropTypes.string,
+  blurInputOnSelect: PropTypes.bool,
   className: PropTypes.string,
   initialValueId: PropTypes.oneOfType([
     PropTypes.string,
@@ -524,6 +526,7 @@ CustomDropdown.propTypes = {
 
 CustomDropdown.defaultProps = {
   ariaLabel: "",
+  blurInputOnSelect: false,
   className: "",
   initialValueId: "",
   inputValue: undefined,

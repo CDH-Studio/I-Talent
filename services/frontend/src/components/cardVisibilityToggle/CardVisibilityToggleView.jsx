@@ -5,15 +5,15 @@ import { useHistory, useParams } from "react-router";
 import {
   EyeInvisibleOutlined,
   EyeOutlined,
+  InfoCircleOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
-import { notification } from "antd";
+import { Modal, notification } from "antd";
 import PropTypes from "prop-types";
 
 import handleError from "../../functions/handleError";
 import useAxios from "../../utils/useAxios";
 import CustomDropdown from "../formItems/CustomDropdown";
-import AlertDialog from "../modal/AlertDialog";
 
 import "./CardVisibilityToggleView.less";
 
@@ -134,6 +134,7 @@ const CardVisibilityToggleView = ({
         ariaLabel={`${ariaLabel} ${intl.formatMessage({
           id: "visibility.selector",
         })}`}
+        blurInputOnSelect
         className="visibilitySelector"
         inputValue={status}
         isClearable={false}
@@ -141,15 +142,27 @@ const CardVisibilityToggleView = ({
         onChange={handleSelect}
         options={generateOptions()}
       />
-      <AlertDialog
-        body={<FormattedMessage id={`visibility.${type}.show.confirm`} />}
+      <Modal
+        aria-label="Ali is here"
         cancelText={<FormattedMessage id="no" />}
-        isOpen={modalVisibility}
+        closable={false}
+        maskClosable={false}
         okText={<FormattedMessage id="yes" />}
         onCancel={handleVisibilityPublicCancel}
         onOk={handleVisibilityPublicOk}
-        title={<FormattedMessage id="visibility.card.title" />}
-      />
+        title={
+          <>
+            <InfoCircleOutlined
+              aria-hidden="true"
+              className="mr-2 visibilityWarningIcon"
+            />
+            <FormattedMessage id="visibility.card.title" />
+          </>
+        }
+        visible={modalVisibility}
+      >
+        <FormattedMessage id={`visibility.${type}.show.confirm`} />
+      </Modal>
     </>
   );
 };
