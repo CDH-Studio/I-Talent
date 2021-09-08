@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
   ExclamationCircleOutlined,
   LoadingOutlined,
   RocketOutlined,
@@ -31,6 +34,8 @@ const WelcomeView = ({
   const { locale } = useSelector((state) => state.settings);
   const axios = useAxios();
   const intl = useIntl();
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   /**
    * Generate large square button for GEDS profiles
@@ -168,14 +173,11 @@ const WelcomeView = ({
   };
 
   const showSkipModal = () => {
-    Modal.confirm({
-      cancelText: intl.formatMessage({ id: "no" }),
-      content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
-      icon: <ExclamationCircleOutlined />,
-      okText: intl.formatMessage({ id: "yes" }),
-      onOk: skipProfileCreation,
-      title: intl.formatMessage({ id: "settings.delete.modal.title" }),
-    });
+    setIsModalVisible(true);
+  };
+
+  const hideSkipModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -199,6 +201,37 @@ const WelcomeView = ({
         <Button onClick={showSkipModal} type="text">
           <FormattedMessage id="setup.welcome.skip" />
         </Button>
+        <Modal
+          cancelText={
+            <>
+              <CloseCircleOutlined aria-hidden="true" className="mr-1" />
+              <FormattedMessage id="no" />
+            </>
+          }
+          closable={false}
+          maskClosable={false}
+          okButtonProps={{ danger: true, ghost: true }}
+          okText={
+            <>
+              <CheckCircleOutlined aria-hidden="true" className="mr-1" />
+              <FormattedMessage id="yes" />
+            </>
+          }
+          onCancel={hideSkipModal}
+          onOk={skipProfileCreation}
+          title={
+            <>
+              <ExclamationCircleOutlined
+                aria-hidden="true"
+                className="mr-2 warning-text"
+              />
+              <FormattedMessage id="settings.delete.modal.title" />
+            </>
+          }
+          visible={isModalVisible}
+        >
+          <FormattedMessage id="setup.welcome.skip.modal" />
+        </Modal>
       </div>
     </Col>
   );

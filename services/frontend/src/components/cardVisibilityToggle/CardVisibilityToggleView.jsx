@@ -3,9 +3,11 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import {
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleOutlined,
   EyeInvisibleOutlined,
   EyeOutlined,
-  InfoCircleOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
 import { Modal, notification } from "antd";
@@ -29,7 +31,7 @@ const CardVisibilityToggleView = ({
   const urlID = useParams().id;
   const userID = useSelector((state) => state.user.id);
   const { locale } = useSelector((state) => state.settings);
-  const [modalVisibility, setModalVisibility] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [status, setStatus] = useState("PRIVATE");
 
   /**
@@ -83,7 +85,7 @@ const CardVisibilityToggleView = ({
    */
   const handleSelect = (value) => {
     if (value === "PUBLIC") {
-      setModalVisibility(true);
+      setIsModalVisible(true);
     } else {
       handleVisibilityToggle(value);
     }
@@ -95,7 +97,7 @@ const CardVisibilityToggleView = ({
    */
   const handleVisibilityPublicOk = () => {
     handleVisibilityToggle("PUBLIC");
-    setModalVisibility(false);
+    setIsModalVisible(false);
   };
 
   /**
@@ -103,7 +105,7 @@ const CardVisibilityToggleView = ({
    * hide the modal
    */
   const handleVisibilityPublicCancel = () => {
-    setModalVisibility(false);
+    setIsModalVisible(false);
   };
 
   useEffect(() => {
@@ -143,23 +145,32 @@ const CardVisibilityToggleView = ({
         options={generateOptions()}
       />
       <Modal
-        aria-label="Ali is here"
-        cancelText={<FormattedMessage id="no" />}
+        cancelText={
+          <>
+            <CloseCircleOutlined aria-hidden="true" className="mr-1" />
+            <FormattedMessage id="no" />
+          </>
+        }
         closable={false}
         maskClosable={false}
-        okText={<FormattedMessage id="yes" />}
+        okText={
+          <>
+            <CheckCircleOutlined aria-hidden="true" className="mr-1" />
+            <FormattedMessage id="yes" />
+          </>
+        }
         onCancel={handleVisibilityPublicCancel}
         onOk={handleVisibilityPublicOk}
         title={
           <>
-            <InfoCircleOutlined
+            <ExclamationCircleOutlined
               aria-hidden="true"
-              className="mr-2 visibilityWarningIcon"
+              className="mr-2 warning-text"
             />
             <FormattedMessage id="visibility.card.title" />
           </>
         }
-        visible={modalVisibility}
+        visible={isModalVisible}
       >
         <FormattedMessage id={`visibility.${type}.show.confirm`} />
       </Modal>
