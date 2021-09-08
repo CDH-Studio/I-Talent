@@ -18,12 +18,15 @@ const getUserConfirmation = (_content, callback) => {
   }
 
   Modal.confirm({
+    autoFocusButton: null,
     cancelText: intl.formatMessage({ id: "no" }),
     content: intl.formatMessage({
       id: "form.unsaved.alert.content",
     }),
-    icon: <ExclamationCircleOutlined />,
+    icon: <ExclamationCircleOutlined aria-hidden="true" />,
+    keyboard: false,
     okText: intl.formatMessage({ id: "yes" }),
+    okType: "danger",
     onCancel: () => {
       callback(false);
     },
