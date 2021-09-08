@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import {
-  CheckCircleOutlined,
-  CloseCircleOutlined,
   ExclamationCircleOutlined,
   EyeInvisibleOutlined,
   EyeOutlined,
@@ -31,7 +29,6 @@ const CardVisibilityToggleView = ({
   const urlID = useParams().id;
   const userID = useSelector((state) => state.user.id);
   const { locale } = useSelector((state) => state.settings);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [status, setStatus] = useState("PRIVATE");
 
   /**
@@ -79,33 +76,46 @@ const CardVisibilityToggleView = ({
   };
 
   /**
+   * Handel public visibility confirmation
+   * save the value and show notification
+   */
+  const handleVisibilityPublicOk = () => {
+    handleVisibilityToggle("PUBLIC");
+  };
+
+  /**
+   * Generates the modal to confirm "public visibility"
+   *
+   */
+  const showPublicVisibilityModal = () => {
+    Modal.confirm({
+      autoFocusButton: null,
+      cancelText: intl.formatMessage({ id: "no" }),
+      content: intl.formatMessage({
+        id: `visibility.${type}.show.confirm`,
+      }),
+      icon: <ExclamationCircleOutlined aria-hidden="true" />,
+      keyboard: false,
+      okText: intl.formatMessage({ id: "yes" }),
+      okType: "danger",
+      onOk: handleVisibilityPublicOk,
+      title: intl.formatMessage({
+        id: "visibility.card.title",
+      }),
+    });
+  };
+
+  /**
    * Handel selection change in drop down
    * open modal confirmation if "public" is selected
    * @param {Object} value - value selected from dropdown
    */
   const handleSelect = (value) => {
     if (value === "PUBLIC") {
-      setIsModalVisible(true);
+      showPublicVisibilityModal();
     } else {
       handleVisibilityToggle(value);
     }
-  };
-
-  /**
-   * Handel public visibility confirmation
-   * save the value, hide modal, and show notification
-   */
-  const handleVisibilityPublicOk = () => {
-    handleVisibilityToggle("PUBLIC");
-    setIsModalVisible(false);
-  };
-
-  /**
-   * Handel public visibility cancellation
-   * hide the modal
-   */
-  const handleVisibilityPublicCancel = () => {
-    setIsModalVisible(false);
   };
 
   useEffect(() => {
@@ -144,36 +154,6 @@ const CardVisibilityToggleView = ({
         onChange={handleSelect}
         options={generateOptions()}
       />
-      <Modal
-        cancelText={
-          <>
-            <CloseCircleOutlined aria-hidden="true" className="mr-1" />
-            <FormattedMessage id="no" />
-          </>
-        }
-        closable={false}
-        maskClosable={false}
-        okText={
-          <>
-            <CheckCircleOutlined aria-hidden="true" className="mr-1" />
-            <FormattedMessage id="yes" />
-          </>
-        }
-        onCancel={handleVisibilityPublicCancel}
-        onOk={handleVisibilityPublicOk}
-        title={
-          <>
-            <ExclamationCircleOutlined
-              aria-hidden="true"
-              className="mr-2 warning-text"
-            />
-            <FormattedMessage id="visibility.card.title" />
-          </>
-        }
-        visible={isModalVisible}
-      >
-        <FormattedMessage id={`visibility.${type}.show.confirm`} />
-      </Modal>
     </>
   );
 };

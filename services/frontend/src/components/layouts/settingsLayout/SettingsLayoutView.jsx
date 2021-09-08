@@ -1,6 +1,7 @@
 import { FormattedMessage, useIntl } from "react-intl";
 import {
   DeleteOutlined,
+  ExclamationCircleOutlined,
   EyeFilled,
   EyeInvisibleFilled,
   SettingOutlined,
@@ -17,6 +18,28 @@ const SettingsLayoutView = ({
   profileStatus,
 }) => {
   const intl = useIntl();
+
+  /**
+   * Generates the modal to confirm "delete account"
+   *
+   */
+  const showDeleteAccountModal = () => {
+    Modal.confirm({
+      autoFocusButton: null,
+      cancelText: intl.formatMessage({ id: "no" }),
+      content: intl.formatMessage({
+        id: "settings.delete.modal.content",
+      }),
+      icon: <ExclamationCircleOutlined aria-hidden="true" />,
+      keyboard: false,
+      okText: intl.formatMessage({ id: "yes" }),
+      okType: "danger",
+      onOk: deleteCurrentUser,
+      title: intl.formatMessage({
+        id: "settings.delete.modal.title",
+      }),
+    });
+  };
 
   const listData = [
     {
@@ -49,27 +72,15 @@ const SettingsLayoutView = ({
     {
       description: <FormattedMessage id="delete.account.description" />,
       extra: (
-        <Button
-          danger
-          icon={<DeleteOutlined />}
-          onClick={() => {
-            Modal.confirm({
-              autoFocusButton: null,
-              cancelText: intl.formatMessage({ id: "no" }),
-              content: intl.formatMessage({
-                id: "settings.delete.modal.content",
-              }),
-              okText: intl.formatMessage({ id: "yes" }),
-              okType: "danger",
-              onOk: deleteCurrentUser,
-              title: intl.formatMessage({ id: "settings.delete.modal.title" }),
-            });
-          }}
-        >
-          <span>
+        <>
+          <Button
+            danger
+            icon={<DeleteOutlined aria-hidden="true" className="mr-2" />}
+            onClick={showDeleteAccountModal}
+          >
             <FormattedMessage id="delete.account" />
-          </span>
-        </Button>
+          </Button>
+        </>
       ),
       title: <FormattedMessage id="permanently.delete.account" />,
     },
