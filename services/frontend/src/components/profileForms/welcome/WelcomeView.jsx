@@ -32,8 +32,6 @@ const WelcomeView = ({
   const axios = useAxios();
   const intl = useIntl();
 
-  // const [isModalVisible, setIsModalVisible] = useState(false);
-
   /**
    * Generate large square button for GEDS profiles
    *
