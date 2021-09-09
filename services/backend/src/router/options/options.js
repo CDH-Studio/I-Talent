@@ -3,7 +3,7 @@ const { Router } = require("express");
 const {
   branches,
   careerMobilities,
-  categories,
+  skillCategories,
   cityLocations,
   classifications,
   competencies,
@@ -59,25 +59,33 @@ optionsRouter
     keycloak.protect(),
     langValidator,
     validationMiddlware,
-    categories.getCategories
+    skillCategories.getSkillCategories
   )
   .delete(
     keycloak.protect("manage-options"),
     deleteManyValidator,
     validationMiddlware,
-    categories.deleteCategories
+    skillCategories.deleteSkillCategories
   );
 
 optionsRouter
   .route("/category")
   .all(keycloak.protect("manage-options"))
-  .post(createValidator, validationMiddlware, categories.createCategory)
-  .put(updateValidator, validationMiddlware, categories.updateCategory);
+  .post(
+    createValidator,
+    validationMiddlware,
+    skillCategories.createSkillCategory
+  )
+  .put(
+    updateValidator,
+    validationMiddlware,
+    skillCategories.updateSkillCategory
+  );
 
 optionsRouter.get(
   "/categoriesAllLang",
   keycloak.protect("view-admin-console"),
-  categories.getCategoriesAllLang
+  skillCategories.getSkillCategoriesAllLang
 );
 
 optionsRouter.get(

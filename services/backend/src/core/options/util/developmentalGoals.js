@@ -36,17 +36,17 @@ async function getDevelopmentalGoals(request, response) {
   });
 
   const competencies = competenciesQuery.map((i) => ({
-    id: i.opCompetencyId,
-    name: i.name,
+    value: i.opCompetencyId,
+    label: i.name,
   }));
 
   const skills = skillsQuery.map((i) => ({
     categoryId: i.opSkill.categoryId,
-    id: i.opSkill.id,
-    name: i.name,
+    value: i.opSkill.id,
+    label: i.name,
   }));
 
-  const developmentalGoals = _.sortBy([...competencies, ...skills], "name");
+  const developmentalGoals = _.sortBy([...competencies, ...skills], "label");
 
   response.status(200).json(developmentalGoals);
 }

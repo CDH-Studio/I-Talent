@@ -23,29 +23,29 @@ describe(`GET ${path}`, () => {
         "ENGLISH",
         [
           {
-            name: "z",
-            opSkill: {
-              id: 1,
-              categoryId: 2,
-            },
-          },
-          {
             name: "B",
             opSkill: {
               id: 3,
               categoryId: 4,
             },
           },
+          {
+            name: "z",
+            opSkill: {
+              id: 1,
+              categoryId: 2,
+            },
+          },
         ],
         [
           {
-            id: 3,
-            name: "B",
+            value: 3,
+            label: "B",
             categoryId: 4,
           },
           {
-            id: 1,
-            name: "z",
+            value: 1,
+            label: "z",
             categoryId: 2,
           },
         ],
@@ -63,8 +63,8 @@ describe(`GET ${path}`, () => {
         ],
         [
           {
-            id: 1,
-            name: "b",
+            value: 1,
+            label: "b",
             categoryId: 2,
           },
         ],

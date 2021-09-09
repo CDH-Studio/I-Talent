@@ -48,22 +48,22 @@ describe(`GET ${path}`, () => {
         ],
         [
           {
-            id: 2,
-            name: "B",
+            value: 2,
+            label: "B",
           },
           {
-            id: 3,
-            name: "d",
+            value: 3,
+            label: "d",
             categoryId: 4,
           },
           {
-            id: 5,
-            name: "t",
+            value: 5,
+            label: "t",
             categoryId: 6,
           },
           {
-            id: 1,
-            name: "z",
+            value: 1,
+            label: "z",
           },
         ],
       ],
@@ -86,13 +86,13 @@ describe(`GET ${path}`, () => {
         ],
         [
           {
-            id: 8,
-            name: "a",
+            value: 8,
+            label: "a",
             categoryId: 9,
           },
           {
-            id: 7,
-            name: "b",
+            value: 7,
+            label: "b",
           },
         ],
       ],
