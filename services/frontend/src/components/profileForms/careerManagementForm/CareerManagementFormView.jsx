@@ -13,7 +13,6 @@ import {
   Row,
   Skeleton,
   Tabs,
-  TreeSelect,
 } from "antd";
 import { identity, isEqual, isNil, omitBy, pickBy } from "lodash";
 import PropTypes from "prop-types";
@@ -38,7 +37,6 @@ import QualifiedPoolsForm from "./qualifiedPoolsForm/QualifiedPoolsForm";
 
 import "./CareerManagementFormView.less";
 
-const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
 /**
@@ -452,15 +450,17 @@ const CareerManagementFormView = ({
                     label={<FormattedMessage id="developmental.goals" />}
                     name="developmentalGoals"
                   >
-                    <TreeSelect
-                      className="custom-bubble-select-style"
-                      maxTagCount={15}
-                      placeholder={<FormattedMessage id="search" />}
-                      showCheckedStrategy={SHOW_CHILD}
-                      showSearch
-                      treeCheckable
-                      treeData={developmentalGoalOptions}
-                      treeNodeFilterProp="title"
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "developmental.goals",
+                      })}
+                      initialValueId={
+                        getInitialValues(profileInfo).developmentalGoals
+                      }
+                      isGroupedOptions
+                      isMulti
+                      options={developmentalGoalOptions}
+                      placeholderText={<FormattedMessage id="type.to.search" />}
                     />
                   </Form.Item>
                 </Col>
