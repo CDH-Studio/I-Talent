@@ -11,7 +11,6 @@ import {
   Skeleton,
   Switch,
   Tabs,
-  TreeSelect,
   Typography,
 } from "antd";
 import { identity, isEmpty, isEqual, pickBy } from "lodash";
@@ -33,7 +32,6 @@ import FormTitle from "../formTitle/FormTitle";
 import "./TalentFormView.less";
 
 const { Text } = Typography;
-const { SHOW_CHILD } = TreeSelect;
 const { TabPane } = Tabs;
 
 /**
@@ -364,43 +362,39 @@ const TalentFormView = ({
   ) => {
     const dataTree = [];
     let numbCategories = 0;
+
     // iterate through all possible skill categories
     for (let i = 0; i < fullSkillsOptionsList.length; i += 1) {
       let itemsFoundInCategory = 0;
       // iterate through all possible skills in each categories
-      for (let w = 0; w < fullSkillsOptionsList[i].children.length; w += 1) {
+      for (let w = 0; w < fullSkillsOptionsList[i].options.length; w += 1) {
         // iterate through selected skills
         for (let k = 0; k < selectedSkillValues.length; k += 1) {
           // if selected skill matches item in all skills list
           if (
-            fullSkillsOptionsList[i].children[w].value ===
-            selectedSkillValues[k]
+            fullSkillsOptionsList[i].options[w].value === selectedSkillValues[k]
           ) {
             itemsFoundInCategory += 1;
             // if first find in skill category save the category as parent
             if (itemsFoundInCategory === 1) {
               numbCategories += 1;
               const parent = {
-                checkable: false,
-                children: [],
-                disableCheckbox: true,
-                selectable: false,
-                title: fullSkillsOptionsList[i].title,
-                value: fullSkillsOptionsList[i].value,
+                label: fullSkillsOptionsList[i].label,
+                options: [],
               };
               dataTree.push(parent);
             }
             // save skill as child in parent
             const child = {
-              key: fullSkillsOptionsList[i].children[w].value,
-              title: fullSkillsOptionsList[i].children[w].title,
-              value: fullSkillsOptionsList[i].children[w].value,
+              label: fullSkillsOptionsList[i].options[w].label,
+              value: fullSkillsOptionsList[i].options[w].value,
             };
-            dataTree[numbCategories - 1].children.push(child);
+            dataTree[numbCategories - 1].options.push(child);
           }
         }
       }
     }
+
     return dataTree;
   };
 
@@ -446,6 +440,7 @@ const TalentFormView = ({
     form.setFieldsValue({
       mentorshipSkills: validatedMentorshipSkills,
     });
+
     // Update states
     setSelectedSkills(selectedSkillsOnChangeSkills);
   };
@@ -504,16 +499,15 @@ const TalentFormView = ({
                 name="mentorshipSkills"
                 rules={[Rules.required]}
               >
-                <TreeSelect
-                  className="custom-bubble-select-style"
-                  disabled={!selectedSkills.length > 0}
-                  maxTagCount={15}
-                  placeholder={<FormattedMessage id="search" />}
-                  showCheckedStrategy={SHOW_CHILD}
-                  showSearch
-                  treeCheckable
-                  treeData={selectedSkills}
-                  treeNodeFilterProp="title"
+                <CustomDropdown
+                  ariaLabel={intl.formatMessage({
+                    id: "mentorship.skills",
+                  })}
+                  initialValueId={getInitialValues().mentorshipSkills}
+                  isGroupedOptions
+                  isMulti
+                  options={selectedSkills}
+                  placeholderText={<FormattedMessage id="type.to.search" />}
                 />
               </Form.Item>
             </Col>
@@ -567,6 +561,7 @@ const TalentFormView = ({
       </div>
     );
   }
+
   /* Once data had loaded display form */
   return (
     <>
@@ -620,16 +615,16 @@ const TalentFormView = ({
                     title={<FormattedMessage id="skills" />}
                   />
                   <Form.Item name="skills">
-                    <TreeSelect
-                      className="custom-bubble-select-style"
-                      maxTagCount={15}
+                    <CustomDropdown
+                      ariaLabel={intl.formatMessage({
+                        id: "skills",
+                      })}
+                      initialValueId={getInitialValues().skills}
+                      isGroupedOptions
+                      isMulti
                       onChange={onChangeSkills}
-                      placeholder={<FormattedMessage id="search" />}
-                      showCheckedStrategy={SHOW_CHILD}
-                      showSearch
-                      treeCheckable
-                      treeData={skillOptions}
-                      treeNodeFilterProp="title"
+                      options={skillOptions}
+                      placeholderText={<FormattedMessage id="type.to.search" />}
                     />
                   </Form.Item>
                 </Col>
@@ -694,11 +689,8 @@ const TalentFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "competencies",
                       })}
-                      initialValueId={
-                        getInitialValues({ profile: profileInfo }).competencies
-                      }
+                      initialValueId={getInitialValues().competencies}
                       isMulti
-                      isSearchable
                       options={competencyOptions}
                       placeholderText={<FormattedMessage id="type.to.search" />}
                     />
