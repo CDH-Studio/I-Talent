@@ -1,12 +1,10 @@
-/* eslint-disable */
-
 import { useState } from "react";
-import { Modal, Typography, Form, Radio, Button, notification } from "antd";
-import TextArea from "antd/lib/input/TextArea";
-import { BugOutlined } from "@ant-design/icons";
-import { useKeycloak } from "@react-keycloak/web";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router";
+import { BugOutlined } from "@ant-design/icons";
+import { useKeycloak } from "@react-keycloak/web";
+import { Button, Form, Modal, notification,Radio, Typography } from "antd";
+import TextArea from "antd/lib/input/TextArea";
 import PropTypes from "prop-types";
 
 import handleError from "../../functions/handleError";
@@ -14,13 +12,13 @@ import handleError from "../../functions/handleError";
 const { Paragraph } = Typography;
 
 const Rules = {
-  required: {
-    required: true,
-    message: <FormattedMessage id="rules.required" />,
-  },
   maxChar500: {
     max: 500,
     message: <FormattedMessage id="rules.max" values={{ max: 500 }} />,
+  },
+  required: {
+    message: <FormattedMessage id="rules.required" />,
+    required: true,
   },
 };
 
@@ -76,8 +74,8 @@ const ReportBugView = ({ saveDataToDB }) => {
         break;
       case "error":
         notification.error({
-          message: intl.formatMessage({ id: "edit.save.error" }),
           description,
+          message: intl.formatMessage({ id: "edit.save.error" }),
         });
         break;
       default:
@@ -111,9 +109,9 @@ const ReportBugView = ({ saveDataToDB }) => {
     <>
       {keycloak && keycloak.authenticated && (
         <Button
-          type="primary"
           className="dashes"
           onClick={() => setVisible(true)}
+          type="primary"
         >
           <BugOutlined />
           <span>
@@ -122,8 +120,6 @@ const ReportBugView = ({ saveDataToDB }) => {
         </Button>
       )}
       <Modal
-        visible={visible}
-        onCancel={() => setVisible(false)}
         okButtonProps={{ disabled: !enableSubmission }}
         okText={
           <>
@@ -133,8 +129,10 @@ const ReportBugView = ({ saveDataToDB }) => {
             </span>
           </>
         }
+        onCancel={() => setVisible(false)}
         onOk={createBugReport}
         title={<FormattedMessage id="bugs.modal.ok" />}
+        visible={visible}
       >
         <Paragraph>
           <FormattedMessage id="bugs.modal.description" />
@@ -145,19 +143,19 @@ const ReportBugView = ({ saveDataToDB }) => {
 
         <Form form={form} layout="vertical" onFieldsChange={onFormValuesChange}>
           <Form.Item
-            name="location"
             label={<FormattedMessage id="location" />}
+            name="location"
             rules={[Rules.required]}
           >
             <Radio.Group
+              buttonStyle="solid"
               options={radioOptions}
               optionType="button"
-              buttonStyle="solid"
             />
           </Form.Item>
           <Form.Item
-            name="description"
             label={<FormattedMessage id="description" />}
+            name="description"
             rules={[Rules.required, Rules.maxChar500]}
           >
             <TextArea />

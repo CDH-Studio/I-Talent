@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import Select from "react-select";
 import CreatableSelect from "react-select/creatable";
@@ -17,6 +17,7 @@ const CustomDropdown = ({
   isDisabled,
   options,
   isMulti,
+  isGroupedOptions,
   maxSelectedOptions,
   isSearchable,
   isClearable,
@@ -26,6 +27,14 @@ const CustomDropdown = ({
 }) => {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState(initialValueId);
+
+  const FORMATTED_DROPDOWN_OPTIONS = useMemo(() => {
+    if (isGroupedOptions) {
+      return options.flatMap((option) => option.options);
+    }
+
+    return options;
+  }, [isGroupedOptions, options]);
 
   /**
    * Trigger the OnChange function passed into the component and update state
@@ -44,16 +53,16 @@ const CustomDropdown = ({
    * component based on the dropdown configuration and triggers the onChange
    *
    * @param {Array.<{value:string, label:string}>} userSelectedOptions - an array of selected options
-   * @param {boolean} isClearableSelect - is the component configured as a creatable dropdown
+   * @param {boolean} isCreatableSelect - is the component configured as a creatable dropdown
    * @param {boolean} isMultiSelect - has the component been configured as a multiselect
    *
    */
   const onSelectedValueChange = (
     userSelectedOptions,
     isMultiSelect,
-    isClearableSelect
+    isCreatableSelect
   ) => {
-    if ((userSelectedOptions && isMultiSelect) || isClearableSelect) {
+    if ((userSelectedOptions && isMultiSelect) || isCreatableSelect) {
       triggerChange(userSelectedOptions.map(({ value }) => value));
     } else if (userSelectedOptions) {
       triggerChange(userSelectedOptions.value);
@@ -71,19 +80,23 @@ const CustomDropdown = ({
    * @return {Array.<{value:string, label:string}>} a list of save option objects
    *
    */
-  const mapInitialValue = (dropdownOptions, savedValues) => {
+  const mapInitialValue = (savedValues) => {
     if (isMulti) {
       const savedValuesArray = Array.isArray(savedValues)
         ? savedValues
         : [savedValues];
+
       return savedValuesArray.map((value) =>
-        dropdownOptions.find((option) => option.value === value)
+        FORMATTED_DROPDOWN_OPTIONS.find(
+          (option) => option && option.value === value
+        )
       );
     }
+
     return (
-      dropdownOptions &&
+      FORMATTED_DROPDOWN_OPTIONS &&
       savedValues &&
-      dropdownOptions.find((option) => option.value === savedValues)
+      FORMATTED_DROPDOWN_OPTIONS.find((option) => option.value === savedValues)
     );
   };
 
@@ -464,7 +477,7 @@ const CustomDropdown = ({
           blurInputOnSelect={blurInputOnSelect}
           className={className}
           closeMenuOnSelect={!isMulti}
-          defaultValue={mapInitialValue(options, initialValueId)}
+          defaultValue={mapInitialValue(initialValueId)}
           formatOptionLabel={formatOptionLabel}
           isClearable={isClearable}
           isDisabled={isDisabled}
@@ -493,7 +506,11 @@ const CustomDropdown = ({
           placeholder={placeholderText}
           styles={customStyles}
           theme={customTheme}
-          value={mapInitialValue(options, inputValue || selectedOptions)}
+          value={mapInitialValue(
+            inputValue || selectedOptions
+            // inputValue || selectedOptions,
+            // isGroupedOptions
+          )}
         />
       )}
     </>
@@ -515,6 +532,7 @@ CustomDropdown.propTypes = {
   isClearable: PropTypes.bool,
   isCreatable: PropTypes.bool,
   isDisabled: PropTypes.bool,
+  isGroupedOptions: PropTypes.bool,
   isMulti: PropTypes.bool,
   isRequired: PropTypes.bool,
   isSearchable: PropTypes.bool,
@@ -533,6 +551,7 @@ CustomDropdown.defaultProps = {
   isClearable: true,
   isCreatable: false,
   isDisabled: false,
+  isGroupedOptions: false,
   isMulti: false,
   isRequired: false,
   isSearchable: true,

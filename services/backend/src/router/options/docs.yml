@@ -116,10 +116,10 @@
               categoryId:
                 format: uuid
                 type: string
-              id:
+              value:
                 format: uuid
                 type: string
-              name:
+              label:
                 type: string
             type: object
           type: array
