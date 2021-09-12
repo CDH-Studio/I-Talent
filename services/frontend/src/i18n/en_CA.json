@@ -116,6 +116,7 @@
   "education.date.present": "Presently studying",
   "education.empty": "No education provided",
   "email": "Email",
+  "email.tooltip": "The email is auto generated and cannot be edited.",
   "employee.growth.interests": "Career and talent management",
   "employee.manager": "Manager",
   "employee.qualifications": "Qualifications",

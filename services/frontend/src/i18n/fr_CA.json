@@ -116,6 +116,7 @@
   "education.date.present": "Actuellement étudiant",
   "education.empty": "Aucune éducation fournie",
   "email": "Courriel",
+  "email.tooltip": "The email is auto generated and cannot be edited",
   "employee.growth.interests": "Gestion de la carrière et des talents",
   "employee.manager": "Gestionnaire",
   "employee.qualifications": "Qualifications",
