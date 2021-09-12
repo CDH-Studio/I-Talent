@@ -9,7 +9,7 @@ const {
   classifications,
   diplomas,
   schools,
-  categories,
+  skillCategories,
   officeLocations,
   competencies,
   linkAttachmentNames,
@@ -160,7 +160,7 @@ async function seedStaticInfo() {
       });
     }),
 
-    ...categories.map(async ({ en, fr, skills }) => {
+    ...skillCategories.map(async ({ en, fr, skills }) => {
       await prisma.opCategory.create({
         data: {
           translations: {
