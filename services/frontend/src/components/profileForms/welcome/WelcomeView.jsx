@@ -167,12 +167,19 @@ const WelcomeView = ({
     );
   };
 
+  /**
+   * Generates the modal to confirm "skip profile setup"
+   *
+   */
   const showSkipModal = () => {
     Modal.confirm({
+      autoFocusButton: null,
       cancelText: intl.formatMessage({ id: "no" }),
       content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined aria-hidden="true" />,
+      keyboard: false,
       okText: intl.formatMessage({ id: "yes" }),
+      okType: "danger",
       onOk: skipProfileCreation,
       title: intl.formatMessage({ id: "settings.delete.modal.title" }),
     });
