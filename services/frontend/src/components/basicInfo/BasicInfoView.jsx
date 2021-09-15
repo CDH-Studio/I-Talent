@@ -2,28 +2,31 @@ import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { useHistory } from "react-router-dom";
 import {
   ApartmentOutlined,
   DownOutlined,
+  EditOutlined,
   EnvironmentOutlined,
-  InfoCircleOutlined,
+  // InfoCircleOutlined,
   MailOutlined,
   MobileOutlined,
   PhoneOutlined,
   TeamOutlined,
-  UserAddOutlined,
-  UserDeleteOutlined,
+  // UserAddOutlined,
+  // UserDeleteOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
   // Dropdown,
   Avatar,
+  Badge,
   Button,
   Card,
   Col,
   List,
   Modal,
-  Popover,
+  // Popover,
   Row,
   // Menu,
   Tag,
@@ -33,8 +36,8 @@ import { kebabCase } from "lodash";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import config from "../../utils/runtimeConfig";
-import EditCardButton from "../editCardButton/EditCardButton";
+// import config from "../../utils/runtimeConfig";
+// import EditCardButton from "../editCardButton/EditCardButton";
 import OrgTree from "../orgTree/OrgTree";
 
 import "./BasicInfoView.less";
@@ -48,15 +51,16 @@ const BasicInfoView = ({
   jobTitle,
   buttonLinks,
   connectionStatus,
-  changeConnection,
+  // changeConnection,
 }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
-  const locale = useSelector((state) => state.settings.locale);
-  const { drupalSite } = config;
+  // const locale = useSelector((state) => state.settings.locale);
+  // const { drupalSite } = config;
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const history = useHistory();
 
   /*
    * Generate Profile Header
@@ -95,63 +99,6 @@ const BasicInfoView = ({
         </Title>
         <Text className="profileHeaderRow-job-tile">{jobTitle}</Text>
       </Col>
-      {urlID === userID ? (
-        <Col className="hide-for-print" lg={3} md={4} xl={4} xs={5} xxl={3}>
-          <EditCardButton editUrl="/profile/edit/primary-info" floatRight />
-        </Col>
-      ) : (
-        <Col className="hide-for-print" lg={3} md={4} xl={4} xs={5} xxl={3}>
-          <Row align="middle" type="flex">
-            <Popover
-              content={
-                connectionStatus ? (
-                  <div className="popContent">
-                    <FormattedMessage id="connections.tooltip.remove.connection" />
-                    <a
-                      className="link"
-                      href={`${drupalSite}${
-                        locale === "ENGLISH" ? "en" : "fr"
-                      }help`}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                ) : (
-                  <div className="popContent">
-                    <FormattedMessage id="connections.tooltip.add.connection" />
-                    <a
-                      className="link"
-                      href={`${drupalSite}${
-                        locale === "ENGLISH" ? "en" : "fr"
-                      }help`}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                )
-              }
-              trigger={["focus", "hover"]}
-            >
-              <InfoCircleOutlined tabIndex={0} />
-            </Popover>
-            <Button
-              icon={
-                connectionStatus ? <UserDeleteOutlined /> : <UserAddOutlined />
-              }
-              onClick={changeConnection}
-              shape="circle"
-              size="large"
-              style={{ marginLeft: 10 }}
-              tabIndex={0}
-              type={connectionStatus ? "default" : "primary"}
-            />
-          </Row>
-        </Col>
-      )}
     </Row>
   );
 
@@ -328,21 +275,54 @@ const BasicInfoView = ({
     return buttons;
   };
 
+   /**
+   * Retrieves the ribbon button for adding/removing a user from one's circle
+   */
+    const getActionRibbonBtn = () => {
+      if (urlID === userID) {
+        return (
+          <Button
+            block
+            // className="result-card-button"
+            icon={<EditOutlined />}
+            onClick={(e) => {
+              e.stopPropagation();
+              history.push("/profile/edit/primary-info");
+            }}
+            tabIndex={0}
+            type="link"
+          >
+            <FormattedMessage id="edit.profile" />
+          </Button>
+        );
+      }
+
+      return (
+        <p>Test</p>
+      );
+    }
+
   return (
-    <Card actions={generateActions()} id="card-profile-basic-info">
-      {generateProfileHeader()}
-      <Row>
-        <Col lg={12} xs={24}>
-          {generateInfoList(getContactInfo())}
-        </Col>
-        <Col lg={12} xs={24}>
-          {generateInfoList(getWorkInfo())}
-        </Col>
-      </Row>
-      <Row className="rowTopSplitter">
-        <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
-      </Row>
-    </Card>
+    <Badge.Ribbon
+      color={connectionStatus && (urlID !== userID) ? "#192E2F" : "#1D807B"}
+      style={{ padding: 0 }}
+      text={getActionRibbonBtn()}
+    >
+      <Card actions={generateActions()} id="card-profile-basic-info">
+        {generateProfileHeader()}
+        <Row>
+          <Col lg={12} xs={24}>
+            {generateInfoList(getContactInfo())}
+          </Col>
+          <Col lg={12} xs={24}>
+            {generateInfoList(getWorkInfo())}
+          </Col>
+        </Row>
+        <Row className="rowTopSplitter">
+          <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
+        </Row>
+      </Card>
+    </Badge.Ribbon>
   );
 };
 
@@ -352,7 +332,7 @@ BasicInfoView.propTypes = {
     color: PropTypes.string,
   }).isRequired,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
-  changeConnection: PropTypes.func.isRequired,
+  // changeConnection: PropTypes.func.isRequired,
   connectionStatus: PropTypes.bool.isRequired,
   data: ProfileInfoPropType.isRequired,
   jobTitle: PropTypes.string,
