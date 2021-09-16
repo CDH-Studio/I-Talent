@@ -8,13 +8,12 @@ import {
   DownOutlined,
   EditOutlined,
   EnvironmentOutlined,
-  // InfoCircleOutlined,
   MailOutlined,
   MobileOutlined,
   PhoneOutlined,
   TeamOutlined,
-  // UserAddOutlined,
-  // UserDeleteOutlined,
+  UserAddOutlined,
+  UserDeleteOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
@@ -26,7 +25,6 @@ import {
   Col,
   List,
   Modal,
-  // Popover,
   Row,
   // Menu,
   Tag,
@@ -36,8 +34,6 @@ import { kebabCase } from "lodash";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-// import config from "../../utils/runtimeConfig";
-// import EditCardButton from "../editCardButton/EditCardButton";
 import OrgTree from "../orgTree/OrgTree";
 
 import "./BasicInfoView.less";
@@ -51,14 +47,12 @@ const BasicInfoView = ({
   jobTitle,
   buttonLinks,
   connectionStatus,
-  // changeConnection,
+  changeConnection,
 }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
-  // const locale = useSelector((state) => state.settings.locale);
-  // const { drupalSite } = config;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
 
@@ -275,32 +269,53 @@ const BasicInfoView = ({
     return buttons;
   };
 
-   /**
+  /*
+   * Get Action Ribbon Button
+   *
    * Retrieves the ribbon button for adding/removing a user from one's circle
    */
-    const getActionRibbonBtn = () => {
-      if (urlID === userID) {
-        return (
-          <Button
-            block
-            // className="result-card-button"
-            icon={<EditOutlined />}
-            onClick={(e) => {
-              e.stopPropagation();
-              history.push("/profile/edit/primary-info");
-            }}
-            tabIndex={0}
-            type="link"
-          >
-            <FormattedMessage id="edit.profile" />
-          </Button>
-        );
-      }
-
+  const getActionRibbonBtn = () => {
+    if (urlID === userID) {
       return (
-        <p>Test</p>
+        <Button
+          block
+          className="ribbon-btn"
+          icon={<EditOutlined className="ribbon-btn-icon" />}
+          onClick={(e) => {
+            e.stopPropagation();
+            history.push("/profile/edit/primary-info");
+          }}
+          tabIndex={0}
+          type="link"
+        >
+          <FormattedMessage id="edit.profile" />
+        </Button>
       );
     }
+
+    return (
+      <Button
+        block
+        className="ribbon-btn"
+        icon={
+          connectionStatus ? (
+            <UserDeleteOutlined className="ribbon-btn-icon" />
+          ) : (
+            <UserAddOutlined className="ribbon-btn-icon" />
+          )
+        }
+        onClick={changeConnection}
+        tabIndex={0}
+        type="link"
+      >
+        {connectionStatus ? (
+          <FormattedMessage id="remove.connection" />
+        ) : (
+          <FormattedMessage id="add.connection" />
+        )}
+      </Button>
+    );
+  }
 
   return (
     <Badge.Ribbon
@@ -332,7 +347,7 @@ BasicInfoView.propTypes = {
     color: PropTypes.string,
   }).isRequired,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
-  // changeConnection: PropTypes.func.isRequired,
+  changeConnection: PropTypes.func.isRequired,
   connectionStatus: PropTypes.bool.isRequired,
   data: ProfileInfoPropType.isRequired,
   jobTitle: PropTypes.string,
