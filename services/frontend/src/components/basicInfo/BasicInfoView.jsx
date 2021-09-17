@@ -283,10 +283,7 @@ const BasicInfoView = ({
           block
           className="ribbon-btn"
           icon={<EditOutlined aria-hidden="true" className="ribbon-btn-icon" />}
-          onClick={(e) => {
-            e.stopPropagation();
-            history.push("/profile/edit/primary-info");
-          }}
+          onClick={() => {history.push("/profile/edit/primary-info")}}
           tabIndex={0}
           type="link"
         >
