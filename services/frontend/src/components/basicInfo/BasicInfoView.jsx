@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FormattedMessage } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
@@ -55,6 +55,7 @@ const BasicInfoView = ({
   const userID = useSelector((state) => state.user.id);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const history = useHistory();
+  const intl = useIntl();
 
   /*
    * Generate Profile Header
@@ -278,9 +279,10 @@ const BasicInfoView = ({
     if (urlID === userID) {
       return (
         <Button
+          aria-label={intl.formatMessage({ id: "edit.profile" })}
           block
           className="ribbon-btn"
-          icon={<EditOutlined className="ribbon-btn-icon" />}
+          icon={<EditOutlined aria-hidden="true" className="ribbon-btn-icon" />}
           onClick={(e) => {
             e.stopPropagation();
             history.push("/profile/edit/primary-info");
@@ -295,13 +297,14 @@ const BasicInfoView = ({
 
     return (
       <Button
+        aria-label={intl.formatMessage({ id: connectionStatus ? "remove.connection" : "add.connection" })}
         block
         className="ribbon-btn"
         icon={
           connectionStatus ? (
-            <UserDeleteOutlined className="ribbon-btn-icon" />
+            <UserDeleteOutlined aria-hidden="true" className="ribbon-btn-icon" />
           ) : (
-            <UserAddOutlined className="ribbon-btn-icon" />
+            <UserAddOutlined aria-hidden="true" className="ribbon-btn-icon" />
           )
         }
         onClick={changeConnection}
