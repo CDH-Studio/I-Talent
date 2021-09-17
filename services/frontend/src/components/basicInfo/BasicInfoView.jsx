@@ -294,7 +294,13 @@ const BasicInfoView = ({
 
     return (
       <Button
-        aria-label={intl.formatMessage({ id: connectionStatus ? "remove.connection" : "add.connection" })}
+        aria-label={
+          connectionStatus ? (
+            intl.formatMessage({ id: "remove.connection" })
+          ) : (
+            intl.formatMessage({ id: "add.connection" })
+          )
+        }
         block
         className="ribbon-btn"
         icon={
