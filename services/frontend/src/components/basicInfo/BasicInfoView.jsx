@@ -1,24 +1,19 @@
 import { useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
 import {
   ApartmentOutlined,
   DownOutlined,
-  EditOutlined,
   EnvironmentOutlined,
   MailOutlined,
   MobileOutlined,
   PhoneOutlined,
   TeamOutlined,
-  UserAddOutlined,
-  UserDeleteOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
-  Badge,
   Button,
   Card,
   Col,
@@ -32,6 +27,7 @@ import { kebabCase } from "lodash";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
+import FriendshipRibbon from "../friendshipRibbon/FriendshipRibbon";
 import OrgTree from "../orgTree/OrgTree";
 
 import "./BasicInfoView.less";
@@ -52,8 +48,6 @@ const BasicInfoView = ({
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const history = useHistory();
-  const intl = useIntl();
 
   /*
    * Generate Profile Header
@@ -268,64 +262,12 @@ const BasicInfoView = ({
     return buttons;
   };
 
-  /*
-   * Get Action Ribbon Button
-   *
-   * Retrieves the ribbon button for adding/removing a user from one's circle
-   */
-  const getActionRibbonBtn = () => {
-    if (urlID === userID) {
-      return (
-        <Button
-          aria-label={intl.formatMessage({ id: "edit.profile" })}
-          block
-          className="ribbon-btn"
-          icon={<EditOutlined aria-hidden="true" className="ribbon-btn-icon" />}
-          onClick={() => {history.push("/profile/edit/primary-info")}}
-          tabIndex={0}
-          type="link"
-        >
-          <FormattedMessage id="edit.profile" />
-        </Button>
-      );
-    }
-
-    return (
-      <Button
-        aria-label={
-          connectionStatus ? (
-            intl.formatMessage({ id: "remove.connection" })
-          ) : (
-            intl.formatMessage({ id: "add.connection" })
-          )
-        }
-        block
-        className="ribbon-btn"
-        icon={
-          connectionStatus ? (
-            <UserDeleteOutlined aria-hidden="true" className="ribbon-btn-icon" />
-          ) : (
-            <UserAddOutlined aria-hidden="true" className="ribbon-btn-icon" />
-          )
-        }
-        onClick={changeConnection}
-        tabIndex={0}
-        type="link"
-      >
-        {connectionStatus ? (
-          <FormattedMessage id="remove.connection" />
-        ) : (
-          <FormattedMessage id="add.connection" />
-        )}
-      </Button>
-    );
-  }
-
   return (
-    <Badge.Ribbon
-      color={connectionStatus && (urlID !== userID) ? "#192E2F" : "#1D807B"}
-      style={{ padding: 0 }}
-      text={getActionRibbonBtn()}
+    <FriendshipRibbon
+      changeConnection={changeConnection}
+      isConnection={connectionStatus}
+      loggedInUserId={userID}
+      userId={urlID}
     >
       <Card actions={generateActions()} id="card-profile-basic-info">
         {generateProfileHeader()}
@@ -341,7 +283,7 @@ const BasicInfoView = ({
           <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
         </Row>
       </Card>
-    </Badge.Ribbon>
+    </FriendshipRibbon>
   );
 };
 
