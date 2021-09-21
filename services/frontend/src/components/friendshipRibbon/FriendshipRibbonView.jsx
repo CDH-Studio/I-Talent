@@ -33,7 +33,10 @@ const FriendshipRibbonView = ({
           block
           className="ribbon-btn"
           icon={<EditOutlined aria-hidden="true" className="ribbon-btn-icon" />}
-          onClick={() => {history.push("/profile/edit/primary-info")}}
+          onClick={(e) => {
+            e.stopPropagation();
+            history.push("/profile/edit/primary-info");
+          }}
           tabIndex={0}
           type="link"
         >
@@ -60,7 +63,10 @@ const FriendshipRibbonView = ({
             <UserAddOutlined aria-hidden="true" className="ribbon-btn-icon" />
           )
         }
-        onClick={changeConnection}
+        onClick={(e) => {
+          e.stopPropagation();
+          changeConnection();
+        }}
         tabIndex={0}
         type="link"
       >
