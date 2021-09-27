@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import {
+  ExclamationCircleOutlined,
   EyeInvisibleOutlined,
   EyeOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
-import { notification } from "antd";
+import { Modal, notification } from "antd";
 import PropTypes from "prop-types";
 
 import handleError from "../../functions/handleError";
 import useAxios from "../../utils/useAxios";
 import CustomDropdown from "../formItems/CustomDropdown";
-import AlertDialog from "../modal/AlertDialog";
 
 import "./CardVisibilityToggleView.less";
 
@@ -29,7 +29,6 @@ const CardVisibilityToggleView = ({
   const urlID = useParams().id;
   const userID = useSelector((state) => state.user.id);
   const { locale } = useSelector((state) => state.settings);
-  const [modalVisibility, setModalVisibility] = useState(false);
   const [status, setStatus] = useState("PRIVATE");
 
   /**
@@ -77,33 +76,46 @@ const CardVisibilityToggleView = ({
   };
 
   /**
+   * Handel public visibility confirmation
+   * save the value and show notification
+   */
+  const handleVisibilityPublicOk = () => {
+    handleVisibilityToggle("PUBLIC");
+  };
+
+  /**
+   * Generates the modal to confirm "public visibility"
+   *
+   */
+  const showPublicVisibilityModal = () => {
+    Modal.confirm({
+      autoFocusButton: null,
+      cancelText: intl.formatMessage({ id: "no" }),
+      content: intl.formatMessage({
+        id: `visibility.${type}.show.confirm`,
+      }),
+      icon: <ExclamationCircleOutlined aria-hidden="true" />,
+      keyboard: false,
+      okText: intl.formatMessage({ id: "yes" }),
+      okType: "danger",
+      onOk: handleVisibilityPublicOk,
+      title: intl.formatMessage({
+        id: "visibility.card.title",
+      }),
+    });
+  };
+
+  /**
    * Handel selection change in drop down
    * open modal confirmation if "public" is selected
    * @param {Object} value - value selected from dropdown
    */
   const handleSelect = (value) => {
     if (value === "PUBLIC") {
-      setModalVisibility(true);
+      showPublicVisibilityModal();
     } else {
       handleVisibilityToggle(value);
     }
-  };
-
-  /**
-   * Handel public visibility confirmation
-   * save the value, hide modal, and show notification
-   */
-  const handleVisibilityPublicOk = () => {
-    handleVisibilityToggle("PUBLIC");
-    setModalVisibility(false);
-  };
-
-  /**
-   * Handel public visibility cancellation
-   * hide the modal
-   */
-  const handleVisibilityPublicCancel = () => {
-    setModalVisibility(false);
   };
 
   useEffect(() => {
@@ -134,21 +146,13 @@ const CardVisibilityToggleView = ({
         ariaLabel={`${ariaLabel} ${intl.formatMessage({
           id: "visibility.selector",
         })}`}
+        blurInputOnSelect
         className="visibilitySelector"
         inputValue={status}
         isClearable={false}
         isSearchable={false}
         onChange={handleSelect}
         options={generateOptions()}
-      />
-      <AlertDialog
-        body={<FormattedMessage id={`visibility.${type}.show.confirm`} />}
-        cancelText={<FormattedMessage id="no" />}
-        isOpen={modalVisibility}
-        okText={<FormattedMessage id="yes" />}
-        onCancel={handleVisibilityPublicCancel}
-        onOk={handleVisibilityPublicOk}
-        title={<FormattedMessage id="visibility.card.title" />}
       />
     </>
   );

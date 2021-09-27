@@ -13,7 +13,7 @@ module.exports = {
   "@card-actions-background": "transparent",
   "@card-head-height": "55px",
   "@disabled-color": "rgba(0, 0, 0, 0.55)",
-  "@error-color": "#ff3333",
+  "@error-color": "#cd2026",
   "@form-item-margin-bottom": "13px",
   "@layout-header-background": "white",
   "@link": "#00B9B2",
