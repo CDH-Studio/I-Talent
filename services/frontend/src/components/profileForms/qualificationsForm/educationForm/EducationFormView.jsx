@@ -276,20 +276,36 @@ const EducationFormView = ({
                     )}
                   </Form.Item>
                   {/* Checkbox if event is on-going */}
-                  <Form.Item
-                    fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
-                    initialValue={false}
-                    name={[fieldElement.name, "ongoingDate"]}
-                    style={{
-                      marginBottom: disableEndDate ? "35px" : "15px",
-                      marginTop: disableEndDate ? "-45px" : "-15px",
-                    }}
-                    valuePropName="checked"
-                  >
-                    <Checkbox>
-                      <FormattedMessage id="item.is.ongoing" />
-                    </Checkbox>
-                  </Form.Item>
+                  {educationItem ? (
+                    <Form.Item
+                      fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
+                      name={[fieldElement.name, "ongoingDate"]}
+                      style={{
+                        marginBottom: disableEndDate ? "35px" : "15px",
+                        marginTop: disableEndDate ? "-45px" : "-15px",
+                      }}
+                      valuePropName="checked"
+                    >
+                      <Checkbox>
+                        <FormattedMessage id="item.is.ongoing" />
+                      </Checkbox>
+                    </Form.Item>
+                  ) : (
+                    <Form.Item
+                      fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
+                      initialValue={false}
+                      name={[fieldElement.name, "ongoingDate"]}
+                      style={{
+                        marginBottom: disableEndDate ? "35px" : "15px",
+                        marginTop: disableEndDate ? "-45px" : "-15px",
+                      }}
+                      valuePropName="checked"
+                    >
+                      <Checkbox>
+                        <FormattedMessage id="item.is.ongoing" />
+                      </Checkbox>
+                    </Form.Item>
+                  )}
                 </>
               );
             }}
