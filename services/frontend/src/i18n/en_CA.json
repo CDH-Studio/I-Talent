@@ -37,7 +37,7 @@
   "bugs.location.forms": "Forms",
   "bugs.modal.description": "Have you encountered a Bug/error? Please fill out the following fields to help us address the issue.",
   "bugs.modal.note": "Your account will be linked to this report",
-  "bugs.modal.ok": "Submit bug / error ",
+  "bugs.modal.ok": "Report bug",
   "bugs.status": "Status",
   "bugs.status.duplicate": "Duplicate",
   "bugs.status.resolved": "Resolved",

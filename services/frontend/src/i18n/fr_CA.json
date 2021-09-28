@@ -37,7 +37,7 @@
   "bugs.location.forms": "Formulaires",
   "bugs.modal.description": "Avez-vous rencontré un bogue ou une erreur ? Veuillez remplir les champs suivants pour nous aider à résoudre le problème.",
   "bugs.modal.note": "Votre compte sera lié à ce rapport",
-  "bugs.modal.ok": "Soumettre un bogue ou une erreur",
+  "bugs.modal.ok": "Rapportez une erreur",
   "bugs.status": "Statut",
   "bugs.status.duplicate": "Doublon",
   "bugs.status.resolved": "Résolu",

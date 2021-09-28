@@ -3,24 +3,15 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router";
 import { BugOutlined } from "@ant-design/icons";
 import { useKeycloak } from "@react-keycloak/web";
-import { Button, Form, Modal, notification,Radio, Typography } from "antd";
+import { Button, Form, Modal, notification, Radio, Typography } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import PropTypes from "prop-types";
 
 import handleError from "../../functions/handleError";
 
-const { Paragraph } = Typography;
+import "./ReportBugView.less";
 
-const Rules = {
-  maxChar500: {
-    max: 500,
-    message: <FormattedMessage id="rules.max" values={{ max: 500 }} />,
-  },
-  required: {
-    message: <FormattedMessage id="rules.required" />,
-    required: true,
-  },
-};
+const { Paragraph } = Typography;
 
 const ReportBugView = ({ saveDataToDB }) => {
   const [form] = Form.useForm();
@@ -49,6 +40,17 @@ const ReportBugView = ({ saveDataToDB }) => {
     },
   ];
 
+  const Rules = {
+    maxChar500: {
+      max: 500,
+      message: <FormattedMessage id="rules.max" values={{ max: 500 }} />,
+    },
+    required: {
+      message: <FormattedMessage id="rules.required" />,
+      required: true,
+    },
+  };
+
   /**
    * Enables/Disable modal ok button, based on the errors in the form
    */
@@ -59,6 +61,7 @@ const ReportBugView = ({ saveDataToDB }) => {
 
   /**
    * Open Notification
+   *
    * @param {Object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
@@ -108,25 +111,17 @@ const ReportBugView = ({ saveDataToDB }) => {
   return (
     <>
       {keycloak && keycloak.authenticated && (
-        <Button
-          className="dashes"
-          onClick={() => setVisible(true)}
-          type="primary"
-        >
-          <BugOutlined />
-          <span>
-            <FormattedMessage id="bugs.modal.ok" />
-          </span>
+        <Button className="p-1" onClick={() => setVisible(true)} type="link">
+          <BugOutlined aria-hidden="true" className="reportBugBtn mr-1" />
+          <FormattedMessage id="bugs.modal.ok" />
         </Button>
       )}
       <Modal
         okButtonProps={{ disabled: !enableSubmission }}
         okText={
           <>
-            <BugOutlined />
-            <span>
-              <FormattedMessage id="bugs.modal.ok" />
-            </span>
+            <BugOutlined className="mr-1" />
+            <FormattedMessage id="bugs.modal.ok" />
           </>
         }
         onCancel={() => setVisible(false)}

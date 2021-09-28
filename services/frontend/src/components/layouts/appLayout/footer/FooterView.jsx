@@ -1,7 +1,7 @@
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { useKeycloak } from "@react-keycloak/web";
-import { Layout, Typography } from "antd";
+import { Divider, Layout } from "antd";
 
 import config from "../../../../utils/runtimeConfig";
 import ReportBug from "../../../reportBug/ReportBug";
@@ -10,53 +10,61 @@ import "./FooterView.less";
 
 const { drupalSite } = config;
 const { Footer } = Layout;
-const { Text } = Typography;
-
-const footerObject = (value, messageId, lang) => (
-  <a
-    className="link"
-    href={`${drupalSite}${lang}/${value}`}
-    rel="noopener noreferrer"
-    target="_blank"
-  >
-    <FormattedMessage id={messageId} />
-  </a>
-);
 
 const FooterView = () => {
   const { locale } = useSelector((state) => state.settings);
   const { keycloak } = useKeycloak();
+
+  /**
+   * Generate footer link option
+   *
+   * @param {Object} Option - The Option object to be displayed.
+   * @param {string} Option.redirectPath - Path to redirect to on click
+   * @param {string} notification.messageId - i18n id of text to display as label
+   * @param {string} notification.lang - desired language to us on redirect page
+   */
+  const generateFooterItem = ({ redirectPath, messageId, lang }) => (
+    <a
+      className="link px-1"
+      href={`${drupalSite}${lang}/${redirectPath}`}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <FormattedMessage id={messageId} />
+    </a>
+  );
+
   return (
     <Footer className="footer">
-      <div className="aroundLinksSmall" role="contentinfo">
-        {footerObject(
-          "about",
-          "footer.about.link",
-          locale === "ENGLISH" ? "en" : "fr"
-        )}
-        <Text className="dashes">|</Text>
-        {footerObject(
-          "help",
-          "footer.contact.link",
-          locale === "ENGLISH" ? "en" : "fr"
-        )}
-        <Text className="dashes">|</Text>
-        {footerObject(
-          "terms-and-conditions-use",
-          "footer.terms.and.conditions.link",
-          locale === "ENGLISH" ? "en" : "fr"
-        )}
-        <Text className="dashes">|</Text>
-        {footerObject(
-          "privacy",
-          "footer.privacy.link",
-          locale === "ENGLISH" ? "en" : "fr"
-        )}
-        {keycloak && keycloak.authenticated && (
-          <Text className="dashes">|</Text>
-        )}
-        <ReportBug />
-      </div>
+      {generateFooterItem({
+        lang: locale === "ENGLISH" ? "en" : "fr",
+        messageId: "footer.about.link",
+        redirectPath: "about",
+      })}
+      <Divider className="footer-divider" type="vertical" />
+      {generateFooterItem({
+        lang: locale === "ENGLISH" ? "en" : "fr",
+        messageId: "footer.contact.link",
+        redirectPath: "help",
+      })}
+      <Divider className="footer-divider" type="vertical" />
+      {generateFooterItem({
+        lang: locale === "ENGLISH" ? "en" : "fr",
+        messageId: "footer.terms.and.conditions.link",
+        redirectPath: "terms-and-conditions-use",
+      })}
+      <Divider className="footer-divider" type="vertical" />
+      {generateFooterItem({
+        lang: locale === "ENGLISH" ? "en" : "fr",
+        messageId: "footer.privacy.link",
+        redirectPath: "privacy",
+      })}
+      {keycloak && keycloak.authenticated && (
+        <>
+          <Divider className="footer-divider" type="vertical" />
+          <ReportBug />
+        </>
+      )}
     </Footer>
   );
 };
