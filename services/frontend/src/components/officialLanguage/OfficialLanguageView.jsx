@@ -1,6 +1,8 @@
 import { FormattedMessage } from "react-intl";
-import { Col, List, Row } from "antd";
+import { Col, Divider, List, Row, Typography } from "antd";
 import PropTypes from "prop-types";
+
+const { Title } = Typography;
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   const generateFirstLanguage = (dataSource) => (
@@ -45,6 +47,10 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
           {generateFirstLanguage(firstLanguageInfo)}
         </Col>
       </Row>
+      <Divider />
+      <Title level={5}>
+        <FormattedMessage id="second.official.language.results" />
+      </Title>
       {generateSecondLanguageData()}
     </>
   );
