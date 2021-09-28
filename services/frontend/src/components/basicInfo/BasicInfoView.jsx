@@ -27,8 +27,8 @@ import { kebabCase } from "lodash";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import FriendshipRibbon from "../friendshipRibbon/FriendshipRibbon";
 import OrgTree from "../orgTree/OrgTree";
+import ProfileActionRibbon from "../profileActionRibbon/ProfileActionRibbon";
 
 import "./BasicInfoView.less";
 
@@ -41,7 +41,6 @@ const BasicInfoView = ({
   jobTitle,
   buttonLinks,
   connectionStatus,
-  changeConnection,
 }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
@@ -263,9 +262,8 @@ const BasicInfoView = ({
   };
 
   return (
-    <FriendshipRibbon
-      changeConnection={changeConnection}
-      isConnection={connectionStatus}
+    <ProfileActionRibbon
+      connectionStatus={connectionStatus}
       loggedInUserId={userID}
       userId={urlID}
     >
@@ -283,7 +281,7 @@ const BasicInfoView = ({
           <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
         </Row>
       </Card>
-    </FriendshipRibbon>
+    </ProfileActionRibbon>
   );
 };
 
@@ -293,7 +291,6 @@ BasicInfoView.propTypes = {
     color: PropTypes.string,
   }).isRequired,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
-  changeConnection: PropTypes.func.isRequired,
   connectionStatus: PropTypes.bool.isRequired,
   data: ProfileInfoPropType.isRequired,
   jobTitle: PropTypes.string,

@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import {
   EditOutlined,
   UserAddOutlined,
@@ -8,17 +9,41 @@ import {
 import { Badge, Button } from "antd";
 import PropTypes from "prop-types";
 
-import "./FriendshipRibbonView.less";
+import handleError from "../../functions/handleError";
+import useAxios from "../../utils/useAxios";
 
-const FriendshipRibbonView = ({
-  changeConnection,
+import "./ProfileActionRibbonView.less";
+
+const ProfileActionRibbonView = ({
   children,
-  isConnection,
+  connectionStatus,
   loggedInUserId,
   userId,
 }) => {
+  const [isConnection, setIsConnection] = useState(connectionStatus);
+
   const history = useHistory();
   const intl = useIntl();
+  const axios = useAxios();
+  
+  /*
+   * Change Connection
+   *
+   * Adds or removes someone as a connection
+   */
+  const changeConnection = async () => {
+    if (isConnection) {
+      await axios
+        .delete(`api/connections/${userId}`)
+        .catch((error) => handleError(error, "message", history));
+      setIsConnection(false);
+    } else {
+      await axios
+        .post(`api/connections/${userId}`)
+        .catch((error) => handleError(error, "message", history));
+      setIsConnection(true);
+    }
+  };
 
   /*
    * Get Action Ribbon Button
@@ -90,16 +115,15 @@ const FriendshipRibbonView = ({
   );
 };
 
-FriendshipRibbonView.propTypes = {
-  changeConnection: PropTypes.func.isRequired,
+ProfileActionRibbonView.propTypes = {
   children: PropTypes.element,
-  isConnection: PropTypes.bool.isRequired,
+  connectionStatus: PropTypes.bool.isRequired,
   loggedInUserId: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
 };
 
-FriendshipRibbonView.defaultProps = {
+ProfileActionRibbonView.defaultProps = {
   children: null,
 };
 
-export default FriendshipRibbonView;
+export default ProfileActionRibbonView;
