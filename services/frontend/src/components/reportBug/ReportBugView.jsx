@@ -3,11 +3,12 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router";
 import { BugOutlined } from "@ant-design/icons";
 import { useKeycloak } from "@react-keycloak/web";
-import { Button, Form, Modal, notification, Radio, Typography } from "antd";
+import { Button, Form, Modal, notification, Typography } from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import PropTypes from "prop-types";
 
 import handleError from "../../functions/handleError";
+import CustomDropdown from "../formItems/CustomDropdown";
 
 import "./ReportBugView.less";
 
@@ -117,10 +118,12 @@ const ReportBugView = ({ saveDataToDB }) => {
         </Button>
       )}
       <Modal
+        closable={false}
+        maskClosable={false}
         okButtonProps={{ disabled: !enableSubmission }}
         okText={
           <>
-            <BugOutlined className="mr-1" />
+            <BugOutlined aria-hidden="true" className="mr-1" />
             <FormattedMessage id="bugs.modal.ok" />
           </>
         }
@@ -138,14 +141,24 @@ const ReportBugView = ({ saveDataToDB }) => {
 
         <Form form={form} layout="vertical" onFieldsChange={onFormValuesChange}>
           <Form.Item
+            id="gg"
             label={<FormattedMessage id="location" />}
             name="location"
             rules={[Rules.required]}
           >
-            <Radio.Group
+            {/* <Radio.Group
+              aria-required="true"
               buttonStyle="solid"
               options={radioOptions}
               optionType="button"
+            /> */}
+            <CustomDropdown
+              ariaLabel={intl.formatMessage({
+                id: "location",
+              })}
+              isRequired
+              options={radioOptions}
+              placeholderText={<FormattedMessage id="select" />}
             />
           </Form.Item>
           <Form.Item
@@ -153,7 +166,7 @@ const ReportBugView = ({ saveDataToDB }) => {
             name="description"
             rules={[Rules.required, Rules.maxChar500]}
           >
-            <TextArea />
+            <TextArea aria-required="true" />
           </Form.Item>
         </Form>
       </Modal>

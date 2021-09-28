@@ -31,6 +31,9 @@ const FooterView = () => {
       target="_blank"
     >
       <FormattedMessage id={messageId} />
+      <span className="screenReaderOnly">
+        <FormattedMessage id="opens.in.new.tab" />
+      </span>
     </a>
   );
 
