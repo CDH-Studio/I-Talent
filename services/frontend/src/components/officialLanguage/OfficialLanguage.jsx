@@ -31,7 +31,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
   };
 
   /**
-   * Generate Second Official Language Proficiency Tile
+   * Generate Second Official Language Proficiency Title
    * @param {string} proficiencyLevel - proficiency title from data source
    * @returns {string} - formatted proficiency title
    */
