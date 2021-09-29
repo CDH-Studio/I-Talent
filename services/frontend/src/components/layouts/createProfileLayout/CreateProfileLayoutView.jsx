@@ -1,4 +1,4 @@
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { Redirect, useHistory } from "react-router-dom";
 import { UserAddOutlined } from "@ant-design/icons";
 import { Card, Steps } from "antd";
@@ -28,7 +28,6 @@ const { Step } = Steps;
  */
 const CreateProfileLayoutView = ({ formStep, highestStep }) => {
   const history = useHistory();
-  const intl = useIntl();
 
   /**
    * action to take if sidebar steps are clicked
@@ -119,12 +118,10 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
     return (
       <div style={{ margin: "20px 25px" }}>
         <Steps
-          aria-label={intl.formatMessage({ id: "create.profile.side.nav" })}
           current={stepInt}
           direction="vertical"
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
-          role="navigation"
           size="small"
         >
           {createProfileStep({

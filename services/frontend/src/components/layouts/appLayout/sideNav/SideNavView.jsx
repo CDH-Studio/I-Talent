@@ -17,10 +17,12 @@ const SideNavView = ({
         breakpoint="lg"
         className="app-sider"
         collapsedWidth="0"
+        role="navigation"
         width={siderWidth}
         zeroWidthTriggerStyle={{ backgroundColor: "#192e2f", bottom: "64px" }}
       >
         {/* render content of side bar */}
+        <h2 className="visually-hidden">Sidebar Navigation</h2>
         {loading ? (
           <div style={{ margin: 32 }}>
             <Skeleton active />

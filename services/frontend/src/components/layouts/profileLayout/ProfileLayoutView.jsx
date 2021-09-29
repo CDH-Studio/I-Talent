@@ -74,12 +74,10 @@ const ProfileLayoutView = ({
 
   const displayAllProfileCards = () => (
     <Row className="print" gutter={[15, 15]}>
+      <h2 className="visually-hidden">General Info</h2>
       {/* Summary */}
       <Col xl={14} xs={24}>
-        <BasicInfo
-          connectionStatus={connectionStatus}
-          data={data}
-        />
+        <BasicInfo connectionStatus={connectionStatus} data={data} />
       </Col>
       <Col xl={10} xs={24}>
         <Row gutter={[0, 15]}>
@@ -180,7 +178,10 @@ const ProfileLayoutView = ({
   const generateProfileSidebarContent = () => (
     <Row justify="center">
       <Col className="app-sideBarRow" flex={1} offset={1}>
-        <Anchor offsetTop={80}>
+        <Anchor
+          aria-label={intl.formatMessage({ id: "edit.profile.side.nav" })}
+          offsetTop={80}
+        >
           <Link
             href="#card-profile-basic-info"
             title={

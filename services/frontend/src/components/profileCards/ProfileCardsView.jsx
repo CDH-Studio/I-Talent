@@ -29,7 +29,6 @@ const ProfileCardsView = ({
    * @param {string} editFormUrl - url to edit form.
    * @param {string} cardTitleString - url to edit form.
    * @return {HTMLElement} generated element to display
-   *
    */
   const generateEditMenu = ({
     visibilityOfAllCards,
@@ -55,7 +54,6 @@ const ProfileCardsView = ({
    * Generate Visibility Status indicator for public profile (view only mode)
    * @param {boolean} visibleCards - visibility status of this card.
    * @return {HTMLElement} generated element to display
-   *
    */
   const generateVisibilityStatusForPublic = (cardVisibilityStatus) => {
     let visibilityStatusSymbol;
@@ -131,7 +129,7 @@ const ProfileCardsView = ({
         style={grayedOut}
         title={
           <>
-            {titleString}
+            <h3 className="d-inline"> {titleString}</h3>
             {lastUpdated && (
               <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text
