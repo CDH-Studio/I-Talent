@@ -7,12 +7,10 @@ const ProfileLayout = ({
   data,
   connectionStatus,
   isUsersProfile,
-  changeConnection,
   loading,
   savedFormContent,
 }) => (
   <ProfileLayoutView
-    changeConnection={changeConnection}
     connectionStatus={connectionStatus}
     data={data}
     isUsersProfile={isUsersProfile}
@@ -22,7 +20,6 @@ const ProfileLayout = ({
 );
 
 ProfileLayout.propTypes = {
-  changeConnection: propTypes.func,
   connectionStatus: propTypes.bool,
   data: ProfileInfoPropType,
   isUsersProfile: propTypes.bool,
@@ -31,7 +28,6 @@ ProfileLayout.propTypes = {
 };
 
 ProfileLayout.defaultProps = {
-  changeConnection: null,
   connectionStatus: null,
   data: null,
   isUsersProfile: null,
