@@ -48,7 +48,8 @@ const ProfileActionRibbonView = ({
   /*
    * Get Action Ribbon Button
    *
-   * Retrieves the ribbon button for adding/removing a user from one's circle
+   * Retrieves the ribbon button for adding/removing a user from one's circle,
+   * or the edit button which is a link to the edit profile page
    */
   const getActionRibbonBtn = () => {
     if (userId === loggedInUserId) {
