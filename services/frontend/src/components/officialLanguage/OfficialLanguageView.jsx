@@ -5,9 +5,17 @@ import PropTypes from "prop-types";
 const { Title } = Typography;
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
-  const generateFirstLanguage = (dataSource) => (
+  /**
+   * Generate First Official Language info list
+   * @param {Object[]} langInfo - object describing the language category
+   * @param {string} langInfo[].level - level of lang proficiency
+   * @param {string} langInfo[].status - status of lang proficiency
+   * @param {string} langInfo[].title - translated title of language category
+   * @returns {HTMLElement} - HTML markup for second lang list
+   */
+  const generateFirstLanguage = (langInfo) => (
     <List
-      dataSource={dataSource}
+      dataSource={langInfo}
       itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item>
@@ -17,23 +25,31 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
     />
   );
 
-  const generateSecondLanguageData = () => (
+  /**
+   * Generate Second Official Language info list
+   * @param {Object[]} langInfo - object describing the dropdown options
+   * @param {string} langInfo[].level - level of lang proficiency
+   * @param {string} langInfo[].status - status of lang proficiency
+   * @param {string} langInfo[].title - translated title of language category
+   * @returns {HTMLElement} - HTML markup for second lang list
+   */
+  const generateSecondLanguageData = (langInfo) => (
     <List
-      dataSource={secondLanguageInfo}
-      grid={{ column: 3 }}
-      renderItem={(i) => (
+      dataSource={langInfo}
+      grid={{ column: langInfo.length }}
+      renderItem={(item) => (
         <List.Item>
           <List.Item.Meta
             description={
-              i.level ? (
+              item.level ? (
                 <>
-                  {i.level} ({i.status})
+                  {item.level} ({item.status})
                 </>
               ) : (
                 "-"
               )
             }
-            title={<FormattedMessage id={i.titleId} />}
+            title={item.title}
           />
         </List.Item>
       )}
@@ -47,7 +63,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
       <Title level={5}>
         <FormattedMessage id="second.official.language.results" />
       </Title>
-      {generateSecondLanguageData()}
+      {generateSecondLanguageData(secondLanguageInfo)}
     </>
   );
 };
