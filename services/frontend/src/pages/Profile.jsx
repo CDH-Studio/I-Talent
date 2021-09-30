@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 
 import ErrorProfilePage from "../components/errorResult/errorProfilePage";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
-import handleError from "../functions/handleError";
 import useAxios from "../utils/useAxios";
 
 const Profile = ({ history, match }) => {
@@ -87,20 +86,6 @@ const Profile = ({ history, match }) => {
     document.title = `${name} | I-Talent`;
   }, [name]);
 
-  const changeConnection = async () => {
-    if (connectionData) {
-      await axios
-        .delete(`connections/${id}`)
-        .catch((error) => handleError(error, "message", history));
-      setConnectionData(false);
-    } else {
-      await axios
-        .post(`connections/${id}`)
-        .catch((error) => handleError(error, "message", history));
-      setConnectionData(true);
-    }
-  };
-
   if (userDoesNotExist) {
     return (
       <ErrorProfilePage
@@ -121,7 +106,6 @@ const Profile = ({ history, match }) => {
 
   return (
     <ProfileLayout
-      changeConnection={changeConnection}
       connectionStatus={connectionData}
       data={data}
       isUsersProfile={id === userID}

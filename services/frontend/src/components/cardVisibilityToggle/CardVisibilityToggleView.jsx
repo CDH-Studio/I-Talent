@@ -146,8 +146,8 @@ const CardVisibilityToggleView = ({
         ariaLabel={`${ariaLabel} ${intl.formatMessage({
           id: "visibility.selector",
         })}`}
-        blurInputOnSelect
         className="visibilitySelector"
+        initialValueId={status}
         inputValue={status}
         isClearable={false}
         isSearchable={false}

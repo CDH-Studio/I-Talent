@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import BasicInfoView from "./BasicInfoView";
 
-const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
+const BasicInfo = ({ data, connectionStatus }) => {
   const getButtonLinks = () => {
     const { linkedin, github, gcconnex, email } = data;
 
@@ -57,7 +57,6 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
         color: data.avatarColor,
       }}
       buttonLinks={getButtonLinks()}
-      changeConnection={changeConnection}
       connectionStatus={connectionStatus}
       data={data}
       jobTitle={data.jobTitle}
@@ -67,7 +66,6 @@ const BasicInfo = ({ data, connectionStatus, changeConnection }) => {
 };
 
 BasicInfo.propTypes = {
-  changeConnection: PropTypes.func.isRequired,
   connectionStatus: PropTypes.bool.isRequired,
   data: ProfileInfoPropType.isRequired,
 };
