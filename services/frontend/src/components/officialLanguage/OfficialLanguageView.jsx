@@ -2,6 +2,8 @@ import { FormattedMessage } from "react-intl";
 import { Divider, List, Typography } from "antd";
 import PropTypes from "prop-types";
 
+import "./OfficialLanguageView.less";
+
 const { Title } = Typography;
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
@@ -14,15 +16,20 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
    * @returns {HTMLElement} - HTML markup for second lang list
    */
   const generateFirstLanguage = (langInfo) => (
-    <List
-      dataSource={langInfo}
-      itemLayout="horizontal"
-      renderItem={(item) => (
-        <List.Item>
-          <List.Item.Meta description={item.description} title={item.title} />
-        </List.Item>
-      )}
-    />
+    <>
+      <Title className="language-categories-title m-0" level={4}>
+        <FormattedMessage id="first.official.language" />
+      </Title>
+      <List
+        dataSource={langInfo}
+        itemLayout="horizontal"
+        renderItem={(item) => (
+          <List.Item className="p-0">
+            <List.Item.Meta description={item.description} />
+          </List.Item>
+        )}
+      />
+    </>
   );
 
   /**
@@ -34,35 +41,41 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
    * @returns {HTMLElement} - HTML markup for second lang list
    */
   const generateSecondLanguageData = (langInfo) => (
-    <List
-      dataSource={langInfo}
-      grid={{ column: langInfo.length }}
-      renderItem={(item) => (
-        <List.Item>
-          <List.Item.Meta
-            description={
-              item.level ? (
+    <>
+      <Title className="language-categories-title m-0" level={4}>
+        <FormattedMessage id="second.official.language.results" />
+      </Title>
+      <List
+        dataSource={langInfo}
+        grid={{ column: langInfo.length }}
+        renderItem={(item) => (
+          <List.Item>
+            <List.Item.Meta
+              description={
                 <>
-                  {item.level} ({item.status})
+                  <Title className="language-categories-title mb-0" level={5}>
+                    {item.title}
+                  </Title>
+                  {item.level ? (
+                    <>
+                      {item.level} ({item.status})
+                    </>
+                  ) : (
+                    "-"
+                  )}
                 </>
-              ) : (
-                "-"
-              )
-            }
-            title={item.title}
-          />
-        </List.Item>
-      )}
-    />
+              }
+            />
+          </List.Item>
+        )}
+      />
+    </>
   );
 
   return (
     <>
       {generateFirstLanguage(firstLanguageInfo)}
-      <Divider className="mt-0 mb-3" />
-      <Title level={5}>
-        <FormattedMessage id="second.official.language.results" />
-      </Title>
+      <Divider className="my-3" />
       {generateSecondLanguageData(secondLanguageInfo)}
     </>
   );
