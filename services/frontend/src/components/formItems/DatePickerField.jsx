@@ -1,6 +1,6 @@
 import { useState } from "react";
 import DayJSUtils from "@date-io/dayjs";
-import { createMuiTheme } from "@material-ui/core";
+import { createTheme } from "@material-ui/core";
 import {
   KeyboardDatePicker,
   MuiPickersUtilsProvider,
@@ -65,7 +65,7 @@ const DatePickerField = ({
 
   const classes = useStyles();
 
-  const materialTheme = createMuiTheme({
+  const materialTheme = createTheme({
     palette: {
       primary: {
         dark: antdStyles["@primary-color"],
