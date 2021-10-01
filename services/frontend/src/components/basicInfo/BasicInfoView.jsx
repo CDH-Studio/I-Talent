@@ -32,7 +32,7 @@ import ProfileActionRibbon from "../profileActionRibbon/ProfileActionRibbon";
 
 import "./BasicInfoView.less";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 const BasicInfoView = ({
   data,
@@ -56,6 +56,7 @@ const BasicInfoView = ({
    */
   const generateProfileHeader = () => (
     <Row className="profileHeaderRow" type="flex">
+      <h4 className="visually-hidden">Profile Name</h4>
       <Col
         align="center"
         className="hide-for-print"
@@ -80,10 +81,13 @@ const BasicInfoView = ({
         xs={18}
         xxl={18}
       >
-        <Title className="profileHeaderRow-name" ellipsis={{ tooltip: name }}>
+        <Text
+          className="profileHeaderRow-name px-3"
+          ellipsis={{ tooltip: name }}
+        >
           {name}
-        </Title>
-        <Text className="profileHeaderRow-job-tile">{jobTitle}</Text>
+        </Text>
+        <Text className="profileHeaderRow-job-tile px-3">{jobTitle}</Text>
       </Col>
     </Row>
   );
@@ -268,6 +272,9 @@ const BasicInfoView = ({
       userId={urlID}
     >
       <Card actions={generateActions()} id="card-profile-basic-info">
+        <h3 className="visually-hidden">
+          <FormattedMessage id="primary.contact.information" />
+        </h3>
         {generateProfileHeader()}
         <Row>
           <Col lg={12} xs={24}>

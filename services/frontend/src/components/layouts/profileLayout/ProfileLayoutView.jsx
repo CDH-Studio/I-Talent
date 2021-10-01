@@ -74,7 +74,9 @@ const ProfileLayoutView = ({
 
   const displayAllProfileCards = () => (
     <Row className="print" gutter={[15, 15]}>
-      <h2 className="visually-hidden">General Info</h2>
+      <h2 className="visually-hidden">
+        <FormattedMessage id="basic.employee.information" />
+      </h2>
       {/* Summary */}
       <Col xl={14} xs={24}>
         <BasicInfo connectionStatus={connectionStatus} data={data} />
