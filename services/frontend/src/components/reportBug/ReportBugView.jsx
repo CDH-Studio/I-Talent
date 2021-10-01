@@ -141,17 +141,10 @@ const ReportBugView = ({ saveDataToDB }) => {
 
         <Form form={form} layout="vertical" onFieldsChange={onFormValuesChange}>
           <Form.Item
-            id="gg"
             label={<FormattedMessage id="location" />}
             name="location"
             rules={[Rules.required]}
           >
-            {/* <Radio.Group
-              aria-required="true"
-              buttonStyle="solid"
-              options={radioOptions}
-              optionType="button"
-            /> */}
             <CustomDropdown
               ariaLabel={intl.formatMessage({
                 id: "location",
