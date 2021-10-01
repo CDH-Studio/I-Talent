@@ -8,7 +8,9 @@ import CardVisibilityStatus from "../cardVisibilityStatus/CardVisibilityStatus";
 import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
 import EditCardButton from "../editCardButton/EditCardButton";
 
-const { Text } = Typography;
+import "./ProfileCardsView.less";
+
+const { Text, Title } = Typography;
 
 const ProfileCardsView = ({
   editUrl,
@@ -129,7 +131,9 @@ const ProfileCardsView = ({
         style={grayedOut}
         title={
           <>
-            <h3 className="d-inline"> {titleString}</h3>
+            <Title className="d-inline profile-card-heading" level={3}>
+              {titleString}
+            </Title>
             {lastUpdated && (
               <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text
