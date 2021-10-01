@@ -123,9 +123,9 @@ const CustomDropdown = ({
    *
    */
   const generateAriaLabel = (formFieldLabel, isFieldRequired) =>
-    `${formFieldLabel} ${
-      isFieldRequired && intl.formatMessage({ id: "rules.required" })
-    }`;
+    isFieldRequired
+      ? `${formFieldLabel} ${intl.formatMessage({ id: "rules.required" })}`
+      : formFieldLabel;
 
   /**
    * Generate a text to prompt the user to press "enter" to add the typed
@@ -506,11 +506,7 @@ const CustomDropdown = ({
           placeholder={placeholderText}
           styles={customStyles}
           theme={customTheme}
-          value={mapInitialValue(
-            inputValue || selectedOptions
-            // inputValue || selectedOptions,
-            // isGroupedOptions
-          )}
+          value={mapInitialValue(inputValue || selectedOptions)}
         />
       )}
     </>

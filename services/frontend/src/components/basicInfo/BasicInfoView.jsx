@@ -6,26 +6,20 @@ import {
   ApartmentOutlined,
   DownOutlined,
   EnvironmentOutlined,
-  InfoCircleOutlined,
   MailOutlined,
   MobileOutlined,
   PhoneOutlined,
   TeamOutlined,
-  UserAddOutlined,
-  UserDeleteOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
-  // Dropdown,
   Avatar,
   Button,
   Card,
   Col,
   List,
   Modal,
-  Popover,
   Row,
-  // Menu,
   Tag,
   Typography,
 } from "antd";
@@ -33,9 +27,8 @@ import { kebabCase } from "lodash";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import config from "../../utils/runtimeConfig";
-import EditCardButton from "../editCardButton/EditCardButton";
 import OrgTree from "../orgTree/OrgTree";
+import ProfileActionRibbon from "../profileActionRibbon/ProfileActionRibbon";
 
 import "./BasicInfoView.less";
 
@@ -48,14 +41,11 @@ const BasicInfoView = ({
   jobTitle,
   buttonLinks,
   connectionStatus,
-  changeConnection,
 }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
   const urlID = id;
   const userID = useSelector((state) => state.user.id);
-  const locale = useSelector((state) => state.settings.locale);
-  const { drupalSite } = config;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   /*
@@ -95,63 +85,6 @@ const BasicInfoView = ({
         </Title>
         <Text className="profileHeaderRow-job-tile">{jobTitle}</Text>
       </Col>
-      {urlID === userID ? (
-        <Col className="hide-for-print" lg={3} md={4} xl={4} xs={5} xxl={3}>
-          <EditCardButton editUrl="/profile/edit/primary-info" floatRight />
-        </Col>
-      ) : (
-        <Col className="hide-for-print" lg={3} md={4} xl={4} xs={5} xxl={3}>
-          <Row align="middle" type="flex">
-            <Popover
-              content={
-                connectionStatus ? (
-                  <div className="popContent">
-                    <FormattedMessage id="connections.tooltip.remove.connection" />
-                    <a
-                      className="link"
-                      href={`${drupalSite}${
-                        locale === "ENGLISH" ? "en" : "fr"
-                      }help`}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                ) : (
-                  <div className="popContent">
-                    <FormattedMessage id="connections.tooltip.add.connection" />
-                    <a
-                      className="link"
-                      href={`${drupalSite}${
-                        locale === "ENGLISH" ? "en" : "fr"
-                      }help`}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <FormattedMessage id="footer.contact.link" />
-                    </a>
-                  </div>
-                )
-              }
-              trigger={["focus", "hover"]}
-            >
-              <InfoCircleOutlined tabIndex={0} />
-            </Popover>
-            <Button
-              icon={
-                connectionStatus ? <UserDeleteOutlined /> : <UserAddOutlined />
-              }
-              onClick={changeConnection}
-              shape="circle"
-              size="large"
-              style={{ marginLeft: 10 }}
-              tabIndex={0}
-              type={connectionStatus ? "default" : "primary"}
-            />
-          </Row>
-        </Col>
-      )}
     </Row>
   );
 
@@ -329,20 +262,26 @@ const BasicInfoView = ({
   };
 
   return (
-    <Card actions={generateActions()} id="card-profile-basic-info">
-      {generateProfileHeader()}
-      <Row>
-        <Col lg={12} xs={24}>
-          {generateInfoList(getContactInfo())}
-        </Col>
-        <Col lg={12} xs={24}>
-          {generateInfoList(getWorkInfo())}
-        </Col>
-      </Row>
-      <Row className="rowTopSplitter">
-        <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
-      </Row>
-    </Card>
+    <ProfileActionRibbon
+      connectionStatus={connectionStatus}
+      loggedInUserId={userID}
+      userId={urlID}
+    >
+      <Card actions={generateActions()} id="card-profile-basic-info">
+        {generateProfileHeader()}
+        <Row>
+          <Col lg={12} xs={24}>
+            {generateInfoList(getContactInfo())}
+          </Col>
+          <Col lg={12} xs={24}>
+            {generateInfoList(getWorkInfo())}
+          </Col>
+        </Row>
+        <Row className="rowTopSplitter">
+          <Col span={24}>{generateInfoList(generateTeamInfo())}</Col>
+        </Row>
+      </Card>
+    </ProfileActionRibbon>
   );
 };
 
@@ -352,7 +291,6 @@ BasicInfoView.propTypes = {
     color: PropTypes.string,
   }).isRequired,
   buttonLinks: PropTypes.objectOf(PropTypes.any).isRequired,
-  changeConnection: PropTypes.func.isRequired,
   connectionStatus: PropTypes.bool.isRequired,
   data: ProfileInfoPropType.isRequired,
   jobTitle: PropTypes.string,
