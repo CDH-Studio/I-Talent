@@ -10,11 +10,15 @@ const MentorshipView = ({ mentoringCategories, mentoring }) => {
       (mentoringCategory) =>
         mentoringCategory != null && (
           <Fragment key={mentoringCategory.val}>
-            <Row align="middle">
+            <Row align="middle" className="mt-2">
               <Col>
-                <TagTwoTone className="mr-1" twoToneColor="#3CBAB3" />
+                <TagTwoTone
+                  aria-hidden="true"
+                  className="mr-1 d-inline"
+                  twoToneColor="#3CBAB3"
+                />
+                <h4 className="mt-1 d-inline">{mentoringCategory.val}:</h4>
               </Col>
-              <Col>{mentoringCategory.val}:</Col>
             </Row>
             <Row>
               <Col>
