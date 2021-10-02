@@ -75,13 +75,13 @@ const LangProficiencyForm = ({ formType }) => {
       }
     }
 
-    await axios.put(`api/profile/${id}?language=${locale}`, dbValues);
+    await axios.put(`profile/${id}?language=${locale}`, dbValues);
   };
 
   // Get user profile for form drop down
   const getProfileInfo = useCallback(async () => {
     await axios
-      .get(`api/profile/private/${id}?language=${locale}`)
+      .get(`profile/private/${id}?language=${locale}`)
       .then((result) => {
         setProfileInfo(result.data);
       });

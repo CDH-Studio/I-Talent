@@ -25,7 +25,7 @@ const Welcome = () => {
 
   const skipProfileCreation = async () => {
     try {
-      await axios.put(`/api/profile/${id}?language=${locale}`, {
+      await axios.put(`/profile/${id}?language=${locale}`, {
         signupStep: 8,
         status: "HIDDEN",
       });
@@ -44,7 +44,7 @@ const Welcome = () => {
      */
     const getGedsProfiles = async () => {
       // Get info from GEDS
-      const result = await axios.get(`api/profGen`, {
+      const result = await axios.get(`profGen`, {
         params: {
           email,
         },
