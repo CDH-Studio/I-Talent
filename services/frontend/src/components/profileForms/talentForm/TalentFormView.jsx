@@ -89,7 +89,7 @@ const TalentFormView = ({
       values.mentorshipSkills = [];
     }
 
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
+    await axios.put(`profile/${userId}?language=${locale}`, values);
   };
 
   /**

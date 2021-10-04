@@ -8,6 +8,12 @@ import OfficialLanguageView from "./OfficialLanguageView";
 const OfficialLanguage = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
+  /**
+   * Generate First Official Language info array
+   * @param {Object[]} dataSource - object describing the userprofile
+   * @param {string} dataSource[].firstLanguage - user's first official language
+   * @return {Array.<{description: String, title: String}>} - array of first language results
+   */
   const getFirstLanguageInfo = (dataSource) => {
     let description = "-";
 
@@ -24,38 +30,82 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
     return [firstLanguage];
   };
 
-  const generateSecondLanguageInfo = (dataSource) => {
-    const languageInfo = [];
+  /**
+   * Generate Second Official Language Proficiency Title
+   * @param {string} proficiencyLevel - proficiency title from data source
+   * @returns {string} - formatted proficiency title
+   */
+  const generateSecondLangProficiencyTitle = (proficiencyType) => {
+    const i18nID = `secondary.${proficiencyType.toLowerCase()}.proficiency`;
+    return intl.formatMessage({
+      id: i18nID,
+    });
+  };
 
-    ["READING", "WRITING", "ORAL"].forEach((profType) => {
-      const nextData = {};
-
-      const info = dataSource.secondLangProfs
-        ? dataSource.secondLangProfs.find((i) => i.proficiency === profType)
-        : undefined;
-
-      nextData.titleId = `secondary.${profType.toLowerCase()}.proficiency`;
-
-      if (info) {
-        if (info.status === "NA") {
-          nextData.status = intl.formatMessage({ id: "grade.not.applicable" });
-        } else {
-          nextData.status = intl.formatMessage({
-            id: info.status.toLowerCase(),
-          });
-        }
-
-        if (info.level === "NA") {
-          nextData.level = intl.formatMessage({ id: "grade.not.applicable" });
-        } else {
-          nextData.level = info.level;
-        }
+  /**
+   * Generate Second Official Language Proficiency Status
+   * @param {string} proficiencyLevel - proficiency status from data source
+   * @returns {string} - formatted proficiency status
+   */
+  const generateSecondLangProficiencyStatus = (proficiencyStatus) => {
+    let translatedStatus = "";
+    if (proficiencyStatus) {
+      if (proficiencyStatus === "NA") {
+        translatedStatus = intl.formatMessage({
+          id: "grade.not.applicable",
+        });
+      } else {
+        translatedStatus = intl.formatMessage({
+          id: proficiencyStatus.toLowerCase(),
+        });
       }
+    }
+    return translatedStatus;
+  };
 
-      languageInfo.push(nextData);
+  /**
+   * Generate Second Official Language Proficiency Level
+   * @param {string} proficiencyLevel - proficiency level from data source
+   * @returns {string} - formatted proficiency level
+   */
+  const generateSecondLangProficiencyLevel = (proficiencyLevel) => {
+    let translatedLevel = "";
+    if (proficiencyLevel) {
+      if (proficiencyLevel === "NA") {
+        translatedLevel = intl.formatMessage({ id: "grade.not.applicable" });
+      } else {
+        translatedLevel = proficiencyLevel;
+      }
+    }
+    return translatedLevel;
+  };
+
+  /**
+   * Generate Second Official Language info array
+   * @param {Object[]} dataSource - object describing the userprofile
+   * @param {string} dataSource[].firstLanguage - user's first official language
+   * @returns {Array.<{title: string, level: string, status: string}>} - array of second language results
+   */
+  const generateSecondLanguageInfo = (dataSource) => {
+    const formattedLanguageInfo = [];
+
+    dataSource.secondLangProfs.forEach((item) => {
+      const formattedLangProficiencyItem = {};
+
+      formattedLangProficiencyItem.title = generateSecondLangProficiencyTitle(
+        item.proficiency
+      );
+      formattedLangProficiencyItem.level = generateSecondLangProficiencyLevel(
+        item.level
+      );
+      formattedLangProficiencyItem.status = generateSecondLangProficiencyStatus(
+        item.status
+      );
+
+      formattedLanguageInfo.push(formattedLangProficiencyItem);
     });
 
-    return languageInfo;
+    return formattedLanguageInfo;
   };
 
   return (

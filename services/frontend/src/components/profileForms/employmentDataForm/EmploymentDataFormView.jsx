@@ -100,7 +100,7 @@ const EmploymentDataFormView = ({
       values.actingLevelId = null;
     }
 
-    await axios.put(`api/profile/${userId}?language=${locale}`, values);
+    await axios.put(`profile/${userId}?language=${locale}`, values);
   };
 
   /* toggle temporary role form */

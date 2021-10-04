@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 
 import ErrorProfilePage from "../components/errorResult/errorProfilePage";
 import ProfileLayout from "../components/layouts/profileLayout/ProfileLayout";
-import handleError from "../functions/handleError";
 import useAxios from "../utils/useAxios";
 
 const Profile = ({ history, match }) => {
@@ -30,13 +29,13 @@ const Profile = ({ history, match }) => {
     const apiCalls = [];
     const profile =
       id === userID
-        ? axios.get(`api/profile/private/${id}?language=${locale}`)
-        : axios.get(`api/profile/${id}?language=${locale}`);
+        ? axios.get(`profile/private/${id}?language=${locale}`)
+        : axios.get(`profile/${id}?language=${locale}`);
 
     apiCalls.push(profile);
 
     if (id !== userID) {
-      apiCalls.push(axios.get(`api/connections/${id}`));
+      apiCalls.push(axios.get(`connections/${id}`));
     }
 
     try {
@@ -87,20 +86,6 @@ const Profile = ({ history, match }) => {
     document.title = `${name} | I-Talent`;
   }, [name]);
 
-  const changeConnection = async () => {
-    if (connectionData) {
-      await axios
-        .delete(`api/connections/${id}`)
-        .catch((error) => handleError(error, "message", history));
-      setConnectionData(false);
-    } else {
-      await axios
-        .post(`api/connections/${id}`)
-        .catch((error) => handleError(error, "message", history));
-      setConnectionData(true);
-    }
-  };
-
   if (userDoesNotExist) {
     return (
       <ErrorProfilePage
@@ -121,7 +106,6 @@ const Profile = ({ history, match }) => {
 
   return (
     <ProfileLayout
-      changeConnection={changeConnection}
       connectionStatus={connectionData}
       data={data}
       isUsersProfile={id === userID}
