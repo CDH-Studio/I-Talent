@@ -18,7 +18,7 @@ const ProfileCreate = ({ step }) => {
   useEffect(() => {
     if (step > signupStep) {
       dispatch(setUserSignupStep(step));
-      axios.put(`api/profile/${id}?language=${locale}`, {
+      axios.put(`profile/${id}?language=${locale}`, {
         signupStep: step,
       });
     }

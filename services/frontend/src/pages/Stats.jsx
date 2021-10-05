@@ -26,9 +26,9 @@ const Stats = () => {
       );
       const [topFiveCompetencies, topFiveSkills, topFiveDevelopmentalGoals] =
         await Promise.all([
-          axios.get(`api/stats/topFiveCompetencies?language=${locale}`),
-          axios.get(`api/stats/topFiveSkills?language=${locale}`),
-          axios.get(`api/stats/topFiveDevelopmentalGoals?language=${locale}`),
+          axios.get(`stats/topFiveCompetencies?language=${locale}`),
+          axios.get(`stats/topFiveSkills?language=${locale}`),
+          axios.get(`stats/topFiveDevelopmentalGoals?language=${locale}`),
         ]);
       dispatch(
         setTopFive({

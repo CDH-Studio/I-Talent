@@ -33,9 +33,7 @@ const TalentForm = ({ formType }) => {
    * Get user profile
    */
   const getProfileInfo = useCallback(async () => {
-    const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
-    );
+    const result = await axios.get(`profile/private/${id}?language=${locale}`);
 
     setProfileInfo(result.data);
   }, [axios, id, locale]);
@@ -46,9 +44,7 @@ const TalentForm = ({ formType }) => {
    * competency options for drop down
    */
   const getCompetencyOptions = useCallback(async () => {
-    const result = await axios.get(
-      `api/option/competencies?language=${locale}`
-    );
+    const result = await axios.get(`option/competencies?language=${locale}`);
 
     setCompetencyOptions(result.data);
   }, [axios, locale]);
@@ -60,8 +56,8 @@ const TalentForm = ({ formType }) => {
    */
   const getSkillOptions = useCallback(async () => {
     const [categoriesResult, skillsResults] = await Promise.all([
-      axios.get(`api/option/categories?language=${locale}`),
-      axios.get(`api/option/skills?language=${locale}`),
+      axios.get(`option/categories?language=${locale}`),
+      axios.get(`option/skills?language=${locale}`),
     ]);
 
     // Loop through all skill categories

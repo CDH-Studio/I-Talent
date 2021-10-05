@@ -2,11 +2,7 @@ import { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
-import {
-  InfoCircleOutlined,
-  LinkOutlined,
-  SyncOutlined,
-} from "@ant-design/icons";
+import { LinkOutlined, SyncOutlined } from "@ant-design/icons";
 import { useKeycloak } from "@react-keycloak/web";
 import {
   Button,
@@ -15,7 +11,6 @@ import {
   Form,
   Input,
   notification,
-  Popover,
   Row,
   Skeleton,
 } from "antd";
@@ -217,7 +212,7 @@ const PrimaryInfoFormView = ({
       ...formValues,
     };
     delete dbValues.jobTitle;
-    await axios.put(`api/profile/${userId}?language=${locale}`, dbValues);
+    await axios.put(`profile/${userId}?language=${locale}`, dbValues);
     await login(keycloak, axios);
   };
 
@@ -414,57 +409,49 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
+
           {/* Form Row Two */}
           <Row gutter={24}>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" span={24}>
               <Form.Item
-                label={
-                  <>
-                    <FormattedMessage id="job.title" />
-                    <div className="prim-popoverStyleCareer">
-                      <Popover
-                        content={
-                          <div className="prim-popoverStyle">
-                            <FormattedMessage id="job.title.tooltip" />
-                          </div>
-                        }
-                        id="job-title-popover"
-                        role="button"
-                        trigger={["focus", "click"]}
-                      >
-                        <InfoCircleOutlined
-                          aria-describedby="job-title-popover"
-                          aria-label={intl.formatMessage({
-                            id: "job.title.popover.arialabel",
-                          })}
-                          tabIndex={0}
-                        />
-                      </Popover>
-                    </div>
-                  </>
+                extra={
+                  <div id="email-extra-info">
+                    <FormattedMessage id="email.tooltip" />
+                  </div>
                 }
-                name="jobTitle"
-                rules={[Rules.maxChar50]}
-              >
-                <Input disabled />
-              </Form.Item>
-            </Col>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
-              <Form.Item
                 label={<FormattedMessage id="email" />}
                 name="email"
                 rules={[Rules.emailFormat, Rules.maxChar50]}
               >
-                <Input disabled />
+                <Input aria-describedby="email-extra-info" readOnly />
               </Form.Item>
             </Col>
           </Row>
+
           {/* Form Row Three */}
+          <Row gutter={24}>
+            <Col className="gutter-row" span={24}>
+              <Form.Item
+                extra={
+                  <div id="job-title-extra-info">
+                    <FormattedMessage id="job.title.tooltip" />
+                  </div>
+                }
+                label={<FormattedMessage id="job.title" />}
+                name="jobTitle"
+                rules={[Rules.maxChar50]}
+              >
+                <Input aria-describedby="job-title-extra-info" readOnly />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          {/* Form Row Four */}
           <Row gutter={24}>
             <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
                 extra={
-                  <div className="prim-popoverStyle" id="pri-extra-info">
+                  <div id="pri-extra-info">
                     <FormattedMessage id="pri.private" />
                   </div>
                 }
@@ -493,7 +480,8 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
-          {/* Form Row Three */}
+
+          {/* Form Row Five */}
           <Row gutter={24}>
             <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
               <Form.Item
@@ -514,7 +502,8 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
-          {/* Form Row Four */}
+
+          {/* Form Row Six */}
           <Row gutter={24}>
             <Col className="gutter-row" span={24}>
               <Form.Item
@@ -535,7 +524,8 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
           </Row>
-          {/* Form Row Five */}
+
+          {/* Form Row Seven */}
           <Row className="prim-externalProfileSection">
             <Fieldset
               title={
