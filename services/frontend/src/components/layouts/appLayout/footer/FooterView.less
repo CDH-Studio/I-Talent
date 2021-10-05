@@ -4,15 +4,17 @@
   width: 100%;
   left: 0px;
   bottom: 0px;
-}
-.link {
-  display: inline;
-  margin-left: 15px;
-}
-
-.aroundLinksSmall {
   text-align: center;
-}
-.dashes {
-  margin-left: 15px;
+
+  &-divider {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .screenReaderOnly {
+    position: absolute;
+    width: 1px;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }

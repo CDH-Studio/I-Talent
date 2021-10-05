@@ -30,7 +30,7 @@ const CompetencyTable = () => {
     try {
       dispatch(setAdminCompetenciesLoading(true));
 
-      const results = await axios.get(`api/option/competenciesAllLang`);
+      const results = await axios.get(`option/competenciesAllLang`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((competency) => ({
@@ -65,7 +65,7 @@ const CompetencyTable = () => {
 
   // Handles addition of a competency
   const handleSubmitAdd = async (values) => {
-    await axios.post(`api/option/competency`, {
+    await axios.post(`option/competency`, {
       en: values.addCompetencyEn,
       fr: values.addCompetencyFr,
     });
@@ -75,7 +75,7 @@ const CompetencyTable = () => {
 
   // Handles the update/edit of a competency
   const handleSubmitEdit = async (values, id) => {
-    await axios.put(`api/option/competency`, {
+    await axios.put(`option/competency`, {
       en: values.editCompetencyEn,
       fr: values.editCompetencyFr,
       id,
@@ -86,7 +86,7 @@ const CompetencyTable = () => {
 
   // Handles the deletion of a competency
   const handleSubmitDelete = async () => {
-    await axios.delete(`api/option/competencies`, {
+    await axios.delete(`option/competencies`, {
       data: {
         ids: selectedRowKeys,
       },
