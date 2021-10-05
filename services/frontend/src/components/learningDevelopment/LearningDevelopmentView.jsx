@@ -60,8 +60,8 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
           {SupportingLinks.map((i) => (
             <a href={i.url} rel="noopener noreferrer" target="_blank">
               <Tag key={i.id} color="#727272" style={{ cursor: "pointer" }}>
-                <LinkOutlined aria-hidden="true" />
-                <span>{i.name.name}</span>
+                <LinkOutlined aria-hidden="true" className="mr-1" />
+                {i.name.name}
               </Tag>
             </a>
           ))}
