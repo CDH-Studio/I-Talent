@@ -25,8 +25,8 @@ const SearchBar = () => {
    */
   const getSkills = useCallback(async () => {
     const [categoriesResult, skillsResults] = await Promise.all([
-      axios.get(`api/option/categories?language=${locale}`),
-      axios.get(`api/option/skills?language=${locale}`),
+      axios.get(`option/categories?language=${locale}`),
+      axios.get(`option/skills?language=${locale}`),
     ]);
 
     // Loop through all skill categories
@@ -58,19 +58,19 @@ const SearchBar = () => {
 
   // Fetches options for branches select field in advanced search
   const getBranch = useCallback(async () => {
-    const results = await axios.get(`api/option/branches?language=${locale}`);
+    const results = await axios.get(`option/branches?language=${locale}`);
     setBranchOptions(results.data);
   }, [axios, locale]);
 
   // Fetches options for locations select field in advanced search
   const getLocation = useCallback(async () => {
-    const results = await axios.get(`api/option/locations?language=${locale}`);
+    const results = await axios.get(`option/locations?language=${locale}`);
     setLocationOptions(results.data);
   }, [axios, locale]);
 
   // Fetches options for classifications select field in advanced search
   const getClassification = useCallback(async () => {
-    const results = await axios.get(`api/option/classifications`);
+    const results = await axios.get(`option/classifications`);
     setClassOptions(results.data);
   }, [axios]);
 

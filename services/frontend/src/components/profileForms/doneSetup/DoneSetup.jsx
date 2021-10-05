@@ -98,9 +98,7 @@ const DoneSetup = ({ formType }) => {
    * Get user profile
    */
   const getProfileInfo = useCallback(async () => {
-    const result = await axios.get(
-      `api/profile/private/${id}?language=${locale}`
-    );
+    const result = await axios.get(`profile/private/${id}?language=${locale}`);
     setProfileInfo(result.data);
   }, [axios, id, locale]);
 
