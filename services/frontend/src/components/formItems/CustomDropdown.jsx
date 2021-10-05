@@ -379,7 +379,7 @@ const CustomDropdown = ({
     }),
     menuPortal: (provided) => ({
       ...provided,
-      zIndex: 999,
+      zIndex: 9999,
     }),
     multiValue: (provided) => ({
       ...provided,
