@@ -86,7 +86,7 @@
   "delete.school": "Supprimer toutes les écoles sélectionnées ? Elles seront également supprimées des profils d’utilisateurs qui y sont associés.",
   "delete.skill": "Supprimer toutes les habiletés sélectionnées ? Elles seront également supprimées des profils d’utilisateurs qui y sont associés.",
   "delete.user": "Supprimer l’utilisateur sélectionné ? Ceci supprimera aussi le profil de l’utilisateur.",
-  "description": "Description : ",
+  "description": "Description",
   "developmental.goals": "Objectifs de développement",
   "developmental.goals.empty": "Aucun objectif de développement fourni",
   "diploma": "Diplôme",

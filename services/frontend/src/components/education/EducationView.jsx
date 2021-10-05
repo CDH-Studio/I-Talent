@@ -8,14 +8,12 @@ import "./EducationView.less";
 const EducationView = ({ educationInfo }) => {
   const generateDescriptionBody = (text) => {
     if (text) {
-      const lineStrings = text.split(" ").join("\u00A0").split("\n");
       return (
-        <div className="bodyStyle">
-          {lineStrings.map((line, index) => (
-            <>
-              {index > 0 ? <br /> : null} {line}
-            </>
-          ))}
+        <div className="education-descriptionViewText">
+          <h5 className="visually-hidden">
+            <FormattedMessage id="description" />
+          </h5>
+          <div>{text}</div>
         </div>
       );
     }
@@ -46,8 +44,13 @@ const EducationView = ({ educationInfo }) => {
                 itemLayout="vertical"
                 renderItem={(item) => (
                   <List.Item
-                    className="experience-item-list"
-                    extra={item.duration}
+                    className="qualification-item-list"
+                    extra={
+                      <>
+                        <h5 className="visually-hidden">Duration</h5>
+                        {item.duration}
+                      </>
+                    }
                   >
                     <List.Item.Meta
                       avatar={
@@ -58,27 +61,24 @@ const EducationView = ({ educationInfo }) => {
                           size="large"
                         />
                       }
-                      description={
-                        <>
-                          <Row>
-                            <Col>
-                              {generateDescriptionBody(item.description)}
-                            </Col>
-                          </Row>
-                          {item.attachmentLinks &&
-                            item.attachmentLinks.length > 0 && (
-                              <Row align="middle">
-                                <Col>
-                                  <FormattedMessage id="attachment.links.education" />
-                                  :
-                                </Col>
-                                <Col>{getUrl(item)}</Col>
-                              </Row>
-                            )}
-                        </>
-                      }
-                      title={`${item.diploma} - (${item.school})`}
+                      description={item.school}
+                      title={item.diploma}
                     />
+                    <>
+                      {item.description &&
+                        generateDescriptionBody(item.description)}
+
+                      {item.attachmentLinks && item.attachmentLinks.length > 0 && (
+                        <Row align="middle">
+                          <Col>
+                            <h5 className="visually-hidden">
+                              <FormattedMessage id="attachment.links.education" />
+                            </h5>
+                            {getUrl(item)}
+                          </Col>
+                        </Row>
+                      )}
+                    </>
                   </List.Item>
                 )}
               />

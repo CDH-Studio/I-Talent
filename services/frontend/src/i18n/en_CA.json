@@ -86,7 +86,7 @@
   "delete.school": "Delete all selected schools? They will also be deleted from user profiles associated with them.",
   "delete.skill": "Delete all selected skills? They will also be deleted from user profiles associated with them.",
   "delete.user": "Delete selected user? This will also delete the user’s profile.",
-  "description": "Description: ",
+  "description": "Description",
   "developmental.goals": "Developmental goals",
   "developmental.goals.empty": "No developmental goals provided",
   "diploma": "Diploma",
