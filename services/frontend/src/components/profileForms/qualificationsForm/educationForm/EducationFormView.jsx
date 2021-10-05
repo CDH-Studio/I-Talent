@@ -278,7 +278,7 @@ const EducationFormView = ({
                   {/* Checkbox if event is on-going */}
                   <Form.Item
                     fieldKey={[fieldElement.fieldKey, "ongoingDate"]}
-                    initialValue={false}
+                    initialValue={educationItem ? undefined : false}
                     name={[fieldElement.name, "ongoingDate"]}
                     style={{
                       marginBottom: disableEndDate ? "35px" : "15px",
