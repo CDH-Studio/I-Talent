@@ -1,590 +1,345 @@
-kind: "Template"
-apiVersion: v1
-metadata:
-  name: "ITalent DEV template"
-parameters:
-  - name: PROJECT_NAME
-    displayName: Project Name
-    description: "The namespace of the project"
-    required: true
+apiVersion: template.openshift.io/v1
+kind: DeploymentConfig
 objects:
-  - apiVersion: v1
-    data:
-      database-password:
-    kind: Secret
-    metadata:
-      name: redis
-      namespace: italent-development
-      selfLink: /api/v1/namespaces/italent-development/secrets/redis
-    type: Opaque
-  - apiVersion: v1
-    data:
-      password:
-      uri:
-    kind: Secret
-    metadata:
-      name: geds
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/secrets/geds
-    type: Opaque
-  - apiVersion: v1
-    data:
-      password:
-      uri:
-    kind: Secret
-    metadata:
-      name: keycloak
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/secrets/keycloak
-    type: Opaque
-  - apiVersion: v1
-    data:
-      database-name:
-      database-password:
-      database-user:
-      database-url:
-    kind: Secret
-    metadata:
-      name: postgresql
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/secrets/postgresql
-    type: Opaque
-  - apiVersion: image.openshift.io/v1
-    kind: ImageStream
-    metadata:
-      generation: 1
-      name: backend
-      namespace: ${PROJECT_NAME}
-      selfLink: /apis/image.openshift.io/v1/namespaces/${PROJECT_NAME}/imagestreams/backend
-    spec:
-      lookupPolicy:
-        local: false
-  - apiVersion: image.openshift.io/v1
-    kind: ImageStream
-    metadata:
-      generation: 1
-      name: frontend
-      namespace: ${PROJECT_NAME}
-      selfLink: /apis/image.openshift.io/v1/namespaces/${PROJECT_NAME}/imagestreams/frontend
-    spec:
-      lookupPolicy:
-        local: false
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      annotations:
-        volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/aws-ebs
-      finalizers:
-        - kubernetes.io/pvc-protection
-      name: postgresql
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/persistentvolumeclaims/postgresql
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
-      storageClassName: gp2-resize-encrypted
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      annotations:
-        volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/aws-ebs
-      finalizers:
-        - kubernetes.io/pvc-protection
-      name: redis
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/persistentvolumeclaims/redis
-    spec:
-      accessModes:
-        - ReadWriteOnce
-      resources:
-        requests:
-          storage: 1Gi
-      storageClassName: gp2-resize-encrypted
-  - apiVersion: build.openshift.io/v1
-    kind: BuildConfig
-    metadata:
-      labels:
-        app: backend
-      name: backend
-      namespace: ${PROJECT_NAME}
-      selfLink: /apis/build.openshift.io/v1/namespaces/${PROJECT_NAME}/buildconfigs/backend
-    spec:
-      nodeSelector: null
-      output:
-        to:
-          kind: ImageStreamTag
-          name: backend:latest
-      postCommit: {}
-      resources: {}
-      runPolicy: Serial
-      source:
-        contextDir: /services/backend
-        git:
-          ref: development
-          uri: https://github.com/CDH-Studio/I-Talent.git
-        type: Git
-      strategy:
-        dockerStrategy:
-          env:
-            - name: NODE_ENV
-              value: production
-        type: Docker
-      triggers:
-        - generic:
-            secret: 7a2dd9b3f08948d1
-          type: Generic
-        - github:
-            secret: 9a227c66836bd098
-          type: GitHub
-        - imageChange:
-          type: ImageChange
-        - type: ConfigChange
-  - apiVersion: build.openshift.io/v1
-    kind: BuildConfig
-    metadata:
-      labels:
-        app: frontend
-      name: frontend
-      namespace: ${PROJECT_NAME}
-      selfLink: /apis/build.openshift.io/v1/namespaces/${PROJECT_NAME}/buildconfigs/frontend
-    spec:
-      nodeSelector: null
-      output:
-        to:
-          kind: ImageStreamTag
-          name: frontend:latest
-      postCommit: {}
-      resources: {}
-      runPolicy: Serial
-      source:
-        contextDir: /services/frontend
-        git:
-          ref: development
-          uri: https://github.com/CDH-Studio/I-Talent.git
-        type: Git
-      strategy:
-        dockerStrategy:
-          env:
-            - name: NODE_ENV
-              value: production
-            - name: REACT_APP_API_ADDRESS
-              value: https://${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca/
-            - name: REACT_APP_KEYCLOAK_AUTH_SERVER_URL
-              value: https://sso-dev.ised-isde.canada.ca/auth
-        type: Docker
-      triggers:
-        - generic:
-            secret: 3d080b0f35ccc23e
-          type: Generic
-        - github:
-            secret: fdd0e6caad43f650
-          type: GitHub
-        - imageChange:
-          type: ImageChange
-        - type: ConfigChange
+  # Frontend service
   - apiVersion: apps.openshift.io/v1
     kind: DeploymentConfig
     metadata:
-      generation: 1
-      labels:
-        app: backend
-      name: backend
-      namespace: ${PROJECT_NAME}
-      selfLink: /apis/apps.openshift.io/v1/namespaces/${PROJECT_NAME}/deploymentconfigs/backend
-    spec:
-      replicas: 1
-      selector:
-        deploymentconfig: backend
-      strategy:
-        activeDeadlineSeconds: 21600
-        resources: {}
-        rollingParams:
-          intervalSeconds: 1
-          maxSurge: 25%
-          maxUnavailable: 25%
-          timeoutSeconds: 600
-          updatePeriodSeconds: 1
-        type: Rolling
-      template:
-        metadata:
-          labels:
-            app: backend
-            deploymentconfig: backend
-        spec:
-          containers:
-            - env:
-                - name: DATABASE_URL
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-url
-                      name: postgresql
-                - name: PORT
-                  value: "3000"
-                - name: GEDSAPIURL
-                  valueFrom:
-                    secretKeyRef:
-                      key: uri
-                      name: geds
-                - name: GEDSAPIKEY
-                  valueFrom:
-                    secretKeyRef:
-                      key: password
-                      name: geds
-                - name: KEYCLOAK_AUTH_SERVER_URL
-                  valueFrom:
-                    secretKeyRef:
-                      key: uri
-                      name: keycloak
-                - name: KEYCLOAK_SECRET
-                  valueFrom:
-                    secretKeyRef:
-                      key: password
-                      name: keycloak
-                - name: REDIS_HOST
-                  value: "redis"
-                - name: REDIS_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-password
-                      name: redis
-              imagePullPolicy: Always
-              name: backend
-              ports:
-                - containerPort: 3000
-                  protocol: TCP
-              resources: {}
-              terminationMessagePath: /dev/termination-log
-              terminationMessagePolicy: File
-          dnsPolicy: ClusterFirst
-          restartPolicy: Always
-          schedulerName: default-scheduler
-          securityContext: {}
-          terminationGracePeriodSeconds: 30
-      test: false
-      triggers:
-        - imageChangeParams:
-            automatic: true
-            containerNames:
-              - backend
-            from:
-              kind: ImageStreamTag
-              name: backend:latest
-              namespace: ${PROJECT_NAME}
-          type: ImageChange
-        - type: ConfigChange
-  - apiVersion: apps.openshift.io/v1
-    kind: DeploymentConfig
-    metadata:
-      generation: 1
-      labels:
-        app: frontend
+      annotations:
+        openshift.io/backup-registry-hostname: "image-registry.openshift-image-registry.svc:5000"
+        openshift.io/backup-server-version: "1.19"
+        openshift.io/generated-by: OpenShiftNewApp
+        openshift.io/migration-registry: ""
+        openshift.io/restore-registry-hostname: "image-registry.openshift-image-registry.svc:5000"
+        openshift.io/restore-server-version: "1.20"
       name: frontend
-      namespace: ${PROJECT_NAME}
-      selfLink: /apis/apps.openshift.io/v1/namespaces/${PROJECT_NAME}/deploymentconfigs/frontend
+        labels:
+          app: frontend
+          migration.openshift.io/migrated-by-migmigration: b79b04fe-03da-468a-b126-da9367e86733
+          migration.openshift.io/migrated-by-migplan: 8a49288e-869a-45ed-9ca6-2fd5f30bf50e
+          velero.io/backup-name: c974ce50-a844-11eb-bfb1-cdc75f14fb10-d5ql4
+          velero.io/restore-name: c974ce50-a844-11eb-bfb1-cdc75f14fb10-cfk55
     spec:
-      replicas: 1
-      selector:
-        deploymentconfig: frontend
       strategy:
-        activeDeadlineSeconds: 21600
-        resources: {}
-        rollingParams:
-          intervalSeconds: 1
-          maxSurge: 25%
-          maxUnavailable: 25%
-          timeoutSeconds: 600
-          updatePeriodSeconds: 1
         type: Rolling
-      template:
-        metadata:
-          labels:
-            app: frontend
-            deploymentconfig: frontend
-        spec:
-          containers:
-            - imagePullPolicy: Always
-              name: frontend
-              ports:
-                - containerPort: 8080
-                  protocol: TCP
-              resources: {}
-              terminationMessagePath: /dev/termination-log
-              terminationMessagePolicy: File
-          dnsPolicy: ClusterFirst
-          restartPolicy: Always
-          schedulerName: default-scheduler
-          securityContext: {}
-          terminationGracePeriodSeconds: 30
-      test: false
+        rollingParams:
+          updatePeriodSeconds: 1
+          intervalSeconds: 1
+          timeoutSeconds: 600
+          maxUnavailable: 25%
+          maxSurge: 25%
+        resources: {}
+        activeDeadlineSeconds: 21600
       triggers:
-        - imageChangeParams:
+        - type: ImageChange
+          imageChangeParams:
             automatic: true
             containerNames:
               - frontend
             from:
               kind: ImageStreamTag
-              name: frontend:latest
-              namespace: ${PROJECT_NAME}
-          type: ImageChange
+              namespace: ised-ci
+              name: 'dsd-italent-frontend:development'
+            lastTriggeredImage: >-
+              image-registry.openshift-image-registry.svc:5000/ised-ci/dsd-italent-frontend@sha256:1eec0174616eac235e5dc9f75a9c076d072dfdf9be874796ed8d2d879c5e4430
         - type: ConfigChange
-  - apiVersion: apps.openshift.io/v1
-    kind: DeploymentConfig
-    metadata:
-      annotations:
-        template.alpha.openshift.io/wait-for-ready: "true"
-      generation: 1
-      name: postgresql
-      namespace: ${PROJECT_NAME}
-      selfLink: /apis/apps.openshift.io/v1/namespaces/${PROJECT_NAME}/deploymentconfigs/postgresql
-    spec:
       replicas: 1
       revisionHistoryLimit: 10
-      selector:
-        name: postgresql
-      strategy:
-        activeDeadlineSeconds: 21600
-        recreateParams:
-          timeoutSeconds: 600
-        resources: {}
-        type: Recreate
-      template:
-        metadata:
-          labels:
-            name: postgresql
-        spec:
-          containers:
-            - env:
-                - name: POSTGRESQL_USER
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-user
-                      name: postgresql
-                - name: POSTGRESQL_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-password
-                      name: postgresql
-                - name: POSTGRESQL_DATABASE
-                  valueFrom:
-                    secretKeyRef:
-                      key: database-name
-                      name: postgresql
-              imagePullPolicy: IfNotPresent
-              livenessProbe:
-                exec:
-                  command:
-                    - /usr/libexec/check-container
-                    - --live
-                failureThreshold: 3
-                initialDelaySeconds: 120
-                periodSeconds: 10
-                successThreshold: 1
-                timeoutSeconds: 10
-              name: postgresql
-              ports:
-                - containerPort: 5432
-                  protocol: TCP
-              readinessProbe:
-                exec:
-                  command:
-                    - /usr/libexec/check-container
-                failureThreshold: 3
-                initialDelaySeconds: 5
-                periodSeconds: 10
-                successThreshold: 1
-                timeoutSeconds: 1
-              resources:
-                limits:
-                  memory: 512Mi
-              securityContext:
-                capabilities: {}
-                privileged: false
-              terminationMessagePath: /dev/termination-log
-              terminationMessagePolicy: File
-              volumeMounts:
-                - mountPath: /var/lib/pgsql/data
-                  name: postgresql-data
-          dnsPolicy: ClusterFirst
-          restartPolicy: Always
-          schedulerName: default-scheduler
-          securityContext: {}
-          terminationGracePeriodSeconds: 30
-          volumes:
-            - name: postgresql-data
-              persistentVolumeClaim:
-                claimName: postgresql
       test: false
-      triggers:
-        - imageChangeParams:
-            automatic: true
-            containerNames:
-              - postgresql
-            from:
-              kind: ImageStreamTag
-              name: postgresql:9.6
-              namespace: openshift
-          type: ImageChange
-        - type: ConfigChange
-  - apiVersion: apps.openshift.io/v1
-    kind: DeploymentConfig
-    metadata:
-      annotations:
-        template.alpha.openshift.io/wait-for-ready: "true"
-      name: redis
-      namespace: italent-development
-      selfLink: /apis/apps.openshift.io/v1/namespaces/italent-development/deploymentconfigs/redis
-    spec:
-      replicas: 1
-      revisionHistoryLimit: 10
       selector:
-        name: redis
-      strategy:
-        activeDeadlineSeconds: 21600
-        recreateParams:
-          timeoutSeconds: 600
-        resources: {}
-        type: Recreate
+        deploymentconfig: frontend
       template:
         metadata:
           creationTimestamp: null
           labels:
-            name: redis
+            app: frontend
+            deploymentconfig: frontend
+          annotations:
+            openshift.io/generated-by: OpenShiftNewApp
         spec:
           containers:
-            - env:
+            - name: frontend
+              image: >-
+                image-registry.openshift-image-registry.svc:5000/ised-ci/dsd-italent-frontend@sha256:1eec0174616eac235e5dc9f75a9c076d072dfdf9be874796ed8d2d879c5e4430
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              env:
+                - name: REACT_APP_API_ADDRESS
+                  valueFrom:
+                    secretKeyRef:
+                      name: backend
+                      key: url
+                - name: REACT_APP_DRUPAL_WEBSITE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: drupal
+                      key: url
+                - name: REACT_APP_KEYCLOAK_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: keycloak
+                      key: client-frontend
+                - name: REACT_APP_KEYCLOAK_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: keycloak
+                      key: uri
+                - name: NODE_ENV
+                  value: production
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              imagePullPolicy: Always
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          dnsPolicy: ClusterFirst
+          securityContext: {}
+          schedulerName: default-scheduler
+  ################################################################################
+  # Backend service
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      annotations:
+        openshift.io/backup-registry-hostname: "image-registry.openshift-image-registry.svc:5000"
+        openshift.io/backup-server-version: "1.19"
+        openshift.io/generated-by: OpenShiftNewApp
+        openshift.io/migration-registry: ""
+        openshift.io/restore-registry-hostname: "image-registry.openshift-image-registry.svc:5000"
+        openshift.io/restore-server-version: "1.20"
+      labels:
+        app: backend
+        migration.openshift.io/migrated-by-migmigration: b79b04fe-03da-468a-b126-da9367e86733
+        migration.openshift.io/migrated-by-migplan: 8a49288e-869a-45ed-9ca6-2fd5f30bf50e
+        velero.io/backup-name: c974ce50-a844-11eb-bfb1-cdc75f14fb10-d5ql4
+        velero.io/restore-name: c974ce50-a844-11eb-bfb1-cdc75f14fb10-cfk55
+      name: backend
+    spec:
+      strategy:
+        type: Rolling
+        rollingParams:
+          updatePeriodSeconds: 1
+          intervalSeconds: 1
+          timeoutSeconds: 600
+          maxUnavailable: 25%
+          maxSurge: 25%
+        resources: {}
+        activeDeadlineSeconds: 21600
+      triggers:
+        - type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - backend
+            from:
+              kind: ImageStreamTag
+              namespace: ised-ci
+              name: "dsd-italent-backend:development"
+            lastTriggeredImage: >-
+              image-registry.openshift-image-registry.svc:5000/ised-ci/dsd-italent-backend@sha256:8cad31d756e27a6e73cdcb82f687b41040dace08f9428fcd888bbd7bcc8a1fe6
+        - type: ConfigChange
+        - type: GitHub
+      replicas: 1
+      revisionHistoryLimit: 10
+      test: false
+      selector:
+        deploymentconfig: backend
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            app: backend
+            deploymentconfig: backend
+          annotations:
+            openshift.io/generated-by: OpenShiftNewApp
+        spec:
+          containers:
+            - name: backend
+              image: >-
+                image-registry.openshift-image-registry.svc:5000/ised-ci/dsd-italent-backend@sha256:8cad31d756e27a6e73cdcb82f687b41040dace08f9428fcd888bbd7bcc8a1fe6
+              ports:
+                - containerPort: 3000
+                  protocol: TCP
+              env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: aws-database
+                      key: database-url
+                - name: GEDSAPIURL
+                  valueFrom:
+                    secretKeyRef:
+                      name: geds
+                      key: uri
+                - name: GEDSAPIKEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: geds
+                      key: password
+                - name: KEYCLOAK_AUTH_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      name: keycloak
+                      key: uri
+                - name: KEYCLOAK_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      name: keycloak
+                      key: password
+                - name: REDIS_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      name: redis
+                      key: host
                 - name: REDIS_PASSWORD
                   valueFrom:
                     secretKeyRef:
-                      key: database-password
                       name: redis
-              imagePullPolicy: IfNotPresent
-              livenessProbe:
-                failureThreshold: 3
-                initialDelaySeconds: 30
-                periodSeconds: 10
-                successThreshold: 1
-                tcpSocket:
-                  port: 6379
-                timeoutSeconds: 1
-              name: redis
-              ports:
-                - containerPort: 6379
-                  protocol: TCP
-              readinessProbe:
-                exec:
-                  command:
-                    - /bin/sh
-                    - -i
-                    - -c
-                    - test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" == "PONG"
-                failureThreshold: 3
-                initialDelaySeconds: 5
-                periodSeconds: 10
-                successThreshold: 1
-                timeoutSeconds: 1
-              resources:
-                limits:
-                  memory: 512Mi
-              securityContext:
-                capabilities: {}
-                privileged: false
+                      key: database-password
+                - name: KEYCLOAK_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: keycloak
+                      key: client-backend
+                - name: COOKIE_DOMAIN
+                  valueFrom:
+                    secretKeyRef:
+                      name: cookie
+                      key: domain
+                - name: SESSION_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: cookie
+                      key: session-name
+                - name: COOKIE_PATH
+                  valueFrom:
+                    secretKeyRef:
+                      name: cookie
+                      key: path
+                - name: PORT
+                  value: "3000"
+                - name: NODE_ENV
+                  value: production
+              resources: {}
               terminationMessagePath: /dev/termination-log
               terminationMessagePolicy: File
-              volumeMounts:
-                - mountPath: /var/lib/redis/data
-                  name: redis-data
-          dnsPolicy: ClusterFirst
+              imagePullPolicy: Always
           restartPolicy: Always
-          schedulerName: default-scheduler
-          securityContext: {}
           terminationGracePeriodSeconds: 30
-          volumes:
-            - name: redis-data
-              persistentVolumeClaim:
-                claimName: redis
-      test: false
+          dnsPolicy: ClusterFirst
+          securityContext: {}
+          schedulerName: default-scheduler
+  ##############################################################################
+  # Redis
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      annotations:
+        openshift.io/backup-registry-hostname: "image-registry.openshift-image-registry.svc:5000"
+        openshift.io/backup-server-version: "1.19"
+        openshift.io/generated-by: OpenShiftNewApp
+        openshift.io/migration-registry: ""
+        openshift.io/restore-registry-hostname: "image-registry.openshift-image-registry.svc:5000"
+        openshift.io/restore-server-version: "1.20"
+        template.alpha.openshift.io/wait-for-ready: "true"
+      labels:
+        migration.openshift.io/migrated-by-migmigration: b79b04fe-03da-468a-b126-da9367e86733
+        migration.openshift.io/migrated-by-migplan: 8a49288e-869a-45ed-9ca6-2fd5f30bf50e
+        velero.io/backup-name: c974ce50-a844-11eb-bfb1-cdc75f14fb10-d5ql4
+        velero.io/restore-name: c974ce50-a844-11eb-bfb1-cdc75f14fb10-cfk55
+      name: redis
+    spec:
+      strategy:
+        type: Recreate
+        recreateParams:
+          timeoutSeconds: 600
+        resources: {}
+        activeDeadlineSeconds: 21600
       triggers:
-        - imageChangeParams:
+        - type: ImageChange
+          imageChangeParams:
             automatic: true
             containerNames:
               - redis
             from:
               kind: ImageStreamTag
-              name: redis:3.2
               namespace: openshift
-          type: ImageChange
+              name: "redis:3.2"
+            lastTriggeredImage: >-
+              image-registry.openshift-image-registry.svc:5000/openshift/redis@sha256:a9bdf52384a222635efc0284db47d12fbde8c3d0fcb66517ba8eefad1d4e9dc9
         - type: ConfigChange
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app: backend
-      name: backend
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/backend
-    spec:
-      ports:
-        - name: 3000-tcp
-          port: 3000
-          protocol: TCP
-          targetPort: 3000
-      selector:
-        deploymentconfig: backend
-      sessionAffinity: None
-      type: ClusterIP
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      labels:
-        app: frontend
-      name: frontend
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/frontend
-    spec:
-      ports:
-        - name: 8080-tcp
-          port: 8080
-          protocol: TCP
-          targetPort: 8080
-      selector:
-        deploymentconfig: frontend
-      sessionAffinity: None
-      type: ClusterIP
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      name: postgresql
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/postgresql
-    spec:
-      ports:
-        - name: postgresql
-          port: 5432
-          protocol: TCP
-          targetPort: 5432
-      selector:
-        name: postgresql
-      sessionAffinity: None
-      type: ClusterIP
-  - apiVersion: v1
-    kind: Service
-    metadata:
-      name: redis
-      namespace: ${PROJECT_NAME}
-      selfLink: /api/v1/namespaces/${PROJECT_NAME}/services/redis
-    spec:
-      ports:
-        - name: redis
-          port: 6379
-          protocol: TCP
-          targetPort: 6379
+      replicas: 1
+      revisionHistoryLimit: 10
+      test: false
       selector:
         name: redis
-      sessionAffinity: None
-      type: ClusterIP
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            name: redis
+          annotations:
+            openshift.io/generated-by: OpenShiftNewApp
+        spec:
+          volumes:
+            - name: redis-data
+              persistentVolumeClaim:
+                claimName: redis
+          containers:
+            - resources:
+                limits:
+                  memory: 512Mi
+              readinessProbe:
+                exec:
+                  command:
+                    - /bin/sh
+                    - "-i"
+                    - "-c"
+                    - >-
+                      test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" ==
+                      "PONG"
+                initialDelaySeconds: 5
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              terminationMessagePath: /dev/termination-log
+              name: redis
+              livenessProbe:
+                tcpSocket:
+                  port: 6379
+                initialDelaySeconds: 30
+                timeoutSeconds: 1
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              env:
+                - name: REDIS_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: redis
+                      key: database-password
+              securityContext:
+                capabilities: {}
+                privileged: false
+              ports:
+                - containerPort: 6379
+                  protocol: TCP
+              imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - name: redis-data
+                  mountPath: /var/lib/redis/data
+              terminationMessagePolicy: File
+              image: >-
+                image-registry.openshift-image-registry.svc:5000/openshift/redis@sha256:a9bdf52384a222635efc0284db47d12fbde8c3d0fcb66517ba8eefad1d4e9dc9
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          dnsPolicy: ClusterFirst
+          securityContext: {}
+          schedulerName: default-scheduler
+  ##############################################################################
+  # Routes for the service
   - apiVersion: route.openshift.io/v1
     kind: Route
     metadata:
@@ -594,7 +349,7 @@ objects:
       namespace: ${PROJECT_NAME}
       selfLink: /apis/route.openshift.io/v1/namespaces/${PROJECT_NAME}/routes/backend
     spec:
-      host: ${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca
+      host: ${PROJECT_URL}
       path: /api
       port:
         targetPort: 3000-tcp
@@ -612,7 +367,7 @@ objects:
       namespace: ${PROJECT_NAME}
       selfLink: /apis/route.openshift.io/v1/namespaces/${PROJECT_NAME}/routes/frontend
     spec:
-      host: ${PROJECT_NAME}.apps.dev.openshift.ised-isde.canada.ca
+      host: ${PROJECT_URL}
       port:
         targetPort: 8080-tcp
       to:
@@ -620,3 +375,14 @@ objects:
         name: frontend
         weight: 100
       wildcardPolicy: None
+
+# Parameters
+parameters:
+  - name: ENVIRONMENT
+    description: App environment.
+    required: true
+    value: prod
+  - name: ROUTING_SUFFIX
+    description: Routing suffix.  Leave default value.
+    required: true
+    value: apps.ocp.dev.ised-isde.canada.ca
