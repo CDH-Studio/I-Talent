@@ -23,14 +23,14 @@ const BugsTable = () => {
       delete values.githubIssue;
     }
 
-    await axios.put(`api/bugs/${id}`, values);
+    await axios.put(`bugs/${id}`, values);
   };
 
   const getBugs = useCallback(async () => {
     try {
       dispatch(setAdminBugsLoading(true));
 
-      const results = await axios.get(`api/bugs`);
+      const results = await axios.get(`bugs`);
 
       // Formats data from backend into viewable data for the table
       const formattedData = results.data.map((bug) => ({
