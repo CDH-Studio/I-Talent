@@ -181,10 +181,13 @@ keycloak:
     DB_ADDR: postgres
     DB_PORT: 5432
     DB_DATABASE: testdb
+    DB_SCHEMA: public
     DB_USER: api
     DB_PASSWORD: api
     KEYCLOAK_USER: administrator
     KEYCLOAK_PASSWORD: password
+  depends_on:
+    - postgres
 ```
 
 2. Update the KEYCLOAK_AUTH_SERVER_URL variable in your web.env and backend.env files to refer to http://localhost:8180/auth
