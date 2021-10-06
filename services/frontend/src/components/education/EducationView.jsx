@@ -6,86 +6,93 @@ import PropTypes from "prop-types";
 import "./EducationView.less";
 
 const EducationView = ({ educationInfo }) => {
-  const generateDescriptionBody = (text) => {
-    if (text) {
-      return (
-        <div className="education-descriptionViewText">
-          <h5 className="visually-hidden">
-            <FormattedMessage id="description" />
-          </h5>
-          <div>{text}</div>
-        </div>
-      );
-    }
-    return undefined;
-  };
+  /**
+   * Generate styled Description text
+   * @param {string} text - text to display as description
+   * @returns {HTMLElement} - HTML markup
+   */
+  const generateDescriptionBody = (text) =>
+    text && (
+      <div className="education-descriptionViewText my-2">
+        <h5 className="visually-hidden">
+          <FormattedMessage id="description" />
+        </h5>
+        {text}
+      </div>
+    );
 
-  const getUrl = (item) => {
-    if (item.attachmentLinks && item.attachmentLinks.length > 0)
-      return item.attachmentLinks.map((i) => (
-        <a href={i.url} rel="noopener noreferrer" target="_blank">
-          <Tag key={i.id} color="#727272" style={{ cursor: "pointer" }}>
-            <LinkOutlined />
-            <span>{i.name}</span>
-          </Tag>
-        </a>
-      ));
-    return undefined;
-  };
+  /**
+   * Generate the supporting document links for the developmental goals
+   * @param {object} SupportingLinks - Object describing the supporting documents
+   * @param {string} SupportingLinks.id - Unique id the document
+   * @param {string} SupportingLinks.url - URL to the document
+   * @param {string} SupportingLinks.name - Name of the document type
+   * @returns {HTMLElement} - HTML markup
+   */
+  const generateSupportingLinks = (SupportingLinks) =>
+    SupportingLinks &&
+    SupportingLinks.length > 0 &&
+    SupportingLinks.map((i) => (
+      <a href={i.url} rel="noopener noreferrer" target="_blank">
+        <Tag key={i.id} color="#727272" style={{ cursor: "pointer" }}>
+          <LinkOutlined aria-hidden="true" className="mr-1" />
+          {i.name}
+          <span className="screenReaderOnly">
+            <FormattedMessage id="opens.in.new.tab" />
+          </span>
+        </Tag>
+      </a>
+    ));
 
   if (educationInfo.length > 0) {
     return (
-      <Row>
-        <Col lg={24} xs={24}>
-          <Row>
-            <Col lg={24} xs={24}>
-              <List
-                dataSource={educationInfo}
-                itemLayout="vertical"
-                renderItem={(item) => (
-                  <List.Item
-                    className="qualification-item-list"
-                    extra={
-                      <>
-                        <h5 className="visually-hidden">Duration</h5>
-                        {item.duration}
-                      </>
-                    }
-                  >
-                    <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          className="avatar"
-                          icon={<BankOutlined />}
-                          shape="square"
-                          size="large"
-                        />
-                      }
-                      description={item.school}
-                      title={item.diploma}
-                    />
-                    <>
-                      {item.description &&
-                        generateDescriptionBody(item.description)}
+      <List
+        dataSource={educationInfo}
+        itemLayout="vertical"
+        renderItem={(educationItem) => (
+          <List.Item
+            className="education-item-list"
+            extra={
+              <>
+                <h5 className="visually-hidden">
+                  <FormattedMessage id="duration" />
+                </h5>
+                {educationItem.duration}
+              </>
+            }
+          >
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  aria-hidden="true"
+                  className="education-avatar"
+                  icon={<BankOutlined aria-hidden="true" />}
+                  shape="square"
+                  size="large"
+                />
+              }
+              description={educationItem.school}
+              title={educationItem.diploma}
+            />
+            <>
+              {educationItem.description &&
+                generateDescriptionBody(educationItem.description)}
 
-                      {item.attachmentLinks && item.attachmentLinks.length > 0 && (
-                        <Row align="middle">
-                          <Col>
-                            <h5 className="visually-hidden">
-                              <FormattedMessage id="attachment.links.education" />
-                            </h5>
-                            {getUrl(item)}
-                          </Col>
-                        </Row>
-                      )}
-                    </>
-                  </List.Item>
+              {educationItem.attachmentLinks &&
+                educationItem.attachmentLinks.length > 0 && (
+                  <Row align="middle">
+                    <Col>
+                      <h5 className="visually-hidden">
+                        <FormattedMessage id="attachment.links.education" />
+                      </h5>
+                      {generateSupportingLinks(educationItem.attachmentLinks)}
+                    </Col>
+                  </Row>
                 )}
-              />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+            </>
+          </List.Item>
+        )}
+      />
     );
   }
   return (
@@ -99,6 +106,14 @@ const EducationView = ({ educationInfo }) => {
 EducationView.propTypes = {
   educationInfo: PropTypes.arrayOf(
     PropTypes.shape({
+      attachmentLinks: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          name: PropTypes.string,
+          url: PropTypes.string,
+        })
+      ),
+      description: PropTypes.string,
       diploma: PropTypes.string,
       duration: PropTypes.string,
       school: PropTypes.string,

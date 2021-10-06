@@ -9,6 +9,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
    * @param {object} DevelopmentalGoals - Object describing the developmental goals
    * @param {string} DevelopmentalGoals.id - Unique id for dev goal
    * @param {string} DevelopmentalGoals.name - Translated name of dev goal
+   * @returns {HTMLElement} - HTML markup
    */
   const generateDevelopmentalGoals = (DevelopmentalGoals) =>
     DevelopmentalGoals &&
@@ -38,9 +39,11 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
    * Generate the supporting document links for the developmental goals
    * @param {object} SupportingLinks - Object describing the supporting documents
    * @param {string} SupportingLinks.id - Unique id the document
+   * @param {string} SupportingLinks.url - URL to the document
    * @param {object} SupportingLinks.name - Object describing of the document type
    * @param {object} SupportingLinks.name.name - Translated name of the document type
    * @param {string} SupportingLinks.name.id - Unique id the document type
+   * @returns {HTMLElement} - HTML markup
    */
   const generateSupportingLinks = (SupportingLinks) =>
     SupportingLinks &&
@@ -62,6 +65,9 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
               <Tag key={i.id} color="#727272" style={{ cursor: "pointer" }}>
                 <LinkOutlined aria-hidden="true" className="mr-1" />
                 {i.name.name}
+                <span className="screenReaderOnly">
+                  <FormattedMessage id="opens.in.new.tab" />
+                </span>
               </Tag>
             </a>
           ))}

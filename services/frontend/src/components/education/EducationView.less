@@ -1,16 +1,18 @@
-.avatar {
-  background-color: #007471;
-}
-
-.education {
-  width: 100%;
-  &-descriptionViewText {
-    white-space: pre;
-  }
-}
-
-.qualification-item-list {
+.education-item-list {
   .ant-list-item-meta-title {
     margin-bottom: 0px;
+  }
+
+  .education {
+    &-avatar {
+      background-color: @primary-color-2 !important;
+      svg {
+        color: @primary-color !important;
+      }
+    }
+
+    &-descriptionViewText {
+      white-space: pre-wrap;
+    }
   }
 }

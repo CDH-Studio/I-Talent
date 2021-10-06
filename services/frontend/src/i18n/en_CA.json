@@ -113,6 +113,7 @@
   "education": "Education",
   "education.date.present": "Presently studying",
   "education.empty": "No education provided",
+  "duration": "Duration",
   "email": "Email",
   "email.tooltip": "Your email address matches your network account and cannot be modified",
   "employee.growth.interests": "Career and talent management",
