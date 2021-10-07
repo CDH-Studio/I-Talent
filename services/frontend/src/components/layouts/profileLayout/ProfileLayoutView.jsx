@@ -105,7 +105,11 @@ const ProfileLayoutView = ({
         id="divider-skills-and-comp"
         level={2}
       >
-        <TagsTwoTone className="sectionIcon" twoToneColor="#3CBAB3" />
+        <TagsTwoTone
+          aria-hidden="true"
+          className="sectionIcon"
+          twoToneColor="#3CBAB3"
+        />
         <FormattedMessage id="skills.and.competencies" />
       </Title>
       <Col span={24}>
@@ -124,7 +128,11 @@ const ProfileLayoutView = ({
         id="divider-qualifications"
         level={2}
       >
-        <TrophyOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
+        <TrophyOutlined
+          aria-hidden="true"
+          className="sectionIcon"
+          twoToneColor="#3CBAB3"
+        />
         <FormattedMessage id="employee.qualifications" />
       </Title>
       <Col span={24}>
@@ -140,7 +148,11 @@ const ProfileLayoutView = ({
         id="divider-employee-growth"
         level={2}
       >
-        <RiseOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
+        <RiseOutlined
+          aria-hidden="true"
+          className="sectionIcon"
+          twoToneColor="#3CBAB3"
+        />
         <FormattedMessage id="employee.growth.interests" />
       </Title>
       <Col span={24}>
@@ -167,7 +179,11 @@ const ProfileLayoutView = ({
             id="divider-privateGroup"
             level={2}
           >
-            <TeamOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
+            <TeamOutlined
+              aria-hidden="true"
+              className="sectionIcon"
+              twoToneColor="#3CBAB3"
+            />
             <FormattedMessage id="connections" />
           </Title>
           <Col className="hide-for-print" span={24}>
