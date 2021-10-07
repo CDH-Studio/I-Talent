@@ -1,13 +1,13 @@
 import { FormattedMessage } from "react-intl";
 import { BankOutlined, LinkOutlined } from "@ant-design/icons";
-import { Avatar, Col, Empty, List, Row, Tag } from "antd";
+import { Avatar, Empty, List, Tag } from "antd";
 import PropTypes from "prop-types";
 
 import "./EducationView.less";
 
 const EducationView = ({ educationInfo }) => {
   /**
-   * Generate styled Description text
+   * Generate styled description text
    * @param {string} text - text to display as description
    * @returns {HTMLElement} - HTML markup
    */
@@ -31,20 +31,26 @@ const EducationView = ({ educationInfo }) => {
    */
   const generateSupportingLinks = (SupportingLinks) =>
     SupportingLinks &&
-    SupportingLinks.length > 0 &&
-    SupportingLinks.map((i) => (
-      <a href={i.url} rel="noopener noreferrer" target="_blank">
-        <Tag key={i.id} color="#727272" style={{ cursor: "pointer" }}>
-          <LinkOutlined aria-hidden="true" className="mr-1" />
-          {i.name}
-          <span className="screenReaderOnly">
-            <FormattedMessage id="opens.in.new.tab" />
-          </span>
-        </Tag>
-      </a>
-    ));
+    SupportingLinks.length > 0 && (
+      <>
+        <h5 className="visually-hidden">
+          <FormattedMessage id="attachment.links.education" />
+        </h5>
+        {SupportingLinks.map((link) => (
+          <a href={link.url} rel="noopener noreferrer" target="_blank">
+            <Tag key={link.id} color="#727272" style={{ cursor: "pointer" }}>
+              <LinkOutlined aria-hidden="true" className="mr-1" />
+              {link.name}
+              <span className="screenReaderOnly">
+                <FormattedMessage id="opens.in.new.tab" />
+              </span>
+            </Tag>
+          </a>
+        ))}
+      </>
+    );
 
-  if (educationInfo.length > 0) {
+  if (educationInfo && educationInfo.length > 0) {
     return (
       <List
         dataSource={educationInfo}
@@ -74,22 +80,11 @@ const EducationView = ({ educationInfo }) => {
               description={educationItem.school}
               title={educationItem.diploma}
             />
-            <>
-              {educationItem.description &&
-                generateDescriptionBody(educationItem.description)}
+            {educationItem.description &&
+              generateDescriptionBody(educationItem.description)}
 
-              {educationItem.attachmentLinks &&
-                educationItem.attachmentLinks.length > 0 && (
-                  <Row align="middle">
-                    <Col>
-                      <h5 className="visually-hidden">
-                        <FormattedMessage id="attachment.links.education" />
-                      </h5>
-                      {generateSupportingLinks(educationItem.attachmentLinks)}
-                    </Col>
-                  </Row>
-                )}
-            </>
+            {educationItem.attachmentLinks &&
+              generateSupportingLinks(educationItem.attachmentLinks)}
           </List.Item>
         )}
       />

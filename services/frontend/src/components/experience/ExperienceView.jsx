@@ -1,101 +1,134 @@
-import { Fragment } from "react";
 import { FormattedMessage } from "react-intl";
-import { ContainerOutlined, LinkOutlined } from "@ant-design/icons";
-import { Avatar, Col, Empty, List, Row, Tag } from "antd";
+import {
+  ContainerOutlined,
+  FileDoneOutlined,
+  LinkOutlined,
+} from "@ant-design/icons";
+import { Avatar, Empty, List, Tag } from "antd";
 import PropTypes from "prop-types";
 
 import "./ExperienceView.less";
 
 const ExperienceView = ({ experienceInfo }) => {
-  const generateDescriptionBody = (text) => {
-    if (text) {
-      const lineStrings = text.split(" ").join("\u00A0").split("\n");
-      return (
-        <div className="bodyStyle">
-          {lineStrings.map((line, index) => (
-            <Fragment key={line}>
-              {index > 0 ? <br /> : null} {line}
-            </Fragment>
-          ))}
-        </div>
-      );
-    }
-    return undefined;
-  };
-  const getUrl = (item) => {
-    if (item.attachmentLinks && item.attachmentLinks.length > 0)
-      return item.attachmentLinks.map((i) => (
-        <a href={i.url} rel="noopener noreferrer" target="_blank">
-          <Tag key={i.id} color="#727272" style={{ cursor: "pointer" }}>
-            <LinkOutlined />
-            <span>{i.name}</span>
-          </Tag>
-        </a>
-      ));
-    return undefined;
-  };
+  /**
+   * Generate styled description text
+   * @param {string} text - text to display as description
+   * @returns {HTMLElement} - HTML markup
+   */
+  const generateDescriptionBody = (text) =>
+    text && (
+      <div className="education-descriptionViewText my-2">
+        <h5 className="visually-hidden">
+          <FormattedMessage id="description" />
+        </h5>
+        {text}
+      </div>
+    );
 
-  const getProjects = (item) => {
-    if (item.projects && item.projects.length > 0)
-      return item.projects.map((i) => (
-        <Tag key={i} color="#727272">
-          <span>{i}</span>
-        </Tag>
-      ));
-    return undefined;
-  };
-
-  if (experienceInfo.length > 0) {
-    return (
-      <Row>
-        <Col lg={24} xs={24}>
-          <List
-            dataSource={experienceInfo}
-            itemLayout="vertical"
-            renderItem={(item) => (
-              <List.Item className="experience-item-list" extra={item.duration}>
-                <List.Item.Meta
-                  avatar={
-                    <Avatar
-                      className="avatar"
-                      icon={<ContainerOutlined />}
-                      shape="square"
-                      size="large"
-                    />
-                  }
-                  description={
-                    <>
-                      <Row>
-                        <Col>{generateDescriptionBody(item.description)}</Col>
-                      </Row>
-
-                      {item.projects && item.projects.length > 0 && (
-                        <Row align="middle">
-                          <Col>
-                            <FormattedMessage id="projects" />:
-                          </Col>
-                          <Col>{getProjects(item)}</Col>
-                        </Row>
-                      )}
-
-                      {item.attachmentLinks && item.attachmentLinks.length > 0 && (
-                        <Row align="middle">
-                          <Col>
-                            <FormattedMessage id="attachment.links.employment" />
-                            :
-                          </Col>
-                          <Col>{getUrl(item)}</Col>
-                        </Row>
-                      )}
-                    </>
-                  }
-                  title={`${item.jobTitle} - (${item.organization})`}
-                />
-              </List.Item>
-            )}
+  /**
+   * Generate the supporting document links for the developmental goals
+   * @param {object} SupportingLinks - Object describing the supporting documents
+   * @param {string} SupportingLinks.id - Unique id the document
+   * @param {string} SupportingLinks.url - URL to the document
+   * @param {string} SupportingLinks.name - Name of the document type
+   * @returns {HTMLElement} - HTML markup
+   */
+  const generateSupportingLinks = (SupportingLinks) =>
+    SupportingLinks &&
+    SupportingLinks.length && (
+      <>
+        <div className="d-block">
+          <LinkOutlined
+            aria-hidden="true"
+            className="mr-1 d-inline"
+            style={{ color: "#3CBAB3" }}
           />
-        </Col>
-      </Row>
+          <h5 className="mt-1 d-inline">
+            <FormattedMessage id="attachment.links.employment" />
+          </h5>
+        </div>
+        {SupportingLinks.map((link) => (
+          <a href={link.url} rel="noopener noreferrer" target="_blank">
+            <Tag key={link.id} color="#727272" style={{ cursor: "pointer" }}>
+              <LinkOutlined aria-hidden="true" className="mr-1" />
+              {link.name}
+              <span className="screenReaderOnly">
+                <FormattedMessage id="opens.in.new.tab" />
+              </span>
+            </Tag>
+          </a>
+        ))}
+      </>
+    );
+
+  /**
+   * Generate the list of projects
+   * @param {Array.<string>} projects - list of project names
+   * @returns {HTMLElement} - HTML markup
+   */
+  const generateProjectsList = (projects) =>
+    projects &&
+    projects.length > 0 && (
+      <div className="mb-1">
+        <div className="d-block">
+          <FileDoneOutlined
+            aria-hidden="true"
+            className="mr-1 d-inline"
+            style={{ color: "#3CBAB3" }}
+          />
+          <h5 className="mt-1 d-inline">
+            <FormattedMessage id="projects" />
+          </h5>
+        </div>
+        {projects.map((i) => (
+          <Tag key={i} color="#727272">
+            <FileDoneOutlined aria-hidden="true" className="mr-1" />
+            {i}
+          </Tag>
+        ))}
+      </div>
+    );
+
+  if (experienceInfo && experienceInfo.length > 0) {
+    return (
+      <List
+        dataSource={experienceInfo}
+        itemLayout="vertical"
+        renderItem={(item) => (
+          <List.Item
+            className="experience-item-list"
+            extra={
+              <>
+                <h5 className="visually-hidden">
+                  <FormattedMessage id="duration" />
+                </h5>
+                {item.duration}
+              </>
+            }
+          >
+            <List.Item.Meta
+              avatar={
+                <Avatar
+                  aria-hidden="true"
+                  className="experience-avatar"
+                  icon={<ContainerOutlined aria-hidden="true" />}
+                  shape="square"
+                  size="large"
+                />
+              }
+              description={item.organization}
+              title={item.jobTitle}
+            />
+
+            {item.description && generateDescriptionBody(item.description)}
+
+            {item.projects && generateProjectsList(item.projects)}
+
+            {item.attachmentLinks &&
+              generateSupportingLinks(item.attachmentLinks)}
+          </List.Item>
+        )}
+      />
     );
   }
   return (
@@ -109,11 +142,18 @@ const ExperienceView = ({ experienceInfo }) => {
 ExperienceView.propTypes = {
   experienceInfo: PropTypes.arrayOf(
     PropTypes.shape({
+      attachmentLinks: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          name: PropTypes.string,
+          url: PropTypes.string,
+        })
+      ),
       description: PropTypes.string,
       duration: PropTypes.string,
-      icon: PropTypes.string,
       jobTitle: PropTypes.string,
       organization: PropTypes.string,
+      projects: PropTypes.arrayOf(PropTypes.string),
     })
   ).isRequired,
 };

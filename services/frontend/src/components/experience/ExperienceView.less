@@ -1,10 +1,22 @@
-.avatar {
-  background-color: #007471;
-}
+.experience-item-list {
+  h5 {
+    font-size: 0.8rem;
+  }
 
-.bodyStyle {
-  white-space: pre-wrap;
-  overflow: auto;
-  max-height: 400px;
-  word-break: break-all;
+  .ant-list-item-meta-title {
+    margin-bottom: 0px;
+  }
+
+  .experience {
+    &-avatar {
+      background-color: @primary-color-2 !important;
+      svg {
+        color: @primary-color !important;
+      }
+    }
+
+    &-descriptionViewText {
+      white-space: pre-wrap;
+    }
+  }
 }
