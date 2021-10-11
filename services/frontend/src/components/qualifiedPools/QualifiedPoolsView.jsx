@@ -1,11 +1,11 @@
 import { FormattedMessage } from "react-intl";
-import { LinkOutlined } from "@ant-design/icons";
-import { Descriptions, Empty, List, Typography } from "antd";
+import { LinkOutlined, ScheduleOutlined } from "@ant-design/icons";
+import { Col, Empty, List, Row, Tag, Typography } from "antd";
 import PropTypes from "prop-types";
 
 import "./QualifiedPoolsView.less";
 
-const { Link, Text } = Typography;
+const { Link, Title } = Typography;
 
 const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
   if (qualifiedPoolsInfo.length === 0) {
@@ -20,34 +20,52 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
     <List
       dataSource={qualifiedPoolsInfo}
       itemLayout="horizontal"
-      renderItem={(item) => (
+      renderItem={(item, index) => (
         <List.Item>
-          <Descriptions column={{ sm: 2, xs: 1, xxl: 3 }} size="small">
-            <Descriptions.Item
-              label={
-                <Text strong>
-                  <FormattedMessage id="classification" />
-                </Text>
-              }
-            >
+          <Row style={{ width: "100%" }}>
+            <Col span={24}>
+              <Title className="d-block" level={4}>
+                <ScheduleOutlined aria-hidden="true" className="mr-1" />
+                <FormattedMessage id="qualified.pools" /> {index + 1}:
+              </Title>
+            </Col>
+            <Col span={6}>
+              <Title level={5}>
+                <FormattedMessage id="classification" />
+              </Title>
               {item.classification}
-            </Descriptions.Item>
-            <Descriptions.Item
-              label={
-                <Text strong>
-                  <FormattedMessage id="job.title.department" />
-                </Text>
-              }
-            >
+            </Col>
+            <Col span={6}>
+              <Title level={5}>
+                <FormattedMessage id="job.title.department" />
+              </Title>
               {item.jobTitle}
-            </Descriptions.Item>
-            <Descriptions.Item className="qualificationPools-Link">
-              <Link href={item.jobPosterLink} target="_blank">
-                <LinkOutlined />
+            </Col>
+
+            {item.selectionProcessNumber && (
+              <Col span={6}>
+                <Title level={5}>
+                  <FormattedMessage id="classification" />
+                </Title>
                 {item.selectionProcessNumber}
+              </Col>
+            )}
+
+            <Col span={6}>
+              <Title level={5}>
+                <FormattedMessage id="qualified.pools.job.poster.link" />
+              </Title>
+              <Link href={item.jobPosterLink} target="_blank">
+                <Tag color="#727272" style={{ cursor: "pointer" }}>
+                  <LinkOutlined aria-hidden="true" className="mr-1" />
+                  Job poster
+                  <span className="screenReaderOnly">
+                    <FormattedMessage id="opens.in.new.tab" />
+                  </span>
+                </Tag>
               </Link>
-            </Descriptions.Item>
-          </Descriptions>
+            </Col>
+          </Row>
         </List.Item>
       )}
       size="small"
