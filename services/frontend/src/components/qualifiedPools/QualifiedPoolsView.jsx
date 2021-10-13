@@ -62,8 +62,8 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
                   color="#727272"
                   style={{ cursor: "pointer" }}
                 >
-                  <LinkOutlined aria-hidden="true" className="mx-1" />
-                  Job poster
+                  <LinkOutlined aria-hidden="true" className="mr-1" />
+                  <FormattedMessage id="job.poster" />
                   <span className="screenReaderOnly">
                     <FormattedMessage id="opens.in.new.tab" />
                   </span>
