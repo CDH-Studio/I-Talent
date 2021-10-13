@@ -89,22 +89,24 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
   const generateSecondLanguageInfo = (dataSource) => {
     const formattedLanguageInfo = [];
 
-    dataSource.secondLangProfs.forEach((item) => {
-      const formattedLangProficiencyItem = {};
-
-      formattedLangProficiencyItem.title = generateSecondLangProficiencyTitle(
-        item.proficiency
-      );
-      formattedLangProficiencyItem.level = generateSecondLangProficiencyLevel(
-        item.level
-      );
-      formattedLangProficiencyItem.status = generateSecondLangProficiencyStatus(
-        item.status
-      );
-
-      formattedLanguageInfo.push(formattedLangProficiencyItem);
-    });
-
+    if (dataSource.secondLangProfs) {
+      dataSource.secondLangProfs.forEach((item) => {
+        const formattedLangProficiencyItem = {};
+  
+        formattedLangProficiencyItem.title = generateSecondLangProficiencyTitle(
+          item.proficiency
+        );
+        formattedLangProficiencyItem.level = generateSecondLangProficiencyLevel(
+          item.level
+        );
+        formattedLangProficiencyItem.status = generateSecondLangProficiencyStatus(
+          item.status
+        );
+  
+        formattedLanguageInfo.push(formattedLangProficiencyItem);
+      });
+    }
+    
     return formattedLanguageInfo;
   };
 
