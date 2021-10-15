@@ -74,9 +74,13 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
 
   return (
     <>
-      {generateFirstLanguage(firstLanguageInfo)}
-      <Divider className="my-3" />
-      {generateSecondLanguageData(secondLanguageInfo)}
+      {generateFirstLanguage && generateFirstLanguage(firstLanguageInfo)}
+      {secondLanguageInfo && secondLanguageInfo.length > 0 && (
+        <>
+          <Divider className="my-2" />
+          {generateSecondLanguageData(secondLanguageInfo)}
+        </>
+      )}
     </>
   );
 };

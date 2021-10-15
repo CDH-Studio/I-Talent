@@ -15,7 +15,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
    * @return {Array.<{description: String, title: String}>} - array of first language results
    */
   const getFirstLanguageInfo = (dataSource) => {
-    let description = "-";
+    let description = <FormattedMessage id="not.provided" />;
 
     if (dataSource.firstLanguage === "ENGLISH") {
       description = <FormattedMessage id="language.english" />;
@@ -82,7 +82,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
 
   /**
    * Generate Second Official Language info array
-   * @param {Object[]} dataSource - object describing the userprofile
+   * @param {Object[]} dataSource - object describing the user profile
    * @param {string} dataSource[].firstLanguage - user's first official language
    * @returns {Array.<{title: string, level: string, status: string}>} - array of second language results
    */
