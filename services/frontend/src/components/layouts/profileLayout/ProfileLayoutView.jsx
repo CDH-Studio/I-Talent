@@ -28,8 +28,8 @@ import Competencies from "../../competenciesCard/Competencies";
 import Connections from "../../connections/Connections";
 import DescriptionCard from "../../descriptionCard/DescriptionCard";
 import Education from "../../education/Education";
-import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
+import EmploymentStatus from "../../employmentStatus/EmploymentStatus";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import ExFeeder from "../../exFeeder/ExFeeder";
 import Experience from "../../experience/Experience";
@@ -84,7 +84,7 @@ const ProfileLayoutView = ({
       <Col xl={10} xs={24}>
         <Row gutter={[0, 15]}>
           <Col span={24}>
-            <EmployeeSummary data={data} editableCardBool={isUsersProfile} />
+            <EmploymentStatus data={data} editableCardBool={isUsersProfile} />
           </Col>
           <Col span={24}>
             <EmploymentEquity data={data} editableCardBool={isUsersProfile} />
