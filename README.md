@@ -189,7 +189,7 @@ keycloak:
 ```
 
 2. Obtain your ip address. You can view it by running `ipconfig` in your command prompt.
-3. Update the `KEYCLOAK_AUTH_SERVER_URL` variable in your _web.env_ and _backend.env_ files to **http://[YOUR IP ADDRESS]:8180/auth**
+3. Update the `REACT_APP_KEYCLOAK_SERVER_URL` variable in your _web.env_ file and the `KEYCLOAK_AUTH_SERVER_URL` variable _backend.env_ file to **http://[YOUR IP ADDRESS]:8180/auth**
 
 The credentials for the users when using the local keycloak are specified in the [realm-export.json](./keycloak/realm-export.json) file
 
