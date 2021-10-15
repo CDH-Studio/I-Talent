@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import CareerInterestsView from "./CareerInterestsView";
+import JobMobilityCardView from "./JobMobilityCardView";
 
-const CareerInterests = ({ data, editableCardBool }) => {
+const JobMobilityCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
@@ -18,7 +18,7 @@ const CareerInterests = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "career.interests" })}
       visibility={data.visibleCards.careerInterests}
     >
-      <CareerInterestsView
+      <JobMobilityCardView
         interestedInRemote={data.interestedInRemote}
         lookingJob={data.lookingJob}
         relocationLocations={data.relocationLocations}
@@ -27,14 +27,14 @@ const CareerInterests = ({ data, editableCardBool }) => {
   );
 };
 
-CareerInterests.propTypes = {
+JobMobilityCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-CareerInterests.defaultProps = {
+JobMobilityCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default CareerInterests;
+export default JobMobilityCard;

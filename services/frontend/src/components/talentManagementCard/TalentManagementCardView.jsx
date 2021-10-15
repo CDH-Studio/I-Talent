@@ -1,13 +1,12 @@
 import { FormattedMessage } from "react-intl";
 import { List, Typography } from "antd";
+import PropTypes from "prop-types";
 
-import { ProfileInfoPropType } from "../../utils/customPropTypes";
-
-import "./TalentManagementView.less";
+import "./TalentManagementCardView.less";
 
 const { Title, Text } = Typography;
 
-const TalentManagementView = ({ careerMobility, talentMatrixResult }) => {
+const TalentManagementCardView = ({ careerMobility, talentMatrixResult }) => {
   /**
    * Generate talent management results
    * @returns {Array<{description: string, title: string}>} - Array of objects
@@ -50,14 +49,20 @@ const TalentManagementView = ({ careerMobility, talentMatrixResult }) => {
   );
 };
 
-TalentManagementView.propTypes = {
-  careerMobility: ProfileInfoPropType,
-  talentMatrixResult: ProfileInfoPropType,
+TalentManagementCardView.propTypes = {
+  careerMobility: PropTypes.shape({
+    description: PropTypes.string,
+    id: PropTypes.string,
+  }),
+  talentMatrixResult: PropTypes.shape({
+    description: PropTypes.string,
+    id: PropTypes.string,
+  }),
 };
 
-TalentManagementView.defaultProps = {
+TalentManagementCardView.defaultProps = {
   careerMobility: null,
   talentMatrixResult: null,
 };
 
-export default TalentManagementView;
+export default TalentManagementCardView;

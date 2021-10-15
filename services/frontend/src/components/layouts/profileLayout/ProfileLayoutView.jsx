@@ -24,7 +24,6 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import AboutMeCard from "../../aboutMeCard/AboutMeCard";
 import BasicInfo from "../../basicInfo/BasicInfo";
-import CareerInterests from "../../careerInterests/CareerInterests";
 import Competencies from "../../competenciesCard/Competencies";
 import Connections from "../../connections/Connections";
 import Education from "../../education/Education";
@@ -34,13 +33,14 @@ import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import ExFeeder from "../../exFeeder/ExFeeder";
 import Experience from "../../experience/Experience";
 import Header from "../../header/Header";
+import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
 import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
 import Mentorship from "../../mentorshipCard/Mentorship";
 import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 import QualifiedPools from "../../qualifiedPools/QualifiedPools";
 import Skills from "../../skillsCard/Skills";
-import TalentManagement from "../../talentManagement/TalentManagement";
+import TalentManagementCard from "../../talentManagementCard/TalentManagementCard";
 import AppLayout from "../appLayout/AppLayout";
 
 import "./ProfileLayoutView.less";
@@ -162,10 +162,10 @@ const ProfileLayoutView = ({
         <QualifiedPools data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col xl={12} xs={24}>
-        <TalentManagement data={data} editableCardBool={isUsersProfile} />
+        <TalentManagementCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col xl={12} xs={24}>
-        <CareerInterests data={data} editableCardBool={isUsersProfile} />
+        <JobMobilityCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
         <ExFeeder data={data} editableCardBool={isUsersProfile} />

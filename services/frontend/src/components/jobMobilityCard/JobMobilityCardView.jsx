@@ -2,7 +2,7 @@ import { FormattedMessage } from "react-intl";
 import { Col, List, Row, Tag } from "antd";
 import PropTypes from "prop-types";
 
-const CareerInterestsView = ({
+const JobMobilityCardView = ({
   interestedInRemote,
   lookingJob,
   relocationLocations,
@@ -66,7 +66,7 @@ const CareerInterestsView = ({
   );
 };
 
-CareerInterestsView.propTypes = {
+JobMobilityCardView.propTypes = {
   interestedInRemote: PropTypes.bool,
   lookingJob: PropTypes.shape({
     description: PropTypes.string,
@@ -80,10 +80,10 @@ CareerInterestsView.propTypes = {
   ),
 };
 
-CareerInterestsView.defaultProps = {
+JobMobilityCardView.defaultProps = {
   interestedInRemote: undefined,
   lookingJob: undefined,
   relocationLocations: [],
 };
 
-export default CareerInterestsView;
+export default JobMobilityCardView;
