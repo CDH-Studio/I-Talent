@@ -34,9 +34,11 @@ const EmploymentStatusView = ({ data }) => {
       title: <FormattedMessage id="acting" />,
     },
     {
-      description: data.securityClearance
-        ? data.securityClearance.description
-        : "-",
+      description: data.securityClearance ? (
+        data.securityClearance.description
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       title: <FormattedMessage id="profile.security" />,
     },
   ];

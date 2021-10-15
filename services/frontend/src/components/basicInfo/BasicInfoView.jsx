@@ -135,20 +135,28 @@ const BasicInfoView = ({
           {data.email}
         </Text>
       ) : (
-        "-"
+        <FormattedMessage id="not.provided" />
       ),
       icon: <MailOutlined />,
       title: <FormattedMessage id="email" />,
     };
 
     const tel = {
-      description: data.telephone ? data.telephone : "-",
+      description: data.telephone ? (
+        data.telephone
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <PhoneOutlined />,
       title: <FormattedMessage id="profile.telephone" />,
     };
 
     const cel = {
-      description: data.cellphone ? data.cellphone : "-",
+      description: data.cellphone ? (
+        data.cellphone
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <MobileOutlined />,
       title: <FormattedMessage id="work.cellphone" />,
     };
@@ -197,15 +205,21 @@ const BasicInfoView = ({
 
     const location = data.officeLocation;
     const address = {
-      description: location
-        ? `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
-        : "-",
+      description: location ? (
+        `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <EnvironmentOutlined />,
       title: <FormattedMessage id="working.address" />,
     };
 
     const manager = {
-      description: data.manager ? data.manager : "-",
+      description: data.manager ? (
+        data.manager
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <UserOutlined />,
       title: <FormattedMessage id="employee.manager" />,
     };
@@ -229,7 +243,7 @@ const BasicInfoView = ({
             ))}
           </List>
         ) : (
-          "-"
+          <FormattedMessage id="not.provided" />
         ),
       icon: <TeamOutlined />,
       title: <FormattedMessage id="employee.work.unit" />,
