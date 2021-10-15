@@ -2,11 +2,14 @@ import { FormattedMessage } from "react-intl";
 import { Divider, List, Typography } from "antd";
 import PropTypes from "prop-types";
 
-import "./OfficialLanguageView.less";
+import "./OfficialLanguageCardView.less";
 
 const { Title, Text } = Typography;
 
-const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
+const OfficialLanguageCardView = ({
+  firstLanguageInfo,
+  secondLanguageInfo,
+}) => {
   /**
    * Generate First Official Language info list
    * @param {Object[]} langInfo - object describing the language category
@@ -69,13 +72,11 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   );
 };
 
-OfficialLanguageView.propTypes = {
-  firstLanguageInfo: PropTypes.arrayOf(
-    PropTypes.shape({
-      description: PropTypes.node,
-      title: PropTypes.node,
-    })
-  ).isRequired,
+OfficialLanguageCardView.propTypes = {
+  firstLanguageInfo: PropTypes.shape({
+    description: PropTypes.node,
+    title: PropTypes.node,
+  }).isRequired,
   secondLanguageInfo: PropTypes.arrayOf(
     PropTypes.shape({
       level: PropTypes.string,
@@ -85,4 +86,4 @@ OfficialLanguageView.propTypes = {
   ).isRequired,
 };
 
-export default OfficialLanguageView;
+export default OfficialLanguageCardView;

@@ -36,7 +36,7 @@ import Header from "../../header/Header";
 import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
 import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
 import Mentorship from "../../mentorshipCard/Mentorship";
-import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
+import OfficialLanguageCard from "../../officialLanguageCard/OfficialLanguageCard";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 import QualifiedPools from "../../qualifiedPools/QualifiedPools";
 import Skills from "../../skillsCard/Skills";
@@ -96,7 +96,7 @@ const ProfileLayoutView = ({
         <AboutMeCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <OfficialLanguage data={data} editableCardBool={isUsersProfile} />
+        <OfficialLanguageCard data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Skills and competencies *********** */}

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import OfficialLanguageView from "./OfficialLanguageView";
+import OfficialLanguageCardView from "./OfficialLanguageCardView";
 
-const OfficialLanguage = ({ data, editableCardBool }) => {
+const OfficialLanguageCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   /**
@@ -118,7 +118,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "official.languages" })}
       visibility={data.visibleCards.officialLanguage}
     >
-      <OfficialLanguageView
+      <OfficialLanguageCardView
         firstLanguageInfo={getFirstLanguageInfo(data)}
         secondLanguageInfo={generateSecondLanguageInfo(data)}
       />
@@ -126,14 +126,14 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
   );
 };
 
-OfficialLanguage.propTypes = {
+OfficialLanguageCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-OfficialLanguage.defaultProps = {
+OfficialLanguageCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default OfficialLanguage;
+export default OfficialLanguageCard;
