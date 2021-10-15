@@ -34,12 +34,12 @@ const ProfileActionRibbonView = ({
   const changeConnection = async () => {
     if (isConnection) {
       await axios
-        .delete(`api/connections/${userId}`)
+        .delete(`connections/${userId}`)
         .catch((error) => handleError(error, "message", history));
       setIsConnection(false);
     } else {
       await axios
-        .post(`api/connections/${userId}`)
+        .post(`connections/${userId}`)
         .catch((error) => handleError(error, "message", history));
       setIsConnection(true);
     }
