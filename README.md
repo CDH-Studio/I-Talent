@@ -163,27 +163,33 @@ Visit backend [README](services/backend/README.md) and the frontend [README](ser
 
 Keycloak is the SSO service that the app utilizes to authenticate users. Therefore, an Internet connection is required to run the application unless you setup keycloak locally with the steps described here:
 
-1. Add the network_mode to the backend container to "host" (in docker-compose.yml)
-2. And add the following docker-compose service
+1. Add the following keycloak service under `services:` in the _docker-compose.yml_ file:
 
 ```yml
 keycloak:
   container_name: "italent-keycloak"
   image: "jboss/keycloak"
   ports:
-    - "8180:8180"
+    - 8180:8180
   volumes:
     - ./keycloak:/opt/jboss/keycloak/keycloak
   hostname: keycloak
   command:
     - "-Dkeycloak.import=/opt/jboss/keycloak/keycloak/realm-export.json -Djboss.http.port=8180"
   environment:
+    DB_VENDOR: postgres
+    DB_ADDR: postgres
+    DB_PORT: 5432
+    DB_DATABASE: testdb
+    DB_SCHEMA: public
+    DB_USER: api
+    DB_PASSWORD: api
     KEYCLOAK_USER: administrator
     KEYCLOAK_PASSWORD: password
 ```
 
-3. You'll need to make everything linking a container in the backend to refer localhost instead (i.e. redis and postgres)
-4. You'll also need to update the keycloak environment variables in the frontend and in the backend to refer to http://localhost:8180/auth
+2. Obtain your ip address. You can view it by running `ipconfig` in your command prompt (windows).
+3. Update the `REACT_APP_KEYCLOAK_SERVER_URL` variable in your _web.env_ file and the `KEYCLOAK_AUTH_SERVER_URL` variable in your _backend.env_ file to **http://[YOUR IP ADDRESS]:8180/auth**
 
 The credentials for the users when using the local keycloak are specified in the [realm-export.json](./keycloak/realm-export.json) file
 

@@ -61,7 +61,8 @@
       "enabled": true,
       "redirectUris": ["*"],
       "webOrigins": ["*"],
-      "publicClient": true
+      "publicClient": true,
+      "implicitFlowEnabled": true
     }
   ],
   "scopeMappings": [
