@@ -1,5 +1,5 @@
 import { FormattedMessage } from "react-intl";
-import { Col, List, Row, Typography } from "antd";
+import { List, Typography } from "antd";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
@@ -35,25 +35,18 @@ const TalentManagementView = ({ careerMobility, talentMatrixResult }) => {
   };
 
   return (
-    <Row>
-      <Col lg={24} xs={24}>
-        <List
-          dataSource={generateTalentManagementResults()}
-          renderItem={(item) => (
-            <List.Item className="px-0 talent-management-list-item">
-              <Title
-                className="d-block talent-management-title mb-0 "
-                level={4}
-              >
-                {item.title}
-              </Title>
-              <Text type="secondary">{item.description}</Text>
-            </List.Item>
-          )}
-          size="small"
-        />
-      </Col>
-    </Row>
+    <List
+      dataSource={generateTalentManagementResults()}
+      renderItem={(item) => (
+        <List.Item className="px-0 talent-management-list-item">
+          <Title className="d-block talent-management-title mb-0 " level={4}>
+            {item.title}
+          </Title>
+          <Text type="secondary">{item.description}</Text>
+        </List.Item>
+      )}
+      size="small"
+    />
   );
 };
 
