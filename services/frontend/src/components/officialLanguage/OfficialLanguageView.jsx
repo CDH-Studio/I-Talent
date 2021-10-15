@@ -49,7 +49,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
         dataSource={langInfo}
         grid={{ column: langInfo.length }}
         renderItem={(item) => (
-          <List.Item>
+          <List.Item className="mb-1">
             <List.Item.Meta
               description={
                 <>
@@ -61,7 +61,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
                       {item.level} ({item.status})
                     </>
                   ) : (
-                    "-"
+                    <FormattedMessage id="not.provided" />
                   )}
                 </>
               }
