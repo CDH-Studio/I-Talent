@@ -4,15 +4,13 @@ import PropTypes from "prop-types";
 
 import "./OfficialLanguageView.less";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
   /**
    * Generate First Official Language info list
    * @param {Object[]} langInfo - object describing the language category
-   * @param {string} langInfo[].level - level of lang proficiency
-   * @param {string} langInfo[].status - status of lang proficiency
-   * @param {string} langInfo[].title - translated title of language category
+   * @param {string} langInfo[].description - the saved language
    * @returns {HTMLElement} - HTML markup for second lang list
    */
   const generateFirstLanguage = (langInfo) => (
@@ -20,15 +18,7 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
       <Title className="language-categories-title m-0" level={4}>
         <FormattedMessage id="first.official.language" />
       </Title>
-      <List
-        dataSource={langInfo}
-        itemLayout="horizontal"
-        renderItem={(item) => (
-          <List.Item className="p-0">
-            <List.Item.Meta description={item.description} />
-          </List.Item>
-        )}
-      />
+      <Text type="secondary">{langInfo.description}</Text>
     </>
   );
 
@@ -50,22 +40,16 @@ const OfficialLanguageView = ({ firstLanguageInfo, secondLanguageInfo }) => {
         grid={{ column: langInfo.length }}
         renderItem={(item) => (
           <List.Item className="mb-1">
-            <List.Item.Meta
-              description={
-                <>
-                  <Title className="language-categories-title mb-0" level={5}>
-                    {item.title}
-                  </Title>
-                  {item.level ? (
-                    <>
-                      {item.level} ({item.status})
-                    </>
-                  ) : (
-                    <FormattedMessage id="not.provided" />
-                  )}
-                </>
-              }
-            />
+            <Title className="language-categories-title mb-0" level={5}>
+              {item.title}
+            </Title>
+            {item.level ? (
+              <Text type="secondary">
+                {item.level} ({item.status})
+              </Text>
+            ) : (
+              <FormattedMessage id="not.provided" />
+            )}
           </List.Item>
         )}
       />

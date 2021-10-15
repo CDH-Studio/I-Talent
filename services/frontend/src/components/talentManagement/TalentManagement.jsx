@@ -18,7 +18,10 @@ const TalentManagement = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "talent.management" })}
       visibility={data.visibleCards.talentManagement}
     >
-      <TalentManagementView data={data} />
+      <TalentManagementView
+        careerMobility={data.careerMobility}
+        talentMatrixResult={data.talentMatrixResult}
+      />
     </ProfileCards>
   );
 };

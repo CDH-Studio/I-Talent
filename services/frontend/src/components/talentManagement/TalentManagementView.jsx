@@ -1,39 +1,56 @@
 import { FormattedMessage } from "react-intl";
-import { Col, List, Row } from "antd";
+import { Col, List, Row, Typography } from "antd";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const TalentManagementView = ({ data }) => {
-  const getTalentManagementDatasource = () => {
-    const careerMobility = {
-      description: data.careerMobility ? data.careerMobility.description : "-",
+import "./TalentManagementView.less";
+
+const { Title, Text } = Typography;
+
+const TalentManagementView = ({ careerMobility, talentMatrixResult }) => {
+  /**
+   * Generate talent management results
+   * @returns {Array<{description: string, title: string}>} - Array of objects
+   */
+  const generateTalentManagementResults = () => {
+    const careerMobilityObject = {
+      description: careerMobility ? (
+        careerMobility.description
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       title: <FormattedMessage id="career.mobility" />,
     };
 
-    const talentMatrixResult = {
-      description: data.talentMatrixResult
-        ? data.talentMatrixResult.description
-        : "-",
+    const talentMatrixResultObject = {
+      description: talentMatrixResult ? (
+        talentMatrixResult.description
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       title: <FormattedMessage id="talent.matrix.result" />,
     };
 
-    return [careerMobility, talentMatrixResult];
+    return [careerMobilityObject, talentMatrixResultObject];
   };
 
   return (
     <Row>
       <Col lg={24} xs={24}>
         <List
-          dataSource={getTalentManagementDatasource()}
-          itemLayout="horizontal"
+          dataSource={generateTalentManagementResults()}
           renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                description={item.description}
-                title={item.title}
-              />
+            <List.Item className="px-0 talent-management-list-item">
+              <Title
+                className="d-block talent-management-title mb-0 "
+                level={4}
+              >
+                {item.title}
+              </Title>
+              <Text type="secondary">{item.description}</Text>
             </List.Item>
           )}
+          size="small"
         />
       </Col>
     </Row>
@@ -41,11 +58,13 @@ const TalentManagementView = ({ data }) => {
 };
 
 TalentManagementView.propTypes = {
-  data: ProfileInfoPropType,
+  careerMobility: ProfileInfoPropType,
+  talentMatrixResult: ProfileInfoPropType,
 };
 
 TalentManagementView.defaultProps = {
-  data: null,
+  careerMobility: null,
+  talentMatrixResult: null,
 };
 
 export default TalentManagementView;
