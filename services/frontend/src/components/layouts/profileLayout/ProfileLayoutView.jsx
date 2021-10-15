@@ -22,11 +22,11 @@ import PropTypes from "prop-types";
 
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
+import AboutMeCard from "../../aboutMeCard/AboutMeCard";
 import BasicInfo from "../../basicInfo/BasicInfo";
 import CareerInterests from "../../careerInterests/CareerInterests";
 import Competencies from "../../competenciesCard/Competencies";
 import Connections from "../../connections/Connections";
-import DescriptionCard from "../../descriptionCard/DescriptionCard";
 import Education from "../../education/Education";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 import EmploymentStatus from "../../employmentStatus/EmploymentStatus";
@@ -93,7 +93,7 @@ const ProfileLayoutView = ({
       </Col>
 
       <Col span={24}>
-        <DescriptionCard data={data} editableCardBool={isUsersProfile} />
+        <AboutMeCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
         <OfficialLanguage data={data} editableCardBool={isUsersProfile} />
