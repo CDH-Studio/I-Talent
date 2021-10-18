@@ -25,7 +25,7 @@ import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import AboutMeCard from "../../aboutMeCard/AboutMeCard";
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Competencies from "../../competenciesCard/Competencies";
-import Connections from "../../connections/Connections";
+import ConnectionsCard from "../../connectionsCard/ConnectionsCard";
 import Education from "../../education/Education";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 import EmploymentStatus from "../../employmentStatus/EmploymentStatus";
@@ -187,7 +187,7 @@ const ProfileLayoutView = ({
             <FormattedMessage id="connections" />
           </Title>
           <Col className="hide-for-print" span={24}>
-            <Connections data={data} />
+            <ConnectionsCard data={data} />
           </Col>
         </>
       )}
