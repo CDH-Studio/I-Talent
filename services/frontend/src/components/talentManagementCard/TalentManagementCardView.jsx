@@ -9,7 +9,7 @@ const { Title, Text } = Typography;
 const TalentManagementCardView = ({ careerMobility, talentMatrixResult }) => {
   /**
    * Generate talent management results
-   * @returns {Array<{description: string, title: string}>} - Array of objects
+   * @returns {Array<{description: React.ReactElement, title: React.ReactElement}>} - Array of objects
    */
   const generateTalentManagementResults = () => {
     const careerMobilityObject = {
@@ -38,7 +38,7 @@ const TalentManagementCardView = ({ careerMobility, talentMatrixResult }) => {
       dataSource={generateTalentManagementResults()}
       renderItem={(item) => (
         <List.Item className="px-0 talent-management-list-item">
-          <Title className="d-block talent-management-title mb-0 " level={4}>
+          <Title className="talent-management-title mb-0" level={4}>
             {item.title}
           </Title>
           <Text type="secondary">{item.description}</Text>
