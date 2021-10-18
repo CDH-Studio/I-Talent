@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import ExperienceView from "./ExperienceView";
+import ExperienceCardView from "./ExperienceCardView";
 
-const Experience = ({ data, editableCardBool }) => {
+const ExperienceCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   const getExperienceDuration = (startDate, endDate, ongoingDate) => {
@@ -84,19 +84,19 @@ const Experience = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "experience" })}
       visibility={data.visibleCards.experience}
     >
-      <ExperienceView experienceInfo={getExperienceInfo(data)} />
+      <ExperienceCardView experienceInfo={getExperienceInfo(data)} />
     </ProfileCards>
   );
 };
 
-Experience.propTypes = {
+ExperienceCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-Experience.defaultProps = {
+ExperienceCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default Experience;
+export default ExperienceCard;

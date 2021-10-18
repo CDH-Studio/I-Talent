@@ -26,12 +26,12 @@ import AboutMeCard from "../../aboutMeCard/AboutMeCard";
 import BasicInfo from "../../basicInfo/BasicInfo";
 import Competencies from "../../competenciesCard/Competencies";
 import ConnectionsCard from "../../connectionsCard/ConnectionsCard";
-import Education from "../../education/Education";
+import EducationCard from "../../educationCard/EducationCard";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 import EmploymentStatus from "../../employmentStatus/EmploymentStatus";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import ExFeederCard from "../../exFeederCard/ExFeederCard";
-import Experience from "../../experience/Experience";
+import ExperienceCard from "../../experienceCard/ExperienceCard";
 import Header from "../../header/Header";
 import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
 import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
@@ -136,10 +136,10 @@ const ProfileLayoutView = ({
         <FormattedMessage id="employee.qualifications" />
       </Title>
       <Col span={24}>
-        <Education data={data} editableCardBool={isUsersProfile} />
+        <EducationCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Experience data={data} editableCardBool={isUsersProfile} />
+        <ExperienceCard data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Personal Growth *********** */}
