@@ -35,7 +35,7 @@ const ExperienceView = ({ experienceInfo }) => {
    */
   const generateSupportingLinks = (SupportingLinks) =>
     SupportingLinks &&
-    SupportingLinks.length && (
+    SupportingLinks.length > 0 && (
       <>
         <div className="d-block">
           <LinkOutlined
