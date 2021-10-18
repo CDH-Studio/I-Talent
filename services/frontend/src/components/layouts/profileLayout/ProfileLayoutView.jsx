@@ -30,7 +30,7 @@ import Education from "../../education/Education";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
 import EmploymentStatus from "../../employmentStatus/EmploymentStatus";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
-import ExFeeder from "../../exFeeder/ExFeeder";
+import ExFeederCard from "../../exFeederCard/ExFeederCard";
 import Experience from "../../experience/Experience";
 import Header from "../../header/Header";
 import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
@@ -168,7 +168,7 @@ const ProfileLayoutView = ({
         <JobMobilityCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <ExFeeder data={data} editableCardBool={isUsersProfile} />
+        <ExFeederCard data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Connections *********** */}
