@@ -9,7 +9,7 @@ const EducationView = ({ educationInfo }) => {
   /**
    * Generate styled description text
    * @param {string} text - text to display as description
-   * @returns {HTMLElement} - HTML markup
+   * @returns {React.ReactElement} - React Element
    */
   const generateDescriptionBody = (text) =>
     text && (
@@ -27,7 +27,7 @@ const EducationView = ({ educationInfo }) => {
    * @param {string} SupportingLinks.id - Unique id the document
    * @param {string} SupportingLinks.url - URL to the document
    * @param {string} SupportingLinks.name - Name of the document type
-   * @returns {HTMLElement} - HTML markup
+   * @returns {React.ReactElement} - React Element
    */
   const generateSupportingLinks = (SupportingLinks) =>
     SupportingLinks &&

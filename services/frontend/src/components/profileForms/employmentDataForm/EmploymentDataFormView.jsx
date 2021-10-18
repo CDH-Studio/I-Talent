@@ -310,7 +310,7 @@ const EmploymentDataFormView = ({
   /**
    *  Get temporary role form based on if the form switch is toggled
    * @param {boolean} expandMentorshipForm - should menu be rendered
-   * @return {HTMLElement} return the form
+   * @return {React.ReactElement} return the form
    *
    */
   const getTempRoleForm = (expandMentorshipForm) => {

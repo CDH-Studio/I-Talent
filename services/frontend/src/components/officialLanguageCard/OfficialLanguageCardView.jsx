@@ -14,7 +14,7 @@ const OfficialLanguageCardView = ({
    * Generate First Official Language info list
    * @param {Object[]} langInfo - object describing the language category
    * @param {string} langInfo[].description - the saved language
-   * @returns {HTMLElement} - HTML markup for second lang list
+   * @returns {React.ReactElement} - React Element for second lang list
    */
   const generateFirstLanguage = (langInfo) => (
     <>
@@ -31,7 +31,7 @@ const OfficialLanguageCardView = ({
    * @param {string} langInfo[].level - level of lang proficiency
    * @param {string} langInfo[].status - status of lang proficiency
    * @param {string} langInfo[].title - translated title of language category
-   * @returns {HTMLElement} - HTML markup for second lang list
+   * @returns {React.ReactElement} - React Element for second lang list
    */
   const generateSecondLanguageData = (langInfo) => (
     <>

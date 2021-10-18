@@ -133,7 +133,7 @@ const CustomDropdown = ({
    * @param {string[]} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
-   * @return {HTMLElement} generated element to display
+   * @return {React.ReactElement} generated element to display
    */
   const generateNoOptionsMessageCreatable = (
     userTypedInput,
@@ -225,7 +225,7 @@ const CustomDropdown = ({
    * @param {string[]} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
-   * @return {HTMLElement} generated text to display
+   * @return {React.ReactElement} generated element to display
    */
   const generateNoOptionsMessage = (
     userSelectedOptions,

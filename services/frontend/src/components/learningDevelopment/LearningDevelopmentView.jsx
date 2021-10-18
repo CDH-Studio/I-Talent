@@ -9,7 +9,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
    * @param {object} DevelopmentalGoals - Object describing the developmental goals
    * @param {string} DevelopmentalGoals.id - Unique id for dev goal
    * @param {string} DevelopmentalGoals.name - Translated name of dev goal
-   * @returns {HTMLElement} - HTML markup
+   * @returns {React.ReactElement} - React Element
    */
   const generateDevelopmentalGoals = (DevelopmentalGoals) =>
     DevelopmentalGoals &&
@@ -43,7 +43,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
    * @param {object} SupportingLinks.name - Object describing of the document type
    * @param {object} SupportingLinks.name.name - Translated name of the document type
    * @param {string} SupportingLinks.name.id - Unique id the document type
-   * @returns {HTMLElement} - HTML markup
+   * @returns {React.ReactElement} - React Element
    */
   const generateSupportingLinks = (SupportingLinks) =>
     SupportingLinks &&
