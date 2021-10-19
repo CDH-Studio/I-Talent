@@ -6,9 +6,13 @@ import PropTypes from "prop-types";
 
 import TagList from "../tagList/TagList";
 
-const SkillsCardView = ({ skillCategories, skills }) => {
-  if (skills && skillCategories && skillCategories.length > 0)
-    return skillCategories.map((categoryName) => (
+const MentorshipCardView = ({ mentorshipSkill, mentorshipSkillCategories }) => {
+  if (
+    mentorshipSkill &&
+    mentorshipSkillCategories &&
+    mentorshipSkillCategories.length > 0
+  )
+    return mentorshipSkillCategories.map((categoryName) => (
       <Fragment key={categoryName}>
         <Row>
           <Col className="mb-2">
@@ -20,7 +24,7 @@ const SkillsCardView = ({ skillCategories, skills }) => {
               />
               <h4 className="mt-1 d-inline">{categoryName}:</h4>
             </div>
-            <TagList data={skills[categoryName]} />
+            <TagList data={mentorshipSkill[categoryName]} />
           </Col>
         </Row>
       </Fragment>
@@ -28,15 +32,14 @@ const SkillsCardView = ({ skillCategories, skills }) => {
 
   return (
     <Empty
-      description={<FormattedMessage id="skills.empty" />}
+      description={<FormattedMessage id="mentorship.empty" />}
       image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
 };
 
-SkillsCardView.propTypes = {
-  skillCategories: PropTypes.arrayOf(PropTypes.string),
-  skills: PropTypes.objectOf(
+MentorshipCardView.propTypes = {
+  mentorshipSkill: PropTypes.objectOf(
     PropTypes.arrayOf(
       PropTypes.shape({
         categoryId: PropTypes.string,
@@ -45,10 +48,12 @@ SkillsCardView.propTypes = {
       })
     )
   ),
+  mentorshipSkillCategories: PropTypes.arrayOf(PropTypes.string),
 };
 
-SkillsCardView.defaultProps = {
-  skillCategories: undefined,
-  skills: undefined,
+MentorshipCardView.defaultProps = {
+  mentorshipSkill: undefined,
+  mentorshipSkillCategories: undefined,
 };
-export default SkillsCardView;
+
+export default MentorshipCardView;

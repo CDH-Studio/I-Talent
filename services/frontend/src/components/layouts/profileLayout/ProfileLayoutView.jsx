@@ -35,7 +35,7 @@ import ExperienceCard from "../../experienceCard/ExperienceCard";
 import Header from "../../header/Header";
 import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
 import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
-import Mentorship from "../../mentorshipCard/Mentorship";
+import MentorshipCard from "../../mentorshipCard/MentorshipCard";
 import OfficialLanguageCard from "../../officialLanguageCard/OfficialLanguageCard";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 import QualifiedPools from "../../qualifiedPools/QualifiedPools";
@@ -116,7 +116,7 @@ const ProfileLayoutView = ({
         <SkillsCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Mentorship data={data} editableCardBool={isUsersProfile} />
+        <MentorshipCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
         <Competencies data={data} editableCardBool={isUsersProfile} />

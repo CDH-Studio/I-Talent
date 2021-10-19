@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import SkillsCardView from "./SkillsCardView";
+import MentorshipCardView from "./MentorshipCardView";
 
-const SkillsCard = ({ data, editableCardBool }) => {
+const Mentorship = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   /**
-   * Format skills list into categories
+   * Format mentorship skills list into categories
    * @param {Object[]} skillsList - Object describing the categorized skills list
    * @param {string} skillsList[].category - Skill category name
    * @param {string} skillsList[].categoryId - id of the skill's category
@@ -52,31 +52,31 @@ const SkillsCard = ({ data, editableCardBool }) => {
 
   return (
     <ProfileCards
-      cardName="skills"
+      cardName="mentorshipSkills"
       data={data}
       editableCardBool={editableCardBool}
       editUrl="/profile/edit/talent?tab=skills"
-      id="card-profile-skills"
-      lastUpdated={data.skillsUpdatedAt}
-      titleString={intl.formatMessage({ id: "skills" })}
-      visibility={data.visibleCards.skills}
+      id="card-profile-mentorship-skills"
+      lastUpdated={data.mentorshipSkillsUpdatedAt}
+      titleString={intl.formatMessage({ id: "mentorship.skills" })}
+      visibility={data.visibleCards.mentorshipSkills}
     >
-      <SkillsCardView
-        skillCategories={skillCategories}
-        skills={formattedSkills}
+      <MentorshipCardView
+        mentorshipSkill={formattedSkills}
+        mentorshipSkillCategories={skillCategories}
       />
     </ProfileCards>
   );
 };
 
-SkillsCard.propTypes = {
+Mentorship.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-SkillsCard.defaultProps = {
+Mentorship.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default SkillsCard;
+export default Mentorship;
