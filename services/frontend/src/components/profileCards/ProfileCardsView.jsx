@@ -8,7 +8,9 @@ import CardVisibilityStatus from "../cardVisibilityStatus/CardVisibilityStatus";
 import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
 import EditCardButton from "../editCardButton/EditCardButton";
 
-const { Text } = Typography;
+import "./ProfileCardsView.less";
+
+const { Text, Title } = Typography;
 
 const ProfileCardsView = ({
   editUrl,
@@ -28,8 +30,7 @@ const ProfileCardsView = ({
    * @param {string} cardInfoName - name of the card.
    * @param {string} editFormUrl - url to edit form.
    * @param {string} cardTitleString - url to edit form.
-   * @return {HTMLElement} generated element to display
-   *
+   * @return {React.ReactElement} generated element to display
    */
   const generateEditMenu = ({
     visibilityOfAllCards,
@@ -54,8 +55,7 @@ const ProfileCardsView = ({
   /**
    * Generate Visibility Status indicator for public profile (view only mode)
    * @param {boolean} visibleCards - visibility status of this card.
-   * @return {HTMLElement} generated element to display
-   *
+   * @return {React.ReactElement} generated element to display
    */
   const generateVisibilityStatusForPublic = (cardVisibilityStatus) => {
     let visibilityStatusSymbol;
@@ -89,7 +89,7 @@ const ProfileCardsView = ({
   /**
    * Generate Visibility Status indicator for profile being viewed by admin
    * @param {('PRIVATE'|'CONNECTIONS'|'PUBLIC')} cardVisibilityStatus - visibility status of card.
-   * @return {HTMLElement} generated element to display
+   * @return {React.ReactElement} generated element to display
    */
   const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => (
     <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />
@@ -97,7 +97,7 @@ const ProfileCardsView = ({
 
   /**
    * Generate right menu in card header
-   * @return {HTMLElement} generated element to display
+   * @return {React.ReactElement} generated element to display
    */
   const generateExtraMenu = () => {
     let extraMenu;
@@ -131,7 +131,9 @@ const ProfileCardsView = ({
         style={grayedOut}
         title={
           <>
-            {titleString}
+            <Title className="d-inline profile-card-heading" level={3}>
+              {titleString}
+            </Title>
             {lastUpdated && (
               <Tooltip title={<FormattedMessage id="last.modified.date" />}>
                 <Text

@@ -38,9 +38,7 @@ const CustomDropdown = ({
 
   /**
    * Trigger the OnChange function passed into the component and update state
-   *
    * @param {string[]} userSelectedOptionValues - an array of selected option values
-   *
    */
   const triggerChange = (userSelectedOptionValues) => {
     setSelectedOptions(userSelectedOptionValues);
@@ -51,11 +49,9 @@ const CustomDropdown = ({
    * A function that is triggered when the user types or makes a selection
    * using react-select. It extracts the changed values returned by the
    * component based on the dropdown configuration and triggers the onChange
-   *
    * @param {Array.<{value:string, label:string}>} userSelectedOptions - an array of selected options
    * @param {boolean} isCreatableSelect - is the component configured as a creatable dropdown
    * @param {boolean} isMultiSelect - has the component been configured as a multiselect
-   *
    */
   const onSelectedValueChange = (
     userSelectedOptions,
@@ -74,11 +70,9 @@ const CustomDropdown = ({
   /**
    * Extract the saved options from the options list using the values
    * This is only used for the simple "react-select" dropdown
-   *
    * @param {Array.<{value:string, label:string}>} dropdownOptions - an array of options for dropdown
    * @param {(string || string[])} savedValues - an array of options for dropdown
    * @return {Array.<{value:string, label:string}>} a list of save option objects
-   *
    */
   const mapInitialValue = (savedValues) => {
     if (isMulti) {
@@ -102,10 +96,8 @@ const CustomDropdown = ({
 
   /**
    * Convert the saved values into a objects to be read by "creatable react-select"
-   *
    * @param {string[]} savedValues - an array of options for dropdown
    * @return {Array.<{value:string, label:string}>} a list of save option objects
-   *
    */
   const mapInitialValueCreatable = (savedValues) =>
     savedValues &&
@@ -116,11 +108,9 @@ const CustomDropdown = ({
 
   /**
    * Generate the aria-label for the field
-   *
    * @param {string} formFieldLabel - Text to describe the field
    * @param {boolean} isFieldRequired - is the field required be filled out
    * @return {string} generated aria-label
-   *
    */
   const generateAriaLabel = (formFieldLabel, isFieldRequired) =>
     isFieldRequired
@@ -130,10 +120,8 @@ const CustomDropdown = ({
   /**
    * Generate a text to prompt the user to press "enter" to add the typed
    * value as a selected option for "creatable react-select"
-   *
    * @param {string} userTypedInput - The users input as they type
    * @return {string} generated text to display
-   *
    */
   const formatCreateLabelCreatable = (userTypedInput) =>
     `${intl.formatMessage({ id: "press.enter.to.add" })} "${userTypedInput}"`;
@@ -141,13 +129,11 @@ const CustomDropdown = ({
   /**
    * Generate the message to display when no options are available to be selected
    * for "creatable react-select"
-   *
    * @param {Object} userTypedInput - The users input as they type
    * @param {string[]} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
-   * @return {HTMLElement} generated element to display
-   *
+   * @return {React.ReactElement} generated element to display
    */
   const generateNoOptionsMessageCreatable = (
     userTypedInput,
@@ -214,13 +200,11 @@ const CustomDropdown = ({
 
   /**
    * Generate the options to display for regular "react-select" dropdown
-   *
    * @param {Array.<{value:string, label:string}>} providedOptions - The dropdown options to display
    * @param {string[]} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
    * @return {Array.<{value:string, label:string}>} a list of options to display
-   *
    */
   const generateSelectOptions = (
     providedOptions,
@@ -238,12 +222,10 @@ const CustomDropdown = ({
   /**
    * Generate the message to display when no options are available to be selected
    * for regular "react-select"
-   *
    * @param {string[]} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
-   * @return {HTMLElement} generated text to display
-   *
+   * @return {React.ReactElement} generated element to display
    */
   const generateNoOptionsMessage = (
     userSelectedOptions,
@@ -268,14 +250,13 @@ const CustomDropdown = ({
         <FormattedMessage id="no.options.available" />
       </span>
     );
+
   /**
    * Disable the selectable dropdown options when selected limit is reached
-   *
    * @param {string[]} userSelectedOptions - The selected options selected by user
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
    * @return {boolean} disabled options
-   *
    */
   const isOptionsDisabled = (
     userSelectedOptions,
@@ -286,13 +267,11 @@ const CustomDropdown = ({
 
   /**
    * Detect whether the typed input value is valid for "creatable react-select"
-   *
    * @param {string} userTypedInput - The users input as they type
    * @param {Array.<{value:string, label:string}>} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
    * @return {boolean} disabled options
-   *
    */
   const isValidInputCreatable = (
     userTypedInput,
@@ -327,11 +306,9 @@ const CustomDropdown = ({
 
   /**
    * Disable the selectable dropdown options when selected limit is reached
-   *
    * @param {object} option - object describing the dropdown options
    * @param {string} option.label - label to be displayed to user
    * @param {string} option.icon - optional icon to be displayed
-   *
    */
   const formatOptionLabel = ({ label, icon }) => (
     <>
@@ -342,7 +319,6 @@ const CustomDropdown = ({
   /**
    * Custom styling for "react-select" based on the API provided in the documentation
    * @const {Object}
-   *
    */
   const customStyles = {
     clearIndicator: (provided) => ({
@@ -426,7 +402,6 @@ const CustomDropdown = ({
   /**
    * Custom theming for "react-select" based on the API provided in the documentation
    * @const {Object}
-   *
    */
   const customTheme = (theme) => ({
     ...theme,

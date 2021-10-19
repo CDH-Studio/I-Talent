@@ -7,9 +7,9 @@ import {
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-import "./ExFeederView.less";
+import "./ExFeederCardView.less";
 
-const ExFeederView = ({ data }) => {
+const ExFeederCardView = ({ data }) => {
   if (data.exFeeder) {
     return (
       <div className="ex-feeder-success">
@@ -43,12 +43,12 @@ const ExFeederView = ({ data }) => {
   );
 };
 
-ExFeederView.propTypes = {
+ExFeederCardView.propTypes = {
   data: ProfileInfoPropType,
 };
 
-ExFeederView.defaultProps = {
+ExFeederCardView.defaultProps = {
   data: null,
 };
 
-export default ExFeederView;
+export default ExFeederCardView;

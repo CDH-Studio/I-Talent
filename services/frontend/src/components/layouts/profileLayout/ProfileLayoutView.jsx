@@ -22,25 +22,25 @@ import PropTypes from "prop-types";
 
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
+import AboutMeCard from "../../aboutMeCard/AboutMeCard";
 import BasicInfo from "../../basicInfo/BasicInfo";
-import CareerInterests from "../../careerInterests/CareerInterests";
 import Competencies from "../../competenciesCard/Competencies";
-import Connections from "../../connections/Connections";
-import DescriptionCard from "../../descriptionCard/DescriptionCard";
-import Education from "../../education/Education";
-import EmployeeSummary from "../../employeeSummary/EmployeeSummary";
+import ConnectionsCard from "../../connectionsCard/ConnectionsCard";
+import EducationCard from "../../educationCard/EducationCard";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
+import EmploymentStatus from "../../employmentStatus/EmploymentStatus";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
-import ExFeeder from "../../exFeeder/ExFeeder";
-import Experience from "../../experience/Experience";
+import ExFeederCard from "../../exFeederCard/ExFeederCard";
+import ExperienceCard from "../../experienceCard/ExperienceCard";
 import Header from "../../header/Header";
+import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
 import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
 import Mentorship from "../../mentorshipCard/Mentorship";
-import OfficialLanguage from "../../officialLanguage/OfficialLanguage";
+import OfficialLanguageCard from "../../officialLanguageCard/OfficialLanguageCard";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 import QualifiedPools from "../../qualifiedPools/QualifiedPools";
 import Skills from "../../skillsCard/Skills";
-import TalentManagement from "../../talentManagement/TalentManagement";
+import TalentManagementCard from "../../talentManagementCard/TalentManagementCard";
 import AppLayout from "../appLayout/AppLayout";
 
 import "./ProfileLayoutView.less";
@@ -74,17 +74,17 @@ const ProfileLayoutView = ({
 
   const displayAllProfileCards = () => (
     <Row className="print" gutter={[15, 15]}>
+      <h2 className="visually-hidden">
+        <FormattedMessage id="basic.employee.information" />
+      </h2>
       {/* Summary */}
       <Col xl={14} xs={24}>
-        <BasicInfo
-          connectionStatus={connectionStatus}
-          data={data}
-        />
+        <BasicInfo connectionStatus={connectionStatus} data={data} />
       </Col>
       <Col xl={10} xs={24}>
         <Row gutter={[0, 15]}>
           <Col span={24}>
-            <EmployeeSummary data={data} editableCardBool={isUsersProfile} />
+            <EmploymentStatus data={data} editableCardBool={isUsersProfile} />
           </Col>
           <Col span={24}>
             <EmploymentEquity data={data} editableCardBool={isUsersProfile} />
@@ -93,10 +93,10 @@ const ProfileLayoutView = ({
       </Col>
 
       <Col span={24}>
-        <DescriptionCard data={data} editableCardBool={isUsersProfile} />
+        <AboutMeCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <OfficialLanguage data={data} editableCardBool={isUsersProfile} />
+        <OfficialLanguageCard data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Skills and competencies *********** */}
@@ -105,7 +105,11 @@ const ProfileLayoutView = ({
         id="divider-skills-and-comp"
         level={2}
       >
-        <TagsTwoTone className="sectionIcon" twoToneColor="#3CBAB3" />
+        <TagsTwoTone
+          aria-hidden="true"
+          className="sectionIcon"
+          twoToneColor="#3CBAB3"
+        />
         <FormattedMessage id="skills.and.competencies" />
       </Title>
       <Col span={24}>
@@ -124,14 +128,18 @@ const ProfileLayoutView = ({
         id="divider-qualifications"
         level={2}
       >
-        <TrophyOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
+        <TrophyOutlined
+          aria-hidden="true"
+          className="sectionIcon"
+          twoToneColor="#3CBAB3"
+        />
         <FormattedMessage id="employee.qualifications" />
       </Title>
       <Col span={24}>
-        <Education data={data} editableCardBool={isUsersProfile} />
+        <EducationCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Experience data={data} editableCardBool={isUsersProfile} />
+        <ExperienceCard data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Personal Growth *********** */}
@@ -140,7 +148,11 @@ const ProfileLayoutView = ({
         id="divider-employee-growth"
         level={2}
       >
-        <RiseOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
+        <RiseOutlined
+          aria-hidden="true"
+          className="sectionIcon"
+          twoToneColor="#3CBAB3"
+        />
         <FormattedMessage id="employee.growth.interests" />
       </Title>
       <Col span={24}>
@@ -150,13 +162,13 @@ const ProfileLayoutView = ({
         <QualifiedPools data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col xl={12} xs={24}>
-        <TalentManagement data={data} editableCardBool={isUsersProfile} />
+        <TalentManagementCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col xl={12} xs={24}>
-        <CareerInterests data={data} editableCardBool={isUsersProfile} />
+        <JobMobilityCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <ExFeeder data={data} editableCardBool={isUsersProfile} />
+        <ExFeederCard data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Connections *********** */}
@@ -167,11 +179,15 @@ const ProfileLayoutView = ({
             id="divider-privateGroup"
             level={2}
           >
-            <TeamOutlined className="sectionIcon" twoToneColor="#3CBAB3" />
+            <TeamOutlined
+              aria-hidden="true"
+              className="sectionIcon"
+              twoToneColor="#3CBAB3"
+            />
             <FormattedMessage id="connections" />
           </Title>
           <Col className="hide-for-print" span={24}>
-            <Connections data={data} />
+            <ConnectionsCard data={data} />
           </Col>
         </>
       )}
@@ -180,7 +196,10 @@ const ProfileLayoutView = ({
   const generateProfileSidebarContent = () => (
     <Row justify="center">
       <Col className="app-sideBarRow" flex={1} offset={1}>
-        <Anchor offsetTop={80}>
+        <Anchor
+          aria-label={intl.formatMessage({ id: "edit.profile.side.nav" })}
+          offsetTop={80}
+        >
           <Link
             href="#card-profile-basic-info"
             title={

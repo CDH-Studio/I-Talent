@@ -52,7 +52,12 @@ const ConnectionsView = ({ connections }) => {
 
 ConnectionsView.propTypes = {
   connections: PropTypes.arrayOf(
-    PropTypes.shape({ projectDescription: PropTypes.string })
+    PropTypes.shape({
+      email: PropTypes.string,
+      firstname: PropTypes.string,
+      id: PropTypes.string,
+      lastname: PropTypes.string,
+    })
   ).isRequired,
 };
 

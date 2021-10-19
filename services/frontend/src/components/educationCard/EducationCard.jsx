@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import EducationView from "./EducationView";
+import EducationCardView from "./EducationCardView";
 
-const Education = ({ data, editableCardBool }) => {
+const EducationCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   const getEducationDuration = (startDate, endDate, ongoingDate) => {
@@ -78,19 +78,19 @@ const Education = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "education" })}
       visibility={data.visibleCards.education}
     >
-      <EducationView educationInfo={getEducationInfo(data)} />
+      <EducationCardView educationInfo={getEducationInfo(data)} />
     </ProfileCards>
   );
 };
 
-Education.propTypes = {
+EducationCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-Education.defaultProps = {
+EducationCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default Education;
+export default EducationCard;

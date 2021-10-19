@@ -2,9 +2,9 @@ import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import ProfileCards from "../profileCards/ProfileCards";
-import ConnectionsView from "./ConnectionsView";
+import ConnectionsCardView from "./ConnectionsCardView";
 
-const connections = ({ data }) => {
+const connectionsCard = ({ data }) => {
   const intl = useIntl();
   return (
     <ProfileCards
@@ -16,16 +16,22 @@ const connections = ({ data }) => {
       titleString={intl.formatMessage({ id: "connections.info" })}
       visibility="PUBLIC"
     >
-      <ConnectionsView connections={data.connections} />
+      <ConnectionsCardView connections={data.connections} />
     </ProfileCards>
   );
 };
 
-connections.propTypes = {
+connectionsCard.propTypes = {
   data: PropTypes.shape({
-    // eslint-disable-next-line react/forbid-prop-types
-    connections: PropTypes.array,
+    connections: PropTypes.arrayOf(
+      PropTypes.shape({
+        email: PropTypes.string,
+        firstname: PropTypes.string,
+        id: PropTypes.string,
+        lastname: PropTypes.string,
+      })
+    ),
   }).isRequired,
 };
 
-export default connections;
+export default connectionsCard;

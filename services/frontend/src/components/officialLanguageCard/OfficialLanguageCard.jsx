@@ -3,19 +3,19 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import OfficialLanguageView from "./OfficialLanguageView";
+import OfficialLanguageCardView from "./OfficialLanguageCardView";
 
-const OfficialLanguage = ({ data, editableCardBool }) => {
+const OfficialLanguageCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   /**
    * Generate First Official Language info array
    * @param {Object[]} dataSource - object describing the userprofile
    * @param {string} dataSource[].firstLanguage - user's first official language
-   * @return {Array.<{description: String, title: String}>} - array of first language results
+   * @return {{description: string, title: string}} - array of first language results
    */
   const getFirstLanguageInfo = (dataSource) => {
-    let description = "-";
+    let description = <FormattedMessage id="not.provided" />;
 
     if (dataSource.firstLanguage === "ENGLISH") {
       description = <FormattedMessage id="language.english" />;
@@ -27,7 +27,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
       description,
       title: <FormattedMessage id="first.official.language" />,
     };
-    return [firstLanguage];
+    return firstLanguage;
   };
 
   /**
@@ -82,28 +82,29 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
 
   /**
    * Generate Second Official Language info array
-   * @param {Object[]} dataSource - object describing the userprofile
+   * @param {Object[]} dataSource - object describing the user profile
    * @param {string} dataSource[].firstLanguage - user's first official language
    * @returns {Array.<{title: string, level: string, status: string}>} - array of second language results
    */
   const generateSecondLanguageInfo = (dataSource) => {
     const formattedLanguageInfo = [];
 
-    dataSource.secondLangProfs.forEach((item) => {
-      const formattedLangProficiencyItem = {};
+    if (dataSource.secondLangProfs) {
+      dataSource.secondLangProfs.forEach((item) => {
+        const formattedLangProficiencyItem = {};
 
-      formattedLangProficiencyItem.title = generateSecondLangProficiencyTitle(
-        item.proficiency
-      );
-      formattedLangProficiencyItem.level = generateSecondLangProficiencyLevel(
-        item.level
-      );
-      formattedLangProficiencyItem.status = generateSecondLangProficiencyStatus(
-        item.status
-      );
+        formattedLangProficiencyItem.title = generateSecondLangProficiencyTitle(
+          item.proficiency
+        );
+        formattedLangProficiencyItem.level = generateSecondLangProficiencyLevel(
+          item.level
+        );
+        formattedLangProficiencyItem.status =
+          generateSecondLangProficiencyStatus(item.status);
 
-      formattedLanguageInfo.push(formattedLangProficiencyItem);
-    });
+        formattedLanguageInfo.push(formattedLangProficiencyItem);
+      });
+    }
 
     return formattedLanguageInfo;
   };
@@ -118,7 +119,7 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "official.languages" })}
       visibility={data.visibleCards.officialLanguage}
     >
-      <OfficialLanguageView
+      <OfficialLanguageCardView
         firstLanguageInfo={getFirstLanguageInfo(data)}
         secondLanguageInfo={generateSecondLanguageInfo(data)}
       />
@@ -126,14 +127,14 @@ const OfficialLanguage = ({ data, editableCardBool }) => {
   );
 };
 
-OfficialLanguage.propTypes = {
+OfficialLanguageCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-OfficialLanguage.defaultProps = {
+OfficialLanguageCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default OfficialLanguage;
+export default OfficialLanguageCard;

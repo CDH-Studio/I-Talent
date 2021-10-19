@@ -10,14 +10,16 @@ const SkillsView = ({ categoriesSkills, skills }) => {
       (categorySkill) =>
         categorySkill != null && (
           <Fragment key={categorySkill.val}>
-            <Row align="middle">
-              <Col>
-                <TagTwoTone className="mr-1" twoToneColor="#3CBAB3" />
-              </Col>
-              <Col>{categorySkill.val}:</Col>
-            </Row>
             <Row>
-              <Col>
+              <Col className="mb-2">
+                <div className="d-block">
+                  <TagTwoTone
+                    aria-hidden="true"
+                    className="mr-1 d-inline"
+                    twoToneColor="#3CBAB3"
+                  />
+                  <h4 className="mt-1 d-inline">{categorySkill.val}:</h4>
+                </div>
                 {skills[categorySkill.index].val.map((skill) => (
                   <Tag key={skill} color="#00605e">
                     {skill}

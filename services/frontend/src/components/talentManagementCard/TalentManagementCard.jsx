@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import TalentManagementView from "./TalentManagementView";
+import TalentManagementView from "./TalentManagementCardView";
 
-const TalentManagement = ({ data, editableCardBool }) => {
+const TalentManagementCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
@@ -18,19 +18,22 @@ const TalentManagement = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "talent.management" })}
       visibility={data.visibleCards.talentManagement}
     >
-      <TalentManagementView data={data} />
+      <TalentManagementView
+        careerMobility={data.careerMobility}
+        talentMatrixResult={data.talentMatrixResult}
+      />
     </ProfileCards>
   );
 };
 
-TalentManagement.propTypes = {
+TalentManagementCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-TalentManagement.defaultProps = {
+TalentManagementCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default TalentManagement;
+export default TalentManagementCard;

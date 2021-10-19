@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import ExFeederView from "./ExFeederView";
+import ExFeederCardView from "./ExFeederCardView";
 
-const ExFeeder = ({ data, editableCardBool }) => {
+const ExFeederCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
@@ -18,19 +18,19 @@ const ExFeeder = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "ex.feeder" })}
       visibility={data.visibleCards.exFeeder}
     >
-      <ExFeederView data={data} />
+      <ExFeederCardView data={data} />
     </ProfileCards>
   );
 };
 
-ExFeeder.propTypes = {
+ExFeederCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-ExFeeder.defaultProps = {
+ExFeederCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default ExFeeder;
+export default ExFeederCard;

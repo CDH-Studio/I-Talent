@@ -124,7 +124,6 @@ const CreateProfileLayoutView = ({ formStep, highestStep }) => {
           direction="vertical"
           onChange={onChange}
           onKeyPress={(e) => handleKeyPress(e, stepInt)}
-          role="navigation"
           size="small"
         >
           {createProfileStep({

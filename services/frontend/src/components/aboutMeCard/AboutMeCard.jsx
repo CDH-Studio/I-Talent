@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import DescriptionCardView from "./DescriptionCardView";
+import AboutMeCardView from "./AboutMeCardView";
 
-const DescriptionCard = ({ data, editableCardBool }) => {
+const AboutMeCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
@@ -18,19 +18,19 @@ const DescriptionCard = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "about.me" })}
       visibility={data.visibleCards.description}
     >
-      <DescriptionCardView data={data.description} />
+      <AboutMeCardView data={data.description} />
     </ProfileCards>
   );
 };
 
-DescriptionCard.propTypes = {
+AboutMeCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-DescriptionCard.defaultProps = {
+AboutMeCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default DescriptionCard;
+export default AboutMeCard;

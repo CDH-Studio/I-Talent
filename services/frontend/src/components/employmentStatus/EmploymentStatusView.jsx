@@ -3,28 +3,42 @@ import { Col, List, Row } from "antd";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 
-const EmployeeSummaryView = ({ data }) => {
+const EmploymentStatusView = ({ data }) => {
   const left = [
     {
-      description: data.groupLevel ? data.groupLevel.name : "-",
+      description: data.groupLevel ? (
+        data.groupLevel.name
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       title: <FormattedMessage id="classification" />,
     },
     {
       description:
-        data.tenure && data.tenure.description ? data.tenure.description : "-",
+        data.tenure && data.tenure.description ? (
+          data.tenure.description
+        ) : (
+          <FormattedMessage id="not.provided" />
+        ),
       title: <FormattedMessage id="profile.substantive" />,
     },
   ];
 
   const right = [
     {
-      description: data.actingLevel ? data.actingLevel.name : "-",
+      description: data.actingLevel ? (
+        data.actingLevel.name
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       title: <FormattedMessage id="acting" />,
     },
     {
-      description: data.securityClearance
-        ? data.securityClearance.description
-        : "-",
+      description: data.securityClearance ? (
+        data.securityClearance.description
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       title: <FormattedMessage id="profile.security" />,
     },
   ];
@@ -50,12 +64,12 @@ const EmployeeSummaryView = ({ data }) => {
   );
 };
 
-EmployeeSummaryView.propTypes = {
+EmploymentStatusView.propTypes = {
   data: ProfileInfoPropType,
 };
 
-EmployeeSummaryView.defaultProps = {
+EmploymentStatusView.defaultProps = {
   data: null,
 };
 
-export default EmployeeSummaryView;
+export default EmploymentStatusView;

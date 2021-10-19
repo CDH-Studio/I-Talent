@@ -32,7 +32,7 @@ import ProfileActionRibbon from "../profileActionRibbon/ProfileActionRibbon";
 
 import "./BasicInfoView.less";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 const BasicInfoView = ({
   data,
@@ -56,6 +56,7 @@ const BasicInfoView = ({
    */
   const generateProfileHeader = () => (
     <Row className="profileHeaderRow" type="flex">
+      <h4 className="visually-hidden">Profile Name</h4>
       <Col
         align="center"
         className="hide-for-print"
@@ -80,10 +81,13 @@ const BasicInfoView = ({
         xs={18}
         xxl={18}
       >
-        <Title className="profileHeaderRow-name" ellipsis={{ tooltip: name }}>
+        <Text
+          className="profileHeaderRow-name px-3"
+          ellipsis={{ tooltip: name }}
+        >
           {name}
-        </Title>
-        <Text className="profileHeaderRow-job-tile">{jobTitle}</Text>
+        </Text>
+        <Text className="profileHeaderRow-job-tile px-3">{jobTitle}</Text>
       </Col>
     </Row>
   );
@@ -131,20 +135,28 @@ const BasicInfoView = ({
           {data.email}
         </Text>
       ) : (
-        "-"
+        <FormattedMessage id="not.provided" />
       ),
       icon: <MailOutlined />,
       title: <FormattedMessage id="email" />,
     };
 
     const tel = {
-      description: data.telephone ? data.telephone : "-",
+      description: data.telephone ? (
+        data.telephone
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <PhoneOutlined />,
       title: <FormattedMessage id="profile.telephone" />,
     };
 
     const cel = {
-      description: data.cellphone ? data.cellphone : "-",
+      description: data.cellphone ? (
+        data.cellphone
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <MobileOutlined />,
       title: <FormattedMessage id="work.cellphone" />,
     };
@@ -193,15 +205,21 @@ const BasicInfoView = ({
 
     const location = data.officeLocation;
     const address = {
-      description: location
-        ? `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
-        : "-",
+      description: location ? (
+        `${location.streetNumber} ${location.streetName}, ${location.city}, ${location.province}`
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <EnvironmentOutlined />,
       title: <FormattedMessage id="working.address" />,
     };
 
     const manager = {
-      description: data.manager ? data.manager : "-",
+      description: data.manager ? (
+        data.manager
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <UserOutlined />,
       title: <FormattedMessage id="employee.manager" />,
     };
@@ -225,7 +243,7 @@ const BasicInfoView = ({
             ))}
           </List>
         ) : (
-          "-"
+          <FormattedMessage id="not.provided" />
         ),
       icon: <TeamOutlined />,
       title: <FormattedMessage id="employee.work.unit" />,
@@ -268,6 +286,9 @@ const BasicInfoView = ({
       userId={urlID}
     >
       <Card actions={generateActions()} id="card-profile-basic-info">
+        <h3 className="visually-hidden">
+          <FormattedMessage id="primary.contact.information" />
+        </h3>
         {generateProfileHeader()}
         <Row>
           <Col lg={12} xs={24}>

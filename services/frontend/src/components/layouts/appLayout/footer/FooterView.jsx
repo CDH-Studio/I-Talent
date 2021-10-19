@@ -39,6 +39,7 @@ const FooterView = () => {
 
   return (
     <Footer className="footer">
+      <h2 className="visually-hidden">Page Footer</h2>
       {generateFooterItem({
         lang: locale === "ENGLISH" ? "en" : "fr",
         messageId: "footer.about.link",

@@ -3,9 +3,9 @@ import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import EmployeeSummaryView from "./EmployeeSummaryView";
+import EmploymentStatusView from "./EmploymentStatusView";
 
-const EmployeeSummary = ({ data, editableCardBool }) => {
+const EmploymentStatus = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
@@ -18,19 +18,19 @@ const EmployeeSummary = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "employment.status" })}
       visibility={data.visibleCards.info}
     >
-      <EmployeeSummaryView data={data} />
+      <EmploymentStatusView data={data} />
     </ProfileCards>
   );
 };
 
-EmployeeSummary.propTypes = {
+EmploymentStatus.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-EmployeeSummary.defaultProps = {
+EmploymentStatus.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default EmployeeSummary;
+export default EmploymentStatus;
