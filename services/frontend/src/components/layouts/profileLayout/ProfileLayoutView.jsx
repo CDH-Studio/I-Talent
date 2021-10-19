@@ -39,7 +39,7 @@ import Mentorship from "../../mentorshipCard/Mentorship";
 import OfficialLanguageCard from "../../officialLanguageCard/OfficialLanguageCard";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 import QualifiedPools from "../../qualifiedPools/QualifiedPools";
-import Skills from "../../skillsCard/Skills";
+import SkillsCard from "../../skillsCard/SkillsCard";
 import TalentManagementCard from "../../talentManagementCard/TalentManagementCard";
 import AppLayout from "../appLayout/AppLayout";
 
@@ -113,7 +113,7 @@ const ProfileLayoutView = ({
         <FormattedMessage id="skills.and.competencies" />
       </Title>
       <Col span={24}>
-        <Skills data={data} editableCardBool={isUsersProfile} />
+        <SkillsCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
         <Mentorship data={data} editableCardBool={isUsersProfile} />
