@@ -12,7 +12,7 @@ const OfficialLanguageCard = ({ data, editableCardBool }) => {
    * Generate First Official Language info array
    * @param {Object[]} dataSource - object describing the userprofile
    * @param {string} dataSource[].firstLanguage - user's first official language
-   * @return {Array.<{description: String, title: String}>} - array of first language results
+   * @return {{description: string, title: string}} - array of first language results
    */
   const getFirstLanguageInfo = (dataSource) => {
     let description = <FormattedMessage id="not.provided" />;

@@ -23,10 +23,10 @@ const EducationCardView = ({ educationInfo }) => {
 
   /**
    * Generate the supporting document links for the developmental goals
-   * @param {object} SupportingLinks - Object describing the supporting documents
-   * @param {string} SupportingLinks.id - Unique id the document
-   * @param {string} SupportingLinks.url - URL to the document
-   * @param {string} SupportingLinks.name - Name of the document type
+   * @param {object} SupportingLinks - Object describing the supporting link
+   * @param {string} SupportingLinks.id - Unique id of the supporting link
+   * @param {string} SupportingLinks.url - URL to the supporting link
+   * @param {string} SupportingLinks.name - Name of the supporting link type
    * @returns {React.ReactElement} - React Element
    */
   const generateSupportingLinks = (SupportingLinks) =>
