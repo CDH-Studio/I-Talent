@@ -7,7 +7,9 @@ const TagListView = ({ data }) => (
   <ul className="tagList">
     {data.map((item) => (
       <li key={item.key}>
-        <Tag color="#00605e">{item.label}</Tag>
+        <Tag className="primaryTag" color="#00605e">
+          {item.label}
+        </Tag>
       </li>
     ))}
   </ul>
