@@ -1,6 +1,6 @@
 import { FormattedMessage } from "react-intl";
 import { LinkOutlined, TagTwoTone } from "@ant-design/icons";
-import { Col, Empty, Row, Tag } from "antd";
+import { Col, Empty, Row } from "antd";
 import { PropTypes } from "prop-types";
 
 import TagList from "../tagList/TagList";
@@ -28,7 +28,7 @@ const LearningDevelopmentCardView = ({ devGoals, devAttachments }) => {
               <FormattedMessage id="developmental.goals" />:
             </h4>
           </div>
-          <TagList data={DevelopmentalGoals} />
+          <TagList data={DevelopmentalGoals} tagStyle="primary" />
         </Col>
       </Row>
     );
@@ -58,17 +58,7 @@ const LearningDevelopmentCardView = ({ devGoals, devAttachments }) => {
               <FormattedMessage id="supporting.document" />:
             </h4>
           </div>
-          {SupportingLinks.map((i) => (
-            <a href={i.url} rel="noopener noreferrer" target="_blank">
-              <Tag key={i.id} color="#727272" style={{ cursor: "pointer" }}>
-                <LinkOutlined aria-hidden="true" className="mr-1" />
-                {i.name.name}
-                <span className="screenReaderOnly">
-                  <FormattedMessage id="opens.in.new.tab" />
-                </span>
-              </Tag>
-            </a>
-          ))}
+          <TagList data={SupportingLinks} tagStyle="link" />
         </Col>
       </Row>
     );

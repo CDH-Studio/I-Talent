@@ -16,7 +16,7 @@ const CompetenciesCard = ({ data, editableCardBool }) => {
         key: competency.id,
         label: competency.name,
       })),
-    [data]
+    [data.competencies]
   );
 
   return (

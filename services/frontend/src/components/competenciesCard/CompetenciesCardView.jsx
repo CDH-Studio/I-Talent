@@ -14,7 +14,7 @@ const CompetenciesCardView = ({ competencies }) => {
   if (competencies.length > 0) {
     return (
       <Row style={{ paddingBottom: "8px", paddingTop: "8px" }}>
-        <TagList data={competencies} />
+        <TagList data={competencies} tagStyle="primary" />
       </Row>
     );
   }

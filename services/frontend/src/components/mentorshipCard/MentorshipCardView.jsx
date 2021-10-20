@@ -24,7 +24,7 @@ const MentorshipCardView = ({ mentorshipSkill, mentorshipSkillCategories }) => {
               />
               <h4 className="mt-1 d-inline">{categoryName}:</h4>
             </div>
-            <TagList data={mentorshipSkill[categoryName]} />
+            <TagList data={mentorshipSkill[categoryName]} tagStyle="primary" />
           </Col>
         </Row>
       </Fragment>

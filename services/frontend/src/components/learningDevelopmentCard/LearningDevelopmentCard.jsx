@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useIntl } from "react-intl";
+import { LinkOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
@@ -19,6 +20,18 @@ const LearningDevelopmentCard = ({ data, editableCardBool }) => {
     [data]
   );
 
+  const formattedSupportedDocuments = useMemo(
+    () =>
+      data.developmentalGoalsAttachments &&
+      data.developmentalGoalsAttachments.map((document) => ({
+        href: document.url,
+        icon: <LinkOutlined />,
+        key: document.id,
+        label: document.name.name,
+      })),
+    [data.developmentalGoalsAttachments]
+  );
+
   return (
     <ProfileCards
       cardName="developmentalGoals"
@@ -31,7 +44,7 @@ const LearningDevelopmentCard = ({ data, editableCardBool }) => {
       visibility={data.visibleCards.developmentalGoals}
     >
       <LearningDevelopmentCardView
-        devAttachments={data.developmentalGoalsAttachments}
+        devAttachments={formattedSupportedDocuments}
         devGoals={formattedDevelopmentalGoals}
       />
     </ProfileCards>
