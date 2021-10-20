@@ -34,7 +34,7 @@ import ExFeederCard from "../../exFeederCard/ExFeederCard";
 import ExperienceCard from "../../experienceCard/ExperienceCard";
 import Header from "../../header/Header";
 import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
-import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
+import LearningDevelopmentCard from "../../learningDevelopmentCard/LearningDevelopmentCard";
 import MentorshipCard from "../../mentorshipCard/MentorshipCard";
 import OfficialLanguageCard from "../../officialLanguageCard/OfficialLanguageCard";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
@@ -156,7 +156,10 @@ const ProfileLayoutView = ({
         <FormattedMessage id="employee.growth.interests" />
       </Title>
       <Col span={24}>
-        <LearningDevelopment data={data} editableCardBool={isUsersProfile} />
+        <LearningDevelopmentCard
+          data={data}
+          editableCardBool={isUsersProfile}
+        />
       </Col>
       <Col span={24}>
         <QualifiedPools data={data} editableCardBool={isUsersProfile} />

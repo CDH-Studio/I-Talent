@@ -11,6 +11,7 @@ const CompetenciesCard = ({ data, editableCardBool }) => {
 
   const formattedCompetencies = useMemo(
     () =>
+      data.competencies &&
       data.competencies.map((competency) => ({
         key: competency.id,
         label: competency.name,

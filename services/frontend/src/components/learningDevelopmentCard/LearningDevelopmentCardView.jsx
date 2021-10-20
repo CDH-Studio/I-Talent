@@ -3,7 +3,9 @@ import { LinkOutlined, TagTwoTone } from "@ant-design/icons";
 import { Col, Empty, Row, Tag } from "antd";
 import { PropTypes } from "prop-types";
 
-const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
+import TagList from "../tagList/TagList";
+
+const LearningDevelopmentCardView = ({ devGoals, devAttachments }) => {
   /**
    * Generate the developmental goal tags for the profile
    * @param {object} DevelopmentalGoals - Object describing the developmental goals
@@ -26,11 +28,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
               <FormattedMessage id="developmental.goals" />:
             </h4>
           </div>
-          {DevelopmentalGoals.map((goal) => (
-            <Tag key={goal.name} color="#00605e">
-              {goal.name}
-            </Tag>
-          ))}
+          <TagList data={DevelopmentalGoals} />
         </Col>
       </Row>
     );
@@ -95,7 +93,7 @@ const LearningDevelopmentView = ({ devGoals, devAttachments }) => {
   );
 };
 
-LearningDevelopmentView.propTypes = {
+LearningDevelopmentCardView.propTypes = {
   devAttachments: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
@@ -108,15 +106,16 @@ LearningDevelopmentView.propTypes = {
   ),
   devGoals: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
+      categoryId: PropTypes.string,
+      key: PropTypes.string,
+      label: PropTypes.string,
     })
   ),
 };
 
-LearningDevelopmentView.defaultProps = {
+LearningDevelopmentCardView.defaultProps = {
   devAttachments: [],
   devGoals: [],
 };
 
-export default LearningDevelopmentView;
+export default LearningDevelopmentCardView;

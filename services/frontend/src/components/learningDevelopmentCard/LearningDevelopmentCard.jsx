@@ -1,12 +1,23 @@
+import { useMemo } from "react";
 import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import LearningDevelopmentView from "./LearningDevelopmentView";
+import LearningDevelopmentCardView from "./LearningDevelopmentCardView";
 
-const LearningDevelopment = ({ data, editableCardBool }) => {
+const LearningDevelopmentCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
+
+  const formattedDevelopmentalGoals = useMemo(
+    () =>
+      data.developmentalGoals &&
+      data.developmentalGoals.map((goal) => ({
+        key: goal.id,
+        label: goal.name,
+      })),
+    [data]
+  );
 
   return (
     <ProfileCards
@@ -19,22 +30,22 @@ const LearningDevelopment = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "learning.development" })}
       visibility={data.visibleCards.developmentalGoals}
     >
-      <LearningDevelopmentView
+      <LearningDevelopmentCardView
         devAttachments={data.developmentalGoalsAttachments}
-        devGoals={data.developmentalGoals}
+        devGoals={formattedDevelopmentalGoals}
       />
     </ProfileCards>
   );
 };
 
-LearningDevelopment.propTypes = {
+LearningDevelopmentCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-LearningDevelopment.defaultProps = {
+LearningDevelopmentCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default LearningDevelopment;
+export default LearningDevelopmentCard;

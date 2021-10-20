@@ -29,8 +29,9 @@ const CompetenciesCardView = ({ competencies }) => {
 CompetenciesCardView.propTypes = {
   competencies: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
+      categoryId: PropTypes.string,
+      key: PropTypes.string,
+      label: PropTypes.string,
     })
   ),
 };
