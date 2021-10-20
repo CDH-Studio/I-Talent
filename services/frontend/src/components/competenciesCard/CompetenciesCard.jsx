@@ -1,12 +1,22 @@
+import { useMemo } from "react";
 import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
-import CompetenciesView from "./CompetenciesView";
+import CompetenciesCardView from "./CompetenciesCardView";
 
-const Competencies = ({ data, editableCardBool }) => {
+const CompetenciesCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
+
+  const formattedCompetencies = useMemo(
+    () =>
+      data.competencies.map((competency) => ({
+        key: competency.id,
+        label: competency.name,
+      })),
+    [data]
+  );
 
   return (
     <ProfileCards
@@ -19,19 +29,19 @@ const Competencies = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "competencies" })}
       visibility={data.visibleCards.competencies}
     >
-      <CompetenciesView competencies={data.competencies} />
+      <CompetenciesCardView competencies={formattedCompetencies} />
     </ProfileCards>
   );
 };
 
-Competencies.propTypes = {
+CompetenciesCard.propTypes = {
   data: ProfileInfoPropType,
   editableCardBool: PropTypes.bool,
 };
 
-Competencies.defaultProps = {
+CompetenciesCard.defaultProps = {
   data: null,
   editableCardBool: false,
 };
 
-export default Competencies;
+export default CompetenciesCard;

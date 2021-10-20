@@ -24,7 +24,7 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import AboutMeCard from "../../aboutMeCard/AboutMeCard";
 import BasicInfo from "../../basicInfo/BasicInfo";
-import Competencies from "../../competenciesCard/Competencies";
+import CompetenciesCard from "../../competenciesCard/CompetenciesCard";
 import ConnectionsCard from "../../connectionsCard/ConnectionsCard";
 import EducationCard from "../../educationCard/EducationCard";
 import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
@@ -119,7 +119,7 @@ const ProfileLayoutView = ({
         <MentorshipCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Competencies data={data} editableCardBool={isUsersProfile} />
+        <CompetenciesCard data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Qualifications *********** */}
