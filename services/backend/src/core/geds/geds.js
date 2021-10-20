@@ -37,6 +37,10 @@ async function getGedsSetup(request, response) {
     prisma.user.findUnique({ where: { id }, select: { email: true } }),
   ]);
 
+  if (!dataGEDSArray || !Array.isArray(dataGEDSArray)) {
+    return response.status(200).send({});
+  }
+
   const dataGEDS = dataGEDSArray.find(
     (element) => element.contactInformation.email === dataDBEmail
   );
