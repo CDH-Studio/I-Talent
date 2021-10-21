@@ -111,7 +111,7 @@ async function getGedsSetup(request, response) {
     })),
   };
 
-  response.status(200).send(profile);
+  return response.status(200).send(profile);
 }
 
 module.exports = {
