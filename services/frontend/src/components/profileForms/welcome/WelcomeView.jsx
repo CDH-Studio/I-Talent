@@ -125,9 +125,9 @@ const WelcomeView = ({
       return (
         <div>
           {/* loading button */}
-          {generateProfileBtn({
+          {load && generateProfileBtn({
             firstTitle: intl.formatMessage({ id: "fetching.profiles" }),
-            icon: load ? <LoadingOutlined aria-hidden="true" /> : <ExclamationCircleOutlined aria-hidden="true" />,
+            icon: <LoadingOutlined aria-hidden="true" />,
             secondTitle: intl.formatMessage({
               id: "from.gcdirectory",
             }),
