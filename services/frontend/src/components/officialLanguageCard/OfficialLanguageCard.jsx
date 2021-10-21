@@ -10,7 +10,7 @@ const OfficialLanguageCard = ({ data, editableCardBool }) => {
 
   /**
    * Generate First Official Language info array
-   * @param {Object[]} dataSource - object describing the userprofile
+   * @param {object[]} dataSource - object describing the userprofile
    * @param {string} dataSource[].firstLanguage - user's first official language
    * @return {{description: string, title: string}} - array of first language results
    */
@@ -82,7 +82,7 @@ const OfficialLanguageCard = ({ data, editableCardBool }) => {
 
   /**
    * Generate Second Official Language info array
-   * @param {Object[]} dataSource - object describing the user profile
+   * @param {object[]} dataSource - object describing the user profile
    * @param {string} dataSource[].firstLanguage - user's first official language
    * @returns {Array.<{title: string, level: string, status: string}>} - array of second language results
    */

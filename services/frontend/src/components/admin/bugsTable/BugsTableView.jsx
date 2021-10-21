@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
@@ -205,7 +205,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
 
   /**
    * Open Notification
-   * @param {Object} notification - The notification to be displayed.
+   * @param {object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
@@ -236,7 +236,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
 
   /**
    * Update form and state to show edit modal
-   * @param {Object} record Selected edit row bug content
+   * @param {object} record Selected edit row bug content
    */
   const handleEdit = (record) => {
     form.setFieldsValue(record);

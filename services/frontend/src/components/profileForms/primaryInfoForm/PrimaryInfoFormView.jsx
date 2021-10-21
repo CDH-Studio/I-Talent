@@ -108,7 +108,7 @@ const PrimaryInfoFormView = ({
 
   /**
    * Open Notification pop up with message
-   * @param {Object} notification - The notification to be displayed.
+   * @param {object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
@@ -150,7 +150,7 @@ const PrimaryInfoFormView = ({
 
   /**
    * Extract initial values of the form from profile
-   * @param {Object} profile - User Profile
+   * @param {object} profile - User Profile
    */
   const getInitialValues = ({ profile }) => {
     if (profile) {
@@ -205,7 +205,7 @@ const PrimaryInfoFormView = ({
 
   /**
    * Save Data to DB by sending to backend API
-   * @param {Object} formValues - Data from primary info form.
+   * @param {object} formValues - Data from primary info form.
    */
   const saveDataToDB = async (formValues) => {
     const dbValues = {

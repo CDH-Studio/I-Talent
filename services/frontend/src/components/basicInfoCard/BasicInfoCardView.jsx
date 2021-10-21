@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -12,35 +12,26 @@ import {
   TeamOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import {
-  Avatar,
-  Button,
-  Card,
-  Col,
-  List,
-  Modal,
-  Row,
-  Tag,
-  Typography,
-} from "antd";
-import { kebabCase } from "lodash";
+import { Avatar, Button, Card, Col, List, Modal, Row, Typography } from "antd";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import OrgTree from "../orgTree/OrgTree";
 import ProfileActionRibbon from "../profileActionRibbon/ProfileActionRibbon";
+import TagList from "../tagList/TagList";
 
-import "./BasicInfoView.less";
+import "./BasicInfoCardView.less";
 
 const { Text } = Typography;
 
-const BasicInfoView = ({
+const BasicInfoCardView = ({
   data,
   name,
   avatar,
   jobTitle,
   buttonLinks,
   connectionStatus,
+  teamsAndProjects,
 }) => {
   // useParams returns an object of key/value pairs from URL parameters
   const { id } = useParams();
@@ -48,11 +39,10 @@ const BasicInfoView = ({
   const userID = useSelector((state) => state.user.id);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  /*
-   * Generate Profile Header
-   *
+  /**
    * Generates basic info card header
    * This includes: avatar, name, position
+   * @returns {React.ReactElement} - React Element
    */
   const generateProfileHeader = () => (
     <Row className="profileHeaderRow" type="flex">
@@ -92,15 +82,15 @@ const BasicInfoView = ({
     </Row>
   );
 
-  /*
-   * Generate Info List
-   *
+  /**
    * Generates list of basic info with small icons
-   * This includes: address, email, etc.
+   * This includes: address, email, cell etc.
+   * @param {object} listOfData list of info
+   * @returns {React.ReactElement} - React Element
    */
-  const generateInfoList = (dataSource) => (
+  const generateInfoList = (listOfData) => (
     <List
-      dataSource={dataSource}
+      dataSource={listOfData}
       itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item>
@@ -116,11 +106,10 @@ const BasicInfoView = ({
     />
   );
 
-  /*
-   * Get Contact Info
-   *
+  /**
    * Generates data for contact info list
    * Email, Work Phone, and Work Cell
+   * @returns {Array<{description: React.ReactElement, icon: React.ReactElement, title: React.ReactElement}>} - Array of contact info
    */
   const getContactInfo = () => {
     const email = {
@@ -164,11 +153,10 @@ const BasicInfoView = ({
     return [email, tel, cel];
   };
 
-  /*
-   * Get Work Info
-   *
+  /**
    * Generates data for user's work info
    * Branch, Work Address, and Manager
+   * @returns {Array<{description: React.ReactElement, icon: React.ReactElement, title: React.ReactElement}>} - Array of contact info
    */
   const getWorkInfo = () => {
     const branch = {
@@ -227,36 +215,26 @@ const BasicInfoView = ({
     return [branch, address, manager];
   };
 
-  /*
+  /**
    * Generate Team Info
-   *
+   * @returns {Array<{description: React.ReactElement, icon: React.ReactElement, title: React.ReactElement}>} - Array of contact info
    */
-  const generateTeamInfo = () => {
-    const teams = {
-      description:
-        data.teams && data.teams.length ? (
-          <List>
-            {Object.values(data.teams).map((item) => (
-              <Tag key={kebabCase(item)} color="#727272">
-                {item}
-              </Tag>
-            ))}
-          </List>
-        ) : (
-          <FormattedMessage id="not.provided" />
-        ),
+  const generateTeamInfo = () => [
+    {
+      description: teamsAndProjects ? (
+        <TagList data={teamsAndProjects} tagStyle="secondary" />
+      ) : (
+        <FormattedMessage id="not.provided" />
+      ),
       icon: <TeamOutlined />,
       title: <FormattedMessage id="employee.work.unit" />,
-    };
+    },
+  ];
 
-    return [teams];
-  };
-
-  /*
-   * Generate Actions
-   *
+  /**
    * Generates the list of actions at bottom of info card
    * This includes links to: email, linkedin, and github
+   * @returns {React.ReactElement[]} - Array of contact info
    */
   const generateActions = () => {
     const buttons = Object.keys(buttonLinks).map((key) => {
@@ -306,7 +284,7 @@ const BasicInfoView = ({
   );
 };
 
-BasicInfoView.propTypes = {
+BasicInfoCardView.propTypes = {
   avatar: PropTypes.shape({
     acr: PropTypes.string,
     color: PropTypes.string,
@@ -316,10 +294,17 @@ BasicInfoView.propTypes = {
   data: ProfileInfoPropType.isRequired,
   jobTitle: PropTypes.string,
   name: PropTypes.string.isRequired,
+  teamsAndProjects: PropTypes.arrayOf(
+    PropTypes.shape({
+      categoryId: PropTypes.string,
+      key: PropTypes.string,
+      label: PropTypes.string,
+    })
+  ).isRequired,
 };
 
-BasicInfoView.defaultProps = {
+BasicInfoCardView.defaultProps = {
   jobTitle: null,
 };
 
-export default BasicInfoView;
+export default BasicInfoCardView;

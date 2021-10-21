@@ -10,8 +10,8 @@ import useAxios from "../../../../utils/useAxios";
 
 /**
  * Parse and generate table data based in saved profile and GEDS
- * @param {Object} savedProfile - saved profile data.
- * @param {Object} gedsProfile - profile from geds.
+ * @param {object} savedProfile - saved profile data.
+ * @param {object} gedsProfile - profile from geds.
  */
 const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
   {

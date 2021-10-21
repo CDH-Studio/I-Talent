@@ -26,7 +26,7 @@ const ProfileCardsView = ({
 }) => {
   /**
    * Generate Edit Menu with visibility toggle and edit button for profile in edit mode
-   * @param {Object} visibilityOfAllCards - visibility status of all cards.
+   * @param {object} visibilityOfAllCards - visibility status of all cards.
    * @param {string} cardInfoName - name of the card.
    * @param {string} editFormUrl - url to edit form.
    * @param {string} cardTitleString - url to edit form.

@@ -23,7 +23,7 @@ import PropTypes from "prop-types";
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import AboutMeCard from "../../aboutMeCard/AboutMeCard";
-import BasicInfo from "../../basicInfo/BasicInfo";
+import BasicInfoCard from "../../basicInfoCard/BasicInfoCard";
 import CompetenciesCard from "../../competenciesCard/CompetenciesCard";
 import ConnectionsCard from "../../connectionsCard/ConnectionsCard";
 import EducationCard from "../../educationCard/EducationCard";
@@ -79,7 +79,7 @@ const ProfileLayoutView = ({
       </h2>
       {/* Summary */}
       <Col xl={14} xs={24}>
-        <BasicInfo connectionStatus={connectionStatus} data={data} />
+        <BasicInfoCard connectionStatus={connectionStatus} data={data} />
       </Col>
       <Col xl={10} xs={24}>
         <Row gutter={[0, 15]}>

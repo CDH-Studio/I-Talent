@@ -12,7 +12,7 @@ const SkillsCard = ({ data, editableCardBool }) => {
 
   /**
    * Format skills list into categories
-   * @param {Object[]} skillsList - Object describing the categorized skills list
+   * @param {object[]} skillsList - Object describing the categorized skills list
    * @param {string} skillsList[].category - Skill category name
    * @param {string} skillsList[].categoryId - id of the skill's category
    * @param {string} skillsList[].id - id of the skill
@@ -42,7 +42,7 @@ const SkillsCard = ({ data, editableCardBool }) => {
 
   /**
    * Extract the skill categories from skills object
-   * @param {Object} formattedSkills - Object describing the categorized skills list
+   * @param {object} formattedSkills - Object describing the categorized skills list
    * @returns {Array<string>} - Array of skill categories
    */
   const getSkillCategories = (formattedSkills) => Object.keys(formattedSkills);

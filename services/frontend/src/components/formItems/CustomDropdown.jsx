@@ -129,7 +129,7 @@ const CustomDropdown = ({
   /**
    * Generate the message to display when no options are available to be selected
    * for "creatable react-select"
-   * @param {Object} userTypedInput - The users input as they type
+   * @param {object} userTypedInput - The users input as they type
    * @param {string[]} userSelectedOptions - The user selected options
    * @param {boolean} isMultiSelect - is the field configured as multi-select
    * @param {number} maxSelectedLimit - max number of options that can be selected
@@ -318,7 +318,7 @@ const CustomDropdown = ({
 
   /**
    * Custom styling for "react-select" based on the API provided in the documentation
-   * @const {Object}
+   * @const {object}
    */
   const customStyles = {
     clearIndicator: (provided) => ({
@@ -401,7 +401,7 @@ const CustomDropdown = ({
 
   /**
    * Custom theming for "react-select" based on the API provided in the documentation
-   * @const {Object}
+   * @const {object}
    */
   const customTheme = (theme) => ({
     ...theme,

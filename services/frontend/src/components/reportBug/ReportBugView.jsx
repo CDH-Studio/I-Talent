@@ -63,7 +63,7 @@ const ReportBugView = ({ saveDataToDB }) => {
   /**
    * Open Notification
    *
-   * @param {Object} notification - The notification to be displayed.
+   * @param {object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
