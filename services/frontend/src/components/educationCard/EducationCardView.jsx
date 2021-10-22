@@ -27,10 +27,10 @@ const DescriptionBody = ({ text }) =>
 /**
  * Generate the supporting document links for the developmental goals
  * @param {Object} props - component props
- * @param {Object[]} SupportingLinks - Object describing the supporting link
- * @param {string} SupportingLinks[].id - Unique id of the supporting link
- * @param {string} SupportingLinks[].url - URL to the supporting link
- * @param {string} SupportingLinks[].name - Name of the supporting link type
+ * @param {Object[]} props.supportingLinks - Object describing the supporting link
+ * @param {string} props.supportingLinks[].id - Unique id of the supporting link
+ * @param {string} props.supportingLinks[].url - URL to the supporting link
+ * @param {string} props.supportingLinks[].name - Name of the supporting link type
  * @returns {React.ReactElement} - React Element
  */
 // eslint-disable-next-line react/prop-types

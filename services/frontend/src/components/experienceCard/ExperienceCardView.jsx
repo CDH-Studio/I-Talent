@@ -137,7 +137,13 @@ ExperienceCardView.propTypes = {
       duration: PropTypes.string,
       jobTitle: PropTypes.string,
       organization: PropTypes.string,
-      projects: PropTypes.arrayOf(PropTypes.string),
+      projects: PropTypes.arrayOf(
+        PropTypes.shape({
+          icon: PropTypes.node,
+          key: PropTypes.string,
+          label: PropTypes.node,
+        })
+      ),
     })
   ).isRequired,
 };
