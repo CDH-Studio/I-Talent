@@ -6,9 +6,9 @@ import PropTypes from "prop-types";
 
 import TagList from "../tagList/TagList";
 
-const SkillsCardView = ({ skillCategories, skills }) => {
-  if (skills && skillCategories && skillCategories.length > 0)
-    return skillCategories.map((categoryName) => (
+const SkillsCardView = ({ skillCategories, skills }) =>
+  skills && skillCategories && skillCategories.length > 0 ? (
+    skillCategories.map((categoryName) => (
       <Fragment key={categoryName}>
         <Row>
           <Col className="mb-2">
@@ -24,15 +24,13 @@ const SkillsCardView = ({ skillCategories, skills }) => {
           </Col>
         </Row>
       </Fragment>
-    ));
-
-  return (
+    ))
+  ) : (
     <Empty
       description={<FormattedMessage id="skills.empty" />}
       image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
-};
 
 SkillsCardView.propTypes = {
   skillCategories: PropTypes.arrayOf(PropTypes.string),
