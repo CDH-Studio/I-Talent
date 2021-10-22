@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { useIntl } from "react-intl";
+import { LinkOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
@@ -6,66 +8,100 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import EducationCardView from "./EducationCardView";
 
+/**
+ * Generate the formatted duration
+ * @param {string} startDate - start date
+ * @param {string} endDate - end date
+ * @param {boolean} ongoingDate - is experience on going
+ * @param {Object} intl - intl object
+ * @returns {string} - formatted duration
+ */
+const formatEducationDuration = (startDate, endDate, ongoingDate, intl) => {
+  const formattedStartDate = dayjs(startDate).format("MMMM YYYY");
+  const formattedEndDate = dayjs(endDate).format("MMMM YYYY");
+
+  if (startDate && endDate) {
+    return `${formattedStartDate} - ${formattedEndDate}`;
+  }
+
+  if (ongoingDate && startDate) {
+    return `${formattedStartDate} - ${intl.formatMessage({
+      id: "date.present",
+    })}`;
+  }
+
+  if (ongoingDate) {
+    return intl.formatMessage({ id: "education.date.present" });
+  }
+
+  if (startDate && !endDate) {
+    return formattedStartDate;
+  }
+
+  if (!startDate && endDate) {
+    return formattedEndDate;
+  }
+
+  return "-";
+};
+
+/**
+ * Format the attachment links array
+ * @param {Object[]} attachmentLinks - start date
+ * @param {string} attachmentLinks[].href - link to attachment
+ * @param {string} attachmentLinks[].id - unique id of attachment
+ * @param {string} attachmentLinks[].name.name - name of the attachment type
+ * @returns {string} - formatted duration
+ */
+const formatAttachmentLinks = (attachmentLinks) =>
+  attachmentLinks
+    ? attachmentLinks.map((a) => ({
+        href: a.url,
+        icon: <LinkOutlined />,
+        key: a.id,
+        label: a.name.name,
+      }))
+    : [];
+
+/**
+ * Extract and format the education information
+ * @param {Object} dataSource - education information
+ * @param {Object} intl - intl object
+ * @returns {string} - formatted duration
+ */
+const formatEducationInfo = (dataSource, intl) =>
+  dataSource && dataSource.educations
+    ? dataSource.educations.map(
+        ({
+          startDate,
+          endDate,
+          ongoingDate,
+          diploma,
+          school,
+          description,
+          attachmentLinks,
+        }) => ({
+          attachmentLinks: formatAttachmentLinks(attachmentLinks),
+          description,
+          diploma: diploma.description,
+          duration: formatEducationDuration(
+            startDate,
+            endDate,
+            ongoingDate,
+            intl
+          ),
+          school: school.name,
+        })
+      )
+    : [];
+
 const EducationCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
-  const getEducationDuration = (startDate, endDate, ongoingDate) => {
-    const formattedStartDate = dayjs(startDate).format("MMMM YYYY");
-    const formattedEndDate = dayjs(endDate).format("MMMM YYYY");
-
-    if (startDate && endDate) {
-      return `${formattedStartDate} - ${formattedEndDate}`;
-    }
-
-    if (ongoingDate && startDate) {
-      return `${formattedStartDate} - ${intl.formatMessage({
-        id: "date.present",
-      })}`;
-    }
-
-    if (ongoingDate) {
-      return intl.formatMessage({ id: "education.date.present" });
-    }
-
-    if (startDate && !endDate) {
-      return formattedStartDate;
-    }
-
-    if (!startDate && endDate) {
-      return formattedEndDate;
-    }
-
-    return "-";
-  };
-
-  const getEducationInfo = (dataSource) => {
-    if (!dataSource || !dataSource.experiences) {
-      return [];
-    }
-    return dataSource.educations.map(
-      ({
-        startDate,
-        endDate,
-        ongoingDate,
-        diploma,
-        school,
-        description,
-        attachmentLinks,
-      }) => ({
-        attachmentLinks: attachmentLinks
-          ? attachmentLinks.map((a) => ({
-              id: a.id,
-              name: a.name.name,
-              url: a.url,
-            }))
-          : [],
-        description,
-        diploma: diploma.description,
-        duration: getEducationDuration(startDate, endDate, ongoingDate),
-        school: school.name,
-      })
-    );
-  };
+  const formattedEducationInfo = useMemo(
+    () => formatEducationInfo(data, intl),
+    [data, intl]
+  );
 
   return (
     <ProfileCards
@@ -78,7 +114,7 @@ const EducationCard = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "education" })}
       visibility={data.visibleCards.education}
     >
-      <EducationCardView educationInfo={getEducationInfo(data)} />
+      <EducationCardView educationInfo={formattedEducationInfo} />
     </ProfileCards>
   );
 };

@@ -1,102 +1,90 @@
 import { FormattedMessage } from "react-intl";
-import { BankOutlined, LinkOutlined } from "@ant-design/icons";
-import { Avatar, Empty, List, Tag } from "antd";
+import { BankOutlined } from "@ant-design/icons";
+import { Avatar, Empty, List } from "antd";
 import PropTypes from "prop-types";
+
+import TagList from "../tagList/TagList";
 
 import "./EducationCardView.less";
 
-const EducationCardView = ({ educationInfo }) => {
-  /**
-   * Generate styled description text
-   * @param {string} text - text to display as description
-   * @returns {React.ReactElement} - React Element
-   */
-  const generateDescriptionBody = (text) =>
-    text && (
-      <div className="education-descriptionViewText my-2">
-        <h5 className="visually-hidden">
-          <FormattedMessage id="description" />
-        </h5>
-        {text}
-      </div>
-    );
+/**
+ * Generate styled description text
+ * @param {Object} props - component props
+ * @param {string} text - text to display as description
+ * @returns {React.ReactElement} - React Element
+ */
+// eslint-disable-next-line react/prop-types
+const DescriptionBody = ({ text }) =>
+  text && (
+    <div className="education-descriptionViewText my-2">
+      <h5 className="visually-hidden">
+        <FormattedMessage id="description" />
+      </h5>
+      {text}
+    </div>
+  );
 
-  /**
-   * Generate the supporting document links for the developmental goals
-   * @param {object} SupportingLinks - Object describing the supporting link
-   * @param {string} SupportingLinks.id - Unique id of the supporting link
-   * @param {string} SupportingLinks.url - URL to the supporting link
-   * @param {string} SupportingLinks.name - Name of the supporting link type
-   * @returns {React.ReactElement} - React Element
-   */
-  const generateSupportingLinks = (SupportingLinks) =>
-    SupportingLinks &&
-    SupportingLinks.length > 0 && (
-      <>
-        <h5 className="visually-hidden">
-          <FormattedMessage id="attachment.links.education" />
-        </h5>
-        {SupportingLinks.map((link) => (
-          <a href={link.url} rel="noopener noreferrer" target="_blank">
-            <Tag key={link.id} color="#727272" style={{ cursor: "pointer" }}>
-              <LinkOutlined aria-hidden="true" className="mr-1" />
-              {link.name}
-              <span className="screenReaderOnly">
-                <FormattedMessage id="opens.in.new.tab" />
-              </span>
-            </Tag>
-          </a>
-        ))}
-      </>
-    );
+/**
+ * Generate the supporting document links for the developmental goals
+ * @param {Object} props - component props
+ * @param {Object[]} SupportingLinks - Object describing the supporting link
+ * @param {string} SupportingLinks[].id - Unique id of the supporting link
+ * @param {string} SupportingLinks[].url - URL to the supporting link
+ * @param {string} SupportingLinks[].name - Name of the supporting link type
+ * @returns {React.ReactElement} - React Element
+ */
+// eslint-disable-next-line react/prop-types
+const SupportingLinks = ({ supportingLinks = [] }) =>
+  supportingLinks.length > 0 && (
+    <>
+      <h5 className="visually-hidden">
+        <FormattedMessage id="attachment.links.education" />
+      </h5>
+      <TagList data={supportingLinks} tagStyle="link" />
+    </>
+  );
 
-  if (educationInfo && educationInfo.length > 0) {
-    return (
-      <List
-        dataSource={educationInfo}
-        itemLayout="vertical"
-        renderItem={(educationItem) => (
-          <List.Item
-            className="education-item-list"
-            extra={
-              <>
-                <h5 className="visually-hidden">
-                  <FormattedMessage id="duration" />
-                </h5>
-                {educationItem.duration}
-              </>
+const EducationCardView = ({ educationInfo }) =>
+  educationInfo && educationInfo.length > 0 ? (
+    <List
+      dataSource={educationInfo}
+      itemLayout="vertical"
+      renderItem={(educationItem) => (
+        <List.Item
+          className="education-item-list"
+          extra={
+            <>
+              <h5 className="visually-hidden">
+                <FormattedMessage id="duration" />
+              </h5>
+              {educationItem.duration}
+            </>
+          }
+        >
+          <List.Item.Meta
+            avatar={
+              <Avatar
+                aria-hidden="true"
+                className="education-avatar"
+                icon={<BankOutlined aria-hidden="true" />}
+                shape="square"
+                size="large"
+              />
             }
-          >
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  aria-hidden="true"
-                  className="education-avatar"
-                  icon={<BankOutlined aria-hidden="true" />}
-                  shape="square"
-                  size="large"
-                />
-              }
-              description={educationItem.school}
-              title={educationItem.diploma}
-            />
-            {educationItem.description &&
-              generateDescriptionBody(educationItem.description)}
-
-            {educationItem.attachmentLinks &&
-              generateSupportingLinks(educationItem.attachmentLinks)}
-          </List.Item>
-        )}
-      />
-    );
-  }
-  return (
+            description={educationItem.school}
+            title={educationItem.diploma}
+          />
+          <DescriptionBody text={educationItem.description} />
+          <SupportingLinks supportingLinks={educationItem.attachmentLinks} />
+        </List.Item>
+      )}
+    />
+  ) : (
     <Empty
       description={<FormattedMessage id="education.empty" />}
       image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
-};
 
 EducationCardView.propTypes = {
   educationInfo: PropTypes.arrayOf(
