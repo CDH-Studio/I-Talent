@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 import { useIntl } from "react-intl";
 import { FileDoneOutlined, LinkOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
@@ -53,7 +53,7 @@ const formatExperienceDuration = (startDate, endDate, ongoingDate, intl) => {
  * @param {string} attachmentLinks[].href - link to attachment
  * @param {string} attachmentLinks[].id - unique id of attachment
  * @param {string} attachmentLinks[].name.name - name of the attachment type
- * @returns {string} - formatted duration
+ * @returns {Array<{href:string, icon: React.ReactElement, key: string, label: string, }>} - formatted attachments
  */
 const formatAttachmentLinks = (attachmentLinks) =>
   attachmentLinks
@@ -68,7 +68,7 @@ const formatAttachmentLinks = (attachmentLinks) =>
 /**
  * Format the array of projects
  * @param {string[]} projects - name of project
- * @returns {string} - formatted duration
+ * @returns {Object[]} - formatted projects list
  */
 const formatProjects = (projects) =>
   projects
@@ -83,7 +83,7 @@ const formatProjects = (projects) =>
  * Extract and format the experience information
  * @param {Object} dataSource - experience information
  * @param {Object} intl - intl object
- * @returns {string} - formatted duration
+ * @returns {Object[]} - formatted experience information
  */
 const formatExperienceInfo = (dataSource, intl) =>
   dataSource && dataSource.experiences

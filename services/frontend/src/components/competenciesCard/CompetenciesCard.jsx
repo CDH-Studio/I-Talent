@@ -6,16 +6,25 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import CompetenciesCardView from "./CompetenciesCardView";
 
+/**
+ * Format the competencies
+ * @param {Object[]} competencies - start date
+ * @param {string} competencies[].id - unique id of competency
+ * @param {string} competencies[].name.name - name of the competency
+ * @returns {Array<{ key: string, label: string, }>} - formatted competencies
+ */
+const formatCompetencies = (competencies) =>
+  competencies &&
+  competencies.map((competency) => ({
+    key: competency.id,
+    label: competency.name,
+  }));
+
 const CompetenciesCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   const formattedCompetencies = useMemo(
-    () =>
-      data.competencies &&
-      data.competencies.map((competency) => ({
-        key: competency.id,
-        label: competency.name,
-      })),
+    () => formatCompetencies(data.competencies),
     [data.competencies]
   );
 
