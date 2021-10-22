@@ -13,6 +13,7 @@ import "./ExperienceCardView.less";
 
 /**
  * Generate styled description text
+ * @param {Object} props - component props
  * @param {string} text - text to display as description
  * @returns {React.ReactElement} - React Element
  */
@@ -29,10 +30,11 @@ const DescriptionBody = ({ text }) =>
 
 /**
  * Generate the supporting document links for the developmental goals
- * @param {object[]} supportingLinks - Object describing the supporting link
- * @param {string} supportingLinks[].id - Unique id of the supporting link
- * @param {string} supportingLinks[].url - URL to the supporting link
- * @param {string} supportingLinks[].name - Name of the supporting link type
+ * @param {Object} props - component props
+ * @param {Object[]} props.supportingLinks - Object describing the supporting link
+ * @param {string} props.supportingLinks[].id - Unique id of the supporting link
+ * @param {string} props.supportingLinks[].url - URL to the supporting link
+ * @param {string} props.supportingLinks[].name - Name of the supporting link type
  * @returns {React.ReactElement} - React Element
  */
 // eslint-disable-next-line react/prop-types
@@ -55,7 +57,8 @@ const SupportingLinks = ({ supportingLinks = [] }) =>
 
 /**
  * Generate the list of projects
- * @param {Array.<string>} projects - list of project names
+ * @param {Object} props - component props
+ * @param {Array.<string>} props.projects - list of project names
  * @returns {React.ReactElement} - React Element
  */
 // eslint-disable-next-line react/prop-types
