@@ -8,16 +8,23 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import ExperienceCardView from "./ExperienceCardView";
 
+/**
+ * Generate the formatted duration
+ * @param {string} startDate - start date
+ * @param {string} endDate - end date
+ * @param {boolean} ongoingDate - is experience on going
+ * @returns {string} - formatted duration
+ */
 const getExperienceDuration = (startDate, endDate, ongoingDate, intl) => {
-  const formatedStartDate = dayjs(startDate).format("MMMM YYYY");
-  const formatedEndDate = dayjs(endDate).format("MMMM YYYY");
+  const formattedStartDate = dayjs(startDate).format("MMMM YYYY");
+  const formattedEndDate = dayjs(endDate).format("MMMM YYYY");
 
   if (startDate && endDate) {
-    return `${formatedStartDate} - ${formatedEndDate}`;
+    return `${formattedStartDate} - ${formattedEndDate}`;
   }
 
   if (ongoingDate && startDate) {
-    return `${formatedStartDate} - ${intl.formatMessage({
+    return `${formattedStartDate} - ${intl.formatMessage({
       id: "date.present",
     })}`;
   }
@@ -29,16 +36,24 @@ const getExperienceDuration = (startDate, endDate, ongoingDate, intl) => {
   }
 
   if (startDate && !endDate) {
-    return formatedStartDate;
+    return formattedStartDate;
   }
 
   if (!startDate && endDate) {
-    return formatedEndDate;
+    return formattedEndDate;
   }
 
   return "-";
 };
 
+/**
+ * Format the attachment links array
+ * @param {object[]} attachmentLinks - start date
+ * @param {string} attachmentLinks[].href - link to attachment
+ * @param {string} attachmentLinks[].id - unique id of attachment
+ * @param {string} attachmentLinks[].name.name - name of the attachment type
+ * @returns {string} - formatted duration
+ */
 const formatAttachmentLinks = (attachmentLinks) =>
   attachmentLinks
     ? attachmentLinks.map((a) => ({
@@ -49,6 +64,11 @@ const formatAttachmentLinks = (attachmentLinks) =>
       }))
     : [];
 
+/**
+ * Format the array of projects
+ * @param {string[]} projects - name of project
+ * @returns {string} - formatted duration
+ */
 const formatProjects = (projects) =>
   projects
     ? projects.map((i) => ({
@@ -58,38 +78,46 @@ const formatProjects = (projects) =>
       }))
     : [];
 
-const getExperienceInfo = (dataSource, intl) => {
-  if (!dataSource || !dataSource.experiences) {
-    return [];
-  }
-
-  return dataSource.experiences.map(
-    ({
-      startDate,
-      endDate,
-      ongoingDate,
-      description,
-      jobTitle,
-      organization,
-      attachmentLinks,
-      projects,
-    }) => ({
-      attachmentLinks: formatAttachmentLinks(attachmentLinks),
-      description,
-      duration: getExperienceDuration(startDate, endDate, ongoingDate, intl),
-      icon: "solution",
-      jobTitle,
-      organization,
-      projects: formatProjects(projects),
-    })
-  );
-};
+/**
+ * Extract and format the experience information
+ * @param {object} dataSource - name of project
+ * @param {object} intl - name of project
+ * @returns {string} - formatted duration
+ */
+const formatExperienceInfo = (dataSource, intl) =>
+  dataSource && dataSource.experiences
+    ? dataSource.experiences.map(
+        ({
+          startDate,
+          endDate,
+          ongoingDate,
+          description,
+          jobTitle,
+          organization,
+          attachmentLinks,
+          projects,
+        }) => ({
+          attachmentLinks: formatAttachmentLinks(attachmentLinks),
+          description,
+          duration: getExperienceDuration(
+            startDate,
+            endDate,
+            ongoingDate,
+            intl
+          ),
+          icon: "solution",
+          jobTitle,
+          organization,
+          projects: formatProjects(projects),
+        })
+      )
+    : [];
 
 const ExperienceCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   const formattedExperienceInfo = useMemo(
-    () => getExperienceInfo(data, intl),
+    () => formatExperienceInfo(data, intl),
     [data, intl]
   );
 

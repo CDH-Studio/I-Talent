@@ -16,7 +16,8 @@ import "./ExperienceCardView.less";
  * @param {string} text - text to display as description
  * @returns {React.ReactElement} - React Element
  */
-const generateDescriptionBody = (text) =>
+// eslint-disable-next-line react/prop-types
+const DescriptionBody = ({ text }) =>
   text && (
     <div className="education-descriptionViewText my-2">
       <h5 className="visually-hidden">
@@ -28,15 +29,15 @@ const generateDescriptionBody = (text) =>
 
 /**
  * Generate the supporting document links for the developmental goals
- * @param {object} SupportingLinks - Object describing the supporting link
- * @param {string} SupportingLinks.id - Unique id of the supporting link
- * @param {string} SupportingLinks.url - URL to the supporting link
- * @param {string} SupportingLinks.name - Name of the supporting link type
+ * @param {object[]} supportingLinks - Object describing the supporting link
+ * @param {string} supportingLinks[].id - Unique id of the supporting link
+ * @param {string} supportingLinks[].url - URL to the supporting link
+ * @param {string} supportingLinks[].name - Name of the supporting link type
  * @returns {React.ReactElement} - React Element
  */
-const generateSupportingLinks = (SupportingLinks) =>
-  SupportingLinks &&
-  SupportingLinks.length > 0 && (
+// eslint-disable-next-line react/prop-types
+const SupportingLinks = ({ supportingLinks = [] }) =>
+  supportingLinks.length > 0 && (
     <>
       <div className="d-block">
         <LinkOutlined
@@ -48,7 +49,7 @@ const generateSupportingLinks = (SupportingLinks) =>
           <FormattedMessage id="attachment.links.employment" />
         </h5>
       </div>
-      <TagList data={SupportingLinks} tagStyle="link" />
+      <TagList data={supportingLinks} tagStyle="link" />
     </>
   );
 
@@ -57,8 +58,8 @@ const generateSupportingLinks = (SupportingLinks) =>
  * @param {Array.<string>} projects - list of project names
  * @returns {React.ReactElement} - React Element
  */
-const generateProjectsList = (projects) =>
-  projects &&
+// eslint-disable-next-line react/prop-types
+const ProjectsList = ({ projects = [] }) =>
   projects.length > 0 && (
     <div className="mb-1">
       <div className="d-block">
@@ -75,56 +76,49 @@ const generateProjectsList = (projects) =>
     </div>
   );
 
-const ExperienceCardView = ({ experienceInfo }) => {
-  if (experienceInfo && experienceInfo.length > 0) {
-    return (
-      <List
-        dataSource={experienceInfo}
-        itemLayout="vertical"
-        renderItem={(item) => (
-          <List.Item
-            className="experience-item-list"
-            extra={
-              <>
-                <h5 className="visually-hidden">
-                  <FormattedMessage id="duration" />
-                </h5>
-                {item.duration}
-              </>
+const ExperienceCardView = ({ experienceInfo }) =>
+  experienceInfo && experienceInfo.length > 0 ? (
+    <List
+      dataSource={experienceInfo}
+      itemLayout="vertical"
+      renderItem={(item) => (
+        <List.Item
+          className="experience-item-list"
+          extra={
+            <>
+              <h5 className="visually-hidden">
+                <FormattedMessage id="duration" />
+              </h5>
+              {item.duration}
+            </>
+          }
+        >
+          <List.Item.Meta
+            avatar={
+              <Avatar
+                aria-hidden="true"
+                className="experience-avatar"
+                icon={<ContainerOutlined aria-hidden="true" />}
+                shape="square"
+                size="large"
+              />
             }
-          >
-            <List.Item.Meta
-              avatar={
-                <Avatar
-                  aria-hidden="true"
-                  className="experience-avatar"
-                  icon={<ContainerOutlined aria-hidden="true" />}
-                  shape="square"
-                  size="large"
-                />
-              }
-              description={item.organization}
-              title={item.jobTitle}
-            />
+            description={item.organization}
+            title={item.jobTitle}
+          />
 
-            {item.description && generateDescriptionBody(item.description)}
-
-            {item.projects && generateProjectsList(item.projects)}
-
-            {item.attachmentLinks &&
-              generateSupportingLinks(item.attachmentLinks)}
-          </List.Item>
-        )}
-      />
-    );
-  }
-  return (
+          <DescriptionBody text={item.description} />
+          <ProjectsList projects={item.projects} />
+          <SupportingLinks supportingLinks={item.attachmentLinks} />
+        </List.Item>
+      )}
+    />
+  ) : (
     <Empty
       description={<FormattedMessage id="experience.empty" />}
       image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
-};
 
 ExperienceCardView.propTypes = {
   experienceInfo: PropTypes.arrayOf(
