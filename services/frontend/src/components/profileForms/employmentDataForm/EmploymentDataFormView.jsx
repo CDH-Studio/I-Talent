@@ -76,7 +76,7 @@ const EmploymentDataFormView = ({
 
   /**
    * Save data to backend
-   * @param {object} unalteredValues - Values to be saved.
+   * @param {Object} unalteredValues - Values to be saved.
    *
    */
   const saveDataToDB = async (unalteredValues) => {
@@ -110,7 +110,7 @@ const EmploymentDataFormView = ({
 
   /**
    * Open Notification
-   * @param {object} notification - The notification to be displayed.
+   * @param {Object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
@@ -137,7 +137,7 @@ const EmploymentDataFormView = ({
 
   /**
    * extract the initial values from the profile
-   * @param {object} profile - user profile
+   * @param {Object} profile - user profile
    *
    */
   const getInitialValues = ({ profile }) => {

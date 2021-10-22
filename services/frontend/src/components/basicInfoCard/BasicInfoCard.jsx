@@ -13,12 +13,12 @@ import BasicInfoCardView from "./BasicInfoCardView";
 const BasicInfoCard = ({ data, connectionStatus }) => {
   /**
    * Format data for team and project names
-   * @param {object} externalLinks - links to external profiles
+   * @param {Object} externalLinks - links to external profiles
    * @param {string} externalLinks.email - email
    * @param {string} externalLinks.gcconnex - gcconnex username
    * @param {string} externalLinks.github - github username
    * @param {string} externalLinks.linkedin - linkedin username
-   * @return {object} formatted list of team names
+   * @return {Object} formatted list of team names
    */
   const generateButtonLinks = ({ email, gcconnex, github, linkedin }) => {
     const buttonLinks = {

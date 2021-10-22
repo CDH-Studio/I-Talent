@@ -59,7 +59,7 @@ const CardVisibilityToggleView = ({
   /**
    * Handel the change in visibility
    * save the selected visibility to backend
-   * @param {object} value - value selected from dropdown
+   * @param {Object} value - value selected from dropdown
    */
   const handleVisibilityToggle = async (value) => {
     // eslint-disable-next-line no-param-reassign
@@ -108,7 +108,7 @@ const CardVisibilityToggleView = ({
   /**
    * Handel selection change in drop down
    * open modal confirmation if "public" is selected
-   * @param {object} value - value selected from dropdown
+   * @param {Object} value - value selected from dropdown
    */
   const handleSelect = (value) => {
     if (value === "PUBLIC") {

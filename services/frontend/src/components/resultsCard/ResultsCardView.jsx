@@ -38,7 +38,7 @@ const ResultsCardView = ({
 
   /**
    * Render Result Cards
-   * @param {object} dataSource - The list of user results.
+   * @param {Object} dataSource - The list of user results.
    */
   const renderResultCards = (dataSource) => {
     if (emptyQuery) {

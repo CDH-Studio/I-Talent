@@ -13,9 +13,10 @@ import ExperienceCardView from "./ExperienceCardView";
  * @param {string} startDate - start date
  * @param {string} endDate - end date
  * @param {boolean} ongoingDate - is experience on going
+ * @param {Object} intl - intl object
  * @returns {string} - formatted duration
  */
-const getExperienceDuration = (startDate, endDate, ongoingDate, intl) => {
+const formatExperienceDuration = (startDate, endDate, ongoingDate, intl) => {
   const formattedStartDate = dayjs(startDate).format("MMMM YYYY");
   const formattedEndDate = dayjs(endDate).format("MMMM YYYY");
 
@@ -48,7 +49,7 @@ const getExperienceDuration = (startDate, endDate, ongoingDate, intl) => {
 
 /**
  * Format the attachment links array
- * @param {object[]} attachmentLinks - start date
+ * @param {Object[]} attachmentLinks - start date
  * @param {string} attachmentLinks[].href - link to attachment
  * @param {string} attachmentLinks[].id - unique id of attachment
  * @param {string} attachmentLinks[].name.name - name of the attachment type
@@ -80,8 +81,8 @@ const formatProjects = (projects) =>
 
 /**
  * Extract and format the experience information
- * @param {object} dataSource - name of project
- * @param {object} intl - name of project
+ * @param {Object} dataSource - experience information
+ * @param {Object} intl - intl object
  * @returns {string} - formatted duration
  */
 const formatExperienceInfo = (dataSource, intl) =>
@@ -99,7 +100,7 @@ const formatExperienceInfo = (dataSource, intl) =>
         }) => ({
           attachmentLinks: formatAttachmentLinks(attachmentLinks),
           description,
-          duration: getExperienceDuration(
+          duration: formatExperienceDuration(
             startDate,
             endDate,
             ongoingDate,

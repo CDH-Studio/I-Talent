@@ -19,7 +19,7 @@ const TagListView = ({ data, tagStyle }) => {
 
   /**
    * Generate the individual tag to be rendered
-   * @param {object} tagInfo - Icon to be rendered
+   * @param {Object} tagInfo - Icon to be rendered
    * @param {string} tagInfo.label - label of tag
    * @param {React.ReactElement} tagInfo.icon - icon of tag
    * @param {(primary|secondary|link)} tagInfo.type - type of tag to determine styling
@@ -37,7 +37,7 @@ const TagListView = ({ data, tagStyle }) => {
 
   /**
    * Generate the individual tag to be rendered
-   * @param {object} tagInfo - Icon to be rendered
+   * @param {Object} tagInfo - Icon to be rendered
    * @param {string} tagInfo.href - the url to attach to tag
    * @param {string} tagInfo.label - label of tag
    * @param {React.ReactElement} tagInfo.icon - icon of tag

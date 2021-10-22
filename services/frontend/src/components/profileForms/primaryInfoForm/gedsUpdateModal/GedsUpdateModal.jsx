@@ -11,7 +11,7 @@ const GedsUpdateModal = ({ visibility }) => {
 
   /**
    * Save Data to DB by sending to backend API
-   * @param {object} formValues - Data from primary info form.
+   * @param {Object} formValues - Data from primary info form.
    */
   const saveDataToDB = async (formValues) => {
     const dbValues = {

@@ -126,7 +126,7 @@ const SearchFilter = () => {
 
   /**
    * Handle search functionality
-   * @param {object} values
+   * @param {Object} values
    *
    */
   const handleSearch = (values) => {

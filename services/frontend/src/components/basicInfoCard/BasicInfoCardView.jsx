@@ -85,7 +85,7 @@ const BasicInfoCardView = ({
   /**
    * Generates list of basic info with small icons
    * This includes: address, email, cell etc.
-   * @param {object} listOfData list of info
+   * @param {Object} listOfData list of info
    * @returns {React.ReactElement} - React Element
    */
   const generateInfoList = (listOfData) => (

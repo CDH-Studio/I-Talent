@@ -20,8 +20,8 @@ const frTranslations = require("../fr_CA.json");
 /**
  * Overwrites the i18n files
  *
- * @param {object} enList  All english translations
- * @param {object} frList  All french translations
+ * @param {Object} enList  All english translations
+ * @param {Object} frList  All french translations
  * @param {string[]} allOrderedKeys  All translation keys in alphabetical order
  */
 const writeNewFiles = async (enList, frList, allOrderedKeys) => {

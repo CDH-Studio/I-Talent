@@ -205,7 +205,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
 
   /**
    * Open Notification
-   * @param {object} notification - The notification to be displayed.
+   * @param {Object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
@@ -236,7 +236,7 @@ const BugsTableView = ({ getBugs, saveDataToDB }) => {
 
   /**
    * Update form and state to show edit modal
-   * @param {object} record Selected edit row bug content
+   * @param {Object} record Selected edit row bug content
    */
   const handleEdit = (record) => {
     form.setFieldsValue(record);

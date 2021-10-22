@@ -122,7 +122,7 @@ const CareerManagementFormView = ({
   };
   /**
    * Open Notification
-   * @param {object} notification - The notification to be displayed.
+   * @param {Object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
@@ -365,7 +365,7 @@ const CareerManagementFormView = ({
 
   /**
    * Get Tab Title
-   * @param {object} tabTitleInfo - tab title info.
+   * @param {Object} tabTitleInfo - tab title info.
    * @param {string} tabTitleInfo.message - Tab title.
    * @param {bool} tabTitleInfo.errorBool - Bool to show error in tab.
    */

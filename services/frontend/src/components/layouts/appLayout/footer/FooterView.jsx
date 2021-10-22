@@ -18,7 +18,7 @@ const FooterView = () => {
   /**
    * Generate footer link option
    *
-   * @param {object} Option - The Option object to be displayed.
+   * @param {Object} Option - The Option object to be displayed.
    * @param {string} Option.redirectPath - Path to redirect to on click
    * @param {string} notification.messageId - i18n id of text to display as label
    * @param {string} notification.lang - desired language to us on redirect page

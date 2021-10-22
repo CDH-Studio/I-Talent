@@ -53,7 +53,7 @@ const ResultProfileCardView = ({
 
   /**
    * Render User Avatar for each card
-   * @param {object} profile - The profile being rendered on card.
+   * @param {Object} profile - The profile being rendered on card.
    */
   const getUserAvatar = ({ user }) => {
     let badgeIcon;
@@ -116,7 +116,7 @@ const ResultProfileCardView = ({
 
   /**
    * Get subtitle for user card
-   * @param {object} user - The profile being rendered on card.
+   * @param {Object} user - The profile being rendered on card.
    */
   const getUserSubtitle = ({ user }) => {
     let subtitle = "-";
@@ -134,7 +134,7 @@ const ResultProfileCardView = ({
 
   /**
    * Render User Avatar for each card
-   * @param {object} user - The profile being rendered on card.
+   * @param {Object} user - The profile being rendered on card.
    */
   const getActionRibbonBtn = ({ user }) => {
     // get action in ribbon
@@ -189,7 +189,7 @@ const ResultProfileCardView = ({
 
   /**
    * Render User Avatar for each card
-   * @param {object} user - The profile being rendered on card.
+   * @param {Object} user - The profile being rendered on card.
    */
   const getCardFooter = ({ user }) => [
     <div>
@@ -219,7 +219,7 @@ const ResultProfileCardView = ({
 
   /**
    * Render card title
-   * @param {object} user - The profile being rendered on card.
+   * @param {Object} user - The profile being rendered on card.
    */
   const getCardTitle = ({ user }) => (
     <Text>
@@ -229,7 +229,7 @@ const ResultProfileCardView = ({
 
   /**
    * handle how to process when enter key is hit when focusing on a results card
-   * @param {object} userId - ID of the profile being rendered on card.
+   * @param {Object} userId - ID of the profile being rendered on card.
    */
   const handleKeyPress = (e, userId) => {
     if (e.charCode === 32 || e.charCode === 13) {

@@ -8,7 +8,7 @@ import TagList from "../tagList/TagList";
 const LearningDevelopmentCardView = ({ devGoals, devAttachments }) => {
   /**
    * Generate the developmental goal tags for the profile
-   * @param {object} DevelopmentalGoals - Object describing the developmental goals
+   * @param {Object} DevelopmentalGoals - Object describing the developmental goals
    * @param {string} DevelopmentalGoals.id - Unique id for dev goal
    * @param {string} DevelopmentalGoals.name - Translated name of dev goal
    * @returns {React.ReactElement} - React Element
@@ -35,11 +35,11 @@ const LearningDevelopmentCardView = ({ devGoals, devAttachments }) => {
 
   /**
    * Generate the supporting document links for the developmental goals
-   * @param {object} SupportingLinks - Object describing the supporting documents
+   * @param {Object} SupportingLinks - Object describing the supporting documents
    * @param {string} SupportingLinks.id - Unique id the document
    * @param {string} SupportingLinks.url - URL to the document
-   * @param {object} SupportingLinks.name - Object describing of the document type
-   * @param {object} SupportingLinks.name.name - Translated name of the document type
+   * @param {Object} SupportingLinks.name - Object describing of the document type
+   * @param {Object} SupportingLinks.name.name - Translated name of the document type
    * @param {string} SupportingLinks.name.id - Unique id the document type
    * @returns {React.ReactElement} - React Element
    */
