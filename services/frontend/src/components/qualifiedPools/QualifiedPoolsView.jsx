@@ -1,22 +1,16 @@
 import { FormattedMessage } from "react-intl";
-import { LinkOutlined, ScheduleOutlined } from "@ant-design/icons";
-import { Col, Empty, List, Row, Tag, Typography } from "antd";
+import { ScheduleOutlined } from "@ant-design/icons";
+import { Col, Empty, List, Row, Typography } from "antd";
 import PropTypes from "prop-types";
+
+import TagList from "../tagList/TagList";
 
 import "./QualifiedPoolsView.less";
 
-const { Link, Title } = Typography;
+const { Title } = Typography;
 
-const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
-  if (qualifiedPoolsInfo.length === 0) {
-    return (
-      <Empty
-        description={<FormattedMessage id="qualified.empty" />}
-        image={Empty.PRESENTED_IMAGE_SIMPLE}
-      />
-    );
-  }
-  return (
+const QualifiedPoolsView = ({ qualifiedPoolsInfo }) =>
+  qualifiedPoolsInfo && qualifiedPoolsInfo.length > 0 ? (
     <List
       className="qualifiedPoolsList"
       dataSource={qualifiedPoolsInfo}
@@ -56,32 +50,34 @@ const QualifiedPoolsView = ({ qualifiedPoolsInfo }) => {
               <Title className="mb-0" level={5}>
                 <FormattedMessage id="qualified.pools.job.poster.link" />
               </Title>
-              <Link href={item.jobPosterLink} target="_blank">
-                <Tag
-                  className="mx-0"
-                  color="#727272"
-                  style={{ cursor: "pointer" }}
-                >
-                  <LinkOutlined aria-hidden="true" className="mr-1" />
-                  <FormattedMessage id="job.poster" />
-                  <span className="screenReaderOnly">
-                    <FormattedMessage id="opens.in.new.tab" />
-                  </span>
-                </Tag>
-              </Link>
+              <TagList data={item.jobPosterLink} tagStyle="link" />
             </Col>
           </Row>
         </List.Item>
       )}
       size="small"
     />
+  ) : (
+    <Empty
+      description={<FormattedMessage id="qualified.empty" />}
+      image={Empty.PRESENTED_IMAGE_SIMPLE}
+    />
   );
-};
 
 QualifiedPoolsView.propTypes = {
   qualifiedPoolsInfo: PropTypes.arrayOf(
     PropTypes.shape({
       classification: PropTypes.string,
+      jobPosterLink: PropTypes.arrayOf(
+        PropTypes.shape({
+          href: PropTypes.string,
+          icon: PropTypes.node,
+          key: PropTypes.string,
+          label: PropTypes.string,
+        })
+      ),
+      jobTitle: PropTypes.string,
+      selectionProcessNumber: PropTypes.string,
     })
   ).isRequired,
 };

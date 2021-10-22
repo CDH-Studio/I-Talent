@@ -9,7 +9,7 @@ import EmploymentEquityView from "./EmploymentEquityView";
 /**
  * Generate a list of equity groups based on profile info
  * @param {string[]} employmentEquityGroups list of save equity groups
- * @param {object} intl intl object
+ * @param {Object} intl intl object
  * @return {Array<{key: string, label: string}>} formatted list of equity groups
  */
 const generateEmploymentEquityList = (employmentEquityGroups = [], intl) => {
@@ -42,6 +42,7 @@ const EmploymentEquity = ({ data, editableCardBool }) => {
     () => generateEmploymentEquityList(data.employmentEquityGroups, intl),
     [data.employmentEquityGroups, intl]
   );
+
   return (
     <ProfileCards
       cardName="employmentEquityGroup"
