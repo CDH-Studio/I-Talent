@@ -17,7 +17,7 @@ const LearningDevelopmentCard = ({ data, editableCardBool }) => {
         key: goal.id,
         label: goal.name,
       })),
-    [data]
+    [data.developmentalGoals]
   );
 
   const formattedSupportedDocuments = useMemo(
