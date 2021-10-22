@@ -6,13 +6,11 @@ import PropTypes from "prop-types";
 
 import TagList from "../tagList/TagList";
 
-const MentorshipCardView = ({ mentorshipSkill, mentorshipSkillCategories }) => {
-  if (
-    mentorshipSkill &&
-    mentorshipSkillCategories &&
-    mentorshipSkillCategories.length > 0
-  )
-    return mentorshipSkillCategories.map((categoryName) => (
+const MentorshipCardView = ({ mentorshipSkill, mentorshipSkillCategories }) =>
+  mentorshipSkill &&
+  mentorshipSkillCategories &&
+  mentorshipSkillCategories.length > 0 ? (
+    mentorshipSkillCategories.map((categoryName) => (
       <Fragment key={categoryName}>
         <Row>
           <Col className="mb-2">
@@ -28,15 +26,13 @@ const MentorshipCardView = ({ mentorshipSkill, mentorshipSkillCategories }) => {
           </Col>
         </Row>
       </Fragment>
-    ));
-
-  return (
+    ))
+  ) : (
     <Empty
       description={<FormattedMessage id="mentorship.empty" />}
       image={Empty.PRESENTED_IMAGE_SIMPLE}
     />
   );
-};
 
 MentorshipCardView.propTypes = {
   mentorshipSkill: PropTypes.objectOf(
