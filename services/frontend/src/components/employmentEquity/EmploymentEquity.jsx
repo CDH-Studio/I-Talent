@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
@@ -6,35 +6,42 @@ import { ProfileInfoPropType } from "../../utils/customPropTypes";
 import ProfileCards from "../profileCards/ProfileCards";
 import EmploymentEquityView from "./EmploymentEquityView";
 
+/**
+ * Generate a list of equity groups based on profile info
+ * @param {string[]} employmentEquityGroups list of save equity groups
+ * @param {object} intl intl object
+ * @return {Array<{key: string, label: string}>} formatted list of equity groups
+ */
+const generateEmploymentEquityList = (employmentEquityGroups = [], intl) => {
+  const dataMapped = {
+    DISABILITY: {
+      key: "DISABILITY",
+      label: intl.formatMessage({ id: "employment.equity.group.disability" }),
+    },
+    INDIGENOUS: {
+      key: "INDIGENOUS",
+      label: intl.formatMessage({ id: "employment.equity.group.indigenous" }),
+    },
+    MINORITY: {
+      key: "MINORITY",
+      label: intl.formatMessage({ id: "employment.equity.group.minority" }),
+    },
+    WOMEN: {
+      key: "WOMEN",
+      label: intl.formatMessage({ id: "employment.equity.group.woman" }),
+    },
+  };
+
+  return employmentEquityGroups.map((i) => dataMapped[i]);
+};
+
 const EmploymentEquity = ({ data, editableCardBool }) => {
-  const [employmentEquityData, setEmploymentEquityData] = useState([]);
   const intl = useIntl();
 
-  useEffect(() => {
-    const dataMapped = {
-      DISABILITY: {
-        key: "DISABILITY",
-        text: intl.formatMessage({ id: "employment.equity.group.disability" }),
-      },
-      INDIGENOUS: {
-        key: "INDIGENOUS",
-        text: intl.formatMessage({ id: "employment.equity.group.indigenous" }),
-      },
-      MINORITY: {
-        key: "MINORITY",
-        text: intl.formatMessage({ id: "employment.equity.group.minority" }),
-      },
-      WOMEN: {
-        key: "WOMEN",
-        text: intl.formatMessage({ id: "employment.equity.group.woman" }),
-      },
-    };
-
-    setEmploymentEquityData(
-      data.employmentEquityGroups.map((i) => dataMapped[i])
-    );
-  }, [intl, data]);
-
+  const formattedEmploymentEquityData = useMemo(
+    () => generateEmploymentEquityList(data.employmentEquityGroups, intl),
+    [data.employmentEquityGroups, intl]
+  );
   return (
     <ProfileCards
       cardName="employmentEquityGroup"
@@ -45,7 +52,7 @@ const EmploymentEquity = ({ data, editableCardBool }) => {
       titleString={intl.formatMessage({ id: "employment.equity.groups" })}
       visibility={data.visibleCards.employmentEquityGroup}
     >
-      <EmploymentEquityView groups={employmentEquityData} />
+      <EmploymentEquityView groups={formattedEmploymentEquityData} />
     </ProfileCards>
   );
 };
