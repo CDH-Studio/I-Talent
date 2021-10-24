@@ -11,7 +11,7 @@ import CompetenciesCardView from "./CompetenciesCardView";
  * @param {Object[]} competencies - start date
  * @param {string} competencies[].id - unique id of competency
  * @param {string} competencies[].name.name - name of the competency
- * @returns {Array<{ key: string, label: string, }>} - formatted competencies
+ * @returns {Array<{ key: string, label: string}>} - formatted competencies
  */
 const formatCompetencies = (competencies) =>
   competencies &&

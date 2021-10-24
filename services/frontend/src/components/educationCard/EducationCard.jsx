@@ -51,7 +51,7 @@ const formatEducationDuration = (startDate, endDate, ongoingDate, intl) => {
  * @param {string} attachmentLinks[].href - link to attachment
  * @param {string} attachmentLinks[].id - unique id of attachment
  * @param {string} attachmentLinks[].name.name - name of the attachment type
- * @returns {Array<{href:string, icon: React.ReactElement, key: string, label: string, }>} - formatted attachments
+ * @returns {Array<{href:string, icon: React.ReactElement, key: string, label: string}>} - formatted attachments
  */
 const formatAttachmentLinks = (attachmentLinks) =>
   attachmentLinks
