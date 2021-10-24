@@ -48,7 +48,10 @@ const getSkillCategories = (formattedSkills) => Object.keys(formattedSkills);
 const Mentorship = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
-  const formattedSkills = useMemo(() => categorizeSkills(data.skills), [data]);
+  const formattedSkills = useMemo(
+    () => categorizeSkills(data.mentorshipSkills),
+    [data]
+  );
   const skillCategories = getSkillCategories(formattedSkills);
 
   return (
