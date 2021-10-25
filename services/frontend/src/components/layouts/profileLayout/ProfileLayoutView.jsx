@@ -74,7 +74,7 @@ const ProfileLayoutView = ({
     dispatch(setSavedFormContent(undefined));
   }, [savedFormContent, dispatch, intl]);
 
-  const displayAllProfileCardWrapper = () => (
+  const displayAllProfileCards = () => (
     <Row className="print" gutter={[15, 15]}>
       <h2 className="visually-hidden">
         <FormattedMessage id="basic.employee.information" />
@@ -424,7 +424,7 @@ const ProfileLayoutView = ({
         }
       />
       {data ? (
-        displayAllProfileCardWrapper()
+        displayAllProfileCards()
       ) : (
         <ErrorProfilePage
           subtitleId="profile.not.found.description"
