@@ -18,7 +18,7 @@ module.exports = {
   "@layout-header-background": "white",
   "@link": "#00B9B2",
   "@list-item-meta-margin-bottom": "0",
-  "@primary-color": "#087472",
+  "@primary-color": "#0A716F",
   "@primary-color-1": "#5C706C",
   "@primary-color-2": "#dfe5e4",
   "@tag-font-size": "14px",

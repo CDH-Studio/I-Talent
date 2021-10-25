@@ -20,8 +20,8 @@ const ignoredKeys = require("../ignoredKeys.json");
 /**
  * A test to search for duplicate translations values
  *
- * @param {object} enTranslations List of english translations
- * @param {object} frTranslations List of english translations
+ * @param {Object} enTranslations List of english translations
+ * @param {Object} frTranslations List of english translations
  * @returns {string[]}  Returns duplicated translation values
  */
 const findDuplicateTranslations = (enTranslations, frTranslations) => {
@@ -70,9 +70,9 @@ const findDuplicateTranslations = (enTranslations, frTranslations) => {
 /**
  * A test to check for mismatched keys between en_CA.json and fr_CA.json
  *
- * @param {object} enKeys List of english translations
- * @param {object} frKeys List of english translations
- * @returns {object}  Returns mismatched translation keys
+ * @param {Object} enKeys List of english translations
+ * @param {Object} frKeys List of english translations
+ * @returns {Object}  Returns mismatched translation keys
  */
 const findMismatchedTranslations = (enKeys, frKeys) => {
   const mismatchedKeys = { extraKeysInEn: [], extraKeysInFr: [] };

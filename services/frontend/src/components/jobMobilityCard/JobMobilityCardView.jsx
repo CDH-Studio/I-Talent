@@ -1,10 +1,66 @@
+import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
-import { List, Tag, Typography } from "antd";
+import { List, Typography } from "antd";
 import PropTypes from "prop-types";
+
+import TagList from "../tagList/TagList";
 
 import "./JobMobilityCardView.less";
 
 const { Title, Text } = Typography;
+
+/**
+ * Generate list of relocation locations using tags
+ * @param {Object[]} relocationLocations - Objects describing the relocation location
+ * @param {string} relocationLocations[].id - Unique id of the location
+ * @param {string} relocationLocations[].name - location
+ * @returns {{description: React.ReactElement, title: React.ReactElement}} - object
+ */
+const generateRelocationLocations = (relocationLocations) => {
+  const tagList =
+    relocationLocations && relocationLocations.length > 0 ? (
+      <TagList data={relocationLocations} tagStyle="secondary" />
+    ) : (
+      <FormattedMessage id="not.provided" />
+    );
+
+  return {
+    description: tagList,
+    title: <FormattedMessage id="willing.to.relocate.to" />,
+  };
+};
+
+/**
+ * Generate Interest in Teleworking
+ * @param {boolean} interestedInRemote - is user interested in working remote
+ * @returns {{description: React.ReactElement, title: React.ReactElement}} - object
+ */
+const generateInterestInTelework = (interestedInRemote) => {
+  let description = <FormattedMessage id="not.provided" />;
+
+  if (interestedInRemote) {
+    description = <FormattedMessage id="yes" />;
+  } else if (interestedInRemote === false) {
+    description = <FormattedMessage id="no" />;
+  }
+
+  return {
+    description,
+    title: <FormattedMessage id="interested.in.remote" />,
+  };
+};
+
+/**
+ * Generate Interest in new job
+ * @param {string} lookingJob - status of job search
+ * @returns {{description: React.ReactElement, title: React.ReactElement}} - object
+ */
+const generateInterestedInNewJob = (lookingJob) => ({
+  description: (lookingJob && lookingJob.description) || (
+    <FormattedMessage id="not.provided" />
+  ),
+  title: <FormattedMessage id="looking.for.new.job" />,
+});
 
 const JobMobilityCardView = ({
   interestedInRemote,
@@ -12,70 +68,21 @@ const JobMobilityCardView = ({
   relocationLocations,
 }) => {
   /**
-   * Generate Interest in Teleworking
-   * @returns {{description: React.ReactElement, title: React.ReactElement}} - object
-   */
-  const generateInterestInTelework = () => {
-    let description = <FormattedMessage id="not.provided" />;
-
-    if (interestedInRemote) {
-      description = <FormattedMessage id="yes" />;
-    } else if (interestedInRemote === false) {
-      description = <FormattedMessage id="no" />;
-    }
-
-    return {
-      description,
-      title: <FormattedMessage id="interested.in.remote" />,
-    };
-  };
-
-  /**
-   * Generate Interest in new job
-   * @returns {{description: React.ReactElement, title: React.ReactElement}} - object
-   */
-  const generateInterestedInNewJob = () => ({
-    description: (lookingJob && lookingJob.description) || (
-      <FormattedMessage id="not.provided" />
-    ),
-    title: <FormattedMessage id="looking.for.new.job" />,
-  });
-
-  /**
-   * Generate list of relocation locations using tags
-   * @returns {{description: React.ReactElement, title: React.ReactElement}} - object
-   */
-  const generateRelocationLocations = () => {
-    const tagList =
-      relocationLocations && relocationLocations.length > 0 ? (
-        relocationLocations.map(({ id, city, province }) => (
-          <Tag key={id} color="#727272">
-            {city}, {province}
-          </Tag>
-        ))
-      ) : (
-        <FormattedMessage id="not.provided" />
-      );
-
-    return {
-      description: tagList,
-      title: <FormattedMessage id="willing.to.relocate.to" />,
-    };
-  };
-
-  /**
    * Generate card data into a single array
    * @returns {Array<{description: React.ReactElement, title: React.ReactElement}>} - Array of objects
    */
-  const getCareerInterestsInfo = () => [
-    generateInterestInTelework(),
-    generateInterestedInNewJob(),
-    generateRelocationLocations(),
-  ];
+  const careerInterestsInfo = useMemo(
+    () => [
+      generateInterestInTelework(interestedInRemote),
+      generateInterestedInNewJob(lookingJob),
+      generateRelocationLocations(relocationLocations),
+    ],
+    [interestedInRemote, lookingJob, relocationLocations]
+  );
 
   return (
     <List
-      dataSource={getCareerInterestsInfo()}
+      dataSource={careerInterestsInfo}
       itemLayout="horizontal"
       renderItem={(item) => (
         <List.Item className="job-mobility-list-item px-0">

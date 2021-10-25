@@ -246,6 +246,7 @@
   "private.ex.feeder": "EX Feeder is set to private",
   "profile": "Profile",
   "profile.ex.feeder": "I am nominated in the EX Feeder program",
+  "profile.name": "Profile name",
   "profile.navigation.dropdown": "profile navigation dropdown",
   "profile.not.found": "This profile does not exist",
   "profile.not.found.description": "Please verify your current URL address",

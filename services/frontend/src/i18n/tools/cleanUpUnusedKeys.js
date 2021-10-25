@@ -27,8 +27,8 @@ const ignoredKeys = require("../ignoredKeys.json");
 /**
  * Overwrites the i18n files without the unused keys and saves them
  *
- * @param {object} enList  All english translations
- * @param {object} frList  All french translations
+ * @param {Object} enList  All english translations
+ * @param {Object} frList  All french translations
  * @param {string[]} allKeys  All translation keys in alphabetical order
  * @param {string[]} keysToRemove  Keys in the i18n files that are not being
  *                                 used inside the application
