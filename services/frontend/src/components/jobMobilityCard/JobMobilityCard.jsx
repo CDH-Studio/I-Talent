@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import JobMobilityCardView from "./JobMobilityCardView";
 
 /**
@@ -28,7 +28,7 @@ const JobMobilityCard = ({ data, editableCardBool }) => {
   );
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="careerInterests"
       data={data}
       editableCardBool={editableCardBool}
@@ -42,7 +42,7 @@ const JobMobilityCard = ({ data, editableCardBool }) => {
         lookingJob={data.lookingJob}
         relocationLocations={formattedRelocationLocations}
       />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

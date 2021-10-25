@@ -2,14 +2,14 @@ import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import TalentManagementView from "./TalentManagementCardView";
 
 const TalentManagementCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="talentManagement"
       data={data}
       editableCardBool={editableCardBool}
@@ -22,7 +22,7 @@ const TalentManagementCard = ({ data, editableCardBool }) => {
         careerMobility={data.careerMobility}
         talentMatrixResult={data.talentMatrixResult}
       />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

@@ -1,13 +1,13 @@
 import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import ConnectionsCardView from "./ConnectionsCardView";
 
 const connectionsCard = ({ data }) => {
   const intl = useIntl();
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="privateGroup"
       data={data}
       displayExtraHeaderContent={false}
@@ -17,7 +17,7 @@ const connectionsCard = ({ data }) => {
       visibility="PUBLIC"
     >
       <ConnectionsCardView connections={data.connections} />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

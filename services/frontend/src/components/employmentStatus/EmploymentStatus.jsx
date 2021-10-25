@@ -2,14 +2,14 @@ import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import EmploymentStatusView from "./EmploymentStatusView";
 
 const EmploymentStatus = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="info"
       data={data}
       editableCardBool={editableCardBool}
@@ -19,7 +19,7 @@ const EmploymentStatus = ({ data, editableCardBool }) => {
       visibility={data.visibleCards.info}
     >
       <EmploymentStatusView data={data} />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

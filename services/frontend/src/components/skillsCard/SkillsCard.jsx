@@ -4,7 +4,7 @@ import { has } from "lodash";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import SkillsCardView from "./SkillsCardView";
 
 /**
@@ -51,7 +51,7 @@ const SkillsCard = ({ data, editableCardBool }) => {
   const skillCategories = getSkillCategories(formattedSkills);
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="skills"
       data={data}
       editableCardBool={editableCardBool}
@@ -65,7 +65,7 @@ const SkillsCard = ({ data, editableCardBool }) => {
         skillCategories={skillCategories}
         skills={formattedSkills}
       />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

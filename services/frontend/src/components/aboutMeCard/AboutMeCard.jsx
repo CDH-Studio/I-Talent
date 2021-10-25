@@ -2,14 +2,14 @@ import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import AboutMeCardView from "./AboutMeCardView";
 
 const AboutMeCard = ({ data, editableCardBool }) => {
   const intl = useIntl();
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="description"
       data={data}
       editableCardBool={editableCardBool}
@@ -19,7 +19,7 @@ const AboutMeCard = ({ data, editableCardBool }) => {
       visibility={data.visibleCards.description}
     >
       <AboutMeCardView data={data.description} />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

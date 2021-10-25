@@ -8,11 +8,11 @@ import CardVisibilityStatus from "../cardVisibilityStatus/CardVisibilityStatus";
 import CardVisibilityToggle from "../cardVisibilityToggle/CardVisibilityToggle";
 import EditCardButton from "../editCardButton/EditCardButton";
 
-import "./ProfileCardsView.less";
+import "./ProfileCardWrapperView.less";
 
 const { Text, Title } = Typography;
 
-const ProfileCardsView = ({
+const ProfileCardWrapperView = ({
   editUrl,
   titleString,
   id,
@@ -157,7 +157,7 @@ const ProfileCardsView = ({
   );
 };
 
-ProfileCardsView.propTypes = {
+ProfileCardWrapperView.propTypes = {
   cardName: PropTypes.string.isRequired,
   children: PropTypes.element,
   displayExtraHeaderContent: PropTypes.bool,
@@ -178,7 +178,7 @@ ProfileCardsView.propTypes = {
   ),
 };
 
-ProfileCardsView.defaultProps = {
+ProfileCardWrapperView.defaultProps = {
   children: null,
   displayExtraHeaderContent: false,
   editUrl: null,
@@ -188,4 +188,4 @@ ProfileCardsView.defaultProps = {
   visibleCards: {},
 };
 
-export default ProfileCardsView;
+export default ProfileCardWrapperView;

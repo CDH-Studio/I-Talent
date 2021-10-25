@@ -2,7 +2,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import OfficialLanguageCardView from "./OfficialLanguageCardView";
 
 const OfficialLanguageCard = ({ data, editableCardBool }) => {
@@ -110,7 +110,7 @@ const OfficialLanguageCard = ({ data, editableCardBool }) => {
   };
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="officialLanguage"
       data={data}
       editableCardBool={editableCardBool}
@@ -123,7 +123,7 @@ const OfficialLanguageCard = ({ data, editableCardBool }) => {
         firstLanguageInfo={getFirstLanguageInfo(data)}
         secondLanguageInfo={generateSecondLanguageInfo(data)}
       />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

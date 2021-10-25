@@ -4,7 +4,7 @@ import { LinkOutlined } from "@ant-design/icons";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import LearningDevelopmentCardView from "./LearningDevelopmentCardView";
 
 const LearningDevelopmentCard = ({ data, editableCardBool }) => {
@@ -33,7 +33,7 @@ const LearningDevelopmentCard = ({ data, editableCardBool }) => {
   );
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="developmentalGoals"
       data={data}
       editableCardBool={editableCardBool}
@@ -47,7 +47,7 @@ const LearningDevelopmentCard = ({ data, editableCardBool }) => {
         devAttachments={formattedSupportedDocuments}
         devGoals={formattedDevelopmentalGoals}
       />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

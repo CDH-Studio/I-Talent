@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import EmploymentEquityView from "./EmploymentEquityView";
 
 /**
@@ -44,7 +44,7 @@ const EmploymentEquity = ({ data, editableCardBool }) => {
   );
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="employmentEquityGroup"
       data={data}
       editableCardBool={editableCardBool}
@@ -54,7 +54,7 @@ const EmploymentEquity = ({ data, editableCardBool }) => {
       visibility={data.visibleCards.employmentEquityGroup}
     >
       <EmploymentEquityView groups={formattedEmploymentEquityData} />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

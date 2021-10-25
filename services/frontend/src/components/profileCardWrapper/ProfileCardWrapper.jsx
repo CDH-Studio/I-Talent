@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCardsView from "./ProfileCardsView";
+import ProfileCardWrapperView from "./ProfileCardWrapperView";
 
-const ProfileCards = ({
+const ProfileCardWrapper = ({
   data,
   titleString,
   children,
@@ -15,7 +15,7 @@ const ProfileCards = ({
   visibility,
   lastUpdated,
 }) => (
-  <ProfileCardsView
+  <ProfileCardWrapperView
     cardName={cardName}
     displayExtraHeaderContent={displayExtraHeaderContent}
     editableCardBool={editableCardBool}
@@ -27,10 +27,10 @@ const ProfileCards = ({
     visibleCards={data.visibleCards}
   >
     {visibility ? children : null}
-  </ProfileCardsView>
+  </ProfileCardWrapperView>
 );
 
-ProfileCards.propTypes = {
+ProfileCardWrapper.propTypes = {
   cardName: PropTypes.string.isRequired,
   children: PropTypes.element,
   data: ProfileInfoPropType,
@@ -46,7 +46,7 @@ ProfileCards.propTypes = {
   ]),
 };
 
-ProfileCards.defaultProps = {
+ProfileCardWrapper.defaultProps = {
   children: null,
   data: null,
   displayExtraHeaderContent: true,
@@ -56,4 +56,4 @@ ProfileCards.defaultProps = {
   visibility: null,
 };
 
-export default ProfileCards;
+export default ProfileCardWrapper;

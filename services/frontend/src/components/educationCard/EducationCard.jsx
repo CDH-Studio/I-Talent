@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import EducationCardView from "./EducationCardView";
 
 /**
@@ -104,7 +104,7 @@ const EducationCard = ({ data, editableCardBool }) => {
   );
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="education"
       data={data}
       editableCardBool={editableCardBool}
@@ -115,7 +115,7 @@ const EducationCard = ({ data, editableCardBool }) => {
       visibility={data.visibleCards.education}
     >
       <EducationCardView educationInfo={formattedEducationInfo} />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

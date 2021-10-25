@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import CompetenciesCardView from "./CompetenciesCardView";
 
 /**
@@ -29,7 +29,7 @@ const CompetenciesCard = ({ data, editableCardBool }) => {
   );
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="competencies"
       data={data}
       editableCardBool={editableCardBool}
@@ -40,7 +40,7 @@ const CompetenciesCard = ({ data, editableCardBool }) => {
       visibility={data.visibleCards.competencies}
     >
       <CompetenciesCardView competencies={formattedCompetencies} />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 

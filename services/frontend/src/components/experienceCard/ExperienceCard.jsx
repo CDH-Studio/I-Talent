@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../utils/customPropTypes";
-import ProfileCards from "../profileCards/ProfileCards";
+import ProfileCardWrapper from "../profileCardWrapper/ProfileCardWrapper";
 import ExperienceCardView from "./ExperienceCardView";
 
 /**
@@ -123,7 +123,7 @@ const ExperienceCard = ({ data, editableCardBool }) => {
   );
 
   return (
-    <ProfileCards
+    <ProfileCardWrapper
       cardName="experience"
       data={data}
       editableCardBool={editableCardBool}
@@ -134,7 +134,7 @@ const ExperienceCard = ({ data, editableCardBool }) => {
       visibility={data.visibleCards.experience}
     >
       <ExperienceCardView experienceInfo={formattedExperienceInfo} />
-    </ProfileCards>
+    </ProfileCardWrapper>
   );
 };
 
