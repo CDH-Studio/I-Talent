@@ -22,25 +22,27 @@ import PropTypes from "prop-types";
 
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
-import AboutMeCard from "../../aboutMeCard/AboutMeCard";
-import BasicInfoCard from "../../basicInfoCard/BasicInfoCard";
-import CompetenciesCard from "../../competenciesCard/CompetenciesCard";
-import ConnectionsCard from "../../connectionsCard/ConnectionsCard";
-import EducationCard from "../../educationCard/EducationCard";
-import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
-import EmploymentStatus from "../../employmentStatus/EmploymentStatus";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
-import ExFeederCard from "../../exFeederCard/ExFeederCard";
-import ExperienceCard from "../../experienceCard/ExperienceCard";
 import Header from "../../header/Header";
-import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
-import LearningDevelopmentCard from "../../learningDevelopmentCard/LearningDevelopmentCard";
-import MentorshipCard from "../../mentorshipCard/MentorshipCard";
-import OfficialLanguageCard from "../../officialLanguageCard/OfficialLanguageCard";
+import {
+  AboutMeCard,
+  BasicInfoCard,
+  CompetenciesCard,
+  ConnectionsCard,
+  EducationCard,
+  EmploymentEquityCard,
+  EmploymentStatusCard,
+  ExFeederCard,
+  ExperienceCard,
+  JobMobilityCard,
+  LearningDevelopmentCard,
+  MentorshipCard,
+  OfficialLanguageCard,
+  QualifiedPools,
+  SkillsCard,
+  TalentManagementCard,
+} from "../../profileCards";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
-import QualifiedPools from "../../qualifiedPools/QualifiedPools";
-import SkillsCard from "../../skillsCard/SkillsCard";
-import TalentManagementCard from "../../talentManagementCard/TalentManagementCard";
 import AppLayout from "../appLayout/AppLayout";
 
 import "./ProfileLayoutView.less";
@@ -84,10 +86,16 @@ const ProfileLayoutView = ({
       <Col xl={10} xs={24}>
         <Row gutter={[0, 15]}>
           <Col span={24}>
-            <EmploymentStatus data={data} editableCardBool={isUsersProfile} />
+            <EmploymentStatusCard
+              data={data}
+              editableCardBool={isUsersProfile}
+            />
           </Col>
           <Col span={24}>
-            <EmploymentEquity data={data} editableCardBool={isUsersProfile} />
+            <EmploymentEquityCard
+              data={data}
+              editableCardBool={isUsersProfile}
+            />
           </Col>
         </Row>
       </Col>
