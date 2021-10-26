@@ -25,9 +25,9 @@ const fr = require("../fr_CA.json");
 /**
  * Format translations in JSON format for export
  *
- * @param {object} enTranslations List of english translations
- * @param {object} frTranslations List of english translations
- * @returns {object}  Returns formatted translations for export
+ * @param {Object} enTranslations List of english translations
+ * @param {Object} frTranslations List of english translations
+ * @returns {Object}  Returns formatted translations for export
  */
 const formatTransForExport = (enTranslations, frTranslations) => {
   const formattedTranslations = [];
@@ -48,7 +48,7 @@ const formatTransForExport = (enTranslations, frTranslations) => {
  * Convert formatted JSON as CSV and save as file
  *
  * @param {string} fileName Name of file for CSV
- * @param {object} TranslationJSON Translations in both languages formatted for export
+ * @param {Object} TranslationJSON Translations in both languages formatted for export
  */
 const saveAsCSV = (fileName, TranslationJSON) => {
   const json2csvParser = new Parser();

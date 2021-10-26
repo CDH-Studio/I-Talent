@@ -131,7 +131,7 @@ const QualificationsFormView = ({
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /*
+  /**
    * Find Error Tabs
    *
    * Find all tabs that have validation errors
@@ -153,7 +153,7 @@ const QualificationsFormView = ({
     return errorObject;
   };
 
-  /*
+  /**
    * Get All Validation Errors
    *
    * Print out list of validation errors in a list for notification

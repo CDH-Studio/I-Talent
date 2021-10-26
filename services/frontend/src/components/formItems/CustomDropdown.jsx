@@ -306,7 +306,7 @@ const CustomDropdown = ({
 
   /**
    * Disable the selectable dropdown options when selected limit is reached
-   * @param {object} option - object describing the dropdown options
+   * @param {Object} option - object describing the dropdown options
    * @param {string} option.label - label to be displayed to user
    * @param {string} option.icon - optional icon to be displayed
    */

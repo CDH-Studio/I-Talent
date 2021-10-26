@@ -51,6 +51,7 @@ const Welcome = () => {
       });
       if (result.data) {
         setGedsProfiles(result.data);
+        setLoad(false);
       }
       return 1;
     };
@@ -58,8 +59,8 @@ const Welcome = () => {
     /* get all required data component */
     const getAllData = async () => {
       try {
-        await getGedsProfiles();
         setLoad(true);
+        await getGedsProfiles();
         return 1;
       } catch (error) {
         setLoad(false);

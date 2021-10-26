@@ -121,11 +121,11 @@ const WelcomeView = ({
    */
   const generateGedsProfileList = () => {
     // check if GEDS profiles have loaded
-    if (!load || !gedsProfiles) {
+    if (!load || !gedsProfiles || Object.keys(gedsProfiles).length === 0) {
       return (
         <div>
           {/* loading button */}
-          {generateProfileBtn({
+          {load && generateProfileBtn({
             firstTitle: intl.formatMessage({ id: "fetching.profiles" }),
             icon: <LoadingOutlined aria-hidden="true" />,
             secondTitle: intl.formatMessage({
