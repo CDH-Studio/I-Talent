@@ -17,7 +17,7 @@ pipeline {
         stage('deploy') {
             steps {
                 script {
-                    deploy.deployImages(false, BACKEND_IMAGE_NAME, FRONTEND_IMAGE_NAME)
+                    deploy.deployImages(true, BACKEND_IMAGE_NAME, FRONTEND_IMAGE_NAME)
                 }
             }
         }
