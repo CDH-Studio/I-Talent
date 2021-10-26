@@ -8,7 +8,7 @@ import "./OrgTreeView.less";
 
 const { Text } = Typography;
 
-const OrgTreeView = ({ data }) => {
+const OrgTreeView = ({ organizations }) => {
   const { locale } = useSelector((state) => state.settings);
 
   const titleString = (title) => {
@@ -35,8 +35,8 @@ const OrgTreeView = ({ data }) => {
     return retVal;
   };
 
-  if (data.organizations) {
-    const treeData = [genTreeBranch(data.organizations)];
+  if (organizations) {
+    const treeData = [genTreeBranch(organizations)];
     return (
       <Tree
         defaultExpandAll
@@ -59,15 +59,13 @@ const OrgTreeView = ({ data }) => {
 };
 
 OrgTreeView.propTypes = {
-  data: PropTypes.shape({
-    organizations: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string,
-        tier: PropTypes.number,
-        title: PropTypes.string,
-      })
-    ),
-  }).isRequired,
+  organizations: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      tier: PropTypes.number,
+      title: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default OrgTreeView;

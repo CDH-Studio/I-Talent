@@ -246,6 +246,7 @@
   "private.ex.feeder": "La relève des EX est privée",
   "profile": "Profil",
   "profile.ex.feeder": "Je suis nommé dans le programme de la relève des EX ",
+  "profile.name": "Nom de profil",
   "profile.navigation.dropdown": "liste déroulante de navigation de profil",
   "profile.not.found": "Ce profil n’existe pas",
   "profile.not.found.description": "Veuillez vérifier votre adresse URL.",
