@@ -299,7 +299,7 @@
   "secondary.writing.proficiency": "Résultat d’expression écrite",
   "select": "Sélectionner",
   "select.any.mentors": "Toutes les habiletés de mentorat",
-  "select.month": "Sélectionner un mois",
+  "select.date": "Sélectionner la date",
   "settings": "Paramètres",
   "settings.delete.modal.content": "Cette procédure supprimera votre compte et vous serez redirigé à l’accueil",
   "settings.delete.modal.title": "Êtes-vous certain ?",
