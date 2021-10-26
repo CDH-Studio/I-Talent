@@ -27,7 +27,10 @@ objects:
         dockerStrategy:
           env:
             - name: NODE_ENV
-              value: production
+              valueFrom:
+                secretKeyRef:
+                  key: env
+                  name: node-env
         type: Docker
       successfulBuildsHistoryLimit: 5
       triggers:
@@ -64,7 +67,10 @@ objects:
         dockerStrategy:
           env:
             - name: NODE_ENV
-              value: production
+              valueFrom:
+                secretKeyRef:
+                  key: env
+                  name: node-env
         type: Docker
       successfulBuildsHistoryLimit: 5
       triggers:
@@ -162,9 +168,15 @@ objects:
                       key: path
                       name: cookie
                 - name: PORT
-                  value: "3000"
+                  valueFrom:
+                    secretKeyRef:
+                      key: backend
+                      name: port
                 - name: NODE_ENV
-                  value: production
+                  valueFrom:
+                    secretKeyRef:
+                      key: env
+                      name: node-env
               imagePullPolicy: Always
               name: backend
               ports:
@@ -241,7 +253,10 @@ objects:
                       key: uri
                       name: keycloak
                 - name: NODE_ENV
-                  value: production
+                  valueFrom:
+                    secretKeyRef:
+                      key: env
+                      name: node-env
               imagePullPolicy: Always
               name: frontend
               ports:
@@ -454,7 +469,7 @@ parameters:
   - name: ENVIRONMENT
     description: "App environment (e.g. dev, uat, username, etc...)."
     required: true
-    value: null
+    value: ${ENVIRONMENT}
   - name: ROUTING_SUFFIX
     description: "Routing suffix.  Leave default value. "
     required: true
