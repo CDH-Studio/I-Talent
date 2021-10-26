@@ -151,6 +151,7 @@ const PrimaryInfoFormView = ({
   /**
    * Extract initial values of the form from profile
    * @param {Object} profile - User Profile
+   * @returns {Object} - Object containing the initial values for the Primary Info form
    */
   const getInitialValues = ({ profile }) => {
     if (profile) {
@@ -191,6 +192,7 @@ const PrimaryInfoFormView = ({
 
   /**
    * Generate error description to display in notification
+   * @returns {React.ReactElement} - React Element
    */
   const getErrorMessages = () => (
     <div>
@@ -292,15 +294,16 @@ const PrimaryInfoFormView = ({
             store.dispatch(setUserSignupStep(8)),
             saveDataToDB({ ...values, signupStep: 8 }),
           ]);
+          setFieldsChanged(false);
           history.push("/profile/create/step/8");
         } else {
           Promise.all([
             saveDataToDB(values),
             dispatch(setSavedFormContent(true)),
           ]);
+          setFieldsChanged(false);
           onFinish();
         }
-        setFieldsChanged(false);
       })
       .catch((error) => {
         dispatch(setSavedFormContent(false));
