@@ -1,0 +1,461 @@
+apiVersion: v1
+kind: Template
+objects:
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    metadata:
+      annotations:
+      labels:
+        app: backend
+      name: backend
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      failedBuildsHistoryLimit: 5
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: backend:latest
+      runPolicy: Serial
+      source:
+        contextDir: /services/backend
+        git:
+          ref: development
+          uri: https://github.com/CDH-Studio/I-Talent.git
+        type: Git
+      strategy:
+        dockerStrategy:
+          env:
+            - name: NODE_ENV
+              value: production
+        type: Docker
+      successfulBuildsHistoryLimit: 5
+      triggers:
+        - type: ConfigChange
+        - generic:
+            secret: 7a2dd9b3f08948d1
+          type: Generic
+        - github:
+            secret: 9a227c66836bd098
+          type: GitHub
+  - apiVersion: build.openshift.io/v1
+    kind: BuildConfig
+    metadata:
+      annotations:
+      labels:
+        app: frontend
+      name: frontend
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      failedBuildsHistoryLimit: 5
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: frontend:latest
+      runPolicy: Serial
+      source:
+        contextDir: /services/frontend
+        git:
+          ref: development
+          uri: https://github.com/CDH-Studio/I-Talent.git
+        type: Git
+      strategy:
+        dockerStrategy:
+          env:
+            - name: NODE_ENV
+              value: production
+        type: Docker
+      successfulBuildsHistoryLimit: 5
+      triggers:
+        - type: ConfigChange
+        - generic:
+            secret: 3d080b0f35ccc23e
+          type: Generic
+        - github:
+            secret: fdd0e6caad43f650
+          type: GitHub
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      annotations:
+      labels:
+        app: backend
+      name: backend
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        deploymentconfig: backend
+      strategy:
+        activeDeadlineSeconds: 21600
+        rollingParams:
+          intervalSeconds: 1
+          maxSurge: 25%
+          maxUnavailable: 25%
+          timeoutSeconds: 600
+          updatePeriodSeconds: 1
+        type: Rolling
+      template:
+        metadata:
+          annotations:
+              labels:
+            app: backend
+            deploymentconfig: backend
+        spec:
+          containers:
+            - env:
+                - name: DATABASE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-url
+                      name: aws-database
+                - name: GEDSAPIURL
+                  valueFrom:
+                    secretKeyRef:
+                      key: uri
+                      name: geds
+                - name: GEDSAPIKEY
+                  valueFrom:
+                    secretKeyRef:
+                      key: password
+                      name: geds
+                - name: KEYCLOAK_AUTH_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: uri
+                      name: keycloak
+                - name: KEYCLOAK_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: password
+                      name: keycloak
+                - name: REDIS_HOST
+                  valueFrom:
+                    secretKeyRef:
+                      key: host
+                      name: redis
+                - name: REDIS_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-password
+                      name: redis
+                - name: KEYCLOAK_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-backend
+                      name: keycloak
+                - name: COOKIE_DOMAIN
+                  valueFrom:
+                    secretKeyRef:
+                      key: domain
+                      name: cookie
+                - name: SESSION_NAME
+                  valueFrom:
+                    secretKeyRef:
+                      key: session-name
+                      name: cookie
+                - name: COOKIE_PATH
+                  valueFrom:
+                    secretKeyRef:
+                      key: path
+                      name: cookie
+                - name: PORT
+                  value: "3000"
+                - name: NODE_ENV
+                  value: production
+              imagePullPolicy: Always
+              name: backend
+              ports:
+                - containerPort: 3000
+                  protocol: TCP
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+      test: false
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - backend
+            from:
+              kind: ImageStreamTag
+              name: dsd-italent-backend:${ENVIRONMENT}
+              namespace: ised-ci
+          type: ImageChange
+        - type: ConfigChange
+        - type: GitHub
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      annotations:
+      labels:
+        app: frontend
+      name: frontend
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        deploymentconfig: frontend
+      strategy:
+        activeDeadlineSeconds: 21600
+        rollingParams:
+          intervalSeconds: 1
+          maxSurge: 25%
+          maxUnavailable: 25%
+          timeoutSeconds: 600
+          updatePeriodSeconds: 1
+        type: Rolling
+      template:
+        metadata:
+          annotations:
+              labels:
+            app: frontend
+            deploymentconfig: frontend
+        spec:
+          containers:
+            - env:
+                - name: REACT_APP_API_ADDRESS
+                  valueFrom:
+                    secretKeyRef:
+                      key: url
+                      name: backend
+                - name: REACT_APP_DRUPAL_WEBSITE_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: url
+                      name: drupal
+                - name: REACT_APP_KEYCLOAK_CLIENT_ID
+                  valueFrom:
+                    secretKeyRef:
+                      key: client-frontend
+                      name: keycloak
+                - name: REACT_APP_KEYCLOAK_SERVER_URL
+                  valueFrom:
+                    secretKeyRef:
+                      key: uri
+                      name: keycloak
+                - name: NODE_ENV
+                  value: production
+              imagePullPolicy: Always
+              name: frontend
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+      test: false
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - frontend
+            from:
+              kind: ImageStreamTag
+              name: dsd-italent-frontend:${ENVIRONMENT}
+              namespace: ised-ci
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: apps.openshift.io/v1
+    kind: DeploymentConfig
+    metadata:
+      annotations:
+        template.alpha.openshift.io/wait-for-ready: "true"
+      labels:
+      name: redis
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        name: redis
+      strategy:
+        activeDeadlineSeconds: 21600
+        recreateParams:
+          timeoutSeconds: 600
+        type: Recreate
+      template:
+        metadata:
+          annotations:
+              labels:
+            name: redis
+        spec:
+          containers:
+            - env:
+                - name: REDIS_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      key: database-password
+                      name: redis
+              imagePullPolicy: IfNotPresent
+              livenessProbe:
+                failureThreshold: 3
+                initialDelaySeconds: 30
+                periodSeconds: 10
+                successThreshold: 1
+                tcpSocket:
+                  port: 6379
+                timeoutSeconds: 1
+              name: redis
+              ports:
+                - containerPort: 6379
+                  protocol: TCP
+              readinessProbe:
+                exec:
+                  command:
+                    - /bin/sh
+                    - -i
+                    - -c
+                    - test "$(redis-cli -h 127.0.0.1 -a $REDIS_PASSWORD ping)" == "PONG"
+                failureThreshold: 3
+                initialDelaySeconds: 5
+                periodSeconds: 10
+                successThreshold: 1
+                timeoutSeconds: 1
+              resources:
+                limits:
+                  memory: 512Mi
+              securityContext:
+                privileged: false
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+              volumeMounts:
+                - mountPath: /var/lib/redis/data
+                  name: redis-data
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          terminationGracePeriodSeconds: 30
+          volumes:
+            - name: redis-data
+              persistentVolumeClaim:
+                claimName: redis
+      test: false
+      triggers:
+        - imageChangeParams:
+            automatic: true
+            containerNames:
+              - redis
+            from:
+              kind: ImageStreamTag
+              name: redis:3.2
+              namespace: openshift
+          type: ImageChange
+        - type: ConfigChange
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+      labels:
+        app: backend
+      name: backend
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      ports:
+        - name: 3000-tcp
+          port: 3000
+      selector:
+        deploymentconfig: backend
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+      labels:
+        app: frontend
+      name: frontend
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      ports:
+        - name: 8080-tcp
+          port: 8080
+          targetPort: 5000
+      selector:
+        deploymentconfig: frontend
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      annotations:
+      labels:
+      name: redis
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      ports:
+        - name: redis
+          port: 6379
+      selector:
+        name: redis
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      annotations:
+      labels:
+        app: backend
+      name: backend
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      host: italent-${ENVIRONMENT}.${ROUTING_SUFFIX}
+      path: /api
+      port:
+        targetPort: 3000-tcp
+      tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: edge
+      to:
+        kind: Service
+        name: backend
+        weight: 100
+      wildcardPolicy: None
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    metadata:
+      annotations:
+      labels:
+        app: frontend
+      name: frontend
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      host: italent-${ENVIRONMENT}.${ROUTING_SUFFIX}
+      port:
+        targetPort: 8080-tcp
+      tls:
+        insecureEdgeTerminationPolicy: Redirect
+        termination: edge
+      to:
+        kind: Service
+        name: frontend
+        weight: 100
+      wildcardPolicy: None
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      annotations:
+        volume.beta.kubernetes.io/storage-provisioner: openshift-storage.rbd.csi.ceph.com
+      labels:
+      name: redis
+      namespace: italent-${ENVIRONMENT}
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: ocs-storagecluster-ceph-rbd
+# Parameters
+parameters:
+  - name: ENVIRONMENT
+    description: "App environment (e.g. dev, uat, username, etc...)."
+    required: true
+    value: null
+  - name: ROUTING_SUFFIX
+    description: "Routing suffix.  Leave default value. "
+    required: true
+    value: apps.dev.ocp-dev.ised-isde.canada.ca
