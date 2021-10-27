@@ -96,6 +96,13 @@ const generateTableData = ({ savedProfile, gedsProfile, locale }) => [
 ];
 
 /**
+ * Close the modal and reload page
+ */
+const onDone = () => {
+  window.location.reload(false);
+};
+
+/**
  * Component to render the GC directory Sync modal
  * @param {Boolean} visibility - visibility of modal.
  */
@@ -259,13 +266,6 @@ const GedsUpdateModalView = ({ visibility, saveDataToDB }) => {
       ),
     },
   ];
-
-  /**
-   * Close the modal and reload page
-   */
-  const onDone = () => {
-    window.location.reload(false);
-  };
 
   useEffect(() => {
     if (visibility) {
