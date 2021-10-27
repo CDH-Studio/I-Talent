@@ -1,3 +1,4 @@
+import React from "react";
 import propTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
@@ -35,4 +36,4 @@ ProfileLayout.defaultProps = {
   savedFormContent: undefined,
 };
 
-export default ProfileLayout;
+export default React.memo(ProfileLayout);
