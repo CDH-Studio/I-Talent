@@ -42,7 +42,7 @@ const redirectToForm = (data) => {
 /**
  * Generate the sidebar steps for create profile
  * @param {Object} props - component props
- * @param {string} step - the selected step
+ * @param {string} props.step - the selected step
  * @returns {React.ReactElement} - React Element
  */
 // eslint-disable-next-line react/prop-types
@@ -174,7 +174,7 @@ const SideBarContent = ({ step = "primary-info" }) => {
 /**
  * Generate Edit Profile form based on selected step
  * @param {Object} props - component props
- * @param {string} step - the selected step
+ * @param {string} props.step - the selected step
  * @returns {React.ReactElement} - React Element
  */
 // eslint-disable-next-line react/prop-types
