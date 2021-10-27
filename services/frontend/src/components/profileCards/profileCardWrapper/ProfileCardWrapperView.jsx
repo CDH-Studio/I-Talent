@@ -12,6 +12,117 @@ import "./ProfileCardWrapperView.less";
 
 const { Text, Title } = Typography;
 
+/**
+ * Generate Visibility Status indicator for public profile (view only mode)
+ * @param {Object} props - component props
+ * @param {boolean} props.visibleCards - visibility status of this card.
+ * @returns {React.ReactElement} - React Element
+ */
+// eslint-disable-next-line react/prop-types
+const VisibilityStatusForPublic = ({ cardVisibilityStatus = false }) =>
+  cardVisibilityStatus ? (
+    // return visibility icon if cardVisibilityStatus is boolean true
+    <Tooltip
+      placement="left"
+      title={<FormattedMessage id="visibility.card.visible" />}
+    >
+      <EyeOutlined style={{ color: "#A9A9A9" }} />
+    </Tooltip>
+  ) : (
+    // return blocked visibility icon if cardVisibilityStatus is boolean false
+    <Tooltip
+      placement="left"
+      title={<FormattedMessage id="visibility.card.blocked" />}
+    >
+      <EyeInvisibleOutlined style={{ color: "#007471" }} />
+    </Tooltip>
+  );
+
+/**
+ * Generate Visibility Status indicator for profile being viewed by admin
+ * @param {Object} props - component props
+ * @param {('PRIVATE'|'CONNECTIONS'|'PUBLIC')} props.cardVisibilityStatus - visibility status of card.
+ * @return {React.ReactElement} generated element to display
+ */
+// eslint-disable-next-line react/prop-types
+const VisibilityStatusForAdmin = ({ cardVisibilityStatus = "PRIVATE" }) => (
+  <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />
+);
+
+/**
+ * Generate Edit Menu with visibility toggle and edit button for profile in edit mode
+ * @param {Object} props - component props
+ * @param {Object} props.visibilityOfAllCards - visibility status of all cards.
+ * @param {string} props.cardInfoName - name of the card.
+ * @param {string} props.editFormUrl - url to edit form.
+ * @param {string} props.cardTitleString - title of card.
+ * @return {React.ReactElement} generated element to display
+ */
+/* eslint-disable react/prop-types */
+const EditExtraMenu = ({
+  visibilityOfAllCards,
+  cardInfoName,
+  editFormUrl,
+  cardTitleString,
+}) => (
+  <Row>
+    <Col className="hide-for-print">
+      <CardVisibilityToggle
+        ariaLabel={cardTitleString}
+        cardName={cardInfoName}
+        visibleCards={visibilityOfAllCards}
+      />
+    </Col>
+    <Col className="hide-for-print ml-2">
+      <EditCardButton editUrl={editFormUrl} />
+    </Col>
+  </Row>
+);
+/* eslint-enable react/prop-types */
+
+/**
+ * Generate right menu in card header
+ * @param {Object} props - component props
+ * @param {Object} props.cardInfoName - name of the card.
+ * @param {string} props.cardTitleString - string of card name.
+ * @param {string} props.editableCardBool - is the card editable.
+ * @param {string} props.editFormUrl - url to edit form.
+ * @param {string} props.visibilityOfAllCards - visibility status of all cards.
+ * @param {string} props.visibilityOfThisCard - visibility status of this card.
+ * @return {React.ReactElement} generated element to display
+ */
+/* eslint-disable react/prop-types */
+const ExtraMenu = ({
+  cardInfoName,
+  cardTitleString,
+  editableCardBool = false,
+  editFormUrl,
+  visibilityOfAllCards,
+  visibilityOfThisCard,
+}) => {
+  let extraMenu;
+  if (editableCardBool) {
+    extraMenu = (
+      <EditExtraMenu
+        cardInfoName={cardInfoName}
+        cardTitleString={cardTitleString}
+        editFormUrl={editFormUrl}
+        visibilityOfAllCards={visibilityOfAllCards}
+      />
+    );
+  } else if (typeof visibilityOfThisCard === "boolean") {
+    extraMenu = (
+      <VisibilityStatusForPublic cardVisibilityStatus={visibilityOfThisCard} />
+    );
+  } else {
+    extraMenu = (
+      <VisibilityStatusForAdmin cardVisibilityStatus={visibilityOfThisCard} />
+    );
+  }
+  return extraMenu;
+};
+/* eslint-enable react/prop-types */
+
 const ProfileCardWrapperView = ({
   editUrl,
   titleString,
@@ -24,101 +135,6 @@ const ProfileCardWrapperView = ({
   cardName,
   lastUpdated,
 }) => {
-  /**
-   * Generate Edit Menu with visibility toggle and edit button for profile in edit mode
-   * @param {Object} visibilityOfAllCards - visibility status of all cards.
-   * @param {string} cardInfoName - name of the card.
-   * @param {string} editFormUrl - url to edit form.
-   * @param {string} cardTitleString - url to edit form.
-   * @return {React.ReactElement} generated element to display
-   */
-  const generateEditMenu = ({
-    visibilityOfAllCards,
-    cardInfoName,
-    editFormUrl,
-    cardTitleString,
-  }) => (
-    <Row>
-      <Col className="hide-for-print">
-        <CardVisibilityToggle
-          ariaLabel={cardTitleString}
-          cardName={cardInfoName}
-          visibleCards={visibilityOfAllCards}
-        />
-      </Col>
-      <Col className="hide-for-print" style={{ marginLeft: 20 }}>
-        <EditCardButton editUrl={editFormUrl} />
-      </Col>
-    </Row>
-  );
-
-  /**
-   * Generate Visibility Status indicator for public profile (view only mode)
-   * @param {boolean} visibleCards - visibility status of this card.
-   * @return {React.ReactElement} generated element to display
-   */
-  const generateVisibilityStatusForPublic = (cardVisibilityStatus) => {
-    let visibilityStatusSymbol;
-
-    if (cardVisibilityStatus === true) {
-      // return visibility icon if cardVisibilityStatus is boolean true
-      visibilityStatusSymbol = (
-        <Tooltip
-          placement="left"
-          title={<FormattedMessage id="visibility.card.visible" />}
-        >
-          <EyeOutlined style={{ color: "#A9A9A9" }} />
-        </Tooltip>
-      );
-    } else if (cardVisibilityStatus === false) {
-      // return blocked visibility icon if cardVisibilityStatus is boolean false
-      visibilityStatusSymbol = (
-        <Tooltip
-          placement="left"
-          title={<FormattedMessage id="visibility.card.blocked" />}
-        >
-          <EyeInvisibleOutlined style={{ color: "#007471" }} />
-        </Tooltip>
-      );
-    } else {
-      visibilityStatusSymbol = null;
-    }
-    return visibilityStatusSymbol;
-  };
-
-  /**
-   * Generate Visibility Status indicator for profile being viewed by admin
-   * @param {('PRIVATE'|'CONNECTIONS'|'PUBLIC')} cardVisibilityStatus - visibility status of card.
-   * @return {React.ReactElement} generated element to display
-   */
-  const generateVisibilityStatusForAdmin = (cardVisibilityStatus) => (
-    <CardVisibilityStatus visibilityStatus={cardVisibilityStatus} />
-  );
-
-  /**
-   * Generate right menu in card header
-   * @return {React.ReactElement} generated element to display
-   */
-  const generateExtraMenu = () => {
-    let extraMenu;
-    // check if header content should be visible
-    if (displayExtraHeaderContent) {
-      if (editableCardBool) {
-        extraMenu = generateEditMenu({
-          cardInfoName: cardName,
-          cardTitleString: titleString,
-          editFormUrl: editUrl,
-          visibilityOfAllCards: visibleCards,
-        });
-      } else if (typeof visibility === "boolean") {
-        extraMenu = generateVisibilityStatusForPublic(visibility);
-      } else {
-        extraMenu = generateVisibilityStatusForAdmin(visibility);
-      }
-    }
-    return extraMenu;
-  };
-
   const grayedOut = {
     backgroundColor: !visibility && "#DCDCDC",
   };
@@ -126,7 +142,18 @@ const ProfileCardWrapperView = ({
   return (
     <div>
       <Card
-        extra={generateExtraMenu()}
+        extra={
+          displayExtraHeaderContent && (
+            <ExtraMenu
+              cardInfoName={cardName}
+              cardTitleString={titleString}
+              editableCardBool={editableCardBool}
+              editFormUrl={editUrl}
+              visibilityOfAllCards={visibleCards}
+              visibilityOfThisCard={visibility}
+            />
+          )
+        }
         id={id}
         style={grayedOut}
         title={
