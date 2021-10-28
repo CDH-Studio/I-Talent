@@ -34,7 +34,13 @@ const WelcomeView = ({
 
   /**
    * Generate large square button for GEDS profiles
-   *
+   * @param {Symbol} icon - button icon
+   * @param {string} firstTitle - first button title
+   * @param {string} secondTitle - second button title
+   * @param {string} thirdTitle - third button title
+   * @param {Object} value - Object containing the user's GEDS profile info
+   * @param {string} type - button type
+   * @returns {React.ReactElement} - React Element
    */
   const generateProfileBtn = ({
     icon,
@@ -44,7 +50,12 @@ const WelcomeView = ({
     value,
     type,
   }) => {
-    // truncate text to not overflow card
+    /**
+     * Truncate text to not overflow card
+     * @param {string} text - text to be truncated
+     * @param {number} length - max length of truncated text
+     * @returns {string} - truncated text
+     */
     const truncateString = (text, length) => {
       if (text && text.length > length) {
         return `${text.substring(0, length)}.`;
@@ -52,7 +63,10 @@ const WelcomeView = ({
       return text;
     };
 
-    // push GEDS profile to DB
+    /**
+     * Push GEDS profile to the database
+     * 
+     */
     const createProfile = async () => {
       // check if button was passed profile data
       if (value) {
@@ -117,7 +131,7 @@ const WelcomeView = ({
 
   /**
    * Generates a list of GEDS profiles that match the user using large square buttons
-   *
+   * @returns {React.ReactElement} - React Element
    */
   const generateGedsProfileList = () => {
     // check if GEDS profiles have loaded
