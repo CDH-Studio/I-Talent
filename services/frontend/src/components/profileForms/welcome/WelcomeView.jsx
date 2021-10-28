@@ -58,7 +58,7 @@ const WelcomeView = ({
       if (value) {
         // create profile
         await axios
-          .put(`${backendAddress}profile/${userId}?language=ENGLISH`, value)
+          .put(`${backendAddress}/profile/${userId}?language=ENGLISH`, value)
           .then(() => history.push("/profile/create/step/2"))
           .catch((error) => handleError(error, "message", history));
       }
@@ -121,7 +121,7 @@ const WelcomeView = ({
    */
   const generateGedsProfileList = () => {
     // check if GEDS profiles have loaded
-    if (!load || !gedsProfiles || Object.keys(gedsProfiles).length === 0) {
+    if (load || !gedsProfiles || Object.keys(gedsProfiles).length === 0) {
       return (
         <div>
           {/* loading button */}

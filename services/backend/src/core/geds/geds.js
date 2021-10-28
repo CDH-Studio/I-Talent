@@ -46,7 +46,7 @@ async function getGedsSetup(request, response) {
   }
 
   const dataGEDS = dataGEDSArray.find(
-    (element) => element.contactInformation.email === dataDBEmail
+    (element) => element.contactInformation.email.toLowerCase() === dataDBEmail.toLowerCase()
   );
 
   const organizations = [];
