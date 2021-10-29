@@ -3,6 +3,28 @@ import { Col, List, Row } from "antd";
 
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
+/**
+ * Retrieves the ribbon button for adding/removing a user from one's circle,
+ * or the edit button which is a link to the edit profile page
+ * @param {Object} prop - component props
+ * @param {Object[]} prop.dataSource - history for redirect
+ * @param {string} prop.dataSource[].description - history for redirect
+ * @param {string} prop.dataSource[].title - history for redirect
+ */
+/* eslint-disable react/prop-types */
+const InfoList = ({ dataSource }) => (
+  <List
+    dataSource={dataSource}
+    itemLayout="horizontal"
+    renderItem={(item) => (
+      <List.Item>
+        <List.Item.Meta description={item.description} title={item.title} />
+      </List.Item>
+    )}
+  />
+);
+/* eslint-enable react/prop-types */
+
 const EmploymentStatusView = ({ data }) => {
   const left = [
     {
@@ -43,22 +65,15 @@ const EmploymentStatusView = ({ data }) => {
     },
   ];
 
-  const list = (dataSource) => (
-    <List
-      dataSource={dataSource}
-      itemLayout="horizontal"
-      renderItem={(item) => (
-        <List.Item>
-          <List.Item.Meta description={item.description} title={item.title} />
-        </List.Item>
-      )}
-    />
-  );
   return (
     <div>
       <Row>
-        <Col span={12}>{list(left)}</Col>
-        <Col span={12}>{list(right)}</Col>
+        <Col span={12}>
+          <InfoList dataSource={left} />
+        </Col>
+        <Col span={12}>
+          <InfoList dataSource={right} />
+        </Col>
       </Row>
     </div>
   );
