@@ -7,11 +7,11 @@ import { ProfileInfoPropType } from "../../../utils/customPropTypes";
  * Retrieves the ribbon button for adding/removing a user from one's circle,
  * or the edit button which is a link to the edit profile page
  * @param {Object} prop - component props
- * @param {Object[]} prop.dataSource - history for redirect
- * @param {string} prop.dataSource[].description - history for redirect
- * @param {string} prop.dataSource[].title - history for redirect
+ * @param {Object[]} prop.dataSource - data object
+ * @param {string} prop.dataSource[].description - info description
+ * @param {string} prop.dataSource[].title - info title
  */
-/* eslint-disable react/prop-types */
+// eslint-disable-next-line react/prop-types
 const InfoList = ({ dataSource }) => (
   <List
     dataSource={dataSource}
@@ -23,7 +23,6 @@ const InfoList = ({ dataSource }) => (
     )}
   />
 );
-/* eslint-enable react/prop-types */
 
 const EmploymentStatusView = ({ data }) => {
   const left = [
