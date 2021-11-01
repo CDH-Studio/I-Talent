@@ -145,7 +145,7 @@ const GedsProfileList = ({
         />
       </div>
     );
-  }
+  };
 
   return (
     <div>
