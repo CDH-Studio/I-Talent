@@ -39,6 +39,96 @@ import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 
 import "./PrimaryInfoFormView.less";
 
+/**
+ * Open Notification pop up with message
+ * @param {Object} notification - The notification to be displayed.
+ * @param {string} notification.type - The type of notification.
+ * @param {string} notification.description - Additional info in notification.
+ * @param {Object} intl - intl object
+ */
+const openNotificationWithIcon = ({ type, description }, intl) => {
+  switch (type) {
+    case "success":
+      notification.success({
+        message: intl.formatMessage({ id: "edit.save.success" }),
+      });
+      break;
+    case "jobTitleLangEN":
+      notification.warning({
+        description: intl.formatMessage({
+          id: "edit.save.jobTitle.warning.en",
+        }),
+      });
+      break;
+    case "jobTitleLangFR":
+      notification.warning({
+        description: intl.formatMessage({
+          id: "edit.save.jobTitle.warning.fr",
+        }),
+      });
+      break;
+    case "error":
+      notification.error({
+        description,
+        message: intl.formatMessage({ id: "edit.save.error" }),
+      });
+      break;
+    default:
+      notification.warning({
+        description,
+        message: intl.formatMessage({ id: "edit.save.problem" }),
+      });
+      break;
+  }
+};
+
+/**
+ * Extract initial values of the form from profile
+ * @param {Object} profile - User Profile
+ * @param {string} email - User's email
+ * @returns {Object} - Object containing the initial values for the Primary Info form
+ */
+const getInitialValues = ({ profile }, email) => {
+  if (profile) {
+    return {
+      cellphone: profile.cellphone,
+      email: profile.email,
+      employmentEquityGroups: profile.employmentEquityGroups,
+      firstName: profile.firstName,
+      gcconnex: profile.gcconnex,
+      github: profile.github,
+      jobTitle: profile.jobTitle,
+      lastName: profile.lastName,
+      linkedin: profile.linkedin,
+      locationId: profile.officeLocation
+        ? profile.officeLocation.id
+        : undefined,
+      pri: profile.pri,
+      teams: profile.teams,
+      telephone: profile.telephone,
+    };
+  }
+  return { email };
+};
+
+/**
+ * Generate error description to display in notification
+ * @param {Object} intl - intl object
+ * @returns {React.ReactElement} - React Element
+ */
+/* eslint-disable react/prop-types */
+const ErrorMessages = ({ intl }) => (
+  <div>
+    <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
+    <p>
+      {"- "}
+      {intl.formatMessage({ id: "primary.contact.information" })}{" "}
+      {intl.formatMessage({ id: "form" })}
+    </p>
+  </div>
+);
+/* eslint-enable react/prop-types */
+
 const PrimaryInfoFormView = ({
   locationOptions,
   profileInfo,
@@ -107,103 +197,17 @@ const PrimaryInfoFormView = ({
   };
 
   /**
-   * Open Notification pop up with message
-   * @param {Object} notification - The notification to be displayed.
-   * @param {string} notification.type - The type of notification.
-   * @param {string} notification.description - Additional info in notification.
-   */
-  const openNotificationWithIcon = ({ type, description }) => {
-    switch (type) {
-      case "success":
-        notification.success({
-          message: intl.formatMessage({ id: "edit.save.success" }),
-        });
-        break;
-      case "jobTitleLangEN":
-        notification.warning({
-          description: intl.formatMessage({
-            id: "edit.save.jobTitle.warning.en",
-          }),
-        });
-        break;
-      case "jobTitleLangFR":
-        notification.warning({
-          description: intl.formatMessage({
-            id: "edit.save.jobTitle.warning.fr",
-          }),
-        });
-        break;
-      case "error":
-        notification.error({
-          description,
-          message: intl.formatMessage({ id: "edit.save.error" }),
-        });
-        break;
-      default:
-        notification.warning({
-          description,
-          message: intl.formatMessage({ id: "edit.save.problem" }),
-        });
-        break;
-    }
-  };
-
-  /**
-   * Extract initial values of the form from profile
-   * @param {Object} profile - User Profile
-   * @returns {Object} - Object containing the initial values for the Primary Info form
-   */
-  const getInitialValues = ({ profile }) => {
-    if (profile) {
-      return {
-        cellphone: profile.cellphone,
-        email: profile.email,
-        employmentEquityGroups: profile.employmentEquityGroups,
-        firstName: profile.firstName,
-        gcconnex: profile.gcconnex,
-        github: profile.github,
-        jobTitle: profile.jobTitle,
-        lastName: profile.lastName,
-        linkedin: profile.linkedin,
-        locationId: profile.officeLocation
-          ? profile.officeLocation.id
-          : undefined,
-        pri: profile.pri,
-        teams: profile.teams,
-        telephone: profile.telephone,
-      };
-    }
-    return { email };
-  };
-
-  /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
-   *
    */
   const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
-      savedValues || getInitialValues({ profile: profileInfo }),
+      savedValues || getInitialValues({ profile: profileInfo }, email),
       identity
     );
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
-
-  /**
-   * Generate error description to display in notification
-   * @returns {React.ReactElement} - React Element
-   */
-  const getErrorMessages = () => (
-    <div>
-      <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-      <p>
-        {"- "}
-        {intl.formatMessage({ id: "primary.contact.information" })}{" "}
-        {intl.formatMessage({ id: "form" })}
-      </p>
-    </div>
-  );
 
   /**
    * Save Data to DB by sending to backend API
@@ -229,18 +233,18 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        openNotificationWithIcon({ type: "success" });
+        openNotificationWithIcon({ type: "success" }, intl);
       })
       .catch((error) => {
         if (error.isAxiosError) {
           openNotificationWithIcon({
             type: "warning",
-          });
+          }, intl);
         } else {
           openNotificationWithIcon({
-            description: getErrorMessages(),
+            description: <ErrorMessages intl={intl} />,
             type: "error",
-          });
+          }, intl);
         }
       });
   };
@@ -264,12 +268,12 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           openNotificationWithIcon({
             type: "warning",
-          });
+          }, intl);
         } else {
           openNotificationWithIcon({
-            description: getErrorMessages(),
+            description: <ErrorMessages intl={intl} />,
             type: "error",
-          });
+          }, intl);
         }
       });
   };
@@ -310,12 +314,12 @@ const PrimaryInfoFormView = ({
         if (error.isAxiosError) {
           openNotificationWithIcon({
             type: "warning",
-          });
+          }, intl);
         } else {
           openNotificationWithIcon({
-            description: getErrorMessages(),
+            description: <ErrorMessages intl={intl} />,
             type: "error",
-          });
+          }, intl);
         }
       });
   };
@@ -384,7 +388,7 @@ const PrimaryInfoFormView = ({
         <Form
           form={form}
           initialValues={
-            savedValues || getInitialValues({ profile: profileInfo })
+            savedValues || getInitialValues({ profile: profileInfo }, email)
           }
           layout="vertical"
           name="basicForm"
@@ -474,7 +478,7 @@ const PrimaryInfoFormView = ({
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({ id: "location" })}
                   initialValueId={
-                    getInitialValues({ profile: profileInfo }).locationId
+                    getInitialValues({ profile: profileInfo }, email).locationId
                   }
                   isRequired
                   options={locationOptions}
@@ -518,7 +522,7 @@ const PrimaryInfoFormView = ({
                     id: "employee.work.unit",
                   })}
                   initialValueId={
-                    getInitialValues({ profile: profileInfo }).teams
+                    getInitialValues({ profile: profileInfo }, email).teams
                   }
                   isCreatable
                   isMulti
@@ -610,7 +614,7 @@ const PrimaryInfoFormView = ({
                     id: "employment.equity.groups",
                   })}
                   initialValueId={
-                    getInitialValues({ profile: profileInfo })
+                    getInitialValues({ profile: profileInfo }, email)
                       .employmentEquityGroups
                   }
                   isMulti
