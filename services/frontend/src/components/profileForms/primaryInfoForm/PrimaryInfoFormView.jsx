@@ -88,28 +88,26 @@ const openNotificationWithIcon = ({ type, description }, intl) => {
  * @param {string} email - User's email
  * @returns {Object} - Object containing the initial values for the Primary Info form
  */
-const getInitialValues = ({ profile }, email) => {
-  if (profile) {
-    return {
-      cellphone: profile.cellphone,
-      email: profile.email,
-      employmentEquityGroups: profile.employmentEquityGroups,
-      firstName: profile.firstName,
-      gcconnex: profile.gcconnex,
-      github: profile.github,
-      jobTitle: profile.jobTitle,
-      lastName: profile.lastName,
-      linkedin: profile.linkedin,
-      locationId: profile.officeLocation
-        ? profile.officeLocation.id
-        : undefined,
-      pri: profile.pri,
-      teams: profile.teams,
-      telephone: profile.telephone,
-    };
-  }
-  return { email };
-};
+const getInitialValues = (profile, email) =>
+  profile
+    ? {
+        cellphone: profile.cellphone,
+        email: profile.email,
+        employmentEquityGroups: profile.employmentEquityGroups,
+        firstName: profile.firstName,
+        gcconnex: profile.gcconnex,
+        github: profile.github,
+        jobTitle: profile.jobTitle,
+        lastName: profile.lastName,
+        linkedin: profile.linkedin,
+        locationId: profile.officeLocation
+          ? profile.officeLocation.id
+          : undefined,
+        pri: profile.pri,
+        teams: profile.teams,
+        telephone: profile.telephone,
+      }
+    : { email };
 
 /**
  * Generate error description to display in notification
@@ -203,7 +201,7 @@ const PrimaryInfoFormView = ({
   const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
-      savedValues || getInitialValues({ profile: profileInfo }, email),
+      savedValues || getInitialValues(profileInfo, email),
       identity
     );
     setFieldsChanged(!isEqual(formValues, dbValues));
@@ -397,7 +395,7 @@ const PrimaryInfoFormView = ({
         >
           {/* Form Row One */}
           <Row gutter={24}>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="first.name" />}
                 name="firstName"
@@ -411,9 +409,7 @@ const PrimaryInfoFormView = ({
               </Form.Item>
             </Col>
 
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
-              {" "}
-              // TODO: remove unnecessary rules
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="last.name" />}
                 name="lastName"
@@ -466,7 +462,7 @@ const PrimaryInfoFormView = ({
 
           {/* Form Row Four */}
           <Row gutter={24}>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 extra={
                   <div id="pri-extra-info">
@@ -480,7 +476,7 @@ const PrimaryInfoFormView = ({
                 <Input aria-describedby="pri-extra-info" aria-required="true" />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="location" />}
                 name="locationId"
@@ -499,7 +495,7 @@ const PrimaryInfoFormView = ({
 
           {/* Form Row Five */}
           <Row gutter={24}>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="profile.telephone" />}
                 name="telephone"
@@ -508,7 +504,7 @@ const PrimaryInfoFormView = ({
                 <Input />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="work.cellphone" />}
                 name="cellphone"
