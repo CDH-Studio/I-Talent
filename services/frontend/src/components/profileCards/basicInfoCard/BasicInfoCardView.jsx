@@ -116,7 +116,7 @@ const OrgTreeButton = ({ branch = "", organizations = [] }) => {
         onCancel={() => setIsModalVisible(false)}
         title={
           <>
-            <ApartmentOutlined aria-hidden="true" />
+            <ApartmentOutlined aria-hidden="true" className="mr-1" />
             <span>
               <FormattedMessage id="profile.org.tree" />
             </span>

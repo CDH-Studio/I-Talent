@@ -10,7 +10,7 @@ import "./EducationCardView.less";
 /**
  * Generate styled description text
  * @param {Object} props - component props
- * @param {string} text - text to display as description
+ * @param {string} props.text - text to display as description
  * @returns {React.ReactElement} - React Element
  */
 // eslint-disable-next-line react/prop-types

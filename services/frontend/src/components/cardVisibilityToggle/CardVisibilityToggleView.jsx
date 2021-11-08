@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
@@ -16,6 +16,39 @@ import useAxios from "../../utils/useAxios";
 import CustomDropdown from "../formItems/CustomDropdown";
 
 import "./CardVisibilityToggleView.less";
+
+const generateOptions = (intl) => [
+  {
+    icon: <EyeOutlined aria-hidden="true" className="mr-1" />,
+    label: intl.formatMessage({ id: "visibility.card.public" }),
+    value: "PUBLIC",
+  },
+  {
+    icon: <TeamOutlined aria-hidden="true" className="mr-1" />,
+    label: intl.formatMessage({ id: "connections" }),
+    value: "CONNECTIONS",
+  },
+  {
+    icon: <EyeInvisibleOutlined aria-hidden="true" className="mr-1" />,
+    label: intl.formatMessage({ id: "visibility.card.private" }),
+    value: "PRIVATE",
+  },
+];
+
+/**
+ * Open success notification on save
+ */
+const openNotification = (intl) => {
+  notification.success({
+    description: intl.formatMessage({
+      id: "visibility.confirmation.message",
+    }),
+    message: intl.formatMessage({
+      id: "visibility.confirmation.title",
+    }),
+    placement: "topRight",
+  });
+};
 
 const CardVisibilityToggleView = ({
   cardName,
@@ -42,21 +75,6 @@ const CardVisibilityToggleView = ({
   }, [visibleCards, urlID, userID, cardName]);
 
   /**
-   * Open success notification on save
-   */
-  const openNotification = () => {
-    notification.success({
-      description: intl.formatMessage({
-        id: "visibility.confirmation.message",
-      }),
-      message: intl.formatMessage({
-        id: "visibility.confirmation.title",
-      }),
-      placement: "topRight",
-    });
-  };
-
-  /**
    * Handel the change in visibility
    * save the selected visibility to backend
    * @param {Object} value - value selected from dropdown
@@ -69,7 +87,7 @@ const CardVisibilityToggleView = ({
         visibleCards,
       })
       .then(() => {
-        openNotification();
+        openNotification(intl);
         setStatus(value);
       })
       .catch((error) => handleError(error, "message", history));
@@ -122,39 +140,21 @@ const CardVisibilityToggleView = ({
     getCardStatus();
   }, [getCardStatus]);
 
-  const generateOptions = () => [
-    {
-      icon: <EyeOutlined aria-hidden="true" className="mr-1" />,
-      label: intl.formatMessage({ id: "visibility.card.public" }),
-      value: "PUBLIC",
-    },
-    {
-      icon: <TeamOutlined aria-hidden="true" className="mr-1" />,
-      label: intl.formatMessage({ id: "connections" }),
-      value: "CONNECTIONS",
-    },
-    {
-      icon: <EyeInvisibleOutlined aria-hidden="true" className="mr-1" />,
-      label: intl.formatMessage({ id: "visibility.card.private" }),
-      value: "PRIVATE",
-    },
-  ];
+  const visibilityOptions = useMemo(() => generateOptions(intl), [intl]);
 
   return (
-    <>
-      <CustomDropdown
-        ariaLabel={`${ariaLabel} ${intl.formatMessage({
-          id: "visibility.selector",
-        })}`}
-        className="visibilitySelector"
-        initialValueId={status}
-        inputValue={status}
-        isClearable={false}
-        isSearchable={false}
-        onChange={handleSelect}
-        options={generateOptions()}
-      />
-    </>
+    <CustomDropdown
+      ariaLabel={`${ariaLabel} ${intl.formatMessage({
+        id: "visibility.selector",
+      })}`}
+      className="visibilitySelector"
+      initialValueId={status}
+      inputValue={status}
+      isClearable={false}
+      isSearchable={false}
+      onChange={handleSelect}
+      options={visibilityOptions}
+    />
   );
 };
 

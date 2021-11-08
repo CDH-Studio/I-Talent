@@ -109,7 +109,7 @@ const Profile = ({ history, match }) => {
       connectionStatus={connectionData}
       data={data}
       isUsersProfile={id === userID}
-      loading={loading}
+      loading={!data}
       savedFormContent={savedFormContent}
     />
   );
