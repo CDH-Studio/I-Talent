@@ -2,9 +2,8 @@ import PropTypes from "prop-types";
 
 import SideNavView from "./SideNavView";
 
-const SideNav = ({ displaySideBar, siderWidth, sideBarContent, loading }) => (
+const SideNav = ({ siderWidth, sideBarContent, loading }) => (
   <SideNavView
-    displaySideBar={displaySideBar}
     loading={loading}
     sideBarContent={sideBarContent}
     siderWidth={siderWidth}
@@ -12,7 +11,6 @@ const SideNav = ({ displaySideBar, siderWidth, sideBarContent, loading }) => (
 );
 
 SideNav.propTypes = {
-  displaySideBar: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   sideBarContent: PropTypes.node.isRequired,
   siderWidth: PropTypes.number,
