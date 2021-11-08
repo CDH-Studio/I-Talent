@@ -45,7 +45,7 @@
     "snyk": "^1.687.0",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
-    "validator": "^13.6.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
