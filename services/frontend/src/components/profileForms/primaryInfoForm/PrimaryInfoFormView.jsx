@@ -132,7 +132,7 @@ const ErrorMessages = ({ intl }) => (
 const PrimaryInfoFormView = ({
   locationOptions,
   profileInfo,
-  load,
+  isLoading,
   formType,
   history,
   userId,
@@ -151,7 +151,7 @@ const PrimaryInfoFormView = ({
   const dispatch = useDispatch();
 
   /* Component Rules for form fields */
-  const Rules = {
+  const FORM_RULES = {
     emailFormat: {
       message: <FormattedMessage id="rules.email" />,
       pattern: /\S+@\S+\.ca/i,
@@ -237,14 +237,20 @@ const PrimaryInfoFormView = ({
       })
       .catch((error) => {
         if (error.isAxiosError) {
-          openNotificationWithIcon({
-            type: "warning",
-          }, intl);
+          openNotificationWithIcon(
+            {
+              type: "warning",
+            },
+            intl
+          );
         } else {
-          openNotificationWithIcon({
-            description: <ErrorMessages intl={intl} />,
-            type: "error",
-          }, intl);
+          openNotificationWithIcon(
+            {
+              description: <ErrorMessages intl={intl} />,
+              type: "error",
+            },
+            intl
+          );
         }
       });
   };
@@ -266,14 +272,15 @@ const PrimaryInfoFormView = ({
       .then(() => history.push("/profile/create/step/3"))
       .catch((error) => {
         if (error.isAxiosError) {
-          openNotificationWithIcon({
-            type: "warning",
-          }, intl);
+          openNotificationWithIcon({ type: "warning" }, intl);
         } else {
-          openNotificationWithIcon({
-            description: <ErrorMessages intl={intl} />,
-            type: "error",
-          }, intl);
+          openNotificationWithIcon(
+            {
+              description: <ErrorMessages intl={intl} />,
+              type: "error",
+            },
+            intl
+          );
         }
       });
   };
@@ -312,14 +319,15 @@ const PrimaryInfoFormView = ({
       .catch((error) => {
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
-          openNotificationWithIcon({
-            type: "warning",
-          }, intl);
+          openNotificationWithIcon({ type: "warning" }, intl);
         } else {
-          openNotificationWithIcon({
-            description: <ErrorMessages intl={intl} />,
-            type: "error",
-          }, intl);
+          openNotificationWithIcon(
+            {
+              description: <ErrorMessages intl={intl} />,
+              type: "error",
+            },
+            intl
+          );
         }
       });
   };
@@ -336,19 +344,14 @@ const PrimaryInfoFormView = ({
     checkIfFormValuesChanged();
   };
 
-  /** **********************************
-   ********* Render Component *********
-   *********************************** */
-  if (!load) {
-    return (
-      /* If form data is loading then wait */
-      <div className="prim-skeleton">
-        <Skeleton active />
-      </div>
-    );
-  }
+  const initialValues = getInitialValues(profileInfo, email);
+
   /* Once data had loaded display form */
-  return (
+  return isLoading ? (
+    <div className="prim-skeleton">
+      <Skeleton active />
+    </div>
+  ) : (
     <>
       <Prompt
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
@@ -387,9 +390,7 @@ const PrimaryInfoFormView = ({
         {/* Create for with initial values */}
         <Form
           form={form}
-          initialValues={
-            savedValues || getInitialValues({ profile: profileInfo }, email)
-          }
+          initialValues={savedValues || initialValues}
           layout="vertical"
           name="basicForm"
           onValuesChange={checkIfFormValuesChanged}
@@ -400,17 +401,27 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 label={<FormattedMessage id="first.name" />}
                 name="firstName"
-                rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
+                rules={[
+                  FORM_RULES.required,
+                  FORM_RULES.maxChar50,
+                  FORM_RULES.nameFormat,
+                ]}
               >
                 <Input aria-required="true" />
               </Form.Item>
             </Col>
 
             <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+              {" "}
+              // TODO: remove unnecessary rules
               <Form.Item
                 label={<FormattedMessage id="last.name" />}
                 name="lastName"
-                rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
+                rules={[
+                  FORM_RULES.required,
+                  FORM_RULES.maxChar50,
+                  FORM_RULES.nameFormat,
+                ]}
               >
                 <Input aria-required="true" />
               </Form.Item>
@@ -428,7 +439,7 @@ const PrimaryInfoFormView = ({
                 }
                 label={<FormattedMessage id="email" />}
                 name="email"
-                rules={[Rules.emailFormat, Rules.maxChar50]}
+                rules={[FORM_RULES.emailFormat, FORM_RULES.maxChar50]}
               >
                 <Input aria-describedby="email-extra-info" readOnly />
               </Form.Item>
@@ -446,7 +457,7 @@ const PrimaryInfoFormView = ({
                 }
                 label={<FormattedMessage id="job.title" />}
                 name="jobTitle"
-                rules={[Rules.maxChar50]}
+                rules={[FORM_RULES.maxChar50]}
               >
                 <Input aria-describedby="job-title-extra-info" readOnly />
               </Form.Item>
@@ -464,7 +475,7 @@ const PrimaryInfoFormView = ({
                 }
                 label={<FormattedMessage id="pri" />}
                 name="pri"
-                rules={[Rules.required, Rules.priFormat]}
+                rules={[FORM_RULES.required, FORM_RULES.priFormat]}
               >
                 <Input aria-describedby="pri-extra-info" aria-required="true" />
               </Form.Item>
@@ -473,13 +484,11 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 label={<FormattedMessage id="location" />}
                 name="locationId"
-                rules={[Rules.required, Rules.maxChar50]}
+                rules={[FORM_RULES.required, FORM_RULES.maxChar50]}
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({ id: "location" })}
-                  initialValueId={
-                    getInitialValues({ profile: profileInfo }, email).locationId
-                  }
+                  initialValueId={initialValues.locationId}
                   isRequired
                   options={locationOptions}
                   placeholderText={<FormattedMessage id="search" />}
@@ -494,7 +503,7 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 label={<FormattedMessage id="profile.telephone" />}
                 name="telephone"
-                rules={Rules.telephoneFormat}
+                rules={FORM_RULES.telephoneFormat}
               >
                 <Input />
               </Form.Item>
@@ -503,7 +512,7 @@ const PrimaryInfoFormView = ({
               <Form.Item
                 label={<FormattedMessage id="work.cellphone" />}
                 name="cellphone"
-                rules={Rules.telephoneFormat}
+                rules={FORM_RULES.telephoneFormat}
               >
                 <Input />
               </Form.Item>
@@ -521,9 +530,7 @@ const PrimaryInfoFormView = ({
                   ariaLabel={intl.formatMessage({
                     id: "employee.work.unit",
                   })}
-                  initialValueId={
-                    getInitialValues({ profile: profileInfo }, email).teams
-                  }
+                  initialValueId={initialValues.teams}
                   isCreatable
                   isMulti
                   placeholderText={<FormattedMessage id="press.enter.to.add" />}
@@ -546,7 +553,7 @@ const PrimaryInfoFormView = ({
                 <Form.Item
                   label={<FormattedMessage id="gcconnex.username" />}
                   name="gcconnex"
-                  rules={[Rules.maxChar100]}
+                  rules={[FORM_RULES.maxChar100]}
                 >
                   <Input
                     addonBefore="https://gcconnex.gc.ca/profile/"
@@ -561,7 +568,7 @@ const PrimaryInfoFormView = ({
                 <Form.Item
                   label={<FormattedMessage id="linkedin.username" />}
                   name="linkedin"
-                  rules={[Rules.maxChar100]}
+                  rules={[FORM_RULES.maxChar100]}
                 >
                   <Input
                     addonBefore="https://linkedin.com/in/"
@@ -577,7 +584,7 @@ const PrimaryInfoFormView = ({
                 <Form.Item
                   label={<FormattedMessage id="github.username" />}
                   name="github"
-                  rules={[Rules.maxChar100]}
+                  rules={[FORM_RULES.maxChar100]}
                 >
                   <Input
                     addonBefore="https://github.com/"
@@ -613,10 +620,7 @@ const PrimaryInfoFormView = ({
                   ariaLabel={intl.formatMessage({
                     id: "employment.equity.groups",
                   })}
-                  initialValueId={
-                    getInitialValues({ profile: profileInfo }, email)
-                      .employmentEquityGroups
-                  }
+                  initialValueId={initialValues.employmentEquityGroups}
                   isMulti
                   isSearchable={false}
                   options={employmentEquityOptions}
@@ -646,7 +650,7 @@ PrimaryInfoFormView.propTypes = {
   employmentEquityOptions: KeyTitleOptionsPropType.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   history: HistoryPropType.isRequired,
-  load: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   locationOptions: IdDescriptionPropType,
   profileInfo: ProfileInfoPropType,
   userId: PropTypes.string.isRequired,
