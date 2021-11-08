@@ -39,10 +39,98 @@ import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 
 import "./PrimaryInfoFormView.less";
 
+/**
+ * Open Notification pop up with message
+ * @param {Object} notification - The notification to be displayed.
+ * @param {string} notification.type - The type of notification.
+ * @param {string} notification.description - Additional info in notification.
+ * @param {Object} intl - intl object
+ */
+const openNotificationWithIcon = ({ type, description }, intl) => {
+  switch (type) {
+    case "success":
+      notification.success({
+        message: intl.formatMessage({ id: "edit.save.success" }),
+      });
+      break;
+    case "jobTitleLangEN":
+      notification.warning({
+        description: intl.formatMessage({
+          id: "edit.save.jobTitle.warning.en",
+        }),
+      });
+      break;
+    case "jobTitleLangFR":
+      notification.warning({
+        description: intl.formatMessage({
+          id: "edit.save.jobTitle.warning.fr",
+        }),
+      });
+      break;
+    case "error":
+      notification.error({
+        description,
+        message: intl.formatMessage({ id: "edit.save.error" }),
+      });
+      break;
+    default:
+      notification.warning({
+        description,
+        message: intl.formatMessage({ id: "edit.save.problem" }),
+      });
+      break;
+  }
+};
+
+/**
+ * Extract initial values of the form from profile
+ * @param {Object} profile - User Profile
+ * @param {string} email - User's email
+ * @returns {Object} - Object containing the initial values for the Primary Info form
+ */
+const getInitialValues = (profile, email) =>
+  profile
+    ? {
+        cellphone: profile.cellphone,
+        email: profile.email,
+        employmentEquityGroups: profile.employmentEquityGroups,
+        firstName: profile.firstName,
+        gcconnex: profile.gcconnex,
+        github: profile.github,
+        jobTitle: profile.jobTitle,
+        lastName: profile.lastName,
+        linkedin: profile.linkedin,
+        locationId: profile.officeLocation
+          ? profile.officeLocation.id
+          : undefined,
+        pri: profile.pri,
+        teams: profile.teams,
+        telephone: profile.telephone,
+      }
+    : { email };
+
+/**
+ * Generate error description to display in notification
+ * @param {Object} intl - intl object
+ * @returns {React.ReactElement} - React Element
+ */
+/* eslint-disable react/prop-types */
+const ErrorMessages = ({ intl }) => (
+  <div>
+    <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
+    <p>
+      {"- "}
+      {intl.formatMessage({ id: "primary.contact.information" })}{" "}
+      {intl.formatMessage({ id: "form" })}
+    </p>
+  </div>
+);
+/* eslint-enable react/prop-types */
+
 const PrimaryInfoFormView = ({
   locationOptions,
   profileInfo,
-  load,
+  isLoading,
   formType,
   history,
   userId,
@@ -61,7 +149,7 @@ const PrimaryInfoFormView = ({
   const dispatch = useDispatch();
 
   /* Component Rules for form fields */
-  const Rules = {
+  const FORM_RULES = {
     emailFormat: {
       message: <FormattedMessage id="rules.email" />,
       pattern: /\S+@\S+\.ca/i,
@@ -107,101 +195,17 @@ const PrimaryInfoFormView = ({
   };
 
   /**
-   * Open Notification pop up with message
-   * @param {Object} notification - The notification to be displayed.
-   * @param {string} notification.type - The type of notification.
-   * @param {string} notification.description - Additional info in notification.
-   */
-  const openNotificationWithIcon = ({ type, description }) => {
-    switch (type) {
-      case "success":
-        notification.success({
-          message: intl.formatMessage({ id: "edit.save.success" }),
-        });
-        break;
-      case "jobTitleLangEN":
-        notification.warning({
-          description: intl.formatMessage({
-            id: "edit.save.jobTitle.warning.en",
-          }),
-        });
-        break;
-      case "jobTitleLangFR":
-        notification.warning({
-          description: intl.formatMessage({
-            id: "edit.save.jobTitle.warning.fr",
-          }),
-        });
-        break;
-      case "error":
-        notification.error({
-          description,
-          message: intl.formatMessage({ id: "edit.save.error" }),
-        });
-        break;
-      default:
-        notification.warning({
-          description,
-          message: intl.formatMessage({ id: "edit.save.problem" }),
-        });
-        break;
-    }
-  };
-
-  /**
-   * Extract initial values of the form from profile
-   * @param {Object} profile - User Profile
-   */
-  const getInitialValues = ({ profile }) => {
-    if (profile) {
-      return {
-        cellphone: profile.cellphone,
-        email: profile.email,
-        employmentEquityGroups: profile.employmentEquityGroups,
-        firstName: profile.firstName,
-        gcconnex: profile.gcconnex,
-        github: profile.github,
-        jobTitle: profile.jobTitle,
-        lastName: profile.lastName,
-        linkedin: profile.linkedin,
-        locationId: profile.officeLocation
-          ? profile.officeLocation.id
-          : undefined,
-        pri: profile.pri,
-        teams: profile.teams,
-        telephone: profile.telephone,
-      };
-    }
-    return { email };
-  };
-
-  /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
-   *
    */
   const checkIfFormValuesChanged = async () => {
     const formValues = pickBy(form.getFieldsValue(), identity);
     const dbValues = pickBy(
-      savedValues || getInitialValues({ profile: profileInfo }),
+      savedValues || getInitialValues(profileInfo, email),
       identity
     );
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
-
-  /**
-   * Generate error description to display in notification
-   */
-  const getErrorMessages = () => (
-    <div>
-      <strong>{intl.formatMessage({ id: "edit.save.error.intro" })}</strong>
-      <p>
-        {"- "}
-        {intl.formatMessage({ id: "primary.contact.information" })}{" "}
-        {intl.formatMessage({ id: "form" })}
-      </p>
-    </div>
-  );
 
   /**
    * Save Data to DB by sending to backend API
@@ -227,18 +231,24 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        openNotificationWithIcon({ type: "success" });
+        openNotificationWithIcon({ type: "success" }, intl);
       })
       .catch((error) => {
         if (error.isAxiosError) {
-          openNotificationWithIcon({
-            type: "warning",
-          });
+          openNotificationWithIcon(
+            {
+              type: "warning",
+            },
+            intl
+          );
         } else {
-          openNotificationWithIcon({
-            description: getErrorMessages(),
-            type: "error",
-          });
+          openNotificationWithIcon(
+            {
+              description: <ErrorMessages intl={intl} />,
+              type: "error",
+            },
+            intl
+          );
         }
       });
   };
@@ -260,14 +270,15 @@ const PrimaryInfoFormView = ({
       .then(() => history.push("/profile/create/step/3"))
       .catch((error) => {
         if (error.isAxiosError) {
-          openNotificationWithIcon({
-            type: "warning",
-          });
+          openNotificationWithIcon({ type: "warning" }, intl);
         } else {
-          openNotificationWithIcon({
-            description: getErrorMessages(),
-            type: "error",
-          });
+          openNotificationWithIcon(
+            {
+              description: <ErrorMessages intl={intl} />,
+              type: "error",
+            },
+            intl
+          );
         }
       });
   };
@@ -292,27 +303,29 @@ const PrimaryInfoFormView = ({
             store.dispatch(setUserSignupStep(8)),
             saveDataToDB({ ...values, signupStep: 8 }),
           ]);
+          setFieldsChanged(false);
           history.push("/profile/create/step/8");
         } else {
           Promise.all([
             saveDataToDB(values),
             dispatch(setSavedFormContent(true)),
           ]);
+          setFieldsChanged(false);
           onFinish();
         }
-        setFieldsChanged(false);
       })
       .catch((error) => {
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
-          openNotificationWithIcon({
-            type: "warning",
-          });
+          openNotificationWithIcon({ type: "warning" }, intl);
         } else {
-          openNotificationWithIcon({
-            description: getErrorMessages(),
-            type: "error",
-          });
+          openNotificationWithIcon(
+            {
+              description: <ErrorMessages intl={intl} />,
+              type: "error",
+            },
+            intl
+          );
         }
       });
   };
@@ -329,19 +342,14 @@ const PrimaryInfoFormView = ({
     checkIfFormValuesChanged();
   };
 
-  /** **********************************
-   ********* Render Component *********
-   *********************************** */
-  if (!load) {
-    return (
-      /* If form data is loading then wait */
-      <div className="prim-skeleton">
-        <Skeleton active />
-      </div>
-    );
-  }
+  const initialValues = getInitialValues(profileInfo, email);
+
   /* Once data had loaded display form */
-  return (
+  return isLoading ? (
+    <div className="prim-skeleton">
+      <Skeleton active />
+    </div>
+  ) : (
     <>
       <Prompt
         message={intl.formatMessage({ id: "form.unsaved.alert" })}
@@ -380,30 +388,36 @@ const PrimaryInfoFormView = ({
         {/* Create for with initial values */}
         <Form
           form={form}
-          initialValues={
-            savedValues || getInitialValues({ profile: profileInfo })
-          }
+          initialValues={savedValues || initialValues}
           layout="vertical"
           name="basicForm"
           onValuesChange={checkIfFormValuesChanged}
         >
           {/* Form Row One */}
           <Row gutter={24}>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="first.name" />}
                 name="firstName"
-                rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
+                rules={[
+                  FORM_RULES.required,
+                  FORM_RULES.maxChar50,
+                  FORM_RULES.nameFormat,
+                ]}
               >
                 <Input aria-required="true" />
               </Form.Item>
             </Col>
 
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="last.name" />}
                 name="lastName"
-                rules={[Rules.required, Rules.maxChar50, Rules.nameFormat]}
+                rules={[
+                  FORM_RULES.required,
+                  FORM_RULES.maxChar50,
+                  FORM_RULES.nameFormat,
+                ]}
               >
                 <Input aria-required="true" />
               </Form.Item>
@@ -421,7 +435,7 @@ const PrimaryInfoFormView = ({
                 }
                 label={<FormattedMessage id="email" />}
                 name="email"
-                rules={[Rules.emailFormat, Rules.maxChar50]}
+                rules={[FORM_RULES.emailFormat, FORM_RULES.maxChar50]}
               >
                 <Input aria-describedby="email-extra-info" readOnly />
               </Form.Item>
@@ -439,7 +453,7 @@ const PrimaryInfoFormView = ({
                 }
                 label={<FormattedMessage id="job.title" />}
                 name="jobTitle"
-                rules={[Rules.maxChar50]}
+                rules={[FORM_RULES.maxChar50]}
               >
                 <Input aria-describedby="job-title-extra-info" readOnly />
               </Form.Item>
@@ -448,7 +462,7 @@ const PrimaryInfoFormView = ({
 
           {/* Form Row Four */}
           <Row gutter={24}>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 extra={
                   <div id="pri-extra-info">
@@ -457,22 +471,20 @@ const PrimaryInfoFormView = ({
                 }
                 label={<FormattedMessage id="pri" />}
                 name="pri"
-                rules={[Rules.required, Rules.priFormat]}
+                rules={[FORM_RULES.required, FORM_RULES.priFormat]}
               >
                 <Input aria-describedby="pri-extra-info" aria-required="true" />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="location" />}
                 name="locationId"
-                rules={[Rules.required, Rules.maxChar50]}
+                rules={[FORM_RULES.required, FORM_RULES.maxChar50]}
               >
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({ id: "location" })}
-                  initialValueId={
-                    getInitialValues({ profile: profileInfo }).locationId
-                  }
+                  initialValueId={initialValues.locationId}
                   isRequired
                   options={locationOptions}
                   placeholderText={<FormattedMessage id="search" />}
@@ -483,20 +495,20 @@ const PrimaryInfoFormView = ({
 
           {/* Form Row Five */}
           <Row gutter={24}>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="profile.telephone" />}
                 name="telephone"
-                rules={Rules.telephoneFormat}
+                rules={FORM_RULES.telephoneFormat}
               >
                 <Input />
               </Form.Item>
             </Col>
-            <Col className="gutter-row" lg={12} md={12} xl={12} xs={24}>
+            <Col className="gutter-row" sm={12} xs={24}>
               <Form.Item
                 label={<FormattedMessage id="work.cellphone" />}
                 name="cellphone"
-                rules={Rules.telephoneFormat}
+                rules={FORM_RULES.telephoneFormat}
               >
                 <Input />
               </Form.Item>
@@ -514,9 +526,7 @@ const PrimaryInfoFormView = ({
                   ariaLabel={intl.formatMessage({
                     id: "employee.work.unit",
                   })}
-                  initialValueId={
-                    getInitialValues({ profile: profileInfo }).teams
-                  }
+                  initialValueId={initialValues.teams}
                   isCreatable
                   isMulti
                   placeholderText={<FormattedMessage id="press.enter.to.add" />}
@@ -539,7 +549,7 @@ const PrimaryInfoFormView = ({
                 <Form.Item
                   label={<FormattedMessage id="gcconnex.username" />}
                   name="gcconnex"
-                  rules={[Rules.maxChar100]}
+                  rules={[FORM_RULES.maxChar100]}
                 >
                   <Input
                     addonBefore="https://gcconnex.gc.ca/profile/"
@@ -554,7 +564,7 @@ const PrimaryInfoFormView = ({
                 <Form.Item
                   label={<FormattedMessage id="linkedin.username" />}
                   name="linkedin"
-                  rules={[Rules.maxChar100]}
+                  rules={[FORM_RULES.maxChar100]}
                 >
                   <Input
                     addonBefore="https://linkedin.com/in/"
@@ -570,7 +580,7 @@ const PrimaryInfoFormView = ({
                 <Form.Item
                   label={<FormattedMessage id="github.username" />}
                   name="github"
-                  rules={[Rules.maxChar100]}
+                  rules={[FORM_RULES.maxChar100]}
                 >
                   <Input
                     addonBefore="https://github.com/"
@@ -606,10 +616,7 @@ const PrimaryInfoFormView = ({
                   ariaLabel={intl.formatMessage({
                     id: "employment.equity.groups",
                   })}
-                  initialValueId={
-                    getInitialValues({ profile: profileInfo })
-                      .employmentEquityGroups
-                  }
+                  initialValueId={initialValues.employmentEquityGroups}
                   isMulti
                   isSearchable={false}
                   options={employmentEquityOptions}
@@ -639,7 +646,7 @@ PrimaryInfoFormView.propTypes = {
   employmentEquityOptions: KeyTitleOptionsPropType.isRequired,
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   history: HistoryPropType.isRequired,
-  load: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   locationOptions: IdDescriptionPropType,
   profileInfo: ProfileInfoPropType,
   userId: PropTypes.string.isRequired,
