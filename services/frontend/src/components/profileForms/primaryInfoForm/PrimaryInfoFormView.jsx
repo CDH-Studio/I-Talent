@@ -556,7 +556,7 @@ const PrimaryInfoFormView = ({
                     aria-label={`${intl.formatMessage({
                       id: "gcconnex.username",
                     })} https://gcconnex.gc.ca/profile/`}
-                    placeholder={intl.formatMessage({ id: "username" })}
+                    placeholder={intl.formatMessage({ id: "gcconnex.username.placeholder" })}
                   />
                 </Form.Item>
               </Col>
