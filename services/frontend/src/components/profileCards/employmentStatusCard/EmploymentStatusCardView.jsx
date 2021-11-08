@@ -4,8 +4,7 @@ import { Col, List, Row } from "antd";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 
 /**
- * Retrieves the ribbon button for adding/removing a user from one's circle,
- * or the edit button which is a link to the edit profile page
+ * Generate a list of information items for the general profile card
  * @param {Object} prop - component props
  * @param {Object[]} prop.dataSource - data object
  * @param {string} prop.dataSource[].description - info description
