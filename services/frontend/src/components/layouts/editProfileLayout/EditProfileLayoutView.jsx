@@ -1,6 +1,7 @@
 import { FormattedMessage, useIntl } from "react-intl";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router";
+import { useHistory } from "react-router-dom";
 import {
   CompassOutlined,
   EditOutlined,
@@ -13,7 +14,6 @@ import {
 import { Card, Menu } from "antd";
 import PropTypes from "prop-types";
 
-import { HistoryPropType } from "../../../utils/customPropTypes";
 import Header from "../../header/Header";
 import {
   CareerManagementForm,
@@ -29,56 +29,27 @@ import AppLayout from "../appLayout/AppLayout";
 
 import "./EditProfileLayoutView.less";
 
-/*
- *  EditProfileLayoutView(props)
- *  Render the layout for the edit profile forms
+/**
+ * Action to redirect to form step
+ * @param {Object} data
  */
-const EditProfileLayoutView = ({ formStep, history }) => {
+const redirectToForm = (data) => {
+  const history = useHistory();
+  const url = `/profile/edit/${data.key}`;
+  history.push(url);
+};
+
+/**
+ * Generate the sidebar steps for create profile
+ * @param {Object} props - component props
+ * @param {string} props.step - the selected step
+ * @returns {React.ReactElement} - React Element
+ */
+// eslint-disable-next-line react/prop-types
+const SideBarContent = ({ step = "primary-info" }) => {
   const intl = useIntl();
-  const { status } = useSelector((state) => state.user);
 
-  /*
-   * Profile Form Select
-   *
-   * Generate the correct form based on the step
-   */
-  const profileFormSelect = (step) => {
-    switch (step) {
-      case "primary-info":
-        return <PrimaryInfoForm formType="edit" />;
-      case "employment":
-        return <EmploymentDataForm formType="edit" />;
-      case "language-proficiency":
-        return <LangProficiencyForm formType="edit" />;
-      case "talent":
-        return <TalentForm formType="edit" />;
-      case "career-management":
-        return <CareerManagementForm formType="edit" />;
-      case "qualifications":
-        return <QualificationsForm formType="edit" />;
-      case "finish":
-        return <DoneSetup formType="edit" />;
-      default:
-        return <Redirect to="/profile/edit/primary-info" />;
-    }
-  };
-
-  /*
-   * Redirect To Form
-   *
-   * Redirect to form based on sidebar selection
-   */
-  const redirectToForm = (data) => {
-    const url = `/profile/edit/${data.key}`;
-    history.push(url);
-  };
-
-  /*
-   * Get Side Bar Content
-   *
-   * Generate the sidebar steps for create profile
-   */
-  const getSideBarContent = (step) => (
+  return (
     <Menu
       aria-label={intl.formatMessage({ id: "edit.profile.side.nav" })}
       onClick={redirectToForm}
@@ -198,14 +169,45 @@ const EditProfileLayoutView = ({ formStep, history }) => {
       </Menu.Item>
     </Menu>
   );
+};
 
-  // Get Sidebar Content
-  const sideBarContent = getSideBarContent(formStep);
-  // Get correct form for current step
-  const form = profileFormSelect(formStep);
+/**
+ * Generate Edit Profile form based on selected step
+ * @param {Object} props - component props
+ * @param {string} props.step - the selected step
+ * @returns {React.ReactElement} - React Element
+ */
+// eslint-disable-next-line react/prop-types
+const EditProfileForm = ({ step = "primary-info" }) => {
+  switch (step) {
+    case "primary-info":
+      return <PrimaryInfoForm formType="edit" />;
+    case "employment":
+      return <EmploymentDataForm formType="edit" />;
+    case "language-proficiency":
+      return <LangProficiencyForm formType="edit" />;
+    case "talent":
+      return <TalentForm formType="edit" />;
+    case "career-management":
+      return <CareerManagementForm formType="edit" />;
+    case "qualifications":
+      return <QualificationsForm formType="edit" />;
+    case "finish":
+      return <DoneSetup formType="edit" />;
+    default:
+      return <Redirect to="/profile/edit/primary-info" />;
+  }
+};
+
+/*
+ *  EditProfileLayoutView(props)
+ *  Render the layout for the edit profile forms
+ */
+const EditProfileLayoutView = ({ formStep }) => {
+  const { status } = useSelector((state) => state.user);
 
   return (
-    <AppLayout displaySideBar sideBarContent={sideBarContent}>
+    <AppLayout displaySideBar sideBarContent={<SideBarContent />}>
       <ProfileVisibilityAlert
         isProfileHidden={status === "HIDDEN"}
         isProfileInactive={status === "INACTIVE"}
@@ -216,14 +218,15 @@ const EditProfileLayoutView = ({ formStep, history }) => {
         title={<FormattedMessage id="edit.profile" />}
       />
 
-      <Card className="edit-profile-card">{form}</Card>
+      <Card className="edit-profile-card">
+        <EditProfileForm step={formStep} />
+      </Card>
     </AppLayout>
   );
 };
 
 EditProfileLayoutView.propTypes = {
   formStep: PropTypes.string.isRequired,
-  history: HistoryPropType.isRequired,
 };
 
 export default EditProfileLayoutView;

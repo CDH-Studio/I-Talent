@@ -131,7 +131,7 @@ const QualificationsFormView = ({
     setFieldsChanged(!isEqual(formValues, dbValues));
   };
 
-  /*
+  /**
    * Find Error Tabs
    *
    * Find all tabs that have validation errors
@@ -153,7 +153,7 @@ const QualificationsFormView = ({
     return errorObject;
   };
 
-  /*
+  /**
    * Get All Validation Errors
    *
    * Print out list of validation errors in a list for notification
@@ -366,6 +366,7 @@ const QualificationsFormView = ({
             onChange={onTabChange}
             type="card"
           >
+            {/* Form Tab one: Education */}
             <TabPane
               key="education"
               tab={getTabTitle({
@@ -397,6 +398,7 @@ const QualificationsFormView = ({
                   <Form.List name="educations">
                     {(fields, { add, remove }) => (
                       <>
+                        {/* generate education form for each education item */}
                         {fields.map((field) => (
                           <EducationForm
                             key={field.fieldKey}
@@ -426,6 +428,7 @@ const QualificationsFormView = ({
                 </Col>
               </Row>
             </TabPane>
+            {/* Form Tab Two: Experience */}
             <TabPane
               key="experience"
               tab={getTabTitle({
@@ -446,7 +449,6 @@ const QualificationsFormView = ({
                 }
                 title={<FormattedMessage id="experience.most.recent" />}
               />
-              {/* Form Row One: Remote Work */}
               <Row gutter={24}>
                 <Col
                   className="qual-gutter-row"
@@ -458,7 +460,7 @@ const QualificationsFormView = ({
                   <Form.List name="experiences">
                     {(fields, { add, remove }) => (
                       <div>
-                        {/* generate education form for each education item */}
+                        {/* generate experience form for each experience item */}
                         {fields.map((field) => (
                           <ExperienceForm
                             key={field.fieldKey}
@@ -470,9 +472,9 @@ const QualificationsFormView = ({
                           />
                         ))}
                         <Form.Item>
-                          {/* add education field button */}
+                          {/* add experience field button */}
                           <Button
-                            disabled={fields.length === 3}
+                            disabled={fields.length === 10}
                             onClick={() => add()}
                             style={{ width: "100%" }}
                             type="dashed"

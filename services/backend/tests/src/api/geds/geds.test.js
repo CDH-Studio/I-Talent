@@ -185,7 +185,7 @@ describe(`GET ${path}`, () => {
       prisma.user.findUnique.mockReset();
     });
 
-    test("should trigger error if GEDS API returns an empty array - 500", async () => {
+    test("should return an empty object in res body if GEDS API returns an empty array", async () => {
       axios.mockResolvedValue({ data: [] });
       prisma.user.findUnique.mockResolvedValue({ email: "" });
 
@@ -193,9 +193,27 @@ describe(`GET ${path}`, () => {
         .get(`${path}?email=${faker.internet.email()}`)
         .set("Authorization", getBearerToken());
 
-      expect(res.statusCode).toBe(500);
-      expect(res.text).toBe("Internal Server Error");
-      expect(console.log).toHaveBeenCalled();
+      expect(res.body).toStrictEqual({});
+      expect(res.statusCode).toBe(200);
+      expect(console.log).not.toHaveBeenCalled();
+      expect(prisma.user.findUnique).toHaveBeenCalled();
+      expect(axios).toHaveBeenCalled();
+
+      axios.mockReset();
+      prisma.user.findUnique.mockReset();
+    });
+
+    test("should return an empty object in res body if GEDS API returns an empty string", async () => {
+      axios.mockResolvedValue({ data: "" });
+      prisma.user.findUnique.mockResolvedValue({ email: "" });
+
+      const res = await request(app)
+        .get(`${path}?email=${faker.internet.email()}`)
+        .set("Authorization", getBearerToken());
+
+      expect(res.body).toStrictEqual({});
+      expect(res.statusCode).toBe(200);
+      expect(console.log).not.toHaveBeenCalled();
       expect(prisma.user.findUnique).toHaveBeenCalled();
       expect(axios).toHaveBeenCalled();
 

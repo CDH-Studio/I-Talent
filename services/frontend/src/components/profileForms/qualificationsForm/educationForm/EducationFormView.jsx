@@ -200,7 +200,7 @@ const EducationFormView = ({
               disableWhen={{ maxDate: disabledStartDates }}
               formatDate="YYYY-MM"
               placeholderText={intl.formatMessage({
-                id: "select.month",
+                id: "select.date",
               })}
               viewOptions={["year", "month"]}
             />
@@ -269,7 +269,7 @@ const EducationFormView = ({
                         disableWhen={{ minDate: disabledEndDates }}
                         formatDate="YYYY-MM"
                         placeholderText={intl.formatMessage({
-                          id: "select.month",
+                          id: "select.date",
                         })}
                         viewOptions={["year", "month"]}
                       />

@@ -22,25 +22,27 @@ import PropTypes from "prop-types";
 
 import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
-import AboutMeCard from "../../aboutMeCard/AboutMeCard";
-import BasicInfo from "../../basicInfo/BasicInfo";
-import Competencies from "../../competenciesCard/Competencies";
-import ConnectionsCard from "../../connectionsCard/ConnectionsCard";
-import EducationCard from "../../educationCard/EducationCard";
-import EmploymentEquity from "../../employmentEquity/EmploymentEquity";
-import EmploymentStatus from "../../employmentStatus/EmploymentStatus";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
-import ExFeederCard from "../../exFeederCard/ExFeederCard";
-import ExperienceCard from "../../experienceCard/ExperienceCard";
 import Header from "../../header/Header";
-import JobMobilityCard from "../../jobMobilityCard/JobMobilityCard";
-import LearningDevelopment from "../../learningDevelopment/LearningDevelopment";
-import Mentorship from "../../mentorshipCard/Mentorship";
-import OfficialLanguageCard from "../../officialLanguageCard/OfficialLanguageCard";
+import {
+  AboutMeCard,
+  BasicInfoCard,
+  CompetenciesCard,
+  ConnectionsCard,
+  EducationCard,
+  EmploymentEquityCard,
+  EmploymentStatusCard,
+  ExFeederCard,
+  ExperienceCard,
+  JobMobilityCard,
+  LearningDevelopmentCard,
+  MentorshipCard,
+  OfficialLanguageCard,
+  QualifiedPools,
+  SkillsCard,
+  TalentManagementCard,
+} from "../../profileCards";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
-import QualifiedPools from "../../qualifiedPools/QualifiedPools";
-import Skills from "../../skillsCard/Skills";
-import TalentManagementCard from "../../talentManagementCard/TalentManagementCard";
 import AppLayout from "../appLayout/AppLayout";
 
 import "./ProfileLayoutView.less";
@@ -79,15 +81,21 @@ const ProfileLayoutView = ({
       </h2>
       {/* Summary */}
       <Col xl={14} xs={24}>
-        <BasicInfo connectionStatus={connectionStatus} data={data} />
+        <BasicInfoCard connectionStatus={connectionStatus} data={data} />
       </Col>
       <Col xl={10} xs={24}>
         <Row gutter={[0, 15]}>
           <Col span={24}>
-            <EmploymentStatus data={data} editableCardBool={isUsersProfile} />
+            <EmploymentStatusCard
+              data={data}
+              editableCardBool={isUsersProfile}
+            />
           </Col>
           <Col span={24}>
-            <EmploymentEquity data={data} editableCardBool={isUsersProfile} />
+            <EmploymentEquityCard
+              data={data}
+              editableCardBool={isUsersProfile}
+            />
           </Col>
         </Row>
       </Col>
@@ -113,13 +121,13 @@ const ProfileLayoutView = ({
         <FormattedMessage id="skills.and.competencies" />
       </Title>
       <Col span={24}>
-        <Skills data={data} editableCardBool={isUsersProfile} />
+        <SkillsCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Mentorship data={data} editableCardBool={isUsersProfile} />
+        <MentorshipCard data={data} editableCardBool={isUsersProfile} />
       </Col>
       <Col span={24}>
-        <Competencies data={data} editableCardBool={isUsersProfile} />
+        <CompetenciesCard data={data} editableCardBool={isUsersProfile} />
       </Col>
 
       {/** ********** Qualifications *********** */}
@@ -156,7 +164,10 @@ const ProfileLayoutView = ({
         <FormattedMessage id="employee.growth.interests" />
       </Title>
       <Col span={24}>
-        <LearningDevelopment data={data} editableCardBool={isUsersProfile} />
+        <LearningDevelopmentCard
+          data={data}
+          editableCardBool={isUsersProfile}
+        />
       </Col>
       <Col span={24}>
         <QualifiedPools data={data} editableCardBool={isUsersProfile} />
