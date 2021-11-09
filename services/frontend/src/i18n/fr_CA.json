@@ -156,7 +156,7 @@
   "from.gcdirectory": "de GCannuaire",
   "gcconnex": "GCconnex",
   "gcconnex.username": "Identifiant GCconnex",
-  "gcconnex.username.placeholder": "Example: first name.last name",
+  "gcconnex.username.placeholder": "Prénom.Nom",
   "gcdirectory.sync": "Synchroniser Gcconnex",
   "geds.edit.info": "Si vos renseignements figurant dans GCannuaire ne sont pas exacts, Mon profil d’utilisateur vous permet de mettre à jour vos coordonnées. Les instructions sont disponibles sur la page de Mon profil d’utilisateur. {instructionUrl} pour obtenir des instructions sur la mise à jour de votre profil.",
   "geds.edit.info.link": "Formulaire de mise à jour des coordonnées du GCannuaire",
