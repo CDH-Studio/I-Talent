@@ -23,7 +23,8 @@ const cleanItemNameString = ({ itemName }) => {
  * @param {string} itemName - item key used to identify it
  * @returns {React.ReactElement} - React Element
  */
-const getMatchTranslatedName = ({ itemName }) => {
+/* eslint-disable react/prop-types */
+const MatchTranslatedName = ({ itemName }) => {
   const cleanString = cleanItemNameString({ itemName });
   switch (cleanString) {
     case "firstName":
@@ -58,19 +59,20 @@ const getMatchTranslatedName = ({ itemName }) => {
       return <FormattedMessage id="name" />;
     case "exFeederText":
       return <FormattedMessage id="ex.feeder" />;
-    case "educations.diploma":
-      return <FormattedMessage id="diploma" />;
-    case "educations.school":
-      return <FormattedMessage id="school" />;
+    case "educations":
+      return <FormattedMessage id="education" />;
+    case "qualifiedPools":
+      return <FormattedMessage id="qualified.pools" />;
     default:
       return <FormattedMessage id={itemName} />;
   }
 };
+/* eslint-enable react/prop-types */
 
 const FuzzyMatchItemView = ({ matchItemName, matchItemString }) => (
   <div style={{ textAlign: "left" }}>
     <Text strong>
-      {getMatchTranslatedName({ itemName: matchItemName })}:{" "}
+      <MatchTranslatedName itemName={matchItemName} />:{" "}
     </Text>
     <Text>{matchItemString}</Text>
   </div>
