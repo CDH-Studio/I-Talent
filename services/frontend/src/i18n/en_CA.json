@@ -156,6 +156,7 @@
   "from.gcdirectory": "from GCdirectory",
   "gcconnex": "GCconnex",
   "gcconnex.username": "GCconnex username",
+  "gcconnex.username.placeholder": "Firstname.Lastname",
   "gcdirectory.sync": "GCdirectory Sync",
   "geds.edit.info": "If your GCdirectory information is not accurate, you can easily update your contact information through My User Profile. Instructions are available on My User Profile page. {instructionUrl} for instructions on updating your profile.",
   "geds.edit.info.link": "Update GCdirectory contact details form",
