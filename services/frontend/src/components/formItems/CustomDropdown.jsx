@@ -89,7 +89,7 @@ const CustomDropdown = ({
 
     return (
       FORMATTED_DROPDOWN_OPTIONS &&
-      savedValues &&
+      (savedValues || savedValues === false) &&
       FORMATTED_DROPDOWN_OPTIONS.find((option) => option.value === savedValues)
     );
   };
