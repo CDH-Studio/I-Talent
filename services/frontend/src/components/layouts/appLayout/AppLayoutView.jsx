@@ -35,12 +35,13 @@ const AppLayoutView = ({
         loading={loading}
       />
       <Layout>
-        <SideNav
-          displaySideBar={displaySideBar}
-          loading={loading}
-          sideBarContent={sideBarContent}
-          siderWidth={sideBarWidth}
-        />
+        {displaySideBar && (
+          <SideNav
+            loading={loading}
+            sideBarContent={sideBarContent}
+            siderWidth={sideBarWidth}
+          />
+        )}
         <Layout className="app-layout">
           <Content className="app-content" id="main" role="main">
             {loading ? (
