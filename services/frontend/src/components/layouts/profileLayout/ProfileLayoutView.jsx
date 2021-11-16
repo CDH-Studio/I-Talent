@@ -1,22 +1,8 @@
 import { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
-import {
-  PrinterOutlined,
-  RiseOutlined,
-  TagsTwoTone,
-  TeamOutlined,
-  TrophyOutlined,
-} from "@ant-design/icons";
-import {
-  Anchor,
-  Button,
-  Col,
-  notification,
-  Row,
-  Tooltip,
-  Typography,
-} from "antd";
+import { PrinterOutlined } from "@ant-design/icons";
+import { Button, notification, Tooltip } from "antd";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
 
@@ -24,37 +10,18 @@ import { setSavedFormContent } from "../../../redux/slices/stateSlice";
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
 import ErrorProfilePage from "../../errorResult/errorProfilePage";
 import Header from "../../header/Header";
-import {
-  AboutMeCard,
-  BasicInfoCard,
-  CompetenciesCard,
-  ConnectionsCard,
-  EducationCard,
-  EmploymentEquityCard,
-  EmploymentStatusCard,
-  ExFeederCard,
-  ExperienceCard,
-  JobMobilityCard,
-  LearningDevelopmentCard,
-  MentorshipCard,
-  OfficialLanguageCard,
-  QualifiedPools,
-  SkillsCard,
-  TalentManagementCard,
-} from "../../profileCards";
 import ProfileVisibilityAlert from "../../profileVisibilityAlert/ProfileVisibilityAlert";
 import AppLayout from "../appLayout/AppLayout";
+import AllProfileCards from "./AllProfileCards/AllProfileCards";
+import ProfileSidebarContent from "./ProfileSidebarContent/ProfileSidebarContent";
 
 import "./ProfileLayoutView.less";
-
-const { Link } = Anchor;
-const { Title, Text } = Typography;
 
 const ProfileLayoutView = ({
   data,
   connectionStatus,
   isUsersProfile,
-  loading,
+  isLoading,
   savedFormContent,
 }) => {
   const intl = useIntl();
@@ -74,329 +41,13 @@ const ProfileLayoutView = ({
     dispatch(setSavedFormContent(undefined));
   }, [savedFormContent, dispatch, intl]);
 
-  const displayAllProfileCards = () => (
-    <Row className="print" gutter={[15, 15]}>
-      <h2 className="visually-hidden">
-        <FormattedMessage id="basic.employee.information" />
-      </h2>
-      {/* Summary */}
-      <Col xl={14} xs={24}>
-        <BasicInfoCard connectionStatus={connectionStatus} data={data} />
-      </Col>
-      <Col xl={10} xs={24}>
-        <Row gutter={[0, 15]}>
-          <Col span={24}>
-            <EmploymentStatusCard
-              data={data}
-              editableCardBool={isUsersProfile}
-            />
-          </Col>
-          <Col span={24}>
-            <EmploymentEquityCard
-              data={data}
-              editableCardBool={isUsersProfile}
-            />
-          </Col>
-        </Row>
-      </Col>
-
-      <Col span={24}>
-        <AboutMeCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-      <Col span={24}>
-        <OfficialLanguageCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-
-      {/** ********** Skills and competencies *********** */}
-      <Title
-        className="sectionHeader hide-for-print"
-        id="divider-skills-and-comp"
-        level={2}
-      >
-        <TagsTwoTone
-          aria-hidden="true"
-          className="sectionIcon"
-          twoToneColor="#3CBAB3"
-        />
-        <FormattedMessage id="skills.and.competencies" />
-      </Title>
-      <Col span={24}>
-        <SkillsCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-      <Col span={24}>
-        <MentorshipCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-      <Col span={24}>
-        <CompetenciesCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-
-      {/** ********** Qualifications *********** */}
-      <Title
-        className="sectionHeader hide-for-print"
-        id="divider-qualifications"
-        level={2}
-      >
-        <TrophyOutlined
-          aria-hidden="true"
-          className="sectionIcon"
-          twoToneColor="#3CBAB3"
-        />
-        <FormattedMessage id="employee.qualifications" />
-      </Title>
-      <Col span={24}>
-        <EducationCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-      <Col span={24}>
-        <ExperienceCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-
-      {/** ********** Personal Growth *********** */}
-      <Title
-        className="sectionHeader hide-for-print"
-        id="divider-employee-growth"
-        level={2}
-      >
-        <RiseOutlined
-          aria-hidden="true"
-          className="sectionIcon"
-          twoToneColor="#3CBAB3"
-        />
-        <FormattedMessage id="employee.growth.interests" />
-      </Title>
-      <Col span={24}>
-        <LearningDevelopmentCard
-          data={data}
-          editableCardBool={isUsersProfile}
-        />
-      </Col>
-      <Col span={24}>
-        <QualifiedPools data={data} editableCardBool={isUsersProfile} />
-      </Col>
-      <Col xl={12} xs={24}>
-        <TalentManagementCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-      <Col xl={12} xs={24}>
-        <JobMobilityCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-      <Col span={24}>
-        <ExFeederCard data={data} editableCardBool={isUsersProfile} />
-      </Col>
-
-      {/** ********** Connections *********** */}
-      {isUsersProfile && (
-        <>
-          <Title
-            className="sectionHeader hide-for-print"
-            id="divider-privateGroup"
-            level={2}
-          >
-            <TeamOutlined
-              aria-hidden="true"
-              className="sectionIcon"
-              twoToneColor="#3CBAB3"
-            />
-            <FormattedMessage id="connections" />
-          </Title>
-          <Col className="hide-for-print" span={24}>
-            <ConnectionsCard data={data} />
-          </Col>
-        </>
-      )}
-    </Row>
-  );
-  const generateProfileSidebarContent = () => (
-    <Row justify="center">
-      <Col className="app-sideBarRow" flex={1} offset={1}>
-        <Anchor
-          aria-label={intl.formatMessage({ id: "edit.profile.side.nav" })}
-          offsetTop={80}
-        >
-          <Link
-            href="#card-profile-basic-info"
-            title={
-              <Text className="sideBarText" strong>
-                <FormattedMessage id="basic.employee.information" />
-              </Text>
-            }
-          >
-            <Link
-              href="#card-profile-basic-info"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="primary.contact.information" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-employee-summary"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="employment.status" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-employment-equity"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="employment.equity.groups" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-description"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="about.me" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-official-language"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="official.languages" />
-                </Text>
-              }
-            />
-          </Link>
-
-          <Link
-            href="#divider-skills-and-comp"
-            title={
-              <Text className="sideBarText" strong>
-                <FormattedMessage id="skills.and.competencies" />
-              </Text>
-            }
-          >
-            <Link
-              href="#card-profile-skills"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="skills" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-mentorship-skills"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="mentorship.skills" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-competency"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="competencies" />
-                </Text>
-              }
-            />
-          </Link>
-          <Link
-            href="#divider-qualifications"
-            title={
-              <Text className="sideBarText" strong>
-                <FormattedMessage id="employee.qualifications" />
-              </Text>
-            }
-          >
-            <Link
-              href="#card-profile-education"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="education" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-experience"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="experience" />
-                </Text>
-              }
-            />
-          </Link>
-          <Link
-            href="#divider-employee-growth"
-            title={
-              <Text className="sideBarText" strong>
-                <FormattedMessage id="employee.growth.interests" />
-              </Text>
-            }
-          >
-            <Link
-              href="#card-profile-learning-development"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="learning.development" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-qualified-pools"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="qualified.pools" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-talent-management"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="talent.management" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-ex-feeder"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="ex.feeder" />
-                </Text>
-              }
-            />
-            <Link
-              href="#card-profile-career-interests"
-              title={
-                <Text className="sideBarText">
-                  <FormattedMessage id="career.interests" />
-                </Text>
-              }
-            />
-          </Link>
-          {isUsersProfile && (
-            <Link
-              href="#divider-privateGroup"
-              title={
-                <Text className="sideBarText" strong>
-                  <FormattedMessage id="connections" />
-                </Text>
-              }
-            >
-              <Link
-                href="#card-profile-connections"
-                title={
-                  <Text className="sideBarText">
-                    <FormattedMessage id="connections" />
-                  </Text>
-                }
-              />
-            </Link>
-          )}
-        </Anchor>
-      </Col>
-    </Row>
-  );
-
   return (
     <AppLayout
       displaySideBar
-      loading={loading}
-      sideBarContent={generateProfileSidebarContent()}
+      loading={isLoading}
+      sideBarContent={
+        <ProfileSidebarContent isOwnersProfile={isUsersProfile} />
+      }
     >
       <ProfileVisibilityAlert
         isProfileHidden={
@@ -424,7 +75,11 @@ const ProfileLayoutView = ({
         }
       />
       {data ? (
-        displayAllProfileCards()
+        <AllProfileCards
+          connectionStatus={connectionStatus}
+          isOwnersProfile={isUsersProfile}
+          profileData={data}
+        />
       ) : (
         <ErrorProfilePage
           subtitleId="profile.not.found.description"
@@ -438,16 +93,16 @@ const ProfileLayoutView = ({
 ProfileLayoutView.propTypes = {
   connectionStatus: PropTypes.bool,
   data: ProfileInfoPropType,
+  isLoading: PropTypes.bool,
   isUsersProfile: PropTypes.bool,
-  loading: PropTypes.bool,
   savedFormContent: PropTypes.bool,
 };
 
 ProfileLayoutView.defaultProps = {
   connectionStatus: null,
   data: null,
+  isLoading: true,
   isUsersProfile: null,
-  loading: null,
   savedFormContent: undefined,
 };
 
