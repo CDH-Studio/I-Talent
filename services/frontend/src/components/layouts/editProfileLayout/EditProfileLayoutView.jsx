@@ -30,16 +30,6 @@ import AppLayout from "../appLayout/AppLayout";
 import "./EditProfileLayoutView.less";
 
 /**
- * Action to redirect to form step
- * @param {Object} data
- */
-const redirectToForm = (data) => {
-  const history = useHistory();
-  const url = `/profile/edit/${data.key}`;
-  history.push(url);
-};
-
-/**
  * Generate the sidebar steps for create profile
  * @param {Object} props - component props
  * @param {string} props.step - the selected step
@@ -48,6 +38,16 @@ const redirectToForm = (data) => {
 // eslint-disable-next-line react/prop-types
 const SideBarContent = ({ step = "primary-info" }) => {
   const intl = useIntl();
+  const history = useHistory();
+
+  /**
+   * Action to redirect to form step
+   * @param {Object} data
+   */
+  const redirectToForm = (data) => {
+    const url = `/profile/edit/${data.key}`;
+    history.push(url);
+  };
 
   return (
     <Menu
