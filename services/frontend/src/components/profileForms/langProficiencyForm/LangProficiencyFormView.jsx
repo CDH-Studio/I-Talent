@@ -231,6 +231,7 @@ const LangProficiencyFormView = ({
         setFieldsChanged(false);
         if (num === 1) {
           setSavedValues(values);
+          window.location.reload(false);
           openNotificationWithIcon({ type: "success" });
         } else if (num === 2) {
           history.push("/profile/create/step/5");

@@ -208,6 +208,7 @@ const EmploymentDataFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
+        window.location.reload(false);
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {

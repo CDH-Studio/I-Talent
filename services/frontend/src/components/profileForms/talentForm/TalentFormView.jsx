@@ -254,6 +254,7 @@ const TalentFormView = ({
         await saveDataToDB(values);
         setSavedValues(values);
         setFieldsChanged(false);
+        window.location.reload(false);
         openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
@@ -451,7 +452,7 @@ const TalentFormView = ({
    * on change of tab of the form
    */
   const onTabChange = (activeTab) => {
-    setSelectedTab(getTabValue(activeTab));
+    history.push(`/profile/edit/qualifications?tab=${activeTab}`);
   };
 
   /*

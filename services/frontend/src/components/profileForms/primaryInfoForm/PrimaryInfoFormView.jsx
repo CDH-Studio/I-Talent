@@ -231,6 +231,7 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
+        window.location.reload(false);
         openNotificationWithIcon({ type: "success" }, intl);
       })
       .catch((error) => {
@@ -556,7 +557,9 @@ const PrimaryInfoFormView = ({
                     aria-label={`${intl.formatMessage({
                       id: "gcconnex.username",
                     })} https://gcconnex.gc.ca/profile/`}
-                    placeholder={intl.formatMessage({ id: "gcconnex.username.placeholder" })}
+                    placeholder={intl.formatMessage({
+                      id: "gcconnex.username.placeholder",
+                    })}
                   />
                 </Form.Item>
               </Col>
