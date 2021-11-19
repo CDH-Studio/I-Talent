@@ -12,7 +12,6 @@ describe(`GET ${path}`, () => {
   describe("when not authenticated", () => {
     test("should not process request - 403", async () => {
       const res = await request(app).get(path);
-
       expect(res.statusCode).toBe(403);
       expect(res.text).toBe("Access denied");
       expect(console.log).not.toHaveBeenCalled();
@@ -26,12 +25,14 @@ describe(`GET ${path}`, () => {
       const prismaUserData = {
         email: "test@test.com",
       };
+
       const prismaLocationData = [
         {
           id: 123,
           city: "Ottawa",
         },
       ];
+
       const axiosData = [
         {
           givenName: "John",
@@ -75,6 +76,7 @@ describe(`GET ${path}`, () => {
       ];
 
       let res;
+      let resNoPhone;
 
       beforeAll(async () => {
         prisma.user.findUnique.mockResolvedValue(prismaUserData);
@@ -82,6 +84,13 @@ describe(`GET ${path}`, () => {
         prisma.opOfficeLocation.findMany.mockResolvedValue(prismaLocationData);
 
         res = await request(app)
+          .get(`${path}?email=test@test.com`)
+          .set("Authorization", getBearerToken());
+
+        let noPhone = axiosData;
+        noPhone[0].title = null;
+        axios.mockResolvedValue({ data: noPhone });
+        resNoPhone = await request(app)
           .get(`${path}?email=test@test.com`)
           .set("Authorization", getBearerToken());
       });
@@ -145,6 +154,43 @@ describe(`GET ${path}`, () => {
           jobTitle: {
             ENGLISH: "title",
             FRENCH: "titre",
+          },
+          organizations: [
+            {
+              title: { ENGLISH: "org3EN", FRENCH: "org3FR" },
+              id: "id org3",
+              tier: 2,
+            },
+            {
+              title: { ENGLISH: "org2EN", FRENCH: "org2FR" },
+              id: "id org2",
+              tier: 1,
+            },
+            {
+              title: { ENGLISH: "org1EN", FRENCH: "org1FR" },
+              id: "id org1",
+              tier: 0,
+            },
+          ],
+        });
+      });
+
+      test("should set the phone number to null instead of an error", async () => {
+        expect(resNoPhone.body).toStrictEqual({
+          firstName: "John",
+          lastName: "Doe",
+          locationId: 123,
+          locationName: "123 street, Ottawa",
+          email: "test@test.com",
+          branch: {
+            ENGLISH: "org1EN",
+            FRENCH: "org1FR",
+          },
+          telephone: "6132940534",
+          cellphone: "6138620511",
+          jobTitle: {
+            ENGLISH: null,
+            FRENCH: null,
           },
           organizations: [
             {
