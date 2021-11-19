@@ -11,7 +11,7 @@ import PrimaryInfoFormView from "./PrimaryInfoFormView";
 const PrimaryInfoForm = ({ formType }) => {
   const [locationOptions, setLocationOptions] = useState([]);
   const [profileInfo, setProfileInfo] = useState(null);
-  const [load, setLoad] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [employmentEquityOptions, setEmploymentEquityOptions] = useState([]);
 
   const { id, email } = useSelector((state) => state.user);
@@ -54,7 +54,7 @@ const PrimaryInfoForm = ({ formType }) => {
       .catch((error) => {
         handleError(error, "redirect", history);
       })
-      .then(() => setLoad(true));
+      .then(() => setIsLoading(false));
   }, [getLocations, getProfileInfo, history]);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const PrimaryInfoForm = ({ formType }) => {
       employmentEquityOptions={employmentEquityOptions}
       formType={formType}
       history={history}
-      load={load}
+      isLoading={isLoading}
       locationOptions={locationOptions}
       profileInfo={profileInfo}
       userId={id}

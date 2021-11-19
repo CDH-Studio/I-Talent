@@ -108,8 +108,8 @@ const Profile = ({ history, match }) => {
     <ProfileLayout
       connectionStatus={connectionData}
       data={data}
+      isLoading={!data}
       isUsersProfile={id === userID}
-      loading={loading}
       savedFormContent={savedFormContent}
     />
   );

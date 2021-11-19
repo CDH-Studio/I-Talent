@@ -600,7 +600,9 @@ const CareerManagementFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "edit.interested.in.remote",
                       })}
-                      initialValueId={form.getFieldValue("interestedInRemote")}
+                      initialValueId={
+                        getInitialValues(profileInfo).interestedInRemote
+                      }
                       isSearchable={false}
                       options={interestedInRemoteOptions}
                       placeholderText={<FormattedMessage id="select" />}
@@ -623,7 +625,7 @@ const CareerManagementFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "edit.willing.to.relocate.to",
                       })}
-                      initialValueId={form.getFieldValue("relocationLocations")}
+                      initialValueId={savedRelocationLocations}
                       isMulti
                       isSearchable
                       options={relocationOptions}
@@ -644,7 +646,9 @@ const CareerManagementFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "edit.looking.for.new.job",
                       })}
-                      initialValueId={form.getFieldValue("lookingForANewJobId")}
+                      initialValueId={
+                        getInitialValues(profileInfo).lookingForANewJobId
+                      }
                       isSearchable={false}
                       options={lookingForNewJobOptions}
                       placeholderText={<FormattedMessage id="select" />}
@@ -708,7 +712,9 @@ const CareerManagementFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "career.mobility",
                       })}
-                      initialValueId={form.getFieldValue("careerMobilityId")}
+                      initialValueId={
+                        getInitialValues(profileInfo).careerMobilityId
+                      }
                       isSearchable={false}
                       options={careerMobilityOptions}
                       placeholderText={<FormattedMessage id="select" />}
@@ -728,9 +734,9 @@ const CareerManagementFormView = ({
                       ariaLabel={intl.formatMessage({
                         id: "talent.matrix.result",
                       })}
-                      initialValueId={form.getFieldValue(
-                        "talentMatrixResultId"
-                      )}
+                      initialValueId={
+                        getInitialValues(profileInfo).talentMatrixResultId
+                      }
                       isSearchable={false}
                       options={talentMatrixResultOptions}
                       placeholderText={<FormattedMessage id="select" />}

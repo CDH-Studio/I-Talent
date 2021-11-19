@@ -9,7 +9,7 @@ const OrgTree = ({ organizations }) => (
 OrgTree.propTypes = {
   organizations: PropTypes.arrayOf(
     PropTypes.shape({
-      key: PropTypes.string,
+      id: PropTypes.string,
       tier: PropTypes.number,
       title: PropTypes.string,
     })

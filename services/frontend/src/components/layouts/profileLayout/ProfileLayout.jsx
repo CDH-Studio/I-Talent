@@ -1,3 +1,4 @@
+import React from "react";
 import propTypes from "prop-types";
 
 import { ProfileInfoPropType } from "../../../utils/customPropTypes";
@@ -7,14 +8,14 @@ const ProfileLayout = ({
   data,
   connectionStatus,
   isUsersProfile,
-  loading,
+  isLoading,
   savedFormContent,
 }) => (
   <ProfileLayoutView
     connectionStatus={connectionStatus}
     data={data}
+    isLoading={isLoading}
     isUsersProfile={isUsersProfile}
-    loading={loading}
     savedFormContent={savedFormContent}
   />
 );
@@ -22,17 +23,17 @@ const ProfileLayout = ({
 ProfileLayout.propTypes = {
   connectionStatus: propTypes.bool,
   data: ProfileInfoPropType,
+  isLoading: propTypes.bool,
   isUsersProfile: propTypes.bool,
-  loading: propTypes.bool,
   savedFormContent: propTypes.bool,
 };
 
 ProfileLayout.defaultProps = {
   connectionStatus: null,
   data: null,
+  isLoading: true,
   isUsersProfile: null,
-  loading: null,
   savedFormContent: undefined,
 };
 
-export default ProfileLayout;
+export default React.memo(ProfileLayout);

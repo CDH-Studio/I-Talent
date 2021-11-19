@@ -20,6 +20,176 @@ import "./WelcomeView.less";
 const { backendAddress } = config;
 const { Title, Paragraph } = Typography;
 
+/**
+ * Generate large square button for GEDS profiles
+ * @param {React.ReactElement} icon - button icon
+ * @param {string} firstTitle - first button title
+ * @param {string} secondTitle - second button title
+ * @param {string} thirdTitle - third button title
+ * @param {Object} value - object containing the user's GEDS profile info
+ * @param {string} type - button type
+ * @param {string} userId - user's Id
+ * @param {Object} history - history object
+ * @returns {React.ReactElement} - React Element
+ */
+/* eslint-disable react/prop-types */
+const ProfileBtn = ({
+  icon,
+  firstTitle,
+  secondTitle,
+  thirdTitle,
+  value,
+  type,
+  userId,
+  history,
+}) => {
+  const axios = useAxios();
+
+  /**
+   * Truncate text to not overflow card
+   * @param {string} text - text to be truncated
+   * @param {number} length - max length of truncated text
+   * @returns {string} - truncated text
+   */
+  const truncateString = (text, length) => {
+    if (text && text.length > length) {
+      return `${text.substring(0, length)}.`;
+    }
+    return text;
+  };
+
+  /**
+   * Push GEDS profile to the database
+   */
+  const createProfile = async () => {
+    if (value) {
+      await axios
+        .put(`${backendAddress}/profile/${userId}?language=ENGLISH`, value)
+        .then(() => history.push("/profile/create/step/2"))
+        .catch((error) => handleError(error, "message", history));
+    }
+    history.push("/profile/create/step/2");
+  };
+
+  return (
+    <Button
+      className="btn"
+      onClick={type !== "loading" ? createProfile : null}
+    >
+      {/* icon */}
+      <div className="btnIcon">{icon}</div>
+
+      {/* first title */}
+      <div className="btnFirstTitle">
+        <strong>{truncateString(firstTitle, 24)}</strong>
+      </div>
+
+      {/* second title */}
+      <div className="btnSecondTitle">
+        {secondTitle ? (
+          truncateString(secondTitle, 28)
+        ) : (
+          <div style={{ opacity: 0 }}>empty</div>
+        )}
+      </div>
+
+      {/* third title */}
+      <div className="btnThirdTitle">
+        {thirdTitle ? (
+          truncateString(thirdTitle, 28)
+        ) : (
+          <div style={{ opacity: 0 }}>empty</div>
+        )}
+      </div>
+    </Button>
+  );
+};
+/* eslint-enable react/prop-types */
+
+/**
+ * Generates a list of GEDS profiles that match the user using large square buttons
+ * @param {Object} gedsProfiles - object containing info for GEDS profiles 
+ * @param {React.ReactElement} icon - button icon
+ * @param {string} userId - user's Id
+ * @param {Object} history - history object
+ * @param {Object} intl - intl object
+ * @returns {React.ReactElement} - React Element
+ */
+/* eslint-disable react/prop-types */
+const GedsProfileList = ({
+  gedsProfiles,
+  load,
+  userId,
+  history,
+  intl,
+}) => {
+  const { locale } = useSelector((state) => state.settings);
+  
+  // check if GEDS profiles have loaded
+  if (load || !gedsProfiles || Object.keys(gedsProfiles).length === 0) {
+    return (
+      <div>
+        {/* loading button */}
+        {load && <ProfileBtn
+          firstTitle={intl.formatMessage({ id: "fetching.profiles" })}
+          icon={<LoadingOutlined aria-hidden="true" />}
+          secondTitle={intl.formatMessage({ id: "from.gcdirectory" })}
+          type="loading"
+        />}
+        {/* new user button */}
+        <ProfileBtn
+          firstTitle={intl.formatMessage({ id: "new.user" })}
+          history={history}
+          icon={<UserAddOutlined aria-hidden="true" />}
+          secondTitle={intl.formatMessage({ id: "start.fresh" })}
+        />
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      {/* generate list of GEDS profiles */}
+      <ProfileBtn
+        firstTitle={`${gedsProfiles.firstName} ${gedsProfiles.lastName}`}
+        history={history}
+        icon={<UserOutlined aria-hidden="true" />}
+        secondTitle={gedsProfiles.jobTitle && gedsProfiles.jobTitle[locale]}
+        thirdTitle={gedsProfiles.email}
+        userId={userId}
+        value={gedsProfiles}
+      />
+      {/* new user button */}
+      <ProfileBtn
+        firstTitle={intl.formatMessage({ id: "new.user" })}
+        history={history}
+        icon={<UserAddOutlined aria-hidden="true" />}
+        secondTitle={intl.formatMessage({ id: "start.fresh" })}
+      />
+    </div>
+  );
+};
+/* eslint-enable react/prop-types */
+
+/**
+ * Generates the modal to confirm "skip profile setup"
+ * @param {function} skipProfileCreation - function that skips profile creation
+ * @param {Object} intl - intl object
+ */
+const showSkipModal = (skipProfileCreation, intl) => {
+  Modal.confirm({
+    autoFocusButton: null,
+    cancelText: intl.formatMessage({ id: "no" }),
+    content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
+    icon: <ExclamationCircleOutlined aria-hidden="true" />,
+    keyboard: false,
+    okText: intl.formatMessage({ id: "yes" }),
+    okType: "danger",
+    onOk: skipProfileCreation,
+    title: intl.formatMessage({ id: "settings.delete.modal.title" }),
+  });
+};
+
 const WelcomeView = ({
   gedsProfiles,
   load,
@@ -27,163 +197,7 @@ const WelcomeView = ({
   history,
   skipProfileCreation,
 }) => {
-  // get current language code
-  const { locale } = useSelector((state) => state.settings);
-  const axios = useAxios();
   const intl = useIntl();
-
-  /**
-   * Generate large square button for GEDS profiles
-   *
-   */
-  const generateProfileBtn = ({
-    icon,
-    firstTitle,
-    secondTitle,
-    thirdTitle,
-    value,
-    type,
-  }) => {
-    // truncate text to not overflow card
-    const truncateString = (text, length) => {
-      if (text && text.length > length) {
-        return `${text.substring(0, length)}.`;
-      }
-      return text;
-    };
-
-    // push GEDS profile to DB
-    const createProfile = async () => {
-      // check if button was passed profile data
-      if (value) {
-        // create profile
-        await axios
-          .put(`${backendAddress}profile/${userId}?language=ENGLISH`, value)
-          .then(() => history.push("/profile/create/step/2"))
-          .catch((error) => handleError(error, "message", history));
-      }
-      history.push("/profile/create/step/2");
-    };
-
-    return (
-      <Button
-        className="btn"
-        onClick={type !== "loading" ? createProfile : null}
-      >
-        {/* icon */}
-        <div className="btnIcon">{icon}</div>
-
-        {/* first title */}
-        <div className="btnFirstTitle">
-          <strong>{truncateString(firstTitle, 24)}</strong>
-        </div>
-
-        {/* second title */}
-        <div className="btnSecondTitle">
-          {secondTitle ? (
-            truncateString(secondTitle, 28)
-          ) : (
-            <div style={{ opacity: 0 }}>empty</div>
-          )}
-        </div>
-
-        {/* third title */}
-        <div className="btnThirdTitle">
-          {thirdTitle ? (
-            truncateString(thirdTitle, 28)
-          ) : (
-            <div style={{ opacity: 0 }}>empty</div>
-          )}
-        </div>
-      </Button>
-    );
-  };
-
-  generateProfileBtn.propTypes = {
-    firstTitle: PropTypes.string.isRequired,
-    icon: PropTypes.element.isRequired,
-    secondTitle: PropTypes.string,
-    thirdTitle: PropTypes.string,
-    type: PropTypes.string,
-    value: PropTypes.string,
-  };
-
-  generateProfileBtn.defaultProps = {
-    secondTitle: undefined,
-    thirdTitle: undefined,
-    type: undefined,
-    value: undefined,
-  };
-
-  /**
-   * Generates a list of GEDS profiles that match the user using large square buttons
-   *
-   */
-  const generateGedsProfileList = () => {
-    // check if GEDS profiles have loaded
-    if (!load || !gedsProfiles || Object.keys(gedsProfiles).length === 0) {
-      return (
-        <div>
-          {/* loading button */}
-          {load && generateProfileBtn({
-            firstTitle: intl.formatMessage({ id: "fetching.profiles" }),
-            icon: <LoadingOutlined aria-hidden="true" />,
-            secondTitle: intl.formatMessage({
-              id: "from.gcdirectory",
-            }),
-            type: "loading",
-          })}
-          {/* new user button */}
-          {generateProfileBtn({
-            firstTitle: intl.formatMessage({ id: "new.user" }),
-            icon: <UserAddOutlined aria-hidden="true" />,
-            secondTitle: intl.formatMessage({
-              id: "start.fresh",
-            }),
-          })}
-        </div>
-      );
-    }
-
-    return (
-      <div>
-        {/* generate list of GEDS profiles */}
-        {generateProfileBtn({
-          firstTitle: `${gedsProfiles.firstName} ${gedsProfiles.lastName}`,
-          icon: <UserOutlined aria-hidden="true" />,
-          secondTitle: gedsProfiles.jobTitle && gedsProfiles.jobTitle[locale],
-          thirdTitle: gedsProfiles.email,
-          value: gedsProfiles,
-        })}
-        {/* new user button */}
-        {generateProfileBtn({
-          firstTitle: intl.formatMessage({ id: "new.user" }),
-          icon: <UserAddOutlined aria-hidden="true" />,
-          secondTitle: intl.formatMessage({
-            id: "start.fresh",
-          }),
-        })}
-      </div>
-    );
-  };
-
-  /**
-   * Generates the modal to confirm "skip profile setup"
-   *
-   */
-  const showSkipModal = () => {
-    Modal.confirm({
-      autoFocusButton: null,
-      cancelText: intl.formatMessage({ id: "no" }),
-      content: intl.formatMessage({ id: "setup.welcome.skip.modal" }),
-      icon: <ExclamationCircleOutlined aria-hidden="true" />,
-      keyboard: false,
-      okText: intl.formatMessage({ id: "yes" }),
-      okType: "danger",
-      onOk: skipProfileCreation,
-      title: intl.formatMessage({ id: "settings.delete.modal.title" }),
-    });
-  };
 
   return (
     <Col className="welcome-content">
@@ -201,9 +215,15 @@ const WelcomeView = ({
           <FormattedMessage id="setup.welcome.action" />
         </Paragraph>
       </Row>
-      {generateGedsProfileList()}
+      <GedsProfileList
+        gedsProfiles={gedsProfiles}
+        history={history}
+        intl={intl}
+        load={load}
+        userId={userId}
+      />
       <div className="skipButton">
-        <Button onClick={showSkipModal} type="text">
+        <Button onClick={() => showSkipModal(skipProfileCreation, intl)} type="text">
           <FormattedMessage id="setup.welcome.skip" />
         </Button>
       </div>
