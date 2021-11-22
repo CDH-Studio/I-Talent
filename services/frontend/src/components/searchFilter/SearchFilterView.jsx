@@ -91,6 +91,7 @@ const SearchFilterView = ({
             isMulti
             isSearchable
             maxSelectedOptions={3}
+            name="classifications"
             options={classOptions}
             placeholderText={<FormattedMessage id="type.to.search" />}
           />
@@ -112,6 +113,7 @@ const SearchFilterView = ({
             isMulti
             isSearchable
             maxSelectedOptions={3}
+            name="locations"
             options={locationOptions}
             placeholderText={<FormattedMessage id="type.to.search" />}
           />
@@ -133,6 +135,7 @@ const SearchFilterView = ({
             isMulti
             isSearchable
             maxSelectedOptions={3}
+            name="branches"
             options={branchOptions}
             placeholderText={<FormattedMessage id="type.to.search" />}
           />

@@ -390,7 +390,6 @@ const PrimaryInfoFormView = ({
           form={form}
           initialValues={savedValues || initialValues}
           layout="vertical"
-          name="basicForm"
           onValuesChange={checkIfFormValuesChanged}
         >
           {/* Form Row One */}
@@ -486,6 +485,7 @@ const PrimaryInfoFormView = ({
                   ariaLabel={intl.formatMessage({ id: "location" })}
                   initialValueId={initialValues.locationId}
                   isRequired
+                  name="locationId"
                   options={locationOptions}
                   placeholderText={<FormattedMessage id="search" />}
                 />
@@ -529,6 +529,7 @@ const PrimaryInfoFormView = ({
                   initialValueId={initialValues.teams}
                   isCreatable
                   isMulti
+                  name="teams"
                   placeholderText={<FormattedMessage id="press.enter.to.add" />}
                 />
               </Form.Item>

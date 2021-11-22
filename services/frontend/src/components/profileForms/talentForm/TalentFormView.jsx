@@ -506,6 +506,7 @@ const TalentFormView = ({
                   initialValueId={getInitialValues().mentorshipSkills}
                   isGroupedOptions
                   isMulti
+                  name="mentorshipSkills"
                   options={selectedSkills}
                   placeholderText={<FormattedMessage id="type.to.search" />}
                 />
@@ -582,7 +583,6 @@ const TalentFormView = ({
           form={form}
           initialValues={savedValues || getInitialValues()}
           layout="vertical"
-          name="basicForm"
           onFieldsChange={onFieldsChange}
           onValuesChange={updateIfFormValuesChanged}
         >

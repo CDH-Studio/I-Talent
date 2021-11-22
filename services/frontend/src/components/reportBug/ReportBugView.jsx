@@ -150,6 +150,7 @@ const ReportBugView = ({ saveDataToDB }) => {
                 id: "location",
               })}
               isRequired
+              name="location"
               options={radioOptions}
               placeholderText={<FormattedMessage id="select" />}
             />

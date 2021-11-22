@@ -357,7 +357,6 @@ const QualificationsFormView = ({
           form={form}
           initialValues={savedValues || initialValues}
           layout="vertical"
-          name="QualificationForm"
           onFieldsChange={onFieldsChange}
           onValuesChange={checkIfFormValuesChanged}
         >

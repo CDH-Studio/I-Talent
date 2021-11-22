@@ -11,12 +11,14 @@ const LinkAttachment = ({
   removeElement,
   attachmentNamesOptions,
   attachmentNameDefault,
+  typeLabelName,
 }) => (
   <LinkAttachmentView
     attachmentNameDefault={attachmentNameDefault}
     attachmentNamesOptions={attachmentNamesOptions}
     fieldElement={fieldElement}
     removeElement={removeElement}
+    typeLabelName={typeLabelName}
   />
 );
 
@@ -25,6 +27,11 @@ LinkAttachment.propTypes = {
   attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
+  typeLabelName: PropTypes.string,
 };
+
+LinkAttachment.defaultProps = {
+  typeLabelName: undefined,
+}
 
 export default LinkAttachment;
