@@ -137,9 +137,9 @@ const EducationFormView = ({
                 fieldElement.fieldKey,
                 "diplomaId",
               ])}
+              inputId={educationLabelName}
               isRequired
               isSearchable
-              name={educationLabelName}
               options={diplomaOptions}
               placeholderText={<FormattedMessage id="type.to.search" />}
             />
@@ -163,9 +163,9 @@ const EducationFormView = ({
                 fieldElement.fieldKey,
                 "schoolId",
               ])}
+              inputId={schoolLabelName}
               isRequired
               isSearchable
-              name={schoolLabelName}
               options={schoolOptions}
               placeholderText={<FormattedMessage id="type.to.search" />}
             />

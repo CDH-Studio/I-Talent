@@ -149,8 +149,8 @@ const ReportBugView = ({ saveDataToDB }) => {
               ariaLabel={intl.formatMessage({
                 id: "location",
               })}
+              inputId="location"
               isRequired
-              name="location"
               options={radioOptions}
               placeholderText={<FormattedMessage id="select" />}
             />

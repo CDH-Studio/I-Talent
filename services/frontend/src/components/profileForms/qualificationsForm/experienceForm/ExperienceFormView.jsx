@@ -303,9 +303,9 @@ const ExperienceFormView = ({
                 fieldElement.fieldKey,
                 "projects",
               ])}
+              inputId={projectsLabelName}
               isCreatable
               isMulti
-              name={projectsLabelName}
               placeholderText={<FormattedMessage id="press.enter.to.add" />}
             />
           </Form.Item>

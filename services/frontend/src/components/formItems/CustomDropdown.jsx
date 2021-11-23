@@ -24,7 +24,7 @@ const CustomDropdown = ({
   isRequired,
   isCreatable,
   className,
-  name,
+  inputId,
 }) => {
   const intl = useIntl();
   const [selectedOptions, setSelectedOptions] = useState(initialValueId);
@@ -423,7 +423,7 @@ const CustomDropdown = ({
           className={className}
           defaultValue={mapInitialValueCreatable(initialValueId)}
           formatCreateLabel={formatCreateLabelCreatable}
-          inputId={name}
+          inputId={inputId}
           isMulti
           isValidNewOption={(userTypedValue, selectValues) =>
             isValidInputCreatable(
@@ -456,7 +456,7 @@ const CustomDropdown = ({
           closeMenuOnSelect={!isMulti}
           defaultValue={mapInitialValue(initialValueId)}
           formatOptionLabel={formatOptionLabel}
-          inputId={name}
+          inputId={inputId}
           isClearable={isClearable}
           isDisabled={isDisabled}
           isMulti={isMulti}
@@ -499,6 +499,7 @@ CustomDropdown.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
   ]),
+  inputId: PropTypes.string,
   inputValue: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.string),
@@ -511,7 +512,6 @@ CustomDropdown.propTypes = {
   isRequired: PropTypes.bool,
   isSearchable: PropTypes.bool,
   maxSelectedOptions: PropTypes.number,
-  name: PropTypes.string,
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.object),
   placeholderText: PropTypes.node,
@@ -522,6 +522,7 @@ CustomDropdown.defaultProps = {
   blurInputOnSelect: false,
   className: "",
   initialValueId: "",
+  inputId: undefined,
   inputValue: undefined,
   isClearable: true,
   isCreatable: false,
@@ -531,7 +532,6 @@ CustomDropdown.defaultProps = {
   isRequired: false,
   isSearchable: true,
   maxSelectedOptions: undefined,
-  name: undefined,
   onChange: null,
   options: undefined,
   placeholderText: "Select...",

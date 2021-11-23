@@ -504,9 +504,9 @@ const TalentFormView = ({
                     id: "mentorship.skills",
                   })}
                   initialValueId={getInitialValues().mentorshipSkills}
+                  inputId="mentorshipSkills"
                   isGroupedOptions
                   isMulti
-                  name="mentorshipSkills"
                   options={selectedSkills}
                   placeholderText={<FormattedMessage id="type.to.search" />}
                 />

@@ -294,9 +294,9 @@ const LangProficiencyFormView = ({
               id: label,
             })}
             initialValueId={getInitialValues({ profile: profileInfo })[name]}
+            inputId={name}
             isRequired // TODO: need to figure out how ot get value using "name"
             isSearchable={false}
-            name={name}
             options={proficiencyOptions}
             placeholderText={<FormattedMessage id="select" />}
           />
@@ -318,9 +318,9 @@ const LangProficiencyFormView = ({
             initialValueId={
               getInitialValues({ profile: profileInfo })[statusName]
             }
+            inputId={statusName}
             isRequired
             isSearchable={false}
-            name={statusName}
             options={statusOptions}
             placeholderText={<FormattedMessage id="select" />}
           />
@@ -440,8 +440,8 @@ const LangProficiencyFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).firstLanguage
                   }
+                  inputId="firstLanguage"
                   isSearchable={false}
-                  name="firstLanguage"
                   options={languageOptions}
                   placeholderText={<FormattedMessage id="select" />}
                 />

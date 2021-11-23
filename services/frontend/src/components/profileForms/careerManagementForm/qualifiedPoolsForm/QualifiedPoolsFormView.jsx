@@ -88,8 +88,8 @@ const QualifiedPoolsFormView = ({
                 fieldElement.fieldKey,
                 "classificationId",
               ])}
+              inputId={classificationDropdownLabel}
               isRequired
-              name={classificationDropdownLabel}
               options={classificationOptions}
               placeholderText={<FormattedMessage id="select" />}
             />

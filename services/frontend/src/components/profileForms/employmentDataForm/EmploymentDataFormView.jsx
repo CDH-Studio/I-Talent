@@ -328,9 +328,9 @@ const EmploymentDataFormView = ({
             initialValueId={
               getInitialValues({ profile: profileInfo }).actingLevelId
             }
+            inputId="actingLevelId"
             isRequired
             isSearchable
-            name="actingLevelId"
             options={classificationOptions}
             placeholderText={<FormattedMessage id="type.to.search" />}
           />
@@ -425,8 +425,8 @@ const EmploymentDataFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).tenureId
                   }
+                  inputId="tenureId"
                   isSearchable={false}
-                  name="tenureId"
                   options={substantiveOptions}
                   placeholderText={<FormattedMessage id="select" />}
                 />
@@ -445,8 +445,8 @@ const EmploymentDataFormView = ({
                   initialValueId={
                     getInitialValues({ profile: profileInfo }).groupLevelId
                   }
+                  inputId="groupLevelId"
                   isSearchable
-                  name="groupLevelId"
                   options={classificationOptions}
                   placeholderText={<FormattedMessage id="type.to.search" />}
                 />
@@ -468,8 +468,8 @@ const EmploymentDataFormView = ({
                     getInitialValues({ profile: profileInfo })
                       .securityClearanceId
                   }
+                  inputId="securityClearanceId"
                   isSearchable={false}
-                  name="securityClearanceId"
                   options={securityOptions}
                   placeholderText={<FormattedMessage id="select" />}
                 />

@@ -71,9 +71,9 @@ const LinkAttachmentView = ({
               id: "type",
             })} `}
             initialValueId={attachmentNameDefault}
+            inputId={typeLabelName}
             isRequired
             isSearchable={false}
-            name={typeLabelName}
             options={attachmentNamesOptions}
             placeholderText={<FormattedMessage id="select" />}
           />

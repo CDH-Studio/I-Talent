@@ -484,8 +484,8 @@ const PrimaryInfoFormView = ({
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({ id: "location" })}
                   initialValueId={initialValues.locationId}
+                  inputId="locationId"
                   isRequired
-                  name="locationId"
                   options={locationOptions}
                   placeholderText={<FormattedMessage id="search" />}
                 />
@@ -527,9 +527,9 @@ const PrimaryInfoFormView = ({
                     id: "employee.work.unit",
                   })}
                   initialValueId={initialValues.teams}
+                  inputId="teams"
                   isCreatable
                   isMulti
-                  name="teams"
                   placeholderText={<FormattedMessage id="press.enter.to.add" />}
                 />
               </Form.Item>

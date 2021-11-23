@@ -88,10 +88,10 @@ const SearchFilterView = ({
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.classifications
             }
+            inputId="classifications"
             isMulti
             isSearchable
             maxSelectedOptions={3}
-            name="classifications"
             options={classOptions}
             placeholderText={<FormattedMessage id="type.to.search" />}
           />
@@ -110,10 +110,10 @@ const SearchFilterView = ({
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.locations
             }
+            inputId="locations"
             isMulti
             isSearchable
             maxSelectedOptions={3}
-            name="locations"
             options={locationOptions}
             placeholderText={<FormattedMessage id="type.to.search" />}
           />
@@ -132,10 +132,10 @@ const SearchFilterView = ({
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.branches
             }
+            inputId="branches"
             isMulti
             isSearchable
             maxSelectedOptions={3}
-            name="branches"
             options={branchOptions}
             placeholderText={<FormattedMessage id="type.to.search" />}
           />

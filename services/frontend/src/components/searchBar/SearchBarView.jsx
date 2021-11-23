@@ -139,10 +139,10 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "location",
                   })}
+                  inputId="locations"
                   isMulti
                   isSearchable
                   maxSelectedOptions={3}
-                  name="locations"
                   options={locationOptions}
                   placeholderText={<FormattedMessage id="type.to.search" />}
                 />
@@ -157,10 +157,10 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "branch",
                   })}
+                  inputId="branches"
                   isMulti
                   isSearchable
                   maxSelectedOptions={3}
-                  name="branches"
                   options={branchOptions}
                   placeholderText={<FormattedMessage id="type.to.search" />}
                 />
@@ -175,10 +175,10 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "classification",
                   })}
+                  inputId="classifications"
                   isMulti
                   isSearchable
                   maxSelectedOptions={3}
-                  name="classifications"
                   options={classOptions}
                   placeholderText={<FormattedMessage id="type.to.search" />}
                 />
