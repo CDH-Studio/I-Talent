@@ -12,7 +12,7 @@
     "migrate:prod": "cd src/database && prisma migrate deploy",
     "migrate:create": "cd src/database && prisma migrate save",
     "docker:dev": "yarn -s generate && yarn -s migrate:dev && yarn -s seed && yarn -s dev",
-    "docker:prod": "yarn -s generate && yarn -s migrate:prod && yarn -s seed && yarn -s start",
+    "docker:prod": "yarn -s generate && yarn -s migrate:prod -y && yarn -s seed && yarn -s start",
     "lint": "./node_modules/.bin/eslint src --cache src ",
     "format:write": "prettier --write .",
     "format:check": "prettier --check .",
