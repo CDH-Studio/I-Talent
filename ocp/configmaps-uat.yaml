@@ -178,7 +178,7 @@
   kind: ConfigMap
   metadata:
     name: kube-root-ca.crt
-    namespace: mytalent
+    namespace: italent-uat
 - apiVersion: v1
   data:
     service-ca.crt: |+
@@ -382,4 +382,4 @@
     annotations:
       service.alpha.openshift.io/inject-vulnerable-legacy-cabundle: "true"
     name: openshift-service-ca.crt
-    namespace: mytalent
+    namespace: italent-uat
