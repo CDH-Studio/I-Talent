@@ -383,4 +383,4 @@ parameters:
   - name: ROUTING_SUFFIX
     description: "Routing suffix.  Leave default value. "
     required: true
-    value: apps.dev.ocp-dev.ised-isde.canada.ca
+    value: ${ROUTING_SUFFIX}
