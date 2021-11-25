@@ -210,6 +210,7 @@ Our full stack developers
 |                                                               | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)             |
 |                                                               | [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/) |
 
+
 # Contact
 
 This application is developed by students at [CDH Studio](https://cdhstudio.ca/)
