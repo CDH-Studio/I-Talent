@@ -413,7 +413,6 @@ const CareerManagementFormView = ({
           form={form}
           initialValues={savedValues || getInitialValues(profileInfo)}
           layout="vertical"
-          name="PersonalGrowth"
           onFieldsChange={onFieldsChange}
           onValuesChange={checkIfFormValuesChanged}
         >
@@ -457,6 +456,7 @@ const CareerManagementFormView = ({
                       initialValueId={
                         getInitialValues(profileInfo).developmentalGoals
                       }
+                      inputId="developmentalGoals"
                       isGroupedOptions
                       isMulti
                       options={developmentalGoalOptions}
@@ -483,6 +483,7 @@ const CareerManagementFormView = ({
                               attachmentNamesOptions={attachmentOptions}
                               fieldElement={field}
                               removeElement={remove}
+                              typeLabelName={`developmentalGoalsAttachments_${field.name}_nameId`}
                             />
                           ))}
                           <Form.Item>
@@ -603,6 +604,7 @@ const CareerManagementFormView = ({
                       initialValueId={
                         getInitialValues(profileInfo).interestedInRemote
                       }
+                      inputId="interestedInRemote"
                       isSearchable={false}
                       options={interestedInRemoteOptions}
                       placeholderText={<FormattedMessage id="select" />}
@@ -626,6 +628,7 @@ const CareerManagementFormView = ({
                         id: "edit.willing.to.relocate.to",
                       })}
                       initialValueId={savedRelocationLocations}
+                      inputId="relocationLocations"
                       isMulti
                       isSearchable
                       options={relocationOptions}
@@ -649,6 +652,7 @@ const CareerManagementFormView = ({
                       initialValueId={
                         getInitialValues(profileInfo).lookingForANewJobId
                       }
+                      inputId="lookingForANewJobId"
                       isSearchable={false}
                       options={lookingForNewJobOptions}
                       placeholderText={<FormattedMessage id="select" />}
@@ -715,6 +719,7 @@ const CareerManagementFormView = ({
                       initialValueId={
                         getInitialValues(profileInfo).careerMobilityId
                       }
+                      inputId="careerMobilityId"
                       isSearchable={false}
                       options={careerMobilityOptions}
                       placeholderText={<FormattedMessage id="select" />}
@@ -737,6 +742,7 @@ const CareerManagementFormView = ({
                       initialValueId={
                         getInitialValues(profileInfo).talentMatrixResultId
                       }
+                      inputId="talentMatrixResultId"
                       isSearchable={false}
                       options={talentMatrixResultOptions}
                       placeholderText={<FormattedMessage id="select" />}

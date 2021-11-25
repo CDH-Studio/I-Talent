@@ -139,6 +139,7 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "location",
                   })}
+                  inputId="locations"
                   isMulti
                   isSearchable
                   maxSelectedOptions={3}
@@ -156,6 +157,7 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "branch",
                   })}
+                  inputId="branches"
                   isMulti
                   isSearchable
                   maxSelectedOptions={3}
@@ -173,6 +175,7 @@ const SearchBarView = ({
                   ariaLabel={intl.formatMessage({
                     id: "classification",
                   })}
+                  inputId="classifications"
                   isMulti
                   isSearchable
                   maxSelectedOptions={3}

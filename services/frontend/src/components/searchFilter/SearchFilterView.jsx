@@ -88,6 +88,7 @@ const SearchFilterView = ({
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.classifications
             }
+            inputId="classifications"
             isMulti
             isSearchable
             maxSelectedOptions={3}
@@ -109,6 +110,7 @@ const SearchFilterView = ({
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.locations
             }
+            inputId="locations"
             isMulti
             isSearchable
             maxSelectedOptions={3}
@@ -130,6 +132,7 @@ const SearchFilterView = ({
             initialValueId={
               urlSearchFieldValues && urlSearchFieldValues.branches
             }
+            inputId="branches"
             isMulti
             isSearchable
             maxSelectedOptions={3}
