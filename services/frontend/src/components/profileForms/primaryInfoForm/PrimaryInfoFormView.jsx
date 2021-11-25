@@ -390,7 +390,6 @@ const PrimaryInfoFormView = ({
           form={form}
           initialValues={savedValues || initialValues}
           layout="vertical"
-          name="basicForm"
           onValuesChange={checkIfFormValuesChanged}
         >
           {/* Form Row One */}
@@ -485,6 +484,7 @@ const PrimaryInfoFormView = ({
                 <CustomDropdown
                   ariaLabel={intl.formatMessage({ id: "location" })}
                   initialValueId={initialValues.locationId}
+                  inputId="locationId"
                   isRequired
                   options={locationOptions}
                   placeholderText={<FormattedMessage id="search" />}
@@ -527,6 +527,7 @@ const PrimaryInfoFormView = ({
                     id: "employee.work.unit",
                   })}
                   initialValueId={initialValues.teams}
+                  inputId="teams"
                   isCreatable
                   isMulti
                   placeholderText={<FormattedMessage id="press.enter.to.add" />}
