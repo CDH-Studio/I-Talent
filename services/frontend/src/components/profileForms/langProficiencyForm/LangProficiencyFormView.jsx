@@ -387,13 +387,11 @@ const LangProficiencyFormView = ({
   // Displays success notification after saving
   useEffect(() => {
     if (sessionStorage.getItem("success") === "true") {
-      notification.success({
-        message: intl.formatMessage({ id: "edit.save.success" }),
-      });
+      openNotificationWithIcon({ type: "success" });
     }
 
     sessionStorage.setItem("success", false);
-  });
+  }, [openNotificationWithIcon]);
 
   /** **********************************
    ********* Render Component *********
