@@ -26,7 +26,7 @@ pipeline {
         stage('configure-node') {
             when {
                  not {
-                    branch 'development'
+                    branch 'dev'
                 }
             }
             steps{
@@ -47,7 +47,7 @@ pipeline {
         stage('linter') {
             when {
                  not {
-                    branch 'development'
+                    branch 'dev'
                 }
             }
             parallel {
@@ -90,7 +90,7 @@ pipeline {
         stage('backend-test') {
             when {
                  not {
-                    branch 'development'
+                    branch 'dev'
                 }
             }
             steps {
@@ -106,7 +106,7 @@ pipeline {
         }
         
         stage('build') {
-            when { branch 'development' }
+            when { branch 'dev' }
             parallel {
                 stage('build-backend') {
                     steps {

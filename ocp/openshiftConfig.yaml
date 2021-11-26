@@ -115,7 +115,7 @@ objects:
             from:
               kind: ImageStreamTag
               name: dsd-italent-backend:${ENVIRONMENT}
-              namespace: ised-ci
+              namespace: ised-registry
           type: ImageChange
         - type: ConfigChange
         - type: GitHub
@@ -193,7 +193,7 @@ objects:
             from:
               kind: ImageStreamTag
               name: dsd-italent-frontend:${ENVIRONMENT}
-              namespace: ised-ci
+              namespace: ised-registry
           type: ImageChange
         - type: ConfigChange
   - apiVersion: apps.openshift.io/v1
