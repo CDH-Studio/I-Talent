@@ -254,8 +254,8 @@ const TalentFormView = ({
         await saveDataToDB(values);
         setSavedValues(values);
         setFieldsChanged(false);
+        sessionStorage.setItem("success", true);
         window.location.reload(false);
-        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -550,6 +550,17 @@ const TalentFormView = ({
   useEffect(() => {
     setSelectedTab(getTabValue(currentTab));
   }, [currentTab, getTabValue]);
+
+  // Displays success notification after saving
+  useEffect(() => {
+    if (sessionStorage.getItem("success") === "true") {
+      notification.success({
+        message: intl.formatMessage({ id: "edit.save.success" }),
+      });
+    }
+
+    sessionStorage.setItem("success", false);
+  });
 
   /** **********************************
    ********* Render Component *********

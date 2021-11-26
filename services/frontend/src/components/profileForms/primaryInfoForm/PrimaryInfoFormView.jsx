@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
@@ -231,8 +231,8 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
+        sessionStorage.setItem("success", true);
         window.location.reload(false);
-        openNotificationWithIcon({ type: "success" }, intl);
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -344,6 +344,17 @@ const PrimaryInfoFormView = ({
   };
 
   const initialValues = getInitialValues(profileInfo, email);
+
+  // Displays success notification after saving
+  useEffect(() => {
+    if (sessionStorage.getItem("success") === "true") {
+      notification.success({
+        message: intl.formatMessage({ id: "edit.save.success" }),
+      });
+    }
+
+    sessionStorage.setItem("success", false);
+  }, [openNotificationWithIcon]);
 
   /* Once data had loaded display form */
   return isLoading ? (

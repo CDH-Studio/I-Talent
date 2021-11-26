@@ -63,30 +63,29 @@ const QualificationsFormView = ({
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
-  const openNotificationWithIcon = ({ type, description }) => {
-    switch (type) {
-      case "success":
-        notification.success({
-          message: intl.formatMessage({
-            id: "edit.save.success",
-          }),
-        });
-        break;
-      case "error":
-        notification.error({
-          description,
-          message: intl.formatMessage({ id: "edit.save.error" }),
-        });
-        break;
-      default:
-        notification.warning({
-          message: intl.formatMessage({
-            id: "edit.save.problem",
-          }),
-        });
-        break;
-    }
-  };
+  const openNotificationWithIcon = useCallback(
+    ({ type, description }) => {
+      switch (type) {
+        case "success":
+          notification.success({
+            message: intl.formatMessage({ id: "edit.save.success" }),
+          });
+          break;
+        case "error":
+          notification.error({
+            description,
+            message: intl.formatMessage({ id: "edit.save.error" }),
+          });
+          break;
+        default:
+          notification.warning({
+            message: intl.formatMessage({ id: "edit.save.problem" }),
+          });
+          break;
+      }
+    },
+    [intl]
+  );
 
   /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
@@ -205,8 +204,8 @@ const QualificationsFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
+        sessionStorage.setItem("success", true);
         window.location.reload(false);
-        openNotificationWithIcon({ type: "success" });
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -325,6 +324,17 @@ const QualificationsFormView = ({
   useEffect(() => {
     setSelectedTab(getTabValue(currentTab));
   }, [currentTab, getTabValue]);
+
+  // Displays success notification after saving
+  useEffect(() => {
+    if (sessionStorage.getItem("success") === "true") {
+      notification.success({
+        message: intl.formatMessage({ id: "edit.save.success" }),
+      });
+    }
+
+    sessionStorage.setItem("success", false);
+  });
 
   /** **********************************
    ********* Render Component *********
