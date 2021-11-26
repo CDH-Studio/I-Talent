@@ -96,12 +96,8 @@ async function getGedsSetup(request, response) {
       ENGLISH: branchOrg.description.en,
       FRENCH: branchOrg.description.fr,
     },
-    telephone: dataGEDS.contactInformation
-      ? dataGEDS.contactInformation.phoneNumber
-      : null,
-    cellphone: dataGEDS.contactInformation
-      ? dataGEDS.contactInformation.altPhoneNumber
-      : null,
+    telephone: dataGEDS.contactInformation.phoneNumber,
+    cellphone: dataGEDS.contactInformation.altPhoneNumber,
     jobTitle: {
       ENGLISH: dataGEDS.title ? dataGEDS.title.en : null,
       FRENCH: dataGEDS.title ? dataGEDS.title.fr : null,
