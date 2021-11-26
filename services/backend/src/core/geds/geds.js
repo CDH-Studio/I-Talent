@@ -15,7 +15,6 @@ function getUrl(email) {
     pageNumber: 1,
     returnOrganizationInformation: "yes",
   });
-
   return `${config.GEDSAPIURL}employees?${qs}`;
 }
 
