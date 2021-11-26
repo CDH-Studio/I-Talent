@@ -29,6 +29,9 @@ const QualifiedPoolsFormView = ({
 }) => {
   const intl = useIntl();
 
+  // Name of classification label used for a custom dropdown in the qualified pools form
+  const classificationDropdownLabel = `qualifiedPools_${fieldElement.fieldKey}_classificationId`;
+
   const Rules = {
     required: {
       message: <FormattedMessage id="rules.required" />,
@@ -85,6 +88,7 @@ const QualifiedPoolsFormView = ({
                 fieldElement.fieldKey,
                 "classificationId",
               ])}
+              inputId={classificationDropdownLabel}
               isRequired
               options={classificationOptions}
               placeholderText={<FormattedMessage id="select" />}

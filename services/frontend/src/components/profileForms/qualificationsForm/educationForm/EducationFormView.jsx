@@ -49,6 +49,10 @@ const EducationFormView = ({
 }) => {
   const intl = useIntl();
 
+  // Name of labels used for custom dropdowns in the education form
+  const educationLabelName = `educations_${fieldElement.name}_diplomaId`;
+  const schoolLabelName = `educations_${fieldElement.name}_schoolId`;
+
   const Rules = {
     maxChar1500: {
       max: 1500,
@@ -133,6 +137,7 @@ const EducationFormView = ({
                 fieldElement.fieldKey,
                 "diplomaId",
               ])}
+              inputId={educationLabelName}
               isRequired
               isSearchable
               options={diplomaOptions}
@@ -158,6 +163,7 @@ const EducationFormView = ({
                 fieldElement.fieldKey,
                 "schoolId",
               ])}
+              inputId={schoolLabelName}
               isRequired
               isSearchable
               options={schoolOptions}
@@ -329,6 +335,7 @@ const EducationFormView = ({
                       attachmentNamesOptions={attachmentNames}
                       fieldElement={field}
                       removeElement={remove}
+                      typeLabelName={`educations_${fieldElement.fieldKey}_attachmentLinks_${field.fieldKey}_nameId`}
                     />
                   ))}
                   <Form.Item>

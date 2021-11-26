@@ -2689,10 +2689,10 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   dependencies:
     color-convert "^2.0.1"
 
-antd@4.16.13:
-  version "4.16.13"
-  resolved "https://registry.yarnpkg.com/antd/-/antd-4.16.13.tgz#e9b9b4a590db28747aae1cab98981649a35880af"
-  integrity sha512-EMPD3fzKe7oayx9keD/GA1oKatcx7j5CGlkJj5eLS0/eEDDEkxVj3DFmKOPuHYt4BK7ltTzMFS+quSTmqUXPiw==
+antd@4.17.0:
+  version "4.17.0"
+  resolved "https://registry.yarnpkg.com/antd/-/antd-4.17.0.tgz#6b21761ec0a10dfd15fe5822a45e68e9279b687c"
+  integrity sha512-V2xBGzBK+s2Iy7Re5JOcOBtAvaZtJ9t7R1fFOP51T6ynfSvJqaRtG4DjBu7i9inhXkCzrt7eGcX3vMqLCqXV8g==
   dependencies:
     "@ant-design/colors" "^6.0.0"
     "@ant-design/icons" "^4.6.3"

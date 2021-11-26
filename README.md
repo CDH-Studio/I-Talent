@@ -10,7 +10,7 @@ I-Talent is an internal web-application that would enable employees to share inf
 
 ### Access the live testing environments
 
-[![DEV Deployment](https://img.shields.io/badge/Access%20Application-DEV-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](https://italent-development.apps.ocp.dev.ised-isde.canada.ca/)
+[![DEV Deployment](https://img.shields.io/badge/Access%20Application-DEV-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](https://italent-dev.apps.ocp.dev.ised-isde.canada.ca/)
 [![UAT Deployment](https://img.shields.io/badge/Access%20Application-UAT-gray?logo=react&logoColor=white&style=for-the-badge&labelColor=green)](https://italent-uat.apps.ocp.dev.ised-isde.canada.ca/)
 
 [![Drupal DEV](https://img.shields.io/badge/Drupal-DEV-gray?logo=drupal&labelColor=blue&style=for-the-badge)](https://italent-dev-cms-studioup-dev.apps.ocp.dev.ised-isde.canada.ca/en)
@@ -24,8 +24,8 @@ I-Talent is an internal web-application that would enable employees to share inf
 
 ### Hosting servers/services
 
-[![OpenShift-DEV](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/italent-development?view=graph)
-[![OpenShift-UAT](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/mytalent?view=graph)
+[![OpenShift-DEV](https://img.shields.io/badge/OpenShift%20Management-DEV-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/italent-dev?view=graph)
+[![OpenShift-UAT](https://img.shields.io/badge/OpenShift%20Management-UAT-gray?logo=red-hat-open-shift&style=for-the-badge&labelColor=red)](https://console-openshift-console.apps.ocp.dev.ised-isde.canada.ca/topology/ns/italent-uat?view=graph)
 
 # :pushpin: Table of Content
 

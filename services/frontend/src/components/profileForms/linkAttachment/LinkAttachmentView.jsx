@@ -27,6 +27,7 @@ const LinkAttachmentView = ({
   removeElement,
   attachmentNamesOptions,
   attachmentNameDefault,
+  typeLabelName,
 }) => {
   const intl = useIntl();
   return (
@@ -70,6 +71,7 @@ const LinkAttachmentView = ({
               id: "type",
             })} `}
             initialValueId={attachmentNameDefault}
+            inputId={typeLabelName}
             isRequired
             isSearchable={false}
             options={attachmentNamesOptions}
@@ -107,6 +109,11 @@ LinkAttachmentView.propTypes = {
   attachmentNamesOptions: KeyNameOptionsPropType.isRequired,
   fieldElement: FieldPropType.isRequired,
   removeElement: PropTypes.func.isRequired,
+  typeLabelName: PropTypes.string,
 };
+
+LinkAttachmentView.defaultProps = {
+  typeLabelName: undefined,
+}
 
 export default LinkAttachmentView;

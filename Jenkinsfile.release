@@ -2,7 +2,7 @@
 
 pipeline {
     agent {
-        label '!container-utils'
+        label '!container-utils || !Jenkins'
     }
 
     options {

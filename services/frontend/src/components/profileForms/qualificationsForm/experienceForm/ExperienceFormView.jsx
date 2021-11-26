@@ -44,6 +44,9 @@ const ExperienceFormView = ({
 }) => {
   const intl = useIntl();
 
+  // Name of projects label used for a custom dropdowns in the experience form
+  const projectsLabelName = `experiences_${fieldElement.name}_projects`;
+  
   const Rules = {
     maxChar1500: {
       max: 1500,
@@ -300,6 +303,7 @@ const ExperienceFormView = ({
                 fieldElement.fieldKey,
                 "projects",
               ])}
+              inputId={projectsLabelName}
               isCreatable
               isMulti
               placeholderText={<FormattedMessage id="press.enter.to.add" />}
@@ -331,6 +335,7 @@ const ExperienceFormView = ({
                       fieldElement={field}
                       form={form}
                       removeElement={remove}
+                      typeLabelName={`experiences_${fieldElement.fieldKey}_attachmentLinks_${field.fieldKey}_nameId`}
                     />
                   ))}
                   <Form.Item>
