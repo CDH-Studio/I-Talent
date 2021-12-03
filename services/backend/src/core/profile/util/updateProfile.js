@@ -8,6 +8,10 @@ function normalizeDate(date, startOf) {
     return date;
   }
 
+  if (date && moment(date, [moment.ISO_8601], true).isValid()) {
+    return date;
+  }
+
   return date ? moment(date).startOf(startOf).toISOString() : undefined;
 }
 
