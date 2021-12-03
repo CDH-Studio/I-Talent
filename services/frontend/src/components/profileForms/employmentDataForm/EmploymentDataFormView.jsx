@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
@@ -114,26 +114,29 @@ const EmploymentDataFormView = ({
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
-  const openNotificationWithIcon = ({ type, description }) => {
-    switch (type) {
-      case "success":
-        notification.success({
-          message: intl.formatMessage({ id: "edit.save.success" }),
-        });
-        break;
-      case "error":
-        notification.error({
-          description,
-          message: intl.formatMessage({ id: "edit.save.error" }),
-        });
-        break;
-      default:
-        notification.warning({
-          message: intl.formatMessage({ id: "edit.save.problem" }),
-        });
-        break;
-    }
-  };
+  const openNotificationWithIcon = useCallback(
+    ({ type, description }) => {
+      switch (type) {
+        case "success":
+          notification.success({
+            message: intl.formatMessage({ id: "edit.save.success" }),
+          });
+          break;
+        case "error":
+          notification.error({
+            description,
+            message: intl.formatMessage({ id: "edit.save.error" }),
+          });
+          break;
+        default:
+          notification.warning({
+            message: intl.formatMessage({ id: "edit.save.problem" }),
+          });
+          break;
+      }
+    },
+    [intl]
+  );
 
   /**
    * extract the initial values from the profile
@@ -208,7 +211,8 @@ const EmploymentDataFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        openNotificationWithIcon({ type: "success" });
+        sessionStorage.setItem("success", true);
+        window.location.reload(false);
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -360,6 +364,15 @@ const EmploymentDataFormView = ({
     setFieldsChanged(oppositeInitialToggle || checkIfFormValuesChanged());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [displayActingRoleForm]);
+
+  // Displays success notification after saving
+  useEffect(() => {
+    if (sessionStorage.getItem("success") === "true") {
+      openNotificationWithIcon({ type: "success" });
+    }
+
+    sessionStorage.setItem("success", false);
+  }, [openNotificationWithIcon]);
 
   /** **********************************
    ********* Render Component *********

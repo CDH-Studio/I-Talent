@@ -120,32 +120,36 @@ const CareerManagementFormView = ({
 
     await axios.put(`profile/${userId}?language=${locale}`, values);
   };
+
   /**
    * Open Notification
    * @param {Object} notification - The notification to be displayed.
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
-  const openNotificationWithIcon = ({ type, description }) => {
-    switch (type) {
-      case "success":
-        notification.success({
-          message: intl.formatMessage({ id: "edit.save.success" }),
-        });
-        break;
-      case "error":
-        notification.error({
-          description,
-          message: intl.formatMessage({ id: "edit.save.error" }),
-        });
-        break;
-      default:
-        notification.warning({
-          message: intl.formatMessage({ id: "edit.save.problem" }),
-        });
-        break;
-    }
-  };
+  const openNotificationWithIcon = useCallback(
+    ({ type, description }) => {
+      switch (type) {
+        case "success":
+          notification.success({
+            message: intl.formatMessage({ id: "edit.save.success" }),
+          });
+          break;
+        case "error":
+          notification.error({
+            description,
+            message: intl.formatMessage({ id: "edit.save.error" }),
+          });
+          break;
+        default:
+          notification.warning({
+            message: intl.formatMessage({ id: "edit.save.problem" }),
+          });
+          break;
+      }
+    },
+    [intl]
+  );
 
   /*
    * Get the initial values for the form
@@ -261,7 +265,8 @@ const CareerManagementFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        openNotificationWithIcon({ type: "success" });
+        sessionStorage.setItem("success", true);
+        window.location.reload(false);
       })
       .catch((error) => {
         if (error.isAxiosError) {
@@ -360,7 +365,7 @@ const CareerManagementFormView = ({
    * on change of tab of the form
    */
   const onTabChange = (activeTab) => {
-    setSelectedTab(getTabValue(activeTab));
+    history.push(`/profile/edit/career-management?tab=${activeTab}`);
   };
 
   /**
@@ -379,6 +384,15 @@ const CareerManagementFormView = ({
   useEffect(() => {
     setSelectedTab(getTabValue(currentTab));
   }, [currentTab, getTabValue]);
+
+  // Displays success notification after saving
+  useEffect(() => {
+    if (sessionStorage.getItem("success") === "true") {
+      openNotificationWithIcon({ type: "success" });
+    }
+
+    sessionStorage.setItem("success", false);
+  }, [openNotificationWithIcon]);
 
   /** **********************************
    ********* Render Component *********

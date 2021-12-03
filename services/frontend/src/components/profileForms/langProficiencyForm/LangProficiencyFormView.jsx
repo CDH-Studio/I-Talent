@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch } from "react-redux";
 import { Prompt } from "react-router";
@@ -69,26 +69,36 @@ const LangProficiencyFormView = ({
    * @param {string} notification.type - The type of notification.
    * @param {string} notification.description - Additional info in notification.
    */
-  const openNotificationWithIcon = ({ type, description }) => {
-    switch (type) {
-      case "success":
-        notification.success({
-          message: intl.formatMessage({ id: "edit.save.success" }),
-        });
-        break;
-      case "error":
-        notification.error({
-          description,
-          message: intl.formatMessage({ id: "edit.save.error" }),
-        });
-        break;
-      default:
-        notification.warning({
-          message: intl.formatMessage({ id: "edit.save.problem" }),
-        });
-        break;
-    }
-  };
+
+  /**
+   * Open Notification
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   */
+  const openNotificationWithIcon = useCallback(
+    ({ type, description }) => {
+      switch (type) {
+        case "success":
+          notification.success({
+            message: intl.formatMessage({ id: "edit.save.success" }),
+          });
+          break;
+        case "error":
+          notification.error({
+            description,
+            message: intl.formatMessage({ id: "edit.save.error" }),
+          });
+          break;
+        default:
+          notification.warning({
+            message: intl.formatMessage({ id: "edit.save.problem" }),
+          });
+          break;
+      }
+    },
+    [intl]
+  );
 
   /**
    * extract the initial values from the profile
@@ -231,7 +241,8 @@ const LangProficiencyFormView = ({
         setFieldsChanged(false);
         if (num === 1) {
           setSavedValues(values);
-          openNotificationWithIcon({ type: "success" });
+          sessionStorage.setItem("success", true);
+          window.location.reload(false);
         } else if (num === 2) {
           history.push("/profile/create/step/5");
         } else if (num === 3) {
@@ -374,6 +385,15 @@ const LangProficiencyFormView = ({
       setLoadedData(true);
     }
   }, [displaySecondLangForm, load, loadedData, profileInfo]);
+
+  // Displays success notification after saving
+  useEffect(() => {
+    if (sessionStorage.getItem("success") === "true") {
+      openNotificationWithIcon({ type: "success" });
+    }
+
+    sessionStorage.setItem("success", false);
+  }, [openNotificationWithIcon]);
 
   /** **********************************
    ********* Render Component *********
