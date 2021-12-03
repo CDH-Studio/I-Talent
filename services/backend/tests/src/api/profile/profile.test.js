@@ -1,6 +1,7 @@
 const request = require("supertest");
 const faker = require("faker");
 const { getBearerToken, userId } = require("../../../mocks");
+const prisma = require("../../../../src/database");
 
 const path = "/api/profile";
 
@@ -133,96 +134,99 @@ describe(`PUT ${path}/:id`, () => {
             id: faker.datatype.uuid(),
             status: "EXPIRED",
             proficiency: "ORAL",
-            level: "B"
+            level: "B",
           },
           {
             id: faker.datatype.uuid(),
             status: "VALID",
             proficiency: "WRITING",
-            level: "X"
+            level: "X",
           },
           {
             id: faker.datatype.uuid(),
             status: "UNKNOWN",
             proficiency: "READING",
-            level: "C"
-          }
+            level: "C",
+          },
         ],
         skills: [
           faker.datatype.uuid(),
-          faker.datatype.uuid()
+          faker.datatype.uuid(),
         ],
         competencies: [
           faker.datatype.uuid(),
-          faker.datatype.uuid()
+          faker.datatype.uuid(),
         ],
         description: "string",
+        developmentalGoals: [faker.datatype.uuid()],
         developmentalGoalsAttachments: [
           {
             id: faker.datatype.uuid(),
-            url: "https://www.example.com/",
-            nameid: faker.datatype.uuid(),
-          }
+            url: "https://www.example.com",
+            nameId: faker.datatype.uuid(),
+          },
         ],
         qualifiedPools: [
           {
             classificationId: faker.datatype.uuid(),
             id: faker.datatype.uuid(),
-            jobTitle: "Student, ISED"
-          }
+            jobTitle: "Data Scientist",
+            jobPosterLink: "https://www.example.com",
+            selectionProcessNumber: "123",
+          },
         ],
-        educations: [],
+        educations: [
+          {
+            id: faker.datatype.uuid(),
+            description: "string",
+            diplomaId: faker.datatype.uuid(),
+            endDate: null,
+            ongoingDate: true,
+            schoolId: faker.datatype.uuid(),
+            startDate: "2020-11-30T20:47:22.278Z",
+            attachmentLinks: [
+              {
+                id: faker.datatype.uuid(),
+                nameId: faker.datatype.uuid(),
+                url: "https://www.example.com",
+              },
+            ],
+          },
+        ],
         relocationLocations: [
           faker.datatype.uuid(),
-          faker.datatype.uuid()
+          faker.datatype.uuid(),
         ],
-        experiences: [],
-        groupLevel: {
-          id: faker.datatype.uuid(),
-          name: "AS 01"
-        },
-        actingLevel: {
-          id: faker.datatype.uuid(),
-          name: "AS 01"
-        },
-        securityClearance: {
-          id: faker.datatype.uuid(),
-          description: "Secret"
-        },
-        lookingJob: true,
-        tenure: {
-          id: faker.datatype.uuid(),
-          description: "Data Scientist"
-        },
-        employmentInfo: {
-          id: faker.datatype.uuid(),
-          translations: [
-            {
-              jobTitle: "Data Scientist",
-              branch: "Chief Information Office",
-            }
-          ]
-        },
-        officeLocation: {
-          id: faker.datatype.uuid(),
-          postalCode: "K1A 0H5",
-          streetNumber: 235,
-          city: "Ottawa",
-          country: "Canada",
-          streetName: "Queen St",
-          province: "Ontario"
-        },
+        experiences: [
+          {
+            id: faker.datatype.uuid(),
+            description: "string",
+            endDate: "2021-11-30T20:47:22.278Z",
+            jobTitle: "string",
+            ongoingDate: true,
+            organization: "string",
+            startDate: "2020-11-30T20:47:22.278Z",
+            projects: ["I-Talent"],
+            attachmentLinks: [
+              {
+                id: faker.datatype.uuid(),
+                nameId: faker.datatype.uuid(),
+                url: "https://www.example.com",
+              },
+            ],
+          },
+        ],
         mentorshipSkills: [
           faker.datatype.uuid(),
-          faker.datatype.uuid()
+          faker.datatype.uuid(),
         ],
         connections: [
           {
             id: faker.datatype.uuid(),
             firstName: "Mary",
             lastName: "Doe",
-            email: "mary.doe@canada.ca"
-          }
+            email: "mary.doe@canada.ca",
+          },
         ],
         careerMobilityId: faker.datatype.uuid(),
         tenureId: faker.datatype.uuid(),
@@ -247,21 +251,77 @@ describe(`PUT ${path}/:id`, () => {
           careerInterests: false,
           mentorshipSkills: true,
           exFeeder: true,
-          employmentEquityGroup: false
+          employmentEquityGroup: false,
         },
         branch: {
           ENGLISH: "Chief Information Office",
-          FRENCH: "Bureau principal de l'information"
+          FRENCH: "Bureau principal de l'information",
         },
         jobTitle: {
           ENGLISH: "Data Scientist",
-          FRENCH: "Scientifique des Données"
-        }
+          FRENCH: "Scientifique des Données",
+        },
+        organizations: [
+          {
+            tier: 4,
+            title: {
+              ENGLISH: "string",
+              FRENCH: "string",
+            },
+          },
+          {
+            tier: 3,
+            title: {
+              ENGLISH: "string",
+              FRENCH: "string",
+            },
+          },
+          {
+            tier: 2,
+            title: {
+              ENGLISH: "string",
+              FRENCH: "string",
+            },
+          },
+          {
+            tier: 1,
+            title: {
+              ENGLISH: "string",
+              FRENCH: "string",
+            },
+          },
+          {
+            tier: 0,
+            title: {
+              ENGLISH: "string",
+              FRENCH: "string",
+            },
+          },
+        ],
       }
 
       let res;
 
+      // Fake ids for resolving mock values
+      const attachmentLinkTestId = faker.datatype.uuid();
+      const organizationTestId = faker.datatype.uuid();
+
       beforeAll(async () => {
+        // For signupStep
+        prisma.user.findUnique.mockResolvedValue({ signupStep: 0 });
+
+        // For developmentGoals
+        prisma.opSkill.findMany.mockResolvedValue([{ id: body.developmentalGoals[0] }]);
+        prisma.opCompetency.findMany.mockResolvedValue([ { id: body.developmentalGoals[0] }]);
+
+        // For educations and experiences 
+        prisma.attachmentLink.findMany.mockResolvedValue([{ id: attachmentLinkTestId }]);
+        prisma.transAttachmentLink.findMany.mockResolvedValue([{ id: faker.datatype.uuid() }]);
+
+        // For organizations
+        prisma.organization.findMany.mockResolvedValue([{ id: organizationTestId }]);
+        prisma.organizationTier.findMany.mockResolvedValue([{ id: faker.datatype.uuid() }]);
+
         res = await request(app)
           .put(`${path}/${userId}?language=ENGLISH`)
           .set("Authorization", getBearerToken(["manage-options"]))
@@ -269,6 +329,13 @@ describe(`PUT ${path}/:id`, () => {
       });
 
       afterAll(() => {
+        prisma.user.findUnique.mockReset();
+        prisma.opSkill.findMany.mockReset();
+        prisma.opCompetency.findMany.mockReset();
+        prisma.attachmentLink.findMany.mockReset();
+        prisma.transAttachmentLink.findMany.mockReset();
+        prisma.organization.findMany.mockReset();
+        prisma.organizationTier.findMany.mockReset();
         prisma.user.update.mockReset();
       });
 
@@ -279,6 +346,76 @@ describe(`PUT ${path}/:id`, () => {
       });
 
       test("should call prisma with specified params", () => {
+        expect(prisma.user.findUnique).toHaveBeenCalledWith({
+          select: {
+            officeLocationId: true,
+            careerMobilityId: true,
+            tenureId: true,
+            securityClearanceId: true,
+            lookingJobId: true,
+            talentMatrixResultId: true,
+            groupLevelId: true,
+            actingLevelId: true,
+            employmentInfoId: true,
+          },
+          where: {
+            id: body.id,
+          },
+        });
+
+        expect(prisma.user.findUnique).toHaveBeenCalledWith({
+          select: {
+            status: true,
+          },
+          where: {
+            id: body.id,
+          },
+        });
+
+        expect(prisma.user.findUnique).toHaveBeenCalledWith({
+          select: {
+            signupStep: true,
+          },
+          where: {
+            id: body.id,
+          },
+        });
+
+        expect(prisma.opSkill.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
+          where: {
+            id: {
+              in: [
+                body.developmentalGoals[0],
+              ],
+            },
+          },
+        });
+
+        expect(prisma.opCompetency.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
+          where: {
+            id: {
+              in: [
+                body.developmentalGoals[0],
+              ],
+            },
+          },
+        });
+
+        expect(prisma.attachmentLink.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
+          where: {
+            experienceId: body.experiences[0].id,
+          },
+        });
+
         expect(prisma.attachmentLink.findMany).toHaveBeenCalledWith({
           select: {
             id: true,
@@ -287,11 +424,65 @@ describe(`PUT ${path}/:id`, () => {
             userId: body.id,
           },
         });
-        expect(prisma.qualifiedPool.deleteMany).toHaveBeenCalledWith({
+
+        expect(prisma.attachmentLink.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
+          where: {
+            educationId: body.educations[0].id,
+          },
+        });
+
+        expect(prisma.transAttachmentLink.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
+          where: {
+            attachmentLinkId: attachmentLinkTestId,
+          },
+        });
+
+        expect(prisma.transAttachmentLink.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
+          where: {
+            attachmentLinkId: attachmentLinkTestId,
+          },
+        });
+
+        expect(prisma.transAttachmentLink.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
+          where: {
+            attachmentLinkId: attachmentLinkTestId,
+          },
+        });
+
+        expect(prisma.organization.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
           where: {
             userId: body.id,
           },
         });
+
+        expect(prisma.organizationTier.findMany).toHaveBeenCalledWith({
+          select: {
+            id: true,
+          },
+          where: {
+            organizationId: {
+              in: [
+                organizationTestId,
+              ],
+            },
+          },
+        });
+
         expect(prisma.user.update).toHaveBeenCalledWith({
           data: {
             actingLevel: {
@@ -351,7 +542,47 @@ describe(`PUT ${path}/:id`, () => {
               ],
             },
             description: "string",
-            developmentalGoals: undefined,
+            developmentalGoals: {
+              deleteMany: {
+                competencyId: {
+                  notIn: [
+                    body.developmentalGoals[0]
+                  ],
+                },
+                skillId: {
+                  notIn: [
+                    body.developmentalGoals[0]
+                  ],
+                },
+              },
+              upsert: [
+                {
+                  create: {
+                    competency: {
+                      connect: {
+                        id: body.developmentalGoals[0],
+                      },
+                    },
+                    skill: {
+                      connect: {
+                        id: body.developmentalGoals[0],
+                      },
+                    },
+                  },
+                  update: {},
+                  where: {
+                    userId_competencyId: {
+                      competencyId: body.developmentalGoals[0],
+                      userId: body.id,
+                    },
+                    userId_skillId: {
+                      skillId: body.developmentalGoals[0],
+                      userId: body.id,
+                    },
+                  },
+                },
+              ],
+            },
             developmentalGoalsAttachments: {
               create: [
                 {
@@ -360,16 +591,52 @@ describe(`PUT ${path}/:id`, () => {
                       language: "ENGLISH",
                       name: {
                         connect: {
-                          id: undefined,
+                          id: body.developmentalGoalsAttachments[0].nameId,
                         },
                       },
-                      url: "https://www.example.com/",
+                      url: "https://www.example.com",
                     },
                   },
                 },
               ],
             },
-            educations: undefined,
+            educations: {
+              create: [
+                {
+                  attachmentLinks: {
+                    create: [
+                      {
+                        translations: {
+                          create: {
+                            language: "ENGLISH",
+                            name: {
+                              connect: {
+                                id: body.educations[0].attachmentLinks[0].nameId,
+                              },
+                            },
+                            url: "https://www.example.com",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  description: "string",
+                  diploma: {
+                    connect: {
+                      id: body.educations[0].diplomaId,
+                    },
+                  },
+                  endDate: null,
+                  ongoingDate: true,
+                  school: {
+                    connect: {
+                      id: body.educations[0].schoolId,
+                    },
+                  },
+                  startDate: "2020-11-01T04:00:00.000Z",
+                },
+              ],
+            },
             employmentEquityGroups: {
               set: [
                 "MINORITY",
@@ -420,7 +687,45 @@ describe(`PUT ${path}/:id`, () => {
               },
             },
             exFeeder: true,
-            experiences: undefined,
+            experiences: {
+              create: [
+                {
+                  attachmentLinks: {
+                    create: [
+                      {
+                        translations: {
+                          create: {
+                            language: "ENGLISH",
+                            name: {
+                              connect: {
+                                id: body.experiences[0].attachmentLinks[0].nameId,
+                              },
+                            },
+                            url: "https://www.example.com",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  endDate: "2021-11-01T04:00:00.000Z",
+                  ongoingDate: true,
+                  projects: {
+                    set: [
+                      "I-Talent",
+                    ],
+                  },
+                  startDate: "2020-11-01T04:00:00.000Z",
+                  translations: {
+                    create: {
+                      description: "string",
+                      jobTitle: "string",
+                      language: "ENGLISH",
+                      organization: "string",
+                    },
+                  },
+                },
+              ],
+            },
             firstLanguage: "ENGLISH",
             firstName: "John",
             gcconnex: "gcconnexUrl",
@@ -480,7 +785,89 @@ describe(`PUT ${path}/:id`, () => {
               ],
             },
             officeLocation: undefined,
-            organizations: undefined,
+            organizations: {
+              create: {
+                organizationTier: {
+                  create: [
+                    {
+                      tier: 4,
+                      translations: {
+                        create: [
+                          {
+                            description: "string",
+                            language: "ENGLISH",
+                          },
+                          {
+                            description: "string",
+                            language: "FRENCH",
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      tier: 3,
+                      translations: {
+                        create: [
+                          {
+                            description: "string",
+                            language: "ENGLISH",
+                          },
+                          {
+                            description: "string",
+                            language: "FRENCH",
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      tier: 2,
+                      translations: {
+                        create: [
+                          {
+                            description: "string",
+                            language: "ENGLISH",
+                          },
+                          {
+                            description: "string",
+                            language: "FRENCH",
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      tier: 1,
+                      translations: {
+                        create: [
+                          {
+                            description: "string",
+                            language: "ENGLISH",
+                          },
+                          {
+                            description: "string",
+                            language: "FRENCH",
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      tier: 0,
+                      translations: {
+                        create: [
+                          {
+                            description: "string",
+                            language: "ENGLISH",
+                          },
+                          {
+                            description: "string",
+                            language: "FRENCH",
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            },
             preferredLanguage: "ENGLISH",
             pri: "07162534",
             qualifiedPools: {
@@ -491,9 +878,9 @@ describe(`PUT ${path}/:id`, () => {
                       id: body.qualifiedPools[0].classificationId,
                     },
                   },
-                  jobPosterLink: undefined,
-                  jobTitle: "Student, ISED",
-                  selectionProcessNumber: undefined,
+                  jobPosterLink: "https://www.example.com",
+                  jobTitle: "Data Scientist",
+                  selectionProcessNumber: "123",
                 },
               ],
             },
@@ -614,7 +1001,7 @@ describe(`PUT ${path}/:id`, () => {
                 id: body.securityClearanceId,
               },
             },
-            signupStep: undefined,
+            signupStep: 8,
             skills: {
               deleteMany: {
                 skillId: {
@@ -697,7 +1084,7 @@ describe(`PUT ${path}/:id`, () => {
           },
           where: {
             id: body.id,
-          }
+          },
         });
       });
     });
