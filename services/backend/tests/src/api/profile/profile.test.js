@@ -633,7 +633,7 @@ describe(`PUT ${path}/:id`, () => {
                       id: body.educations[0].schoolId,
                     },
                   },
-                  startDate: "2020-11-01T04:00:00.000Z",
+                  startDate: body.educations[0].startDate,
                 },
               ],
             },
@@ -707,14 +707,14 @@ describe(`PUT ${path}/:id`, () => {
                       },
                     ],
                   },
-                  endDate: "2021-11-01T04:00:00.000Z",
+                  endDate: body.experiences[0].endDate,
                   ongoingDate: true,
                   projects: {
                     set: [
                       "I-Talent",
                     ],
                   },
-                  startDate: "2020-11-01T04:00:00.000Z",
+                  startDate: body.experiences[0].startDate,
                   translations: {
                     create: {
                       description: "string",
