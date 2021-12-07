@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
 import { Prompt } from "react-router";
@@ -38,49 +38,6 @@ import FormTitle from "../formTitle/FormTitle";
 import GedsUpdateModal from "./gedsUpdateModal/GedsUpdateModal";
 
 import "./PrimaryInfoFormView.less";
-
-/**
- * Open Notification pop up with message
- * @param {Object} notification - The notification to be displayed.
- * @param {string} notification.type - The type of notification.
- * @param {string} notification.description - Additional info in notification.
- * @param {Object} intl - intl object
- */
-const openNotificationWithIcon = ({ type, description }, intl) => {
-  switch (type) {
-    case "success":
-      notification.success({
-        message: intl.formatMessage({ id: "edit.save.success" }),
-      });
-      break;
-    case "jobTitleLangEN":
-      notification.warning({
-        description: intl.formatMessage({
-          id: "edit.save.jobTitle.warning.en",
-        }),
-      });
-      break;
-    case "jobTitleLangFR":
-      notification.warning({
-        description: intl.formatMessage({
-          id: "edit.save.jobTitle.warning.fr",
-        }),
-      });
-      break;
-    case "error":
-      notification.error({
-        description,
-        message: intl.formatMessage({ id: "edit.save.error" }),
-      });
-      break;
-    default:
-      notification.warning({
-        description,
-        message: intl.formatMessage({ id: "edit.save.problem" }),
-      });
-      break;
-  }
-};
 
 /**
  * Extract initial values of the form from profile
@@ -195,6 +152,52 @@ const PrimaryInfoFormView = ({
   };
 
   /**
+   * Open Notification pop up with message
+   * @param {Object} notification - The notification to be displayed.
+   * @param {string} notification.type - The type of notification.
+   * @param {string} notification.description - Additional info in notification.
+   * @param {Object} intl - intl object
+   */
+  const openNotificationWithIcon = useCallback(
+    ({ type, description }) => {
+      switch (type) {
+        case "success":
+          notification.success({
+            message: intl.formatMessage({ id: "edit.save.success" }),
+          });
+          break;
+        case "jobTitleLangEN":
+          notification.warning({
+            description: intl.formatMessage({
+              id: "edit.save.jobTitle.warning.en",
+            }),
+          });
+          break;
+        case "jobTitleLangFR":
+          notification.warning({
+            description: intl.formatMessage({
+              id: "edit.save.jobTitle.warning.fr",
+            }),
+          });
+          break;
+        case "error":
+          notification.error({
+            description,
+            message: intl.formatMessage({ id: "edit.save.error" }),
+          });
+          break;
+        default:
+          notification.warning({
+            description,
+            message: intl.formatMessage({ id: "edit.save.problem" }),
+          });
+          break;
+      }
+    },
+    [intl]
+  );
+
+  /**
    * Returns true if the values in the form have changed based on its initial values or the saved values
    * pickBy({}, identity) is used to omit falsey values from the object - https://stackoverflow.com/a/33432857
    */
@@ -231,24 +234,19 @@ const PrimaryInfoFormView = ({
         await saveDataToDB(values);
         setFieldsChanged(false);
         setSavedValues(values);
-        openNotificationWithIcon({ type: "success" }, intl);
+        sessionStorage.setItem("success", true);
+        window.location.reload(false);
       })
       .catch((error) => {
         if (error.isAxiosError) {
-          openNotificationWithIcon(
-            {
-              type: "warning",
-            },
-            intl
-          );
+          openNotificationWithIcon({
+            type: "warning",
+          });
         } else {
-          openNotificationWithIcon(
-            {
-              description: <ErrorMessages intl={intl} />,
-              type: "error",
-            },
-            intl
-          );
+          openNotificationWithIcon({
+            description: <ErrorMessages intl={intl} />,
+            type: "error",
+          });
         }
       });
   };
@@ -270,15 +268,12 @@ const PrimaryInfoFormView = ({
       .then(() => history.push("/profile/create/step/3"))
       .catch((error) => {
         if (error.isAxiosError) {
-          openNotificationWithIcon({ type: "warning" }, intl);
+          openNotificationWithIcon({ type: "warning" });
         } else {
-          openNotificationWithIcon(
-            {
-              description: <ErrorMessages intl={intl} />,
-              type: "error",
-            },
-            intl
-          );
+          openNotificationWithIcon({
+            description: <ErrorMessages intl={intl} />,
+            type: "error",
+          });
         }
       });
   };
@@ -317,15 +312,12 @@ const PrimaryInfoFormView = ({
       .catch((error) => {
         dispatch(setSavedFormContent(false));
         if (error.isAxiosError) {
-          openNotificationWithIcon({ type: "warning" }, intl);
+          openNotificationWithIcon({ type: "warning" });
         } else {
-          openNotificationWithIcon(
-            {
-              description: <ErrorMessages intl={intl} />,
-              type: "error",
-            },
-            intl
-          );
+          openNotificationWithIcon({
+            description: <ErrorMessages intl={intl} />,
+            type: "error",
+          });
         }
       });
   };
@@ -343,6 +335,15 @@ const PrimaryInfoFormView = ({
   };
 
   const initialValues = getInitialValues(profileInfo, email);
+
+  // Displays success notification after saving
+  useEffect(() => {
+    if (sessionStorage.getItem("success") === "true") {
+      openNotificationWithIcon({ type: "success" });
+    }
+
+    sessionStorage.setItem("success", false);
+  }, [openNotificationWithIcon]);
 
   /* Once data had loaded display form */
   return isLoading ? (
@@ -557,7 +558,9 @@ const PrimaryInfoFormView = ({
                     aria-label={`${intl.formatMessage({
                       id: "gcconnex.username",
                     })} https://gcconnex.gc.ca/profile/`}
-                    placeholder={intl.formatMessage({ id: "gcconnex.username.placeholder" })}
+                    placeholder={intl.formatMessage({
+                      id: "gcconnex.username.placeholder",
+                    })}
                   />
                 </Form.Item>
               </Col>
