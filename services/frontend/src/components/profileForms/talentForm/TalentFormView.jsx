@@ -455,7 +455,7 @@ const TalentFormView = ({
    * on change of tab of the form
    */
   const onTabChange = (activeTab) => {
-    history.push(`/profile/edit/qualifications?tab=${activeTab}`);
+    history.push(`/profile/edit/talent?tab=${activeTab}`);
   };
 
   /*
