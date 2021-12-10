@@ -502,7 +502,7 @@ const PrimaryInfoFormView = ({
                 name="telephone"
                 rules={FORM_RULES.telephoneFormat}
               >
-                <Input />
+                <Input placeholder="###-###-####" />
               </Form.Item>
             </Col>
             <Col className="gutter-row" sm={12} xs={24}>
@@ -511,7 +511,7 @@ const PrimaryInfoFormView = ({
                 name="cellphone"
                 rules={FORM_RULES.telephoneFormat}
               >
-                <Input />
+                <Input placeholder="###-###-####" />
               </Form.Item>
             </Col>
           </Row>
