@@ -46,7 +46,7 @@ const ExperienceFormView = ({
 
   // Name of projects label used for a custom dropdowns in the experience form
   const projectsLabelName = `experiences_${fieldElement.name}_projects`;
-  
+
   const Rules = {
     maxChar1500: {
       max: 1500,
@@ -146,7 +146,11 @@ const ExperienceFormView = ({
           {/* Start Date */}
           <Form.Item
             fieldKey={[fieldElement.fieldKey, "startDate"]}
-            label={<FormattedMessage id="item.start.date" />}
+            label={
+              <div id="start-date-label">
+                <FormattedMessage id="item.start.date" />
+              </div>
+            }
             name={[fieldElement.name, "startDate"]}
             rules={[Rules.required]}
             shouldUpdate={(prevValues, curValues) => {
@@ -169,6 +173,7 @@ const ExperienceFormView = ({
             }}
           >
             <DatePickerField
+              ariaDescribedby="start-date-label"
               defaultDate={form.getFieldValue([
                 "experiences",
                 fieldElement.fieldKey,
@@ -217,7 +222,11 @@ const ExperienceFormView = ({
                   {/* End Date */}
                   <Form.Item
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
-                    label={<FormattedMessage id="item.end.date" />}
+                    label={
+                      <div id="end-date-label">
+                        <FormattedMessage id="item.end.date" />
+                      </div>
+                    }
                     name={[fieldElement.name, "endDate"]}
                     rules={!disableEndDate ? [Rules.required] : undefined}
                     shouldUpdate={(prevValues, curValues) => {
@@ -241,6 +250,7 @@ const ExperienceFormView = ({
                   >
                     {!disableEndDate && (
                       <DatePickerField
+                        ariaDescribedby="end-date-label"
                         defaultDate={form.getFieldValue([
                           "experiences",
                           fieldElement.fieldKey,

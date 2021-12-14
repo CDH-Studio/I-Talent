@@ -176,7 +176,11 @@ const EducationFormView = ({
           {/* Start Date */}
           <Form.Item
             fieldKey={[fieldElement.fieldKey, "startDate"]}
-            label={<FormattedMessage id="item.start.date" />}
+            label={
+              <div id="start-date-label">
+                <FormattedMessage id="item.start.date" />
+              </div>
+            }
             name={[fieldElement.name, "startDate"]}
             shouldUpdate={(prevValues, curValues) => {
               if (prevValues !== curValues) {
@@ -198,6 +202,7 @@ const EducationFormView = ({
             }}
           >
             <DatePickerField
+              ariaDescribedby="start-date-label"
               defaultDate={form.getFieldValue([
                 "educations",
                 fieldElement.fieldKey,
@@ -244,7 +249,11 @@ const EducationFormView = ({
                   {/* End Date */}
                   <Form.Item
                     fieldKey={[fieldElement.fieldKey, "endDate"]}
-                    label={<FormattedMessage id="item.end.date" />}
+                    label={
+                      <div id="end-date-label">
+                        <FormattedMessage id="item.end.date" />
+                      </div>
+                    }
                     name={[fieldElement.name, "endDate"]}
                     shouldUpdate={(prevValues, curValues) => {
                       if (prevValues !== curValues) {
@@ -267,6 +276,7 @@ const EducationFormView = ({
                   >
                     {!disableEndDate && (
                       <DatePickerField
+                        ariaDescribedby="end-date-label"
                         defaultDate={form.getFieldValue([
                           "educations",
                           fieldElement.fieldKey,
