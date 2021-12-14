@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import antdStyles from "../../styling/antdTheme";
 
 const DatePickerField = ({
+  ariaDescribedby,
   onChange,
   placeholderText,
   defaultDate,
@@ -103,12 +104,14 @@ const DatePickerField = ({
     <ThemeProvider theme={materialTheme}>
       <MuiPickersUtilsProvider utils={DayJSUtils}>
         <KeyboardDatePicker
+          aria-describedby={ariaDescribedby}
           autoOk="true"
           className={classes.root}
           disabled={disableInput}
           emptyLabel={placeholderText}
           format={formatDate}
           InputProps={{
+            "aria-describedby": ariaDescribedby,
             disableUnderline: true,
           }}
           KeyboardButtonProps={{
@@ -128,6 +131,7 @@ const DatePickerField = ({
 };
 
 DatePickerField.propTypes = {
+  ariaDescribedby: PropTypes.string,
   defaultDate: PropTypes.instanceOf(Object),
   disableInput: PropTypes.bool,
   disableWhen: PropTypes.instanceOf(Object),
@@ -138,6 +142,7 @@ DatePickerField.propTypes = {
 };
 
 DatePickerField.defaultProps = {
+  ariaDescribedby: "",
   defaultDate: null,
   disableInput: false,
   disableWhen: null,
