@@ -36,7 +36,7 @@ import "./EditProfileLayoutView.less";
  * @returns {React.ReactElement} - React Element
  */
 // eslint-disable-next-line react/prop-types
-const SideBarContent = ({ step = "primary-info" }) => {
+const SideBarContent = ({ step }) => {
   const intl = useIntl();
   const history = useHistory();
 
