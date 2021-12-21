@@ -29,7 +29,7 @@ const LandingLayoutView = ({ backgroundImage }) => {
   };
 
   return (
-    <AppLayout displaySearch={false} displaySideBar={false}>
+    <AppLayout displaySearch={false} displaySideBar={false} grid>
       <Row className="landing-container" justify="center">
         <h1 className="hidden">
           <FormattedMessage id="sign.in" />

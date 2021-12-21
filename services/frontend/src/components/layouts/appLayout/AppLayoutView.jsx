@@ -20,6 +20,7 @@ const AppLayoutView = ({
   loading,
   displayLogo,
   displaySearch,
+  grid,
 }) => {
   const { locale } = useSelector((state) => state.settings);
 
@@ -43,7 +44,11 @@ const AppLayoutView = ({
           />
         )}
         <Layout className="app-layout">
-          <Content className="app-content" id="main" role="main">
+          <Content
+            className={`app-content${grid ? " grid" : ""}`}
+            id="main"
+            role="main"
+          >
             {loading ? (
               <Card>
                 <Skeleton active />
@@ -64,6 +69,7 @@ AppLayoutView.propTypes = {
   displayLogo: PropTypes.bool.isRequired,
   displaySearch: PropTypes.bool.isRequired,
   displaySideBar: PropTypes.bool.isRequired,
+  grid: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   sideBarContent: PropTypes.node.isRequired,
   sideBarWidth: PropTypes.number.isRequired,
