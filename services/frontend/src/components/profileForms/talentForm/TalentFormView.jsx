@@ -156,7 +156,7 @@ const TalentFormView = ({
    * pickBy({}, identity) is used to omit false values from the object - https://stackoverflow.com/a/33432857
    */
   const checkIfFormValuesChanged = () => {
-    const formValues = pickBy(form.getFieldsValue(), identity);
+    const formValues = pickBy(form.getFieldsValue(true), identity);
     if (isEmpty(formValues)) {
       return false;
     }
