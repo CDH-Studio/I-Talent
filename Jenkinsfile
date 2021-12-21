@@ -5,8 +5,6 @@ pipeline {
         label 'nodejs'
     }
 
-
-
     options {
         timeout(time: 30) 
         disableConcurrentBuilds()
@@ -29,21 +27,21 @@ pipeline {
                     branch 'dev'
                 }
             }
+            tools {
+                nodejs 'nodejs-14.17.0'
+            }
+
             steps{
                 sh script: """
-                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    nvm install 14.17.0
-                    nvm alias default 14.17.0
                     npm i yarn -g
                 """, label: 'Setting up proper node.js version'
                 sh script: """
-                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                     (cd $FRONTEND_DIR && yarn install --production=false --verbose)
                     (cd $BACKEND_DIR && yarn install --production=false --verbose)
                 """, label: 'Installing packages'
             }
         }
-
+/*
         stage('linter') {
             when {
                  not {
@@ -129,6 +127,7 @@ pipeline {
                 }
             }
         }
+        */
     }
     post('workspace cleanup') {
         always {
