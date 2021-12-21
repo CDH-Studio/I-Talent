@@ -4,6 +4,10 @@ pipeline {
     agent {
         label 'nodejs'
     }
+    
+    tools {
+        nodejs 'nodejs-14.17.0'
+    }
 
     options {
         timeout(time: 30) 
@@ -27,9 +31,6 @@ pipeline {
                     branch 'dev'
                 }
             }
-            tools {
-                nodejs 'nodejs-14.17.0'
-            }
 
             steps{
                 sh script: """
@@ -41,7 +42,6 @@ pipeline {
                 """, label: 'Installing packages'
             }
         }
-/*
         stage('linter') {
             when {
                  not {
@@ -53,7 +53,6 @@ pipeline {
                    steps {
                         dir("${FRONTEND_DIR}") {
                             sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn i18n:validate
                             """, label: 'Validating i18n files'
 
@@ -65,7 +64,6 @@ pipeline {
                     steps {
                         dir("${FRONTEND_DIR}") {
                             sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn lint
                             """, label: 'Linting frontend'
                         }
@@ -76,7 +74,6 @@ pipeline {
                     steps {
                         dir("${BACKEND_DIR}") {
                             sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn lint
                             """, label: 'Linting backend'
                         }
@@ -94,7 +91,6 @@ pipeline {
             steps {
                 dir("${BACKEND_DIR}") {
                     sh script: """
-                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                         yarn generate
                         yarn test
                     """, label: 'Testing backend'
@@ -127,7 +123,6 @@ pipeline {
                 }
             }
         }
-        */
     }
     post('workspace cleanup') {
         always {
