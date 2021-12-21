@@ -10,11 +10,13 @@ const AppLayout = ({
   loading,
   displayLogo,
   displaySearch,
+  grid,
 }) => (
   <AppLayoutView
     displayLogo={displayLogo}
     displaySearch={displaySearch}
     displaySideBar={displaySideBar}
+    grid={grid}
     loading={loading}
     sideBarContent={sideBarContent}
     sideBarWidth={sideBarWidth}
@@ -28,6 +30,7 @@ AppLayout.propTypes = {
   displayLogo: PropTypes.bool,
   displaySearch: PropTypes.bool,
   displaySideBar: PropTypes.bool,
+  grid: PropTypes.bool,
   loading: PropTypes.bool,
   sideBarContent: PropTypes.node,
   sideBarWidth: PropTypes.number,
@@ -38,6 +41,7 @@ AppLayout.defaultProps = {
   displayLogo: true,
   displaySearch: true,
   displaySideBar: false,
+  grid: false,
   loading: false,
   sideBarContent: "",
   sideBarWidth: 300,
