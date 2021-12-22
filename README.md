@@ -209,6 +209,7 @@ Our full stack developers
 |                                                               | [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)  |
 |                                                               | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)             |
 |                                                               | [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/) |
+|                                                               | [Paul Barasa](https://www.linkedin.com/in/paulbarasa/)             |
 
 # Contact
 
