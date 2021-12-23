@@ -127,11 +127,6 @@ const QualificationsFormView = ({
       dbValues.experiences = filter(dbValues.experiences, size);
     }
 
-    console.log(
-      form.getFieldsValue().educations.length,
-      dbValues.educations.length,
-      !(form.getFieldsValue().educations.length === dbValues.educations.length)
-    );
     let hasChanged = false;
 
     if (formValues.experiences) {
@@ -142,11 +137,9 @@ const QualificationsFormView = ({
           dbValues.experiences.length
         )
       ) {
-        console.log("1");
         hasChanged = true;
       }
     } else if (!isEqual(dbValues.experiences, [])) {
-      console.log(dbValues.experiences);
       hasChanged = true;
     }
 
@@ -157,19 +150,11 @@ const QualificationsFormView = ({
           form.getFieldsValue().educations.length === dbValues.educations.length
         )
       ) {
-        console.log("3");
         hasChanged = true;
       }
     } else if (!isEqual(dbValues.educations, [])) {
-      console.log("4");
       hasChanged = true;
     }
-
-    console.log();
-
-    // console.log(hasChanged);
-    // console.table(formValues);
-    // console.table(dbValues);
 
     setFieldsChanged(hasChanged);
   };

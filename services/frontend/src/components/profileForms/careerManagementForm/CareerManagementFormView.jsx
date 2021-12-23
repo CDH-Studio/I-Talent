@@ -186,13 +186,9 @@ const CareerManagementFormView = ({
       isNil
     );
 
-    console.table(formValues);
-    console.table(dbValues);
-
     let hasChanged = false;
 
     Object.keys(formValues).forEach((key) => {
-      console.log(dbValues[key]);
       if (dbValues[key]) {
         if (!isEqual(dbValues[key], formValues[key])) {
           hasChanged = true;
@@ -204,7 +200,6 @@ const CareerManagementFormView = ({
       hasChanged = true;
     }
 
-    // setFieldsChanged(!isEqual(formValues, dbValues));
     setFieldsChanged(hasChanged);
   };
 
