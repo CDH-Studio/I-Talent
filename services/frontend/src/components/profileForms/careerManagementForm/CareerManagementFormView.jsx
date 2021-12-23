@@ -186,7 +186,26 @@ const CareerManagementFormView = ({
       isNil
     );
 
-    setFieldsChanged(!isEqual(formValues, dbValues));
+    console.table(formValues);
+    console.table(dbValues);
+
+    let hasChanged = false;
+
+    Object.keys(formValues).forEach((key) => {
+      console.log(dbValues[key]);
+      if (dbValues[key]) {
+        if (!isEqual(dbValues[key], formValues[key])) {
+          hasChanged = true;
+        }
+      }
+    });
+
+    if (formValues.exFeeder && dbValues.exFeeder !== formValues.exFeeder) {
+      hasChanged = true;
+    }
+
+    // setFieldsChanged(!isEqual(formValues, dbValues));
+    setFieldsChanged(hasChanged);
   };
 
   /*
