@@ -4,8 +4,10 @@ pipeline {
     agent {
         label 'nodejs'
     }
-
-
+    
+    tools {
+        nodejs 'nodejs-14.17.0'
+    }
 
     options {
         timeout(time: 30) 
@@ -29,21 +31,17 @@ pipeline {
                     branch 'dev'
                 }
             }
+
             steps{
                 sh script: """
-                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                    nvm install 14.17.0
-                    nvm alias default 14.17.0
                     npm i yarn -g
                 """, label: 'Setting up proper node.js version'
                 sh script: """
-                    unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                     (cd $FRONTEND_DIR && yarn install --production=false --verbose)
                     (cd $BACKEND_DIR && yarn install --production=false --verbose)
                 """, label: 'Installing packages'
             }
         }
-
         stage('linter') {
             when {
                  not {
@@ -55,7 +53,6 @@ pipeline {
                    steps {
                         dir("${FRONTEND_DIR}") {
                             sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn i18n:validate
                             """, label: 'Validating i18n files'
 
@@ -67,7 +64,6 @@ pipeline {
                     steps {
                         dir("${FRONTEND_DIR}") {
                             sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn lint
                             """, label: 'Linting frontend'
                         }
@@ -78,7 +74,6 @@ pipeline {
                     steps {
                         dir("${BACKEND_DIR}") {
                             sh script: """
-                                unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                                 yarn lint
                             """, label: 'Linting backend'
                         }
@@ -96,7 +91,6 @@ pipeline {
             steps {
                 dir("${BACKEND_DIR}") {
                     sh script: """
-                        unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                         yarn generate
                         yarn test
                     """, label: 'Testing backend'
