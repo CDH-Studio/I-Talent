@@ -205,7 +205,8 @@ Our full stack developers
 | ------------------------------------------------------------- | ------------------------------------------------------------------ |
 | [Ali Nouri](https://www.linkedin.com/in/a-nouri/)             | [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)  |
 | [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)      | [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)    |
-| [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/) | [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)    |
+| [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/) | [Paul Barasa](https://www.linkedin.com/in/paulbarasa/)             |
+|                                                               | [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)    |
 |                                                               | [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)  |
 |                                                               | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)             |
 |                                                               | [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/) |
