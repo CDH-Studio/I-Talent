@@ -19,7 +19,7 @@ const { Paragraph } = Typography;
  *
  *  Controller for the Done Setup Page.
  */
-const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
+const DoneSetupView = ({ userId, load, saved, visibilityItems, formType }) => {
   const history = useHistory();
   const intl = useIntl();
 
@@ -45,6 +45,16 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
     }
   };
 
+  const titleText = () => {
+    if (formType === "create") {
+      return <FormattedMessage id="setup.all.done" />;
+    }
+    if (saved === "true") {
+      return <FormattedMessage id="edit.save.success" />;
+    }
+    return <FormattedMessage id="setup.done" />;
+  };
+
   return (
     <div className="done-content">
       <div className="done-success-message">
@@ -59,11 +69,7 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
               </td>
               <td className="success-message-col">
                 <Paragraph className="success-main-message" strong>
-                  {formType === "create" ? (
-                    <FormattedMessage id="setup.all.done" />
-                  ) : (
-                    <FormattedMessage id="edit.save.success" />
-                  )}
+                  {titleText()}
                 </Paragraph>
                 {formType === "create" ? (
                   <Paragraph className="success-secondary-message">
@@ -140,8 +146,11 @@ const DoneSetupView = ({ userId, load, visibilityItems, formType }) => {
 DoneSetupView.propTypes = {
   formType: PropTypes.oneOf(["create", "edit"]).isRequired,
   load: PropTypes.bool.isRequired,
+  saved: PropTypes.string,
   userId: PropTypes.string.isRequired,
   visibilityItems: PropTypes.objectOf(PropTypes.object).isRequired,
 };
+
+DoneSetupView.defaultProps = { saved: false };
 
 export default DoneSetupView;

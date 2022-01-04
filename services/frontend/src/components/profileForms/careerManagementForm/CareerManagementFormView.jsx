@@ -325,7 +325,7 @@ const CareerManagementFormView = ({
    * redirect to profile
    */
   const onFinish = () => {
-    history.push(`/profile/edit/finish`);
+    history.push(`/profile/edit/finish?saved=false`);
   };
 
   /*
@@ -344,7 +344,7 @@ const CareerManagementFormView = ({
           history.push("/profile/create/step/8");
         } else {
           dispatch(setSavedFormContent(true));
-          onFinish();
+          history.push(`/profile/edit/finish?saved=true`);
         }
       })
       .catch((error) => {
