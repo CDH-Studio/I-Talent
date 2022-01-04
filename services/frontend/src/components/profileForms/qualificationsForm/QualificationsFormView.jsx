@@ -127,7 +127,36 @@ const QualificationsFormView = ({
       dbValues.experiences = filter(dbValues.experiences, size);
     }
 
-    setFieldsChanged(!isEqual(formValues, dbValues));
+    let hasChanged = false;
+
+    if (formValues.experiences) {
+      if (
+        !isEqual(formValues.experiences, dbValues.experiences) ||
+        !(
+          form.getFieldsValue().experiences.length ===
+          dbValues.experiences.length
+        )
+      ) {
+        hasChanged = true;
+      }
+    } else if (!isEqual(dbValues.experiences, [])) {
+      hasChanged = true;
+    }
+
+    if (formValues.educations) {
+      if (
+        !isEqual(formValues.educations, dbValues.educations) ||
+        !(
+          form.getFieldsValue().educations.length === dbValues.educations.length
+        )
+      ) {
+        hasChanged = true;
+      }
+    } else if (!isEqual(dbValues.educations, [])) {
+      hasChanged = true;
+    }
+
+    setFieldsChanged(hasChanged);
   };
 
   /**
