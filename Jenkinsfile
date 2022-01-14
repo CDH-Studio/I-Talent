@@ -35,8 +35,6 @@ pipeline {
             steps{
                 sh script: """
                     npm i yarn -g
-                """, label: 'Setting up proper node.js version'
-                sh script: """
                     (cd $FRONTEND_DIR && yarn install --production=false --verbose)
                     (cd $BACKEND_DIR && yarn install --production=false --verbose)
                 """, label: 'Installing packages'
