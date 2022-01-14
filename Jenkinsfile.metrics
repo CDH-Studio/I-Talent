@@ -4,6 +4,10 @@ pipeline {
     agent {
         label 'nodejs'
     }
+    
+    tools{
+        nodejs 'nodejs-14.17.0'
+    }
 
     options {
         timeout(time: 30) 
@@ -25,17 +29,10 @@ pipeline {
 			    dir("${BACKEND_DIR}") {
                     script {
                         sh script: """
-                            unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
-                            nvm install 14.15.1
-                            nvm alias default 14.15.1
                             npm i yarn -g
-                        """, label: 'Setting up proper node.js version'
-                        sh script: """
-                            unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                             yarn install --production=false
-                        """, label: 'Installing backend packages'
+                        """, label: 'installing packages'
                         sh script: """
-                            unset NPM_CONFIG_PREFIX && source $NVM_DIR/nvm.sh
                             yarn generate
                             yarn test
                         """, label: 'Testing backend'
