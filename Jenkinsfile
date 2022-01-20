@@ -99,7 +99,6 @@ pipeline {
         
         stage('build') {
             when { branch 'dev' }
-            parallel {
                 stage('build-backend') {
                     steps {
                         dir("${BACKEND_DIR}") {
@@ -119,7 +118,6 @@ pipeline {
                         }
                     }
                 }
-            }
         }
     }
     post('workspace cleanup') {
