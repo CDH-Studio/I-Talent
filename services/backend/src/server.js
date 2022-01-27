@@ -26,15 +26,15 @@ if (config.ENV === "development") {
   app.use("/api-docs", swaggerUi.serve, swaggerOptions);
 }
 
-app.use(
-  cors(),
-  helmet(),
-  sessionInstance,
-  timeout("5s"),
-  keycloak.middleware(),
-  bodyParser.urlencoded({ extended: true }),
-  bodyParser.json()
-);
+app.use(cors());
+app.use(helmet());
+app.use(sessionInstance);
+app.use(timeout("5s"));
+app.use(keycloak.middleware());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+app.disable("x-powered-by");
 
 app.use("/api", router);
 app.use(keycloak.middleware({ logout: "/" }), errorHandler);
