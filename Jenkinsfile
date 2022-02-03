@@ -98,6 +98,9 @@ pipeline {
         }
         
         stage('build-backend') {
+            when {
+                branch 'dev'
+            }
             steps {
                 dir("${BACKEND_DIR}") {
                     script {
@@ -106,15 +109,18 @@ pipeline {
                 }
             }
         }
-                        stage('build-frontend') {
-                    steps {
-                        dir("${FRONTEND_DIR}") {
-                            script {
-                                builder.buildApp(FRONTEND_IMAGE_NAME)
-                            }
-                        }
+        stage('build-frontend') {
+            when {
+                branch 'dev'
+            }
+            steps {
+                dir("${FRONTEND_DIR}") {
+                    script {
+                        builder.buildApp(FRONTEND_IMAGE_NAME)
                     }
                 }
+            }
+        }
     }
     post('workspace cleanup') {
         always {
