@@ -35,7 +35,7 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.12.1",
     "fuse.js": "^6.4.6",
-    "helmet": "^4.6.0",
+    "helmet": "^5.0.2",
     "jest-mock-extended": "^2.0.1",
     "keycloak-connect": "15.0.2",
     "lodash": "^4.17.21",
