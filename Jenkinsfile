@@ -6,7 +6,7 @@ pipeline {
     }
     
     tools {
-        nodejs 'nodejs-16.14.0'
+        nodejs 'nodejs-16.8.0'
     }
 
     options {
