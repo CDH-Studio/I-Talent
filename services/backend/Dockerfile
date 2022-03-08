@@ -1,4 +1,4 @@
-FROM registry.apps.ocp.dev.ised-isde.canada.ca/ised-ci/alpine-node:14.15.3-alpine3.12
+FROM registry.apps.ocp.dev.ised-isde.canada.ca/ised-ci/alpine-node:16-alpine3.14
 
 ENV TZ=America/Toronto
 
