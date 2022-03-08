@@ -57,7 +57,7 @@
     "eslint-plugin-simple-import-sort": "^7.0.0",
     "faker": "^5.5.3",
     "jest": "^27.0.6",
-    "keycloak-mock": "CDH-Studio/keycloak-mock#v1.0",
+    "keycloak-mock": "CDH-Studio/keycloak-mock#v1.0.1",
     "mockdate": "^3.0.5",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2",

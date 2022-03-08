@@ -3465,9 +3465,10 @@ keycloak-connect@15.0.2:
   optionalDependencies:
     chromedriver latest
 
-keycloak-mock@CDH-Studio/keycloak-mock#v1.0:
+keycloak-mock@CDH-Studio/keycloak-mock#v1.0.1:
   version "1.0.10"
-  resolved "https://codeload.github.com/CDH-Studio/keycloak-mock/tar.gz/9e16b0225bf802347dbe2809e0488f5adda03f68"
+  uid "23a7779d34f554fce648a2f6b5a0eb37786d5eae"
+  resolved "https://codeload.github.com/CDH-Studio/keycloak-mock/tar.gz/23a7779d34f554fce648a2f6b5a0eb37786d5eae"
   dependencies:
     "@types/lodash" "^4.14.172"
     jsonwebtoken "^8.5.1"
