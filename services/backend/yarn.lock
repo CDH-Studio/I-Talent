@@ -1408,10 +1408,12 @@ confusing-browser-globals@^1.0.10:
   resolved "https://registry.yarnpkg.com/confusing-browser-globals/-/confusing-browser-globals-1.0.11.tgz#ae40e9b57cdd3915408a2805ebd3a5585608dc81"
   integrity sha512-JsPKdmh8ZkmnHxDk55FZ1TqVLvEQTvoByJZRN9jzI0UjxK/QgAmsphz7PGtqgPieQZ/CQcHWXCR7ATDNhGe+YA==
 
-connect-redis@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-6.0.0.tgz#7e443fc7028eca43302bee59f51a315f65cd56b5"
-  integrity sha512-6eGEAAPHYvcfbRNCMmPzBIjrqRWLw7at9lCUH4G6NQ8gwWDJelaUmFNOqPIhehbw941euVmIuqWsaWiKXfb+5g==
+connect-redis@^6.1.2:
+  version "6.1.2"
+  resolved "https://registry.yarnpkg.com/connect-redis/-/connect-redis-6.1.2.tgz#99d2d119380da15b012591c04e2b1cf40c9e0a44"
+  integrity sha512-a85jTfjUjcMQdiUWgGrR+/h3JJC9y9kHzP0hSNYBTCVIQVUk/dTgMK8WGaImgar+1w1VDtlg1YnktgeGYm2DVA==
+  dependencies:
+    deepmerge "^4.2.2"
 
 connect-timeout@^1.9.0:
   version "1.9.0"
