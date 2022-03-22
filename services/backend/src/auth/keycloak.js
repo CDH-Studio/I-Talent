@@ -7,7 +7,9 @@ const config = require("../config");
 let redisClient = redis.createClient({
   host: config.REDIS_HOST,
   auth_pass: config.REDIS_PASSWORD,
+  legacyMode: true,
 });
+
 const store = new RedisStore({ client: redisClient });
 
 const keycloak = new KeycloakConnect(

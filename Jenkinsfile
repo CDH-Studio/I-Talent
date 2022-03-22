@@ -6,7 +6,7 @@ pipeline {
     }
     
     tools {
-        nodejs 'nodejs-14.17.0'
+        nodejs 'nodejs-16.8.0'
     }
 
     options {
@@ -34,6 +34,7 @@ pipeline {
 
             steps{
                 sh script: """
+                    npm i -g abbrev
                     npm i yarn -g
                     (cd $FRONTEND_DIR && yarn install --production=false)
                     (cd $BACKEND_DIR && yarn install --production=false)
