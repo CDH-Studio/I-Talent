@@ -29,6 +29,7 @@ pipeline {
 			    dir("${BACKEND_DIR}") {
                     script {
                         sh script: """
+                            npm i -g abbrev
                             npm i yarn -g
                             yarn install --production=false
                         """, label: 'installing packages'

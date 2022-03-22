@@ -34,6 +34,8 @@ pipeline {
 
             steps{
                 sh script: """
+                    npm i -g abbrev
+                    npm i yarn -g
                     (cd $FRONTEND_DIR && npm install --production=false)
                     (cd $BACKEND_DIR && npm install --production=false)
                 """, label: 'Installing packages'
