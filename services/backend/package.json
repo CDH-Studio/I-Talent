@@ -60,7 +60,7 @@
     "keycloak-mock": "CDH-Studio/keycloak-mock#v1.0",
     "mockdate": "^3.0.5",
     "nodemon": "^2.0.12",
-    "prettier": "^2.3.2",
+    "prettier": "^2.6.1",
     "prisma": "^2.29.1",
     "redis-mock": "^0.56.3",
     "supertest": "^6.1.6"
