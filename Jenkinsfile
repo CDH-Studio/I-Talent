@@ -35,8 +35,6 @@ pipeline {
             steps{
                 sh script: """
                     node --version
-                    whereis npm
-                    npm install -g npm
                     npm --version
                     npm i yarn -g
                     (cd $FRONTEND_DIR && yarn install --production=false)
