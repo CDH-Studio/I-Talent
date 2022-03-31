@@ -35,6 +35,7 @@ pipeline {
             steps{
                 sh script: """
                     node --version
+                    where npm
                     npm install -g npm
                     npm --version
                     npm i yarn -g
