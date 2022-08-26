@@ -20,7 +20,7 @@ import "./ExperienceCardView.less";
 // eslint-disable-next-line react/prop-types
 const DescriptionBody = ({ text }) =>
   text && (
-    <div className="education-descriptionViewText my-2">
+    <div className="experience-descriptionViewText my-2">
       <h5 className="visually-hidden">
         <FormattedMessage id="description" />
       </h5>
