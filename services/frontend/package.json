@@ -27,7 +27,7 @@
     "@material-ui/pickers": "3.3.10",
     "@material-ui/styles": "4.11.4",
     "@react-keycloak/web": "3.4.0",
-    "@reduxjs/toolkit": "1.6.1",
+    "@reduxjs/toolkit": "1.9.0",
     "antd": "4.17.0",
     "axios": "0.21.4",
     "babel-plugin-import": "1.13.3",
