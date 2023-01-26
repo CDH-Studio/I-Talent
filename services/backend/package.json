@@ -41,7 +41,7 @@
     "lodash": "^4.17.21",
     "moment": "2.29.1",
     "morgan": "^1.10.0",
-    "redis": "^3.1.2",
+    "redis": "^4.6.1",
     "snyk": "^1.687.0",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6",
