@@ -89,6 +89,8 @@ Please also install all of the following VS Code extentions:
 - [Docker Extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
 - [Git Lens Extension](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 
+**NOTE: If you are setting up I-Talent outside of Docker, skip Steps 2-4 and scroll down to the _Non-Docker Setup_ section.**
+
 ## Step 2: Install Docker
 
 Docker helps standardize the development environment independent of the developer's OS. This gives us the flexibility to support Windows, Mac, and Linux. As we advance, we will highlight the steps to set up the project for windows and Mac but the steps should be similar for Linux.
@@ -193,6 +195,63 @@ keycloak:
 
 The credentials for the users when using the local keycloak are specified in the [realm-export.json](./keycloak/realm-export.json) file
 
+## Non-Docker Setup
+
+### Step 1
+
+Enable WSL 1 for Windows by using the following [Microsoft Dcoumentation](https://docs.microsoft.com/en-us/windows/wsl/install-win10) \*_we recommend ubuntu 20.04 LTS as the linux distro for WSL_\*
+
+### Step 2
+
+- Download Redis through WSL: https://redis.io/docs/getting-started/installation/install-redis-on-linux/
+- Open the WSL terminal and run `redis-server` to launch Redis.
+
+### Step 3
+
+- Download PostgreSQL: https://www.postgresql.org/download/
+- Open **pgAdmin**, a management tool for PostgreSQL that should have been downloaded with PostgreSQL. If it was not, download pgAdmin from here: https://www.pgadmin.org/download/
+- Under the default PostgreSQL server, create a new database named **testdb**
+- Under **Login/Group Roles** for the default server, create a new user named **api**
+  - When creating the user, in the **Definition** section, set the user's password to **api**
+  - In the **Privileges** section, select **Can login?** and **Superuser?**
+- Click on the **testdb** database you created, go over to the **Properties** section, click the edit button, and set the owner of the database to the new **api** user.
+
+### Step 4
+
+Open Command Prompt or Powershell and use the command `git clone` to download the project.
+
+### Step 5
+
+Create three `.env` files, one in each of the following directories:
+
+- I-Talent
+- I-Talent\services\backend
+- I-Talent\services\frontend
+
+Talk to an active I-Talent developer to obtain the enviroment variables for each file.
+
+### Step 6
+
+Open Command Prompt or Powershell, `cd` into the _I-Talent\services\backend_ directory, and run the following commands:
+
+```
+yarn install
+npm i -g prisma@2.29.1
+prisma generate
+prisma migrate dev
+yarn -s seed
+yarn -s dev
+```
+
+### Step 7
+
+Open Command Prompt or Powershell, `cd` into the _I-Talent\services\frontend_ directory, and run the following commands:
+
+```
+yarn install
+yarn dev
+```
+
 # Contribution
 
 We encourage contributions to the project! We are a friendly team and are always looking for things to improve on. We just as that you follow our [contribution guidelines ](CONTRIBUTING.md) to help us keep things well documented and organized.
@@ -203,13 +262,14 @@ Our full stack developers
 
 | **Active developers**                                         | **Previous developers**                                            |
 | ------------------------------------------------------------- | ------------------------------------------------------------------ |
-| [Ali Nouri](https://www.linkedin.com/in/a-nouri/)             | [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)  |
-| [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)      | [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)    |
-| [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/) | [Paul Barasa](https://www.linkedin.com/in/paulbarasa/)             |
+| [Paul Barasa](https://www.linkedin.com/in/paulbarasa/)        | [Ali Nouri](https://www.linkedin.com/in/a-nouri/)                  |
+| [Rizvi Rab](https://www.linkedin.com/in/rizvi-rab-370327160/) | [Benoît Jeaurond](https://www.linkedin.com/in/benoit-jeaurond/)    |
+|                                                               | [Mohamed Radwan](https://www.linkedin.com/in/mo-radwan/)           |
 |                                                               | [Kate Thornley](https://www.linkedin.com/in/kate-a-w-thornley/)    |
 |                                                               | [Mamadou Bah](https://www.linkedin.com/in/mamadou-bah-9962a711b/)  |
 |                                                               | [Sagal Maxamud](https://www.linkedin.com/in/s-glmxmd/)             |
 |                                                               | [Sukhsimranpreet Sekhon](https://www.linkedin.com/in/sukhusekhon/) |
+|                                                               | [Trevor Bivi](https://www.linkedin.com/in/trevor-bivi-736181193/)  |
 
 # Contact
 

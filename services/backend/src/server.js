@@ -6,6 +6,7 @@ const timeout = require("connect-timeout");
 const cors = require("cors");
 const morgan = require("morgan");
 require("express-async-errors");
+require("dotenv").config();
 
 const { keycloak, sessionInstance } = require("./auth/keycloak");
 const router = require("./router/router");
