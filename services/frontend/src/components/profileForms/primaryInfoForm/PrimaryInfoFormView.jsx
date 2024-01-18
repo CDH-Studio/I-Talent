@@ -282,7 +282,7 @@ const PrimaryInfoFormView = ({
    * Redirect to profile
    */
   const onFinish = async () => {
-    history.push(`/profile/edit/finish`);
+    history.push(`/profile/edit/finish?saved=false`);
   };
 
   /**
@@ -306,7 +306,7 @@ const PrimaryInfoFormView = ({
             dispatch(setSavedFormContent(true)),
           ]);
           setFieldsChanged(false);
-          onFinish();
+          history.push(`/profile/edit/finish?saved=true`);
         }
       })
       .catch((error) => {

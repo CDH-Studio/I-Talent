@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import handleError from "../../../functions/handleError";
@@ -115,10 +115,21 @@ const DoneSetup = ({ formType }) => {
       });
   }, [getProfileInfo, history]);
 
+  // A custom hook that builds on useLocation to parse
+  // the query string for you.
+  const useQuery = () => {
+    const { search } = useLocation();
+
+    return useMemo(() => new URLSearchParams(search), [search]);
+  };
+
+  const query = useQuery();
+
   return (
     <DoneSetupView
       formType={formType}
       load={load}
+      saved={query.get("saved")}
       userId={id}
       visibilityItems={visibilityItems}
     />
